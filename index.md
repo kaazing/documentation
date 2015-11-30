@@ -127,7 +127,7 @@ Client API Documentation
 
 ### JMS Client API Documentation
 
--   [KAAZING Gateway JMS Client Libraries: Supported APIs](https://github.com/kaazing/enterprise.gateway/blob/develop/doc/about/kaazing-jms-api.md) ![This feature is available in KAAZING Gateway - Enterprise Edition](images/enterprise-feature.png)
+-   [KAAZING Gateway JMS Client Libraries: Supported APIs](about/kaazing-jms-api.md) ![This feature is available in KAAZING Gateway - Enterprise Edition](images/enterprise-feature.png)
 -   [JavaScript JMS Client API](http://developer.kaazing.com/documentation/jms/4.0/apidoc/client/javascript/jms/index.html?JmsConnectionFactory) ![This feature is available in KAAZING Gateway - Enterprise Edition](images/enterprise-feature.png)
 -   [Objective-C JMS Client API](http://developer.kaazing.com/documentation/jms/4.0/apidoc/client/ios/jms/KMStompJMS/index.html) ![This feature is available in KAAZING Gateway - Enterprise Edition](images/enterprise-feature.png)
 -   [Android JMS Client API](http://developer.kaazing.com/documentation/jms/4.0/apidoc/client/android/jms/index.html) ![This feature is available in KAAZING Gateway - Enterprise Edition](images/enterprise-feature.png)
