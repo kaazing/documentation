@@ -99,6 +99,7 @@ For Administrators
 
 -   [Using the Gateway to Support High Availability](high-availability/u_high_availability.md)
 -   [Configure the Gateway for High Availability](high-availability/o_high_availability.md)
+-   [Configure F5 BIG-IP Load Balancing](high-availability/p_f5_load_balancing.md)
 
 ### JMS-Compliant Message Brokers
 -   [Integrate with JMS-Compliant Message Brokers](integration-jms/o_jms_integrate.md) ![This feature is available in KAAZING Gateway - Enterprise Edition](images/enterprise-feature.png)
