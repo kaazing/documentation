@@ -8,7 +8,7 @@ Enterprise: True
 
 This topic provides the information needed to create a Microsoft Windows Mobile app using the KAAZING Gateway .NET and Silverlight JMS API.
 
-For information on using the KAAZING Gateway .NET and Silverlight JMS API to create applications for Windows 8 Desktop and Surface Pro, Surface RT and Silverlight, and other Microsoft .NET Framework 4.5 or 4.0 environments, see [How to Build Microsoft .NET and Silverlight JMS Clients Using KAAZING Gateway](https://github.com/kaazing/enterprise.dotnet.client/blob/develop/ws/ws/doc/o_dev_dotnet.md).
+For information on using the KAAZING Gateway .NET and Silverlight JMS API to create applications for Windows 8 Desktop and Surface Pro, Surface RT and Silverlight, and other Microsoft .NET Framework 4.5 or 4.0 environments, see [How to Build Microsoft .NET and Silverlight JMS Clients Using KAAZING Gateway](o_dev_dotnet.md).
 
 **Note:** The KAAZING Gateway .NET and Silverlight JMS API supports Microsoft Windows Phone 8.1 and higher, Microsoft Windows Mobile 10, and Microsoft Windows Surface RT. It does not support Windows CE.
 

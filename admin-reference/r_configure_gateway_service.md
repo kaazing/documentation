@@ -541,7 +541,7 @@ During this recovery phase, the Gateway unbinds the service, and clients attempt
 
 Set this property in either of the following use cases:
 - Set this property when configuring your proxy service, which is the most common use case for `prepared.connection.count`. In this case, setting `prepared.connection.count` sets the number of connections the Gateway creates (or *prepares*) to the back-end service or message broker specified by the [`connect`](#connect) element in addition to the client connections. When the Gateway starts, it creates the specified number of connections to the back-end service or message broker, thus creating a *prepared connection*. When an incoming client connection uses a prepared connection, the Gateway creates another connection to the back-end service or message broker, thus maintaining the specified number of prepared connections to the back-end service or message broker.
-- Set this property when configuring Enterprise Shield™. See [Configure Enterprise Shield™](https://github.com/kaazing/enterprise.gateway/blob/develop/doc/enterprise-shield/p_enterprise_shield_config.md) for detailed configuration information. If you do not set this property, then the Gateway does not prepare connections to the back-end service or message broker.
+- Set this property when configuring Enterprise Shield™. See [Configure Enterprise Shield™](../enterprise-shield/p_enterprise_shield_config.md) for detailed configuration information. If you do not set this property, then the Gateway does not prepare connections to the back-end service or message broker.
 
 #### <a name="virtualhost"></a>`virtual.host`
 
@@ -875,7 +875,7 @@ In the following example, the `socks+ssl` transport performs a reverse connectio
 </service>
 ```
 
-For more examples, see [Configure Enterprise Shield™ with the Gateway](https://github.com/kaazing/enterprise.gateway/blob/develop/doc/enterprise-shield/o_enterprise_shield_checklist.md).
+For more examples, see [Configure Enterprise Shield™ with the Gateway](../enterprise-shield/o_enterprise_shield_checklist.md).
 
 #### ws.maximum.message.size
 
@@ -1101,7 +1101,7 @@ The following example shows a `proxy` service. Because the `accept` URL the `wss
 
 ##### Example: Enterprise Shield™ Configuration Using socks.ssl.protocols to Accept Reverse Connections on TLSv1.2 ![This feature is available in KAAZING Gateway - Enterprise Edition](../images/enterprise-feature.png)
 
-This example shows a `proxy` service in the DMZ configured for Enterprise Shield™, for which the <connect> behavior is reversed. Instead of connecting to another host, the Gateway accepts connections instead. Thus, the setting is configured as `connect-options` in this example. For more information about Enterprise Shield™ and forward and reverse connectivity, see [Configure Enterprise Shield™ for KAAZING Gateway](https://github.com/kaazing/enterprise.gateway/blob/develop/doc/enterprise-shield/o_enterprise_shield_checklist.md).
+This example shows a `proxy` service in the DMZ configured for Enterprise Shield™, for which the <connect> behavior is reversed. Instead of connecting to another host, the Gateway accepts connections instead. Thus, the setting is configured as `connect-options` in this example. For more information about Enterprise Shield™ and forward and reverse connectivity, see [Configure Enterprise Shield™ for KAAZING Gateway](../enterprise-shield/o_enterprise_shield_checklist.md).
 
 Because this configuration connects a Gateway to another Gateway in a controlled data center, the example only configures the TLSv1.2 protocol for secure connections. For this type of topology we don't expect to make any other kinds of connections.
 
@@ -1281,7 +1281,7 @@ Use the `socks.mode` in accept-options or connect-options to initiate the Gatewa
 -   `forward`: initiates forward connectivity from the DMZ Gateway to the internal Gateway on the trusted network. Once connected, a regular full-duplex connection is established. You typically use the `forward` mode to ensure the SOCKS settings are correctly configured before you attempt to reverse the connection.
 -   `reverse`: configures the connection mode in *reverse* so that the connection is initiated from the internal Gateway on the trusted network to the DMZ Gateway to allow a connection between the client and server that is otherwise blocked by the firewall. With the reverse mode, the Gateway interprets `accept` URIs as `connect` URIs.
 
-For more information about Enterprise Shield™ and forward and reverse connectivity, see [Configure Enterprise Shield™ with the Gateway](https://github.com/kaazing/enterprise.gateway/blob/develop/doc/enterprise-shield/o_enterprise_shield_checklist.md).
+For more information about Enterprise Shield™ and forward and reverse connectivity, see [Configure Enterprise Shield™ with the Gateway](../enterprise-shield/o_enterprise_shield_checklist.md).
 
 ##### Example
 
@@ -1368,7 +1368,7 @@ Use `socks.ssl.ciphers` to list the encryption algorithms used by TLS/SSL on the
 
 ##### Example for SOCKS Ciphers
 
-The following example shows a `proxy` service for the DMZ Gateway in an Enterprise Shield™ topology. The Gateway receives secure client connections (`wss://`) and specifies the ciphers used on the accept URI (`DEFAULT`), but does not require mutual verification from the clients (`ssl.verify-client`). In addition, the internal Gateway connects over SOCKS and TLS/SSL (`socks+ssl://`) to the DMZ Gateway, specifies the ciphers used (`NULL`), and requires mutual verification (`socks.ssl.verify-client`). For more information about forward and reverse connectivity, see [Configure Enterprise Shield™ with the Gateway](https://github.com/kaazing/enterprise.gateway/blob/develop/doc/enterprise-shield/o_enterprise_shield_checklist.md).
+The following example shows a `proxy` service for the DMZ Gateway in an Enterprise Shield™ topology. The Gateway receives secure client connections (`wss://`) and specifies the ciphers used on the accept URI (`DEFAULT`), but does not require mutual verification from the clients (`ssl.verify-client`). In addition, the internal Gateway connects over SOCKS and TLS/SSL (`socks+ssl://`) to the DMZ Gateway, specifies the ciphers used (`NULL`), and requires mutual verification (`socks.ssl.verify-client`). For more information about forward and reverse connectivity, see [Configure Enterprise Shield™ with the Gateway](../enterprise-shield/o_enterprise_shield_checklist.md).
 
 ``` xml
 <service>
@@ -1415,7 +1415,7 @@ In an Enterprise Shield™ topology over `socks+ssl://`, the DMZ Gateway provide
 | `optional`                                                             | A certificate is not required, but if a client provides a certificate then the DMZ Gateway attempts to verify it. If the verification fails, then the client is not allowed to connect.                                                                                                                     |
 | `none`                                                                 | The client recognizes that a certificate is not required and it does not send a certificate. All clients can connect to the secure service on the DMZ Gateway.                                                                                                                                              |
 
-For more information, see [Configure Enterprise Shield™ with the Gateway](https://github.com/kaazing/enterprise.gateway/blob/develop/doc/enterprise-shield/o_enterprise_shield_checklist.md).
+For more information, see [Configure Enterprise Shield™ with the Gateway](../enterprise-shield/o_enterprise_shield_checklist.md).
 
 ##### Example
 
@@ -1450,13 +1450,13 @@ In the following example, the DMZ Gateway accepts on a WebSocket URI and connect
 
 -   If you have set up KAAZING Gateway behind a TLS/SSL offloader, where the front-end traffic is secure over HTTPS and the back-end traffic behind the TLS/SSL offloader to the Gateway is *not* secure, then you can disable encryption so that the connection can occur. You can include the [accept-options](#accept-options-and-connect-options) element, then disable encryption by setting the `ssl.encryption` element to `disabled`. When encryption is disabled, the Gateway returns the response as HTTPS. If you do not include these elements or set the `ssl.encryption` element to `enabled`, the Gateway treats incoming traffic on `www.example.com:443` as secure and handles the TLS/SSL itself.
 -   See [Secure Network Traffic with the Gateway](../security/o_tls.md) for more information about HTTPS.
--   See [Configure Enterprise Shield™ with the Gateway](https://github.com/kaazing/enterprise.gateway/blob/develop/doc/enterprise-shield/p_enterprise_shield_config.md) to learn how to require the internal Gateway to provide TLS/SSL certificates.</a>
+-   See [Configure Enterprise Shield™ with the Gateway](../enterprise-shield/p_enterprise_shield_config.md) to learn how to require the internal Gateway to provide TLS/SSL certificates.</a>
 
 #### socks.retry.maximum.interval![This feature is available in KAAZING Gateway - Enterprise Edition](../images/enterprise-feature.png)
 
 **Required?** Optional; **Occurs:** zero or one
 
-Use the `socks.retry.maximum.interval` accept-option in an Enterprise Shield™ topology to set the maximum interval of time that the internal Gateway waits to retry a reverse connection to the DMZ Gateway after a failed attempt. The internal Gateway initially retries after waiting for 500ms; the subsequent wait intervals are as follows: 1s, 2s, 4s, and so on up to the value of `socks.retry.maximum.interval`. Once the maximum interval is reached, the Gateway continues to reconnect to the SOCKS proxy at the maximum interval. If no maximum is specified, then the default retry interval is 30 seconds. For more information about configuring the SOCKS proxy, see [Configure Enterprise Shield™ with the Gateway](https://github.com/kaazing/enterprise.gateway/blob/develop/doc/enterprise-shield/o_enterprise_shield_checklist.md).
+Use the `socks.retry.maximum.interval` accept-option in an Enterprise Shield™ topology to set the maximum interval of time that the internal Gateway waits to retry a reverse connection to the DMZ Gateway after a failed attempt. The internal Gateway initially retries after waiting for 500ms; the subsequent wait intervals are as follows: 1s, 2s, 4s, and so on up to the value of `socks.retry.maximum.interval`. Once the maximum interval is reached, the Gateway continues to reconnect to the SOCKS proxy at the maximum interval. If no maximum is specified, then the default retry interval is 30 seconds. For more information about configuring the SOCKS proxy, see [Configure Enterprise Shield™ with the Gateway](../enterprise-shield/o_enterprise_shield_checklist.md).
 
 ##### Example
 

@@ -29,7 +29,7 @@ At the end of this walkthrough, a JavaScript JMS demo created using the KAAZING 
 
 This walkthrough uses the out of the box JavaScript JMS demo that ships with KAAZING Gateway as the example app, but the steps outlined in this walkthrough are the same for other JavaScript JMS client applications built with KAAZING Gateway.
 
-**Note**: For this walkthrough, you can use any JMS-compliant message broker. By default, KAAZING Gateway is configured to connect to the server on `tcp://localhost:61613`. You can configure the connect URL in the file `GATEWAY_HOME/conf/gateway-config.xml`. See [About Integrating KAAZING Gateway and and JMS-Compliant Message Brokers](https://github.com/kaazing/enterprise.gateway/blob/develop/doc/integration-jms/o_jms_integrate.md) for more information.
+**Note**: For this walkthrough, you can use any JMS-compliant message broker. By default, KAAZING Gateway is configured to connect to the server on `tcp://localhost:61613`. You can configure the connect URL in the file `GATEWAY_HOME/conf/gateway-config.xml`. See [About Integrating KAAZING Gateway and and JMS-Compliant Message Brokers](../integration-jms/o_jms_integrate.md) for more information.
 
 Before You Begin
 ----------------
@@ -96,7 +96,7 @@ Create a New Project in Eclipse for Android
 
 The following steps take you through the process of creating the Eclipse project you will use to build your hybrid Android app.
 
-**Note:** This procedure is also documented in the Apache Cordova Documentation, [Getting Started with Android](http://docs.phonegap.com/en/2.0.0/guide_getting-started_android_index.html#Getting%20Started%20with%20Android).
+**Note:** This procedure is also documented in the Apache Cordova Documentation, [Getting Started with Android](https://cordova.apache.org/docs/en/2.5.0/guide/getting-started/android/).
 
 1.  In Eclipse, select **New** and click **Project**.
 2.  Expand the **Android** folder, click **Android Application Project**, and click **Next**.
@@ -114,7 +114,7 @@ Create and Populate the Project Directory for the Hybrid Android App
 
 The following steps will create the project directory for the hybrid Android app, and populate the directory with the web app files and JavaScript JMS library files required to communicate with KAAZING Gateway. The Gateway includes a shell script to help you perform these steps.
 
-**Note:** This procedure is also documented in the Apache Cordova Documentation, [Getting Started with Android](http://docs.phonegap.com/en/2.0.0/guide_getting-started_android_index.html#Getting%20Started%20with%20Android).
+**Note:** This procedure is also documented in the Apache Cordova Documentation, [Getting Started with Android](https://cordova.apache.org/docs/en/2.5.0/guide/getting-started/android/).
 
 1.  Collect the following file locations for the shell script and define your project name.
 

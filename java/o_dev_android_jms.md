@@ -163,7 +163,7 @@ The [Android JMS Client API](<../apidoc/client/java/jms/index.md>) is nearly ide
 
 **Note:** For this procedure, you can use any JMS-compliant message broker. By default, the Gateway is configured to `connect` to the server on
 `tcp://localhost:61616`. You can configure the connect URL in the file `GATEWAY_HOME/conf/gateway-config.xml`. See [About Integrating KAAZING Gateway
-and JMS-Compliant Message Brokers](<https://github.com/kaazing/enterprise.gateway/blob/develop/doc/integration-jms/o_jms_integrate.md>)
+and JMS-Compliant Message Brokers](<../integration-jms/o_jms_integrate.md>)
 for more information.
 
 Build the Android JMS Messaging Demo

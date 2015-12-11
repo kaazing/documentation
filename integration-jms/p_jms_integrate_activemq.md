@@ -104,7 +104,7 @@ Notes
 See Also
 --------
 
--   For information on troubleshooting JMS integration, see [Troubleshoot JMS Integration](https://github.com/kaazing/enterprise.gateway/blob/develop/doc/integration-jms/p_jms_integrate_tshoot.md).
+-   For information on troubleshooting JMS integration, see [Troubleshoot JMS Integration](../integration-jms/p_jms_integrate_tshoot.md).
 -   For information on troubleshooting JMS clients, see [Troubleshoot Your Clients](https://github.com/kaazing/gateway/blob/develop/doc/troubleshooting/p_dev_troubleshoot.md).
 -   For general troubleshooting information, see [Troubleshoot KAAZING Gateway](https://github.com/kaazing/gateway/blob/develop/doc/troubleshooting/o_troubleshoot.md).
 

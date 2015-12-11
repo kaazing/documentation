@@ -533,7 +533,7 @@ If you built your application using Flash Builder, you can do this by choosing *
 Kerberos challenge handler not working
 -------------------------------------------------------------
 
-**Cause:** [Kerberos challenge handlers](https://github.com/kaazing/enterprise.flash.client/blob/develop/migrated/gateway.client.flash/doc/p_dev_flash_secure.md#creating-kerberos-challenge-handlers) might not work for one or more of the following reasons:
+**Cause:** [Kerberos challenge handlers](o_dev_flash.md#creating-kerberos-challenge-handlers) might not work for one or more of the following reasons:
 
 -   The client cannot connect to the Kerberos Domain Controller (KDC).
 
