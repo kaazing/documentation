@@ -62,7 +62,7 @@ Use the KAAZING Gateway JMS Client Libraries for .NET and Silverlight
 In this procedure, you will learn how to use the signed KAAZING Gateway JMS client libraries for .NET and Silverlight and the supported methods.
 
 
-**Note**: For this how-to, you can use any JMS-compliant message broker. By default, the Gateway is configured to connect to the server on tcp://localhost:61616. You can configure the connect URL in the file `GATEWAY_HOME/conf/gateway-config.xml`. See [About Integrating KAAZING Gateway and JMS-Compliant Message Brokers](https://github.com/kaazing/enterprise.gateway/blob/develop/doc/integration-jms/o_jms_integrate.md) for more information.
+**Note**: For this how-to, you can use any JMS-compliant message broker. By default, the Gateway is configured to connect to the server on tcp://localhost:61616. You can configure the connect URL in the file `GATEWAY_HOME/conf/gateway-config.xml`. See [About Integrating KAAZING Gateway and JMS-Compliant Message Brokers](../integration-jms/o_jms_integrate.md) for more information.
 
 
 **Note:** Learn about supported browsers, operating systems, and platform versions in the [Release Notes](../release-notes.html).
@@ -215,7 +215,7 @@ To Use the JMS Client Libraries for .NET and Silverlight
 Durable Subscribers
 -------------------
 
- **Note:** Currently, the Gateway does not support durable subscribers with Apache ActiveMQ. You may use durable subscribers with [TIBCO EMS](https://github.com/kaazing/enterprise.gateway/blob/develop/doc/integration-jms/p_jms_integrate_tibco.md) or [Informatica UM](https://github.com/kaazing/enterprise.gateway/blob/develop/doc/integration-jms/p_jms_integrate_informatica.md). For more information, see [Durable Subscribers](https://github.com/kaazing/enterprise.gateway/blob/develop/doc/admin-reference/r_conf_jms.md#durable-subscribers).
+ **Note:** Currently, the Gateway does not support durable subscribers with Apache ActiveMQ. You may use durable subscribers with [TIBCO EMS](../integration-jms/p_jms_integrate_tibco.md) or [Informatica UM](../integration-jms/p_jms_integrate_informatica.md). For more information, see [Durable Subscribers](../admin-reference/r_conf_jms.md#durable-subscribers).
 
 If your JMS client needs to receive all of the messages published on a topic, including the ones published while the subscriber is inactive because it is not being used or has lost connections (which is common when using mobile devices), create a durable ITopicSubscriber using the [iSession.createDurableSubscriber()](http://developer.kaazing.com/documentation/jms/4.0/apidoc/client/dotnet/jms/html/N_Kaazing_JMS.htm) method.
 

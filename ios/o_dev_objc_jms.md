@@ -50,7 +50,7 @@ In this procedure, you will learn how to create an iOS JMS client using the KAAZ
 
 For information about deploying your Objective-C (iOS) client on devices with the arm64 architecture, see [Convert Your Objective-C (iOS) Client to a 64-Bit Runtime Environment](#convert-your-objective-c-ios-client-to-a-64-bit-runtime-environment).
 
-**Note**: For this how-to, you can use any JMS-compliant message broker. By default, the Gateway is configured to connect to the server on tcp://localhost:61613. You can configure the connect URL in the file `GATEWAY_HOME/conf/gateway-config.xml`. See [About Integrating KAAZING Gateway and JMS-Compliant Message Brokers](https://github.com/kaazing/enterprise.gateway/blob/develop/doc/integration-jms/o_jms_integrate.md) for more information.
+**Note**: For this how-to, you can use any JMS-compliant message broker. By default, the Gateway is configured to connect to the server on tcp://localhost:61613. You can configure the connect URL in the file `GATEWAY_HOME/conf/gateway-config.xml`. See [About Integrating KAAZING Gateway and JMS-Compliant Message Brokers](../integration-jms/o_jms_integrate.md) for more information.
 
 In this procedure you will do the following:
 
@@ -73,7 +73,7 @@ For information about the KAAZING Gateway Objective-C JMS client library, see [O
 
 **Notes:**
 -   For information about durable subscribers, see [Durable Subscribers](#durable-subscribers).
--   This procedure assumes that you are familiar with Objective-C programming and are an advanced user of the [Xcode](https://developer.apple.com/xcode/) IDE for creating native iOS clients. If you are new to Objective-C and Xcode, see [A Beginner’s Guide to Storyboard](http://klanguedoc.hubpages.com/hub/IOS-5-A-Beginners-Guide-to-Storyboard-Connection), [Programming with Objective-C](https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/Introduction/Introduction.html#//apple_ref/doc/uid/TP40011210) and the tutorial [Start Developing iOS Apps Today](https://developer.apple.com/library/ios/referencelibrary/GettingStarted/RoadMapiOS/FirstTutorial.html#//apple_ref/doc/uid/TP40011343-CH3-SW1). An excellent video tutorial is [Objective-C](http://thenewboston.org/list.php?cat=33) by [thenewboston.org](http://www.thenewboston.org). A very quick overview of Objective-C is [Learn Objective-C](http://cocoadevcentral.com/d/learn_objectivec/) from [Learn Cocoa](http://cocoadevcentral.com/).
+-   This procedure assumes that you are familiar with Objective-C programming and are an advanced user of the [Xcode](https://developer.apple.com/xcode/) IDE for creating native iOS clients. If you are new to Objective-C and Xcode, see [A Beginner’s Guide to Storyboard](http://klanguedoc.hubpages.com/hub/IOS-5-A-Beginners-Guide-to-Storyboard-Connection), [Programming with Objective-C](https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/Introduction/Introduction.html#//apple_ref/doc/uid/TP40011210). An excellent video tutorial is [Objective-C](http://thenewboston.org/list.php?cat=33) by [thenewboston.org](http://www.thenewboston.org). A very quick overview of Objective-C is [Learn Objective-C](http://cocoadevcentral.com/d/learn_objectivec/) from [Learn Cocoa](http://cocoadevcentral.com/).
 -   This procedure assumes that you have the required iOS Developer Program credentials.
 -   The Xcode project created in this procedure uses features available in Xcode 4.1 or later and iOS SDK 5.0 and later.
 
@@ -342,7 +342,7 @@ If you wish to migrate your KAAZING Gateway 3.3-3.5 iOS clients to KAAZING Gatew
 Durable Subscribers
 -------------------
 
- **Note:** Currently, the Gateway does not support durable subscribers with Apache ActiveMQ. You may use durable subscribers with [TIBCO EMS](https://github.com/kaazing/enterprise.gateway/blob/develop/doc/integration-jms/p_jms_integrate_tibco.md) or [Informatica UM](https://github.com/kaazing/enterprise.gateway/blob/develop/doc/integration-jms/p_jms_integrate_informatica.md). For more information, see [Durable Subscribers](https://github.com/kaazing/enterprise.gateway/blob/develop/doc/admin-reference/r_conf_jms.md#durable-subscribers).
+ **Note:** Currently, the Gateway does not support durable subscribers with Apache ActiveMQ. You may use durable subscribers with [TIBCO EMS](../integration-jms/p_jms_integrate_tibco.md) or [Informatica UM](../integration-jms/p_jms_integrate_informatica.md). For more information, see [Durable Subscribers](../admin-reference/r_conf_jms.md#durable-subscribers).
 If your JMS client needs to receive all of the messages published on a topic, including the ones published while the subscriber is inactive because it is not being used or has lost connections (which is common when using mobile devices), create a durable `KMTopicSubscriber` using the `createDurableSubscriber` method on the `KMSession` object.
 
 To unsubscribe from a durable topic, use the `- unsubscribe` method of the `KMSession` object.

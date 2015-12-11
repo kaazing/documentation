@@ -49,7 +49,7 @@ Flash is a compiled language. The Adobe Flex compiler is used to generate Shockw
 
 Apache ActiveMQ is an open source message broker and JMS provider developed, distributed, and licensed by the Apache Foundation. Apache ActiveMQ provides a publish-subscribe model based on the Java Message Service (JMS) specification. It is a highly viable, light-weight solution for both queue-based peer-to-peer messaging and topic-based publish-subscribe communication. Refer to [http://activemq.apache.org/](http://activemq.apache.org/) for more information about Apache ActiveMQ.
 
-**Note**: For this procedure, you can use any JMS-compliant message broker. By default, the Gateway is configured to connect to the server on port 61616. You can configure the connect URL in the file `GATEWAY_HOME/conf/gateway-config.xml`.  Refer to [About Integrating Kaazing WebSocket Gateway and JMS-Compliant Message Brokers](https://github.com/kaazing/enterprise.gateway/blob/develop/doc/integration-jms/o_jms_integrate.md) for more information about configuring JMS brokers with the Gateway.
+**Note**: For this procedure, you can use any JMS-compliant message broker. By default, the Gateway is configured to connect to the server on port 61616. You can configure the connect URL in the file `GATEWAY_HOME/conf/gateway-config.xml`.  Refer to [About Integrating Kaazing WebSocket Gateway and JMS-Compliant Message Brokers](../integration-jms/o_jms_integrate.md) for more information about configuring JMS brokers with the Gateway.
 
 
 Use the Flash WebSocket API
@@ -397,7 +397,7 @@ This warning occurs when you have not included the KAAZING Gateway Flash client 
 Kerberos challenge handler not working
 --------------------------------------
 
-**Cause:** [Kerberos challenge handlers](https://github.com/kaazing/enterprise.flash.client/blob/develop/migrated/gateway.client.flash/doc/p_dev_flash_secure.md#creating-kerberos-challenge-handlers) might not work for one or more of the following reasons:
+**Cause:** [Kerberos challenge handlers](o_dev_flash.md#creating-kerberos-challenge-handlers) might not work for one or more of the following reasons:
 
 -   The client cannot connect to the Kerberos Domain Controller (KDC).
 
@@ -427,7 +427,7 @@ Kerberos challenge handler not working
 
 -   Service name is in the incorrect format in the Kerberos challenge handler code.
 
-    **Solution:** The service name should be in the format: `HTTP/servergw.hostname.com`. See [Creating Kerberos Challenge Handlers](https://github.com/kaazing/enterprise.flash.client/blob/develop/migrated/gateway.client.flash/doc/p_dev_flash_secure.md#creating-kerberos-challenge-handlers) for examples.
+    **Solution:** The service name should be in the format: `HTTP/servergw.hostname.com`. See [Creating Kerberos Challenge Handlers](o_dev_flash.md#creating-kerberos-challenge-handlers) for examples.
 
 -   The pop-up dialog in the client used to obtain user credentials does not ensure that the username format is correct.
 

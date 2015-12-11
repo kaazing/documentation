@@ -53,7 +53,7 @@ In this procedure, you will learn how to use the KAAZING Gateway JavaScript JMS 
 -   To find out more specific information about the supported APIs or to learn which APIs are not supported, refer to [KAAZING Gateway JMS Client Libraries: Supported APIs](../about/kaazing-jms-api.md).
 -   Learn about supported browsers, operating systems, and platform versions in the [Release Notes](../release-notes.html).
 
-**Note**: For this how-to, you can use any JMS-compliant message broker. By default, the Gateway is configured to connect to the server on tcp://localhost:61616. You can configure the connect URL in the file `GATEWAY_HOME/conf/gateway-config.xml`. See [About Integrating KAAZING Gateway and JMS-Compliant Message Brokers](https://github.com/kaazing/enterprise.gateway/blob/develop/doc/integration-jms/o_jms_integrate.md) for more information.
+**Note**: For this how-to, you can use any JMS-compliant message broker. By default, the Gateway is configured to connect to the server on tcp://localhost:61616. You can configure the connect URL in the file `GATEWAY_HOME/conf/gateway-config.xml`. See [About Integrating KAAZING Gateway and JMS-Compliant Message Brokers](../integration-jms/o_jms_integrate.md) for more information.
 
 Set Up Your Development Environment
 -----------------------------------
@@ -211,7 +211,7 @@ To use the KAAZING Gateway JavaScript JMS client libraries to create a real-time
 Durable Subscribers
 -----------------------------------------
 
- **Note:** Currently, the Gateway does not support durable subscribers with Apache ActiveMQ. You may use durable subscribers with [TIBCO EMS](https://github.com/kaazing/enterprise.gateway/blob/develop/doc/integration-jms/p_jms_integrate_tibco.md) or [Informatica UM](https://github.com/kaazing/enterprise.gateway/blob/develop/doc/integration-jms/p_jms_integrate_informatica.md). For more information, see [Durable Subscribers](https://github.com/kaazing/enterprise.gateway/blob/develop/doc/admin-reference/r_conf_jms.md#durable-subscribers).
+ **Note:** Currently, the Gateway does not support durable subscribers with Apache ActiveMQ. You may use durable subscribers with [TIBCO EMS](../integration-jms/p_jms_integrate_tibco.md) or [Informatica UM](../integration-jms/p_jms_integrate_informatica.md). For more information, see [Durable Subscribers](../admin-reference/r_conf_jms.md#durable-subscribers).
 
 If your JMS client needs to receive all of the messages published on a topic, including the ones published while the subscriber is inactive because it is not being used or has lost connections (which is common when using mobile devices), create a durable [TopicSubscriber](http://developer.kaazing.com/documentation/jms/4.0/apidoc/client/javascript/jms/TopicSubscriber.md) using the [Session.createDurableSubscriber()](http://developer.kaazing.com/documentation/jms/4.0/apidoc/client/javascript/jms/Session.md#createDurableSubscriber) method.
 
@@ -367,7 +367,7 @@ function handleSubscribe() {
 
 -   Clients built using KAAZING Gateway 4.x libraries will work against KAAZING Gateway 5.0.x.
 -   To see a working example of this code, see the JavaScript JMS Messaging Demo (http://localhost:8001/demo/index.html), and view the source code here: `GATEWAY_HOME/web/extras/demo/jms/javascript/jms-javascript.md` (Mac and Linux), or `GATEWAY_HOME\web\extras\demo\jms\javascript\jms-javascript.md` (Windows).
--   Sessions with durable subscribers may be created using a unique client ID or with no client ID specified. For more information, see the [jms](https://github.com/kaazing/enterprise.gateway/blob/develop/doc/admin-reference/r_conf_jms.md#jms) service.
+-   Sessions with durable subscribers may be created using a unique client ID or with no client ID specified. For more information, see the [jms](../admin-reference/r_conf_jms.md) service.
 -   A client can change an existing durable subscription by creating a durable TopicSubscriber with the same name and a new topic and/or message selector. Changing a durable subscriber is equivalent to unsubscribing (deleting) the old one and creating a new one.
 -   `TemporaryTopic` and `TemporaryQueue` objects are destroyed when the client loses its connection to the Gateway, or when the JMS-compliant message broker loses its connection to the Gateway. To address this, monitor the client's exception listener to handle recovery for your application. Once the connection is re-established, recreate `TemporaryTopic` and `TemporaryQueue`. `ConnectionDroppedException` and `ConnectionInterruptedException` are delivered to the connection's exception listener via `onException`, indicating that messages in flight might be lost, depending on message delivery options. `ConnectionRestoredException` is delivered to indicate that the connection through to the JMS-compliant message broker has been re-established. `TemporaryTopic` and `TemporaryQueue` should be recreated at that time to resume operations.
 

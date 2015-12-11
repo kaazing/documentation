@@ -29,10 +29,10 @@ gateway-config
 
 | Element          | Description                                                                                                                             |
 |:-----------------|:----------------------------------------------------------------------------------------------------------------------------------------|
-| service          | The element for configuring a gateway service (see [service reference](r_configure_gateway_service.md))                                 |
-| service-defaults | The element for configuring default options gateway service (see [service-defaults reference](r_configure_gateway_service_defaults.md)) |
-| security         | The element for configuring gateway security (see [security reference](r_configure_gateway_security.md))                                |
-| cluster          | The element for configuring gateway clustering (see [cluster reference](r_configure_gateway_cluster.md))                                |
+| service          | The element for configuring a gateway service. See [service reference](r_configure_gateway_service.md).                                 |
+| service-defaults | The element for configuring default options gateway service. See [service-defaults reference](r_configure_gateway_service_defaults.md). |
+| security         | The element for configuring gateway security. See [security reference](r_configure_gateway_security.md).                                |
+| cluster          | The element for configuring gateway clustering. See [cluster reference](r_configure_gateway_cluster.md).                                |
 
 ### Example
 

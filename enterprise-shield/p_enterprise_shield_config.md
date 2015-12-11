@@ -103,13 +103,13 @@ The key configuration settings for the App1 service in the internal Gateway incl
 
 3.  Connect the internal Gateway to the back-end service.
 
-    Most proxy services use the [connect](../admin-reference/r_configure_gateway_service.md#connect) element to connect to the back-end service. But others, such as the JMS service, use the [properties](https://github.com/kaazing/enterprise.gateway/blob/develop/doc/admin-reference/r_conf_jms.md) element instead.
+    Most proxy services use the [connect](../admin-reference/r_configure_gateway_service.md#connect) element to connect to the back-end service. But others, such as the JMS service, use the [properties](../admin-reference/r_conf_jms.md) element instead.
 
     The [connect](../admin-reference/r_configure_gateway_service.md#connect) element can specify either the hostname or the IP address, and port of the back-end service:
 
     `                <connect>tcp://127.0.0.1:3101</connect>          `
 
-    When using the JMS service, the properties element names the ConnectionFactory, queue and topic names, and the URI for the message broker. See the [properties](https://github.com/kaazing/enterprise.gateway/blob/develop/doc/admin-reference/r_conf_jms.md#jms-service-environment-properties) element for an example.
+    When using the JMS service, the properties element names the ConnectionFactory, queue and topic names, and the URI for the message broker. See the [properties](../admin-reference/r_conf_jms.md#jms-service-environment-properties) element for an example.
 
 4.  Add the [accept-options](../admin-reference/r_configure_gateway_service.md#accept-options-and-connect-options) element:
 

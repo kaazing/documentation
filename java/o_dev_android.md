@@ -1562,7 +1562,7 @@ What Problem Are You Having?
 Kerberos challenge handler not working![This feature is available in KAAZING Gateway - Enterprise Edition](images/enterprise-feature.png)
 --------------------------------------------------------------------------------
 
-**Cause:** [Kerberos challenge handlers](https://github.com/kaazing/android.client/blob/develop/migrated/gateway.client.android/doc/p_dev_android_secure.md#creating-kerberos-challenge-handlers) might not work for one or more of the following reasons:
+**Cause:** [Kerberos challenge handlers](o_dev_android.md#creating-kerberos-challenge-handlers) might not work for one or more of the following reasons:
 
 -   The client cannot connect to the Kerberos Domain Controller (KDC).
 
@@ -1592,7 +1592,7 @@ Kerberos challenge handler not working![This feature is available in KAAZING Gat
 
 -   Service name is in the incorrect format in the Kerberos challenge handler code.
 
-    **Solution:** The service name should be in the format: `HTTP/servergw.hostname.com`. See [Creating Kerberos Challenge Handlers](https://github.com/kaazing/android.client/blob/develop/migrated/gateway.client.android/doc/p_dev_android_secure.md#creating-kerberos-challenge-handlers) for examples.
+    **Solution:** The service name should be in the format: `HTTP/servergw.hostname.com`. See [Creating Kerberos Challenge Handlers](o_dev_android.md#creating-kerberos-challenge-handlers) for examples.
 
 -   The pop-up dialog in the client used to obtain user credentials does not ensure that the username format is correct.
 

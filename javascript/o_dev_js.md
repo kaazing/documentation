@@ -75,7 +75,7 @@ Before you start, take a look at a demo that was built with the JavaScript clien
 
 To view the WebSocket information on the network, do the following:
 
-1.  Run [Google Chrome](http://www.google.com/chrome/) with Chrome’s [Developer Tools](https://developers.google.com/chrome-developer-tools/docs/overview) opened. To open the Developer Tools on Windows and Linux use Control+Shift+I. On a Mac, use ⌥⌘I.
+1.  Run [Google Chrome](http://www.google.com/chrome/) with Chrome’s [Developer Tools](https://developer.chrome.com/devtools) opened. To open the Developer Tools on Windows and Linux use Control+Shift+I. On a Mac, use ⌥⌘I.
 2.  Open the **Network** panel. For more information, see [Network panel](https://developers.google.com/chrome-developer-tools/docs/network) on Google Developers.
 3.  Click the filter icon, and then click **WebSockets** at the top of the panel.
 4.  Navigate to the Javascript WebSocket Echo demo.
