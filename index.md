@@ -94,6 +94,7 @@ For Administrators
 
 -   [Monitor the Gateway](management/o_monitor.md)
 -   [Troubleshoot the Gateway](troubleshooting/o_troubleshoot.md)
+-   [Identity Logging](management/p_identity_logging.md)
 
 ### High Availability
 
