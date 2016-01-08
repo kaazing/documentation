@@ -209,7 +209,7 @@ When a user is experiencing problems connecting to resources via the Gateway, yo
   0. Open the log file to identify the user. The log file is located in `GATEWAY_HOME/log/error.log`.
   1. Verify that the user is open on all transports (TCP, etc). Look for OPENED in the log. For example:
 
-    INFO [http#2 johnSmith 192.0.2.1:52882] OPENED: (#00000002: kzg http, server, http://example.com:8080/jms?.kl=Y => http://example.com:8080/jms)
+    `INFO [http#2 johnSmith 192.0.2.1:52882] OPENED: (#00000002: kzg http, server, http://example.com:8080/jms?.kl=Y => http://example.com:8080/jms)`
 
   2. If TCP and HTTP connections opened successfully, but the WebSocket connection (wsn) opened and then closed, then authorization likely failed. For example:
 
