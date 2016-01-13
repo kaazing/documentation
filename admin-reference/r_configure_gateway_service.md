@@ -770,7 +770,7 @@ Use the `connect-options` element to add options to all connections for the serv
 
 **Required?** Optional; **Occurs:** zero or more; **Where** `protocol` can be ws, wss, http, https, socks, ssl, tcp, or udp
 
-Use the `protocol.bind` element to configure network protocol bindings for your Gateway services. Configure `protocol.bind` as an accept-option or a connect-option to bind a URI or URIs on which the Gateway can accept or make connections. The Gateway binds the URI or port or IP address specified in the `protocol.bind` element to bind the public URI in the `accept` or `connect` element to the URI or port or IP address
+Use the `protocol.bind` element to configure network protocol bindings for your Gateway services. Configure `protocol.bind` as an `accept-option` or a `connect-option` to bind a public URI to a private network URI. The Gateway binds the hostname or IP address and port number specified in the `protocol.bind` element to the public URI in the `accept` or `connect` element. This configuration is used when the Gateway is behind a load balancer, behind a firewall, or in a cloud environment where its local network information does not match the settings specified by the `accept` or `connect` element.
 
 Specify any of the following protocol schemes:
 
