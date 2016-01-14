@@ -50,6 +50,7 @@ The Gateway configuration file (`gateway-config.xml` or `gateway-config.xml`) de
             -   [jms](../admin-reference/r_conf_jms.md) ![This feature is available in KAAZING Gateway - Enterprise Edition](../images/enterprise-feature.png)
             -   [jms.proxy](../admin-reference/r_conf_jms.md) ![This feature is available in KAAZING Gateway - Enterprise Edition](../images/enterprise-feature.png)
             -   [http.proxy](#httpproxy)
+	-   [Pipe scheme](#pipe-scheme)
         -   [properties](#properties)
         -   [accept-options and connect-options](#accept-options-and-connect-options)
             -   [*protocol*.bind](#protocolbind), where *protocol* can be ws, wss, http, https, socks, ssl, tcp, or udp
@@ -118,6 +119,7 @@ When specifying URLs for the `accept` or `connect` elements, you can use `tcp://
 -   ssl
 -   tcp
 -   udp
+-   [pipe](#pipe-scheme)
 
 ### accept
 
@@ -149,6 +151,8 @@ The URLs on which the service accepts connections (see [Supported URL schemes](#
     -   ssl
     -   tcp
     -   udp
+    -   [pipe](#pipe-scheme)
+
 
 ### connect
 
@@ -175,6 +179,8 @@ The URL of a back-end service or message broker to which the proxy service (for 
     -   ssl
     -   tcp
     -   udp
+    -   [pipe](#pipe-scheme)
+
 
 ### balance
 
@@ -543,7 +549,7 @@ Set this property in either of the following use cases:
 - Set this property when configuring your proxy service, which is the most common use case for `prepared.connection.count`. In this case, setting `prepared.connection.count` sets the number of connections the Gateway creates (or *prepares*) to the back-end service or message broker specified by the [`connect`](#connect) element in addition to the client connections. When the Gateway starts, it creates the specified number of connections to the back-end service or message broker, thus creating a *prepared connection*. When an incoming client connection uses a prepared connection, the Gateway creates another connection to the back-end service or message broker, thus maintaining the specified number of prepared connections to the back-end service or message broker.
 - Set this property when configuring Enterprise Shield™. See [Configure Enterprise Shield™](../enterprise-shield/p_enterprise_shield_config.md) for detailed configuration information. If you do not set this property, then the Gateway does not prepare connections to the back-end service or message broker.
 
-#### <a name="virtualhost"></a>`virtual.host`
+#### `virtual.host`
 
 **Required?** Optional
 
@@ -601,7 +607,7 @@ See the "Examples" section below this table for a code snippet using this proper
 </service>
 ```
 
--   The following example configures two `amqp.proxy` services, `app1` and `app2`, and each service connects to a virtual host, `vhost1` and `vhost2`. Clients connecting via the `app1` service can access only `vhost1`, and clients on the `app2` service can access only `vhost2`.
+-   The following example configures two `amqp.proxy` services, `app1` and `app2`, and each service connects to a virtual host, `vhost1` and `vhost2`. Clients connecting via the `app1` service can access only `vhost1`, and clients on the `app2` service can access only `vhost2`. Also, see [pipe](#pipe-scheme).
 
 ``` xml
 <!-- This service connects only to the AMQP virtual host vhost1. -->
@@ -646,7 +652,7 @@ See the "Examples" section below this table for a code snippet using this proper
     -   [`connect`](#connect): the URL of the service to which the Gateway connects
 -   The WebSocket protocol used by the client connection is converteded into a protocol that you specify (for example, TCP) to connect to the back-end service or message broker. Upon client connection, the Gateway establishes a full-duplex connection between itself and the client, and between itself and the back-end service or message broker. The result is a full-duplex connection between the client and the back-end service or message broker.
 -   The Gateway services are configured to accept connections on `localhost` by default. The cross-origin sites allowed to access those services are also configured for localhost by default. If you want to connect to host names other than `localhost`, then you must update your server configuration and use the fully qualified host name of the host machine, as shown in the example.
--   When there are multiple `amqp.proxy` services in the Gateway configuration that are connecting to the same AMQP broker instance, all AMQP proxy services should pipe their `connect` elements to a common service as shown in the previous configuration example. This is recommended due to a current restriction with JMX monitoring.
+-   When there are multiple `amqp.proxy` services in the Gateway configuration that are connecting to the same AMQP broker instance, all AMQP proxy services should [pipe](#pipe-scheme) their `connect` elements to a common service as shown in the previous configuration example. This is recommended due to a current restriction with JMX monitoring.
 -   See the [Promote User Identity into the AMQP Protocol](../security/p_auth_user_identity_promotion.md) topic for more information about injecting AMQP credentials into the protocol in a trusted manner.
 
 ### http.proxy
@@ -901,7 +907,7 @@ In the following example, the `ws.bind` and `wss.bind`elements in accept-options
 
 #### *protocol*.transport
 
-**Required?** Optional; **Occurs:** zero or more; **Where** `protocol` can be http, ssl, tcp, pipe, and socks.
+**Required?** Optional; **Occurs:** zero or more; **Where** `protocol` can be http, ssl, tcp, [pipe](#pipe-scheme), and socks.
 
 Use the `protocol.transport` accept-option or connect-option to replace the default transport with a new transport. This allows you to change the behavior of the connection without affecting the protocol stack above the transport. For example, a TCP transport normally connects to a remote IP address and port number. However, you could replace that, for instance, with an in-memory (pipe) transport that communicates with another service in the same Gateway.
 
@@ -910,7 +916,7 @@ Specify any of the following transports:
 -   `http.transport`: Specifies a URI for use as a transport layer under the HTTP transport or WebSocket transport (because  WebSocket is always over HTTP). This is the most frequently used transport option.
 -   `ssl.transport`: Specifies a URI for use as a transport layer under the TLS/SSL transport.
 -   `tcp.transport`: Specifies a URI for use as a transport layer under the TCP/IP (tcp) transport.
--   `pipe.transport`: Specifies a URI for use as a transport layer under the pipe transport.
+-   `pipe.transport`: Specifies a URI for use as a transport layer under the [pipe](#pipe-scheme) transport.
 -   `socks.transport`: Specifies a URI for use as a transport layer under the SOCKS transport.
 
 ##### Example: Configuring the Transport in accept-options
@@ -1496,7 +1502,7 @@ For more information, see [Configure Enterprise Shield™ with the Gateway](../e
 
 ##### Example
 
-In the following example, the DMZ Gateway accepts on a WebSocket URI and connects over a named pipe. The DMZ Gateway also listens for connections on port 1443 as `pipe.transport` URI over SOCKS and TLS/SSL (`socks+ssl://`). To increase security, the `socks.ssl.verify-client` is set to `required`, which specifies that the internal Gateway URI must provide a digital certificate to the DMZ Gateway.
+In the following example, the DMZ Gateway accepts on a WebSocket URI and connects over a named [pipe](#pipe-scheme). The DMZ Gateway also listens for connections on port 1443 as `pipe.transport` URI over SOCKS and TLS/SSL (`socks+ssl://`). To increase security, the `socks.ssl.verify-client` is set to `required`, which specifies that the internal Gateway URI must provide a digital certificate to the DMZ Gateway.
 
 ``` xml
 <service>
