@@ -700,6 +700,83 @@ The configuration example that follows requires DNS to resolve [www.websocket.or
 </service>
 ```
 
+### Pipe scheme
+
+The `pipe://` scheme is a URI scheme internal to the Gateway and used to connect one [service](r_configure_gateway_service.md#service) to another service running in the same Gateway instance. Essentially, the pipe scheme is a named, logical channel between two services on the local Gateway. 
+
+The `pipe://` scheme is available to the `accept` and `connect` elements. It is often used with [Enterprise Shield](../enterprise-shield/o_enterprise_shield_checklist.md) and the [virtual.host](r_configure_gateway_service.md#virtualhost) (to segregate applications using the same AMQP broker) and [protocol.transport](r_configure_gateway_service.md#protocoltransport) (as pipe.transport).
+
+Let’s look at an example using tiered connection speeds.
+
+You could offer different connection speeds by defining a separate a [`jms.proxy`](r_conf_jms.md#jmsproxy) service for each tier and then pipe the client connections into a single jms service. Here’s an example of the configuration for the `jms.proxy` service for the bottom tier:
+
+```xml
+<service>
+    <name>JMS Minimum Level</name> <!-- the name of the service -->
+    <accept>ws://example.com:8001/jms-slow</accept> <!-- clients in the bottom tier connect using this URI -->
+    <connect>pipe://jms-minimum</connect> <!-- connections are piped to the JMS service with the accept  pipe://jms-minimum -->
+   
+    <type>jms.proxy</type> <!-- this jms.proxy service is used for the bottom tier only -->
+   
+    <accept-options>
+	    <tcp.maximum.outbound.rate>1kB/s</tcp.maximum.outbound.rate> <!-- this element sets the outbound speed for the bottom tier -->
+    </accept-options>
+
+    <cross-site-constraint>
+        <allow-origin>*</allow-origin>
+    </cross-site-constraint>
+</service>
+```
+
+Here’s an example of the configuration for the `jms.proxy` service for the middle tier:
+
+```xml
+<service>
+    <name>JMS Medium Level</name> <!-- the name of the service -->
+    <accept>ws://example.com:8001/jms-medium</accept> <!-- clients in the middle tier connect using this URI -->
+    <connect>pipe://jms-medium</connect> <!-- connections are piped to the JMS service with the accept  pipe://jms-medium -->
+   
+    <type>jms.proxy</type> <!-- this jms.proxy service is used for the middle tier only -->
+   
+    <accept-options>
+        <tcp.maximum.outbound.rate>20MB/s</tcp.maximum.outbound.rate> <!-- this element sets the outbound speed for the middle tier -->
+    </accept-options>
+
+    <cross-site-constraint>
+        <allow-origin>*</allow-origin>
+    </cross-site-constraint>
+</service>
+```
+
+To accept the pipes from the JMS Minimum and Medium Level `jms.proxy` services, the JMS service has `<accept>pipe://jms-minimum</accept>` and `<accept>pipe://jms-medium</accept>` in its configuration:
+
+```xml
+<service>
+    <accept>pipe://jms-minimum</accept> <!-- matches the pipe URI in the connect element of the jms.proxy service for the bottom tier -->
+    <accept>pipe://jms-medium</accept> <!-- matches the pipe URI in the connect element of the jms.proxy service for the middle tier -->
+    <accept>ws://example.com:8001/jms</accept> <!-- normal, non-tiered connections will connect here -->
+  
+    <type>jms</type>
+  
+    <properties>
+        <connection.factory.name>ConnectionFactory</connection.factory.name>
+        <context.lookup.topic.formatdynamicTopics/%s</context.lookup.topic.format>
+        <context.lookup.queue.format>dynamicQueues/%s</context.lookup.queue.format>
+  
+        <env.java.naming.factory.initial>
+            org.apache.activemq.jndi.ActiveMQInitialContextFactory
+        </env.java.naming.factory.initial>
+        <env.java.naming.provider.url>
+            tcp://localhost:61616
+        </env.java.naming.provider.url>
+    </properties>
+  
+    <cross-site-constraint>
+        <allow-origin>*</allow-origin>
+    </cross-site-constraint>
+</service>
+```
+
 ### properties
 
 The service's type-specific properties.
