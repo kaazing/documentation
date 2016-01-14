@@ -714,7 +714,7 @@ The `pipe://` scheme is available to the `accept` and `connect` elements. It is 
 
 Let’s look at an example using tiered connection speeds.
 
-You could offer different connection speeds by defining a separate a [`jms.proxy`](r_conf_jms.md#jmsproxy) service for each tier and then pipe the client connections into a single jms service. Here’s an example of the configuration for the `jms.proxy` service for the bottom tier:
+You could offer different connection speeds by defining a separate [`jms.proxy`](r_conf_jms.md#jmsproxy) service for each tier and then pipe the client connections into a single jms service. Here’s an example of the configuration for the `jms.proxy` service for the bottom tier:
 
 ```xml
 <service>
