@@ -783,6 +783,9 @@ To accept the pipes from the JMS Minimum and Medium Level `jms.proxy` services, 
 </service>
 ```
 
+**Note**
+Any paths entered after the `pipe://` scheme and hostname are ignored. The URI `<accept>pipe://customera/app1</accept>` is interpreted as `<accept>pipe://customera</accept>`. If a path is used, the Gateway will issue an error message.
+
 ### properties
 
 The service's type-specific properties.
