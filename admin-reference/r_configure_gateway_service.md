@@ -50,7 +50,7 @@ The Gateway configuration file (`gateway-config.xml` or `gateway-config.xml`) de
             -   [jms](../admin-reference/r_conf_jms.md) ![This feature is available in KAAZING Gateway - Enterprise Edition](../images/enterprise-feature.png)
             -   [jms.proxy](../admin-reference/r_conf_jms.md) ![This feature is available in KAAZING Gateway - Enterprise Edition](../images/enterprise-feature.png)
             -   [http.proxy](#httpproxy)
-	-   [Pipe scheme](#pipe-scheme)
+        -   [Pipe scheme](#pipe-scheme)
         -   [properties](#properties)
         -   [accept-options and connect-options](#accept-options-and-connect-options)
             -   [*protocol*.bind](#protocolbind), where *protocol* can be ws, wss, http, https, socks, ssl, tcp, or udp
