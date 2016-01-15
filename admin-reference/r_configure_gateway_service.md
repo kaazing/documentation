@@ -710,6 +710,8 @@ The configuration example that follows requires DNS to resolve [www.websocket.or
 
 The `pipe://` scheme is a URI scheme internal to the Gateway and used to connect one [service](r_configure_gateway_service.md#service) to another service running in the same Gateway instance. Essentially, the pipe scheme is a named, logical channel between two services on the local Gateway. 
 
+The format of the `pipe://` scheme is `pipe://hostname` or `pipe://IP address`, such as `pipe://jms-common`. Any paths entered after the `pipe://` scheme and hostname/IP address are invalid. The URI `<accept>pipe://customera/app1</accept>` is invalid. If a path is used, the Gateway will fail and issue an error message.
+
 The `pipe://` scheme is available to the `accept` and `connect` elements. It is often used with [Enterprise Shield](../enterprise-shield/o_enterprise_shield_checklist.md) and the [virtual.host](r_configure_gateway_service.md#virtualhost) (to segregate applications using the same AMQP broker) and [protocol.transport](r_configure_gateway_service.md#protocoltransport) (as pipe.transport).
 
 Let’s look at an example using tiered connection speeds.
@@ -720,7 +722,7 @@ You could offer different connection speeds by defining a separate [`jms.proxy`]
 <service>
     <name>JMS Minimum Level</name> <!-- the name of the service -->
     <accept>ws://example.com:8001/jms-slow</accept> <!-- clients in the bottom tier connect using this URI -->
-    <connect>pipe://jms-minimum</connect> <!-- connections are piped to the JMS service with the accept  pipe://jms-minimum -->
+    <connect>pipe://jms-common</connect> <!-- connections are piped to the JMS service with the accept  pipe://jms-common -->
    
     <type>jms.proxy</type> <!-- this jms.proxy service is used for the bottom tier only -->
    
@@ -740,7 +742,7 @@ Here’s an example of the configuration for the `jms.proxy` service for the mid
 <service>
     <name>JMS Medium Level</name> <!-- the name of the service -->
     <accept>ws://example.com:8001/jms-medium</accept> <!-- clients in the middle tier connect using this URI -->
-    <connect>pipe://jms-medium</connect> <!-- connections are piped to the JMS service with the accept  pipe://jms-medium -->
+    <connect>pipe://jms-common</connect> <!-- connections are piped to the JMS service with the accept  pipe://jms-common -->
    
     <type>jms.proxy</type> <!-- this jms.proxy service is used for the middle tier only -->
    
@@ -754,12 +756,11 @@ Here’s an example of the configuration for the `jms.proxy` service for the mid
 </service>
 ```
 
-To accept the pipes from the JMS Minimum and Medium Level `jms.proxy` services, the JMS service has `<accept>pipe://jms-minimum</accept>` and `<accept>pipe://jms-medium</accept>` in its configuration:
+To accept the pipes from the JMS Minimum and Medium Level `jms.proxy` services, the JMS service has  `<accept>pipe://jms-common</accept>` in its configuration:
 
 ```xml
 <service>
-    <accept>pipe://jms-minimum</accept> <!-- matches the pipe URI in the connect element of the jms.proxy service for the bottom tier -->
-    <accept>pipe://jms-medium</accept> <!-- matches the pipe URI in the connect element of the jms.proxy service for the middle tier -->
+    <accept>pipe://jms-common</accept> <!-- matches the pipe URIs in the connect elements of the jms.proxy services -->
     <accept>ws://example.com:8001/jms</accept> <!-- normal, non-tiered connections will connect here -->
   
     <type>jms</type>
@@ -782,8 +783,6 @@ To accept the pipes from the JMS Minimum and Medium Level `jms.proxy` services, 
     </cross-site-constraint>
 </service>
 ```
-
-**Note:**  Any paths entered after the `pipe://` scheme and hostname are ignored. The URI `<accept>pipe://customera/app1</accept>` is interpreted as `<accept>pipe://customera</accept>`. If a path is used, the Gateway will issue an error message.
 
 ### properties
 
