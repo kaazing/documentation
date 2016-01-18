@@ -385,6 +385,7 @@ Use the `directory` service to expose directories or files hosted on the Gateway
 -   The path you specify for the `directory` service must be relative to the directory `GATEWAY_HOME\web` (where `GATEWAY_HOME` is the directory in which KAAZING Gateway is installed). For example, `C:\gateway\GATEWAY_HOME\web`. An absolute path cannot be specified.
 -   KAAZING Gateway services are configured to accept connections on `localhost` by default. The cross-origin sites allowed to access those services are also configured for localhost-only by default. If you want to connect to host names other than localhost you must update your server configuration, and use the fully qualified host name of the host machine.
 -   If you use the optional `error-pages-directory` property, you can test it by adding the property, saving the `gateway-config.xml` file, then starting the Gateway. Once the Gateway is running, point your browser to a page that does not exist, such as `http://localhost:8000/nonexistentpage.html`.
+-   The `directory` service is [RFC 7232](https://tools.ietf.org/html/rfc7232) compliant.
 
 ### echo
 
