@@ -710,7 +710,7 @@ The configuration example that follows requires DNS to resolve [www.websocket.or
 
 The `pipe://` scheme is a URI scheme internal to the Gateway and used to connect one [service](r_configure_gateway_service.md#service) to another service running in the same Gateway instance. Essentially, the pipe scheme is a named, logical channel between two services on the local Gateway. 
 
-The format of the `pipe://` scheme is `pipe://hostname` or `pipe://IP address`, such as `pipe://jms-common`. Any paths entered after the `pipe://` scheme and hostname/IP address are invalid. The URI `<accept>pipe://customera/app1</accept>` is invalid. If a path is used, the Gateway will fail and issue an error message.
+The format of the `pipe://` scheme is `pipe://`*string*, such as `pipe://jms-common`. The URI must conform to the standard URI syntax. Any values entered after the `pipe://` scheme and *string*, such as a path, are invalid. The URI `<accept>pipe://customera/app1</accept>` is invalid. If a path is used, the Gateway will respond with an error message.
 
 The `pipe://` scheme is available to the `accept` and `connect` elements. It is often used with [Enterprise Shield](../enterprise-shield/o_enterprise_shield_checklist.md) and the [virtual.host](r_configure_gateway_service.md#virtualhost) (to segregate applications using the same AMQP broker) and [protocol.transport](r_configure_gateway_service.md#protocoltransport) (as pipe.transport).
 
