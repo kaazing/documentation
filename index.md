@@ -18,7 +18,7 @@ Essentials
 For Developers
 ---------------------------------------
 
-### Mobile
+### Mobile Clients
 
 #### WebSocket Mobile Clients
 
