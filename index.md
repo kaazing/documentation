@@ -32,7 +32,7 @@ For Developers
 -   [Walkthrough: Deploy a JavaScript JMS App as a Hybrid Android App](javascript/hybrid_android_walkthrough.md) ![This feature is available in KAAZING Gateway - Enterprise Edition](images/enterprise-feature.png)
 -   [Walkthrough: Deploy Microsoft .NET or Silverlight JMS Clients to iOS or Android Using Xamarin](windows/xamarin_dotnet_walkthrough_websocket.md) ![This feature is available in KAAZING Gateway - Enterprise Edition](images/enterprise-feature.png)
 
-### Web and Desktop
+### Web and Desktop Clients
 
 #### WebSocket Clients
 
