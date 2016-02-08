@@ -355,37 +355,190 @@ Use the `directory` service to expose directories or files hosted on the Gateway
 
 **Note:** The properties must be specified in the order shown in the following table.
 
-| Property                | Required or Optional? | Description                                                                                                                                                                                                                                                                                                                                              |
-|:------------------------|:----------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `directory`             | Required              | The path to the directory to be exposed on the Gateway.                                                                                                                                                                                                                                                                                                  |
-| `options`               | Optional              | Enables directory browsing of the files and folders in the location specified by the `directory` property. The value `indexes` must be entered. For example, `<options>indexes</options>` enables directory browsing. Omitting the `options` property disables directory browsing. Browsing a directory with `welcome-file` will serve the welcome file. |
-| `welcome-file`          | Optional              | The path to the file to be exposed on the Gateway.                                                                                                                                                                                                                                                                                                       |
-| `error-pages-directory` | Optional              | The path to the directory containing the `404.md` file. By default, the Gateway includes a `404.md` file in `GATEWAY_HOME/error-pages`. See the Notes for more information.                                                                                                                                                                              |
+| Property                | Required or Optional? | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+|:------------------------|:----------------------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `directory`             | Required              | The path to the directory to be exposed on the Gateway.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| `options`               | Optional              | Enables directory browsing of the files and folders in the location specified by the directory property. The value indexes must be entered. For example, using the value `<options>indexes</options>` enables directory browsing. Omitting the options property disables directory browsing. Browsing a directory with welcome-file will serve the welcome file.                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| `welcome-file`          | Optional              | If the request URL does not contain a file name, then the file name specified here is displayed to the client browser.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| `error-pages-directory` | Optional              | The path to the directory containing the 404.html file. By default, the Gateway includes a 404.html file in `GATEWAY_HOME/error-pages`. See the Notes for more information.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| location                | Optional              | You add this element to configure Cache-Control for a resource(s) hosted by the `directory` service. `location` provides a resource(s)-specific scope to the `cache-control` setting, enabling you to specify the Cache-Control for multiple locations served by the directory service. The `patterns` and `cache-control` elements are child elements of `location`.  See [HTTP Caching with the Directory Service](#http-caching-with-the-directory-service) and [Cache-Control Examples](#cache-control-examples).                                                                                                                                                                                                                                                                                |
+| `patterns`              | Optional              | You add this element to instruct the Gateway on which file types and names to apply Cache-Control directives. For example, `<patterns>**/*</patterns>` specifies all files and `<patterns>**/*.html</patterns>` specifies HTML files. The `patterns` element uses the [Apache DirectoryScanner](http://maven.apache.org/shared-archives/maven-shared-utils-0.8/apidocs/org/apache/maven/shared/utils/io/DirectoryScanner.html) syntax. Note: as `patterns` applies to a URL path, the separator is / not \. The `patterns` element contains one or more patterns that are whitespace separated, for example. See [HTTP Caching with the Directory Service](#http-caching-with-the-directory-service) and [Cache-Control Examples](#cache-control-examples).                                          |
+| `cache-control`         | Optional              | You add this element to configure the caching behavior for the resource(s) matching by the `patterns` value. The syntax is `<cache-control>value</cache-control>` where `value` is a string containing valid Cache-Control directives, as specified by [RFC 7234](https://tools.ietf.org/html/rfc7234#section-5.2.2), **section 5.2.2 Response Cache-Control Directives**. The directive names used in `cache-control` must be those specified in RFC 7234, such as `max-age`, `public`, `no-cache`, etc. The format must be as specified in RFC 7234, namely comma-separated. Example: `<cache-control>max-age=60, public, no-store</cache-control>` See [HTTP Caching with the Directory Service](#http-caching-with-the-directory-service) and [Cache-Control Examples](#cache-control-examples). |
 
-#### Examples
+#### HTTP Caching with the Directory Service
+HTTP/1.0 provided the `Expires` header as a simple way for an origin server to mark a response with a time before which a client cache could return the response validly. The server might then either respond with a 304 (Not Modified) status code, implying that the cache entry is valid, or it might send a normal 200 (OK) response to replace the cache entry. The problem with this mechanism is that neither origin servers or clients can give full and explicit instructions to caches, leading incorrect caching of some responses that should not have been cached, and failure to cache some responses that could have been cached.
 
--   The following is an example of a `service` element of type `directory` that accepts connections on localhost by default:
+In [RFC 7234](https://tools.ietf.org/html/rfc7234#section-5.2.2), HTTP/1.1 adds the new `Cache-Control` header to make caching requirements more explicit than in HTTP/1.0. The Cache-Control header allows an extensible set of directives to be transmitted in both requests and responses. See [Cache-Control Examples](#cache-control-examples).
+
+Here are a few examples of Cache-Control directives that are used in the `cache-control` property:
+
+#####max-age
+
+You use this Cache-Control directive to state that the resource included in the response is to be considered stale after its age is greater than the specified number of seconds. For example, `<cache-control>max-age=0</cache-control>` means the resource expires immediately.
+
+You can specify your preferred time interval syntax in milliseconds, seconds, minutes, or hours (spelled out or abbreviated). For example, all of the following are valid: 1800s, 1800sec, 1800 secs, 1800 seconds, 1800seconds, 3m, 3min, or 3 minutes. If you do not specify a time unit then seconds are assumed.  
+
+You can also use the formula `[m+]N [time unit]`. m represents the last modified date. `N` can be 0 or a positive integer. 0 signifies the resource expires immediately. `[time unit]` is optional, and defaults to seconds if omitted. For example: `max-age=m+2 hours` instructs the client to expire the file two hours after the file was last modified.
+
+There is an important difference between expiry of a file based on when the client downloaded the resource and expiry based on the last modified date of the resource. Here is the distinction:
+
+  - By default, expiry is *relative to when the client downloaded the resource*. For example, if `max-age` is `1 hour`, the resource expires 1 hour from when the client downloaded it. If a second client downloaded the same resource 15 minutes after the first client did, then their resource will expire 15 minutes later than the one downloaded by the first client.
+  - If you specify the expiry of the resource *relative to the last modified date of the resource*, then the resource will expire at the same time for every client, regardless of when the clients downloaded it. This feature gives you the ability to expire a resource at the same time for all users, irrespective of when they first downloaded it, such as when you know you are going to release a new version of a resource at predictable times.
+
+See [Cache-Control Examples](#cache-control-examples).
+
+#####public
+
+A Cache-Control directive stating that any cache may store the response, even if the response would normally be non-cacheable or cacheable only within a private cache.  See [Cache-Control Examples](#cache-control-examples).
+
+Note that this does not guaranteed privacy. Only cryptographic mechanisms can provide true privacy. See [Secure Network Traffic with the Gateway](../security/o_tls.md).
+
+#####no-store
+
+A Cache-Control directive stating that a cache must not store any part of either the immediate request or response. This directive applies to both private and shared caches.  See [Cache-Control Examples](#cache-control-examples).
+
+#### Directory Service Example
+
+-   The following is an example of a `service` element of type `directory` that accepts connections on **example.com** by default:
 
 ``` xml
 <service>
-  <accept>http://localhost:8000/</accept>
-  <accept>https://localhost:9000/</accept>
-
-  <type>directory</type>
+  <accept>http://www.example.com:80/</accept>
+  <accept>https://www.example.com:443/</accept>
+    <type>directory</type>
   <properties>
     <directory>/</directory>
-    <welcome-file>index.md</welcome-file>
+    <welcome-file>index.html</welcome-file>
     <error-pages-directory>/error-pages</error-pages-directory>
-  </properties>
+    <location>
+      <patterns>**/*</patterns>
+      <cache-control>max-age=1 year</cache-control>
+    </location>
 </service>
 ```
+
+#### Cache-Control Examples
+
+You can use any valid Cache-Control directives, as specified by [RFC 7234](https://tools.ietf.org/html/rfc7234#section-5.2.2), **section 5.2.2 Response Cache-Control Directives**. In the following examples, only a few of the available directives are used.
+
+##### Examples for `max-age`:
+
+The resources expire immediately and the client MUST validate the resource with the Gateway before using it:
+
+``` xml
+<location>
+  <patterns>**/*</patterns>
+  <cache-control>max-age=0</cache-control>
+</location>
+```
+
+Do not cache the resource at all, but validate the response with the Gateway before processing it (see [RFC 7234, section 5.2.2.2 no-cache](https://tools.ietf.org/html/rfc7234#section-5.2)):
+
+`<cache-control>no-cache</cache-control>`
+
+The resources expire after one minute:
+
+`<cache-control>max-age=60</cache-control>`
+
+or
+
+`<cache-control>max-age=60 seconds</cache-control>`
+
+or
+
+`<cache-control>max-age=1 minute</cache-control>`
+
+The resources expire after one hour:
+
+`<cache-control>max-age=1 hour</cache-control>`
+
+or
+
+`<cache-control>max-age=60 minutes</cache-control>`
+
+The following resources expire in one year:
+
+`<cache-control>max-age=1 year</cache-control>`
+
+Expire two hours after the file was last modified (note that whitespace is allowed between `m+` and `N`, and also between the `m` and the `+` of `m+`. The `m` can be upper or lowercase):
+
+`<cache-control>max-age=m+2 hours</cache-control>`
+
+or
+
+`<cache-control>max-age=m+ 2 hours</cache-control>`
+
+or
+
+`<cache-control>max-age=m + 2 hours</cache-control>`
+
+
+#### Examples of pattern matching for Cache-Control
+
+You can configure a file type pattern for the Gateway to use with cache control. Here are some examples.
+
+Files in specific folders should be cached for a year:
+
+``` xml
+<properties>
+  <location>
+    <patterns>
+      **/images/*
+      **/css/*
+      **/js/*
+    </patterns>
+    <cache-control>max-age=1 year</cache-control>
+  </location>
+</properties>
+```
+
+Images should be cached for a year and HTML files expire immediately:
+
+``` xml
+<properties>
+  <!-- Default all files to a far future expires -->
+  <location>
+    <patterns>**/*.gif</patterns>
+    <cache-control>max-age=1 year</cache-control>
+  </location>
+
+  <!-- Always reload HTML files -->
+  <location>
+    <patterns>**/*.html</patterns>
+    <cache-control>max-age=0</cache-control>
+  </location>
+</properties>
+```
+
+Here is an example of conflicting pattern matching, where the pattern for the first location appears to conflict with the pattern matching of the second location:
+
+``` xml
+<properties>
+  <!-- Default all files to a far future expires -->
+  <location>
+    <patterns>**/*</patterns>
+    <cache-control>max-age=1 year</cache-control>
+  </location>
+
+  <!-- Always reload HTML files -->
+  <location>
+    <patterns>**/*.html</patterns>
+    <cache-control>no-cache</cache-control>
+  </location>
+</properties>
+```
+
+There is no validation of conflicting directives on the Gateway. Recipients of the HTTP response can handle the headers as required by RFC 7234, or as they choose.
+
 
 #### Notes
 
 -   The path you specify for the `directory` service must be relative to the directory `GATEWAY_HOME\web` (where `GATEWAY_HOME` is the directory in which KAAZING Gateway is installed). For example, `C:\gateway\GATEWAY_HOME\web`. An absolute path cannot be specified.
 -   KAAZING Gateway services are configured to accept connections on `localhost` by default. The cross-origin sites allowed to access those services are also configured for localhost-only by default. If you want to connect to host names other than localhost you must update your server configuration, and use the fully qualified host name of the host machine.
 -   If you use the optional `error-pages-directory` property, you can test it by adding the property, saving the `gateway-config.xml` file, then starting the Gateway. Once the Gateway is running, point your browser to a page that does not exist, such as `http://localhost:8000/nonexistentpage.html`.
--   The `directory` service is [RFC 7232](https://tools.ietf.org/html/rfc7232) compliant.
+- There is the possibility of conflicts with `cache-control`. For example, all resources could be configured with expiry dates far in the future, but HTML files could be configured to expire immediately. In the case of conflicts, the setting with the shortest expiration will take precedent.
+- Support for Cache-Control might not be consistent across all network proxies or Web browsers. In some cases, it might be necessary to overlap directives. For example, see this discussion on [stackoverflow](http://stackoverflow.com/questions/49547/making-sure-a-web-page-is-not-cached-across-all-browsers).
+
 
 ### echo
 
