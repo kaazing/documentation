@@ -5,7 +5,7 @@ Section:
 DocType: Index
 ---
 
-Essentials
+Essentials and Setup
 ----------
 
 -   [Documentation Conventions](about/about.md)
