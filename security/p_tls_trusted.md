@@ -27,6 +27,8 @@ This procedure is part of [Secure Network Traffic with the Gateway](o_tls.md):
 To Secure Gateway Connections Using Trusted Certificates
 --------------------------------------------------------
 
+###Secure Client-to-Gateway Connections
+
 1.  Identify the host name of the server running the Gateway. Clients must be able to resolve the host name to the IP address of the server running the Gateway in order to establish a secure session with the Gateway.
 
     The Gateway supports certificates that are generated for wildcard names. For example, \*.example.com represents example.com and all of its subdomains, such as my.example.com and secure-mail.example.com.
@@ -111,6 +113,8 @@ To Secure Gateway Connections Using Trusted Certificates
 
     At this point, you have a trusted certificate on the Gateway and have configured secure networking between the Gateway and clients for a directory service.
 
+    ###Secure Gateway-to-Server Connections
+    
     Now you can configure the Gateway to connect securely with the back-end server by importing a Certificate Authority-issued certificate for the host name of the back-end server into the **truststore** on the Gateway. The truststore contains the CA-issued certificates for use between the Gateway and back-end servers.
 
 9.  Import the CA-issued certificate for the host name of the back-end server into the truststore in the Gateway (if you do not have a certificate for the host name of the back-end server, see step 4 for information on how to obtain it).
