@@ -27,6 +27,8 @@ This procedure is part of [Secure Network Traffic with the Gateway](o_tls.md):
 To Secure Gateway Connections Using Self-Signed Certificates
 ------------------------------------------------------------
 
+###Secure Client-to-Gateway Connections
+
 1.  Identify the host name of the server running the Gateway. A certificate can be used with a single host name only. Clients and other user agents must be able to resolve the host name to the IP address of the server running the Gateway in order to establish a secure session with the Gateway.
 
     The Gateway supports certificates that are generated for wildcard domain names. For example, \*.example.com represents example.com and all of its subdomains such as my.example.com and secure-mail.example.com.
@@ -98,6 +100,8 @@ To Secure Gateway Connections Using Self-Signed Certificates
 
     For information about importing a certificate into a web browser, see [Importing Self-Signed Certificates into a Web Browser](p_tls_clientapp.md#to-import-self-signed-certificates-into-a-web-browser).
 
+    ###Secure Gateway-to-Server Connections
+    
     At this point, you have a self-signed certificate and have configured secure networking between the Gateway and web browser clients. Now you can configure the Gateway to connect securely with the back-end server by creating a self-signed certificate for the host name of the back-end server in the **truststore** on the Gateway. The truststore contains the certificates for use between the Gateway and back-end servers.
 
 9.  Create the self-signed certificate for the server connection using the host name of the back-end server and save it in the truststore:
