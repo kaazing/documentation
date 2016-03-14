@@ -115,6 +115,8 @@ To Secure Gateway Connections Using Trusted Certificates
 
     ###Secure Gateway-to-Server Connections
     
+    **Note:** For secure connections from the Gateway to a JMS broker, see the [note below](#notes).
+    
     Now you can configure the Gateway to connect securely with the back-end server by importing a Certificate Authority-issued certificate for the host name of the back-end server into the **truststore** on the Gateway. The truststore contains the CA-issued certificates for use between the Gateway and back-end servers.
 
 9.  Import the CA-issued certificate for the host name of the back-end server into the truststore in the Gateway (if you do not have a certificate for the host name of the back-end server, see step 4 for information on how to obtain it).
@@ -151,6 +153,32 @@ To troubleshoot TLS/SSL errors and exceptions, see [Troubleshooting KAAZING Gate
 
 Notes
 -----
+
+-   Depending on the JMS broker the Gateway is connecting to, you might need to configure a `jms` service on the Gateway and configure specific TLS/SSL elements in its `properties`. For example, the following `jms` service `properties` are for a secure connection to a TIBCO Enterprise Message Service (EMS) server:
+    ``` xml
+    <connection.factory.name>mySecureFactory</connection.factory.name>
+    <context.lookup.topic.format>%s</context.lookup.topic.format>
+    <context.lookup.queue.format>%s</context.lookup.queue.format>
+    <env.java.naming.factory.initial>com.tibco.tibjms.naming.TibjmsInitialContextFactory</env.java.naming.factory.initial>
+    <env.java.naming.provider.url>ssl://ems8.example.com:7223</env.java.naming.provider.url>
+    <env.com.tibco.tibjms.naming.security_protocol>ssl</env.com.tibco.tibjms.naming.security_protocol>
+    <env.com.tibco.tibjms.naming.ssl_trusted_certs>C:\certs\cert.pem</env.com.tibco.tibjms.naming.ssl_trusted_certs> 
+    <env.com.tibco.tibjms.naming.ssl_trace>true</env.com.tibco.tibjms.naming.ssl_trace>
+    <env.com.tibco.tibjms.naming.ssl_enable_verify_hostname>true</env.com.tibco.tibjms.naming.ssl_enable_verify_hostname>
+    <env.com.tibco.tibjms.naming.ssl_enable_verify_host>true</env.com.tibco.tibjms.naming.ssl_enable_verify_host>
+    <env.com.tibco.tibjms.naming.ssl_expected_hostname>*.example.com</env.com.tibco.tibjms.naming.ssl_expected_hostname>
+    ...
+    ```
+    This example specifies the location of the trusted certificate file, enables the verification of the host and hostname, and uses a wildcard hostname for the certificate. The `ssl_expected_hostname` setting is needed in order for the JNDI lookup and SSL connection to succeed because the wildcard hostname is not an exact match for the EMS server.
+    In addition, the **factories.conf** file on the EMS server must have the `ssl_verify_hostname`, `ssl_verify_host`, and `ssl_expected_hostname` configured to match the values configured on the Gateway:
+    ```
+    type                     = generic
+    url                      = ssl://ems8.example.com:7223
+    ssl_trusted              = /home/ubuntu/keys/cert.pem
+    ssl_verify_hostname      = true
+    ssl_verify_host          = true
+    ssl_expected_hostname    = *.example.com
+    ```
 
 -   The `service` element configures a directory service on the Gateway for the secure URL you specified (for example, `https://www.example.com:9000/`).
 -   Adding an `accept` for HTTPS is useful for testing secure connections because it allows you to navigate to a secure web page on the Gateway from a web browser client and ensure that the trusted certificate is accepted by web browsers.
