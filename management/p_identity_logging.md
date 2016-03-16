@@ -5,7 +5,7 @@ Section: Management
 DocType: Regular
 ---
 
-Kaazing WebSocket Gateway identity logging identifies clients using a client IP and port or using a Login Module as part of a Single Sign On (SSO) interaction. Once a client connects to the Gateway or signs in successfully with the Gateway, the Gateway logs all the network activity for that client across TCP, HTTP(S), and WebSocket (WS and WSS) connections. For each client connection, the logs display the client IP and client identity, enabling you to determine which protocol connection for each client succeeded or failed.
+Kaazing WebSocket Gateway identity logging identifies clients using a client IP and port and the user name if a Login Module is used as part of a Single Sign On (SSO) interaction. Once a client connects to the Gateway or signs in successfully with the Gateway, the Gateway logs all the network activity for that client across TCP, HTTP(S), and WebSocket (WS and WSS) connections. For each client connection, the logs display the client IP and client identity, enabling you to determine which protocol connection for each client succeeded or failed.
 
 Configure the Log4j File
 ------------------------
