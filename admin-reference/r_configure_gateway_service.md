@@ -121,6 +121,10 @@ When specifying URLs for the `accept` or `connect` elements, you can use `tcp://
 -   udp
 -   [pipe](#pipe-scheme)
 
+**Note:** For TCP and UDP URLs in `accept`, `tcp.bind`, `udp.bind`, and `protocol.transport` elements, you can use the name of a network interface in place of a hostname or IP address. For example, `<accept>tcp://@eth0:8123</accept>` (Linux/Mac) and `<tcp.bind>[@Local Area Connection]:8123</tcp.bind>` (Windows). Use square brackets around a subinterface name or when the name contains spaces (`<tcp.bind>[@eth0:1]:8123</tcp.bind>`). Binding to an interface binds to all IP addresses defined on that interface (IPv4, IPv6).
+
+By using interface names instead of IP address, the Gateway configuration file, gateway-config.xml, can be copied between Gateway cluster members without the need to update each cluster member’s configuration with its IP address.
+
 ### accept
 
 **Required?** Yes; **Occurs:** At least once.
@@ -142,7 +146,7 @@ The URLs on which the service accepts connections (see [Supported URL schemes](#
 
 -   There is no default value for the accept element. You must configure it and specify the URI on which the service accepts connections.
 -   The Gateway is configured by default to provide services only to users on the same machine (`localhost`) as that on which it is running. To customize the Gateway for your environment, choose the appropriate type of service (for example, `balancer`, `broadcast`, `directory`, and so on) to signal the Gateway to accept incoming connections from clients using any supported URL scheme.
--   Supported URL Schemes:</b> When specifying URLs for the `accept` or `connect` elements, you can use `tcp://{hostname}:{port}` to make a basic TCP connection, or specify any of the supported protocol schemes:
+-   [Supported URL schemes](#supported-url-schemes):</b> When specifying URLs for the `accept` or `connect` elements, you can use `tcp://{hostname}:{port}` to make a basic TCP connection, or specify any of the supported protocol schemes:
 
     -   ws
     -   wss
@@ -170,7 +174,7 @@ The URL of a back-end service or message broker to which the proxy service (for 
 
 -   There is no default value for the `connect` element. You must configure it and specify the URI on which the service makes a connection to the back-end service or message broker.
 -   The Gateway is configured by default to provide services only to users on the same machine (`localhost`) as that on which it is running. To customize the Gateway for your environment, choose the appropriate type of service (for example, `balancer`, `broadcast`, `echo`, and so on) to signal the Gateway to accept incoming connections from clients using any supported URL scheme.
--   Supported URL Schemes:</b> When specifying URLs for the `accept` or `connect` elements, you can use `tcp://{hostname}:{port}` to make a basic TCP connection, or specify any of the supported protocol schemes:
+-   [Supported URL schemes](#supported-url-schemes):</b> When specifying URLs for the `accept` or `connect` elements, you can use `tcp://{hostname}:{port}` to make a basic TCP connection, or specify any of the supported protocol schemes:
 
     -   ws
     -   wss
@@ -862,7 +866,7 @@ The configuration example that follows requires DNS to resolve [www.websocket.or
 
 ### Pipe scheme
 
-The `pipe://` scheme is a URI scheme internal to the Gateway and used to connect one [service](r_configure_gateway_service.md#service) to another service running in the same Gateway instance. Essentially, the pipe scheme is a named, logical channel between two services on the local Gateway. 
+The `pipe://` scheme is a URI scheme internal to the Gateway and used to connect one [service](r_configure_gateway_service.md#service) to another service running in the same Gateway instance. Essentially, the pipe scheme is a named, logical channel between two services on the local Gateway.
 
 The format of the `pipe://` scheme is `pipe://`*string*, such as `pipe://jms-common`. The URI must conform to the standard URI syntax. Any values entered after the `pipe://` scheme and *string*, such as a path, are invalid. The URI `<accept>pipe://customera/app1</accept>` is invalid. If a path is used, the Gateway will respond with an error message.
 
@@ -877,9 +881,9 @@ You could offer different connection speeds by defining a separate [`jms.proxy`]
     <name>JMS Minimum Level</name> <!-- the name of the service -->
     <accept>ws://example.com:8001/jms-slow</accept> <!-- clients in the bottom tier connect using this URI -->
     <connect>pipe://jms-common</connect> <!-- connections are piped to the JMS service with the accept  pipe://jms-common -->
-   
+
     <type>jms.proxy</type> <!-- this jms.proxy service is used for the bottom tier only -->
-   
+
     <accept-options>
 	    <tcp.maximum.outbound.rate>1kB/s</tcp.maximum.outbound.rate> <!-- this element sets the outbound speed for the bottom tier -->
     </accept-options>
@@ -897,9 +901,9 @@ Here’s an example of the configuration for the `jms.proxy` service for the mid
     <name>JMS Medium Level</name> <!-- the name of the service -->
     <accept>ws://example.com:8001/jms-medium</accept> <!-- clients in the middle tier connect using this URI -->
     <connect>pipe://jms-common</connect> <!-- connections are piped to the JMS service with the accept  pipe://jms-common -->
-   
+
     <type>jms.proxy</type> <!-- this jms.proxy service is used for the middle tier only -->
-   
+
     <accept-options>
         <tcp.maximum.outbound.rate>20MB/s</tcp.maximum.outbound.rate> <!-- this element sets the outbound speed for the middle tier -->
     </accept-options>
@@ -916,14 +920,14 @@ To accept the pipes from the JMS Minimum and Medium Level `jms.proxy` services, 
 <service>
     <accept>pipe://jms-common</accept> <!-- matches the pipe URIs in the connect elements of the jms.proxy services -->
     <accept>ws://example.com:8001/jms</accept> <!-- normal, non-tiered connections will connect here -->
-  
+
     <type>jms</type>
-  
+
     <properties>
         <connection.factory.name>ConnectionFactory</connection.factory.name>
         <context.lookup.topic.format>dynamicTopics/%s</context.lookup.topic.format>
         <context.lookup.queue.format>dynamicQueues/%s</context.lookup.queue.format>
-  
+
         <env.java.naming.factory.initial>
             org.apache.activemq.jndi.ActiveMQInitialContextFactory
         </env.java.naming.factory.initial>
@@ -931,7 +935,7 @@ To accept the pipes from the JMS Minimum and Medium Level `jms.proxy` services, 
             tcp://localhost:61616
         </env.java.naming.provider.url>
     </properties>
-  
+
     <cross-site-constraint>
         <allow-origin>*</allow-origin>
     </cross-site-constraint>
@@ -1020,6 +1024,10 @@ Specify any of the following protocol schemes:
 -   `ssl`: Specifies the Transport Layer Security (TLS), previously known as Secure Sockets Layer (SSL).
 -   `tcp`: Specifies the Transmission Control Protocol (TCP).
 -   `udp`: Specifies the User Datagram Protocol (UDP).
+
+**Note:** For TCP and UDP URLs in `accept`, `tcp.bind`, `udp.bind`, and `protocol.transport` elements, you can use the name of a network interface in place of a hostname or IP address. For example, `<accept>tcp://@eth0:8123</accept>` (Linux/Mac) and `<tcp.bind>[@Local Area Connection]:8123</tcp.bind>` (Windows). Use square brackets around a subinterface name or when the name contains spaces (`<tcp.bind>[@eth0:1]:8123</tcp.bind>`). Binding to an interface binds to all IP addresses defined on that interface (IPv4, IPv6).
+
+By using interface names instead of IP address, the Gateway configuration file, gateway-config.xml, can be copied between Gateway cluster members without the need to update each cluster member’s configuration with its IP address.
 
 See the [Configure the Gateway on an Internal Network](../internal-network/p_protocol_binding.md) document for more information about configuring the `protocol.bind` element.
 
@@ -1112,6 +1120,10 @@ In the following example, the `socks+ssl` transport performs a reverse connectio
   </connect-options>
 </service>
 ```
+
+**Note:** For TCP and UDP URLs in `accept`, `tcp.bind`, `udp.bind`, and `protocol.transport` elements, you can use the name of a network interface in place of a hostname or IP address. For example, `<accept>tcp://@eth0:8123</accept>` (Linux/Mac) and `<tcp.bind>[@Local Area Connection]:8123</tcp.bind>` (Windows). Use square brackets around a subinterface name or when the name contains spaces (`<tcp.bind>[@eth0:1]:8123</tcp.bind>`). Binding to an interface binds to all IP addresses defined on that interface (IPv4, IPv6).
+
+By using interface names instead of IP address, the Gateway configuration file, gateway-config.xml, can be copied between Gateway cluster members without the need to update each cluster member’s configuration with its IP address.
 
 For more examples, see [Configure Enterprise Shield™ with the Gateway](../enterprise-shield/o_enterprise_shield_checklist.md).
 

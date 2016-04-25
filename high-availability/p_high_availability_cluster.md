@@ -27,11 +27,11 @@ In this example, there are two Gateways. Each Gateway is listening on its IP add
 1.  On the first Gateway (`192.168.2.10`), add the following `cluster` configuration element in the Gateway configuration file (`GATEWAY_HOME/conf/gateway-config.xml`).
 
     ``` xml
-          <cluster>
-            <name>MyCluster</name>
-            <accept>tcp://192.168.2.10:5942</accept>
-            <connect>udp://224.2.2.44:54327</connect>
-          </cluster>
+    <cluster>
+      <name>MyCluster</name>
+      <accept>tcp://192.168.2.10:5942</accept>
+      <connect>udp://224.2.2.44:54327</connect>
+    </cluster>
     ```
 
     The `cluster` element requires `name`, `accept`, and `connect` elements:
@@ -46,11 +46,11 @@ In this example, there are two Gateways. Each Gateway is listening on its IP add
 2.  On the second Gateway (`192.168.2.11`), add the following `cluster` service element (note that its `name` and `connect` elements are identical to those in the `cluster` service on the first Gateway).
 
     ``` xml
-              <cluster>
-                <name>MyCluster</name>
-                <accept>tcp://192.168.2.11:5942</accept>
-                <connect>udp://224.2.2.44:54327</connect>
-              </cluster>
+    <cluster>
+      <name>MyCluster</name>
+      <accept>tcp://192.168.2.11:5942</accept>
+      <connect>udp://224.2.2.44:54327</connect>
+    </cluster>
     ```
 
     Notice that this `accept` element in the second Gateway uses the same port number as the `accept` element in the first Gateway. These are different hosts and can therefore use the same port number. This also simplifies administration.
@@ -62,6 +62,10 @@ In this example, there are two Gateways. Each Gateway is listening on its IP add
     ```
     INFO Cluster member /192.168.2.10:5942 is down
     ```
+
+**Note:** For TCP and UDP URLs in `accept`, `tcp.bind`, `udp.bind`, and `protocol.transport` elements, you can use the name of a network interface in place of a hostname or IP address. For example, `<accept>tcp://@eth0:8123</accept>` (Linux/Mac) and `<tcp.bind>[@Local Area Connection]:8123</tcp.bind>` (Windows). Use square brackets around a subinterface name or when the name contains spaces (`<tcp.bind>[@eth0:1]:8123</tcp.bind>`). Binding to an interface binds to all IP addresses defined on that interface (IPv4, IPv6).
+
+By using interface names instead of IP address, the Gateway configuration file, gateway-config.xml, can be copied between Gateway cluster members without the need to update each cluster member’s configuration with its IP address.
 
 Next Step
 ---------
