@@ -921,7 +921,7 @@ To accept the pipes from the JMS Minimum and Medium Level `jms.proxy` services, 
   
     <properties>
         <connection.factory.name>ConnectionFactory</connection.factory.name>
-        <context.lookup.topic.formatdynamicTopics/%s</context.lookup.topic.format>
+        <context.lookup.topic.format>dynamicTopics/%s</context.lookup.topic.format>
         <context.lookup.queue.format>dynamicQueues/%s</context.lookup.queue.format>
   
         <env.java.naming.factory.initial>
