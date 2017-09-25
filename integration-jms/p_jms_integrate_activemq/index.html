@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+  
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+
+ <h1 id="integrate-apache-activemq--">Integrate Apache ActiveMQ  </h1>
+
+<p>In this procedure, you will learn how to integrate Kaazing Gateway and Apache ActiveMQ, a powerful open source messaging server.</p>
+
+<p>Apache ActiveMQ provides a factory class in their JAR files. The Apache ActiveMQ factory class that ships in the Kaazing Gateway bundle is <code>org.apache.activemq.jndi.ActiveMQInitialContextFactory</code> in the JAR file <code>activemq-client-5.14.0.jar</code>. To use the <code>jms</code> service with a different version or instance of Apache ActiveMQ, you copy the JAR files to <code>GATEWAY_HOME/lib/ext</code> and specify the name of the factory class in the <code>jms</code> service configuration element.</p>
+
+<p>The following table lists the Java Archive (JAR) files needed by the Gateway for different versions of Apache ActiveMQ.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Apache ActiveMQ version</th>
+      <th>JAR files to copy into <code>GATEWAY_HOME/lib/ext</code></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><a href="//activemq.apache.org/activemq-580-release.html" title="Apache ActiveMQ ™ -- ActiveMQ 5.8.0 Release">5.8.0</a></td>
+      <td>activemq-broker-5.8.0.jar, activemq-client-5.8.0.jar, hawtbuf-1.9.jar</td>
+    </tr>
+    <tr>
+      <td><a href="//activemq.apache.org/activemq-591-release.html" title="Apache ActiveMQ ™ -- ActiveMQ 5.9.1 Release">5.9.1</a></td>
+      <td>activemq-broker-5.9.1.jar, activemq-client-5.9.1.jar, hawtbuf-1.9.jar</td>
+    </tr>
+    <tr>
+      <td><a href="//activemq.apache.org/activemq-5100-release.html">5.10.0</a></td>
+      <td>activemq-broker-5.10.0.jar, activemq-client-5.10.0.jar, hawtbuf-1.10.jar</td>
+    </tr>
+    <tr>
+      <td><a href="//activemq.apache.org/activemq-5140-release.html">5.14.0</a></td>
+      <td>activemq-broker-5.14.0.jar, activemq-client-5.14.0.jar, hawtbuf-1.14.jar (shipped with the Gateway)</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="to-integrate-apache-activemq">To Integrate Apache ActiveMQ</h2>
+
+<ol>
+  <li>Download and install Apache ActiveMQ following the instructions in the Apache ActiveMQ <a href="//activemq.apache.org/version-5-getting-started.html">documentation</a>.</li>
+  <li>Download and install the Gateway as described in <a href="../../about/setup-guide/index.html">Setting Up the Gateway</a>.</li>
+  <li>To use a version of Apache ActiveMQ other than 5.14.0, remove the existing Apache ActiveMQ 5.14.0 files from the <code>GATEWAY_HOME/lib/ext</code> folder: <code>activemq-broker-5.14.0.jar</code>, <code>activemq-client-5.14.0.jar</code>, <code>hawtbuf-1.14.jar</code>.</li>
+  <li>Copy the appropriate JAR files from <code>ACTIVEMQ_HOME/lib</code> to <code>GATEWAY_HOME/lib/ext</code>. See the above table for the exact JAR names for your version of ActiveMQ.
+    <ul>
+      <li><code>activemq-broker-5.x.y.jar</code></li>
+      <li><code>activemq-client-5.x.y.jar</code></li>
+    </ul>
+  </li>
+  <li>Open the file <code>GATEWAY_HOME/conf/gateway-config.xml</code> in a text editor and locate the <code>jms</code> service element (search for “JMS Service”).</li>
+  <li>
+    <p>Update the <code>properties</code> element of the <a href="../../admin-reference/r_conf_jms#jms">jms</a> service to connect to the hostname for ActiveMQ (in this example, we use <code>activemq.example.com</code> to connect to ActiveMQ on a remote machine):</p>
+
+    <pre class="auto-links: false; brush: xml; toolbar: false;">&lt;service&gt;
+  &lt;name&gt;JMS Service&lt;/name&gt;
+  &lt;description&gt;JMS Service&lt;/description&gt;
+  &lt;accept&gt;ws://${gateway.hostname}:${gateway.extras.port}/jms&lt;/accept&gt;
+
+  &lt;type&gt;jms&lt;/type&gt;
+
+  &lt;properties&gt;
+    &lt;connection.factory.name&gt;ConnectionFactory&lt;/connection.factory.name&gt;
+        
+    &lt;context.lookup.topic.format&gt;dynamicTopics/%s&lt;/context.lookup.topic.format&gt;
+    &lt;context.lookup.queue.format&gt;dynamicQueues/%s&lt;/context.lookup.queue.format&gt;
+    &lt;env.java.naming.factory.initial&gt;
+      org.apache.activemq.jndi.ActiveMQInitialContextFactory
+    &lt;/env.java.naming.factory.initial&gt;
+    &lt;env.java.naming.provider.url&gt;
+      tcp://activemq.example.com:61616
+    &lt;/env.java.naming.provider.url&gt;
+  &lt;/properties&gt;
+
+  &lt;realm-name&gt;demo&lt;/realm-name&gt;
+
+  &lt;!--
+  &lt;authorization-constraint&gt;
+    &lt;require-role&gt;AUTHORIZED&lt;/require-role&gt;
+  &lt;/authorization-constraint&gt;
+  --&gt;
+
+  &lt;cross-site-constraint&gt;
+    &lt;allow-origin&gt;http://${gateway.hostname}:${gateway.extras.port}&lt;/allow-origin&gt;
+  &lt;/cross-site-constraint&gt;
+&lt;/service&gt;
+</code></pre>
+
+<h2 id="notes">Notes</h2>
+
+<ul>
+  <li>To learn how to secure your JMS configuration, see <a href="../../security/o_jms_secure/index.html">Secure Your JMS Configuration</a>.</li>
+  <li>
+    <p>The <code>context.lookup</code> properties in the above example make use of an ActiveMQ feature that allows special JNDI namespaces to be reserved for dynamic topics and queues (dynamic means they are not predefined in the broker but are instead created by the application as needed). If you wish to use dynamic destinations but your broker does not have this JNDI feature, then you can set the <code>destination.strategy property</code> of your <code>jms</code> service to <code>session</code> to tell the Gateway to use the JMS Session methods <code>createTopic()</code> or <code>createQueue()</code> to create topics and queues as needed.</p>
+
+    <p>Client applications (using the Kaazing Gateway JMS client library) can then lookup/create their <code>Topic</code> and <code>Queue</code> objects using either the <code>session.createTopic()</code> method (for example, <code>Topic myTopic = session.createTopic("myTopic");</code>) or by performing a JNDI lookup using the <code>initialContext.lookup()</code> method (for example, <code>Topic myTopic = initialContext.lookup("/queue/myQueue");</code>). The <code>initialContext.lookup()</code> method is available to use after creating the JNDI <code>InitialContext</code> object when creating the JMS connection.</p>
+  </li>
+  <li>The provider URL <code>tcp://${gateway.hostname}:61616</code> is used because this is a production deployment example. If the broker is run on the same computer as the Gateway, then the <code>${gateway.hostname}</code> <a href="../../admin-reference/r_configure_gateway_service_defaults/index.html">service-default</a> could be used.</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="jms-integration-verification">JMS Integration Verification</h2>
+
+<p>To verify that the JMS integration is working, perform the following steps:</p>
+
+<ol>
+  <li>Start your instance of Apache ActiveMQ.</li>
+  <li>Start the Gateway as described in <a href="../../about/setup-guide/index.html">Setting Up the Gateway</a>.</li>
+  <li>Download or clone the Kaazing JavaScript JMS demo from <a href="https://github.com/kaazing/javascript.client.tutorials">https://github.com/kaazing/javascript.client.tutorials</a>. Follow the steps in the repo's README.md file for building and running the demo locally.</li>
+  <li>In <strong>Location</strong>, enter <code>ws://localhost:8001/jms</code>.</li>
+  <li>Click <strong>Connect</strong> and test the JMS features.</li>
+</ol>
+
+<h2 id="subscription-and-destination-support">Subscription and Destination Support</h2>
+
+<p>Kaazing Gateway integration with Apache ActiveMQ has the following subscription and destination support:</p>
+
+<ul>
+  <li>Durable subscriptions are not supported.</li>
+  <li>Dynamic destinations are supported.</li>
+  <li>Static destinations are supported.</li>
+</ul>
+
+<h2 id="see-also">See Also</h2>
+
+<ul>
+  <li>For information on troubleshooting JMS integration, see <a href="../p_jms_integrate_tshoot">Troubleshoot JMS Integration</a>.</li>
+  <li>For information on troubleshooting JMS clients, see <a href="../../troubleshooting/p_dev_troubleshoot/index.html">Troubleshoot Your Clients</a>.</li>
+  <li>For general troubleshooting information, see <a href="../../troubleshooting/o_troubleshoot/index.html">Troubleshoot Kaazing Gateway</a>.</li>
+</ul>
+
+
+
+</div>
+
+</div>
+
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

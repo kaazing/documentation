@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+  
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+
+ <h1 id="integrate-oracle-weblogic-jms--">Integrate Oracle WebLogic JMS  </h1>
+
+<p>In this procedure, you will learn how to integrate Kaazing Gateway and <a href="//docs.oracle.com/cd/E13222_01/wls/docs81/jms/intro.html">Oracle WebLogic JMS</a>, an enterprise-class messaging system that is tightly integrated into the WebLogic Server platform.</p>
+
+<h2 id="to-integrate-oracle-weblogic-jms">To Integrate Oracle WebLogic JMS</h2>
+
+<ol>
+  <li>Download and install Oracle WebLogic Server following the instructions on the <a href="//www.oracle.com/technetwork/middleware/weblogic/overview/index.html">Oracle website</a>. You might also want to consult the Oracle documentation, <a href="//docs.oracle.com/cd/E24329_01/web.1211/e24385/toc.htm">Configuring and Managing JMS for Oracle WebLogic Server</a>.</li>
+  <li>
+    <p>Determine the type of WebLogic stand-alone clients you want the Gateway to support:</p>
+
+    <ul>
+      <li><a href="//docs.oracle.com/cd/E14571_01/web.1111/e13717/wlthint3client.htm#BABJBHIJ">WebLogic Thin T3 Client</a></li>
+      <li><a href="//docs.oracle.com/cd/E14571_01/web.1111/e13717/jms_thin_client.htm#i1028796">WebLogic Thin JMS Client</a></li>
+      <li><a href="//docs.oracle.com/cd/E14571_01/web.1111/e13717/t3.htm#i1079150">WebLogic Full Client</a></li>
+    </ul>
+
+    <p>For information about WebLogic stand-alone clients for Oracle WebLogic Server, see the <a href="//docs.oracle.com/cd/E14571_01/web.1111/e13717/toc.htm">Oracle documentation</a>.</p>
+  </li>
+  <li>
+    <p>Copy the following JAR files to the library directory for the Gateway, <code>GATEWAY_HOME/lib/ext</code>:</p>
+
+    <ul>
+      <li>WebLogic Thin T3 Client: <code>wlthint3client.jar</code></li>
+      <li>WebLogic Thin JMS Client: <code>wlclient.jar</code>, <code>wljmsclient.jar</code></li>
+      <li>WebLogic Full Client: <code>wlfullclient.jar</code></li>
+    </ul>
+  </li>
+  <li>Open the file <code>GATEWAY_HOME/conf/gateway-config.xml</code> in a text editor and locate the <code>jms</code> service element (search for “jms”).</li>
+  <li>
+    <p>Update the jms service element properties section as shown in the following example:</p>
+
+    <pre class="auto-links: false; brush: xml; toolbar: false;">&lt;service&gt;
+    &lt;accept&gt;ws://localhost:8001/jmsWeblogic&lt;/accept&gt;
+    &lt;type&gt;jms&lt;/type&gt;
+    &lt;properties&gt;
+        &lt;connection.factory.name&gt;weblogic.jms.ConnectionFactory&lt;/connection.factory.name&gt;
+        &lt;!-- optional username &amp; password locations --&gt;
+        &lt;!-- &lt;Context.SECURITY_PRINCIPAL&gt;&lt;/Context.SECURITY_PRINCIPAL&gt; --&gt;
+        &lt;!-- &lt;Context.SECURITY_CREDENTIALS&gt;&lt;/Context.SECURITY_CREDENTIALS&gt; --&gt;
+        &lt;context.lookup.topic.format&gt;%s&lt;/context.lookup.topic.format&gt;
+        &lt;context.lookup.queue.format&gt;%s&lt;/context.lookup.queue.format&gt;
+        &lt;env.java.naming.factory.initial&gt;
+        weblogic.jndi.WLInitialContextFactory
+        &lt;/env.java.naming.factory.initial&gt;
+        &lt;env.java.naming.provider.url&gt;t3://localhost:7001&lt;/env.java.naming.provider.url&gt;
+    &lt;/properties&gt;
+    &lt;cross-site-constraint&gt;
+       &lt;allow-origin&gt;*&lt;/allow-origin&gt;
+    &lt;/cross-site-constraint&gt;
+&lt;/service&gt;
+</code></pre>
+  </li>
+</ol>
+
+<h2 id="jms-integration-verification">JMS Integration Verification</h2>
+
+<p>To verify that the JMS integration is working, perform the following steps:</p>
+
+<ol>
+  <li>Start Oracle WebLogic Server.</li>
+  <li>Start the Gateway as described in <a href="../../about/setup-guide/index.html">Setting Up the Gateway</a>.</li>
+  <li>In a browser, navigate to the out of the box demos at <code>http://localhost:8001/demo/</code>.</li>
+  <li>Click the <strong>JavaScript</strong> demo.</li>
+  <li>Change the value for <strong>Location</strong> to <code>ws://localhost:8001/jmsWeblogic</code>.</li>
+  <li>Change the value of all <strong>Destination</strong> fields to <code>/topic/testTopic</code>. You must prefix the destination name with <code>/queue/</code> or <code>/topic/</code> depending on the destination type or the client will not connect.</li>
+  <li>Click <strong>Connect</strong>.</li>
+  <li>The message <code>"CONNECT: ws://localhost:8001/jmsWeblogic"</code> should appear in <strong>Log messages</strong> followed by the message <code>"CONNECTED: ID:id_value."</code></li>
+  <li>Click <strong>Subscribe</strong>.</li>
+  <li>Click <strong>Send</strong>. You should see the message that you sent in <strong>Log messages</strong>.</li>
+</ol>
+
+<h2 id="subscription-and-destination-support">Subscription and Destination Support</h2>
+
+<p>Kaazing Gateway integration with Oracle WebLogic JMS has the following subscription and destination support:</p>
+
+<ul>
+  <li>Durable subscriptions are not supported.</li>
+  <li>Dynamic destinations are not supported.</li>
+  <li>Static destinations supported. Ensure that you do not configure the <a href="../../admin-reference/r_conf_jms#destinationstrategy"><code>destination.strategy</code></a> property in the <a href="../../admin-reference/r_conf_jms#jms">jms</a> service. Using that property will cause problems with static destinations. If you choose to retrieve destinations using session methods, each client connection to the Gateway will need to provide a destination syntax conforming to the WebLogic server requirements. See <a href="//docs.oracle.com/cd/E13222_01/wls/docs90/jms/dds.html" title="Using Distributed Destinations">Using Distributed Destinations</a> from Oracle for more details.</li>
+</ul>
+
+<h2 id="notes">Notes</h2>
+
+<ul>
+  <li>To use the out of the box JavaScript JMS Demo with WebLogic, you must first create the queue <code>/queue/testQueue</code> and topic <code>/topic/testTopic</code> in WebLogic using the WebLogic console.</li>
+  <li>On UNIX or Linux, use <code>file:///tmp</code> as the value for <code>env.java.naming.provider.url</code>.</li>
+  <li>You can also connect to your Oracle WebLogic server using SSL and the <a href="../../admin-reference/r_conf_jms#envjavanamingproviderurl"><code>env.java.naming.provider.url</code></a> element and the URI scheme <code>t3s://</code>. For more information, see <a href="//docs.oracle.com/cd/E24329_01/web.1211/e24385/aq_jms.htm#JMSAD625">Additional Security Configuration for Stand-alone Clients</a>.</li>
+  <li>Because you are using a JMS provider that does not support individual message acknowledgement, you must ensure your client applications acknowledge each message received from a queue or durable subscriber. Otherwise, the client will receive only one message from that queue or durable subscriber.</li>
+</ul>
+
+<h2 id="see-also">See Also</h2>
+
+<ul>
+  <li>For information on troubleshooting JMS integration, see <a href="../p_jms_integrate_tshoot">Troubleshoot JMS Integration</a>.</li>
+  <li>For information on troubleshooting JMS clients, see <a href="../../troubleshooting/p_dev_troubleshoot/index.html">Troubleshoot Your Clients</a>.</li>
+  <li>For general troubleshooting information, see <a href="../../troubleshooting/o_troubleshoot/index.html">Troubleshoot Kaazing Gateway</a>.</li>
+</ul>
+
+
+
+</div>
+
+</div>
+
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

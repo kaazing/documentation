@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+  
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+<h1>Use the Kaazing Gateway Java AMQP Client Library</h1>
+<p>In this procedure, you will learn how to use the Kaazing Gateway Java AMQP client library and the supported APIs. This topic shows you how to perform the following:</p>
+<ol>
+<li><a href="#setup">Set up your development environment</a></li>
+<li><a href="#review">Review the common Java AMQP programming steps</a></li>
+<li><a href="#libraries">Import the libraries</a></li>
+<li><a href="#classes">Import the Java AMQP classes</a></li>
+<li><a href="#variables">Declare the variables</a></li>
+<li><a href="#object">Create the AmqpClient Object</a></li>
+<li><a href="#broker">Connect to an AMQP broker</a></li>
+<li><a href="#channels">Create channels</a></li>
+<li><a href="#exchange">Declare an exchange</a></li>
+<li><a href="#queue">Declare a queue</a></li>
+<li><a href="#bind">Bind an exchange to a queue</a></li>
+<li><a href="#publish">Publish messages</a></li>
+<li><a href="#consume">Consume messages</a></li>
+<li><a href="#transactions">Use transactions</a></li>
+<li><a href="#control">Control message flow</a></li>
+<li><a href="#exceptions">Handle exceptions</a></li>
+</ol>
+
+<h2><a name="_"></a>Before You Begin</h2>
+<p>This procedure is part of <a href="o_dev_java.html">Checklist: How to Build Java AMQP Clients</a>.</p>
+
+<p><span class="note"><b>Note:</b> Learn about supported browsers, operating systems, and platform versions in the <a href="//kaazing.com/releases/client-java/">Release Notes</a>.</span></p>  
+
+<p>For information about migrating your JavaScript AMQP 3.3-3.5 client to JavaScript 4.x, see <a href="#migrate">Migrate Java AMQP Applications to the Kaazing AMQP Java 4.x Client SDK</a>.
+</p>
+
+<h2>To Use the Kaazing Gateway Java AMQP Client Library</h2>
+<p>
+<ol>
+ <li><a name="setup"></a><p>Set up your development environment.</p>
+  <ol>
+   <li>To use a local Kaazing WebSocket Gateway, download and install the Gateway, as described in <a href="../../about/setup-guide/index.html">Setting Up the Gateway and Clients</a>. If you simply want to test your client against a publicly available Kaazing WebSocket Gateway and AMQP broker, you can use the URL <code>wss://sandbox.kaazing.net/amqp091</code>.</li>
+   <li><p>If you are using a local Kaazing WebSocket Gateway to develop clients, you must configure the Gateway to communicate with an AMQP broker.</p>
+    <p>Note: If you have the Kaazing Gateway running on localhost and if you have an AMQP broker running on localhost at the default AMQP port 5672, you do not have to configure anything.</p>
+    <p>The following is an example of the default configuration element for the AMQP service in the Kaazing WebSocket Gateway, as specified in the configuration file <span class="code_inline"><em>GATEWAY_HOME</em>/conf/gateway-config.xml</span>:</p>
+    <pre class="auto-links: false; brush: xml; toolbar: false;">
+     &lt;!-- Proxy service to AMQP server --&gt;
+     &lt;service&gt;
+     &lt;accept&gt;ws://localhost:8001/amqp&lt;/accept&gt;
+     &lt;accept&gt;wss://localhost:9001/amqp&lt;/accept&gt;
+     &lt;connect&gt;tcp://localhost:5672&lt;/connect&gt;
+
+     &lt;type&gt;amqp.proxy&lt;/type&gt;
+   
+     &lt;cross-site-constraint&gt;
+     &lt;allow-origin&gt;http://localhost:8001&lt;/allow-origin&gt;
+     &lt;/cross-site-constraint&gt;
+     &lt;cross-site-constraint&gt;
+     &lt;allow-origin&gt;https://localhost:9001&lt;/allow-origin&gt;
+     &lt;/cross-site-constraint&gt;
+     &lt;/service&gt;
+    </pre>
+    <p>In this case, the service is configured to accept WebSocket AMQP requests from the browser at <span class="code_inline">ws://localhost:8001/amqp</span> and securely at <span class="code_inline">wss://localhost:9001/amqp</span> and proxy those requests to a locally installed AMQP broker (localhost) at port 5672.</p>
+    <p>To configure the Gateway to accept WebSocket requests at another URL or to connect to a different AMQP broker, you can edit <span class="code_inline"><em>GATEWAY_HOME</em>/conf/gateway-config.xml</span>, update the values for the <span class="code_inline">accept</span> elements, change the <span class="code_inline">connect</span> property, and restart the Gateway. For example, the following configuration configures the Gateway to accept WebSocket AMQP requests at <span class="code_inline">ws://www.example.com:80/amqp</span> and proxy those requests to an AMQP broker (amqp.example.com) on port 5672.</p>
+    <pre class="auto-links: false; brush: xml; toolbar: false;">
+     &lt;!-- Proxy service to AMQP server --&gt;
+     &lt;service&gt;
+     &lt;accept&gt;ws://www.example.com:80/amqp&lt;/accept&gt;
+     &lt;connect&gt;tcp://amqp.example.com:5672&lt;/connect&gt;
+ 
+     &lt;type&gt;amqp.proxy&lt;/type&gt;
+     &lt;/service&gt;
+    </pre>
+   </li>
+  </ol>
+ </li>
+        <li><a name="review"></a><p>Review the common Java AMQP programming steps.</p>
+                        <p>Now that you have set up your environment to develop Java applications using the Gateway's AMQP client library, you can start creating your application. You can either build a single application that both publishes and consumes messages, or create two different applications to handle each action. The tutorial located at <a href="https://github.com/kaazing/java.client.tutorials">https://github.com/kaazing/java.client.tutorials</a> shows a single application that handles both actions.Refer to the <a href="../apidoc/client/java/amqp/client/index.html">AmqpClient Java API</a> documentation for the complete list of all the AMQP command and callback functions.</p>
+                        <p><span class="note"><b>Note:</b> The Java AMQP programming examples listed in this topic use the Java code in the tutorial at <a href="https://github.com/kaazing/java.client.tutorials">https://github.com/kaazing/java.client.tutorials</a>. Using the tutorial as an example when learning the AmqpClient Java API helps you to understand how the API classes are used in an application that captures and responds to user and message events.</p></span>
+                        <p>The common Java AMQP programming steps are:</p>
+                        <ol>
+                                <li type="a">Import the client library</li>
+                                <li type="a">Import the Java AMQP classes</li>
+                                <li type="a">Declare the variables</li>
+                                <li type="a">Create the AmqpClient object</li>
+                                <li type="a">Connect to an AMQP broker</li>
+                                <li type="a">Create channels</li>
+                                <li type="a">Declare an exchange</li>
+                                <li type="a">Declare a queue</li>
+                                <li type="a">Bind an exchange to a queue</li>
+                                <li type="a">Publish messages</li>
+                                <li type="a">Consume messages</li>
+                                <li type="a">Use transactions</li>
+                                <li type="a">Control message flow</li>
+                                <li type="a">Handle exceptions</li>
+                        </ol>
+        </li>
+        <li><a name="libraries"></a><p>Import the libraries.</p>
+                <p>Import the Java client library from the options listed on <a href="//kaazing.com/download/#client-java" title="Kaazing - Download">kaazing.com/download</a>. You can see an example of a build.gradle file using the libraries at <a href="https://github.com/kaazing/java.client.tutorials/blob/develop/j2se/java-amqp-demo/build.gradle">https://github.com/kaazing/java.client.tutorials/blob/develop/j2se/java-amqp-demo/build.gradle</a>.</p>
+
+        </li>
+
+        <li><a name="classes"></a><p>Import the Java AMQP classes.</p>
+                        <p>Add the following import statements in your application's .java file (the file <a href="https://github.com/kaazing/java.client.tutorials/blob/develop/j2se/java-amqp-demo/src/main/java/com/kaazing/amqp/client/demo/JavaAmqpClientDemo.java">JavaAmqpClientDemo.java</a> is used in the Java AMQP demo):</p>
+
+<pre class="auto-links: false; brush: java; toolbar: false; highlight:[15,16,17,18,19,20,21,22,23,24,25,26];">
+package com.kaazing.amqp.client.demo;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
+import java.sql.Timestamp;
+import java.util.Random;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+
+import com.kaazing.net.ws.amqp.AmqpArguments;
+import com.kaazing.net.ws.amqp.AmqpChannel;
+import com.kaazing.net.ws.amqp.AmqpClient;
+import com.kaazing.net.ws.amqp.AmqpClientFactory;
+import com.kaazing.net.ws.amqp.AmqpProperties;
+import com.kaazing.net.ws.amqp.ChannelAdapter;
+import com.kaazing.net.ws.amqp.ChannelEvent;
+import com.kaazing.net.ws.amqp.ConnectionEvent;
+import com.kaazing.net.ws.amqp.ConnectionListener;
+</pre>
+                                
+<p>The highlighted classes (lines 15-21) are the relevant Java AMQP client library classes. The other classes are used to capture and respond to action events. In fact, the entire program is defined within the <strong>java.awt.event.ActionListener</strong> interface. See <a href="//docs.oracle.com/javase/tutorial/uiswing/events/index.html">Lesson: Writing Event Listeners</a> for more information.</p>
+        </li>
+
+<li><a name="variables"></a><p>Declare the variables.</p>
+<p>In your application, first declare the variables you will use, as shown in the following example from the Java AMQP demo:</p>
+<pre class="auto-links: false; brush: java; toolbar: false;">
+public class JavaAmqpClientDemo {
+ private AmqpClient amqpClient;
+ private AmqpChannel publishChannel = null;
+ private AmqpChannel consumeChannel = null;
+ private final String queueName = "queue" + new Random().nextInt();
+ private final String exchangeName = "demo_exchange";
+ private final String myConsumerTag = "clientkey";
+ private final String routingKey = "broadcastkey";
+ private final String virtualHost = "/";
+ private String login;
+</pre>
+</li>
+        
+<li><a name="object"></a><p>Create the AmqpClient Object.</p>
+ 
+ <p>In the Java AMQP demo, the AmqpClient object is created when the program is loaded.</p>
+<pre class="auto-links: false; brush: java; toolbar: false;">
+AmqpClientFactory amqpClientFactory = AmqpClientFactory.createAmqpClientFactory();
+amqpClient = amqpClientFactory.createAmqpClient();</pre>
+</li>
+<li><a name="broker"></a><p>Connect to an AMQP broker.</p>
+
+<p>Next, you must connect and log in to an AMQP broker using <code>amqpClient.connect()</code>. The client generally manages all of its communication on a single connection to an AMQP broker. You establish a connection to an AMQP broker by passing in the broker address, a username and password, the AMQP version you want to use, and, optionally, a virtual host name (the name of a collection of exchanges and queues hosted on independent server domains). These parameters are passed in when you call the <code>amqpClient.connect()</code> method as shown in the following example. The example from <a href="https://github.com/kaazing/java.client.tutorials/blob/develop/j2se/java-amqp-demo/src/main/java/com/kaazing/amqp/client/demo/JavaAmqpClientDemo.java">JavaAmqpClientDemo.java</a> also demonstrates how to use <code><a href="https://docs.oracle.com/javase/7/docs/api/java/util/concurrent/CountDownLatch.html">CountDownLatch</a></code> as a synchronization aid to allow one or more threads to wait until a set of operations is performed in other threads.</p>
+
+<pre class="auto-links: false; brush: java; toolbar: false; highlight:[3,33];">
+final CountDownLatch connectionLatch = new CountDownLatch(1);
+
+amqpClient.addConnectionListener(new ConnectionListener() {
+
+  public void onConnectionOpen(ConnectionEvent e) {
+    System.out.println("CONNECTED...");
+    connectionLatch.countDown();
+
+  }
+
+  public void onConnecting(ConnectionEvent e) {
+    System.out.println("CONNECTING...");
+
+  }
+
+  public void onConnectionClose(ConnectionEvent e) {
+    System.out.println("DISCONNECTING...");
+    if (publishChannel != null) {
+      publishChannel.closeChannel(0, "", 0, 0);
+    }
+
+    if (consumeChannel != null) {
+      consumeChannel.closeChannel(0, "", 0, 0);
+    }
+
+  }
+
+  public void onConnectionError(ConnectionEvent e) {
+    System.err.println("CONNECTION ERROR! " + e.getMessage());
+    System.exit(-1);
+  }
+});
+amqpClient.connect(url.toString(), virtualHost, login, password);
+connectionLatch.await(10, TimeUnit.SECONDS);
+</pre>
+
+
+                                                                <span class="note"><b>Note:</b> The Gateway supports AMQP version 0-9-1.</span>
+        </li>
+<li><a name="channels"></a><p>Create channels.</p>
+  <p>Once a connection to an AMQP broker has been established, the client must create a channel to communicate to the broker. A channel is a bi-directional connection between an AMQP client and an AMQP broker. AMQP is multi-channeled, which means that channels are multiplexed over a single network socket connection. Channels are light-weight and consume little resources, and therefore used in AMQP's exception handling mechanism—channels are closed when an exception occurs.</p>
+
+    <p>You can create the channels as shown in the following example.</p>
+
+    <pre class="auto-links: false; brush: java; toolbar: false;">
+      publishChannel = amqpClient.openChannel();
+      consumeChannel = amqpClient.openChannel();</pre>
+                        
+      <p>Once you have created the channels, you can attach event handlers for when the connection opens.</p>
+                        
+<pre class="auto-links: false; brush: java; toolbar: false; highlight:[1,2,4,9,16,21]">
+publishChannel = amqpClient.openChannel();
+publishChannel.addChannelListener(new ChannelAdapter() {
+  @Override
+  public void onClose(ChannelEvent e) {
+    System.out.println(&quot;CLOSED: Publish Channel&quot;);
+  }
+
+  @Override
+  public void onError(final ChannelEvent e) {
+    System.err.println(&quot;ERROR: Publish Channel - &quot; + e.getMessage());
+    amqpClient.disconnect();
+    System.exit(-1);
+  }
+
+  @Override
+  public void onDeclareExchange(ChannelEvent e) {
+    System.out.println(&quot;EXCHANGE DECLARED: &quot; + exchangeName);
+  }
+
+  @Override
+  public void onOpen(ChannelEvent e) {
+    System.out.println(&quot;OPENED: Publish Channel&quot;);
+    publishChannel.declareExchange(exchangeName, &quot;fanout&quot;, false, false, false, null);
+    pubChannelLatch.countDown();
+  }
+});
+</pre>
+
+<p><span class="code_inline">createChannel()</span> uses <span class="code_inline">ChannelAdapter()</span> as part of an adapter or wrapper design pattern, and allows you to specify only the methods that your client requires, instead of having to specify every method. See <a href="//en.wikipedia.org/wiki/Adapter_pattern">Adapter pattern</a> for more information on this design pattern.</p>
+
+</li>
+
+<li><a name="exchange"></a><p>Declare an exchange.</p>
+
+<p>AMQP messages are published to exchanges. Messages contain a routing key that contains the information about the message's destination. The exchange accepts messages and their routing keys and delivers them to a message queue. You can think of an exchange as an electronic mailman that delivers the messages to a mailbox (the queue) based on the address on the message's envelope (the routing key). Exchanges do not store messages.</p>
+                        <p>AMQP defines different exchange types. Some of these exchange types (Direct, Fanout, and Topic) must be supported by all AMQP brokers while others (Headers and System) are optional. AMQP brokers can also support custom exchange types. The following are the different types of exchanges:</p>
+                        <p>
+                                <ul class="arrow-2">
+                                                        <li><strong>Direct:</strong> Messages are sent only to a queue that is bound with a binding key that matches the message's routing key.</li>
+                                                        <li><strong>Fanout:</strong> Messages are sent to every queue that is bound to the exchange.</li>
+                                                        <li><strong>Topic:</strong> Messages are sent to a queue based on categorical binding keys and wildcards.</li>
+                                                        <li><strong>Headers:</strong> Messages are sent to a queue based on their header property values.</li>
+                                                        <li><strong>System:</strong> Messages are sent to system services.</li>
+                                </ul>
+                        </p>
+                        <p>Exchanges can be durable, meaning that the exchange survives broker shutdown and must be deleted manually or non-durable (temporary), meaning that the exchange lasts only until the broker is shutdown. Finally, to check if an exchange exists on the AMQP broker (without actually creating it), you can create a passive exchange. The following example shows how you can create a direct exchange on the publish channel:</p>
+
+<pre class="auto-links: false; brush: java; toolbar:false;">
+publishChannel.declareExchange(&quot;demo_exchange&quot;, &amp;quot;fanout&amp;quot;, false, false, false, null);
+</pre>
+
+<p>In this example, the exchange is <code>demo_exchange</code>, <code>fanout</code> is the exchange type, and <code>false</code> specifies whether the exchange is passive, durable, and noWait. <code>null</code> indicates that there are no <a href="../apidoc/client/java/amqp/client/com/kaazing/net/ws/amqp/AmqpArguments.html">AmqpArguments</a>.</p>
+        </li>
+
+        <li><a name="queue"></a><p>Declare a queue.</p>
+                        <p>AMQP messages are consumed from queues. You can think of a queue as a mailbox: messages addressed to a particular address (the routing key) are placed in the mailbox for the consumer to pick up. If multiple consumers are bound to a single queue, only one of the consumers receives the message (the one that picked up the mail).</p>
+                        <p>To check if a queue exists on the AMQP broker (without creating it), you can create a passive queue. Additionally, queues can be marked exclusive, meaning that they are tied to a specific connection. If a queue is marked exclusive, it is deleted when the connection on which it was created is closed.</p>
+                        <p>Queues can be durable, meaning that the queue survives broker shutdown and must be deleted manually or non-durable (temporary) meaning that the queue lasts only until the broker is shut down. Queues can also be marked auto delete, meaning that the queue is deleted automatically when it is no longer in use. The following example shows how you can create a queue on the consume channel:</p>
+
+<pre class="auto-links: false; brush: java; toolbar: false; highlight:[1];">
+consumeChannel.declareQueue(queueName, false, false, false, false, false, null)
+ .bindQueue(queueName, exchangeName, routingKey, false, null)
+ .consumeBasic(queueName, myConsumerTag, false, false, false, false, null);
+</pre>
+
+<p>In this example, the <span class="code_inline">queue</span> value is obtained from the variable defined earlier:</p>
+
+<pre class="auto-links: false; brush: java; toolbar: false;">
+private String queueName = "queue" + new Random().nextInt();
+</pre>
+
+<p><span class="code_inline">false</span> specifies that the queue is not <span class="code_inline">passive</span>. <span class="code_inline">durable</span>, <span class="code_inline">exclusive</span>, <span class="code_inline">autoDelete</span> are not enabled, and <span class="code_inline">noWait</span> is not set. <span class="code_inline">null</span> indicates that there are no <a href="../apidoc/client/java/amqp/client/com/kaazing/net/ws/amqp/AmqpArguments.html">AmqpArguments</a>.</p>
+</li>
+
+
+<li><a name="bind"></a><p>Bind an exchange to a queue.</p>
+
+<p>Once you have created an exchange and a queue in AMQP, you must bind&mdash;or map&mdash;one to the other so that messages published to a specific exchange are delivered to a particular queue. You bind a queue to an exchange with a routing key as shown in the following example.</p>
+
+<pre class="auto-links: false; brush: java; toolbar: false; highlight:[2];">
+consumeChannel.declareQueue(queueName, false, false, false, false, false, null)
+ .bindQueue(queueName, exchangeName, routingKey, false, null)
+ .consumeBasic(queueName, myConsumerTag, false, false, false, false, null);
+</pre>
+        
+
+<p>After the exchange is bound to the queue successfully, a BindQueue
+event is raised, which writes the exchange and queue information to the log console:</p>
+<pre class="auto-links: false; brush: java; toolbar: false;">
+public void onBindQueue(ChannelEvent e) {
+ System.out.println("QUEUE BOUND: " + exchangeName + " - " + queueName);
+}
+</pre>
+        </li>
+
+<li><a name="publish"></a><p>Publish messages.</p>
+
+<p>Messages are published to exchanges. The established binding rules (routing keys) then determine to which queue a message is delivered. Messages have content that consists of two parts:</p>
+<p>
+ <ol type="a">
+  <li><strong>Content Header:</strong> A set of properties that describes the message</li>
+  <li><strong>Content Body:</strong> A blob of binary data</li>
+ </ol>
+</p>
+                        <p>Additionally, messages can be marked mandatory to send a notification to the publisher in case a message cannot be delivered to a queue. You can also mark a message immediate so that it is returned to the sender if the message cannot be routed to a queue consumer immediately. The following example shows how the content body of a message is added to a buffer (AMQP uses a binary message format) and published to an exchange using the publish channel:</p>
+<pre class="auto-links: false; brush: java; toolbar: false; highlight:[3,4,5,25];">
+public void sendMessage(String message) {
+	
+ ByteBuffer buffer = ByteBuffer.allocate(512);
+ buffer.put(message.getBytes(Charset.forName(&quot;UTF-8&quot;)));
+ buffer.flip();
+
+ Timestamp ts = new Timestamp(System.currentTimeMillis());
+ AmqpProperties props = new AmqpProperties();
+ props.setMessageId(&quot;1&quot;);
+ props.setCorrelationId(&quot;4&quot;);
+ props.setAppId(&quot;AMQPDemo&quot;);
+ props.setUserId(this.login);
+ props.setContentType(&quot;text/plain&quot;);
+ props.setContentEncoding(&quot;UTF-8&quot;);
+ props.setPriority(6);
+ props.setDeliveryMode(1);
+ props.setTimestamp(ts);
+
+ AmqpArguments customHeaders = new AmqpArguments();
+ customHeaders.addInteger(&quot;headerKey1&quot;, 100);
+ customHeaders.addLongString(&quot;headerKey2&quot;, &quot;Header value&quot;);
+
+ props.setHeaders(customHeaders);
+
+ publishChannel.publishBasic(buffer, props, exchangeName, routingKey, false, false);
+ System.out.println(&quot;MESSAGE PUBLISHED: &quot; + message);
+}
+</pre>
+
+<p>A custom parameter is passed in for the message. The message text entered by the user is stored in a variable and converted to binary (<span class="code_inline">buffer.putString(jTextField6.getText(), Charset.forName("UTF-8"));</span>), and then sent to the exchange specified by the user (<span class="code_inline">exchangeName</span>). Also note that the last two arguments use the boolean value <code>false</code> for <span class="code_inline">mandatory</span> and <span class="code_inline">immediate</span>.</p>       
+
+<p>The <span class="code_inline">AmqpProperties</span> class defines pre-defined properties as per AMQP 0-9-1 spec and provides type-safe getters and setters for those pre-defined properties. The value of AMQP 0-9-1's standard "headers" property is of type <a href="../apidoc/client/java/amqp/client/com/kaazing/net/ws/amqp/AmqpArguments.html">AmqpArguments</a>. The Kaazing Gateway AMQP implementation uses AmqpArguments to encode the table. Similarly, the Kaazing Gateway AMQP implementation decodes the table and constructs an instance of AmqpArguments.</p>
+
+<p>The username set with the <span class="code_inline">setUserId()</span> method must match the user that is currently authenticated with the AMQP broker. If they do not match you will see the following error: <br><span class="code_inline">PRECONDITION_FAILED - user_id property set to '&lt;<em>name</em>&gt;' but authenticated user was '&lt;<em>name</em>&gt;'</span></p>
+
+        </li>
+
+        <li><a name="consume"></a><p>Consume messages.</p>
+         <p>Once messages are published, they can be consumed from a queue. A variety of options can be applied to messages in a queue. For example, publishers can choose to require acknowledgement (ack) of messages so that messages can be redelivered in the case of a delivery failure. If the queue is set to <strong>exclusive</strong>, it is scoped to just the current connection and deleted when the connection on which it was established is closed. Additionally, you can use the no local setting to notify the broker not to send messages to the connection on which the messages were published. The following example shows how you can consume messages from a queue on the consume channel:</p>
+<pre class="auto-links: false; brush: java; toolbar: false; highlight:[3];">
+ consumeChannel.declareQueue(queueName, false, false, false, false, false, null)
+ .bindQueue(queueName, jTextField5.getText(), routingKey, false, null)
+ .consumeBasic(queueName, myConsumerTag, false, false, false, false, null);</pre>
+
+<p>After the <span class="code_inline">consumeBasic</span> method is successful, the AMQP broker can then start receiving messages in the client and these messages raise the Message event, which calls the corresponding event handler (<span class="code_inline">onMessage()</span>). The following example shows how the <span class="code_inline">onMessage()</span> function retrieves information from the event object (<span class="code_inline">e</span>):</p>
+<pre class="auto-links: false; brush: java; toolbar: false; highlight:[1,23,24];">
+public void onMessage(final ChannelEvent e) {
+ byte[] bytes = new byte[e.getBody().remaining()];
+ e.getBody().get(bytes);
+ final Long dt = (Long) e.getArgument(&quot;deliveryTag&quot;);
+ final String value = new String(bytes, Charset.forName(&quot;UTF-8&quot;));
+
+ System.out.println(&quot;&gt;&gt;&gt; MESSAGE RECEIVED: &quot; + value);
+ AmqpProperties props = e.getAmqpProperties();
+ if (props != null) {
+  AmqpArguments headers = props.getHeaders();
+
+  if (headers != null) {
+   System.out.println(&quot;Headers: &quot; + headers.toString());
+  }
+  System.out.println(&quot;Properties &quot; + (String) props.toString());
+
+  // Acknowledge the message as we passed in a &#x27;false&#x27; for
+  // noAck in AmqpChannel.consumeBasic() call. If the
+  // message is not acknowledged, the broker will keep
+  // holding the message. And, as more and more messages
+  // are held by the broker, it will eventually result in
+  // an OutOfMemoryError.
+  AmqpChannel channel = e.getChannel();
+  channel.ackBasic(dt.longValue(), true);
+ }
+}
+</pre>
+
+<p>Here you can see how the properties and headers are retrieved using AmqpProperties and AmqpArguments methods (<span class="code_inline">getAmqpProperties()</span> and <span class="code_inline">getHeaders()</span>, respectively).</p>
+
+<h5><a name="Message_Acknowledgement"></a>Message Acknowledgement</h5>
+
+<p>The Boolean parameter <code>noAck</code> is optional with the default value of <code>true</code>. If <code>noAck</code> is <code>true</code>, the AMQP broker will not expect any acknowledgement from the client before discarding the message. If <code>noAck</code> is <code>false</code>, then the AMQP broker will expect an acknowledgement before discarding the message. If <code>noAck</code> is specified to be <code>false</code>, then you must explicitly acknowledge the received message using <code>AmqpChannel</code> <code>ackBasic()</code>.</p>
+
+<p>In the Java AMQP demo code in this procedure, message acknowledgement is being performed because <code>false</code> was passed in for <code>noAck</code> in <code>consumeBasic()</code>. If the Java client acknowledges a message <strong>and</strong> <code>noAck</code> is <code>true</code> (the default setting), then the AMQP message broker will close the channel.</p>
+</li>
+
+<li><a name="transactions"></a><p>Use transactions.</p>
+
+<p>AMQP supports transactional messaging, through <em>server local transactions</em>. In a transaction, the server only publishes a set of messages as one unit when the client commits the transaction. Transactions only apply to message publishing and not to the consumption of the messages.</p>
+                        <span class="note"><b>Note:</b> Once you commit or rollback a transaction on a channel, a new transaction is started automatically. For this reason you must commit all future messages you want to publish on that channel or create a new, non-transactional channel to publish messages on.</span><br>
+                        <p>The following transaction-related methods can be used to work select (start), commit, and rollback a transaction:</p>
+<pre class="auto-links: false; brush: java; toolbar: false;">
+txnPublishChannel.selectTx();
+txnPublishChannel.commitTx();
+txnPublishChannel.rollbackTx();</pre>
+                        <p>After the transaction is selected successfully, committed, or rolled back, the corresponding events are raised and previously registered event handlers are called.</p>
+<pre class="auto-links: false; brush: java; toolbar: false;">
+txnPublishChannel = amqpClient.openChannel();
+txnPublishChannel.addChannelListener(new ChannelAdapter() {
+  @Override
+  public void onCommit(ChannelEvent e) {
+    EventQueue.invokeLater(new Runnable() {
+      @Override
+      public void run() {
+        jButton6.setEnabled(true);
+        rollback.setEnabled(false);
+        publish.setEnabled(false);
+        jButton9.setEnabled(false);
+        logMessage("TXN COMMITTED");
+      }
+    });
+  }
+
+  @Override
+  public void onOpen(ChannelEvent e) {
+    EventQueue.invokeLater(new Runnable() {
+      @Override
+      public void run() {
+        // logMessage("OPENED: Publish Channel for Transaction");
+        txnPublishChannel.declareExchange(jTextField7.getText(), 
+        "fanout", false, false, false, null);
+      }
+    });
+  }
+
+  @Override
+  public void onRollback(ChannelEvent e) {
+    EventQueue.invokeLater(new Runnable() {
+      @Override
+      public void run() {
+        jButton6.setEnabled(true);
+        rollback.setEnabled(false);
+        publish.setEnabled(false);
+        jButton9.setEnabled(false);
+        logMessage("TXN ROLLEDBACK");
+      }
+    });
+  }
+  @Override
+  public void onSelect(ChannelEvent e) {
+    EventQueue.invokeLater(new Runnable() {
+      @Override
+      public void run() {
+        jButton6.setEnabled(false);
+        logMessage("TXN SELECTED/STARTED");
+      }
+    });
+  }
+});
+.
+.
+.
+</pre>
+        </li>
+        <li><a name="control"></a><p>Control message flow.</p>
+                        <p>You can use flow control in AMQP to temporarily&mdash;or permanently&mdash;halt the flow of messages on a channel from a queue to a consumer. If you turn the message flow off, no messages are sent to the consumer. The following example shows how you can turn the flow of messages on a channel off and back on:</p>
+<pre class="auto-links: false; brush: java; toolbar: false;">
+consumeChannel.flowChannel(true);
+consumeChannel.flowChannel(false);</pre>
+                        <p>After the flow on a channel is halted or resumed successfully, a flow event is raised, which calls the event handler registered previously.</p>
+<pre class="auto-links: false; brush: java; toolbar: false;">
+public void onFlow(ChannelEvent e) {
+  try {
+    final boolean isActive = e.isFlowActive();
+    EventQueue.invokeLater(new Runnable() {
+      @Override
+      public void run() {
+        logMessage("FLOW: "+(isActive ? "ON" : "OFF"));
+      }
+    });
+  }
+  catch (Exception ex) {
+    ex.printStackTrace();
+  }
+}
+</pre>
+        </li>
+
+        <li><a name="exceptions"></a><p>Handle exceptions.</p>
+                        <p>Channels do not consume large resources, and therefore used in AMQP's exception handling mechanism&mdash;channels are closed when an exception occurs. In the Java AMQP demo, detailed information about the exception is captured using the <span class="code_inline">onConnectionError()</span> method for ConnectionListener and the <span class="code_inline">onError()</span> method for ChannelListener. Together, these methods can be used for all error handling.</p>
+<pre class="auto-links: false; brush: java; toolbar: false;">
+  public void onConnectionError(final ConnectionEvent e) {
+    EventQueue.invokeLater(new Runnable() {
+      @Override
+      public void run() {
+        logMessage("ERROR:" + e.getMessage());
+        status.setText("ERROR");
+      }
+    });
+  }
+  .
+  .
+  .
+  public void onError(final ChannelEvent e) {
+    EventQueue.invokeLater(new Runnable() {
+      @Override
+      public void run() {
+        logMessage("ERROR: Publish Channel - " + e.getMessage());
+      }
+    });
+  }
+</pre>
+        </li>
+</ol>
+</p>
+
+<h2><a name="migrate"></a>Migrate Java AMQP Applications to the Kaazing AMQP Java 4.x Client SDK</h2>
+<p>If you wish to migrate your Kaazing Gateway 3.3-3.5 Java AMQP clients to the Kaazing AMQP Java 4.x Client SDK and use its new libraries, do the following:</p>
+
+<table width="789" border="0">
+  <tr>
+    <th scope="col">Kaazing Gateway 3.3-3.5 Package</th>
+    <th scope="col">Kaazing AMQP Java 4.x Client SDK</th>
+  </tr>
+  <tr>
+    <td>com.kaazing.gateway.amqp.client</td>
+    <td>com.kaazing.net.ws.amqp</td>
+  </tr>
+  <tr>
+    <td>com.kaazing.gateway.client</td>
+    <td>com.kaazing.net.ws</td>
+  </tr>
+  <tr>
+    <td>com.kaazing.gateway.client.security</td>
+    <td>com.kaazing.net.auth</td>
+  </tr>
+</table>
+
+<ol>
+  <li>Use the new WebSocket library in your client, as described above.</li>
+  <li>Use the new Java AMQP Client library, as described above.</li>
+  <li><p>Update your Java AMQP client to use the new package names: <code>com.kaazing.gateway.amqp.client</code> is now <code>com.kaazing.net.ws.amqp</code>. For example, import <code>com.kaazing.gateway.amqp.client.AmqpClient</code> is now <code>com.kaazing.net.ws.amqp.AmqpClient</code>. Also, the security package names have changed. For example, <code>com.kaazing.gateway.client.security.LoginHandler</code> is now <code>com.kaazing.net.auth.LoginHandler</code>.</p></li>
+  <li><p>Update your Java AMQP client to use the new factory class:</p>
+  
+  <p>Kaazing Gateway 3.3-3.5:</p>
+  
+<pre class="auto-links: false; brush: java; toolbar: false;">
+import com.kaazing.gateway.amqp.client.AmqpClient;
+...
+private AmqpClient amqpClient;
+...
+public void actionPerformed(ActionEvent arg0) {
+  if (arg0.getSource() == connect) {
+      try {
+          amqpClient = new AmqpClient();
+          ...
+</pre>
+  
+  <p>Kaazing AMQP Java 4.x Client SDK:</p>
+
+<pre class="auto-links: false; brush: java; toolbar: false;">
+import com.kaazing.net.ws.WebSocketFactory;
+import com.kaazing.net.ws.amqp.AmqpClient;
+import com.kaazing.net.ws.amqp.AmqpClientFactory;
+...
+private AmqpClientFactory amqpClientFactory;
+private AmqpClient mqpClient;
+...
+amqpClientFactory = AmqpClientFactory.createAmqpClientFactory();
+...
+    public void actionPerformed(ActionEvent arg0) {
+        if (arg0.getSource() == connect) {
+            try {
+                amqpClient = amqpClientFactory.createAmqpClient();
+                WebSocketFactory wsFactory = amqpClient.getAmqpClientFactory().getWebSocketFactory();
+                ...</pre>
+  
+  </li>
+  <li><p>Modify challenge handlers. In Kaazing Gateway 4.x, the ChallengeHandlers class from 3.3-3.5 was replaced with by the ChallengeHandler modifier of the WebSocketFactory class. The ChallengeHandler modifier is used during authentication for connections and subsequent revalidation that occurs at regular intervals. Also, note the new package names.</p>
+
+<p>Kaazing Gateway 3.3-3.5:</p>
+<pre class="auto-links: false; brush: java; toolbar: false;">
+import com.kaazing.gateway.client.security.BasicChallengeHandler;
+import com.kaazing.gateway.client.security.ChallengeHandlers;
+import com.kaazing.gateway.client.security.LoginHandler;
+...
+private void initLoginHandler(String location) {
+  final LoginHandler loginHandler = new LoginHandler() {
+    private String username;
+    private char[] password;
+    @Override
+    public PasswordAuthentication getCredentials() {
+      try {
+        LoginDialog dialog = new LoginDialog(Frame.getFrames()[0]);
+        if (dialog.isCanceled()) {
+          return null;
+        }
+        username = dialog.getUsername();
+        password = dialog.getPassword();
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+      return new PasswordAuthentication(username, password);
+    }
+  };
+  BasicChallengeHandler challengeHandler = ChallengeHandlers.load(BasicChallengeHandler.class);
+  challengeHandler.setLoginHandler(loginHandler);
+  ChallengeHandlers.setDefault(challengeHandler);
+}
+...
+</pre>
+
+<p>Kaazing AMQP Java 4.x Client SDK:</p>
+<pre class="auto-links: false; brush: java; toolbar: false;">
+import com.kaazing.net.auth.BasicChallengeHandler;
+import com.kaazing.net.auth.LoginHandler;
+...
+public AmqpPanel(String locationUrl)
+{
+  ...
+  amqpClientFactory = AmqpClientFactory.createAmqpClientFactory();
+  ...
+  public void actionPerformed(ActionEvent arg0) {
+    if (arg0.getSource() == connect) {
+      try {
+        amqpClient = amqpClientFactory.createAmqpClient();
+        final LoginHandler loginHandler = new LoginHandler() {
+          private String username;
+          private char[] password;
+
+          @Override
+          public PasswordAuthentication getCredentials() {
+            try {
+              LoginDialog dialog = new LoginDialog(Frame.getFrames()[0]);
+              if (dialog.isCanceled()) {
+                return null;
+              }
+              username = dialog.getUsername();
+              password = dialog.getPassword();
+            } catch (Exception e) {
+              e.printStackTrace();
+            }
+            return new PasswordAuthentication(username, password);
+          }
+        };
+        BasicChallengeHandler challengeHandler = BasicChallengeHandler.create();
+        challengeHandler.setLoginHandler(loginHandler);
+        WebSocketFactory wsFactory = amqpClient.getAmqpClientFactory().getWebSocketFactory();
+        wsFactory.setDefaultChallengeHandler(challengeHandler);
+        ...
+        amqpClient.connect(url, virtualHost, jUsernameField1.getText(), new String(jPasswordField1.getPassword()));
+      } catch (Exception e) {
+        logMessage(e.getMessage());
+      }
+      ...
+    </pre>
+  </li>
+  <li>Review the <a href="../apidoc/client/java/amqp/client/index.html">Java AMQP Client API</a>.</li>
+</ol>
+
+<h2><a name="_"></a>Next Step</h2>
+<p><a href="p_dev_java_secure.html">Secure Your Java AMQP Client</a></p>
+
+                  </section>
+                </article>
+
+            </div> <!-- #main -->
+        </div> <!-- #main-container -->
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

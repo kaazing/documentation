@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+  
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+
+ <h1 id="using-the-kaazing-gateway-redis-service">Using the Redis Service</h1>
+
+<p>In this procedure, you will learn how to use the Kaazing WebSocket Gateway Redis service. <a href="//redis.io/" title="Redis">Redis</a> is an open source, BSD licensed, advanced key-value cache and store. Kaazing Gateway includes a Redis service for using Redis as a messaging system and last value cache.</p>
+
+<p><strong>Note:</strong> The instructions in this topic use Redis 2.8.8 or later.</p>
+
+<p>For information on the Kaazing Gateway configuration properties relating to the Redis service, see <a href="#redis-related-kaazing-gateway-configuration-elements">Redis-related Kaazing Gateway Configuration Properties</a>.</p>
+
+<h2 id="to-use-the-redis-service">To Use the Redis Service</h2>
+
+<ol>
+  <li>Install and download Redis. For the purpose of this procedure, both the Gateway and Redis are run on the same server.
+    <ol type="a">
+      <li>Download and install Redis from <a href="//redis.io/download" title="Redis">http://redis.io/download</a>.<br />
+For more information, see <a href="//redis.io/topics/quickstart" title="Redis Quick Start – Redis">Redis Quick Start</a>.</li>
+      <li>
+        <p>Run Redis from the Redis <strong>src</strong> folder with the following command:</p>
+
+        <p><code>$ redis-server</code></p>
+
+        <p>Redis is started on <code>localhost:6379</code> by default.</p>
+      </li>
+    </ol>
+  </li>
+  <li>Set up the Gateway.
+    <ol type="a">
+      <li>Download and install the Gateway as described in <a href="../../about/setup-guide/index.html">Setting Up the Gateway</a>. You will start the Gateway later in this procedure.</li>
+      <li>Open the Gateway configuration file in a text editor. The configuration file is located here: <code>GATEWAY_HOME/conf/gateway-config.xml</code>.</li>
+      <li>In the Gateway configuration file, add a Redis service.</li>
+    </ol>
+
+    <pre class="auto-links: false; brush: xml; toolbar: false;">&lt;service&gt;
+    &lt;name&gt;Redis Service&lt;/name&gt;
+    &lt;description&gt;Redis Service&lt;/description&gt;
+    &lt;accept&gt;ws://${gateway.hostname}:${gateway.extras.port}/redis&lt;/accept&gt;
+    &lt;connect&gt;tcp://localhost:6379&lt;/connect&gt;
+
+    &lt;type&gt;redis&lt;/type&gt;
+
+&lt;cross-site-constraint&gt;
+    &lt;allow-origin&gt;http://${gateway.hostname}:${gateway.extras.port}&lt;/allow-origin&gt;
+&lt;/cross-site-constraint&gt;
+&lt;/service&gt;
+</code></pre>
+
+    <ol type="a">
+      <li>Start the Gateway as described in <a href="../../about/setup-guide/index.html">Setting Up the Gateway</a>.</li>
+    </ol>
+  </li>
+  <li>Test the Gateway Redis integration using a Gateway tutorial app.
+   <ol type="a">
+    <li>Download or clone the Kaazing JavaScript Tutorials at <a href="https://github.com/kaazing/javascript.client.tutorials">https://github.com/kaazing/javascript.client.tutorials</a>.</li>
+    <li>In a terminal, navigate to the folder for the JMS tutorial, <strong>javascript.client.tutorials/jms</strong>. The steps for building the tutorial are here: <a href="https://github.com/kaazing/javascript.client.tutorials/blob/develop/README.md">https://github.com/kaazing/javascript.client.tutorials/blob/develop/README.md</a>.</li>
+    <li>Enter <code>npm install</code> to build the tutorial. You might need to execute the command with admin credentials. If you need to install Node.js&reg; and update npm, see <a href="https://docs.npmjs.com/getting-started/installing-node">https://docs.npmjs.com/getting-started/installing-node</a>.</li>
+    <li>Enter <code>node server.js</code> to run the included Node.js&reg; server component (server.js).</li>
+    <li>In a browser, enter the URL <code>http://localhost:3000/</code>.</li>
+
+    <li>In <strong>Location</strong>, enter <strong>ws://localhost:8001/redis</strong>. </li>
+    <li>Click <strong>Connect</strong>.</li>
+    <li>The status message <code>CONNECT: ws://localhost:8001/redis</code> appears followed by <code>CONNECTED</code>.</li>
+    <li>Click <strong>Subscribe</strong>.</li>
+    <li>The status message <code>SUBSCRIBE: /topic/destination</code> appears.</li>
+    <li>
+     <p>Click <strong>Send</strong>. The sent message appears in Log messages along with the received message from the subscription. For example:</p>
+
+     <pre><code>SEND TextMessage: Hello, message 
+      Destination: /topic/destination 
+      RECEIVED TextMessage: Hello, message 
+      Destination: /topic/destination [#3]
+     </code></pre>
+
+     <p><strong>Note:</strong> Binary messages are not supported with the Redis adapter.</p>
+    </li>
+   </ol>
+  </li>
+</ol>
+
+<h2 id="developing-clients-for-the-redis-service">Developing Clients for the Redis Service</h2>
+
+<p>Clients of the Redis service must be written using one of the Kaazing JMS client APIs. For example, to create a JavaScript client, you would use the <a href="../../jms_client_docs/apidoc/client/javascript/jms/index.html?JmsConnectionFactory">JavaScript JMS Client API</a>.</p>
+
+<p>Clients are restricted to sending and receiving text messages to and from JMS topics. These topics correspond to Redis channels or patterns. Clients may subscribe to a channel by creating a message consumer on a concrete topic name (one that does not contain the wildcard character, <code>*</code>), or clients may subscribe to a pattern using a wildcard topic name.</p>
+
+<p>Wildcard topic names must follow a hierarchical pattern in the style of <code>news.usa.*</code>, where <code>.</code> is the path separator. The path separator must be <code>.</code> and is not configurable.</p>
+
+<p>The wildcard character <code>*</code> follows normal Redis pattern semantics and matches any characters including the path separator. For example, if a client creates a MessageConsumer on a Topic named <code>news.sports.*</code>, the client will receive messages sent to channels <code>news.sports.usa</code> and <code>news.sports.fr.soccer</code>, but not news or <code>news.sports</code> or <code>news.finance.usa</code>.</p>
+
+<p><span class="note"><b>Note:</b> While Redis supports glob pattern regular expressions for wildcards, the Gateway <code>redis</code> service only supports the <code>*</code> character.</span></p>
+
+
+<h2 id="using-last-value-cache-lvc-with-the-redis-service">Using Last Value Cache (LVC) with the Redis Service</h2>
+
+<p>You can configure the Gateway to hold the most recent message for a topic in a last value cache (LVC). When you enable LVC and a client subscribes to a destination, the Gateway first delivers the last cached message to the client and then delivers the live stream of messages.</p>
+
+<p>LVC is especially useful for clients that make a new subscription to a topic and want to immediately receive the most recent message history for the topic. For example, if messages are delivered hourly, a client connection that arrives 30 minutes into the hour can get the latest message immediately. Some use cases for the last value cache feature include:</p>
+
+<ul>
+  <li>When your publisher publishes messages infrequently, or unpredictably</li>
+  <li>When a client would need to wait too long for the next message when they first subscribe</li>
+</ul>
+
+<p>You do not need to write any custom code to use LVC. LVC is disabled by default, but you can easily enable it by editing the Gateway configuration. For example, edit <code>redis</code> service in the <strong>gateway-config.xml</strong> file to add a <code>topic</code> element and set the <code>cache.size</code> property to <code>1</code>.</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;service&gt;
+  &lt;name&gt;Redis Service&lt;/name&gt;
+  &lt;description&gt;Redis Service&lt;/description&gt;
+  &lt;accept&gt;ws://${gateway.hostname}:${gateway.extras.port}/redis&lt;/accept&gt;
+  &lt;connect&gt;tcp://localhost:6379&lt;/connect&gt;
+
+  &lt;type&gt;redis&lt;/type&gt;
+
+  &lt;properties&gt;
+  &lt;!-- Necessary for caching --&gt;
+    &lt;topic&gt;
+        &lt;name&gt;*&lt;/name&gt;
+        &lt;!-- Currently, the redis service supports a cache size of 1 only --&gt;
+        &lt;cache.size&gt;1&lt;/cache.size&gt;
+    &lt;/topic&gt;
+  &lt;/properties&gt;
+  &lt;cross-site-constraint&gt;
+    &lt;allow-origin&gt;http://${gateway.hostname}:${gateway.extras.port}&lt;/allow-origin&gt;
+  &lt;/cross-site-constraint&gt;
+&lt;/service&gt;
+</pre>
+
+<h2 id="redis-service-use-cases-and-gateway-configuration">Redis Service Use Cases and Gateway Configuration</h2>
+
+<p>The following Redis service configurations demonstrate three common Redis service use cases.</p>
+
+<h3 id="use-case-1-small-number-of-topics-used-infrequently">Use Case 1: Small Number of Topics Used Infrequently</h3>
+
+<p>In this use case, the Redis server is serving a small number of topics and used infrequently. The Redis service is configured to simply connect clients with the Redis service.</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;service&gt;
+	&lt;name&gt;Redis Service&lt;/name&gt;
+        &lt;description&gt;Redis Service&lt;/description&gt;
+        &lt;accept&gt;ws://${gateway.hostname}:${gateway.extras.port}/redis&lt;/accept&gt;
+        &lt;connect&gt;tcp://localhost:6379&lt;/connect&gt;
+
+        &lt;type&gt;redis&lt;/type&gt;
+
+	&lt;cross-site-constraint&gt;
+		&lt;allow-origin&gt;http://${gateway.hostname}:${gateway.extras.port}&lt;/allow-origin&gt;
+	&lt;/cross-site-constraint&gt;
+&lt;/service&gt;
+</code></pre>
+
+<h3 id="use-case-2-very-large-number-of-topics-used-frequently">Use Case 2: Very Large Number of Topics Used Frequently</h3>
+
+<p>In this use case, the Redis server is serving a very large number of topics used frequently. The Redis service is configured with a <code>topic</code> property and a wildcard value for the topic <code>name</code>. No messages are cached.</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;service&gt;
+	&lt;name&gt;Redis Service&lt;/name&gt;
+        &lt;description&gt;Redis Service&lt;/description&gt;
+        &lt;accept&gt;ws://${gateway.hostname}:${gateway.extras.port}/redis&lt;/accept&gt;
+        &lt;connect&gt;tcp://localhost:6379&lt;/connect&gt;
+
+        &lt;type&gt;redis&lt;/type&gt;
+	
+        &lt;properties&gt;
+              	&lt;!-- Necessary for caching --&gt;
+        	&lt;topic&gt;
+        		&lt;name&gt;*&lt;/name&gt;
+        	&lt;/topic&gt;
+        &lt;/properties&gt;
+	&lt;cross-site-constraint&gt;
+		&lt;allow-origin&gt;http://${gateway.hostname}:${gateway.extras.port}&lt;/allow-origin&gt;
+	&lt;/cross-site-constraint&gt;
+&lt;/service&gt;
+</code></pre>
+
+<h3 id="use-case-3-large-number-of-topics-used-frequently-with-last-value-cache">Use Case 3: Large Number of Topics Used Frequently with Last Value Cache</h3>
+
+<p>In this use case, the Redis server is serving a very large number of topics used frequently and last value cache (LVC) is enabled. The Redis service is configured with a <code>topic</code> property and a wildcard value for the topic <code>name</code>. The inclusion of <code>cache.size</code> with the value <code>1</code> enabled LVC. The last message to the topic is cached as described in <a href="#using-last-value-cache-lvc-with-the-redis-service">Using Last Value Cache (LVC) with the Redis Service</a>.</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;service&gt;
+        &lt;name&gt;Redis Service&lt;/name&gt;
+        &lt;description&gt;Redis Service&lt;/description&gt;
+        &lt;accept&gt;ws://${gateway.hostname}:${gateway.extras.port}/redis&lt;/accept&gt;
+        &lt;connect&gt;tcp://localhost:6379&lt;/connect&gt;
+
+        &lt;type&gt;redis&lt;/type&gt;
+	
+        &lt;properties&gt;
+              	&lt;!-- Necessary for caching --&gt;
+        	&lt;topic&gt;
+        		&lt;name&gt;*&lt;/name&gt;
+        		&lt;!-- Currently, Redis supports cache size of 1 only --&gt;
+        		&lt;cache.size&gt;1&lt;/cache.size&gt;
+        	&lt;/topic&gt;
+        &lt;/properties&gt;
+	&lt;cross-site-constraint&gt;
+		&lt;allow-origin&gt;http://${gateway.hostname}:${gateway.extras.port}&lt;/allow-origin&gt;
+	&lt;/cross-site-constraint&gt;
+&lt;/service&gt;
+</code></pre>
+
+<h2 id="test-the-redis-connection-in-the-redis-command-line-interpreter-cli">Test the Redis Connection In The Redis Command-Line Interpreter (CLI)</h2>
+
+<p>You can test the Redis connection in the Redis command-line interpreter (CLI) by sending a value through the channel. To simulate sending a message using a non-Kaazing Gateway client to publish in a format that the Kaazing Gateway will understand, a specific script is required. This script sets a value for a key, then publishes the key-value pair to Redis.</p>
+
+<ol>
+  <li>Review the <a href="//redis.io/commands/eval" title="EVAL – Redis">EVAL syntax</a> for the Redis channel:</li>
+</ol>
+
+<pre><code>eval "return {redis.call('PUBLISH',KEYS[1],ARGV[1])}"1 &lt;destination name&gt; &lt;message&gt;
+</code></pre>
+
+<p>Here is the syntax when Last Value Cache is enabled:</p>
+
+<pre><code>eval "return {redis.call('set',KEYS[1],ARGV[1]),redis.call('PUBLISH',KEYS[1],ARGV[1])}" 1 &lt;destination name&gt; &lt;message&gt;
+</code></pre>
+
+<ol>
+  <li>Open a terminal on the Redis <strong>src</strong> folder, and then open the Redis CLI: <code>$ redis-cli</code></li>
+  <li>Enter the following command when Last Value Cache is enabled:</li>
+</ol>
+
+<pre><code>eval "return {redis.call('PUBLISH',KEYS[1],ARGV[1])}" 1 ,&lt;destination name&gt;, “Hello, message”
+</code></pre>
+
+<p>Enter the following command when Last Value Cache is disabled:</p>
+
+<pre><code>eval "return {redis.call('set',KEYS[1],ARGV[1]),redis.call('PUBLISH',KEYS[1],ARGV[1])}" 1 ,&lt;destination name&gt;, “Hello, message”
+</code></pre>
+
+<ol>
+  <li>The output is the following:<br />
+    <code>1) OK 2) (integer) 4</code></li>
+  <li>In a new terminal, open a second Redis CLI, and then subscribe to the destination you created (see Redis <a href="//redis.io/commands/subscribe" title="SUBSCRIBE – Redis">SUBSCRIBE syntax</a>):<br />
+     <code>SUBSCRIBE destination name</code></li>
+  <li>In the first terminal you opened, publish additional messages and see them appear in the second terminal. Each message will appear like the following:<br />
+     <code>1) "Hello message"</code></li>
+  <li>Return to the JavaScript demo you used in step 3 and observe that the messages have been received by the JavaScript client.</li>
+</ol>
+
+<h2 id="redis-related-kaazing-gateway-configuration-elements">Redis-related Kaazing Gateway Configuration Elements</h2>
+
+<p>The following Kaazing Gateway configuration elements can be<br />
+used to configure the Redis service.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Property Name</th>
+      <th>Description</th>
+      <th>Default Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>name</td>
+      <td>The name of the service.</td>
+      <td>Redis Service</td>
+    </tr>
+    <tr>
+      <td>description</td>
+      <td>The description of the service.</td>
+      <td>Redis Service</td>
+    </tr>
+    <tr>
+      <td>accept</td>
+      <td>WebSocket URI that the Redis service on the Gateway accepts on.</td>
+      <td>See <a href="../../admin-reference/r_configure_gateway_service/index.html#accept">accept</a></td>
+    </tr>
+    <tr>
+      <td>connect</td>
+      <td>TCP URI of the Redis server.</td>
+      <td>See <a href="../../admin-reference/r_configure_gateway_service/index.html#connect">connect</a></td>
+    </tr>
+    <tr>
+      <td>type</td>
+      <td>Service type</td>
+      <td>Must be <code>redis</code></td>
+    </tr>
+    <tr>
+      <td>subscribe.timeout (optional)</td>
+      <td>This is the maximum time the Gateway will wait for a subscribe operation to complete. The default value is 5000 milliseconds. Valid values for this property are longs, which will be interpreted as milliseconds. For example 5000L or Java <a href="//docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html" title="TimeUnit (Java Platform SE 7 )">TimeUnit</a> such as 7min or 5sec. If no subscription completes within the specified time, the Gateway drops the subscription attempt and returns an exception to the client.</td>
+      <td>5 sec</td>
+    </tr>
+    <tr>
+      <td>inactivity.timeout (optional)</td>
+      <td>The Gateway will ping the Redis server at this configured interval. If no pong is received the connection will be closed. The default value is 30000 milliseconds. Valid values for this property are longs, which will be interpreted as milliseconds. For example 50000L or Java <a href="//docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html" title="TimeUnit (Java Platform SE 7 )">TimeUnit</a> such as 7min or 5sec. To disable the inactivity.timeout, set the property to zero 0. The Gateway will attempt to reconnect after 60 seconds. Set the time interval to a value that is at least double the expected maximum network round-trip time between the Gateway and any client. Otherwise, clients may be disconnected unexpectedly.</td>
+      <td>30 sec</td>
+    </tr>
+    <tr>
+      <td>password (optional)</td>
+      <td>Use this property to set a password when the AUTH feature is enabled on the Redis server. The default behavior of the driver is to connect to the Redis server without a password. Valid value is any string but must match the password string in your Redis server configuration.</td>
+      <td>NA</td>
+    </tr>
+    <tr>
+      <td>topic (optional)</td>
+      <td>Required to enable caching.</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>name</td>
+      <td>Required if <code>topic</code> is used. Indicates the name of the topic.</td>
+      <td>No default</td>
+    </tr>
+    <tr>
+      <td>cache.size (optional)</td>
+      <td>Specifies the number of messages the Gateway should cache for a particular topic. When a client subscribes to a destination, the Gateway first delivers any messages in the cache, followed by the live stream of messages. The cache.size property is set to zero by default, which means that last value cache is disabled. In general, you should set cache.size to 1 to handle most use cases.</td>
+      <td><code>1</code>. In order to enable Last Value Cache (LVC) for Redis you must set the cache.size to <code>1</code>. Currently, 1 is the only supported cache size. If the value of <code>cache.size</code> is greater than <code>1</code>, an exception is thrown when the Gateway starts up. If <code>cache.size</code> is not set at all, then LVC is disabled for the Redis service.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="see-also">See Also</h2>
+<p>For general troubleshooting information, see <a href="../../troubleshooting/o_troubleshoot/index.html">Troubleshoot the Gateway</a>.</p>
+
+
+</div>
+
+</div>
+
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

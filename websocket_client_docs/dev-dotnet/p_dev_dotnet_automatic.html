@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+<h1>Configure Automatic Connection</h1>
+<p>In this procedure, you will learn how to configure your Microsoft .NET clients to connect at startup automatically.</p>
+
+<h2>Before You Begin</h2>
+<p>This procedure is part of <a href="o_dev_dotnet.html" title="Kaazing | Documentation">Checklist: Build Microsoft .NET WebSocket Clients</a>.</p>
+
+<p><span class="note"><b>Note:</b> Learn about supported browsers, operating systems, and platform versions in the <a href="//kaazing.com/download/#client-dotnet">Release Notes</a>.</span></p>
+
+<h2>To Configure Automatic Connection</h2>
+          <p>The following steps show what you must do to connect automatically during startup.</p>
+          <p>Let's say you have a simple layout like this:</p>
+          <pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;UserControl x:Class="Test1.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d" d:DesignWidth="640"
+    d:DesignHeight="480" Margin="12,12,0,0"&gt;
+  &lt;Grid x:Name="LayoutRoot"&gt;
+    &lt;Button Width="126.498" Height="30" Content="Send" Name="Send"
+      Click="OnButtonClick" Margin="8,36,0,0" HorizontalAlignment="Left"
+      VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5"/&gt;
+    &lt;TextBox Foreground="Blue" Background="AntiqueWhite" BorderBrush="Black"
+      BorderThickness="1" Height="24" Width="200" Margin="8,0,0,0"
+      HorizontalAlignment="Left" VerticalAlignment="Top"
+      Text="Test Message" x:Name="Input" TextWrapping="Wrap"/&gt;
+    &lt;TextBlock Height="100.5" HorizontalAlignment="Left" Margin="8,117,0,0"
+      VerticalAlignment="Top" Width="293" Text="" TextWrapping="Wrap"
+      x:Name="Console"/&gt;
+    &lt;Button Height="30" HorizontalAlignment="Left" Margin="160,36,0,0"
+      VerticalAlignment="Top" Width="126" Content="Disconnect"
+      Click="Disconnect_Click" x:Name="Disconnect"/&gt;
+  &lt;/Grid&gt;
+&lt;/UserControl&gt;</pre>
+          <p>This basic layout contains a text field and <strong>Send</strong> and <strong>Disconnect</strong> buttons.</p>
+    <figure>
+        <img src="../images/xaml.png" width="303" height="96" alt="ZAML screen shot">
+    <figcaption><strong>Figure: An example of a text field with Send and Disconnect buttons</strong></figcaption>
+    </figure>
+
+          <p>Your page code may look like this:</p>
+          <pre class="auto-links: false; brush: js; toolbar: false;">
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
+using System.Windows.Shapes;
+
+using Kaazing.HTML5;
+
+namespace Test1
+{
+  public partial class MainPage : UserControl
+  {
+    #region Private Fields
+    private WebSocket _socket;
+    #endregion Private Fields
+
+    #region Ctor
+    public MainPage()
+    {
+      InitializeComponent();
+      Send.IsEnabled = true;
+    Disconnect.IsEnabled = true;
+
+    _socket = new WebSocket();
+    _socket.OpenEvent += new OpenEventHandler(OnSocketOpen);
+    _socket.MessageEvent += new MessageEventHandler(OnSocketMessage);
+    _socket.CloseEvent += new CloseEventHandler(OnSocketClose);
+    string location = @&quot;ws://localhost:8001/echo&quot;;
+    _socket.Connect(location);
+    }
+
+    #endregion Ctor
+
+    #region Private Methods
+    private void OnSocketMessage(object sender, MessageEventArgs args)
+    {
+      Logger.log(&quot;OnSocketMessage&quot;);
+      Console.Text = &quot;Message Received: &quot; + args.Data;
+    }
+    private void OnSocketClose(object sender, CloseEventArgs e)
+    {
+      Logger.log(&quot;OnSocketClose&quot;);
+      Console.Text = &quot;Connection Closed&quot;;
+    }
+    private void OnSocketOpen(object sender, OpenEventArgs e)
+    {
+      // This never gets called
+      Logger.log(&quot;OnSocketOpen&quot;);
+      Console.Text = &quot;Connection Opened&quot;;
+      Send.IsEnabled = true;
+      Disconnect.IsEnabled = true;
+    }
+    private void OnButtonClick(object sender, RoutedEventArgs e)
+    {
+      try
+      {
+      Console.Text = &quot;Sending Message&quot;;
+      _socket.Send(Input.Text);
+      }
+    catch (Exception ex)
+      {
+      Logger.log(ex.Message);
+      }
+    }
+    private void Disconnect_Click(object sender, RoutedEventArgs e)
+    {
+      _socket.Close();
+    }
+
+    #endregion Private Methods
+    }
+}</pre>
+          <p>You initialize the socket, assign event handlers to the important events, and issue the connect function on <span class="uri">_socket</span>.
+            Running this code, you will see that the <span class="uri">onSocketMessage</span> function is never called; instead, the <span class="uri">onSocketClose</span> is called right away. This call occurs because the client <span class="uri">.DLL</span> is not loaded when the code executes.</p>
+          <p>To solve this, you can add an event handler for the <span class="uri">Loaded</span> system event.</p>
+          <ol>
+            <li value="1">Add the <span class="uri">Loaded</span> event and a reference to the eventhandler (<span class="uri">UserControlLoaded</span> in this case) to the <span class="uri">UserControl</span>, as shown in this example:
+              <pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;UserControl x:Class="Test1.MainPage"
+ .
+ .
+ .
+   mc:Ignorable="d" d:DesignWidth="640"
+   d:DesignHeight="480" Margin="12,12,0,0" Loaded="UserControlLoaded"&gt;
+ .
+ .
+ .
+&lt;/UserControl&gt;
+              </pre>
+            </li>
+            <li>Remove or comment out the following code:
+              <pre class="auto-links: false; brush: js; toolbar: false;">
+public MainPage() {
+  InitializeComponent();
+  Send.IsEnabled = true;
+  Disconnect.IsEnabled = true;
+  /*
+  _socket = new WebSocket();
+  _socket.OpenEvent += new OpenEventHandler(OnSocketOpen);
+  _socket.MessageEvent += new MessageEventHandler(OnSocketMessage);
+  _socket.CloseEvent += new CloseEventHandler(OnSocketClose);
+  string location = @"ws://localhost:8001/echo";
+  _socket.Connect(location);
+  */
+}</pre>
+            </li>
+            <li>Add the <span class="uri">Loaded</span> event handler before the <span class="uri">Disconnect_Click</span>, as shown in this example:
+              <pre class="auto-links: false; brush: js; toolbar: false;">
+private void UserControlLoaded(object sender, RoutedEventArgs e) {
+  _socket = new WebSocket();
+  _socket.OpenEvent += new OpenEventHandler(OnSocketOpen);
+  _socket.MessageEvent += new MessageEventHandler(OnSocketMessage);
+  _socket.CloseEvent += new CloseEventHandler(OnSocketClose);
+  string location = @"ws://localhost:8001/echo";
+  _socket.Connect(location);
+}</pre>
+            </li>
+          </ol>
+          <p>Now, the code will instantiate the client socket object and connect automatically at the correct moment in the startup process.</p>
+<h3><a name="devserver"></a>Running from a Local Development Server</h3>
+<p>By default, Visual Studio runs a XAML file from the file system, which doesn't currently work with a local Gateway install. You must run it from Visual Studio's <span class="uri">localhost</span>. Visual Studio includes a development server that you can run from: <span class="uri">http://localhost:54265/</span> (or an arbitrary port chosen by Visual Studio). Entering this URL into the address bar of a supported browser after you have pressed the start button in the IDE will make this example work as you would expect. You can also specify that the .Web project is your start up project. If you do that, the XAML will automatically start via the server instead of from <span class="uri">file://</span>.</p>
+<p>In this example, you would right-click on the <span class="uri">Test1.Web</span> project in the Solution Explorer window and select Set as Start-up Project, which enables you to debug the project normally.
+ If you don't set the project as start-up and enter the URI manually, you must attach the debugger to a running browser to debug the project.</p>
+
+
+<h2>Next Step</h2>
+<p><a href="p_dev_dotnet_secure.html">Secure Your Microsoft .NET Client</a></p>
+
+<h2>See Also</h2>
+<p><a href="../apidoc/client/dotnet/gateway/html/N_Kaazing_HTML5.htm">.NET Client API</a></p>
+
+                  </section>
+                </article>
+
+            </div> <!-- #main -->
+        </div> <!-- #main-container -->
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

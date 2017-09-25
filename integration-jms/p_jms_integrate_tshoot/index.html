@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+  
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+
+ <h1 id="troubleshoot-jms-integration--">Troubleshoot JMS Integration  </h1>
+
+<p>This topic covers troubleshooting issues related to integrating a JMS-compliant message broker with Kaazing Gateway.</p>
+
+<p>For information on troubleshooting JMS clients, see <a href="../../troubleshooting/p_dev_troubleshoot/index.html">Troubleshoot Your Clients</a>.</p>
+
+<p>For general troubleshooting information, see <a href="../../troubleshooting/o_troubleshoot/index.html">Troubleshoot Kaazing Gateway</a>.</p>
+
+<h2 id="what-problem-are-you-having">What Problem Are You Having?</h2>
+
+<ul>
+  <li><a href="#exception-name-not-found-when-using-tibco-ems">Exception: “Name Not Found” When Using TIBCO EMS</a></li>
+  <li><a href="#exception-no-initial-context-exception-when-using-tibco-ems">Exception: “No Initial Context Exception” When Using TIBCO EMS</a></li>
+  <li><a href="#exception-service-unavailable-when-using-tibco-ems">Exception: Service Unavailable When Using TIBCO EMS</a></li>
+  <li><a href="#connection-errors">Connection Errors</a></li>
+  <li><a href="#exception-a-synchronous-method-call-is-not-permitted">Exception: A synchronous method call is not permitted</a></li>
+  <li><a href="#an-authentication-error-occurs-when-trying-to-connect-the-gateway-to-the-message-broker">An Authentication Error Occurs when Trying to Connect the Gateway to the Message Broker</a></li>
+  <li><a href="#exception-classnotfoundexception">Exception: ClassNotFoundException</a></li>
+  <li><a href="#tibco-ems-unable-to-free-up-durable-subscribers">TIBCO EMS Unable to Free Up Durable Subscribers</a></li>
+  <li><a href="#warning-maximumpendingacknowledgments-has-been-set-to-1">Warning: maximum.pending.acknowledgments has been set to 1</a></li>
+</ul>
+
+<h2 id="exception-name-not-found-when-using-tibco-ems">Exception: “Name Not Found” When Using TIBCO EMS</h2>
+
+<p><strong>Cause:</strong> When you try to run a client application against TIBCO EMS 5.x, you get an exception that looks similar to the following:</p>
+
+<p><code>javax.naming.NameNotFoundException</code></p>
+
+<p>The <code>TIBCO_HOME/ems/5.1/bin/factories.conf</code> file may not be correctly configured.</p>
+
+<p><strong>Solution:</strong> To prevent this error, ensure that the <code>TIBCO_HOME/ems/5.1/bin/factories.conf</code> file is correctly configured according to the TIBCO EMS 5.x documentation. You can alternatively copy the contents of the file from the TIBCO EMS 5.x samples (<code>TIBCO_HOME/ems/5.1/samples/config</code>) into the <code>factories.conf</code> file.</p>
+
+<h2 id="exception-no-initial-context-exception-when-using-tibco-ems">Exception: “No Initial Context Exception” When Using TIBCO EMS</h2>
+
+<p><strong>Cause:</strong> When you try to start the Gateway, you get an exception that looks similar to the following:</p>
+
+<p><code>javax.naming.NoInitialContextException</code></p>
+
+<p>This error may occur if you do not have the necessary TIBCO EMS JAR files in your <em>GATEWAY_HOME</em>.</p>
+
+<p><strong>Solution:</strong> To prevent this error, copy the following client JAR files from <code>TIBCO_HOME/ems/version/lib</code> to <code>GATEWAY_HOME/lib</code>:</p>
+
+<ul>
+  <li><code>jms.jar</code></li>
+  <li><code>tibcrypt.jar</code></li>
+  <li><code>tibjms.jar</code></li>
+</ul>
+
+<p>Then, restart the Gateway.</p>
+
+<h2 id="exception-service-unavailable-when-using-tibco-ems">Exception: Service Unavailable When Using TIBCO EMS</h2>
+
+<p><strong>Cause:</strong> After starting the Gateway, you see the following error:</p>
+
+<p><code>javax.naming.ServiceUnavailableException</code></p>
+
+<p>This error may occur if you have not started TIBCO EMS before starting the Gateway.</p>
+
+<p><strong>Solution:</strong> To resolve this error, start TIBCO EMS, then restart the Gateway.</p>
+
+<h2 id="connection-errors">Connection Errors</h2>
+
+<p><strong>Cause:</strong> There are two typical scenarios specific to JMS integration with the Gateway:</p>
+
+<ol>
+  <li>The Gateway goes offline when a message sent by a JMS client is in transit. The result is that the message is lost and consumers do not get the message even after the Gateway comes back online. (If messages are sent after the Gateway is offline, the Kaazing Gateway JMS client accumulates the messages as pending frames and when the Gateway comes back online, the pending messages are sent.)</li>
+  <li>The JMS-compliant message broker goes offline and the JMS client sends a message. The result is that messages are queued by the Gateway until the broker comes back online, at which point the messages are sent to the broker and on to subscribers (topics or queues).</li>
+</ol>
+
+<p><strong>Solution:</strong> From the JMS client side, the Kaazing Gateway Client APIs have several exception classes that can be used to determine what condition resulted in a connection error. For example, see the <a href="//kaazing.com/doc/jms/4.0/apidoc/client/java/jms/index.html">Java JMS Client API</a>. A few of the key exception classes are:</p>
+
+<ul>
+  <li>ConnectionDisconnectedException</li>
+  <li>ConnectionDroppedException</li>
+  <li>ConnectionFailedException</li>
+  <li>ConnectionInterruptedException</li>
+  <li>ConnectionRestoredException</li>
+  <li>ReconnectFailedException</li>
+</ul>
+
+<p>For administrators of the Gateway, examining the error log (<code>GATEWAY_HOME/log/error.log</code>) of the Gateway indicates whether the Gateway can connect to the broker. For example, if the broker is offline, a record such as the following will appear in the error log:</p>
+
+<p><code>2012-09-20 14:48:32,998 WARN  Unable to establish JMS Connection due to the following exception: Could not connect to broker URL: tcp://localhost:61616. Reason: java.net.ConnectException: Connection refused</code></p>
+
+<p><strong>Notes:</strong></p>
+
+<ul>
+  <li>When a JMS connection is lost due to the Gateway shutting down or from a WebSocket-level disconnect (for example, the network is suddenly unavailable), the JMS client connection’s ExceptionListener <code>onException()</code> method is called with a <code>ConnectionDroppedException</code> exception.</li>
+  <li>When a JMS connection is lost due to the Gateway connection to the JMS Broker shutting down (for example, the broker is shutdown), then the JMS client’s <code>onException()</code> method is called with a <code>ConnectionInterruptedException</code> exception.</li>
+  <li>When the JMS connection is restored for either of the preceding cases, then the JMS client’s <code>onException()</code> method is called with a <code>ConnectionRestoredException</code> exception.</li>
+</ul>
+
+<h2 id="exception-a-synchronous-method-call-is-not-permitted">Exception: A synchronous method call is not permitted</h2>
+
+<p><strong>Cause:</strong> When your client attempts to establish more than one distinct topic subscription (meaning either different topics or different message selectors) or if there is more than one queue consumer, you receive the following error message:</p>
+
+<p><code>A synchronous method call is not permitted when a session is being used asynchronously: 'createConsumer'.     The JMS specification does not permit the use of a session for synchronous methods when asynchronous message delivery is running.</code></p>
+
+<p>Your JMS-compliant message broker strictly enforces the session threading rules of the <a href="//www.oracle.com/technetwork/java/docs-136352.html">JMS 1.1 specification</a>, section 2.8 Multithreading. Specifically, the Session object does not support concurrent use in JMS 1.1. Session objects may be accessed by one logical thread of control at a time, only. The restriction makes JMS easier to use for some clients.</p>
+
+<p><strong>Solution:</strong> Add <code>&lt;workaround&gt;1&lt;/workaround&gt;</code> to the jms service configured on the Gateway. For example:</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;service&gt;
+  &lt;accept&gt;ws://localhost:8001/jms&lt;/accept&gt;
+  &lt;accept&gt;wss://localhost:9001/jms&lt;/accept&gt;
+  &lt;type&gt;jms&lt;/type&gt;
+
+  &lt;properties&gt;
+    &lt;connection.factory.name&gt;ConnectionFactory&lt;/connection.factory.name&gt;
+    &lt;context.lookup.topic.format&gt;%s&lt;/context.lookup.topic.format&gt;
+    &lt;context.lookup.queue.format&gt;%s&lt;/context.lookup.queue.format&gt;
+    &lt;workaround&gt;1&lt;/workaround&gt;
+    &lt;env.java.naming.factory.initial&gt;
+      com.sun.jndi.fscontext.RefFSContextFactory
+    &lt;/env.java.naming.factory.initial&gt;
+
+    &lt;!-- The location of the .bindings file --&gt;
+    &lt;env.java.naming.provider.url&gt;file://tmp&lt;/env.java.naming.provider.url&gt;
+  &lt;/properties&gt;
+
+  &lt;cross-site-constraint&gt;
+    &lt;allow-origin&gt;http://localhost:8001&lt;/allow-origin&gt;
+  &lt;/cross-site-constraint&gt;
+  &lt;cross-site-constraint&gt;
+    &lt;allow-origin&gt;https://localhost:9001&lt;/allow-origin&gt;
+  &lt;/cross-site-constraint&gt;
+&lt;/service&gt;
+</code></pre>
+
+<h2 id="an-authentication-error-occurs-when-trying-to-connect-the-gateway-to-the-message-broker">An Authentication Error Occurs when Trying to Connect the Gateway to the Message Broker</h2>
+
+<p><strong>Cause:</strong> Authentication errors can occur if the authentication settings on the message broker are changed and the configuration of the Gateway has not been updated.</p>
+
+<p><strong>Solutions:</strong> The following options are available:</p>
+
+<ul>
+  <li>Include the <a href="../../admin-reference/r_conf_jms#connectionsecurityprincipal"><code>connection.security.principal</code></a> and <a href="../../admin-reference/r_conf_jms#connectionsecuritycredentials"><code>connection.security.credentials</code></a> properties in the <code>jms</code> service. The Gateway uses these properties for each connection it creates to the message broker. This is the recommended solution. For more information, see <a href="../../admin-reference/r_conf_jms#jms">jms</a>.</li>
+  <li>Provide the required authentication credentials at each <code>createConnection()</code> method call in your Kaazing Gateway JMS client. If you choose this option, the Gateway passes the credentials from the JMS client to the message broker, but the Gateway itself does not authenticate with the message broker. For more information, see <code>createConnection()</code> in each of the Kaazing Gateway JMS Client APIs under <strong>Client API Documentation</strong>.</li>
+  <li>Disable authentication at the message broker. This solution should be used to simplify development and testing environments only.</li>
+</ul>
+
+<p><strong>Note:</strong> When connecting the Gateway to some message brokers, you might need to set the username and password attributes of <code>ConnectionFactory</code> in the .bindings file in addition to the above solutions.</p>
+
+<h2 id="exception-classnotfoundexception">Exception: ClassNotFoundException</h2>
+
+<p><strong>Cause:</strong> A required jar file is missing from the <code>GATEWAY_HOME/lib/ext</code> folder.</p>
+
+<p><strong>Solution:</strong> Review the procedure for integrating Kaazing Gateway with the message broker and ensure that all of the required jar files listed in the procedure are in the <code>GATEWAY_HOME/lib/ext</code> folder. To locate the procedure, see <a href="../o_jms_integrate">About Integrating Kaazing Gateway and JMS-Compliant Message Brokers</a>.</p>
+
+<h2 id="tibco-ems-unable-to-free-up-durable-subscribers">TIBCO EMS Unable to Free Up Durable Subscribers</h2>
+
+<p><strong>Cause:</strong> TIBCO EMS is unable to detect connection loss and free up durable subscribers when a Gateway instance shuts down unexpectedly.</p>
+
+<p><strong>Solution:</strong> To avoid this failure, the following two settings should be put in the TIBCO EMS server configuration file (tibemsd.conf):</p>
+
+<ul>
+  <li><code>client_heartbeat_server</code> = the value of the Gateway configuration element <a href="../../admin-reference/r_configure_gateway_service#wsinactivitytimeout"><code>ws.inactivity.timeout</code></a> divided by 3</li>
+  <li><code>server_timeout_client_connection</code> = the value of the Gateway configuration element <code>ws.inactivity.timeout</code></li>
+</ul>
+
+<h2 id="warning-maximumpendingacknowledgments-has-been-set-to-1">Warning: maximum.pending.acknowledgments has been set to 1</h2>
+
+<p><strong>Cause:</strong> The JMS service property <a href="../../admin-reference/r_conf_jms#maximumpendingacknowledgments">maximum.pending.acknowledgments</a> has been set to 1 because the JMS provider does not support individual message acknowledgment. Client applications must acknowledge each message received on a durable subscriber or queue in order to receive further messages on that subscriber or queue. Otherwise, the client will receive only one message from that queue or durable subscriber.</p>
+
+<p><strong>Solution:</strong> If you are using a JMS provider other than Apache ActiveMQ or TIBCO Enterprise Message Service (TIBCO EMS), you must ensure your client applications acknowledge each message received from a queue or durable subscriber.</p>
+
+<h2 id="see-also">See Also</h2>
+
+<p>For more information about Kaazing Gateway administration, see the <a href="../..">documentation</a>.</p>
+
+
+
+</div>
+
+</div>
+
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

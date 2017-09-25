@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+  
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+
+ <h1 id="integrate-tibco-enterprise-message-service--">Integrate TIBCO Enterprise Message Service  </h1>
+
+<p>In this procedure, you will learn how to integrate Kaazing Gateway and TIBCO Enterprise Message Service (TIBCO EMS), a standards-based enterprise messaging platform.</p>
+
+<h2 id="to-integrate-tibco-enterprise-message-service">To Integrate TIBCO Enterprise Message Service</h2>
+
+<p>TIBCO Enterprise Message Service (TIBCO EMS) is a standards-based enterprise messaging platform. The Gateway supports integration with TIBCO EMS 5.x or higher, and 4.x versions.</p>
+
+<p>To configure the Gateway to work with these versions of TIBCO EMS, perform the following steps:</p>
+
+<ol>
+  <li>Install TIBCO EMS following the instructions in the TIBCO EMS documentation. The directory that contains the application server installation is referred to as <em>TIBCO_HOME</em>.</li>
+  <li>
+    <p>Copy the JAR files listed in the following table to <code>GATEWAY_HOME/lib/ext</code> from the appropriate directory in your <em>TIBCO_HOME</em> (for TIBCO EMS 5.x or higher: <code>TIBCO_HOME/ems/version/lib</code>; for TIBCO 4.x: <code>TIBCO_HOME/ems/clients/java</code>):</p>
+
+    <p><strong>TIBCO EMS 5.x or higher</strong><br />
+- jms.jar (jms-2.0.jar in EMS 8)<br />
+- tibcrypt.jar<br />
+- tibjms.jar<br />
+- tibjmsadmin.jar<br />
+- tibjmsapps.jar<br />
+- tibrvjms.jar</p>
+
+    <p><strong>TIBCO EMS 4.4.3</strong><br />
+- jaxp.jar<br />
+- jms.jar<br />
+- jndi.jar<br />
+- jta-spec1_0_1.jar<br />
+- tibcrypt.jar<br />
+- tibjms.jar<br />
+- tibjmsadmin.jar<br />
+- tibjmsapps.jar<br />
+- tibrvjms.jar</p>
+
+    <p><strong>TIBCO EMS 4.1</strong><br />
+- crimson.jar<br />
+- jaxp.jar<br />
+- jcert.jar<br />
+- jms.jar<br />
+- jndi.jar<br />
+- jnet.jar<br />
+- jsse.jar<br />
+- jta-spec1_0_1.jar<br />
+- tibcrypt.jar<br />
+- tibjms.jar<br />
+- tibjmsadmin.jar<br />
+- tibjmsapps.jar<br />
+- tibrvjms.jar</p>
+
+    <p><strong>Note</strong>: Instead of copying the required TIBCO EMS jar files to <code>GATEWAY_HOME/lib/ext</code>, you can also modify the <code>gateway.start</code> or <code>gateway.start.bat</code> startup file to add these <code>.JAR</code> files (in their original <code>TIBCO_HOME</code> locations) to the CLASSPATH when the Gateway starts.</p>
+  </li>
+  <li>If you are using TIBCO EMS 5.x or higher, open the <code>TIBCO_HOME/ems/version/bin/factories.conf</code> file. Otherwise, skip to Step 7.</li>
+  <li>Configure the file according to the TIBCO EMS 5.x or higher documentation. You can alternatively copy the contents of the file from the TIBCO EMS 5.x or higher samples (<code>TIBCO_HOME/ems/version/samples/config</code>) into the <code>factories.conf</code> file.</li>
+  <li>
+    <p>Update the <code>factories.conf</code> to enable the Gateway to access TIBCO EMS. For a local Kaazing Gateway, you can use the following configuration:</p>
+
+    <pre><code>[GenericConnectionFactory]
+  type                  = generic
+  url                   = tcp://7222
+
+[TopicConnectionFactory]
+  type                  = topic
+  url                   = tcp://7222
+
+[QueueConnectionFactory]
+  type                  = queue
+  url                   = tcp://7222
+</code></pre>
+
+    <p>For a remote Kaazing Gateway, you can use the following configuration, where <code>tibco.example.com</code> is the address of TIBCO EMS.</p>
+
+    <pre><code>[GenericConnectionFactory]
+  type                  = generic
+  url                   = tcp://tibco.example.com:7222
+
+[TopicConnectionFactory]
+  type                  = topic
+  url                   = tcp://tibco.example.com:7222
+
+[QueueConnectionFactory]
+  type                  = queue
+  url                   = tcp://tibco.example.com:7222
+</code></pre>
+  </li>
+  <li>Save the <code>factories.conf</code> file.</li>
+  <li>Open the file <code>GATEWAY_HOME/conf/gateway-config.xml</code> in a text editor and locate the <a href="../../admin-reference/r_conf_jms/index.html#jms">jms</a> service element (search for “jms”).</li>
+  <li>
+    <p>Update the <code>jms</code> service element properties section as shown in the following example. This example is for use with TIBCO EMS 5.1 or higher, and uses the default credentials (username <code>admin</code> with no password).</p>
+
+    <p><strong>Note</strong>: The following example uses the default credentials (username <code>admin</code> with no password). If you change the credentials, you will need to update these credentials accordingly. See also <a href="../../security/p_broker_jms_secure/index.html">Secure the Connection from the Gateway to the Message Broker</a> for more information about accessing a secured message broker from the Gateway. </p>
+
+    <p>You can use <code>TopicConnectionFactory</code> or <code>QueueConnectionFactory</code> in the <code>connection.factory.name</code> element, as appropriate.</p>
+
+    <pre class="auto-links: false; brush: xml; toolbar: false;">&lt;service&gt;
+  &lt;accept&gt;ws://localhost:8001/jms&lt;/accept&gt;
+  &lt;accept&gt;wss://localhost:9001/jms&lt;/accept&gt;
+  &lt;type&gt;jms&lt;/type&gt;
+
+  &lt;properties&gt;
+    &lt;connection.security.principal&gt;admin&lt;/connection.security.principal&gt;
+    &lt;connection.security.credentials&gt;&lt;/connection.security.credentials&gt;
+    &lt;env.java.naming.security.principal&gt;admin&lt;/env.java.naming.security.principal&gt;
+    &lt;env.java.naming.security.credentials&gt;&lt;/env.java.naming.security.credentials&gt;
+
+    &lt;connection.factory.name&gt;GenericConnectionFactory&lt;/connection.factory.name&gt;
+    &lt;!-- Set destinations --&gt;
+    &lt;context.lookup.topic.format&gt;%s&lt;/context.lookup.topic.format&gt;
+    &lt;context.lookup.queue.format&gt;%s&lt;/context.lookup.queue.format&gt;
+        
+    &lt;env.java.naming.factory.initial&gt;
+      com.tibco.tibjms.naming.TibjmsInitialContextFactory
+    &lt;/env.java.naming.factory.initial&gt;
+    &lt;env.java.naming.provider.url&gt;tcp://localhost:7222&lt;/env.java.naming.provider.url&gt;
+    &lt;!-- Dynamic destinations support; omit for static destinations --&gt;
+    &lt;destination.strategy&gt;session&lt;/destination.strategy&gt;
+  &lt;/properties&gt;
+
+  &lt;cross-site-constraint&gt;
+    &lt;allow-origin&gt;http://localhost:8001&lt;/allow-origin&gt;
+  &lt;/cross-site-constraint&gt;
+  &lt;cross-site-constraint&gt;
+    &lt;allow-origin&gt;https://localhost:9001&lt;/allow-origin&gt;
+  &lt;/cross-site-constraint&gt;
+&lt;/service&gt;
+</code></pre>
+  </li>
+</ol>
+
+<p><strong>Notes:</strong> <br />
+-   The <code>connection.security.principal</code> and <code>connection.security.credentials</code> elements are used for all message brokers that require client authentication. The <code>env.java.naming.security.principal</code> and <code>env.java.naming.security.credentials</code> elements are only used for TIBCO EMS because of the implementation of TIBCO EMS connection factory. The TIBCO EMS connection factory does a remote connection to the message broker, and therefore must provide credentials. The <code>env.java.naming.security.principal</code> and <code>env.java.naming.security.credentials</code> elements instruct the TIBCO EMS connection factory on which credentials to use. For more information, see <a href="../../admin-reference/r_conf_jms/index.html#jms-service-properties">jms Service Properties</a>.<br />
+-   If TIBCO EMS is unable to detect connection loss and free up durable subscribers when a Gateway instance shuts down unexpectedly, see the troubleshooting information in <a href="../p_jms_integrate_tshoot/index.html#tibco-ems-unable-to-free-up-durable-subscribers">TIBCO EMS Unable to Free Up Durable Subscribers</a>.</p>
+
+<h2 id="jms-integration-verification">JMS Integration Verification</h2>
+
+<p>To verify that the JMS integration is working, perform the following steps:</p>
+
+<ol>
+  <li>Start the TIBCO EMS Server.</li>
+  <li>Start the Gateway as described in <a href="../../about/setup-guide/index.html">Setting Up the Gateway</a>.</li>
+  <li>Download the Kaazing JMS JavaScript Demo. The demo is located on Github at <a href="https://github.com/kaazing/javascript.client.tutorials/tree/develop/jms">https://github.com/kaazing/javascript.client.tutorials/tree/develop/jms</a>.</li>
+  <li>In a browser, navigate to the JMS JS demo.</li>
+  <li>Change the value for <strong>Location</strong> to <code>ws://localhost:8001/jms</code>.</li>
+  <li>Change the value of all <strong>Destination</strong> text boxes to an existing topic or queue, for example <code>/topic/testTopic</code>. This example assumes that the topic <code>testTopic</code> exists. For information on creating topics and queues, see the documentation for TIBCO EMS (search for “create topic” or “create queue” in the Command Listing.)</li>
+  <li>Click <strong>Connect</strong>.<br />
+ The message “<code>CONNECT:  ws://localhost:8001/jms</code>” should appear in the log window followed by the message “<code>CONNECTED:</code>”.</li>
+  <li>Click <strong>Subscribe</strong>.</li>
+  <li>Click <strong>Send</strong>. You should see the message that you sent in the message log.</li>
+</ol>
+
+<h2 id="subscription-and-destination-support">Subscription and Destination Support</h2>
+
+<p>Kaazing Gateway integration with TIBCO Enterprise Message Service has the following subscription and destination support:</p>
+
+<ul>
+  <li>Durable subscriptions are supported</li>
+  <li>Dynamic destinations are supported. Add the <a href="../../admin-reference/r_conf_jms/index.html#destinationstrategy"><code>destination.strategy</code></a> property to the <a href="../../admin-reference/r_conf_jms/index.html#jms">jms</a> section and set its value to <code>session</code> to support destination lookups without using JNDI. This configuration instructs the Gateway to obtain Topic and Queue objects using the <code>createTopic()</code> and <code>createQueue()</code> JMS API methods instead of performing JNDI lookups.</li>
+  <li>Static destinations are supported</li>
+</ul>
+
+<h2 id="notes">Notes</h2>
+
+<ul>
+  <li>To learn how to secure your JMS configuration, see <a href="../../security/o_jms_secure/index.html">Secure Your JMS Configuration</a>.</li>
+  <li>
+    <p>You can also connect to your TIBCO EMS 4.4.3 or higher server using SSL. To do so, set the protocol of the <code>env.java.naming.provider.url</code> property to <code>ssl</code>. For example:</p>
+
+    <p><code>&lt;env.java.naming.provider.url&gt;ssl://localhost:7222&lt;/env.java.naming.provider.url&gt;</code></p>
+  </li>
+</ul>
+
+<h2 id="see-also">See Also</h2>
+
+<ul>
+  <li>For information on troubleshooting JMS integration, see <a href="../p_jms_integrate_tshoot/index.html">Troubleshoot JMS Integration</a>.</li>
+  <li>For information on troubleshooting JMS clients, see <a href="../../troubleshooting/p_dev_troubleshoot/index.html">Troubleshoot Your Clients</a>.</li>
+  <li>For general troubleshooting information, see <a href="../../troubleshooting/o_troubleshoot/index.html">Troubleshoot Kaazing Gateway</a>.</li>
+</ul>
+
+
+
+</div>
+
+</div>
+
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

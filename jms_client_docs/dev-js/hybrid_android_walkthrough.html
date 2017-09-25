@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+  <h1>Walkthrough: Deploy a JavaScript JMS App as a Hybrid Android App </h1>
+
+  <p>In this walkthrough, you will learn how to deploy an existing JavaScript JMS web app built with the Kaazing WebSocket Gateway JavaScript JMS libraries as a hybrid app for Android. This topic walks you through the following subjects:</p>
+
+  <ol>
+  <li><a href="#Accomplish">What You Will Accomplish</a></li>
+  <li><a href="#Before">Before You Begin</a></li>
+  <li><a href="#Install">Install the Tutorial, Gateway (optional), Android SDK, and Cordova 6.0</a></li>
+  <li><a href="#Populate">Build the Hybrid Android App Using Cordova</a></li>
+  <li><a href="#Apache">Configure and Run the Gateway and Apache ActiveMQ (optional)</a></li>
+  <li><a href="#Build">Test the Hybrid Android App</a></li>
+  <li><a href="#summary">Summary</a></li>
+  </ol>
+
+  <span class="note"><b>Notes:</b>
+   <ul class="arrow-2">
+     <li>A hybrid Android app is a hybrid of a browser-based application and a native Android app. A native Android app is built using the Android SDK. A hybrid Android app is built using HTML, CSS, and JavaScript like a typical browser-based application, and then packaged in a framework that allows it to be converted into an app that runs on Android devices much like a native app. Hybrid Android apps enable web developers to leverage their web experience to create apps for Android. For information on native Android development, see <a href="//developer.android.com/develop/index.html">Android Develop</a>.</li>
+     <li>A hybrid Android app is also different from a browser-based application that is intended for viewing in a browser on Android, but not downloaded through the Android app store. If you have an existing Kaazing WebSocket Gateway JavaScript JMS browser-based application, you can use it to create a hybrid Android app or you can modify its web content to make it compatible with browsers on Android.</li>
+   </ul>
+  </span>
+
+  <h2><a name="Accomplish"></a>What You Will Accomplish</h2>
+  <p>At the end of this walkthrough, a JavaScript JMS demo app created using the Kaazing JavaScript JMS SDK libraries runs as a hybrid Android app on Android, connects to the local or publicly available Apache ActiveMQ broker via the Gateway, and sends and receives JMS messages using a native or emulated WebSocket connection. Users can run the hybrid Android app on any Android device and connect via the Gateway to the Apache ActiveMQ broker.</p>
+  <p>This walkthrough uses the JavaScript JMS tutorial app that is available online at <a href="https://github.com/kaazing/javascript.client.tutorials">https://github.com/kaazing/javascript.client.tutorials</a>, but the steps outlined in this walkthrough are the same for other JavaScript JMS client applications built with the Kaazing JavaScript JMS SDK.</p>
+
+
+  <p><span class="note"><strong>Note</strong>: For this walkthrough, you can use any JMS-compliant message broker. By default, the Gateway is configured to connect to the server on tcp://localhost:61613. You can configure the connect URL in the file <span class="code_inline"><em>GATEWAY_HOME</em>/conf/gateway-config.xml</span>. See <a href="../../integration-jms/o_jms_integrate.html">About Integrating Kaazing WebSocket Gateway and JMS-Compliant Message Brokers</a> for more information.</span></p>
+
+
+  <h2><a name="Before"></a>Before You Begin</h2>
+  <p>Before starting this walkthrough you need the following:</p>
+  <ul class="arrow-2">
+  <li>Kaazing JavaScript JMS Tutorial App - <a href="https://github.com/kaazing/javascript.client.tutorials">https://github.com/kaazing/javascript.client.tutorials</a>.</li>
+  <li>Kaazing WebSocket Gateway (optional). See <a href="../about/setup-guide.html">Setting Up Kaazing WebSocket Gateway</a>. You can also use the publicly available Kaazing WebSocket Gateway and Apache ActiveMQ broker at the URL <code>wss://sandbox.kaazing.net/jms</code>.</li>
+  <li><a href="//developer.android.com/sdk/index.html">Android Studio and SDK</a>.</li>
+  <li><a href="https://cordova.apache.org/docs/en/latest/guide/cli/index.html#installing-the-cordova-cli">Apache Cordova 6.0 and its Command-Line Interface (CLI)</a>.</li>
+  </ul>
+
+  <p>Learn about supported browsers, operating systems, and platform versions in <a href="//kaazing.com/releases/client-javascript/">Release Notes</a>.</p>
+
+  <p><strong>Note:</strong> Steps for installing and configuring Android Studio, Android SDK, and Cordova 6.0 are included in this walkthrough.</p>
+
+  <h2><a name="Install"></a>Install the Tutorial, Gateway, Android Studio, Android SDK, and Cordova 6.0</h2>
+  <p>The following steps take you through the installation of the software required for deploying a hybrid Android app. If you have already have this software installed, you can simply note the locations of the installed software for later use.</p>
+  <ol>
+
+  <li>Download or clone the Kaazing JavaScript JMS Tutorial, available on Github at <a href="https://github.com/kaazing/javascript.client.tutorials">https://github.com/kaazing/javascript.client.tutorials</a>. Build the project using the instructions here <a href="https://github.com/kaazing/javascript.client.tutorials/blob/develop/README.md">https://github.com/kaazing/javascript.client.tutorials/blob/develop/README.md</a>.</li>
+
+  <li>Install the Gateway as described in <a href="../about/setup-guide.html">Setting Up Kaazing WebSocket Gateway</a> (optional). There is also a publicly available Kaazing WebSocket Gateway and Apache ActiveMQ message broker available at the URL <code>wss://sandbox.kaazing.net/jms</code>. You can use either option.</li>
+
+  <li>Download and install Android Studio from <a href="//developer.android.com/sdk/installing/index.html?pkg=studio">http://developer.android.com/sdk/installing/index.html?pkg=studio</a>.</li>
+
+  <li>Launch Android Studio.</li>
+
+  <li>In <strong>Welcome to Android Studio</strong>, click <strong>Configure</strong>, and then click <strong>SDK Manager</strong>.</li>
+
+  <li>Select the <strong>Android 2.2</strong> and the <strong>Android 4.1</strong> packages and then click <strong>Install packages</strong>.</li>
+
+  <li>Download and install Cordova 6.0 as described in <a href="https://cordova.apache.org/docs/en/latest/guide/cli/index.html#installing-the-cordova-cli">Installing the Cordova CLI</a> from Cordova.</li>
+
+  </ol>
+
+  <h2><a name="Populate"></a>Build the Hybrid Android App Using Cordova</h2>
+
+  <p>The following steps will create the project directory for the hybrid Android app, and populate the directory with the web app files and JavaScript JMS library files required to communicate with the Gateway.</p>
+
+  <p><strong>Note:</strong> The general steps for creating an Android app using Cordova are documented in the Apache Cordova Documentation, <a href="https://cordova.apache.org/docs/en/latest/guide/cli/index.html#create-the-app">Create the App</a>.</p>
+
+  <ol>
+    <li>Note the location of the Kaazing JavaScript JMS Tutorial you downloaded and built, for example <code>/Users/johndoe/Desktop/github/javascript.client.tutorials/jms</code>. When you create your Cordova project you will reference the <strong>jms</strong> folder in order for Cordova to build the hybrid Android app using the tutorial files.</li>
+    <li>Open a Terminal at the folder where you want to save the app.</li>
+    <li><p>To create the app and populate it with the JavaScript demo, enter the following:</p>
+      <p><code>cordova create myAndroidApp com.example.myapp myAndroidApp --template /Users/johndoe/Desktop/github/javascript.client.tutorials/jms</code></p>
+      <p>The <code>/Users/johndoe/Desktop/github/javascript.client.tutorials/jms</code> points to the JavaScript demo files you downloaded and built.</p>
+      <p><strong>Note:</strong> This walkthrough uses the JavaScript JMS tutorial app as an example web app, but when you create your own JavaScript JMS app, you can create it in your favorite IDE and then copy it to this <strong>www</strong> directory. You must name the HTML file for your app <strong>index.html</strong> and you must ensure that links in <strong>index.html</strong> point to the JavaScript WebSocket library and the JavaScript JMS library (see <a href="../../about/setup-guide/index.html">Setting Up the Gateway and Clients</a>), for example:</p>
+      <pre class="brush: xml; toolbar: false;">
+      &lt;script src=&quot;WebSocket.js&quot; type=&quot;text/javascript&quot; language=&quot;javascript&quot;&gt;&lt;/script&gt;
+      &lt;script src=&quot;JmsClient.js&quot; type=&quot;text/javascript&quot; language=&quot;javascript&quot;&gt;&lt;/script&gt;
+      </pre>
+      
+    </li>
+    <li>In Terminal, navigate to the folder for your new app (<code>cd myAndroidApp</code>).</li>
+    <li>To specify the target platform as Android, enter the following command: <code>cordova platform add android</code>. Note: To see a list of the current platforms available, enter: <code>cordova platforms ls</code>.</li>
+    <li><p>To build the project, enter the following command: <code>cordova build android</code>. The build process might take some time. When it is finsihed, Cordova generates the platform-specific project within the project's <strong>platforms</strong> subdirectory that you can open with Android Studio (for example, <strong>myAndroidApp/platforms/android</strong>).</p>
+    <p>On Mac or Linux, if you receive the error <code>Error: Android SDK not found</code> then open your <strong>.bash_profile</strong> file and enter the following (replace <em>JohnSmith</em> with your user name):</p>
+
+    <p><code>export ANDROID_HOME=/Users/<em>JohnSmith</em>/Library/Android/sdk<br>export PATH=$ANDROID_HOME/platform-tools:$PATH<br>export PATH=$ANDROID_HOME/tools:$PATH<br></code></p>
+
+    <p>For more info, <a href="https://cordova.apache.org/docs/en/dev/guide/platforms/android/">https://cordova.apache.org/docs/en/dev/guide/platforms/android/</a>.</p>
+    </li>
+  </ol>
+
+
+  <h2><a name="Apache"></a>Configure and Run the Gateway and Apache ActiveMQ (optional)</h2>
+  <p>If you are going to use a local copy of Kaazing WebSocket Gateway, the following steps start the Apache ActiveMQ service that is included with the Gateway, configure the cross-site constraint for the jms service on the Gateway, and then run the Gateway.</p>
+  <ol>
+  <li>Start Apache ActiveMQ. For steps on starting Apache ActiveMQ, see the setup information for Apache ActiveMQ or <a href="../../about/setup-guide/index.html">Setting Up the Gateway and Clients</a>.</li>
+  <li>Open the <span class="code_inline"><em>GATEWAY_HOME</em>/conf/gateway-config.xml</span> file in a text editor. You need to modify this file to use the Android Emulator loopback IP address (10.0.2.2) and you need to change the cross site constraint to allow any origin in order to run the app locally. 10.0.2.2 is the special alias to your host loopback interface (127.0.0.1 on your development machine). For more information about Android Emulator networking, see <a href="//developer.android.com/tools/devices/emulator.html#emulatornetworking">Emulator Networking</a> from Android.</li>
+  <li><p>Modify the <code>jms</code> service to use the Android loopback IP address and the cross site constraint to allow any origin:</p>
+  <pre class="auto-links: false; brush: xml; toolbar: false;highlight:[4,16,17,18,23];">
+  &lt;service&gt;
+    &lt;name&gt;JMS Service&lt;/name&gt;
+    &lt;description&gt;JMS Service&lt;/description&gt;
+    &lt;accept&gt;ws://10.0.2.2:8888/jms&lt;/accept&gt;
+
+    &lt;type&gt;jms&lt;/type&gt;
+
+    &lt;properties&gt;
+      &lt;connection.factory.name&gt;ConnectionFactory&lt;/connection.factory.name&gt;
+      &lt;context.lookup.topic.format&gt;dynamicTopics/%s&lt;/context.lookup.topic.format&gt;
+      &lt;context.lookup.queue.format&gt;dynamicQueues/%s&lt;/context.lookup.queue.format&gt;
+      &lt;env.java.naming.factory.initial&gt;org.apache.activemq.jndi.ActiveMQInitialContextFactory&lt;/env.java.naming.factory.initial&gt;
+      &lt;env.java.naming.provider.url&gt;tcp://localhost:61616&lt;/env.java.naming.provider.url&gt;
+    &lt;/properties&gt;
+
+      &lt;accept-options&gt;
+        &lt;ws.bind&gt;localhost:8888&lt;/ws.bind&gt;
+      &lt;/accept-options&gt;
+
+    &lt;realm-name&gt;demo&lt;/realm-name&gt;
+
+    &lt;cross-site-constraint&gt;
+      &lt;allow-origin&gt;*&lt;/allow-origin&gt;
+    &lt;/cross-site-constraint&gt;
+  &lt;/service&gt;
+  </pre>
+      </li>
+  <li>Save the <span class="code_inline">gateway-config.xml</span> file.</li>
+  <li><p>Start the Gateway as described in <a href="../../about/setup-guide/index.html">Setting Up the Gateway and Clients</a>.</p>
+      <p>The output from the command will display that the Gateway is listening on:</p>
+      <p><span class="code_inline">ws://10.0.2.2:8888/jms @ localhost:8888</span></p></li>
+  </ol>
+
+  <h2><a name="Build"></a>Test the Hybrid Android App</h2>
+  <p>The following steps use the Android Emulator to test the hybrid Android app that you created.</p>
+  <span class="note"><b>Notes:</b>
+   <ul class="arrow-2">
+     <li>If you are using a local Gateway and Apache ActiveMQ broker, then both the Gateway and Apache ActiveMQ must be running before testing the hybrid Android app.</li>
+     <li><strong>When testing on Android devices:</strong> In order to connect the hybrid Android app on the Android device to the Gateway and Apache ActiveMQ, the Android device must be able to resolve the host name of computer running the Gateway on the network. This is the host name that you will use in the <strong>Location</strong> field of the hybrid Android app. For example, <span class="code_inline">ws://host_name:8001/jms</span>. You can also configure the Android device to use the IP Address of the computer running the Gateway (for example, <span class="code_inline">ws://192.168.4.86:8001/jms</span>). Using the IP Address is often the easiest method during testing.</li>
+   </ul>
+  </span>
+
+  <ol>
+    <li>In Terminal, ensure that you are in the root of the project directory (for example, <strong>myAndroidApp</strong>), and enter the following to see a list of all available Simulator targets: <code>cordova run android --list</code>. For this walkthrough, we will use <strong>Nexus_5_API_22_x86</strong>.</li>
+    <li>To run the app in the Android Simulator, enter the following: <code>cordova run android --target="Nexus_5_API_22_x86"</code>. The Android Simulator opens and displays the hybrid Android app. It might take several minutes for the Android Simulator to launch and display the app. The app icon might appear on the Android Simulator screen for a while before displaying the GUI of the app. You might need to relaunch the app within the Android Simulator.</li>
+    <li><p>In the hybrid app in the Android Simulator, click in the <strong>Location</strong> field. If you are using a local Gateway, enter the <code>jms</code> service URI <code>ws://10.0.2.2:8888/jms</code>. If you are using the publicly available Gateway and Apache ActiveMQ broker, enter <code>wss://sandbox.kaazing.net/jms</code>. Click <strong>Connect</strong>.</p>
+      <p>The <strong>Log messages</strong> field reports a successful connection. If the app does not connect, ensure that you have the Gateway and Apache ActiveMQ running.</p></li>
+    <li>Play with hybrid app to see the full functionality.</li>
+    <li>
+    <p>For information on testing your hybrid Android app on an Android device, see <a href="//developer.android.com/tools/device.html#setting-up">Setting up a Device for Development</a> and <a href="//developer.android.com/tools/extras/oem-usb.html">OEM USB Drivers</a> in the Android developer documentation (<a href="//developer.android.com/">http://developer.android.com</a>).</p>
+    </li>
+  </ol>
+
+  <h2><a name="summary"></a>Summary</h2>
+  <p>In this walkthrough, you learned how to turn one of the Kaazing JavaScript JMS tutorial app into a hybrid Android app. To learn how to build your own Kaazing WebSocket Gateway JMS apps, refer to the <a href="../../index.html">documentation</a>.</p>
+
+  <h2>Notes</h2>
+  <p>Clients built using Kaazing WebSocket Gateway 3.x libraries will work against Kaazing WebSocket Gateway 4.x. If you wish to upgrade your 3.x client to the 4.x libraries, please note that the 3.x clients used a single JMS library and 4.x clients include and use separate WebSocket and JMS libraries. Update your client library file and code references to include both the WebSocket and JMS libraries, as described in the 4.x documentation. For more migration information, see <a href="p_dev_js_client.html#migrate">Migrate JavaScript Applications to Kaazing WebSocket Gateway 4.x.</a></p>
+
+
+                  </section>
+                </article>
+
+            </div> <!-- #main -->
+        </div> <!-- #main-container -->
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

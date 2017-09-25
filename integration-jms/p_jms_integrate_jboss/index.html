@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+  
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+
+ <h1 id="integrate-jboss-messaging--">Integrate JBoss Messaging  </h1>
+
+<p>In this procedure, you will learn how to integrate Kaazing Gateway and JBoss Messaging, a high-performance JMS provider that is used in combination with JBoss Application Server.</p>
+
+<h2 id="to-integrate-jboss-messaging">To Integrate JBoss Messaging</h2>
+
+<p>JBoss Messaging (a rewrite of JBossMQ) is a high-performance JMS provider that is used in combination with JBoss Application Server. JBoss Messaging is part of JBoss Application Server version 5.x, but you can also install and configure JBoss Messaging to work with older versions of JBoss Application Server.</p>
+
+<p>With JBoss, you will need to create topics and queues using JBoss APIs or tools before connecting to them. Consult JBoss documentation for the appropriate steps to create destinations.</p>
+
+<p>This section covers the following JBoss Messaging scenarios:</p>
+
+<ul>
+  <li><a href="#jboss-application-server-4x">JBoss Application Server 4.x</a></li>
+  <li><a href="#jboss-application-server-51x">JBoss Application Server 5.1.x</a></li>
+</ul>
+
+<h4 id="jboss-application-server-4x">JBoss Application Server 4.x</h4>
+
+<p>To configure the Gateway to work with JBoss Application Server 4.x and JBoss Messaging, perform the following steps:</p>
+
+<ol>
+  <li>Download and install JBoss Application Server 4.x following the instructions in the JBoss documentation. The directory that contains the application server installation is referred to as <code>JBOSS_HOME</code>.</li>
+  <li>Download and install JBoss Messaging following the instructions in the JBoss documentation. The directory where JBoss Messaging is installed is referred to as <code>JBOSS_MESSAGING_INSTALL_DIR</code>.</li>
+  <li>Copy the file <code>JBOSS_MESSAGING_INSTALL_DIR/jboss-messaging-client.jar</code> to <code>GATEWAY_HOME/lib/ext</code>.</li>
+  <li>Copy the following JAR files from <code>JBOSS_HOME/client</code> to <code>GATEWAY_HOME/lib/ext</code>.
+    <ul>
+      <li>jbossall-client.jar</li>
+      <li>jboss-aop-jdk50.jar (optional)</li>
+      <li>javassist.jar</li>
+      <li>trove.jar (optional)</li>
+    </ul>
+  </li>
+</ol>
+
+<p><strong>Note:</strong> Instead of copying the required JBoss jar files to <code>GATEWAY_HOME/lib/ext</code>, you can also modify the <code>gateway.start</code> or <code>gateway.start.bat</code> startup file to add these <code>.JAR</code> files (in their original *<code>JBOSS_HOME</code>* and *<code>JBOSS_MESSAGING_INSTALL_DIR</code>* locations) to the CLASSPATH when the Gateway starts. </p>
+
+<ol>
+  <li>Open the file <code>GATEWAY_HOME/conf/gateway-config.xml</code> in a text editor and locate the <code>jms</code> service element (search for “jms”).</li>
+  <li>
+    <p>Modify the <a href="../../admin-reference/r_conf_jms#jms-service-environment-properties"><code>jms</code></a> service environment properties with the following:</p>
+
+    <pre class="auto-links: false; brush: xml; toolbar: false;">  &lt;properties&gt;
+    &lt;connection.factory.name&gt;ConnectionFactory&lt;/connection.factory.name&gt;
+    &lt;context.lookup.topic.format&gt;topic/%s&lt;/context.lookup.topic.format&gt;
+    &lt;context.lookup.queue.format&gt;queue/%s&lt;/context.lookup.queue.format&gt;
+    &lt;env.java.naming.factory.initial&gt;
+      org.jnp.interfaces.NamingContextFactory
+    &lt;/env.java.naming.factory.initial&gt;
+    &lt;env.java.naming.provider.url&gt;
+      jnp://localhost:1099
+    &lt;/env.java.naming.provider.url&gt;
+  &lt;/properties&gt;
+</code></pre>
+  </li>
+</ol>
+
+<p><strong>Note:</strong> You can also connect to your JBoss Messaging server using SSL. For more information, see <a href="//docs.jboss.org/jbossas/jboss4guide/r1/html/ch8.chapter.html#d0e21363">JBoss Messaging documentation</a> and <a href="//publib.boulder.ibm.com/infocenter/sfsf/v9r1/index.jsp?topic=%2Fcom.ibm.help.secure.deploy.doc%2FFND_SecuringJBossMsging.html">Securing JBoss Messaging</a>.</p>
+
+<h2 id="jms-integration-verification-for-jboss-application-server-4x">JMS Integration Verification for JBoss Application Server 4.x</h2>
+
+<p>To verify that the JMS integration is working, perform the following steps:</p>
+
+<ol>
+  <li>Start the JBoss Application Server (with JBoss Messaging).</li>
+  <li>Start the Gateway as described in <a href="../../about/setup-guide/index.html">Setting Up the Gateway</a>.</li>
+  <li>In a browser, navigate to the out of the box demos at <code>http://localhost:8001/demo/</code>.</li>
+  <li>Click the <strong>JavaScript</strong> demo.</li>
+  <li>Change the value for <strong>Location</strong> to <code>ws://localhost:8001/jms</code>.</li>
+  <li>Change the value of all <strong>Destination</strong> text boxes to an existing topic or queue, for example <code>/topic/testTopic</code>.</li>
+  <li>Click <strong>Connect</strong>.<br />
+ The message “<code>CONNECT:  ws://localhost:8001/jms</code>” should appear in the log window followed by the message “<code>CONNECTED: undefined</code>.”</li>
+  <li>Click <strong>Subscribe</strong>.</li>
+  <li>Click <strong>Send</strong>. You should see the message that you sent in the message log.</li>
+</ol>
+
+<p>To learn how to secure your JMS configuration: see <a href="../../security/o_jms_secure/index.html">Secure Your JMS Configuration</a>.</p>
+
+<h4 id="jboss-application-server-51x">JBoss Application Server 5.1.x</h4>
+
+<p>To configure the Gateway to work with JBoss Application Server 5.x, which includes JBoss Messaging, perform the following steps:</p>
+
+<ol>
+  <li>Download and install JBoss Application Server 5.x following the instructions in the JBoss documentation. The directory that contains the application server installation is referred to as <em><code>JBOSS_HOME</code></em>.</li>
+  <li>
+    <p>Copy the following JAR files from <code>JBOSS_HOME/client</code> to <code>GATEWAY_HOME/lib/ext</code>.</p>
+
+    <ul>
+      <li>concurrent.jar</li>
+      <li>javassist.jar</li>
+      <li>jbossall-client.jar</li>
+      <li>jboss-aop-client.jar</li>
+      <li>jboss-client.jar</li>
+      <li>jboss-common-core.jar</li>
+      <li>jboss-logging-spi.jar</li>
+      <li>jboss-messaging-client.jar</li>
+      <li>jboss-mdr.jar</li>
+      <li>jboss-remoting.jar</li>
+      <li>jboss-serialization.jar</li>
+      <li>jnp-client.jar</li>
+      <li>trove.jar</li>
+    </ul>
+
+    <p><strong>Note:</strong> Instead of copying the required JBoss jar files to <code>GATEWAY_HOME/lib/ext</code>, you can also modify the <code>gateway.start</code> or <code>gateway.start.bat</code> startup file to add these <code>.JAR</code> files (in their original <code>JBOSS_HOME</code> locations) to the CLASSPATH when the Gateway starts.</p>
+  </li>
+  <li>
+    <p>Modify the JBoss profile.xml file.</p>
+
+    <p>Change the constructor line of the <code>AttachmentStore</code> definition in <code>JBOSS_HOME/server/default/conf/bootstrap/profile.xml</code> (the original version of the file does not have the <code>class="java.io.File"</code> attribute):</p>
+
+    <pre class="auto-links: false; brush: xml; toolbar: false;">&lt;bean name="AttachmentStore"
+    class="org.jboss.system.server.profileservice.repository.AbstractAttachmentStore"&gt;
+&lt;constructor&gt;
+    &lt;parameter class="java.io.File"&gt;
+        &lt;inject bean="BootstrapProfileFactory" property="attachmentStoreRoot" /&gt;
+    &lt;/parameter&gt;
+&lt;/constructor&gt;
+</code></pre>
+  </li>
+  <li>Open the file <code>GATEWAY_HOME/conf/gateway-config.xml</code> in a text editor and locate the <code>jms</code> service element (search for “jms”).</li>
+  <li>
+    <p>Modify the <a href="../../admin-reference/r_conf_jms#jms-service-environment-properties"><code>jms service environment properties</code></a> with the following:</p>
+
+    <pre class="auto-links: false; brush: xml; toolbar: false;">  &lt;properties&gt;
+    &lt;connection.factory.name&gt;ConnectionFactory&lt;/connection.factory.name&gt;
+    &lt;context.lookup.topic.format&gt;topic/%s&lt;/context.lookup.topic.format&gt;
+    &lt;context.lookup.queue.format&gt;queue/%s&lt;/context.lookup.queue.format&gt;
+    &lt;env.java.naming.factory.initial&gt;
+      org.jnp.interfaces.NamingContextFactory
+    &lt;/env.java.naming.factory.initial&gt;
+    &lt;env.java.naming.provider.url&gt;
+      jnp://localhost:1099
+    &lt;/env.java.naming.provider.url&gt;
+    &lt;!-- Static destinations support --&gt;
+    &lt;destination.strategy&gt;session&lt;/destination.strategy&gt;
+  &lt;/properties&gt;
+</code></pre>
+  </li>
+</ol>
+
+<h2 id="jms-integration-verification-for-jboss-application-server-51x">JMS Integration Verification for JBoss Application Server 5.1.x</h2>
+
+<p>To verify that the JMS integration is working, perform the following steps:</p>
+
+<ol>
+  <li>Start the JBoss Application Server.</li>
+  <li>Start the Gateway as described in <a href="../../about/setup-guide/index.html">Setting Up the Gateway</a>.</li>
+  <li>In a browser, navigate to the out of the box demos at <code>http://localhost:8001/demo/</code>.</li>
+  <li>Click the <strong>JavaScript</strong> demo.</li>
+  <li>Change the value for <strong>Location</strong> to <code>ws://localhost:8001/jms</code>.</li>
+  <li>Change the value of all <strong>Destination</strong> text boxes to an existing topic or queue, for example <code>/topic/testTopic</code>.</li>
+  <li>Click <strong>Connect</strong>.<br />
+ The message “<code>CONNECT:  ws://localhost:8001/jms</code>” should appear in the log window followed by the message “<code>CONNECTED: undefined</code>.”</li>
+  <li>Click <strong>Subscribe</strong>.</li>
+  <li>Click <strong>Send</strong>. You should see the message that you sent in the message log.</li>
+</ol>
+
+<h2 id="subscription-and-destination-support">Subscription and Destination Support</h2>
+
+<p>Kaazing Gateway integration with JBoss Messaging has the following subscription and destination support:</p>
+
+<ul>
+  <li>Durable subscriptions are not supported.</li>
+  <li>Dynamic destinations are not supported.</li>
+  <li>Static destinations are supported. Ensure that you configure the jms  <a href="../../admin-reference/r_conf_jms#destinationstrategy"><code>destination.strategy</code></a> property with the value <code>session</code>.</li>
+</ul>
+
+<h2 id="notes">Notes</h2>
+
+<ul>
+  <li>To learn how to secure your JMS configuration, see <a href="../../security/o_jms_secure/index.html">Secure Your JMS Configuration</a>.</li>
+  <li>Because you are using a JMS provider that does not support individual message acknowledgement, you must ensure your client applications acknowledge each message received from a queue or durable subscriber. Otherwise, the client will receive only one message from that queue or durable subscriber.</li>
+  <li>
+    <p>With JBoss Application Server 5.1.x, all topics and queues have to be configured beforehand, and the default JBoss configuration file does not define any topics and queues. Therefore, you must explicitly create topics and queues, including the topic used in the out of the box demo (<code>testTopic</code> in <code>JBOSS_HOME/server/default/conf/jboss-service.xml</code>):</p>
+
+    <pre class="auto-links: false; brush: xml; toolbar: false;">&lt;mbean code="org.jboss.jms.server.destination.TopicService"
+    name="jboss.messaging.destination:service=Topic,name=testTopic"
+    xmbean-dd="xmdesc/Topic-xmbean.xml"&gt;
+    &lt;depends optional-attribute-name="ServerPeer"&gt;jboss.messaging:service=ServerPeer&lt;/depends&gt;
+    &lt;depends&gt;jboss.messaging:service=PostOffice&lt;/depends&gt;
+&lt;/mbean&gt;
+</code></pre>
+  </li>
+</ul>
+
+<h2 id="see-also">See Also</h2>
+
+<ul>
+  <li>For information on troubleshooting JMS integration, see <a href="../p_jms_integrate_tshoot">Troubleshoot JMS Integration</a>.</li>
+  <li>For information on troubleshooting JMS clients, see <a href="../../troubleshooting/p_dev_troubleshoot/index.html">Troubleshoot Your Clients</a>.</li>
+  <li>For general troubleshooting information, see <a href="../../troubleshooting/o_troubleshoot/index.html">Troubleshoot Kaazing Gateway</a>.</li>
+</ul>
+
+
+
+</div>
+
+</div>
+
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

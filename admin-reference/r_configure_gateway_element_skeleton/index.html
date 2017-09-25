@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+  
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+
+ <h1 id="configuration-skeleton">Configuration Skeleton</h1>
+
+<p>You can view and link to all Gateway configuration elements and properties using these lists:</p>
+
+<ul>
+  <li><a href="../r_configure_gateway_element_index">Configuration Element Index</a> for an alphabetical listing</li>
+  <li>
+    <p><strong>Configuration Skeleton</strong> (this topic) for a bare bones Gateway configuration</p>
+  </li>
+  <li><a href="../r_configure_gateway_gwconfig">gateway-config</a>
+    <ul>
+      <li><a href="../r_configure_gateway_service">service</a>
+        <ul>
+          <li><a href="../r_configure_gateway_service/index.html#service">name</a></li>
+          <li><a href="../r_configure_gateway_service/index.html#service">description</a></li>
+          <li><a href="../r_configure_gateway_service/index.html#accept">accept</a></li>
+          <li><a href="../r_configure_gateway_service/index.html#connect">connect</a></li>
+          <li><a href="../r_configure_gateway_service/index.html#balance">balance</a></li>
+          <li><a href="../r_configure_gateway_service/index.html#type">type</a>
+            <ul>
+              <li><a href="../r_configure_gateway_service/index.html#balancer">balancer</a></li>
+              <li>
+                <p><a href="../r_configure_gateway_service/index.html#broadcast">broadcast</a></p>
+
+                <p>Property:</p>
+
+                <ul>
+                  <li><a href="../r_configure_gateway_service/index.html#broadcast">accept</a></li>
+                </ul>
+              </li>
+              <li>
+                <p><a href="../r_configure_gateway_service/index.html#directory">directory</a></p>
+
+                <p>Properties:</p>
+
+                <ul>
+                  <li><a href="../r_configure_gateway_service/index.html#directory">directory</a></li>
+                  <li><a href="../r_configure_gateway_service/index.html#directory">options</a></li>
+                  <li><a href="../r_configure_gateway_service/index.html#directory">welcome-file</a></li>
+                  <li><a href="../r_configure_gateway_service/index.html#directory">error-pages-directory</a></li>
+                </ul>
+              </li>
+              <li><a href="../r_configure_gateway_service/index.html#echo">echo</a></li>
+              <li><a href="//kaazing.com/doc/5.0/admin-reference/r_configure_gateway_service/index.html#httpproxy">http.proxy</a> </li>
+              <li><a href="../r_configure_gateway_service/index.html#managementjmx">management.jmx</a></li>
+              <li><a href="../r_configure_gateway_service/index.html#managementsnmp">management.snmp</a></li>
+              <li><a href="../r_configure_gateway_service/index.html#kerberos5proxy">kerberos5.proxy</a> </li>
+              <li>
+                <p><a href="../r_configure_gateway_service/index.html#proxy-amqpproxy-and-jmsproxy">proxy</a></p>
+
+                <p>Properties:</p>
+
+                <ul>
+                  <li><a href="../r_configure_gateway_service/index.html#maximumpendingbytes">maximum.pending.bytes</a></li>
+                  <li><a href="../r_configure_gateway_service/index.html#maximumrecoveryinterval">maximum.recovery.interval</a></li>
+                  <li><a href="../r_configure_gateway_service/index.html#preparedconnectioncount">prepared.connection.count</a></li>
+                </ul>
+              </li>
+              <li>
+                <p><a href="../r_configure_gateway_service/index.html#proxy-amqpproxy-and-jmsproxy">amqp.proxy</a></p>
+
+                <p>Properties:</p>
+
+                <ul>
+                  <li><a href="../r_configure_gateway_service/index.html#maximumpendingbytes">maximum.pending.bytes</a></li>
+                  <li><a href="../r_configure_gateway_service/index.html#maximumrecoveryinterval">maximum.recovery.interval</a></li>
+                  <li><a href="../r_configure_gateway_service/index.html#preparedconnectioncount">prepared.connection.count</a></li>
+                  <li><a href="../r_configure_gateway_service/index.html#virtualhost">virtual.host</a></li>
+                </ul>
+              </li>
+              <li><a href="../r_conf_jms/index.html#jms">jms</a>  </li>
+              <li><a href="../r_conf_jms/index.html#jmsproxy">jms.proxy</a>  </li>
+              <li><a href="../r_conf_mq/index.html">ibmmq</a> </li>
+              <!-- <li><a href="../r_configure_gateway_service/index.html#httpproxy">http.proxy</a></li> -->
+              <li><a href="../../admin-reference/r_configure_gateway_service/index.html#turnproxy">turn.proxy</a></li>
+              <li><a href="../../admin-reference/r_configure_gateway_service/index.html#turnrest">turn.rest</a></li>
+              <li><a href="../../admin-reference/r_configure_gateway_service/index.html#updatecheck">update.check</a></li>
+            </ul>
+          </li>
+          <li><a href="../r_configure_gateway_service/index.html#properties">properties</a></li>
+          <li><a href="../r_configure_gateway_service/index.html#accept-options-and-connect-options">accept-options</a>
+            <ul>
+              <li><a href="../r_configure_gateway_service/index.html#protocolbind"><em>protocol</em>.bind</a>, where <em>protocol</em> can be ws, wss, http, https, ssl, socks, tcp, or udp</li>
+              <li><a href="../r_configure_gateway_service/index.html#protocoltransport"><em>protocol</em>.transport</a>, where <em>protocol</em> can be pipe, tcp, ssl, or http</li>
+              <li><a href="../r_configure_gateway_service/index.html#wsmaximummessagesize">ws.maximum.message.size</a></li>
+              <li><a href="../r_configure_gateway_service/index.html#httpkeepalivetimeout">http.keepalive.timeout</a></li>
+              <li><a href="../r_configure_gateway_service/index.html#sslciphers">ssl.ciphers</a></li>
+              <li><a href="../r_configure_gateway_service/index.html#sslprotocols-and-sockssslprotocols">ssl.protocols</a></li>
+              <li><a href="../r_configure_gateway_service/index.html#sslencryption">ssl.encryption</a></li>
+              <li><a href="../r_configure_gateway_service/index.html#sslverify-client">ssl.verify-client</a></li>
+              <li><a href="../r_configure_gateway_service/index.html#socksmode">socks.mode</a> </li>
+              <li><a href="../r_configure_gateway_service/index.html#sockssslciphers">socks.ssl.ciphers</a> </li>
+              <li><a href="../r_configure_gateway_service/index.html#sslprotocols-and-sockssslprotocols">socks.ssl.protocols</a> </li>
+              <li><a href="../r_configure_gateway_service/index.html#sslverify-client">socks.ssl.verify-client</a> </li>
+              <li><a href="../r_configure_gateway_service/index.html#socksretrymaximuminterval">socks.retry.maximum.interval</a> </li>
+              <li><a href="../r_configure_gateway_service/index.html#tcpmaximumoutboundrate">tcp.maximum.outbound.rate</a> </li>
+              <li><a href="../r_configure_gateway_service/index.html#wsinactivitytimeout">ws.inactivity.timeout</a></li>
+              <li><a href="../r_configure_gateway_service/index.html#httpserverheader">http.server.header</a></li>
+            </ul>
+          </li>
+          <li><a href="../r_configure_gateway_service/index.html#accept-options-and-connect-options">connect-options</a>
+            <ul>
+              <li><a href="../r_configure_gateway_service/index.html#protocoltransport"><em>protocol</em>.transport</a>, where <em>protocol</em> can be pipe, tcp, ssl, or http</li>
+              <li><a href="../r_configure_gateway_service/index.html#sslciphers">ssl.ciphers</a></li>
+              <li><a href="../r_configure_gateway_service/index.html#sslprotocols-and-sockssslprotocols">ssl.protocols</a></li>
+              <li><a href="../r_configure_gateway_service/index.html#sslencryption">ssl.encryption</a></li>
+              <li><a href="../r_configure_gateway_service/index.html#socksmode">socks.mode</a> </li>
+              <li><a href="../r_configure_gateway_service/index.html#sockstimeout">socks.timeout</a> </li>
+              <li><a href="../r_configure_gateway_service/index.html#sockssslciphers">socks.ssl.ciphers</a> </li>
+              <li><a href="../r_configure_gateway_service/index.html#sslprotocols-and-sockssslprotocols">socks.ssl.protocols</a> </li>
+              <li><a href="../r_configure_gateway_service/index.html#sockssslverify-client">socks.ssl.verify-client</a> </li>
+              <li><a href="../r_configure_gateway_service/index.html#wsinactivitytimeout">ws.inactivity.timeout</a></li>
+              <li><a href="../r_configure_gateway_service/index.html#wsversion-deprecated">ws.version</a> (deprecated)</li>
+            </ul>
+          </li>
+          <li><a href="../r_configure_gateway_service/index.html#realm-name">realm-name</a></li>
+          <li><a href="../r_configure_gateway_service/index.html#authorization-constraint">authorization-constraint</a>
+            <ul>
+              <li><a href="../r_configure_gateway_service/index.html#authorization-constraint">require-role</a></li>
+              <li><a href="../r_configure_gateway_service/index.html#authorization-constraint">require-valid-user</a></li>
+            </ul>
+          </li>
+          <li><a href="../r_configure_gateway_service/index.html">mime-mapping</a>
+            <ul>
+              <li><a href="../r_configure_gateway_service_defaults/index.html">extension</a></li>
+              <li><a href="../r_configure_gateway_service_defaults/index.html">mime-type</a></li>
+            </ul>
+          </li>
+          <li><a href="../r_configure_gateway_service/index.html#cross-site-constraint">cross-site-constraint</a>
+            <ul>
+              <li><a href="../r_configure_gateway_service/index.html#cross-site-constraint">allow-origin</a></li>
+              <li><a href="../r_configure_gateway_service/index.html#cross-site-constraint">allow-methods</a></li>
+              <li><a href="../r_configure_gateway_service/index.html#cross-site-constraint">allow-headers</a></li>
+              <li><a href="../r_configure_gateway_service/index.html#cross-site-constraint">maximum-age</a></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li><a href="../r_configure_gateway_service_defaults">service-defaults</a>
+        <ul>
+          <li><a href="../r_configure_gateway_service_defaults">accept-options</a>
+            <ul>
+              <li><a href="../r_configure_gateway_service/index.html#protocolbind"><em>protocol</em>.bind</a>, where <em>protocol</em> can be ws, wss, http, https, ssl, socks, tcp, or udp</li>
+              <li><a href="../r_configure_gateway_service/index.html#protocoltransport"><em>protocol</em>.transport</a>, where <em>protocol</em> can be pipe, tcp, ssl, or http</li>
+              <li><a href="../r_configure_gateway_service/index.html#wsmaximummessagesize">ws.maximum.message.size</a></li>
+              <li><a href="../r_configure_gateway_service/index.html#httpkeepalivetimeout">http.keepalive.timeout</a></li>
+              <li><a href="../r_configure_gateway_service/index.html#sslciphers">ssl.ciphers</a></li>
+              <li><a href="../r_configure_gateway_service/index.html#sslprotocols-and-sockssslprotocols">ssl.protocols</a></li>
+              <li><a href="../r_configure_gateway_service/index.html#sslencryption">ssl.encryption</a></li>
+              <li><a href="../r_configure_gateway_service/index.html#sslverify-client">ssl.verify-client</a></li>
+              <li><a href="../r_configure_gateway_service/index.html#socksmode">socks.mode</a> </li>
+              <li><a href="../r_configure_gateway_service/index.html#sockssslciphers">socks.ssl.ciphers</a> </li>
+              <li><a href="../r_configure_gateway_service/index.html#sslprotocols-and-sockssslprotocols">socks.ssl.protocols</a> </li>
+              <li><a href="../r_configure_gateway_service/index.html#sockssslverify-client">socks.ssl.verify-client</a> </li>
+              <li><a href="../r_configure_gateway_service/index.html#socksretrymaximuminterval">socks.retry.maximum.interval</a> </li>
+              <li><a href="../r_configure_gateway_service/index.html#tcpmaximumoutboundrate">tcp.maximum.outbound.rate</a> </li>
+              <li><a href="../r_configure_gateway_service/index.html#wsinactivitytimeout">ws.inactivity.timeout</a></li>
+              <li><a href="../r_configure_gateway_service/index.html#httpserverheader">http.server.header</a></li>
+            </ul>
+          </li>
+          <li><a href="../r_configure_gateway_service_defaults/index.html">mime-mapping</a>
+            <ul>
+              <li><a href="../r_configure_gateway_service_defaults/index.html">extension</a></li>
+              <li><a href="../r_configure_gateway_service_defaults/index.html">mime-type</a></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li><a href="../r_configure_gateway_security/index.html">security</a>
+        <ul>
+          <li><a href="../r_configure_gateway_security/index.html#keystore">keystore</a>
+            <ul>
+              <li><a href="../r_configure_gateway_security/index.html#keystore">type</a></li>
+              <li><a href="../r_configure_gateway_security/index.html#keystore">file</a></li>
+              <li><a href="../r_configure_gateway_security/index.html#keystore">password-file</a></li>
+            </ul>
+          </li>
+          <li><a href="../r_configure_gateway_security/index.html#truststore">truststore</a>
+            <ul>
+              <li><a href="../r_configure_gateway_security/index.html#truststore">type</a></li>
+              <li><a href="../r_configure_gateway_security/index.html#truststore">file</a></li>
+              <li><a href="../r_configure_gateway_security/index.html#truststore">password-file</a></li>
+            </ul>
+          </li>
+          <li><a href="../r_configure_gateway_security/index.html#realm">realm</a>
+            <ul>
+              <li><a href="../r_configure_gateway_security/index.html#realm">name</a></li>
+              <li><a href="../r_configure_gateway_security/index.html#realm">description</a></li>
+              <li><a href="../r_configure_gateway_security/index.html#authentication">authentication</a>
+                <ul>
+                  <li><a href="../r_configure_gateway_security/index.html#authentication">http-challenge-scheme</a></li>
+                  <li><a href="../r_configure_gateway_security/index.html#authentication">http-header</a></li>
+                  <li><a href="../r_configure_gateway_security/index.html#authentication">http-query-parameter</a></li>
+                  <li><a href="../r_configure_gateway_security/index.html#authentication">http-cookie</a></li>
+                  <li><a href="../r_configure_gateway_security/index.html#authentication">authorization-timeout</a> </li>
+                  <li><a href="../r_configure_gateway_security/index.html#authentication">session-timeout</a> </li>
+                  <li><a href="../r_configure_gateway_security/index.html#authentication">login-modules</a>
+                    <ul>
+                      <li><a href="../r_configure_gateway_security/index.html#login-module">login-module</a>
+                        <ul>
+                          <li><a href="../r_configure_gateway_security/index.html#login-module">type</a></li>
+                          <li><a href="../r_configure_gateway_security/index.html#login-module">success</a></li>
+                          <li><a href="../r_configure_gateway_security/index.html#options-login-module">options</a>
+                            <ul>
+                              <li><a href="../r_configure_gateway_security/index.html#options-login-module">debug</a></li>
+                              <li><a href="../r_configure_gateway_security/index.html#options-login-module">tryFirstToken</a></li>
+                            </ul>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+              <li><a href="../r_configure_gateway_security/index.html#realm">user-principal-class</a></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li><a href="../r_configure_gateway_cluster">cluster</a>
+        <ul>
+          <li><a href="../r_configure_gateway_cluster/index.html#cluster">name</a></li>
+          <li><a href="../r_configure_gateway_cluster/index.html#cluster">accept</a></li>
+          <li><a href="../r_configure_gateway_cluster/index.html#cluster">connect</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+
+</div>
+
+</div>
+
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

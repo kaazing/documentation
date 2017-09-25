@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+  
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+<h1>Use the Kaazing Gateway Objective-C WebSocket Client API</h1>
+<p>In this procedure, you will learn how to create an iOS client using the Kaazing Objective-C WebSocket Client API. You will learn how to create an Xcode project and add the necessary frameworks in order to use the Objective-C WebSocket Client API, and implement the Objective-C WebSocket Client API methods to enable your client to send and receive Echo messages with the Echo service running on a public Gateway.</p>
+
+<p>For information about deploying your Objective-C (iOS) client on devices with the arm64 architecture, see <a href="#arm64">Convert Your Objective-C (iOS) Client to a 64-Bit Runtime Environment</a>.</p>
+
+<p>In this procedure you will do the following:</p>
+
+<ol>
+    <li>Set up your development environment using the Kaazing Enterprise Objective-C SDK and Xcode 4.4 or later.</li>
+    <li>Review the components that will be used to create the Objective-C client.</li>
+    <li>Create a new Xcode project.</li>
+    <li>Add the <strong>Kaazing Objective-C framework</strong>.</li>
+    <li>Add <strong>CFNetwork.framework</strong> to the project.</li>
+    <li>Add the <span class="uri">-ObjC</span> value to the <strong>Other Linker Flags</strong> build setting.</li>
+    <li>Build the interface for the client using <strong>MainStoryboard.storyboard</strong>.</li>
+    <li>Add the actions for the buttons to the view controller header file <strong>KGViewController.h</strong>.</li>
+    <li>Import the WebSocket header into the <strong>KGViewController.m</strong> implementation file.</li>
+    <li>Create the WebSocket factory and WebSocket.</li>
+    <li>Add event listeners to manage WebSocket connection events, incoming WebSocket messages, and any errors returned, and write event status to the log.</li>
+    <li>Modify the Send Message method for both text and binary messages.</li>
+    <li>Modify the Connect and Close methods for connecting and closing WebSocket connections.</li>
+    <li>Add a method to update the UI in response to the connection events.</li>
+    <li>Add methods for managing the WebSocket connection when the application is sent to the background or returns to the foreground.</li>
+    <li>Add the remaining methods to control the interface of the client, such as when the client loads and unloads on the device.</li>
+    <li>Build and run the client in the iPhone Simulator.</li>
+</ol>
+
+<p>For information about the Kaazing Objective-C WebSocket Client API, see <a href="../apidoc/client/ios/gateway/index.html">Objective-C WebSocket Client API</a>.</p>
+
+<span class="note"><b>Notes:</b>
+ <ul class="arrow-2">
+     <li>The code used in this procedure is taken from the Kaazing Objective-C WebSocket tutorial app that is available at <a href="https://github.com/kaazing/ios.client.tutorials">https://github.com/kaazing/ios.client.tutorials</a>. The demo is located in <code>ws/src</code>.</li>
+     <li>This procedure assumes that you are familiar with Objective-C programming and are an advanced user of the <a href="https://developer.apple.com/xcode/">Xcode</a> IDE for creating native iOS clients. If you are new to Objective-C and Xcode, see <a href="//developer.apple.com/library/ios/#referencelibrary/GettingStarted/RoadMapiOS/chapters/WriteObjective-CCode/WriteObjective-CCode/WriteObjective-CCode.html">Write Objective-C Code</a> and the tutorial <a href="https://developer.apple.com/library/ios/#referencelibrary/GettingStarted/RoadMapiOS/chapters/RM_YourFirstApp_iOS/Articles/00_Introduction.html">Your First iOS App</a>. An excellent video tutorial is Objective-C by <a href="//thenewboston.org/list.php?cat=33">thenewboston.org</a>. A very brief overview of Objective-C is <a href="//cocoadevcentral.com/d/learn_objectivec/">Learn Objective-C</a> from Learn Cocoa.</li>
+     <li>This procedure assumes that you have the required iOS Developer Program credentials.</li>
+     <li>The Xcode project created in this procedure uses features available in Xcode 4.1 or later and iOS SDK 5.0 and later.</li>
+ </ul>
+</span>
+
+<h2>Before You Begin</h2>
+<p>This procedure is part of Checklist: <a href="o_dev_objc.html">Build Objective-C (iOS) Clients Using Kaazing Gateway</a>:</p>
+<ol>
+<li><strong>Use the Kaazing Gateway Objective-C WebSocket Client API</strong></li>
+<li><a href="p_dev_objc_secure.html">Secure Your Objective-C Client</a></li>
+<li><a href="p_dev_objc_log.html">Display Logs for the Objective-C Client</a></li>
+<li><a href="p_dev_objc_tshoot.html">Troubleshoot Your Objective-C Client</a></li>
+</ol>
+
+<p><span class="note"><b>Note:</b> Learn about supported browsers, operating systems, and platform versions in the <a href="//kaazing.com/releases/client-objectivec/">Release Notes</a>.</span></p>
+
+<h2>To Use the Kaazing Gateway Objective-C WebSocket Client API</h2>
+
+<ol>
+    <li>Set up your development environment using the following:
+        <ol type="a">
+            <li>Download and install the Kaazing Enterprise Objective-C Client SDK, as described in <a href="../../about/setup-guide/index.html">Setting Up the Gateway and Clients</a>.</li>
+            <li>Download and install <a href="https://developer.apple.com/xcode/">Apple Xcode 4.4</a> or later (requires Mac OS X 10.7.4 or later). The Xcode bundle includes the iOS SDK.</li>
+        </ol>
+    </li>
+    
+    <li><p>Review the components that will be used to create the Objective-C client. A quick review of these components will give you an overview of how the client is constructed.</p>
+        <table class="reference">
+          <tr>
+            <th scope="col">Component</th>
+            <th scope="col">Description</th>
+          </tr>
+          <tr>
+            <td>KGWebSocket.framework</td>
+            <td>Kaazing Objective-C WebSocket framework</td>
+          </tr>
+          <tr>
+            <td>CFNetwork.framework</td>
+            <td>Core Foundation framework that provides a library of abstractions for network protocols. For more information on CFNetwork, see <a href="https://developer.apple.com/library/mac/#documentation/Networking/Conceptual/CFNetwork/Introduction/Introduction.html">Introduction to CFNetwork Programming Guide</a>.</td>
+          </tr>
+          <tr>
+            <td>MainStoryboard.storyboard</td>
+            <td>The storyboard for the user interface look and feel and the interactive controls.</td>
+          </tr>
+          <tr>
+            <td>KGViewController.h</td>
+            <td>The header file that contains the target-action mechanism: how the user interface elements send an action message to an object that knows how to perform the corresponding action method (defined in KGViewController.m). In this file, user interface objects and outlet connections (connections between user interface objects and custom controller objects) are defined for the user interface controls. For more information, see <a href="//developer.apple.com/library/mac/#documentation/General/Conceptual/CocoaEncyclopedia/Outlets/Outlets.html">Outlets</a>.</td>
+          </tr>
+          <tr>
+            <td>KGViewController.m</td>
+            <td>The implementation file (sometimes called a source file) where the architecture of the client is defined, including how the client responds to different events.</td>
+          </tr>
+          <tr>
+            <td>KGWebSocket class</td>
+            <td>Provides the API for creating and managing a WebSocket connection, as well as sending and receiving data on the connection.</td>
+          </tr>
+          <tr>
+            <td>KGWebSocketFactory class</td>
+            <td>An instance of KGWebSocket is created using KGWebSocketFactory. This establishes a full-duplex connection to the target location.</td>
+          </tr>
+          <tr>
+            <td>WebSocket Listeners</td>
+            <td>These are the methods used to handle WebSocket events such as: connection open, message received, error received, connection closed.</td>
+          </tr>
+          <tr>
+            <td>WebSocket Send Message method</td>
+            <td>This method is used to send messages as text or binary.</td>
+          </tr>
+        </table>
+    </li>
+    
+    <li>Launch Xcode.</li>
+    
+    <li><p>Create a new Xcode project.</p>
+        <ol type="a">
+            <li>Click <strong>File</strong>, then <strong>New</strong>, and then <strong>Project</strong>.</li>
+
+            <li>Under iOS, click <strong>Application</strong>, and click <strong>Single View Application</strong>. Click <strong>Next</strong>. The project options page appears.</li>
+
+            <li>Enter the name <strong>WebSocketDemo</strong> in <strong>Product Name</strong>, and the class prefix <strong>KG</strong> in <strong>Class Prefix</strong>. Xcode uses the product name you entered to name your project and the client, and the class prefix to name the classes and files it generates for you.</li>
+
+            <li>In <strong>Company Identifier</strong>, enter the name of your company.</li>
+
+            <li>In <strong>Devices</strong>, make sure that <strong>iPhone</strong> is selected.</li>
+
+            <li>Make sure that the <strong>Use Storyboards</strong> and <strong>Use Automatic Reference Counting</strong> options are selected and that the <strong>Include Unit Tests</strong> option is unselected.</li>
+
+            <li>Click <strong>Next</strong>.</li>
+
+            <li>Specify a location for your project (leave the <strong>Source Control</strong> option unselected) and then click <strong>Create</strong>. The new project is created along with the default files.</li>
+        </ol>
+    </li>
+    
+    <li><p>Add the Kaazing Objective-C WebSocket framework to the project.</p>
+        <ol type="a">
+            <li><p>Navigate to the location of the Kaazing Objective-C WebSocket framework in the Kaazing Enterprise Objective-C Client SDK:</p>
+            <p><code>KGWebSocket.framework</code></p>
+            </li>
+            
+            <li>Drag the <strong>KGWebSocket.framework</strong> file into the <strong>Frameworks</strong> folder in the Xcode project navigator.</li>
+            
+            <li><p>In the <strong>Choose options for adding these files</strong> dialog that appears, enable the <strong>Copy items into destination group’s folder</strong> checkbox, select your project in <strong>Add to targets</strong>, and click <strong>Finish</strong>.</p>
+            <p>Xcode adds the framework to the project navigator, updates the <strong>Framework Search Paths</strong> setting in <strong>Build Settings</strong> with the path to the framework, and updates the <strong>Link Binary With Libraries</strong> settings in <strong>Build Phases</strong> automatically.</p>
+            </li>
+        </ol>
+        <span class="note"><b>Note:</b> You can also choose to add the <strong>KGWebSocket.framework</strong> file into your local <span class="uri">/Library/Frameworks/</span> folder or a network share before adding it to your project. This is a common practice for managing frameworks.</span>
+    </li>
+    
+    <li><p>Add CFNetwork.framework to the project. CFNetwork is a framework in the iOS Core Services framework that provides a library of abstractions for network protocols.</p>
+        <ol type="a">
+            <li>In the project navigator, select the target to which you want to add a library or framework. In this example, <strong>WebSocketDemo</strong>.</li>
+            
+            <li>Click <strong>Build Phases</strong> at the top of the project editor.</li>
+            
+            <li>Open the <strong>Link Binary With Libraries</strong> section.</li>
+            
+            <li>Click the <strong>Add (+)</strong> button to add a library or framework.</li>
+            
+            <li>Enter <span class="uri">CFNetwork.framework</span> in the search field, select <strong>CFNetwork.framework</strong> in the results, and click <strong>Add</strong>.
+The CFNetwork.framework is now listed in the Frameworks folder in the project navigator.</li>            
+        </ol>
+    </li>
+    
+    <li><p>Add the <span class="uri">-ObjC</span> value to the <strong>Other Linker Flags</strong> build setting because the Kaazing Gateway Objective-C API code you add links against an Objective-C static library that contains categories. You must add this value to prevent a runtime exception of <strong>"selector not recognized"</strong>. For more information, see <a href="//developer.apple.com/library/mac/#qa/qa1490/_index.html">Building Objective-C static libraries with categories</a>.</p>
+        <ol type="a">
+            <li>In the project navigator, select the target to which you want to add a library or framework. In this example, <strong>WebSocketDemo</strong>.</li>
+            
+            <li>Click the <strong>Build Settings</strong> tab and scroll down to the <strong>Linking</strong> section.</li>
+            
+            <li>In <strong>Other Linker Flags</strong>, add the value <span class="uri">-ObjC</span>.</li>
+            
+        </ol>
+    </li>
+    
+    <li><p>Build the interface for the client using <strong>MainStoryboard.storyboard</strong> and the View Controller.</p>
+        <ol type="a">
+            <li>Click <strong>MainStoryboard.storyboard</strong> in the project navigator. A blank scene appears.</li>
+            
+            <li>Expand <strong>View Controller</strong> in the editor area and click <strong>View</strong>.</li>
+            
+            <li>Click the <strong>Utility</strong> view to display the <a href="//developer.apple.com/library/ios/#recipes/xcode_help-general/AbouttheUtilityArea/AbouttheUtilityArea.html">Utility area</a>.</li>
+            
+            <li>Show the Object Library, and choose <strong>Controls</strong> from the pop-up menu.</li>
+            
+            <li><p>Drag the following controls into the scene, and give them the values listed in the following table. You might want to add a background color to the scene in order to display controls clearly.</p>
+            
+                <table class="reference">
+                  <tr>
+                    <th scope="col" width="100px">Control</th>
+                    <th scope="col" width="400px">Purpose</th>
+                    <th scope="col">Value</th>
+                  </tr>
+                  <tr>
+                    <td>Label</td>
+                    <td>URI text label</td>
+                    <td><span class="uri">URI:</span></td>
+                  </tr>
+                  <tr>
+                    <td>Text Field</td>
+                    <td>Field where users enter a WebSocket address</td>
+                    <td><code>ws://localhost:8001/echo</code> (or public address <code>wss://sandbox.kaazing.net/echo</code>)</td>
+                  </tr>
+                  <tr>
+                    <td>Button</td>
+                    <td>Connect button</td>
+                    <td><span class="uri">Connect</span></td>
+                  </tr>
+                  <tr>
+                    <td>Text Field</td>
+                    <td>Field where users enter a message</td>
+                    <td><span class="uri">Hello, WebSocket</span></td>
+                  </tr>
+                  <tr>
+                    <td>Label</td>
+                    <td>Message text label</td>
+                    <td><span class="uri">Message:</span></td>
+                  </tr>
+                  <tr>
+                    <td>Button</td>
+                    <td>Send button</td>
+                    <td><span class="uri">Send</span></td>
+                  </tr>
+                  <tr>
+                    <td>Button</td>
+                    <td>Close button</td>
+                    <td><span class="uri">Close</span></td>
+                  </tr>
+                  <tr>
+                    <td>Text View</td>
+                    <td>Area where the connection state is displayed, and where sent and received messages are displayed</td>
+                    <td>No value</td>
+                  </tr>
+                  <tr>
+                    <td>Button</td>
+                    <td>Clear button</td>
+                    <td><span class="uri">Clear</span></td>
+                  </tr>
+                  <tr>
+                    <td>Switch</td>
+                    <td>Switch between text and binary messages</td>
+                    <td>No value. Set <strong>State</strong> to <strong>On</strong>.</td>
+                  </tr>
+                  <tr>
+                    <td>Label</td>
+                    <td>Binary text label</td>
+                    <td><span class="uri">Binary</span></td>
+                  </tr>
+                </table>
+            </li>
+        </ol>
+        <p>When you are finished, the scene should look like the following:</p>
+            <figure>
+                <img src="../images/dev-ios-client-view.jpg"></img>
+            <figcaption><strong>Figure: Completed View Controller Scene</strong></figcaption>    
+            </figure>
+    </li>
+    
+    <li><p>Add the actions for the buttons to the view controller header file. In our example, the file is named <strong>KGViewController.h</strong>.</p>
+        <ol type="a">
+            <li><p>Control-drag the UI controls into the <span class="uri">KGViewController</span> class in <strong>KGViewController.h</strong> to create actions and outlet connections (an outlet describes a connection between two objects). Configure the actions and outlet connections so that <strong>KGViewController.h</strong> appears as follows:</p>
+<pre class="auto-links: false; brush: java; toolbar: false;">
+#import &lt;UIKit/UIKit.h&gt;
+
+@interface KGViewController : UIViewController&lt;UITextFieldDelegate&gt;
+// Connection: Action
+// Type: id
+// Event: Touch Up Inside
+// Arguments: Sender
+- (IBAction)connectButton:(id)sender;
+- (IBAction)sendMessage:(id)sender;
+- (IBAction)closeButton:(id)sender;
+- (IBAction)clearLog:(id)sender;
+// These methods will be defined later
+- (void)applicationDidEnterBackground;
+- (void)applicationWillEnterForeground;
+
+// Connection: Outlet
+@property (weak, nonatomic) IBOutlet UITextField *uriTextField;
+@property (weak, nonatomic) IBOutlet UITextField *messageTextField;
+
+@property (weak, nonatomic) IBOutlet UIButton *closeButton;
+@property (weak, nonatomic) IBOutlet UIButton *connectButton;
+@property (weak, nonatomic) IBOutlet UIButton *sendButton;
+@property (weak, nonatomic) IBOutlet UITextView *textView;
+@property (weak, nonatomic) IBOutlet UISwitch *binarySwitch;
+
+@end
+</pre>
+
+<p>When you Control-drag the UI controls in the <span class="uri">KGViewController</span>, the popover control appears:</p>
+
+  <figure>
+    <img src="../images/dev-ios-popover-control.png">
+  <figcaption><strong>Figure: The Xcode popover control</strong></figcaption>  
+  </figure>
+
+<p>For action method declarations (<span class="uri">IBAction</span>), choose <strong>Action</strong> in the the <strong>Connection</strong> drop-down. For outlet connections (<span class="uri">IBOutlet</span>), choose <strong>Outlet</strong> in the <strong>Connection</strong> drop-down. This is a common Xcode procedure. If you are unfamiliar with this procedure, review the <a href="https://developer.apple.com/library/ios/#referencelibrary/GettingStarted/RoadMapiOS/chapters/RM_YourFirstApp_iOS/Articles/05_ConfiguringView.html">Configuring the View</a> step in <a href="https://developer.apple.com/library/ios/#referencelibrary/GettingStarted/RoadMapiOS/chapters/RM_YourFirstApp_iOS/Articles/00_Introduction.html">Your First iOS App</a>.</p>
+
+            <span class="note"><b>Notes:</b>
+             <ul class="arrow-2">
+                 <li>For all of the buttons, ensure that <strong>Touch Up Inside</strong> is selected in the <strong>Sent Events</strong> section of the <strong>Connections Inspector</strong>. Xcode will likely configure this automatically.</li>
+                 <li>While you can paste the above code into your header file, if you control-drag the UI elements into the code from the scene (press and hold the Control key while you drag the button to the implementation file in the assistant editor pane) and use the popover control to specify the outlet connections, you can ensure that you have all the settings correct. </li>
+                 <li>When you add the action methods, corresponding stub methods are added to the KGViewController.m implementation file automatically. You will update these methods in KGViewController.m with the Kaazing Gateway Objective-C API in later steps.</li>
+                 <li>Some iOS clients define the interface in the implementation file instead of the header file. The client in this procedure defines the interface in the header file and the implementation methods in the implementation file.</li>
+             </ul>
+            </span>
+            </li>
+        </ol>
+    </li>
+    
+    <li>Import the WebSocket header into the <strong>KGViewController.m</strong> implementation file:
+<pre class="auto-links: false; brush: java; toolbar: false;">
+#import &quot;KGViewController.h&quot;
+#import &lt;KGWebSocket/WebSocket.h&gt;
+</pre>
+<p>The remaining code for this client is contained withIn the implementation for the <span class="uri">KGViewController</span> class:</p>
+<pre class="auto-links: false; brush: java; toolbar: false;">
+@implementation KGViewController {
+.
+.
+.
+@end
+</pre>
+    </li>
+    
+    <li>Declare variables for the WebSocket and WebSocket Factory objects:
+<pre class="auto-links: false; brush: java; toolbar: false;">
+@implementation KGViewController {
+    KGWebSocket           *_websocket; // WebSocket class
+    KGWebSocketFactory    *_factory;   // WebSocketFactory class
+    BOOL                  _reconnect;  // Boolean variable for reconnecting
+}
+</pre>
+    </li>
+    
+    <li>Generate the methods for the interface properties you defined in <strong>KGViewController.h</strong>:
+<pre class="auto-links: false; brush: java; toolbar: false;">
+@synthesize uriTextField;
+@synthesize messageTextField;
+@synthesize connectButton;
+@synthesize closeButton;
+@synthesize sendButton;
+@synthesize textView;
+@synthesize binarySwitch;
+</pre>
+    </li>
+    
+    <li>Add the <span class="uri">createAndEstablishWebSocketConnection</span> method to create the WebSocket factory and WebSocket:
+<pre class="auto-links: false; brush: java; toolbar: false;">
+- (void) createAndEstablishWebSocketConnection {
+    @try {
+        NSString *location = self.uriTextField.text;
+        [self log:[@"CONNECT: " stringByAppendingString:location]];
+      
+        // Create KGWebSocketFactory
+        _factory = [KGWebSocketFactory createFactory];
+      
+        // Create KGWebSocket from the KGWebSocketFactory
+        NSURL *url = [NSURL URLWithString:location];
+        _websocket = [_factory createWebSocket:url];
+      
+        /*
+        Add KGRevalidateExtension's name as an enabled extension to the 
+        KGWebSocket created earlier.
+        The extension will be negotiated during handshake.
+        */
+        NSString *extensionName = [[KGRevalidateExtension revalidateExtension] name];
+        [_websocket setEnabledExtensions:[NSArray arrayWithObjects:extensionName, nil]];
+
+        /*
+        Set up WebSocket listeners using block based approach
+        The application developer can use a delegate based approach as well.
+        */
+        [self setupWebSocketListeners]; 
+        // Connect to the Gateway over WebSocket
+        [_websocket connect];
+    }
+    @catch (NSException *exception) {
+        [self log:[exception reason]];
+    }
+}
+</pre>
+    </li>
+    
+    <li>Add the <span class="uri">setupWebSocketListeners</span> method to manage WebSocket connection events, incoming WebSocket messages, and any errors returned, and write event status to the log:
+<pre class="auto-links: false; brush: java; toolbar: false;">
+- (void) setupWebSocketListeners {
+  
+    KGViewController* ref = self;
+  
+    /*
+    Attach a block to execute when WebSocket connection is established.
+    This indicates that the connection is ready to send and receive data.
+    */
+    _websocket.didOpen = ^(KGWebSocket* webSocket) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [ref log:@"CONNECTED"];
+            [ref updateUIcomponents:YES];
+        });
+    };
+
+    /*  
+    The block to execute when a message is received from the Gateway.
+    The data is either UTF8-String (type: NSString) or binary (type: NSData)
+    */
+    _websocket.didReceiveMessage = ^(KGWebSocket* webSocket, id data) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [ref log:[NSString stringWithFormat:@"MESSAGE: %@", data]];
+        });
+    };
+  
+    // The block to execute when an error occurs.
+    _websocket.didReceiveError = ^(KGWebSocket* webSocket, NSError *error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [ref log:[NSString stringWithFormat:@"MESSAGE: %@", 
+                     [error localizedFailureReason]]];
+        });
+    };
+  
+    // The block to execute when the connection is closed
+    _websocket.didClose = ^(KGWebSocket* websocket, NSInteger code, NSString* reason, 
+                            BOOL wasClean) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [ref log:[@"CLOSED" stringByAppendingFormat:@"(%i)", code]];
+            [ref updateUIcomponents:NO];
+        });
+    };
+}
+</pre>
+</li>
+    
+    <li>Binary messages are received as <a href="//developer.apple.com/library/ios/#documentation/Cocoa/Reference/Foundation/Classes/NSData_Class/Reference/Reference.html">NSData</a>. For more information, see <a href="//developer.apple.com/library/ios/#documentation/Cocoa/Conceptual/BinaryData/BinaryData.html">Introduction to Binary Data Programming Guide for Cocoa</a> from Apple. Text messages are received as <a href="//developer.apple.com/library/ios/#documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/Reference/NSString.html">NSString</a>.</li>
+    
+    <li>Modify the <span class="uri">sendMessage:</span> method for both text and binary messages. The <span class="uri">sendMessage</span> method was generated automatically when you added the action to the <strong>Send</strong> button, but the method needs to be modified to call the WebSocket object and use its send: method for transmitting data to the Gateway over the WebSocket connection:
+<pre class="auto-links: false; brush: java; toolbar: false;">
+- (IBAction)sendMessage:(id)sender {
+    @try {
+        if ([binarySwitch isOn]) {                     // Send binary messages
+            NSData *data = [self.messageTextField.text 
+                            dataUsingEncoding:NSUTF8StringEncoding];
+            [self log:[NSString stringWithFormat:@"SEND: %@", data]];
+
+            // Use the send: method from the KGWebSocket class
+            [_websocket send:data]; 
+        }
+        else {
+            NSString *msg = self.messageTextField.text;    // Send text messages
+            [self log:[@"SEND: " stringByAppendingString:msg]];
+          
+            [_websocket send:msg];
+        }
+    }
+    @catch (NSException *exception) {
+        [self log:[exception reason]];
+    }
+}
+</pre>
+        <p>Binary messages are sent using <a href="//developer.apple.com/library/ios/#documentation/Cocoa/Reference/Foundation/Classes/NSData_Class/Reference/Reference.html">NSData</a>.</p>
+    </li>
+    
+    <li>Modify the <span class="uri">connectButton:</span> method. The <span class="uri">connectButton:</span> method was generated automatically when you added the action to the <strong>Connect</strong> button, but the method needs to be modified to call the method for creating the WebSocket connection and updating the UI:
+<pre class="auto-links: false; brush: java; toolbar: false;">
+- (IBAction)connectButton:(id)sender {
+    // Call the method for creating the WebSocket connect
+    [self createAndEstablishWebSocketConnection];
+    // Disable the URI field
+    self.uriTextField.enabled = NO;
+    // Change the URI field’s background color
+    self.uriTextField.backgroundColor = [UIColor lightGrayColor];
+}
+</pre>
+
+    </li>
+    
+    <li>Modify the <span class="uri">closeButton:</span> method to close the WebSocket connection and catch any exceptions:
+<pre class="auto-links: false; brush: java; toolbar: false;">
+- (IBAction)closeButton:(id)sender {
+    [self log:@"CLOSE"];
+    @try {
+        [_websocket close];
+    }
+    @catch (NSException *exception) {
+        [self log:[exception reason]];
+    }
+}
+</pre>
+    </li>
+    
+    <li>Add the log <span class="uri">log:</span> that is used by the other event methods:
+<pre class="auto-links: false; brush: js; toolbar: false;">
+- (void) log:(NSString *)msg {
+    NSString *oldText = [textView text];
+    NSString *msgWithNewline = [msg stringByAppendingString:@"\n"];
+    NSString *newText = [oldText stringByAppendingString:msgWithNewline];
+    [textView setText:newText];
+    [textView flashScrollIndicators];
+}
+</pre>
+
+    </li>
+    
+    <li>Modify the <span class="uri">clearLog:</span> method to clear the text area:
+<pre class="auto-links: false; brush: java; toolbar: false;">
+- (IBAction)clearLog:(id)sender {
+    [textView setText:@""];
+}
+</pre>
+    </li>
+    
+    <li>Add the <span class="uri">updateUIcomponents:</span> method to update the UI in response to the connection event:
+<pre class="auto-links: false; brush: java; toolbar: false;">
+- (void) updateUIcomponents:(BOOL)isConnected {
+    self.uriTextField.enabled = !isConnected;
+    self.uriTextField.backgroundColor = isConnected?[UIColor lightGrayColor]:
+        [UIColor whiteColor];
+    self.messageTextField.enabled = isConnected;
+    self.messageTextField.backgroundColor = isConnected? [UIColor whiteColor]:
+        [UIColor lightGrayColor];
+    self.sendButton.enabled = isConnected;
+    self.connectButton.enabled = !isConnected;
+    self.closeButton.enabled = isConnected;
+}
+</pre>
+    </li>
+    
+    <li>Add the <span class="uri">applicationDidEnterBackground</span> and <span class="uri">applicationWillEnterForeground</span> methods for managing the WebSocket connection when the application is sent to the background or returns to the foreground:
+<pre class="auto-links: false; brush: java; toolbar: false;">
+- (void)applicationDidEnterBackground {
+    // when application moves to background,
+    // close the open websocket connection, set reconnect to true
+    if (_websocket != nil && [_websocket readyState] == KGReadyState_OPEN) {
+        [_websocket close];
+        _reconnect = YES;
+    }
+    else {
+        _reconnect = NO;
+    }
+}
+
+- (void)applicationWillEnterForeground {
+    //if reconnect equals to true, reconnect the websocket
+    if (_websocket != nil && [_websocket readyState] == KGReadyState_OPEN) {
+        [self updateUIcomponents:YES];
+    }
+    else {
+        [self updateUIcomponents:NO];
+        if (_reconnect) {
+            //connection was open when application enter background, reconnect
+            [self createAndEstablishWebSocketConnection];
+
+        }
+    }
+}
+</pre>
+        <p>The methods use the <span class="uri">readyState</span> property to determine the current state of the connection. <span class="uri">readyState</span> can have the values <span class="uri">0</span> (CONNECTING), <span class="uri">1</span> (OPEN), <span class="uri">2</span> (CLOSING), <span class="uri">3</span> (CLOSED). These are the ready state codes defined in the <a href="//dev.w3.org/html5/websockets/#dom-websocket-readystate">WebSocket API</a>.</p>
+        <p>The remaining methods are used to control the interface of the client and are not WebSocket-related.</p>
+    </li>
+    
+    <li>Add the remaining methods to control the interface of the client.
+        <ol type="a">
+            <li>Add the <span class="uri">textFieldShouldReturn:</span> method to set the text field as first responder and keep this status to receive keyboard input:
+<pre class="auto-links: false; brush: java; toolbar: false;">
+- (BOOL)textFieldShouldReturn:(UITextField *)theTextField {
+    if (theTextField == self.messageTextField || theTextField == self.uriTextField) {
+        [theTextField resignFirstResponder];
+    }
+    return YES;
+}
+</pre>
+            </li>
+            
+            <li>Modify the <span class="uri">viewDidLoad</span> method to set up the view:
+<pre class="auto-links: false; brush: java; toolbar: false;">
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view, typically from a nib.
+}
+</pre>
+            <span class="note"><b>Note:</b> <span class="uri">viewDidload</span> is deprecated in iOS 6.0, as are some of the other methods in this demo. The demo is intended to work on iOS 5.1+ and iOS 6.0+, so these deprecated methods are used. If you are developing for iOS 6.0+ only, review Deprecated UIViewController Methods from Apple.</span>
+            </li>
+            
+            <li>Add a viewDidUnload method for when the client unloads after the viewDidLoad method that is automatically added by Xcode.
+<pre class="auto-links: false; brush: java; toolbar: false;">
+- (void)viewDidUnload
+{
+    [self setUriTextField:nil];
+    [self setMessageTextField:nil];
+    [self setSendButton:nil];
+    [self setConnectButton:nil];
+    [self setCloseButton:nil];
+    [self setTextView:nil];
+    [self setBinarySwitch:nil];
+    [super viewDidUnload];
+    // Release any retained subviews of the main view.
+}
+</pre>
+            </li>
+            
+            <li>Add a method for managing the UI orientation:
+<pre class="auto-links: false; brush: java; toolbar: false;">
+- (BOOL)shouldAutorotateToInterfaceOrientation:
+        (UIInterfaceOrientation)interfaceOrientation
+{
+    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
+}
+</pre>
+            </li>
+        </ol>
+    </li>
+    
+    <li>Ensure that the <span class="uri">KGViewController</span> implementation class ends with its <span class="uri">@end</span> statement.</li>
+    
+    <li>If you are testing your client with a local Gateway, start the Gateway as described in <a href="../../about/setup-guide/index.html">Setting Up the Gateway and Clients</a>.</li>
+    
+    <li>Build and run the client in the iPhone Simulator.
+        <ol type="a">
+            <li>In the <strong>Scheme</strong> menu, select <strong>iPhone 5.1 Simulator</strong> or <strong>iPhone 6.1 Simulator</strong>.</li>
+            
+            <li>Click <strong>Run</strong>.
+            <p>The iPhone Simulator displays the client.</p>
+                <figure>
+                    <img src="../images/f-html5-objc-simulator.png">
+                <figcaption><strong>Figure: Your WebSocket Demo client on the iPhone Simulator</strong></figcaption>    
+                </figure>
+            </li>
+            <li>In <strong>URI</strong>, enter <code>ws://localhost:8001/echo</code> (or public address <code>wss://sandbox.kaazing.net/echo</code>).</li>
+            <li>Click <strong>Connect</strong>. The client connects to the Echo service hosted by the Gateway over WebSocket. The log displays:
+                <span class="uri">CONNECT: wss://sandbox.kaazing.net/echo
+                CONNECTED</span></li>
+            <li>Click <strong>Send</strong>. The text message is sent to the Gateway as binary. The log displays the sent binary message and the Echo service response from the Gateway:
+                <span class="uri">SEND: &lt;48656c6c 6f2c2057 6562536f 636b6574 21&gt;
+MESSAGE: &lt;48656c6c 6f2c2057 6562536f 636b6574 21&gt;</span></li>
+            <li>Switch the <strong>Binary</strong> switch to <strong>OFF</strong> and click <strong>Send</strong>. The log displays the sent text message and the Echo service response from the Gateway:
+                <span class="uri">SEND: Hello, WebSocket!
+MESSAGE: Hello, WebSocket!</span>
+                </li>
+            <li>Click <strong>Close</strong> to close the WebSocket connection and end the session.</li>
+        </ol>
+    </li>
+</ol>
+
+
+<h2><a name="arm64"></a>Convert Your Objective-C (iOS) Client to a 64-Bit Runtime Environment</h2>
+<p>iPhone 5s, iPad Air and iPad mini (2nd generation) both run on a completely new processor architecture: arm64. arm64 is the standard, 64-Bit architecture in Xcode 5.0.1. You can use Xcode 5.0.1 to update your Objective-C (iOS) client to support arm64. For more information, see <a href="https://developer.apple.com/library/ios/documentation/General/Conceptual/CocoaTouch64BitGuide/ConvertingYourAppto64-Bit/ConvertingYourAppto64-Bit.html">Converting Your App to a 64-Bit Binary</a>.</p>
+
+<p>To update your Objective-C (iOS) client to support arm64:</p>
+<ol>
+<li>Install Xcode 5.0.1 or later from the <a href="https://itunes.apple.com/us/app/xcode/id497799835?mt=12">Mac App Store</a>.</li>
+<li>Open your Objective-C (iOS) client project. Xcode prompts you to modernize your project. Modernizing the project adds new warnings and errors that are important when compiling your app for 64-bit.</li>
+<li>Update your project settings to support iOS 5.1.1 or later. You cannot build a 64-bit project if it targets an iOS version earlier than iOS 5.1. Change the <strong>Architectures</strong> build setting in your project to <strong>Standard Architectures (including 64-bit)</strong>. Set the <strong>Deployment Target</strong> to <strong>7.1</strong>. For more information, see <a href="https://developer.apple.com/library/ios/documentation/General/Conceptual/CocoaTouch64BitGuide/ConvertingYourAppto64-Bit/ConvertingYourAppto64-Bit.html">Converting Your App to a 64-Bit Binary</a>.</li>
+</ol>
+
+<h2>Next Step</h2>
+<p><a href="p_dev_objc_secure.html">Secure Your Objective-C Client</a></p>
+
+
+    
+                  </section>
+                </article>
+
+            </div> <!-- #main -->
+        </div> <!-- #main-container -->
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

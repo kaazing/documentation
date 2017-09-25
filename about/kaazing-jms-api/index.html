@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+
+ <h1 id="kaazing-gateway-jms-client-libraries-supported-apis">Kaazing Gateway JMS Client Libraries: Supported APIs</h1>
+
+<p>This document lists how the Kaazing Gateway JMS client libraries support the JMS 1.1 classes that have superseded JMS 1.0 API classes, and the JMS APIs that are not supported by the Kaazing Gateway JMS client libraries.</p>
+
+<p><strong>Note:</strong> Kaazing Gateway support for APIs listed in this document depends upon whether the back-end message broker system supports the APIs.</p>
+
+<p>For information about the JMS API, see the <a href="//www.oracle.com/technetwork/java/docs-136352.html">JMS API specification</a>.</p>
+
+<p>For documentation on the available JMS API methods in the Kaazing Gateway JMS Client Libraries, see <a href="../..">Client API Documentation</a> on the main Documentation page.</p>
+
+<p>This document also contains the following two sections:</p>
+
+<ul>
+  <li><a href="#jms-apis-not-supported-by-the-kaazing-gateway-jms-client-libraries">JMS APIs Not Supported by the Kaazing Gateway JMS Client Libraries</a></li>
+  <li><a href="#jms-11-classes-supported-by-the-kaazing-gateway-jms-client-libraries">JMS 1.1 Classes Supported by the Kaazing Gateway JMS Client Libraries</a></li>
+</ul>
+
+<p>Refer to the appropriate Kaazing Gateway client topics in <a href="../..">For Developers</a> to learn how to use the Kaazing Gateway JMS Client Libraries.</p>
+
+<h4 id="jms-apis-not-supported-by-the-kaazing-gateway-jms-client-libraries">JMS APIs Not Supported by the Kaazing Gateway JMS Client Libraries</h4>
+
+<p>The following table lists the specific APIs that are <em>not</em> supported by the Kaazing Gateway JMS Client Libraries.</p>
+
+<p><strong>Note</strong>: JNDI is only supported in the Java JMS client.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>JMS API Interface/Class</th>
+      <th>Support Level in Kaazing Gateway</th>
+      <th>Client Technology</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>BytesMessage</td>
+      <td>The following methods are not supported in JavaScript:-,<code>readLong()</code>, <code>readFloat()</code>, <code>readDouble()</code>, <code>writeLong()</code>, <code>writeFloat()</code>, <code>writeDouble(), </code>writeObject()`</td>
+      <td>JavaScript</td>
+    </tr>
+    <tr>
+      <td>Connection</td>
+      <td>The following methods are not supported: <code>createConnectionConsumer()- ,</code>createDurableConnectionConsumer()`</td>
+      <td>All</td>
+    </tr>
+    <tr>
+      <td>Connection</td>
+      <td>The following methods are not supported: <code>setClientId()</code>, <code>run()</code></td>
+      <td>All</td>
+    </tr>
+    <tr>
+      <td>ConnectionConsumer</td>
+      <td>This class is not supported.</td>
+      <td>All</td>
+    </tr>
+    <tr>
+      <td>KMBytesMessage</td>
+      <td>The following methods are not supported in Objective-C: <code>readFloat()</code>, <code>readDouble()</code>, <code>writeFloat()</code>, <code>writeDouble()</code>, <code>writeObject()</code> <strong>Note:</strong>: To send float and double values, you can use message properties and <code>MapMessage</code>. See the <a href="//kaazing.com/doc/jms/4.0/apidoc/client/ios/jms/KMStompJMS/index.html">Objective-C JMS Client API documentation</a> for more information.</td>
+      <td>Objective-C</td>
+    </tr>
+    <tr>
+      <td>Message</td>
+      <td>The following method is not supported: <code>correlationIdAsBytes</code>. <strong>Note:</strong> Not all types and conversions are supported. See the appropriate client API documentation to see which ones are supported.</td>
+      <td>All</td>
+    </tr>
+    <tr>
+      <td>MessageConsumer</td>
+      <td>The following method is not supported in JavaScript: <code>receive()</code></td>
+      <td>JavaScript</td>
+    </tr>
+    <tr>
+      <td>MessageProducer</td>
+      <td>The following methods are not supported: <code>disableMessageId()</code>, <code>disableMessageTimestamp()</code></td>
+      <td>All</td>
+    </tr>
+    <tr>
+      <td>MessageProducer</td>
+      <td>The following methods are not supported in JavaScript: <code>getDisableMessageId()</code>, <code>getDisableMessageTimestamp()</code>, <code>setDisableMessageId()</code>, <code>setDisableMessageTimestamp()</code></td>
+      <td>JavaScript</td>
+    </tr>
+    <tr>
+      <td>ObjectMessage</td>
+      <td>This class is not supported.</td>
+      <td>All</td>
+    </tr>
+    <tr>
+      <td>QueueBrowser</td>
+      <td>This class is not supported.</td>
+      <td>All</td>
+    </tr>
+    <tr>
+      <td>QueueRequestor</td>
+      <td>This class is not supported.</td>
+      <td>All</td>
+    </tr>
+    <tr>
+      <td>ServerSession</td>
+      <td>This class is not supported.</td>
+      <td>All</td>
+    </tr>
+    <tr>
+      <td>ServerSessionPool</td>
+      <td>This class is not supported.</td>
+      <td>All</td>
+    </tr>
+    <tr>
+      <td>Session</td>
+      <td>The following methods are not supported: <code>createBrowser()</code>, <code>createConsumer()</code> on a transacted session, <code>createObjectMessage()</code>, <code>createStreamMessage()</code>, ``run()`</td>
+      <td>All</td>
+    </tr>
+    <tr>
+      <td>StreamMessage</td>
+      <td>This class is not supported.</td>
+      <td>All</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Note:</strong> Constants defined by JMS in the Session class are not supported by ActionScript. Use <code>SessionConstants</code> instead.</p>
+
+<h5 id="transactional-interfaces-not-supported">Transactional Interfaces Not Supported</h5>
+
+<p>The following transactional interfaces are not supported:</p>
+
+<ul>
+  <li>XAConnection</li>
+  <li>XAConnectionFactory</li>
+  <li>XAQueueConnection</li>
+  <li>XAQueueConnectionFactory</li>
+  <li>XAQueueSession</li>
+  <li>XASession</li>
+  <li>XATopicConnection</li>
+  <li>XATopicConnectionFactory</li>
+  <li>XATopicSession</li>
+</ul>
+
+<h4 id="jms-11-classes-supported-by-the-kaazing-gateway-jms-client-libraries">JMS 1.1 Classes Supported by the Kaazing Gateway JMS Client Libraries</h4>
+
+<p>The following classes are part of the JMS 1.0 API and have been superseded by JMS 1.1 classes. Use the following JMS 1.1 classes supported by Kaazing Gateway.</p>
+
+<p><strong>Note:</strong> JNDI is only supported in the Java JMS client.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">For the following JMS 1.0 API Interface/Class</th>
+      <th style="text-align: left">Use this Kaazing Gateway JMS API 1.1 Interface/Class or Functionality</th>
+      <th style="text-align: left">Client Technology</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">BytesMessage</td>
+      <td style="text-align: left">BytesMessage</td>
+      <td style="text-align: left">JavaScript Java Android </td>
+    </tr>
+    <tr>
+      <td style="text-align: left">MapMessage</td>
+      <td style="text-align: left">MapMessage</td>
+      <td style="text-align: left">JavaScript Java Android </td>
+    </tr>
+    <tr>
+      <td style="text-align: left">QueueConnection</td>
+      <td style="text-align: left">Connection</td>
+      <td style="text-align: left">JavaScript Java Android </td>
+    </tr>
+    <tr>
+      <td style="text-align: left">QueueConnectionFactory</td>
+      <td style="text-align: left">ConnectionFactory</td>
+      <td style="text-align: left">JavaScript Java Android </td>
+    </tr>
+    <tr>
+      <td style="text-align: left">QueueReceiver</td>
+      <td style="text-align: left">MessageConsumer</td>
+      <td style="text-align: left">JavaScript Java Android </td>
+    </tr>
+    <tr>
+      <td style="text-align: left">QueueRequestor</td>
+      <td style="text-align: left">TemporaryQueue</td>
+      <td style="text-align: left">JavaScript </td>
+    </tr>
+    <tr>
+      <td style="text-align: left">QueueSender</td>
+      <td style="text-align: left">MessageProducer</td>
+      <td style="text-align: left">JavaScript Java Android </td>
+    </tr>
+    <tr>
+      <td style="text-align: left">QueueSession</td>
+      <td style="text-align: left">Session</td>
+      <td style="text-align: left">JavaScript Java Android </td>
+    </tr>
+    <tr>
+      <td style="text-align: left">TextMessage</td>
+      <td style="text-align: left">TextMessage</td>
+      <td style="text-align: left">JavaScript Java Android </td>
+    </tr>
+    <tr>
+      <td style="text-align: left">TopicConnection</td>
+      <td style="text-align: left">Connection</td>
+      <td style="text-align: left">All</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">TopicConnectionFactory</td>
+      <td style="text-align: left">ConnectionFactory</td>
+      <td style="text-align: left">All</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">TopicPublisher</td>
+      <td style="text-align: left">MessageProducer</td>
+      <td style="text-align: left">JavaScript Java Android </td>
+    </tr>
+    <tr>
+      <td style="text-align: left">TopicRequestor</td>
+      <td style="text-align: left">TemporaryTopic</td>
+      <td style="text-align: left">Java Android JavaScript</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">TopicSession</td>
+      <td style="text-align: left">Session</td>
+      <td style="text-align: left">JavaScript Java Android </td>
+    </tr>
+    <tr>
+      <td style="text-align: left">BytesMessage</td>
+      <td style="text-align: left">IBytesMessage</td>
+      <td style="text-align: left">.NET</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">MapMessage</td>
+      <td style="text-align: left">IMapMessage</td>
+      <td style="text-align: left">.NET </td>
+    </tr>
+    <tr>
+      <td style="text-align: left">QueueConnection</td>
+      <td style="text-align: left">IConnection</td>
+      <td style="text-align: left">.NET</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">QueueConnectionFactory</td>
+      <td style="text-align: left">IConnectionFactory</td>
+      <td style="text-align: left">.NET </td>
+    </tr>
+    <tr>
+      <td style="text-align: left">QueueRequestor</td>
+      <td style="text-align: left">ITemporaryQueue</td>
+      <td style="text-align: left">.NET</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">QueueReceiver</td>
+      <td style="text-align: left">IMessageConsumer</td>
+      <td style="text-align: left">.NET </td>
+    </tr>
+    <tr>
+      <td style="text-align: left">QueueSender</td>
+      <td style="text-align: left">IMessageProducer</td>
+      <td style="text-align: left">.NET </td>
+    </tr>
+    <tr>
+      <td style="text-align: left">QueueSession</td>
+      <td style="text-align: left">ISession</td>
+      <td style="text-align: left">.NET </td>
+    </tr>
+    <tr>
+      <td style="text-align: left">TextMessage</td>
+      <td style="text-align: left">ITextMessage</td>
+      <td style="text-align: left">.NET </td>
+    </tr>
+    <tr>
+      <td style="text-align: left">TopicConnectionFactory</td>
+      <td style="text-align: left">IConnectionFactory</td>
+      <td style="text-align: left">.NET</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">TopicPublisher</td>
+      <td style="text-align: left">IMessageProducer</td>
+      <td style="text-align: left">.NET </td>
+    </tr>
+    <tr>
+      <td style="text-align: left">TopicRequestor</td>
+      <td style="text-align: left">ITemporaryTopic</td>
+      <td style="text-align: left">NET </td>
+    </tr>
+    <tr>
+      <td style="text-align: left">TopicSession</td>
+      <td style="text-align: left">ISession</td>
+      <td style="text-align: left">NET </td>
+    </tr>
+    <tr>
+      <td style="text-align: left">BytesMessage</td>
+      <td style="text-align: left">KMBytesMessage</td>
+      <td style="text-align: left">Objective-C</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">MapMessage</td>
+      <td style="text-align: left">KMMapMessage</td>
+      <td style="text-align: left">Objective-C</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">QueueConnection</td>
+      <td style="text-align: left">KMConnection</td>
+      <td style="text-align: left">Objective-C</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">QueueConnectionFactory</td>
+      <td style="text-align: left">KMConnectionFactory</td>
+      <td style="text-align: left">Objective-C</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">QueueReceiver</td>
+      <td style="text-align: left">KMMessageConsumer</td>
+      <td style="text-align: left">Objective-C</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">QueueRequestor</td>
+      <td style="text-align: left">KMTemporaryQueue</td>
+      <td style="text-align: left">Objective-C</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">QueueSender</td>
+      <td style="text-align: left">KMMessageProducer</td>
+      <td style="text-align: left">Objective-C</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">QueueSession</td>
+      <td style="text-align: left">KMSession</td>
+      <td style="text-align: left">Objective-C</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">TextMessage</td>
+      <td style="text-align: left">KMTextMessage</td>
+      <td style="text-align: left">Objective-C</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">TopicConnection</td>
+      <td style="text-align: left">KMConnection</td>
+      <td style="text-align: left">Objective-C</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">TopicConnectionFactory</td>
+      <td style="text-align: left">KMConnectionFactory</td>
+      <td style="text-align: left">Objective-C</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">TopicPublisher</td>
+      <td style="text-align: left">KMMessageProducer</td>
+      <td style="text-align: left">Objective-C</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">TopicRequestor</td>
+      <td style="text-align: left">KMTemporaryTopic</td>
+      <td style="text-align: left">Objective-C</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">TopicSession</td>
+      <td style="text-align: left">KMSession</td>
+      <td style="text-align: left">Objective-C</td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+</div>
+
+</div>
+
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+ </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

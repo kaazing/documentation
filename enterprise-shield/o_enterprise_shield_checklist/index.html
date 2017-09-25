@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+  
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+
+ <h1 id="configure-enterprise-shield-for-kaazing-gateway-">Configure Enterprise Shield™ for Kaazing Gateway </h1>
+
+<p>This checklist provides the steps necessary to configure Enterprise Shield™ in your Kaazing Gateway architecture.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Step</th>
+      <th>Topic or Reference</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>Become familiar with Gateway topologies</td>
+      <td><a href="../../admin-reference/c_topologies/index.html">Common Gateway Production Topologies</a></td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Understand how Enterprise Shield works</td>
+      <td><a href="#about-enterprise-shield">About Enterprise Shield</a></td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>Determine which Enterprise Shield topology is for you</td>
+      <td><a href="../../enterprise-shield/c_enterprise_shield_use_cases/index.html">Enterprise Shield Use Cases</a></td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>Download and set up Kaazing Gateway</td>
+      <td><a href="../../about/setup-guide/index.html">Setting Up the Gateway</a></td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>Configure Enterprise Shield</td>
+      <td><a href="../../enterprise-shield/p_enterprise_shield_config/index.html">Walkthrough: Configure Enterprise Shield</a></td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>Configure Enterprise Shield for high availability and failover</td>
+      <td><a href="../../enterprise-shield/p_enterprise_shield_cluster/index.html">Walkthrough: Configure Enterprise Shield for High Availability</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="about-enterprise-shield">About Enterprise Shield™</h2>
+
+<p>Enterprise Shield protects your trusted network by initiating the connection from the internal trusted network towards the DMZ. Until now, allowing access to a trusted network while still maintaining security behind the firewall still has challenges  because of the necessity to open ports to accept incoming connections. For most administrators, opening a port to the outside world is a necessary but undesirable solution because it instantly increases vulnerability to outside hacks and attacks. Companies are reluctant to open up ports in firewalls because each open port is another potential attack vector for malicious users. Using Enterprise Shield, you can close all of your inbound ports while still allowing clients to initiate connections.</p>
+
+<p>Traditionally, web architectures require that you open inbound ports to allow connectivity to internal systems and services in your trusted network. As with any web architecture, a typical Kaazing Gateway configuration (without Enterprise Shield) must open ports to allow TCP, HTTP, or WebSocket connectivity through a firewall, as shown in the following figure:</p>
+
+<p><img src="../../images/f-dmz-trusted-top.png" alt="Gateway Topology with Ports Open to the Trusted Network" /></p>
+
+<p><strong>Figure 1: A Kaazing Gateway Topology with Ports Open to the Trusted Network</strong></p>
+
+<p>Using Enterprise Shield, you can close all inbound ports in your firewall, thus closing the entry points available to untrusted users and eliminating your attack surface vulnerability.</p>
+
+<p>To implement Enterprise Shield, you configure a Gateway in the DMZ, which receives a reverse connection from within the trusted network. With this architecture, a client can talk to the back-end service or message broker through a firewall. Another benefit of Enterprise Shield is that your architecture remains valid, without requiring changes. For example, neither the client nor the back-end service or message broker are aware of the reverse connection because it is completely transparent to the rest of the architecture. Clients that are outside the firewall connect as usual to the DMZ Gateway.</p>
+
+<p><img src="../../images/f-dmz-trustednetwork-860-02.png" alt="Simple Topology Showing a Reverse Connection" /></p>
+
+<p><strong>Figure 2: Closed Inbound Ports in an Enterprise Shield Topology</strong></p>
+
+<p>Adding Enterprise Shield to your architecture requires only a few simple modifications. Instead of a single Gateway in your trusted network, you add another Gateway in the DMZ. Then, you only need to make a few changes to the two Gateway configurations to reverse the connection. Other parts of the architecture, such as the client and the back-end service or message broker, observe no apparent differences between a configuration with Enterprise Shield or one without, making the reverse connection completely transparent to the endpoints of the configuration.</p>
+
+<p>With this architecture in place, you can close the inbound ports of your firewall, thus providing maximum security and zero attack vectors for malicious users seeking to exploit ports in your firewall.</p>
+
+<p>See <a href="../../enterprise-shield/c_enterprise_shield_use_cases/index.html">Enterprise Shield Use Cases</a> to gain more insight into how you might use Enterprise Shield. This topic describes the various Enterprise Shield configurations you can deploy.</p>
+
+<p><a href="../../enterprise-shield/p_enterprise_shield_config/index.html">Walkthrough: Configure Enterprise Shield</a> provides a detailed walkthrough describing how to configure Kaazing Gateway to protect your enterprise by using a reverse connection to initiate the connection from the Gateway in the internal trusted network to a DMZ Gateway.</p>
+
+<p><strong>Note:</strong> Before you configure Enterprise Shield you should have a basic understanding of the following topologies:</p>
+
+<ul>
+  <li>
+    <p>Standard Gateway topology:</p>
+
+    <p>The recommended Gateway topology has two Gateway instances connecting a client and the back-end service or message broker through two layers of network security: a firewall-protected DMZ Gateway and a firewall-protected internal Gateway. See <a href="../../admin-reference/c_topologies/index.html#dmz-to-trusted-network-topology">DMZ Gateway to Trusted Network Topology</a> for more information.</p>
+  </li>
+  <li>
+    <p>Forward and reverse connections (proxies):</p>
+    <ul>
+      <li>A forward connection (forward proxy) that uses the SOCKet Secure (SOCKS) protocol and initiates a TCP, HTTP, or WS connection from a DMZ Gateway to a Gateway on the trusted network through firewalls. Configuring a forward connection is an important step to ensuring the Gateway settings are correctly set up before you attempt to reverse the connection.</li>
+      <li>A reverse connection (reverse proxy) that retrieves resources on behalf of a client from one or more servers to allow communication between the client and the back-end service or message broker that is otherwise blocked by the firewall. Reverse connections can hide the existence and characteristics of servers such that clients making requests connect to the proxy but remain unaware of the trusted network. These resources are then returned to the client as though they originated from the back-end service or message broker.</li>
+    </ul>
+  </li>
+</ul>
+
+
+</div>
+
+</div>
+
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

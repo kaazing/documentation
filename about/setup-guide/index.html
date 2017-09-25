@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+  
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+ <h1 id="setting-up-the-gateway">Setting Up the Gateway and Clients</h1>
+
+<p>This guide helps you download the Gateway distribution and set it up in your environment:</p>
+
+<ul>
+  <li><a href="#setting-up-clients">Setting Up Kaazing WebSocket Gateway Clients</a></li>
+  <li><a href="#setting-up-kaazing-gateway-locally-on-my-computer">Setting Up the Gateway Locally on My Computer</a></li>
+  <li><a href="#setting-up-kaazing-gateway-on-a-server">Setting Up the Gateway on a Server</a></li>
+  <li><a href="#setting-up-a-secure-kaazing-gateway-configuration">Setting Up a Secure Gateway Configuration</a></li>
+  <li><a href="#uninstall-kaazing-gateway">Uninstall Kaazing Gateway</a></li>
+</ul>
+
+<p>Let’s get started!</p>
+
+
+<h2 id="setting-up-clients">Setting Up Kaazing WebSocket Gateway Clients</h2>
+
+<p>To set up Kaazing WebSocket Gateway clients, go to <a href="//kaazing.com/download/">kaazing.com/download</a>, click the name of the client SDK you want, and follow the instructions. You can download the client SDKs to your computer, install them via a package manager, or include them in your development environment via other means such as a content delivery network.</p>
+
+<h3>Kaazing WebSocket Gateway Client Tutorial Applications</h3>
+
+<p>There are tutorial applications publicly available on Github for all of the Kaazing WebSocket Gateway clients:</p>
+
+<ul>
+  <li>Objective-C (iOS) - <a href="https://github.com/kaazing/ios.client.tutorials">https://github.com/kaazing/ios.client.tutorials</a></li>
+  <li>Android and Java - <a href="https://github.com/kaazing/java.client.tutorials">https://github.com/kaazing/java.client.tutorials</a></li>
+  <li>JavaScript - <a href="https://github.com/kaazing/javascript.client.tutorials">https://github.com/kaazing/javascript.client.tutorials</a></li>
+  <li>Microsoft .NET - <a href="https://github.com/kaazing/dotnet.client.tutorials">https://github.com/kaazing/dotnet.client.tutorials</a></li>
+  <li>Xamarin - <a href="https://github.com/kaazing/xamarin.client.tutorials">https://github.com/kaazing/xamarin.client.tutorials</a></li>
+</ul>
+
+<h2 id="setting-up-kaazing-gateway-locally-on-my-computer">Setting Up the Gateway Locally on My Computer</h2>
+
+<p>Setting up Kaazing Gateway on your local computer is recommended if you want to quickly try out the Gateway.</p>
+
+<p><img src="../../images/figures/ig-figure-cropped-01.png" alt="A Localhost configuration for Kaazing Gateway" /></p>
+
+<p><strong>Figure: A Localhost Configuration for Kaazing Gateway</strong></p>
+
+<p>To download and set up the Gateway on your local computer, perform the following steps:</p>
+
+<ol>
+  <li>Ensure your system meets the system requirements. See <a href="//kaazing.com/download/">kaazing.com/download</a>, and you can find the <code>README.txt</code> in the <code>GATEWAY_HOME</code> directory if you have already unpacked the the Gateway distribution.</li>
+  <li>Download the <strong>Kaazing WebSocket Gateway</strong> from <a href="//kaazing.com/download/">kaazing.com/download</a>.</li>
+  <li>
+    <p>Install the Gateway by unpacking the compressed download of the Gateway.</p>
+
+    <p>Unpack the Gateway to any directory location. Unpacking creates the Gateway directory structure into a directory of your choice (for example, <code>C:\kaazing</code> or <code>/home/username/kaazing</code>). See <a href="../about#about-gatewayhome">About GATEWAY_HOME</a> to learn more about Kaazing Gateway directory destinations.</p>
+  </li>
+  <li>
+    <p>Start a local Gateway.</p>
+
+    <ul>
+      <li>For Windows: use the Windows Services Manager or use the <code>net start</code> command with administrator rights. Alternatively, in Windows Explorer, navigate to the <code>GATEWAY_HOME/bin</code> directory where you unpacked the Gateway and double-click the <code>gateway.start.bat</code> script.</li>
+      <li>For Linux: <code>sudo service kaazing-gateway-community-5.0.x-platform start</code></li>
+      <li>For Ubuntu (Upstart): <code>sudo start kaazing-gateway-community-5.0.x-platform</code></li>
+      <li>For Linux, UNIX, or Mac: run the <code>gateway.start</code> script by navigating to the <code>GATEWAY_HOME/bin</code> directory where you installed the Gateway and enter <code>./gateway.start</code> on the command line.
+      </li>
+    </ul>
+
+    <p>You can also start one of the pre-packaged brokers and the Gateway.</p>
+    
+    <p>Start the Gateway using the pre-packaged AMQP broker:</p>
+
+    <p><code>./bin/gateway.start --broker amqp</code> (Linux/Mac), or <code>./bin/gateway.start.bat --broker amqp</code> (Windows)</p>
+
+    <p>Start the Gateway using the pre-packaged JMS broker:</p>
+
+    <p><code>./bin/gateway.start --broker jms</code> (Linux/Mac), or <code>./bin/gateway.start.bat --broker jms</code> (Windows)</p>
+
+    <p>When you successfully start the Gateway, messages display in your shell or command prompt indicating the services that are hosted by the Gateway. The startup message might differ depending on your Gateway configuration. To verify that the Gateway started correctly as a service, look at the log file in <code>GATEWAY_HOME/log/service.log</code> that is generated when the service is started or stopped. If the Gateway does not start successfully, see <a href="../../troubleshooting/p_troubleshoot_gateway_configuration/index.html">Troubleshoot Kaazing Gateway Configuration and Startup</a> or contact your administrator.</p>
+  </li>
+  <li>
+    <p>Verify the Gateway setup.</p>
+
+    <p>To verify that the Gateway is up and running, open a browser and access the Gateway home page at <code>http://localhost:8000/</code>. The “It Works!” page displays.</p>
+  </li>
+</ol>
+
+<p>You are now done setting up the Gateway locally.</p>
+
+<ul>
+  <li>To start building your first application, see the <a href="../..#for-developers">For Developers</a> documentation topics.</li>
+  <li>For more information about configuration settings and to perform additional Gateway configuration, see <a href="../../admin-reference/c_configure_gateway_concepts/index.html">About Gateway Configuration</a>.</li>
+  <li>For real-world demos, see <a href="//kaazing.com/">http://kaazing.com</a>.</li>
+  <li>To uninstall the Gateway, see the <a href="#uninstall-kaazing-gateway">Uninstall Kaazing Gateway</a> section at the end of this document.</li>
+</ul>
+
+<h2 id="setting-up-kaazing-gateway-on-a-server">Setting Up the Gateway on a Server</h2>
+
+<p>You can override the Gateway default behavior and accept connections on a non-localhost host name or IP address.</p>
+
+<p><img src="../../images/figures/ig-figure-cropped-02.png" alt="This graphic shows a server configuration for Kaazing Gateway" /></p>
+
+<p><strong>Figure: A Server Configuration for Kaazing Gateway</strong></p>
+
+<p>To set up a server configuration:</p>
+
+<ol>
+  <li>Follow the directions in <a href="#setting-up-kaazing-gateway-locally-on-my-computer">Setting Up Kaazing Gateway Locally on My Computer</a>.</li>
+  <li>Stop the Gateway.
+    <ul>
+      <li>To stop the Gateway on Windows, use the Windows Services Manager, press <strong>CTRL + C</strong> at the command prompt that was used to start the Gateway or simply close the command prompt, or use the <code>net stop</code> command to stop the Gateway service.</li>
+      <li>To stop the Gateway on Linux, UNIX, and Mac, kill the process at the command line, or use the Linux or Ubuntu (Upstart) service <code>stop</code> command.</li>
+    </ul>
+  </li>
+  <li>Navigate to the <code>GATEWAY_HOME/conf/</code> directory and edit the Gateway configuration to update the value of the <code>gateway.hostname</code> property by replacing <code>localhost</code> with your host name or IP address.
+    <ol>
+      <li>Edit the Gateway configuration file you are using <code>gateway-config.xml</code> or edit your custom configuration file if you created one. The Gateway configuration files are described in detail in <a href="../../admin-reference/c_configure_gateway_concepts/index.html">About Gateway Configuration</a>.</li>
+      <li>
+        <p>Replace <code>localhost</code> with your host name or IP address.</p>
+
+        <p>For example, the hostname <code>example.com</code> replaces <code>localhost</code> as the property value for <code>gateway.hostname</code> in the following Gateway configuration file:</p>
+
+        <pre class="auto-links: false; brush: xml; toolbar: false;">&lt;properties&gt;
+  &lt;property&gt;
+    &lt;name&gt;gateway.hostname&lt;/name&gt;
+    &lt;value&gt;example.com&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+    &lt;name&gt;gateway.base.port&lt;/name&gt;
+    &lt;value&gt;8000&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+    &lt;name&gt;gateway.extras.port&lt;/name&gt;
+    &lt;value&gt;8001&lt;/value&gt;
+  &lt;/property&gt;
+&lt;/properties&gt;
+</code></pre>
+
+        <p><strong>Note:</strong> You can optionally specify default values for configuration elements using the <code>properties</code> element in the “Property defaults” section of the Gateway configuration file. Doing so is recommended because it allows you to define a property value once and have its value used throughout the configuration.</p>
+      </li>
+    </ol>
+  </li>
+  <li><p>If you are using a message broker, start it. You can also start one of the pre-packaged brokers and the Gateway.</p>
+    
+    <p>Start the gateway using the pre-packaged AMQP broker:</p>
+
+    <p><code>./bin/gateway.start --broker amqp</code> (Linux/Mac), or <code>./bin/gateway.start.bat --broker amqp</code> (Windows)</p>
+
+    <p>Start the gateway using the pre-packaged JMS broker:</p>
+
+    <p><code>./bin/gateway.start --broker jms</code> (Linux/Mac), or <code>./bin/gateway.start.bat --broker jms</code> (Windows)</p>
+  </li>
+  <li>Start and verify the Gateway (as described in <a href="#setting-up-kaazing-gateway-locally-on-my-computer">Setting Up Kaazing Gateway Locally on My Computer</a>).</li>
+</ol>
+
+<h2 id="setting-up-a-secure-kaazing-gateway-configuration">Setting Up a Secure Kaazing Gateway Configuration</h2>
+
+<p>By default, the Gateway listens for non-encrypted traffic. Secure communication between the browser and the server is necessary to ensure that only the intended recipient of a message can read the transmitted message and to allow the message recipient to trust that the message is indeed from the expected source.</p>
+
+<p><img src="../../images/figures/ig-figure-cropped-05.png" alt="An encrypted configuration using Kaazing Gateway" /></p>
+
+<p><strong>Figure: An Encrypted Configuration Using Kaazing Gateway</strong></p>
+
+<p>For secure communication with the Gateway, consider configuring for the following levels of security:</p>
+
+<ul>
+  <li><strong>Secure network traffic</strong> Configure Transport Layer Security (TLS, also known as SSL) for secure communications channels to access the Gateway by setting up certificates. See <a href="../../security/o_tls/index.html">Secure Network Traffic with the Gateway</a> for more information.</li>
+  <li><strong>Limit access to services</strong> Use Cross-Origin Resource Sharing to control access to Gateway services based on the origin of an application by configuring cross-site constraints in the <code>gateway-config.xml</code> file. See <a href="../../security/p_authentication_config_http_challenge_scheme/index.html">Configure the HTTP Challenge Scheme</a> for more information.</li>
+  <li><strong>Configure authentication and authorization</strong> with constraints to limit access to Gateway services to authenticated and authorized users. See <a href="../../security/o_auth_configure/index.html">Configure Authentication and Authorization</a> for more information.</li>
+  <li><strong>Configure Kerberos network authentication</strong> for network authentication and communication between trusted hosts on untrusted networks. See <a href="../../security/o_auth_configure/index.html">Configure Kerberos V5 Network Authentication</a> for more information.</li>
+</ul>
+
+<h2 id="uninstall-kaazing-gateway">Uninstall Kaazing Gateway</h2>
+
+<p>Uninstall the Gateway by stopping all the services and deleting the directory that contains the Gateway files.</p>
+
+
+</div>
+
+</div>
+
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+
+
+ <h1 id="documentation-conventions">Documentation Conventions</h1>
+
+<p>This topic contains the following sections:</p>
+<ul>
+  <li><a href="#text-conventions">Text Conventions</a></li>
+  <li><a href="#about-uri-syntax">About URI Syntax</a></li>
+  <li><a href="#about-domain-names">About Domain Names</a></li>
+  <li><a href="#about-ports">About Ports</a></li>
+  <li><a href="#about-kaazinghome">About Kaazing_HOME</a></li>
+  <li><a href="#about-gatewayhome">About GATEWAY_HOME</a></li>
+</ul>
+
+<h2 id="text-conventions">Text Conventions</h2>
+
+<p>The following text conventions are used in the Kaazing Gateway topics:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Convention</th>
+      <th>Meaning</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>${<em>variable</em>}</td>
+      <td>A variable within the dollar-sign and curly brace format specifies a property default value in the Gateway configuration file, for example <code>GATEWAY_HOME/conf/gateway-config.xml</code>. Property default values are propagated throughout the configuration when the Gateway starts. For example, you could specify <code>gateway.example.com</code> as the default value for the <code>${gateway.hostname}</code> property. Variables shown in italics but without the dollar-sign and curly brace format indicate placeholder variables for which you supply particular values.</td>
+    </tr>
+    <tr>
+      <td><strong>bold</strong></td>
+      <td>Bold typeface indicates graphical user interface elements associated with an action, or terms defined in text or the glossary. It also indicates your location in a series of steps such as in the “Before You Begin” section in any procedural topic.</td>
+    </tr>
+    <tr>
+      <td><em>italic</em></td>
+      <td>Italic type indicates book titles, emphasis, or placeholder variables for which you supply particular values.</td>
+    </tr>
+    <tr>
+      <td><code>monospace</code></td>
+      <td>Monospace type indicates commands within a paragraph, URLs, code in examples, text that appears on the screen, or text that you enter.</td>
+    </tr>
+    <tr>
+      <td>…</td>
+      <td>An ellipsis indicates that a portion of an example that would normally be present is not shown.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="about-uri-syntax">About URI Syntax</h2>
+
+<p>The Gateway documentation uses a generic URI scheme that has the following components:</p>
+
+<p><code>scheme://host:port/path</code></p>
+
+<p>For example, the following URI schemes are used in the documentation:</p>
+
+<p><code>tcp://${gateway.hostname}:${gateway.extras.port}</code></p>
+
+<p><code>ws://gateway.example.com:80/</code></p>
+
+<p><code>wss://localhost:9000/echo</code></p>
+
+<p><code>sse://localhost:8000/sse</code></p>
+
+<ul>
+  <li>The <strong>scheme</strong> describes how to connect and is sometimes referred to as the protocol. When specifying URIs in a Gateway configuration, you can use <code>tcp://{hostname}:{port}</code> to make a basic TCP connection, or specify any of the supported schemes such as http, https, ws, wss, sse, and so on. See the <a href="../../admin-reference/r_configure_gateway_service#supported-url-schemes">supported URI schemes</a> for the complete list.</li>
+  <li>The <strong>host</strong> specifies where to connect and can be a hostname or domain name, or an IP address.</li>
+  <li>The <strong>port</strong> specifies the port number to ask for. This portion of the URI scheme is optional if you are using a default port, such as port 80 for http or port 443 for https. For example, when using the http scheme you do not need to specify port 80.</li>
+  <li>The <strong>path</strong> refers to the path of the resource. At a minimum you must specify the root path (<code>/</code>). Thus, <code>http://example.com/</code> is a legal address, but <code>http://example.com</code> is not, even though in practice the final slash “<code>/</code>” is added automatically.</li>
+</ul>
+
+<p>In addition, you can append a query string to the URL to provide non-hierarchical information. The query string follows a question mark (?) appended to the URL. For example, you can use this query string when configuring security for your Gateway (as described in the <a href="../../admin-reference/r_configure_gateway_security/index.html">Security Reference</a>).</p>
+
+<p><strong>Note:</strong> In the example URLs, the <code>${gateway.hostname}</code> syntax allows you to define property values once and then the values are propagated throughout the configuration when the Gateway starts. You can replace any value in the configuration file that uses the dollar-sign and curly brace format (such as <code>${gateway.hostname}</code>) with a property. In the Gateway configuration, you can configure property defaults such as <code>gateway.hostname</code>, <code>gateway.base.port</code>, <code>gateway.extras.port</code>.</p>
+
+<h2 id="about-domain-names">About Domain Names</h2>
+<p>Many examples in the documentation use the <code>.net</code> domain (such as <code>tcp://gateway.example.net:8080</code>) to indicate internal, nonpublic URLs, and use the <code>.com</code> domain to indicate public URLs. All domains and URLs are for example purposes only. Simply replace any instances of “example.com” in the configuration with your domain or hostname.</p>
+
+<h3 id="see-also">See Also</h3>
+
+<ul>
+  <li><a href="../../admin-reference/r_configure_gateway_service/index.html">Service Reference</a> for information about specifying URLs with the accept and connect elements.</li>
+  <li>Wikipedia description of <a href="//en.wikipedia.org/wiki/URI_scheme">URI Scheme</a></li>
+  <li><a href="../../admin-reference/c_configure_gateway_multiple_services/index.html">Configuring Multiple Services on the Same Host and Port</a></li>
+</ul>
+
+<h2 id="about-ports">About Ports</h2>
+
+<p>The following table lists ports that are commonly used in the documentation.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Port Number</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>21-22</td>
+      <td>Default shell and secure shell ports</td>
+    </tr>
+    <tr>
+      <td>80</td>
+      <td>Default HTTP and WS port</td>
+    </tr>
+    <tr>
+      <td>88</td>
+      <td>Default Kerberos port</td>
+    </tr>
+    <tr>
+      <td>443</td>
+      <td>Default HTTPS and WSS port</td>
+    </tr>
+    <tr>
+      <td>1080</td>
+      <td>Recommended port for the socks:// transport</td>
+    </tr>
+    <tr>
+      <td>1443</td>
+      <td>Recommended port for the socks+ssl:// transport</td>
+    </tr>
+    <tr>
+      <td>2020</td>
+      <td>Default JMX Management Service port</td>
+    </tr>
+    <tr>
+      <td>5222</td>
+      <td>Default XMPP port</td>
+    </tr>
+    <tr>
+      <td>5672</td>
+      <td>Default AMQP port</td>
+    </tr>
+    <tr>
+      <td>7222</td>
+      <td>Default TIBCO Enterprise Message Service™ port</td>
+    </tr>
+    <tr>
+      <td>8000-8001</td>
+      <td>Default Gateway WebSocket Service and echo service port, and for the SNMP Management Service in a single Gateway</td>
+    </tr>
+    <tr>
+      <td>8080-8081</td>
+      <td>Default Gateway clustered WebSocket Service and echo service ports, and for the SNMP Management Service in a Gateway cluster</td>
+    </tr>
+    <tr>
+      <td>8161</td>
+      <td>Default Apache ActiveMQ Admin console</td>
+    </tr>
+    <tr>
+      <td>54327</td>
+      <td>Recommended cluster multicast (UDP) port - Hazelcast port number</td>
+    </tr>
+    <tr>
+      <td>61613</td>
+      <td>Default Apache ActiveMQ JMS ports</td>
+    </tr>
+    <tr>
+      <td>61616-61617</td>
+      <td>Default Apache ActiveMQ TCP and SSL ports</td>
+    </tr>
+    <tr>
+      <td>61222</td>
+      <td>Default Apache ActiveMQ XMPP port</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="about-kaazinghome">About Kaazing_HOME</h2>
+
+<p>By default, when you install or upgrade Kaazing Gateway, the <code>Kaazing_HOME</code> directory is created. This top-level directory contains the Kaazing Gateway directory (referred to as <code>GATEWAY_HOME</code>)   and Gateway components. The value of <code>GATEWAY_HOME</code> depends on the operating system. See <a href="#about-gatewayhome">About GATEWAY_HOME</a> to learn more about Gateway directory destinations.</p>
+
+<p>This documentation assumes you are running the Gateway from the default location. You may override the default and install Kaazing Gateway into a directory of your choice.</p>
+
+<h2 id="about-gatewayhome">About GATEWAY_HOME</h2>
+
+<p>This is the directory that contains Kaazing Gateway and its components. The default Gateway home is represented in the documentation as <code>GATEWAY_HOME</code> because the actual directory destination depends on your operating system and the method you use to install the Gateway. If you download from <a href="//kaazing.com">kaazing.com</a> and unpack the Kaazing WebSocket Gateway, then you can unpack the download into a directory of your choice (for example, <code>C:\kaazing</code> or <code>/home/username/kaazing</code>).</p>
+
+
+</div>
+
+</div>
+
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

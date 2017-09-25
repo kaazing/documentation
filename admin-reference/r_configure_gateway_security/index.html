@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+  
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+
+ <h1 id="security-reference">Security Reference</h1>
+
+<p>This document describes all of the elements and properties you can use to configure Kaazing Gateway security.</p>
+
+<h2 id="overview">Overview</h2>
+
+<p>You can use the optional <code>security</code> element to configure secure communication with the Gateway.</p>
+
+<h2 id="structure">Structure</h2>
+
+<p>The Gateway configuration file (<code>gateway-config.xml</code>) defines the <code>security</code> configuration element contained in the top-level <code>gateway-config</code> element:</p>
+
+<ul>
+  <li><a href="../r_configure_gateway_gwconfig">gateway-config</a>
+    <ul>
+      <li><a href="#security">security</a>
+        <ul>
+          <li><a href="#keystore">keystore</a>
+            <ul>
+              <li><a href="#keystore">type</a></li>
+              <li><a href="#keystore">file</a></li>
+              <li><a href="#keystore">password-file</a></li>
+            </ul>
+          </li>
+          <li><a href="#truststore">truststore</a>
+            <ul>
+              <li><a href="#truststore">type</a></li>
+              <li><a href="#truststore">file</a></li>
+              <li><a href="#truststore">password-file</a></li>
+            </ul>
+          </li>
+          <li><a href="#realm">realm</a>
+            <ul>
+              <li><a href="#realm">name</a></li>
+              <li><a href="#realm">description</a></li>
+              <li><a href="#authentication">authentication</a>
+                <ul>
+                  <li><a href="#authentication">http-challenge-scheme</a></li>
+                  <li><a href="#authentication">http-header</a></li>
+                  <li><a href="#authentication">http-query-parameter</a></li>
+                  <li><a href="#authentication">http-cookie</a></li>
+                  <li><a href="#authentication">authorization-timeout</a> </li>
+                  <li><a href="#authentication">session-timeout</a> </li>
+                  <li><a href="#login-module">login-modules</a>
+                    <ul>
+                      <li><a href="#login-module">login-module</a>
+                        <ul>
+                          <li><a href="#login-module">type</a></li>
+                          <li><a href="#login-module">success</a></li>
+                          <li><a href="#options-login-module">options</a>
+                            <ul>
+                              <li><a href="#options-login-module">debug</a></li>
+                              <li><a href="#options-login-module">tryFirstToken</a></li>
+                            </ul>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+              <li><a href="#realm">user-principal-class</a></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><strong>Note:</strong> The security elements and properties must be specified in the order shown.</p>
+
+<h2 id="security">security</h2>
+
+<p><strong>The</strong> <code>security</code> element contains the following elements:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Element</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>keystore</td>
+      <td>The keystore contains the encryption keys for secure communications with Kaazing Gateway (see <a href="#keystore">keystore</a>)</td>
+    </tr>
+    <tr>
+      <td>truststore</td>
+      <td>The truststore contains digital certificates for certificate authorities trusted by Kaazing Gateway (see <a href="#truststore">truststore</a>)</td>
+    </tr>
+    <tr>
+      <td>realm</td>
+      <td>The realm associates an authenticated user with a set of authorized roles (see <a href="#realm">realm</a>)</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="keystore">keystore</h3>
+
+<p><strong>Required?</strong> Optional; <strong>Occurs:</strong> zero or one</p>
+
+<p>Identifies the keystore file that contains the certificates for the host names accepted by the Gateway over TLS (formerly SSL). When the Gateway is configured to accept <code>https://</code> or <code>wss://</code> schemes, the Gateway uses the certificates and key pairs in the keystore to establish a TLS session with clients connecting via those schemes. <code>keystore</code> contains the following elements:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Element</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>type</td>
+      <td>The type (format) of the keystore file. The supported type is <code>JCEKS</code> (Java Cryptography Extension key store). If the <code>type</code> element is not specified, the Gateway throws an exception.</td>
+    </tr>
+    <tr>
+      <td>file</td>
+      <td>The location of the keystore file (absolute path or path relative to the <code>gateway-config.xml</code> file).</td>
+    </tr>
+    <tr>
+      <td>password-file</td>
+      <td>The name of the file containing the password used by the Gateway and other applications to access the keystore file.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="example">Example</h4>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;keystore&gt;
+  &lt;type&gt;JCEKS&lt;/type&gt;
+  &lt;file&gt;keystore.db&lt;/file&gt;
+  &lt;password-file&gt;keystore.pw&lt;/password-file&gt;
+&lt;/keystore&gt;
+</code></pre>
+
+<h4 id="notes">Notes</h4>
+
+<ul>
+  <li>The keystore database file is located in <code>GATEWAY_HOME/conf</code> and referenced in the keystore element in the Gateway configuration file.</li>
+  <li>The Gateway supports certificates that are generated for wildcard domains. For example, <code>*.example.com</code> represents example.com and all its subdomains, such as my.example.com and secure-mail.example.com.</li>
+  <li>See <a href="../../security/o_tls/index.html">Secure Network Traffic with the Gateway</a> for more information and examples.</li>
+</ul>
+
+<h3 id="truststore">truststore</h3>
+
+<p><strong>Required?</strong> Optional; <strong>Occurs:</strong> zero or one</p>
+
+<p>Identifies the truststore file that contains certificates for hosts and certificate authorities trusted by the Gateway. To connect to a back-end service or message broker using TLS/SSL, the Gateway must have the certificate for the host name of the back-end service or message broker in the truststore. <code>truststore</code> contains the following elements:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Element</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><a name="truststore_type"></a>type</td>
+      <td>Not required by default. The type (format) of the truststore file. The default supported type is <code>JKS</code> (Java Key Store). If you specify <code>JCEKS</code> (Java Cryptography Extension Key Store) when importing a certificate into the truststore, then you must add <code>&lt;type&gt;JCEKS&lt;/type&gt;</code> or the Gateway throws an exception.</td>
+    </tr>
+    <tr>
+      <td><a name="truststore_file"></a>file</td>
+      <td>The location of the truststore file (absolute path or path relative to the <code>gateway-config.xml</code> file). There is no password file associated with the truststore. The default password is <code>changeit</code>. You should modify this password using the <code>keytool -storepasswd</code> command.</td>
+    </tr>
+    <tr>
+      <td><a name="truststore_passwordfile"></a>password-file</td>
+      <td>The name of the file containing the password used by the Gateway and other applications to access the truststore file.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="example-1">Example</h4>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;keystore&gt;
+  &lt;type&gt;JCEKS&lt;/type&gt;
+  &lt;file&gt;keystore.db&lt;/file&gt;
+  &lt;password-file&gt;keystore.pw&lt;/password-file&gt;
+&lt;/keystore&gt;
+
+&lt;truststore&gt;
+  &lt;file&gt;truststore.db&lt;/file&gt;
+&lt;/truststore&gt;
+</code></pre>
+
+<h4 id="notes-1">Notes</h4>
+
+<ul>
+  <li>See <a href="../../security/o_tls/index.html">Secure Network Traffic with the Gateway</a> for more information and examples.</li>
+</ul>
+
+<h3 id="realm">realm</h3>
+
+<p><strong>Required?</strong> Optional; <strong>Occurs:</strong> zero or more</p>
+
+<p>This is the element that associates an authenticated user with a set of authorized roles. <code>realm</code> contains the following elements:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Element</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>name</td>
+      <td>The name of the realm.</td>
+    </tr>
+    <tr>
+      <td>description</td>
+      <td>The description of the realm.</td>
+    </tr>
+    <tr>
+      <td>authentication</td>
+      <td>The authentication information the Gateway uses to challenge the user, respond to the challenge response, process logins, and govern the authorization and session timeouts (see <a href="#authentication">authentication</a>).</td>
+    </tr>
+    <tr>
+      <td>user-principal-class</td>
+      <td>The name of the class that represents a user principal that an administrator wants to know about. When a principal of this class is authenticated, a notification of such is sent through the management service. If no management service is configured, then this element is ignored. The class must implement <a href="//docs.oracle.com/javase/7/docs/api/java/security/Principal.html"><code>java.security.Principal</code></a>.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="example-2">Example</h4>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;security&gt;
+...
+  &lt;realm&gt;
+    &lt;name&gt;demo&lt;/name&gt;
+    &lt;description&gt;Kaazing Gateway Demo&lt;/description&gt;
+    &lt;authentication&gt;
+      &lt;http-challenge-scheme&gt;Basic&lt;/http-challenge-scheme&gt;
+      &lt;http-header&gt;X-Custom-Authorization-Header&lt;/http-header&gt;
+      &lt;http-query-parameter&gt;myCustomAuthParam&lt;/http-query-parameter&gt;
+      &lt;http-cookie&gt;sampleCookie1&lt;/http-cookie&gt;
+      &lt;login-modules&gt;
+        &lt;login-module&gt;
+          &lt;type&gt;file&lt;/type&gt;
+          &lt;success&gt;required&lt;/success&gt;
+          &lt;options&gt;
+            &lt;file&gt;jaas-config.xml&lt;/file&gt;
+          &lt;/options&gt;
+        &lt;/login-module&gt;
+
+        &lt;login-module&gt;
+          &lt;type&gt;ldap&lt;/type&gt;
+          &lt;success&gt;required&lt;/success&gt;
+          &lt;options&gt;
+            &lt;userProvider&gt;ldap://ldap-svr:389/ou=people,dc=example,dc=com&lt;/userProvider&gt;
+            &lt;userFilter&gt;
+              &lt;![CDATA[(&amp;amp;(userPrincipalName={USERNAME}@MYCOMPANY.NET)(objectClass=inetOrgPerson))]]&gt;
+            &lt;/userFilter&gt;
+            &lt;authzIdentity&gt;{EMPLOYEENUMBER}&lt;/authzIdentity&gt;
+          &lt;/options&gt;
+        &lt;/login-module&gt;
+      &lt;/login-modules&gt;
+    &lt;/authentication&gt;  
+  &lt;/realm&gt;
+&lt;/security&gt;
+</code></pre>
+
+<h4 id="notes-2">Notes</h4>
+
+<ul>
+  <li>See <a href="../../security/o_tls/index.html">Secure Network Traffic with the Gateway</a> for more information and examples.</li>
+  <li>See <a href="../../management/p_monitor_jmx/index.html">Monitor with JMX</a> for an example configuring notifications using <code>user-principal-class</code> to extract user information from a session using JMX.</li>
+</ul>
+
+<h3 id="authentication">authentication</h3>
+
+<p><strong>Required?</strong> Required; <strong>Occurs:</strong> at most once</p>
+
+<p>Use <code>authentication</code> to configure the authentication parameters for the <code>realm</code>, which includes the challenge-scheme and the parts of the request that contain authentication information. <code>authentication</code> contains the following elements:</p>
+
+<ul>
+  <li>
+    <h5 id="section"><code>http-challenge-scheme</code></h5>
+    <p>This element is required and specifies the method used for authentication: <code>Basic</code>, <code>Application Basic</code>, <code>Negotiate</code>, <code>Application Negotiate</code>, or <code>Application Token</code>:</p>
+
+    <ul>
+      <li>Use <code>Basic</code> or <code>Negotiate</code> to allow the browser to respond to authentication challenges. </li>
+      <li>Use <code>Application Basic</code> or <code>Application Negotiate</code> to allow the client to respond to authentication challenges. The client in this case is the Kaazing Gateway client that is built based on the Kaazing Gateway client libraries. To use client-level authentication, configure the client to handle the authentication information, as described in <a href="../..">developer how-to</a> documentation.</li>
+      <li>Use <code>Application Token</code> to allow the client to present a third-party token or custom token to be presented to your custom login module.  </li>
+      <li>Use <code>Negotiate</code> or <code>Application Negotiate</code> if using Kerberos Network Authentication. For more information, see <a href="../../security/o_tls/index.html">Secure Network Traffic with the Gateway</a>.</li>
+    </ul>
+  </li>
+  <li>
+    <h5 id="section-1"><code>http-header</code></h5>
+    <p>Specifies the names of the header or headers that carry authentication data for use by the login modules in this realm. This element is optional. If you do not specify it, then the Gateway uses <code>&lt;http-header&gt;Authorization&lt;/http-header&gt;</code> for the challenge response (see <a href="#custom-http-authentication-tokens">Custom HTTP Authentication Tokens</a>).</p>
+  </li>
+  <li>
+    <h5 id="section-2"><code>http-query-parameter</code></h5>
+    <p>Specifies the name or names of query parameters that carry authentication data for use by the login modules in this realm. This element is optional. If you do not specify it, then the Gateway uses <code>&lt;http-header&gt;Authorization&lt;/http-header&gt;</code> for the challenge response (see <a href="#custom-http-authentication-tokens">Custom HTTP Authentication Tokens</a>).</p>
+  </li>
+  <li>
+    <h5 id="section-3"><code>http-cookie</code></h5>
+    <p>Specifies the name or names of HTTP cookies that carry authentication data for use by the login modules in this realm. This element is optional. If you do not specify it, then the Gateway uses <code>&lt;http-header&gt;Authorization&lt;/http-header&gt;</code> for the challenge response (see <a href="#custom-http-authentication-tokens">Custom HTTP Authentication Tokens</a>).</p>
+  </li>
+  <li>
+    <h5 id="section-5"><code>authorization-timeout</code></h5>
+    <p>This is the time interval before which the client must re-authenticate the WebSocket connection. If re-authentication has not occurred within the specified time, then the Gateway closes the WebSocket connection. This setting effects any service using a WebSocket transport (<code>ws://</code>). If this element is omitted, then no re-authentication will occur and the client will not receive additional challenges.</p>
+    <p>You can specify your preferred time interval syntax in milliseconds, seconds, minutes, or hours (spelled out or abbreviated). For example, all of the following are valid: 1800s, 1800sec, 1800 secs, 1800 seconds, 1800seconds, 3m, 3min, or 3 minutes. If you do not specify a time unit then seconds are assumed.</p>
+  </li>
+  <li>
+    <h5 id="section-6"><code>session-timeout</code></h5>
+    <p>For WebSocket services only. This is the time interval after which the Gateway closes the WebSocket connection, regardless of other settings. Effectively, the <code>session-timeout</code> element specifies the maximum lifetime of the WebSocket connection.</p>
+  </li>
+  <li>
+    <h5 id="section-7"><code>login-modules</code></h5>
+    <p>Specifies the container for a chain of individual login modules that communicate with a user database to validate user’s credentials and to determine a set of authorized roles (see <a href="#login-module">login-module</a>).</p>
+  </li>
+</ul>
+
+<h4 id="custom-http-authentication-tokens">Custom HTTP Authentication Tokens</h4>
+
+<p>By default, the HTTP standard (<a href="//tools.ietf.org/html/rfc2617">RFC 2617</a>) specifies the use of the authorization header <code>(&lt;http-header&gt;Authorization&lt;/http-header&gt;</code>) for sending credentials from the client to the server. The Gateway configuration elements <code>http-header</code>, <code>http-query-parameter</code>, and <code>http-cookie</code> provide a means of extending the standard. You use these elements to allow the Gateway configuration to specify other parts of an HTTP request that can carry authentication credentials.</p>
+
+<p>For example, suppose the client’s authentication system provides authentication information in an authorization header, a cookie and a query parameter to the server. In this scenario, you might set up the Gateway configuration, as follows:</p>
+
+<ol>
+  <li>
+    <p>Declare this authentication information in the Gateway configuration.</p>
+
+    <p>The Gateway always obtains the authentication values from the authorization header (if any) and the Gateway also obtains any declared values from one or more authorization headers, query parameters, or cookies that are explicitly specified in the <code>http-header</code>, <code>http-query-parameter</code>, and <code>http-cookie</code> elements, respectively. For example:</p>
+
+    <pre class="auto-links: false; brush: xml; toolbar: false;">&lt;http-header&gt;X-Acme-Authorization&lt;/http-header&gt;
+&lt;http-query-parameter&gt;auth&lt;/http-query-parameter&gt;
+&lt;http-cookie&gt;Acme&lt;/http-cookie&gt;
+</code></pre>
+  </li>
+  <li>
+    <p>Make the values sent via an HTTP request available to your custom login module using the <code>AuthenticationToken</code> object.</p>
+
+    <p>To declare explicit values in the login modules (configured as a chain within the <a href="#realm">realm</a> element), use the <code>AuthenticationToken</code> object made available to the login modules through an <code>AuthenticationTokenCallback</code>, as follows:</p>
+
+    <pre class="auto-links: false; brush: xml; toolbar: false;">AuthenticationToken token = getTokenFromCallback();
+String headerPart = token.get(“X-Acme-Authorization”);
+String parameterPart = token.get(“auth”);
+String cookiePart = token.get(“Acme”);
+</code></pre>
+  </li>
+</ol>
+
+<p>For more detailed information about implementation, see <a href="../../security/p_auth_configure_custom_login_module/index.html">Create a Custom Login Module</a> and <a href="../../security/p_auth_configure_login_module/index.html">Configure a Chain of Login Modules</a>.</p>
+
+<h4 id="login-module">login-module</h4>
+
+<p><strong>Required?</strong> Required; <strong>Occurs:</strong> one or more</p>
+
+<p>This element configures the login module, which communicates with a user database to validate user’s credentials and to determine a set of authorized roles. See <a href="../../security/p_auth_configure_login_module/index.html">Configure a Chain of Login Modules</a>. The <code>login-module</code> contains the elements described in the following table.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Element</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>type</td>
+      <td>The type of login module: <code>file</code>, <code>ldap</code>, <code>kerberos5</code>, <code>gss</code>, <code>jndi</code>, <code>keystore</code>, and <code>custom</code>. See the <code>login-module</code> examples that follow this table. Note: You must use the <code>kerberos5</code> and <code>gss</code> elements together, and in that sequence. For information about using these login-modules, see <a href="../../security/p_auth_configure_login_module/index.html">Configure a Chain of Login Modules</a>.</td>
+    </tr>
+    <tr>
+      <td>success</td>
+      <td>The behavior of the login module at the time it validates the user’s credentials. Possible values are: <code>required</code>, <code>requisite</code>, <code>sufficient</code>, and <code>optional</code>. The success status options are defined in the <code>javax.security.auth.login.Configuration</code> class. Authentication succeeds if all required and requisite login modules succeed, or if a sufficient or optional login module succeeds. The table in <a href="../../security/p_auth_configure_login_module/index.html">Configure a Chain of Login Modules</a> provides more information about how the order of login modules and the setting of the success element controls authentication processing.</td>
+    </tr>
+    <tr>
+      <td>options</td>
+      <td>The configuration options specific to the type of login module (see <a href="#options-login-module">options login-module</a>).</td>
+    </tr>
+  </tbody>
+</table>
+
+<h5 id="options-"><a name="options-login-module"></a>options (<code>login-module</code>)</h5>
+
+<p><strong>Required?</strong> Optional; <strong>Occurs:</strong> zero or one</p>
+
+<p>This is the element for adding options to specific types of login modules. The options listed here are specific to public Kaazing Gateway login modules. See <a href="../../security/p_auth_configure_login_module/index.html">Configure a Chain of Login Modules</a> for more information about the types of login modules. </p>
+
+<p><code>options</code> contains the following elements:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th>Applies to login-module type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>debug</td>
+      <td><code>file</code></td>
+      <td>If <code>true</code>, then the login module sends debug information (at the DEBUG level) to the logger. If <code>false</code> (the default), then the login module disables sending logging information to the logger. This is the default.</td>
+    </tr>
+    <tr>
+      <td>tryFirstToken</td>
+      <td><code>gss</code></td>
+      <td>If <code>true</code>, then the login module looks in the JAAS shared state for a token using the key: <code>com.kaazing.gateway.server.auth.gss.token</code>. If <code>false</code> (the default), then the login module uses a CallbackHandler to discover the token from <code>LoginContext</code>.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h5 id="example-of-a--login-module"><a name="example-of-a-file-login-module"></a>Example of a <code>file</code> Login Module</h5>
+
+<p>The following example shows a <code>file</code>-based <code>login-module</code> element that uses the flat XML file,<code> jaas-config.xml</code>:</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;login-module&gt;
+  &lt;type&gt;file&lt;/type&gt;
+  &lt;success&gt;required&lt;/success&gt;
+  &lt;options&gt;
+    &lt;!-- This &lt;file&gt; element configures the path to the XML file
+         that contains the database of users, passwords, and roles. --&gt;
+    &lt;file&gt;jaas-config.xml&lt;/file&gt;
+  &lt;/options&gt;
+&lt;/login-module&gt;
+</code></pre>
+
+<p>For information about the <code>file</code> login module options, see the table in the <a href="#options-login-module">options (login-module)</a> section.</p>
+
+<h5 id="example-of-a--login-module-1"><a name="example-of-a-ldap-login-module"></a>Example of a <code>ldap</code> login module</h5>
+
+<p>The following example shows an LDAP-based <code>login-module</code> element:</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;login-module&gt;
+  &lt;type&gt;ldap&lt;/type&gt;
+  &lt;success&gt;required&lt;/success&gt;
+  &lt;options&gt;
+    &lt;userProvider&gt;ldap://ldap-svr:389/ou=people,dc=example,dc=com&lt;/userProvider&gt;
+    &lt;userFilter&gt;
+      &lt;![CDATA[(&amp;amp;(userPrincipalName={USERNAME}@MYCOMPANY.NET)
+      (objectClass=inetOrgPerson))]]&gt;
+    &lt;/userFilter&gt;
+    &lt;authzIdentity&gt;{EMPLOYEENUMBER}&lt;/authzIdentity&gt;
+  &lt;/options&gt;
+&lt;/login-module&gt;
+</code></pre>
+
+<p>For information about configuring the LDAP login-module options, see the <a href="//docs.oracle.com/javase/7/docs/jre/api/security/jaas/spec/com/sun/security/auth/module/LdapLoginModule.html">Class LDAPLoginModule documentation</a>.</p>
+
+<h5 id="example-of--login-module"><a name="example-of-kerberos5-login-module"></a>Example of <code>kerberos5</code> login module</h5>
+
+<p>The following example shows a <code>kerberos5</code>-based <code>login-module</code> element. You must use the <code>kerberos5</code> and <a href="#gss-login-module"><code>gss</code></a> elements together, and in that sequence. Both of these login modules are required when using the <code>Negotiate</code> or <code>Application Negotiate</code> <a href="#authentication">schemes</a>:</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;login-module&gt;
+  &lt;type&gt;kerberos5&lt;/type&gt;
+  &lt;success&gt;required&lt;/success&gt;
+  &lt;options&gt;
+    &lt;useKeyTab&gt;true&lt;/useKeyTab&gt;
+    &lt;keyTab&gt;/etc/krb5.keytab&lt;/keyTab&gt;
+    &lt;principal&gt;HTTP/localhost@LOCAL.NETWORK&lt;/principal&gt;
+    &lt;isInitiator&gt;false&lt;/isInitiator&gt;
+    &lt;doNotPrompt&gt;true&lt;/doNotPrompt&gt;
+    &lt;storeKey&gt;true&lt;/storeKey&gt;
+  &lt;/options&gt;
+&lt;/login-module&gt;
+</code></pre>
+
+<p>For information about configuring the Kerberos login module options, see the <a href="//docs.oracle.com/javase/7/docs/jre/api/security/jaas/spec/com/sun/security/auth/module/Krb5LoginModule.html" title="Krb5LoginModule (Java Authentication and Authorization Service )">Krb5LoginModule</a> documentation. For information about how to use Kaazing Gateway with Kerberos, see <a href="../../security/o_auth_configure/index.html">Configure Kerberos V5 Network Authentication</a>.</p>
+
+<h5 id="login-module-1"><a name="gss-login-module"></a><code>gss</code> login module</h5>
+
+<p>The following example shows a <code>gss</code>-based <code>login-module</code> element that you define after the Kerberos login module in the chain to enable the Kerberos tokens to travel over the Web. Both of these login modules are required when using the <code>Negotiate</code> or <code>Application Negotiate</code> <a href="#authentication">schemes</a>:</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;login-module&gt;
+  &lt;type&gt;gss&lt;/type&gt;
+  &lt;success&gt;required&lt;/success&gt;
+&lt;/login-module&gt;
+</code></pre>
+
+<p>For information about the <code>gss</code> login module options, see the table in the <a href="#options-login-module">options (login-module)</a> section. The <code>gss</code> login-module element requires no options but must follow the <a href="#example-of-kerberos5-login-module">kerberos5</a> login-module element, because the <code>gss</code> login-module element uses the credentials obtained by the <a href="#example-of-kerberos5-login-module">kerberos5</a> login-module element to verify the service ticket presented by the client. See <a href="../../security/u_kerberos_configure/index.html">Configure Kerberos V5 Network Authentication</a> and <a href="../../security/u_kerberos_configure/index.html">Using Kerberos V5 Network Authentication with the Gateway</a> for more information.</p>
+
+<h5 id="example-of-a--login-module-2"><a name="example-of-a-jndi-login-module"></a>Example of a <code>jndi</code> login module</h5>
+
+<p>The following example shows a jndi-based <code>login-module</code> element. It translates the examples for the login module in the <a href="//docs.oracle.com/javase/7/docs/jre/api/security/jaas/spec/com/sun/security/auth/module/JndiLoginModule.html">JndiLoginModule</a> javadoc into the XML you would use in the <code>security.realm</code> section of the Gateway configuration:</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;login-module&gt;
+  &lt;type&gt;jndi&lt;/type&gt;
+  &lt;success&gt;required&lt;/success&gt;
+  &lt;options&gt;
+    &lt;!-- These options come directly from the JndiLoginModule javadoc;
+        these are the NIS examples --&gt;
+    &lt;user.provider.url&gt;nis://NISServerHostName/NISDomain/user&lt;/user.provider.url&gt;
+    &lt;group.provider.url&gt;nis://NISServerHostName/NISDomain/system/group&lt;/group.provider.url&gt;
+  &lt;/options&gt;
+&lt;/login-module&gt;
+</code></pre>
+
+<p>For information about configuring the JNDI login-module options, see the <a href="//docs.oracle.com/javase/7/docs/jre/api/security/jaas/spec/com/sun/security/auth/module/JndiLoginModule.html">JndiLoginModule</a> documentation.</p>
+
+<h5 id="example-of-a--login-module-3"><a name="example-of-a-keystore-login-module"></a>Example of a <code>keystore</code> login module</h5>
+
+<p>The following example shows a keystore-based <code>login-module</code> element. It translates the examples in the <a href="//docs.oracle.com/javase/7/docs/jre/api/security/jaas/spec/com/sun/security/auth/module/KeyStoreLoginModule.html">KeyStoreLoginModule</a> javadoc into the XML you would use in the <code>security.realm</code> section of the Gateway configuration:</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;login-module&gt;
+  &lt;type&gt;keystore&lt;/type&gt;
+  &lt;success&gt;required&lt;/success&gt;
+  &lt;options&gt;
+   &lt;!-- These options come directly from the KeyStoreLoginModule javadoc  --&gt;
+    &lt;keyStoreURL&gt;file://path/to/keystore.db&lt;/keyStoreURL&gt;
+    &lt;keyStorePasswordURL&gt;file://path/to/keystore.pw&lt;/keyStorePasswordURL&gt;
+    &lt;keyStoreAlias&gt;keystore-alias&lt;/keyStoreAlias&gt;
+  &lt;/options&gt;
+&lt;/login-module&gt;
+</code></pre>
+
+<p>For information about configuring the keystore login-module options, see the <a href="//docs.oracle.com/javase/7/docs/jre/api/security/jaas/spec/com/sun/security/auth/module/KeyStoreLoginModule.html">KeyStoreLoginModule</a> documentation.</p>
+
+<h5 id="example-of-a--login-module-4"><a name="example-of-a-custom-login-module"></a>Example of a <code>custom</code> login module</h5>
+
+<p>Kaazing Gateway also supports a plugin mechanism for integration with custom authentication modules based on the Java LoginModule API.</p>
+
+<p>For information about creating a custom login module using this API, see:</p>
+
+<ul>
+  <li><a href="//docs.oracle.com/javase/7/docs/technotes/guides/security/jaas/JAASLMDevGuide.html">Java Authentication and Authorization Service (JAAS) LoginModule Developer’s Guide</a>.</li>
+  <li><a href="../../security/p_auth_configure_custom_login_module/index.html">Create a Custom Login Module</a></li>
+  <li><a href="../../security/p_auth_integrate_custom_login_module/index.html">Integrate an Existing Custom Login Module into the Gateway</a></li>
+</ul>
+
+<h5 id="example-of-a-complete-security-element">Example of a Complete Security Element</h5>
+
+<p>The following is an example of a complete <code>security</code> element that includes a chain of two login modules:</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;security&gt;
+  &lt;keystore&gt;
+   &lt;type&gt;JCEKS&lt;/type&gt;
+   &lt;file&gt;keystore.db&lt;/file&gt;
+    &lt;password-file&gt;keystore.pw&lt;/password-file&gt;
+  &lt;/keystore&gt;
+
+  &lt;truststore&gt;
+    &lt;file&gt;truststore.db&lt;/file&gt;
+  &lt;/truststore&gt;
+
+  &lt;realm&gt;
+    &lt;name&gt;demo&lt;/name&gt;
+    &lt;description&gt;Kaazing Gateway Demo&lt;/description&gt;
+    &lt;authentication&gt;
+      &lt;http-challenge-scheme&gt;Basic&lt;http-challenge-scheme&gt;
+      &lt;http-header&gt;X-Custom-Authorization-Header&lt;/http-header&gt;
+      &lt;http-query-parameter&gt;myCustomAuthParam&lt;/http-query-parameter&gt;
+      &lt;http-cookie&gt;sampleCookie1&lt;/http-cookie&gt;
+
+      &lt;login-modules&gt;
+        &lt;login-module&gt;
+          &lt;type&gt;file&lt;/type&gt;
+          &lt;success&gt;required&lt;/success&gt;
+          &lt;options&gt;
+            &lt;file&gt;jaas-config.xml&lt;/file&gt;
+          &lt;/options&gt;
+        &lt;login-module&gt;
+
+        &lt;login-module&gt;
+          &lt;type&gt;ldap&lt;/type&gt;
+          &lt;success&gt;required&lt;/success&gt;
+          &lt;options&gt;
+            &lt;userProvider&gt;ldap://ldap-svr:389/ou=people,dc=example,dc=com&lt;/userProvider&gt;
+            &lt;userFilter&gt;
+              &lt;![CDATA[(&amp;amp;(userPrincipalName={USERNAME}@MYCOMPANY.NET)
+              (objectClass=inetOrgPerson))]]&gt;
+            &lt;/userFilter&gt;
+            &lt;authzIdentity&gt;{EMPLOYEENUMBER}&lt;/authzIdentity&gt;
+          &lt;/options&gt;
+        &lt;/login-module&gt;
+      &lt;/login-modules&gt;
+    &lt;/authentication&gt;  
+  &lt;/realm&gt;
+&lt;/security&gt;
+</code></pre>
+
+<h2 id="summary">Summary</h2>
+
+<p>In this document, you learned about the Gateway <code>security</code> configuration element and how to specify it in your Gateway configuration file. For more information about the location of the configuration files and starting the Gateway, see <a href="../../about/setup-guide/index.html">Setting Up the Gateway</a>. For more information about Kaazing Gateway administration, see the <a href="../..">documentation</a>.</p>
+
+
+</div>
+
+</div>
+
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

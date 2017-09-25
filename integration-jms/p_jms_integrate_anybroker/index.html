@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+  
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+
+ <h1 id="integrate-any-jms-compliant-message-broker--">Integrate Any JMS-Compliant Message Broker  </h1>
+
+<p>In this procedure, you will learn how the <a href="../../admin-reference/r_conf_jms#jms">jms</a> service allows you to configure Kaazing Gateway to connect to any back-end JMS-compliant message broker.</p>
+
+<p>JMS broker implementations provide a factory class in their JAR files. (For example, the Apache ActiveMQ factory class that ships in the Kaazing Gateway bundle is <code>org.apache.activemq.jndi.ActiveMQInitialContextFactory</code> in the JAR file <code>activemq-client-5.10.0.jar</code>.) To use the <code>jms</code> service with a JMS-compliant message broker, you would copy the jar file to <code>GATEWAY_HOME/lib/ext</code> and specify the name of the factory class in the service configuration element.</p>
+
+<p><strong>Note</strong>: Java Naming and Directory Interface (JNDI) is a Java API for looking up objects by name (a directory service). With the Gateway, you use JNDI in two ways: 1. to set up the initial context and call the Kaazing Gateway JMS Client Library from your JMS client or 2. to connect from the Gateway to your JMS-compliant message broker and lookup topics and queues. This section focuses on the latter, where you want to configure the Gateway to communicate with your message broker. For information about setting up JMS clients, see the appropriate client developer topics in <a href="../..">For Developers</a>.</p>
+
+<p>For information on integrating the Gateway with specific JMS-Compliant Message Brokers, see:</p>
+
+<ul>
+  <li><a href="../p_jms_integrate_tibco">Integrate TIBCO Enterprise Message Service</a></li>
+  <li><a href="../p_jms_integrate_rabbitmq">Integrate RabbitMQ Messaging</a></li>
+  <li><a href="../p_jms_integrate_informatica">Integrate Informatica Ultra Messaging</a></li>
+  <li><a href="../p_jms_integrate_ibm">Integrate IBM WebSphere MQ</a></li>
+  <li><a href="../p_jms_integrate_jboss">Integrate JBoss Messaging</a></li>
+  <li><a href="../p_jms_integrate_openmq">Integrate Open MQ Messaging</a></li>
+  <li><a href="../p_jms_integrate_weblogic">Integrate Oracle WebLogic JMS</a></li>
+  <li><a href="../p_jms_integrate_activemq">Integrate Apache ActiveMQ</a></li>
+</ul>
+
+<h2 id="to-integrate-any-jms-compliant-message-broker">To Integrate Any JMS-Compliant Message Broker</h2>
+
+<p>To use the <code>jms</code> service, you must perform the following steps:</p>
+
+<ol>
+  <li>Copy the JMS-compliant message broker’s client-specific JAR files to <code>GATEWAY_HOME/lib/ext</code>.</li>
+  <li>Configure a <code>jms</code> service on the Gateway with the properties and values for the JNDI initial context factory. The Gateway creates an initial context with a set of properties, which are specific to the JMS-compliant message broker. These properties may vary based on the configuration of your message broker, and may involve references to LDAP systems. These properties map to the <code>env.*</code> properties listed in <a href="../../admin-reference/r_conf_jms#jms">jms</a>; when you use these properties, the Gateway uses their values to create the initial context.</li>
+  <li>Configure the connection factory name to connect to your JMS-compliant message broker. The Gateway creates the initial context, then uses it to obtain a connection factory by looking up the name you enter here. The name you enter here should be one of the classes included in the broker JAR file that you placed into the <code>/lib</code> directory in Step 1.</li>
+  <li>
+    <p>Configure the <em>context lookup topic format</em> and <em>context lookup queue format</em> to inform <code>jms</code> service what format to use when looking up topics and queues in the broker. The Gateway follows this format when it attempts to fetch the reference to a topic or queue from the initial context.</p>
+
+    <p><strong>Note</strong>: For brokers that do not use destination lookups through JNDI (such as Informatica Ultra Messaging), you can add another property to the jms section in the <code>gateway-config.xml</code> file called <code>destination.strategy</code>, and set its value to <code>session</code>. This configuration instructs the Gateway to obtain <code>Topic</code> and <code>Queue</code> objects using the <code>createTopic()</code> and <code>createQueue()</code> JMS API methods instead of performing JNDI lookups.</p>
+  </li>
+  <li>
+    <p>Once you have configured the <code>jms</code> service for the Gateway with the appropriate initial context properties and the connection factory name, save the <code>gateway-config.xml</code> and restart the Gateway. The Gateway then creates the connection using the connection factory.</p>
+
+    <p><strong>Note</strong>: Additional <code>env.java.naming</code> properties can be specified. Refer to the field summary in <code>http://java.sun.com/j2se/1.3/docs/api/javax/naming/Context.html</code> for a complete list. The Gateway does not enforce any of these property values; it just passes them to the JMS API.</p>
+  </li>
+</ol>
+
+<p>The following is an example of a <code>service</code> element of type <code>jms</code>.</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;service&gt;
+  &lt;accept&gt;ws://localhost:8000/jms&lt;/accept&gt;
+  &lt;accept&gt;wss://localhost:9000/jms&lt;/accept&gt;
+
+  &lt;type&gt;jms&lt;/type&gt;
+
+  &lt;properties&gt;
+    &lt;connection.factory.name&gt;ConnectionFactory&lt;/connection.factory.name&gt;
+
+    &lt;env.java.naming.factory.initial&gt;
+      org.apache.activemq.jndi.ActiveMQInitialContextFactory
+    &lt;/env.java.naming.factory.initial&gt;
+    &lt;env.java.naming.provider.url&gt;
+      tcp://localhost:61616
+    &lt;/env.java.naming.provider.url&gt;
+    &lt;destination.strategy&gt;session&lt;/destination.strategy&gt;
+  &lt;/properties&gt;
+
+  &lt;cross-site-constraint&gt;
+    &lt;allow-origin&gt;http://localhost:8000&lt;/allow-origin&gt;
+  &lt;/cross-site-constraint&gt;
+  &lt;cross-site-constraint&gt;
+    &lt;allow-origin&gt;https://localhost:9000&lt;/allow-origin&gt;
+  &lt;/cross-site-constraint&gt;
+&lt;/service&gt;
+</code></pre>
+
+<h2 id="notes">Notes</h2>
+
+<ul>
+  <li>If you use a JMS-compliant message broker that does not support individual message acknowledgement, you must ensure your client applications acknowledge each message received from a queue or durable subscriber. Otherwise, the client will receive only one message from that queue or durable subscriber.</li>
+  <li>To learn how to secure your JMS configuration, see <a href="../../security/o_jms_secure/index.html">Secure Your JMS Configuration</a>.</li>
+  <li>Client applications (using the Kaazing Gateway JMS client library) can lookup/create their <code>Topic</code> and <code>Queue</code> objects using either the <code>session.createTopic()</code> method (for example, <code>Topic myTopic = session.createTopic("/topic/myTopic");</code>) or by performing a JNDI lookup using the <code>initialContext.lookup()</code> method (for example, <code>Topic myTopic = initialContext.lookup("/queue/myQueue");</code>). The <code>initialContext.lookup()</code> method is available to use after creating the JNDI <code>InitialContext</code> object when creating the JMS connection.</li>
+</ul>
+
+<h2 id="see-also">See Also</h2>
+
+<ul>
+  <li>For information on troubleshooting JMS integration, see <a href="../p_jms_integrate_tshoot">Troubleshoot JMS Integration</a>.</li>
+  <li>For information on troubleshooting JMS clients, see <a href="../../troubleshooting/p_dev_troubleshoot/index.html">Troubleshoot Your Clients</a>.</li>
+  <li>For general troubleshooting information, see <a href="../../troubleshooting/o_troubleshoot/index.html">Troubleshoot Kaazing Gateway</a>.</li>
+</ul>
+
+
+
+</div>
+
+</div>
+
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

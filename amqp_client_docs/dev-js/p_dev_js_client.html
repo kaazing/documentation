@@ -1,0 +1,1983 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+  
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+<h1>Use the Kaazing Gateway JavaScript AMQP Client Library</h1>
+<p>In this procedure, you will learn how to use the Kaazing Gateway JavaScript AMQP Client Library and the supported APIs. This topic shows you how to set up your development environment and perform the major coding steps.</p>
+
+
+<h2><a name="_"></a>Before You Begin</h2>
+<p>This procedure is part of <a href="o_dev_js.html">How to Build JavaScript AMQP Clients</a>.</p>
+
+<p><span class="note"><b>Note:</b> Learn about supported browsers, operating systems, and platform versions in the <a href="//kaazing.com/releases/client-javascript/">Release Notes</a>.</span></p>
+
+<h2><a name="Components_and_Tools"></a>Components and Tools</h2>
+
+<p>Before you get started, review the components and tools used to build your JavaScript AMQP client, described in the following table:</p>
+
+<table border="0">
+  <tr>
+    <th scope="col">Component or Tool</th>
+    <th scope="col">Description</th>
+    <th scope="col">Location</th>
+  </tr>
+  <tr>
+    <td width="300px">Kaazing WebSocket Gateway</td>
+    <td>A local Gateway is optional for building the JavaScript AMQP client. You can use the publicly available Kaazing WebSocket Gateway and AMQP broker via the URL <code>wss://sandbox.kaazing.net/amqp091</code>.</td>
+    <td><a href="//kaazing.com/download">kaazing.com/download</a></td>
+  </tr>
+  <tr>
+    <td>Kaazing JavaScript WebSocket and AMQP Client library files</td>
+    <td>The JavaScript files that make up the JavaScript AMQP Client library. Both library files are required.</td>
+    <td>See the steps for including the library files on <a href="//kaazing.com/download/#client-javascript">kaazing.com/download</a>. The two library files are named <strong>WebSocket.js</strong> and <strong>AmqpClient.js</strong>.</td>
+  </tr>
+  <tr>
+    <td>AMQP broker that supports AMQP 0-9-1</td>
+    <td>Any AMQP broker that supports AMQP 0-9-1 will work with the Kaazing WebSocket Gateway and the JavaScript AMQP library. The Kaazing WebSocket Gateway Enterpise Edition includes the Apache Qpid broker. You can download Kaazing WebSocket Gateway on <a href="//kaazing.com/download">kaazing.com/download</a>.</td>
+    <td>Qpid_HOME: The Qpid installer creates the default Qpid_HOME destination in <span class="uri">C:\Program Files\Kaazing\amqp\version\qpid</span> (Windows) or <span class="uri">/usr/share/kaazing/amqp/version/</span> (Linux). The Kaazing WebSocket Gateway download contains the Apache Qpid broker folder in its <code><em>GATEWAY_HOME</em>/brokers</code> directory.</td>
+  </tr>
+  <tr>
+    <td>Text Editor or JavaScript IDE</td>
+    <td>The procedures in this topic use text editors for HTML, CSS, and JavaScript development.</td>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+
+
+<h2><a name="procedure"></a>To Use the Kaazing Gateway JavaScript AMQP Client Library</h2>
+
+<p>In this section, you will learn the major steps when developing clients using the JavaScript AMQP client library, and then develop the JavaScript AMQP tutorial available on Github at <a href="https://github.com/kaazing/javascript.client.tutorials">https://github.com/kaazing/javascript.client.tutorials</a>:</p>
+
+<ul>
+<li><a href="#Development_Overview">Development Overview</a></li>
+<li><a href="#Creating_Demo">Creating the JavaScript AMQP Demo</a></li>
+<li><a href="#Demo_Code">JavaScript AMQP Demo Code</a></li>
+<li><a href="#Other_Coding_Styles">Other Coding Styles</a></li>
+</ul>
+
+<h3><a name="Development_Overview"></a>Development Overview</h3>
+
+<p>This topic shows you the major coding steps when developing JavaScript AMQP clients using the JavaScript AMQP client library:</p>
+
+<ol>
+<li><a href="#setup_dev_env">Set up your development environment</a></li>
+<li><a href="#import_libs">Import the libraries</a></li>
+<li><a href="#create_object">Create the AmqpClient Object</a></li>
+<li><a href="#connect_broker">Connect to an AMQP broker</a></li>
+<li><a href="#create_channels">Create channels</a></li>
+<li><a href="#creating_exchanges">Declare an exchange</a></li>
+<li><a href="#publishing_messages">Publish messages</a></li>
+<li><a href="#creating_queues">Declare a queue</a></li>
+<li><a href="#binding_queues">Bind an exchange to a queue</a></li>
+<li><a href="#consuming_messages">Consume messages</a></li>
+<li><a href="#using_transactions">Use transactions</a></li>
+<li><a href="#control_flow">Control message flow</a></li>
+<li><a href="#exception_handling">Handle Exceptions</a></li>
+</li>
+</ol>
+
+
+<h3><a name="setup_dev_env"></a>Set up your development environment</h3>
+
+<p>The development environment for JavaScript clients that use the JavaScript AMQP library includes the following:</p>
+
+<ul>
+  <li>HTML file and CSS for the client interface.</li>
+  <li>Kaazing WebSocket and AMQP JavaScript libraries.</li>
+  <li>A local Kaazing WebSocket Gateway, or the publicly available Kaazing WebSocket Gateway and AMQP broker via the URL <code>wss://sandbox.kaazing.net/amqp091</code>.</li>
+  <li>AMQP broker.</li>
+  <li>Web server. Kaazing WebSocket Gateway including a directory service for hosting web clients. The JavaScript AMQP tutorial available on Github at <a href="https://github.com/kaazing/javascript.client.tutorials">https://github.com/kaazing/javascript.client.tutorials</a> includes Node.js&reg;.</li>
+</ul>
+
+<p>For more information, see <a href="#Components_and_Tools">Components and Tools</a>.</p>
+
+
+<h3><a name="import_libs"></a>Import the libraries</h3>
+
+Import the WebSocket and AMQP JavaScript client libraries from the location listed in <a href="#Components_and_Tools">Components and Tools</a>. The client libraries instruct the application to use the <code>AmqpClient</code> protocol commands.
+
+<p>To import the client libraries and create the <code>AmqpClient</code> object:</p>
+<ol>
+        <li>Open your Web application in your favorite editor and import the JavaScript AMQP client libraries. </li>
+        <li><p>In the <code>&lt;HEAD&gt;</code> section of your HTML Web application file, add the following script. Ensure you adjust the location of the file to where you are building your client.</p>
+                <p>
+                        &lt;script src=&quot;WebSocket.js&quot;&gt;&lt;/script&gt;<br>
+                        &lt;script src=&quot;AmqpClient.js&quot;&gt;&lt;/script&gt;
+                </p>
+        </li>
+</ol>
+
+
+<p>Next, add your client code within a <code>&lt;script type=&quot;text/javascript&quot; charset=&quot;utf-8&quot;&gt;...&lt;/script&gt;</code> tag following the <code>&lt;script&gt;</code> tag used to import the libraries.</p>
+
+<h3><a name="create_object"></a>Create the AmqpClient Object</h3>
+
+<p>Create an instance of the AmqpClient object as shown in the following example.</p>
+
+<pre class="auto-links: false; brush: js; toolbar: false;">
+var amqpClientFactory = new AmqpClientFactory();
+var amqpClient;
+amqpClient = amqpClientFactory.createAmqpClient();
+</pre>
+
+<p>Now that you have created an instance of the <code>AmqpClient</code> object, you can use the AMQP protocol commands to handle the interactions between the client and the AMQP broker. Refer to the <code>AmqpClient</code> <a href="../apidoc/client/javascript/amqp/index.html">JavaScript AMQP API</a> documentation for the complete list of all the AMQP command and callback functions. In the next step, you will connect to your AMQP broker, which you can then use for publishing and consuming messages.</p>
+
+<h3><a name="connect_broker"></a>Connect to an AMQP broker</h3>
+
+<p>The <code>AmqpClient</code> generally manages all of its communication on a single connection to an AMQP broker. In this step, you will establish a connection to an AMQP broker by passing in the <strong>required</strong> parameters: broker address, a username and password, and a virtual host name (the name of a collection of exchanges and queues hosted on independent server domains). These parameters are passed in when you call the <code>connect()</code> method as shown in the following example.</p>
+
+<pre class="auto-links: false; brush: js; toolbar: false;">
+var amqpClientFactory = new AmqpClientFactory();
+var amqpClient;
+...
+  amqpClient = amqpClientFactory.createAmqpClient();
+  amqpClient.addEventListener(&quot;close&quot;, function() {
+    log(&quot;DISCONNECTED&quot;);
+    updateGuiState(false);
+  });
+
+  amqpClient.addEventListener(&quot;error&quot;, function(e) {
+    log(&quot;CONNECTION ERROR:&quot; + e.message);
+  });
+
+  var credentials = {
+    username: username.val(),
+    password: password.val()
+  };
+  var options = {
+    url: url.val(),
+    virtualHost: virtualhost.val(),
+    credentials: credentials
+  };
+  amqpClient.connect(options, openHandler);
+</pre>
+
+<p>In this example, the <strong>required</strong> parameters that are passed in are: url: <code>ws://localhost:8001/amqp</code>, virtualHost: <code>/</code>, username: <code>guest</code>, and password: <code>guest</code>. The <code>openHandler</code> parameter is a callback to another function. For more information about <code>amqpClient.connect()</code>, see the <code>AmqpClient</code> connect method in <a href="../apidoc/client/javascript/amqp/index.html">AmqpClient JavaScript API</a> documentation.</p>
+
+<h3><a name="create_channels"></a>Create channels</h3>
+
+<p>You can define the openHandler that you specified in the <code>connect()</code> function in the previous section to create the channels, as shown in the following example:</p>
+
+<pre class="auto-links: false; brush: js; toolbar: false;">
+var openHandler = function() {
+  log(&quot;CONNECTED&quot;);
+  channelsReady = 0;
+
+  log(&quot;OPEN: Publish Channel&quot;);
+  publishChannel = amqpClient.openChannel(publishChannelOpenHandler);
+
+  log(&quot;OPEN: Consume Channel&quot;);
+  consumeChannel = amqpClient.openChannel(consumeChannelOpenHandler);
+
+  txnPublishChannel = amqpClient.openChannel(txnPublishChannelOpenHandler);
+  txnConsumeChannel = amqpClient.openChannel(txnConsumeChannelOpenHandler);
+};
+</pre>
+
+<p>Once the <code>publishChannel</code> is successfully opened, it calls the <code>publishChannelOpenHandler</code>. Similarly, once the <code>consumeChannel</code> is successfully opened, the <code>consumeChannelOpenHandler</code> is called.</p>
+
+<h3><a name="creating_exchanges"></a>Declare an exchange</h3>
+
+<p>AMQP messages are published to exchanges. Messages contain a routing key that contains the information about the message's destination. The exchange accepts messages and their routing keys and delivers them to a message queue. You can think of an exchange as an electronic mailman that delivers the messages to a mailbox (the queue) based on the address on the message's envelope (the routing key). Exchanges do not store messages.</p>
+
+<span class="note"><b>Note:</b> <p>AMQP brokers reserve the use of the System exchange type, and therefore the System exchange type should not be used by applications.</p></span>
+
+<p>AMQP defines different exchange types. Some of these exchange types (Direct, Fanout, and Topic) must be supported by all AMQP brokers, while others (Headers and System) are optional. AMQP brokers can also support custom exchange types. The following are the different types of exchanges:</p>
+
+<ul>
+        <li><strong>Direct</strong>: Messages are sent only to a queue that is bound with a binding key that matches the message's routing key</li>
+        <li><strong>Fanout</strong>: Messages are sent to every queue that is bound to the exchange</li>
+        <li><strong>Topic</strong>: Messages are sent to a queue based on categorical binding keys and wildcards</li>
+        <li><strong>Headers</strong>: <em>Optional.</em> Messages are sent to a queue based on their header property values</li>
+        <li><strong>System</strong>: <em>Optional.</em> Messages are sent to system services</li>
+</ul>
+
+<p>Exchanges can be durable, meaning that the exchange survives broker shutdown and must be deleted manually, or non-durable (temporary), meaning that the exchange lasts only until the broker is shutdown. Finally, to check if an exchange exists on the AMQP broker (without actually creating it), you can create a passive exchange.</p>
+
+<p>The following example shows how you can create a direct exchange on the publish channel. In this example, the <code>publishChannelOpenHandler</code> function will be called once the <code>publishChannel</code> is opened:</p>
+
+<pre class="auto-links: false; brush: js; toolbar: false;">
+var publishChannelOpenHandler = function(channel) {
+  log(&quot;OPENED: Publish Channel&quot;);
+
+  publishChannel.declareExchange({
+    exchange: consumeExchange.val(),
+    type: &quot;fanout&quot;
+  });
+
+  // listen for these requests to return
+  publishChannel.addEventListener(&quot;declareexchange&quot;, function() {
+    log(&quot;EXCHANGE DECLARED: &quot; + consumeExchange.val());
+  });
+
+  publishChannel.addEventListener(&quot;error&quot;, function(e) {
+    log(&quot;CHANNEL ERROR: Publish Channel - &quot; + e.message);
+  });
+
+  publishChannel.addEventListener(&quot;close&quot;, function() {
+    log(&quot;CHANNEL CLOSED: Publish Channel&quot;);
+  });
+
+  updateGuiState(true);
+
+  channelsReady++;
+  if (channelsReady == 2) {
+    doBind();
+  }
+};
+</pre>
+
+<span class="note"><b>Note:</b> If you change the type of the exchange from <code>'fanout'</code> to one of the other options such as <code>'direct'</code>, you must either restart the AMQP broker or rename the exchange for the broker to recognize the new type.</span>
+
+<p>After the exchange is created successfully, the <code>declareExchangeHandler</code> callback is called. Once you have an exchange, you can publish messages to the exchange, as you'll see in the next section.</p>
+
+<h3><a name="publishing_messages"></a>Publish messages</h3>
+
+<p>Messages are published to exchanges. The established binding rules (routing keys) then determine to which queue a message is delivered. Messages have content that consists of two parts:</p>
+
+<ul>
+<li><strong>Content Header:</strong> A set of properties that describes the message</li>
+<li><strong>Content Body:</strong> A blob of binary data</li>
+</ul>
+
+<p>Additionally, messages can be marked mandatory to send a notification to the publisher in case a message cannot be delivered to a queue. You can also mark a message immediate so that it is returned to the sender if the message cannot be routed to a queue consumer immediately. The following example function shows how the content body of a message is added to a buffer (AMQP uses a binary message format) and published to an exchange using the publish channel:</p>
+
+<pre class="auto-links: false; brush: js; toolbar: false;">
+var handleSend = function() {
+        doSend(publishChannel, consumeExchange.val(), routingKey, consumeMessage.val(), "MESSAGE PUBLISHED: ", "sendMessage");
+}
+
+var addProperties = function(props) {
+  var prop;
+
+  prop = propAppId.val().trim();
+  if (prop !== undefined &amp;&amp; prop.length &gt; 0) {
+    props.setAppId(prop);
+  }
+
+  prop = propContentType.val().trim();
+  if (prop !== undefined &amp;&amp; prop.length &gt; 0) {
+    props.setContentType(prop);
+  }
+
+  prop = propContentEncoding.val().trim();
+  if (prop !== undefined &amp;&amp; prop.length &gt; 0) {
+    props.setContentEncoding(prop);
+  }
+
+  prop = propCorrelationId.val().trim();
+  if (prop !== undefined &amp;&amp; prop.length &gt; 0) {
+    props.setCorrelationId(prop);
+  }
+
+  prop = propCorrelationId.val().trim();
+  if (prop !== undefined &amp;&amp; prop.length &gt; 0) {
+    props.setCorrelationId(prop);
+  }
+
+  prop = propDeliveryMode.val().trim();
+  props.setDeliveryMode(prop);
+
+  prop = propExpiration.val().trim();
+  if (prop !== undefined &amp;&amp; prop.length &gt; 0) {
+    props.setExpiration(prop);
+  }
+
+  prop = propMessageId.prop(&#x27;checked&#x27;);
+  if (prop) {
+    props.setMessageId((messageIdCounter++).toString());
+  }
+
+  prop = propPriority.val().trim();
+  props.setPriority(prop);
+
+  prop = propReplyTo.val().trim();
+  if (prop !== undefined &amp;&amp; prop.length &gt; 0) {
+    props.setReplyTo(prop);
+  }
+
+  prop = propTimestamp.prop(&#x27;checked&#x27;);
+  if (prop) {
+    props.setTimestamp(new Date());
+  }
+
+  prop = propType.val().trim();
+  if (prop !== undefined &amp;&amp; prop.length &gt; 0) {
+    props.setType(prop);
+  }
+
+  prop = propUserId.val().trim();
+  if (prop !== undefined &amp;&amp; prop.length &gt; 0) {
+    props.setUserId(prop);
+  }
+
+}
+</pre>
+
+<p>The <code>AmqpProperties</code> class defines pre-defined properties as per AMQP 0-9-1 spec and provides type-safe getters and setters for those pre-defined properties. The value of AMQP 0-9-1's standard "headers" property is of type <code>AmqpArguments</code>. The Kaazing Gateway AMQP implementation uses <code>AmqpArguments</code> to encode the table. Similarly, the Kaazing Gateway AMQP implementation decodes the table and constructs an instance of <code>AmqpArguments</code>.</p>
+
+<span class="note"><b>Notes:</b>
+<ul>
+         <li>See the <code>AmqpChannel publishBasic()</code> method for more information.</li>
+         <li>The timestamp property (<code>setTimestamp(ts)</code>), will only handle 6-bytes (or 48-bit) timestamp values.</li>
+         <li>The username set with the <code>setUserId()</code> method must match the user that is currently authenticated with the AMQP broker. If they do not match you will see the following error: <br>
+                 <code>PRECONDITION_FAILED - user_id property set to &#x27;&lt;name&gt;&#x27; but authenticated user was &#x27;&lt;name&gt;&#x27; </code>
+         </li>
+</ul>
+</span>
+
+<p>Finally, to publish the message, you can use the <code>publishMessage()</code> function in the desired location in your code.</p>
+
+<p>At this point, you can complete your first, "publish messages" application, then move on to the next section to create your "consume messages" application. Alternatively, you can continue to build on the same application, which will both publish and consume messages.</p>
+
+<h3><a name="creating_queues"></a>Declare a queue</h3>
+
+<p>AMQP messages are consumed from queues. You can think of a queue as a mailbox: messages addressed to a particular address (the routing key) are placed in the mailbox for the consumer to pick up. If multiple consumers are bound to a single queue, only one of the consumers receives the message (the one that picked up the mail).</p>
+
+<p>To check if a queue exists on the AMQP broker (without creating it), you can create a passive queue. Additionally, queues can be marked exclusive, tying them to a specific connection. If a queue is marked exclusive, it is deleted when the connection on which it was created is closed.</p>
+
+<p>Queues can be durable, meaning the queue survives broker shutdown and must be deleted manually, or non-durable (temporary), meaning that the queue lasts only until the broker is shutdown. Queues can also be marked auto delete, which means that the queue is automatically deleted when it is no longer in use. The following example shows how you can create a queue on the consume channel. Here, you define the <code>consumeChannelOpenHandler</code> function that will be called once the <code>consumeChannel</code> is opened:</p>
+
+<pre class="auto-links: false; brush: js; toolbar: false;">
+var consumeChannelOpenHandler = function(channel) {
+  log(&quot;OPENED: Consume Channel&quot;);
+
+  channelsReady++;
+  if (channelsReady == 2) {
+    doBind();
+  }
+};
+</pre>
+
+<h3><a name="binding_queues"></a>Bind an exchange to a queue</h3>
+
+<p>Once you have created an exchange and a queue in AMQP, you must bind or map one to the other so that messages published to a specific exchange are delivered to a particular queue. You bind a queue to an exchange with a routing key as shown in the following example. Here, you define the <code>declareQueue</code> to bind the queue to the exchange:</p>
+
+<pre class="auto-links: false; brush: js; toolbar: false; highlight:[4,5,6,7,8];">
+  consumeChannel.declareQueue({
+    queue: queueName
+  })
+    .bindQueue({
+      queue: queueName,
+      exchange: consumeExchange.val(),
+      routingKey: routingKey
+    })
+    .consumeBasic({
+      queue: queueName,
+      consumerTag: myConsumerTag,
+      noAck: false
+    });
+</pre>
+
+
+<h3><a name="consuming_messages"></a>Consume messages</h3>
+
+<p>Once messages are published they can be consumed from a queue. A variety of options can be applied to messages in a queue. For example, publishers can choose to require acknowledgement (ack) of messages so that messages can be redelivered in the case of a delivery failure. If the queue is set to exclusive, it is scoped to just the current connection and deleted when the connection on which it was established is closed. Additionally, you can use the no local setting to notify the broker not to send messages to the connection on which the messages were published. The following example shows how you can define the <code>bindQueue</code> to prepare the <code>consumeBasic</code>, which will then consume messages from a queue on the consume channel:</p>
+
+<pre class="auto-links: false; brush: js; toolbar: false; highlight:[9,10,11,12];">
+  consumeChannel.declareQueue({
+    queue: queueName
+  })
+    .bindQueue({
+      queue: queueName,
+      exchange: consumeExchange.val(),
+      routingKey: routingKey
+    })
+    .consumeBasic({
+      queue: queueName,
+      consumerTag: myConsumerTag,
+      noAck: false
+    });
+</pre>
+
+<span class="note"><b>Note:</b> For more information, see AmqpChannel <code>consumeBasic()</code> method.</span>
+
+<p>After the <code>consumeBasic()</code> method is successful, the consume event is raised, and the event listener is fired. The AMQP broker can then start delivering messages to the client and these messages raise the message event:</p>
+
+<pre class="auto-links: false; brush: js; toolbar: false; highlight:[4,5,6,7,8];">
+  consumeChannel.addEventListener(&quot;message&quot;, function(message) {
+    handleMessageReceived(message);
+  });
+...
+var handleMessageReceived = function(event) {
+
+  receivedMessageCount.text(++receivedMessageCounter);
+
+  // var body = message.body.getString(Charset.UTF8);
+  var body = null;
+
+  if (typeof(ArrayBuffer) === &quot;undefined&quot;) {
+    body = event.getBodyAsByteBuffer().getString(Charset.UTF8);
+  } else {
+    body = arrayBufferToString(event.getBodyAsArrayBuffer())
+  }
+  var props = event.properties;
+  var exchange = event.args.exchange;
+  var routingKey = event.args.routingKey;
+  var dt = event.args.deliveryTag;
+  var channel = event.target;
+  logMessageDiv(&quot;MESSAGE CONSUMED: &quot;, &quot;receiveMessage&quot;, body, props, exchange, routingKey);
+
+  // Acknowledge the received message. Otherwise, the broker will eventually
+  // run out of memory.
+  var config = {
+    deliveryTag: dt,
+    multiple: true
+  };
+  setTimeout(function() {
+    channel.ackBasic(config);
+  }, 0);
+}
+</pre>
+
+<span class="note"><b>Note:</b> The function defined in this section is referenced from the <a href="#creating_queues">Declare a queue</a> section. At this point, you've configured the Gateway to your AMQP broker and set up your JavaScript client to publish messages to an exchange. You have also set up the client (or created a second application) to consume those messages from the AMQP broker. The next section explains how you can further enhance your application to use transactions.</span>
+
+<h5><a name="Message_Acknowledgement"></a>Message Acknowledgement</h5>
+
+<p>The Boolean parameter <code>noAck</code> is optional with the default value of <code>true</code>. If <code>noAck</code> is <code>true</code>, the AMQP broker will not expect any acknowledgement from the client before discarding the message. If <code>noAck</code> is <code>false</code>, then the AMQP broker will expect an acknowledgement before discarding the message. If <code>noAck</code> is specified to be <code>false</code>, then you must explicitly acknowledge the received message using <code>AmqpChannel.ackBasic()</code>.</p>
+
+<p>In the JavaScript AMQP demo code in this procedure, message acknowledgement is being performed because <code>false</code> was passed in for <code>noAck</code> in <code>consumeBasic()</code>. If the JavaScript client acknowledges a message <strong>and</strong> <code>noAck</code> is  <code>true</code> (the default setting), then the AMQP message broker will close the channel.</p>
+
+<h3><a name="using_transactions"></a>Use transactions</h3>
+
+<p>AMQP supports transactional messaging, through server local transactions. In a transaction the server only publishes a set of messages as one unit when the client commits the transaction. Transactions only apply to message publishing and not to the consumption of the messages.</p>
+
+<span class="note"><b>Note:</b> Once you commit or rollback a transaction on a channel, a new transaction is started automatically. For this reason, you must commit all future messages you want to publish on that channel or create a new, non-transactional channel to publish messages on.</span>
+
+<p>Use separate publish and consume channels for transactions from the channels that are used for regular publishing and consuming of messages.</p>
+
+<pre class="auto-links: false; brush: js; toolbar: false;">
+var handleSelect = function() {
+  txnPublishChannel.selectTx(function() {
+    log(&quot;TXN SELECT&quot;);
+    updateGuiState(true, true);
+  });
+}
+
+var handleCommit = function() {
+  txnPublishChannel.commitTx(function() {
+    log(&quot;TXN COMMIT&quot;);
+    updateGuiState(true, false);
+  });
+}
+
+var handleTxSend = function() {
+  doSend(txnPublishChannel, txMessage.val(), &quot;TXN MESSAGE PUBLISHED: &quot;, &quot;txSendMessage&quot;);
+}
+
+var handleRollback = function() {
+  txnPublishChannel.rollbackTx(function() {
+    log(&quot;TXN ROLLBACK&quot;);
+    updateGuiState(true, false);
+  });
+}
+</pre>
+
+<p>After the transaction is selected successfully, committed, or rolled back, the corresponding events (<code>selecttransaction</code>, <code>committransaction</code>, and <code>rollbacktransaction</code>) are raised and the callback functions are called. These events call previously registered event handlers:</p>
+
+<pre class="auto-links: false; brush: js; toolbar: false;">
+var txnPublishChannelOpenHandler = function(channel) {
+  txnPublishChannel.declareExchange({
+    exchange: txnExchangeName,
+    type: &quot;fanout&quot;
+  });
+
+  // listen for these requests to return
+  txnPublishChannel.addEventListener(&quot;selecttransaction&quot;, function() {
+    log(&quot;TXN SELECTED/STARTED&quot;);
+  });
+
+  txnPublishChannel.addEventListener(&quot;committransaction&quot;, function() {
+    log(&quot;TXN COMMITTED&quot;);
+  });
+
+  txnPublishChannel.addEventListener(&quot;rollbacktransaction&quot;, function() {
+    log(&quot;TXN ROLLBACKED&quot;);
+  });
+};
+</pre>
+
+<h3><a name="control_flow"></a>Control message flow</h3>
+
+<p>You can use flow control in AMQP to temporarily or permanently halt the flow of messages from a queue to a consumer on a channel. If you turn the message flow off, no messages are sent to the consumer. The following example shows how you can turn the flow of messages on a channel off and on:</p>
+
+<pre class="auto-links: false; brush: js; toolbar: false;">
+var handleFlowOn = function() {
+  consumeChannel.flowChannel(true);
+}
+
+var handleFlowOff = function() {
+  consumeChannel.flowChannel(false);
+}
+</pre>
+
+<p>After the flow on a channel is halted or resumed successfully, the flow event is raised and the callback functions are called.</p>
+
+<h3><a name="exception_handling"></a>Handle Exceptions</h3>
+
+<p>Channels are lightweight and cheap, and therefore used in AMQP's exception handling mechanism. Channels are closed when an exception occurs. The following example shows how you can handle exceptions that occur:</p>
+
+<pre class="auto-links: false; brush: js; toolbar: false;">
+publishChannel.addEventListener(&quot;error&quot;, function(e) {
+  log(&quot;CHANNEL ERROR: Publish Channel - &quot; + e.message);
+});
+</pre>
+
+<p>When the channel is closed, the function that is called receives an <code>AmqpEvent</code> object, that contains a frame with detailed information about the exception.</p>
+
+<h3><a name="Challenge_Handler_AmqpClientFactory"></a>Setting a Challenge Handler using AmqpClientFactory</h3>
+
+<p>A<code>WebSocketFactory</code> can be obtained from <code>AmqpClientFactory</code>, and then the <code>WebSocketFactory</code> can be used to setup the <code>ChallengeHandler</code> used to secure your client.</p>
+
+<pre class="auto-links: false; brush: js; toolbar: false;">
+setupSSO(amqpClientFactory.getWebSocketFactory());
+...
+var setupSSO = function(webSocketFactory) {
+        /* Respond to authentication challenges with popup login dialog */
+        if (webSocketFactory) {
+                var basicHandler = new BasicChallengeHandler();
+                basicHandler.loginHandler = function(callback) {
+                        popupLoginDialog(callback);
+                }
+                webSocketFactory.setChallengeHandler(basicHandler);
+        }
+}
+
+var popupLoginDialog = function(callback) {
+
+        //popup dialog to get credentials
+        var popup = document.getElementById("logindiv");
+        $("#logindiv").slideToggle(300);
+        var login = document.getElementById("sso_login");
+        var cancel = document.getElementById("sso_cancel");
+
+        $('#sso_username').focus();
+
+        // As a convenience, connect when the user presses Enter
+        // in the location field.
+        $('#sso_password').keypress(function(e) {
+                if (e.keyCode == 13) {
+                        e.stopImmediatePropagation(); // Prevent firing twice.
+                        login.click();
+                }
+        });
+
+        //"OK" button was clicked, invoke callback function with credential to login
+        login.onclick = function() {
+                var username = document.getElementById("sso_username");
+                var password = document.getElementById("sso_password");
+                var credentials = new PasswordAuthentication(username.value, password.value);
+                //clear user input
+                username.value = "";
+                password.value = "";
+                //hide popup
+                $("#logindiv").slideToggle(100);
+                callback(credentials);
+        }
+
+        //"Cancel" button has been clicked, invoke callback function with null argument to cancel login
+        cancel.onclick = function() {
+                var username = document.getElementById("sso_username");
+                var password = document.getElementById("sso_password");
+                //clear user input
+                username.value = "";
+                password.value = "";
+                //hide popup
+                $("#logindiv").slideToggle(100);
+                callback(null);
+        }
+}
+</pre>
+
+<h2><a name="Creating_Demo"></a>Creating the JavaScript AMQP Demo</h2>
+
+<p>The following example demonstrates how to create the JavaScript AMQP tutorial avilable on Github at <code>https://github.com/kaazing/javascript.client.tutorials</code>. The JavaScript AMQP client consists of an HTML page hosted by a web server. You will add a script tag in the HTML page that points to the JavaScript AMQP library, an HTML form, and the JavaScript needed to connect to the publicly available Kaazing WebSocket Gateway over WebSocket and send and receive AMQP messages with the publicly available AMQP broker.</p>
+
+<ol>
+    <li><p>In you decide to use a local Kaazing WebSocket Gateway, configure the Gateway for JavaScript client and AMQP broker connections. If you are using the publicly available Kaazing WebSocket Gateway, you may skip this step.</p>
+      <p>To develop applications using the Kaazing Gateway AMQP client libraries, you must configure the Gateway to communicate with your broker and an AMQP broker.</p>
+      <p>Locate the following default configuration element for the AMQP service in the Gateway, located in the configuration file <span class="uri"><em>GATEWAY_HOME</em>/conf/gateway-config.xml</span>:</p>
+                
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;!-- Proxy service to AMQP server --&gt;
+&lt;service&gt;
+  &lt;name&gt;AMQP Service&lt;/name&gt;
+  &lt;description&gt;AMQP Service&lt;/description&gt;
+  &lt;accept&gt;ws://bamboo-win.kaazing.test:${gateway.extras.port}/amqp&lt;/accept&gt;
+  &lt;connect&gt;tcp://bamboo-win.kaazing.test:5672&lt;/connect&gt;
+
+  &lt;type&gt;amqp.proxy&lt;/type&gt;
+  &lt;properties&gt;
+          &lt;service.domain&gt;bamboo-win.kaazing.test&lt;/service.domain&gt;
+          &lt;encryption.key.alias&gt;session&lt;/encryption.key.alias&gt;
+  &lt;/properties&gt;
+
+  &lt;realm-name&gt;demo&lt;/realm-name&gt;
+
+  &lt;!--
+  &lt;authorization-constraint&gt;
+          &lt;require-role&gt;AUTHORIZED&lt;/require-role&gt;
+  &lt;/authorization-constraint&gt;
+  --&gt;
+
+  &lt;cross-site-constraint&gt;
+  &lt;allow-origin&gt;http://bamboo-win.kaazing.test:${gateway.extras.port}&lt;/allow-origin&gt;
+  &lt;/cross-site-constraint&gt;
+&lt;/service&gt;
+</pre>
+                
+                <p>In this case, the service is configured to accept WebSocket AMQP requests from the browser at <span class="uri">ws://localhost:8001/amqp</span> (using the Property defaults described in <a href="../../admin-reference/p_configure_gateway_files/index.html" title="Kaazing Developer Network">Configure Kaazing Gateway</a>) and proxy those requests to a locally installed AMQP broker (localhost) at port 5672.</p>
+                
+                <p>To configure the Gateway to accept WebSocket requests at another URL or to connect to a different AMQP broker, you can edit <span class="uri"><em>GATEWAY_HOME</em>/conf/gateway-config.xml</span>, update the values for the accept elements, change the connect property, and restart the Gateway.</p>
+                
+                <p>Change the AMQP service configuration to accept WebSocket AMQP requests at <span class="uri">ws://localhost:8000/amqp</span> and proxy those requests to an AMQP broker (localhost) on port 5672.</p>
+                
+<pre class="auto-links: false; brush: js; toolbar: false; highlight:[5,25,26,27];">
+&lt;service&gt;
+  &lt;name&gt;AMQP Service&lt;/name&gt;
+  &lt;description&gt;AMQP Service&lt;/description&gt;
+  &lt;accept&gt;ws://bamboo-win.kaazing.test:${gateway.extras.port}/amqp&lt;/accept&gt;
+  &lt;accept&gt;ws://bamboo-win.kaazing.test:${gateway.base.port}/amqp&lt;/accept&gt;
+  &lt;connect&gt;tcp://bamboo-win.kaazing.test:5672&lt;/connect&gt;
+
+  &lt;type&gt;amqp.proxy&lt;/type&gt;
+  &lt;properties&gt;
+          &lt;service.domain&gt;bamboo-win.kaazing.test&lt;/service.domain&gt;
+          &lt;encryption.key.alias&gt;session&lt;/encryption.key.alias&gt;
+  &lt;/properties&gt;
+
+  &lt;realm-name&gt;demo&lt;/realm-name&gt;
+
+  &lt;!--
+  &lt;authorization-constraint&gt;
+          &lt;require-role&gt;AUTHORIZED&lt;/require-role&gt;
+  &lt;/authorization-constraint&gt;
+  --&gt;
+
+  &lt;cross-site-constraint&gt;
+          &lt;allow-origin&gt;http://bamboo-win.kaazing.test:${gateway.extras.port}&lt;/allow-origin&gt;
+  &lt;/cross-site-constraint&gt;
+  &lt;cross-site-constraint&gt;
+          &lt;allow-origin&gt;http://bamboo-win.kaazing.test:${gateway.base.port}&lt;/allow-origin&gt;
+  &lt;/cross-site-constraint&gt;
+&lt;/service&gt;
+</pre>
+                
+        </li>
+        <li>Download or clone the Kaazing JavaScript Tutorials from Github at <a href="https://github.com/kaazing/javascript.client.tutorials">https://github.com/kaazing/javascript.client.tutorials</a>.</li>
+        <li>Navigate to the <strong>amqp</strong> folder in the tutorial project, <code>javascript.client.tutorials/amqp</code>.</li>
+        <li>Create a new html file in the amqp folder named <strong>AmqpClient.html</strong>.</li>
+        <li><p>Open <strong>AmqpClient.html</strong> in a text editor and enter the following HTML (note the script tags pointing to the Kaazing JavaScript WebSocket and AMQP libraries hosted by a content delivery network):</p>
+<details>
+<summary>Expand this section to see the HTML for <strong>AmqpClient.html</strong></summary>
+<pre class="auto-links: false; brush: xml; toolbar: false; highlight:[9,10];">
+&lt;html&gt;
+&lt;head&gt;
+
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;css/dev.css&quot;&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;css/demo.css&quot;&gt;
+
+  &lt;script src=&quot;https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js&quot;&gt;&lt;/script&gt;
+
+  &lt;script src=&quot;http://cdn.kaazing.com/releases/enterprise.javascript.client/4.1.0/WebSocket.js&quot;&gt;&lt;/script&gt;
+  &lt;script src=&quot;http://cdn.kaazing.com/releases/enterprise.javascript.client/4.1.0/AmqpClient.js&quot;&gt;&lt;/script&gt;
+
+&lt;script&gt;
+  // the JavaScript for your AMQP client will go here
+&lt;/script&gt;
+
+  &lt;title&gt;Real-Time Interactive Guide to AMQP&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div class=&quot;header-container&quot;&gt;
+    &lt;header class=&quot;wrapper clearfix&quot;&gt;
+      &lt;a href=&quot;http://www.kaazing.com&quot; target=&quot;_blank&quot;&gt;
+        &lt;div class=&quot;title logo&quot;&gt;&lt;/div&gt;
+      &lt;/a&gt;
+    &lt;/header&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;main-container &quot;&gt;
+    &lt;div class=&quot;main wrapper clearfix&quot;&gt;
+
+      &lt;div class=&quot;powered-wrapper&quot;&gt;
+        &lt;div class=&quot;powered-header&quot;&gt;&lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;!-- End header --&gt;
+
+      &lt;article&gt;
+        &lt;section&gt;
+          &lt;div id=&quot;main_header&quot;&gt;
+            &lt;h1&gt;AMQP Messaging Demo for JavaScript&lt;/h1&gt;
+
+            &lt;div id=&quot;jms-javascript&quot; class=&quot;amqp&quot;&gt;
+              &lt;div id=&quot;middle&quot;&gt;
+
+                &lt;div class=&quot;leftPanels&quot;&gt;
+
+                  &lt;div id=&quot;login_div&quot; class=&quot;panel&quot;&gt;
+                    &lt;span class=&quot;info&quot;&gt;Connection details&lt;/span&gt;&lt;br/&gt;
+                    &lt;label for=&quot;url&quot;&gt;Location&lt;/label&gt;&lt;input id=&quot;url&quot; placeholder=&quot;Example: wss://sandbox.kaazing.net/amqp091&quot;/&gt;&lt;br/&gt;
+                    &lt;label for=&quot;username&quot;&gt;AMQP Username&lt;/label&gt;&lt;input id=&quot;username&quot; value=&quot;guest&quot;
+                    placeholder=&quot;Username on AMQP broker&quot;/&gt;&lt;br/&gt;
+                    &lt;label for=&quot;password&quot;&gt;AMQP Password&lt;/label&gt;&lt;input type=&quot;password&quot; id=&quot;password&quot; value=&quot;guest&quot;
+                    placeholder=&quot;Password on AMQP broker&quot;/&gt;&lt;br/&gt;
+                    &lt;label for=&quot;virtualhost&quot;&gt;AMQP Virtual Host&lt;/label&gt;&lt;input id=&quot;virtualhost&quot; value=&quot;/&quot;
+                    placeholder=&quot;Virtual host on AMQP broker. Example: /&quot;/&gt;&lt;br/&gt;
+                    &lt;label&gt;&lt;/label&gt;
+                    &lt;button id=&quot;connectBut&quot;&gt;Connect&lt;/button&gt;
+                    &lt;button id=&quot;disconnectBut&quot;&gt;Close&lt;/button&gt;
+                    &lt;div id=&quot;logindiv&quot;&gt;
+                      &lt;div class=&quot;heading clearfix&quot;&gt;
+                        &lt;div class=&quot;text&quot;&gt;Login&lt;/div&gt;
+                        &lt;div class=&quot;image&quot;&gt;&lt;img src=&quot;images/lock-icon.png&quot; width=&quot;56&quot; height=&quot;56&quot;&gt;&lt;/div&gt;
+                      &lt;/div&gt;
+                      &lt;div class=&quot;clearfix&quot;&gt;
+                        &lt;div class=&quot;form-labels&quot;&gt;
+                          &lt;label for=&quot;sso_username&quot;&gt;Username:&lt;/label&gt;
+                        &lt;/div&gt;
+                        &lt;div class=&quot;form-fields&quot;&gt;
+                          &lt;input id=&quot;sso_username&quot; size=&quot;12&quot; value=&quot;&quot;/&gt;
+                        &lt;/div&gt;
+                      &lt;/div&gt;
+                      &lt;div class=&quot;clearfix&quot;&gt;
+                        &lt;div class=&quot;form-labels&quot;&gt;
+                          &lt;label for=&quot;sso_password&quot;&gt;Password:&lt;/label&gt;
+                        &lt;/div&gt;
+                        &lt;div class=&quot;form-fields&quot;&gt;
+                          &lt;input id=&quot;sso_password&quot; type=&quot;password&quot; size=&quot;12&quot; value=&quot;&quot;/&gt;&lt;br&gt;
+                          &lt;button id=&quot;sso_login&quot;&gt;OK&lt;/button&gt;
+                          &lt;button id=&quot;sso_cancel&quot;&gt;Cancel&lt;/button&gt;
+                        &lt;/div&gt;
+                      &lt;/div&gt;
+                    &lt;/div&gt;
+                  &lt;/div&gt;
+
+                  &lt;div id=&quot;properties_div&quot; class=&quot;panel&quot;&gt;
+                    &lt;span class=&quot;info&quot;&gt;&lt;a href=&quot;javascript:void(0); // Show AMQP Properties&quot; id=&quot;propertiesToggle&quot;
+                      class=&quot;infoHidden&quot;&gt;Show&lt;/a&gt; AMQP properties&lt;/span&gt;&lt;br/&gt;
+                      &lt;div id=&quot;properties_div_content&quot;&gt;
+                        &lt;label for=&quot;propAppId&quot;&gt;appId&lt;/label&gt;&lt;input id=&quot;propAppId&quot; placeholder=&quot;Example: My app&quot;/&gt;&lt;br/&gt;
+                        &lt;label for=&quot;propContentEncoding&quot;&gt;contentEncoding&lt;/label&gt;&lt;input id=&quot;propContentEncoding&quot;
+                        placeholder=&quot;Example: UTF-8&quot;
+                        value=&quot;UTF-8&quot;/&gt;&lt;br/&gt;
+                        &lt;label for=&quot;propContentType&quot;&gt;contentType&lt;/label&gt;&lt;input id=&quot;propContentType&quot;
+                        placeholder=&quot;Example: text/plain&quot;
+                        value=&quot;text/plain&quot;/&gt;&lt;br/&gt;
+                        &lt;label for=&quot;propCorrelationId&quot;&gt;correlationId&lt;/label&gt;&lt;input id=&quot;propCorrelationId&quot;
+                        placeholder=&quot;Example: 1&quot;/&gt;&lt;br/&gt;
+                        &lt;label for=&quot;propDeliveryMode&quot;&gt;deliveryMode&lt;/label&gt;
+                        &lt;select id=&quot;propDeliveryMode&quot; name=&quot;propDeliveryMode&quot;&gt;
+                          &lt;option value=&quot;1&quot; selected&gt;1 (Non-persistent)&lt;/option&gt;
+                          &lt;option value=&quot;2&quot;&gt;2 (persistent)&lt;/option&gt;
+                        &lt;/select&gt;
+                        &lt;br/&gt;
+                        &lt;label for=&quot;propExpiration&quot;&gt;expiration&lt;/label&gt;&lt;input id=&quot;propExpiration&quot;
+                        placeholder=&quot;Time to live (milliseconds). Example: 60000&quot;/&gt;&lt;br/&gt;
+                        &lt;label&gt;messageId&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;propMessageId&quot; name=&quot;propMessageId&quot;
+                        checked/&gt;&lt;label class=&quot;checkboxLabel&quot; for=&quot;propMessageId&quot;&gt;Include
+                          sequentially generated id&lt;/label&gt;&lt;br/&gt;
+                          &lt;label for=&quot;propPriority&quot;&gt;priority&lt;/label&gt;
+                          &lt;select id=&quot;propPriority&quot; name=&quot;propPriority&quot;&gt;
+                            &lt;!-- Options will be added dynamically. --&gt;
+                          &lt;/select&gt;
+                          &lt;br/&gt;
+                          &lt;label for=&quot;propReplyTo&quot;&gt;replyTo&lt;/label&gt;&lt;input id=&quot;propReplyTo&quot;
+                          placeholder=&quot;Address to send replies&quot;/&gt;&lt;br/&gt;
+                          &lt;label&gt;timestamp&lt;/label&gt;
+                          &lt;input type=&quot;checkbox&quot; id=&quot;propTimestamp&quot; name=&quot;propTimestamp&quot; checked/&gt;&lt;label class=&quot;checkboxLabel&quot;
+                          for=&quot;propTimestamp&quot;&gt;Include
+                          timestamp when sending&lt;/label&gt;&lt;br/&gt;
+                          &lt;label for=&quot;propType&quot;&gt;type&lt;/label&gt;&lt;input id=&quot;propType&quot;
+                          placeholder=&quot;Message type. Example: custom-event&quot;/&gt;&lt;br/&gt;
+                          &lt;label for=&quot;propUserId&quot;&gt;userId&lt;/label&gt;&lt;input id=&quot;propUserId&quot;
+                          placeholder=&quot;Id of user publishing the message&quot;/&gt;&lt;br/&gt;
+                        &lt;/div&gt;
+                      &lt;/div&gt;
+
+                      &lt;div id=&quot;headers_div&quot; class=&quot;panel&quot;&gt;
+                        &lt;span class=&quot;info&quot;&gt;&lt;a href=&quot;javascript:void(0); // Show Headers&quot; id=&quot;headersToggle&quot; class=&quot;infoHidden&quot;&gt;Show&lt;/a&gt; Custom headers&lt;/span&gt;&lt;br/&gt;
+                        &lt;div id=&quot;headers_div_content&quot;&gt;
+                          &lt;label&gt;Header 1&lt;/label&gt;
+                          &lt;input id=&quot;headerName1&quot; placeholder=&quot;Name&quot; value=&quot;headerKey1&quot;/&gt;
+                          &lt;select id=&quot;headerType1&quot; name=&quot;headerType1&quot;&gt;
+                            &lt;option value=&quot;int&quot; selected&gt;int&lt;/option&gt;
+                            &lt;option value=&quot;String&quot;&gt;String&lt;/option&gt;
+                          &lt;/select&gt;
+                          &lt;input id=&quot;headerValue1&quot; placeholder=&quot;Value&quot; value=&quot;123&quot;/&gt;
+                          &lt;br/&gt;
+                          &lt;label&gt;Header 2&lt;/label&gt;
+                          &lt;input id=&quot;headerName2&quot; placeholder=&quot;Name&quot; value=&quot;headerKey2&quot;/&gt;
+                          &lt;select id=&quot;headerType2&quot; name=&quot;headerType2&quot;&gt;
+                            &lt;option value=&quot;int&quot;&gt;int&lt;/option&gt;
+                            &lt;option value=&quot;String&quot; selected&gt;String&lt;/option&gt;
+                          &lt;/select&gt;
+                          &lt;input id=&quot;headerValue2&quot; placeholder=&quot;Value&quot; value=&quot;abcde&quot;/&gt;
+                          &lt;br/&gt;
+                        &lt;/div&gt;
+                      &lt;/div&gt;
+
+                      &lt;div id=&quot;exchange_div&quot; class=&quot;panel&quot;&gt;
+                        &lt;span class=&quot;info&quot;&gt;Publish a message to an exchange&lt;/span&gt;&lt;br/&gt;
+                        &lt;label for=&quot;consumeExchange&quot;&gt;Exchange&lt;/label&gt;&lt;input id=&quot;consumeExchange&quot; value=&quot;demo_exchange&quot;/&gt;&lt;br/&gt;
+                        &lt;label for=&quot;consumeMessage&quot;&gt;Message&lt;/label&gt;&lt;input id=&quot;consumeMessage&quot; value=&quot;Hello, AMQP!&quot;/&gt;&lt;br/&gt;
+                        &lt;label&gt;&lt;/label&gt;
+                        &lt;button id=&quot;sendBut&quot;&gt;Publish&lt;/button&gt;
+                        &lt;button id=&quot;flowOnBut&quot;&gt;Flow On&lt;/button&gt;
+                        &lt;button id=&quot;flowOffBut&quot;&gt;Flow Off&lt;/button&gt;
+                      &lt;/div&gt;
+
+                      &lt;div id=&quot;transaction_div&quot; class=&quot;panel&quot;&gt;
+                        &lt;span class=&quot;info&quot;&gt;Publish as a transaction&lt;/span&gt;&lt;br/&gt;
+                        &lt;label for=&quot;txExchange&quot;&gt;Exchange&lt;/label&gt;&lt;input id=&quot;txExchange&quot; value=&quot;demo_txn_exchange&quot;/&gt;&lt;br/&gt;
+                        &lt;label for=&quot;txMessage&quot;&gt;Message&lt;/label&gt;&lt;input id=&quot;txMessage&quot; value=&quot;Hello transaction message!&quot;/&gt;&lt;br/&gt;
+                        &lt;label&gt;&lt;/label&gt;
+                        &lt;button id=&quot;selectBut&quot;&gt;Select&lt;/button&gt;
+                        &lt;button id=&quot;txSendBut&quot;&gt;Publish&lt;/button&gt;
+                        &lt;button id=&quot;commitBut&quot;&gt;Commit&lt;/button&gt;
+                        &lt;button id=&quot;rollbackBut&quot;&gt;Rollback&lt;/button&gt;
+                      &lt;/div&gt;
+
+                    &lt;/div&gt; &lt;!-- .leftPanels --&gt;
+
+                    &lt;div class=&quot;rightPanels&quot;&gt;
+
+                      &lt;div id=&quot;console_div&quot; class=&quot;panel&quot;&gt;
+                        &lt;div class=&quot;info&quot;&gt;
+                          &lt;div style=&quot;float: left;&quot;&gt;
+                            Log messages
+                          &lt;/div&gt;
+                          &lt;div style=&quot;float: right; margin-right: 5px;&quot;&gt;
+                            Messages received : &lt;span id=&quot;receivedMessageCount&quot;&gt;0&lt;/span&gt;
+                          &lt;/div&gt;
+                          &lt;div class=&quot;clearfix&quot;&gt;&lt;/div&gt;
+                        &lt;/div&gt;
+                        &lt;div id=&quot;console&quot;&gt;&lt;/div&gt;
+                        &lt;button id=&quot;clearBut&quot;&gt;Clear Log&lt;/button&gt;
+                        &lt;input type=&quot;checkbox&quot; id=&quot;toggleAmqpPropsCb&quot; class=&quot;cb&quot; style=&quot;margin-left: 20px;&quot;&gt;&lt;label
+                        for=&quot;toggleAmqpPropsCb&quot;&gt;Show AMQP Properties&lt;/label&gt;
+                      &lt;/div&gt;
+
+                    &lt;/div&gt;  &lt;!-- .rightPanels --&gt;
+
+                    &lt;div class=&quot;clearfix&quot;&gt;&lt;/div&gt;
+
+                  &lt;/div&gt; &lt;!-- #middle --&gt;
+                &lt;/div&gt;
+
+
+              &lt;/div&gt;
+            &lt;/section&gt;
+          &lt;/article&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+    &lt;/body&gt;
+    &lt;/html&gt;
+
+</pre>
+</details>
+        </li>
+        <li><p>In <strong>AmqpClient.html</strong>, in the empty <code>&lt;script&gt;</code> tag in the <code>&lt;head&gt;</code> enter the JavaScript AMQP Client API calls below:</p>
+        
+<pre class="auto-links: false; brush: java; toolbar: false;">
+var url, username, password, virtualhost, connectBut, disconnectBut;
+var consumeExchange, consumeMessage, sendBut, flowOnBut, flowOffBut;
+var txExchange, txMessage, selectBut, txSendBut, commitBut, rollbackBut;
+var logConsole, clearBut, toggleAmqpPropsCb;
+var propertiesToggle, propertiesDivContent;
+var headersToggle, headersDivContent;
+
+var propAppId, propContentEncoding, propContentType, propCorrelationId, propDeliveryMode;
+var propExpiration, propMessageId, propPriority, propReplyTo, propTimestamp, propType, propUserId;
+var headerName1, headerType1, headerValue1;
+var headerName2, headerType2, headerValue2;
+
+var amqpClientFactory = new AmqpClientFactory();
+var amqpClient;
+
+var queueName;
+var txnQueueName;
+var myConsumerTag;
+var myTxnConsumerTag;
+var routingKey;
+var txnRoutingKey;
+
+var channelsReady;
+
+var publishChannel;
+var consumeChannel;
+var txnPublishChannel;
+var txnConsumeChannel;
+
+var receivedMessageCount, receivedMessageCounter = 0;
+
+var messageIdCounter;
+
+$(document).ready(function() {
+
+  url = $(&quot;#url&quot;);
+  username = $(&quot;#username&quot;);
+  password = $(&quot;#password&quot;);
+  virtualhost = $(&quot;#virtualhost&quot;);
+  connectBut = $(&quot;#connectBut&quot;);
+  disconnectBut = $(&quot;#disconnectBut&quot;);
+
+  propertiesToggle = $(&quot;#propertiesToggle&quot;);
+  propertiesDivContent = $(&quot;#properties_div_content&quot;)
+
+  propAppId = $(&quot;#propAppId&quot;);
+  propContentEncoding = $(&quot;#propContentEncoding&quot;);
+  propContentType = $(&quot;#propContentType&quot;);
+  propCorrelationId = $(&quot;#propCorrelationId&quot;);
+  propDeliveryMode = $(&quot;#propDeliveryMode&quot;);
+  propExpiration = $(&quot;#propExpiration&quot;);
+  propMessageId = $(&quot;#propMessageId&quot;);
+  propPriority = $(&quot;#propPriority&quot;);
+  propReplyTo = $(&quot;#propReplyTo&quot;);
+  propTimestamp = $(&quot;#propTimestamp&quot;);
+  propType = $(&quot;#propType&quot;);
+  propUserId = $(&quot;#propUserId&quot;);
+
+  headersToggle = $(&quot;#headersToggle&quot;);
+  headersDivContent = $(&quot;#headers_div_content&quot;)
+
+  headerName1 = $(&quot;#headerName1&quot;);
+  headerType1 = $(&quot;#headerType1&quot;);
+  headerValue1 = $(&quot;#headerValue1&quot;);
+  headerName2 = $(&quot;#headerName2&quot;);
+  headerType2 = $(&quot;#headerType2&quot;);
+  headerValue2 = $(&quot;#headerValue2&quot;);
+
+  consumeExchange = $(&quot;#consumeExchange&quot;);
+  consumeMessage = $(&quot;#consumeMessage&quot;);
+  sendBut = $(&quot;#sendBut&quot;);
+  flowOnBut = $(&quot;#flowOnBut&quot;);
+  flowOffBut = $(&quot;#flowOffBut&quot;);
+
+  txExchange = $(&quot;#txExchange&quot;);
+  txMessage = $(&quot;#txMessage&quot;);
+  selectBut = $(&quot;#selectBut&quot;);
+  txSendBut = $(&quot;#txSendBut&quot;);
+  commitBut = $(&quot;#commitBut&quot;);
+  rollbackBut = $(&quot;#rollbackBut&quot;);
+
+  logConsole = $(&quot;div#console&quot;);
+  receivedMessageCount = $(&quot;#receivedMessageCount&quot;);
+  clearBut = $(&quot;#clearBut&quot;);
+  toggleAmqpPropsCb = $(&quot;#toggleAmqpPropsCb&quot;);
+
+  routingKey = &quot;broadcastkey&quot;;
+  txnRoutingKey = &quot;txnBroadcastKey&quot;;
+
+  updateGuiState(false);
+
+  // Dynamically create the priority property poplist.
+  for (var i = 0; i &lt; 10; i++) {
+    propPriority
+      .append($(&quot;&lt;option&gt;&lt;/option&gt;&quot;)
+        .attr(&quot;value&quot;, i)
+        .text(i));
+  }
+  // Set the default priority.
+  propPriority.find(&#x27;option[value=&quot;6&quot;]&#x27;).attr(&quot;selected&quot;, true);
+
+  if (window.location.protocol != &quot;file:&quot;) {
+    // construct the WebSocket location
+    var locationURI = new URI(document.URL || location.href);
+    l = locationURI;
+
+    // default port if necessary
+    if (locationURI.port == null) {
+      var defaultPorts = {
+        &quot;http&quot;: 80,
+        &quot;https&quot;: 443
+      };
+      locationURI.port = defaultPorts[locationURI.scheme];
+    }
+
+    locationURI.scheme = locationURI.scheme.replace(&quot;http&quot;, &quot;ws&quot;);
+    locationURI.path = &quot;/amqp&quot;;
+    delete locationURI.query;
+    delete locationURI.fragment;
+
+    // default the location
+    url.val(locationURI.toString());
+  } else {
+    url.val(&quot;wss://sandbox.kaazing.net/amqp091&quot;);
+  }
+
+  connectBut.click(handleConnect);
+  disconnectBut.click(handleDisconnect);
+
+  propertiesToggle.click(handlePropertiesToggle);
+
+  headersToggle.click(handleHeadersToggle);
+
+  sendBut.click(handleSend);
+  flowOnBut.click(handleFlowOn);
+  flowOffBut.click(handleFlowOff);
+
+  selectBut.click(handleSelect);
+  commitBut.click(handleCommit);
+  txSendBut.click(handleTxSend);
+  rollbackBut.click(handleRollback);
+
+  clearBut.click(clearLog);
+  toggleAmqpPropsCb.change(toggleAmqpProperties);
+
+
+  // Pick a random prefix for the counter, to minimize collisions
+  // with other demo clients.
+  messageIdCounter = getRandomInt(1, 10000);
+
+  // As a convenience, connect when the user presses Enter
+  // if no fields have focus, and we&#x27;re not currently connected.
+  $(window).keypress(function(e) {
+    if (e.keyCode == 13) {
+      if (e.target.nodeName == &quot;BODY&quot; &amp;&amp; url.prop(&quot;disabled&quot;) == false) {
+        handleConnect();
+      }
+    }
+  });
+
+  // As a convenience, connect when the user presses Enter
+  // in the location field.
+  $(&#x27;#url&#x27;).keypress(function(e) {
+    if (e.keyCode == 13) {
+      handleConnect();
+    }
+  });
+
+  // As a convenience, send as text when the user presses Enter
+  // in the message field.
+  $(&#x27;#consumeMessage&#x27;).keypress(function(e) {
+    if (e.keyCode == 13) {
+      handleSend();
+    }
+  });
+
+  setupSSO(amqpClientFactory.getWebSocketFactory());
+});
+
+var handlePropertiesToggle = function() {
+  propertiesDivContent.toggle(200, function() {
+    var linkText = &quot;Show&quot;;
+    if (propertiesDivContent.is(&quot;:visible&quot;)) {
+      linkText = &quot;Hide&quot;;
+      propertiesToggle.removeClass(&quot;infoHidden&quot;);
+      propertiesToggle.addClass(&quot;infoDisplayed&quot;);
+    } else {
+      propertiesToggle.removeClass(&quot;infoDisplayed&quot;);
+      propertiesToggle.addClass(&quot;infoHidden&quot;);
+    }
+    propertiesToggle.text(linkText);
+  });
+}
+
+var handleHeadersToggle = function() {
+  headersDivContent.toggle(200, function() {
+    var linkText = &quot;Show&quot;;
+    if (headersDivContent.is(&quot;:visible&quot;)) {
+      linkText = &quot;Hide&quot;;
+      headersToggle.removeClass(&quot;infoHidden&quot;);
+      headersToggle.addClass(&quot;infoDisplayed&quot;);
+    } else {
+      headersToggle.removeClass(&quot;infoDisplayed&quot;);
+      headersToggle.addClass(&quot;infoHidden&quot;);
+    }
+    headersToggle.text(linkText);
+  });
+}
+
+var clearLog = function() {
+  logConsole.empty();
+}
+
+var toggleAmqpProperties = function() {
+  $(&#x27;div.properties&#x27;).toggleClass(&#x27;hidden&#x27;, !toggleAmqpPropsCb.is(&#x27;:checked&#x27;));
+}
+
+// Log a string message
+var log = function(message) {
+  var div = $(&#x27;&lt;div&gt;&#x27;);
+  div.addClass(&quot;logMessage&quot;);
+  div.html(message);
+  logDiv(div);
+}
+
+var logDiv = function(div) {
+  logConsole.append(div);
+  toggleAmqpProperties(); // Hide the headers if that is what the user specified
+  // Make sure the last line is visible.
+  logConsole.scrollTop(logConsole[0].scrollHeight);
+  // Only keep the most recent few rows so the log does not grow out of control.
+  while (logConsole.children().length &gt; 40) {
+    // Delete two rows to preserved the alternate background colors.
+    logConsole.children().first().remove();
+    logConsole.children().first().remove();
+  }
+}
+
+var stringToArrayBuffer = function(str) {
+  var buf = new ArrayBuffer(str.length);
+  var bufView = new Uint8Array(buf);
+  for (var i = 0, strLen = str.length; i &lt; strLen; i++) {
+    bufView[i] = str.charCodeAt(i);
+  }
+  return buf;
+}
+
+var arrayBufferToString = function(buf) {
+  return String.fromCharCode.apply(null, new Uint8Array(buf));
+}
+
+
+// Returns a random integer between min (inclusive) and max (exclusive).
+
+  function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min)) + min;
+  }
+
+var updateGuiState = function(connected, transacted) {
+
+  if (transacted === undefined) {
+    transacted = false;
+  }
+
+  url.prop(&quot;disabled&quot;, connected);
+  username.prop(&quot;disabled&quot;, connected);
+  password.prop(&quot;disabled&quot;, connected);
+  virtualhost.prop(&quot;disabled&quot;, connected);
+  connectBut.prop(&quot;disabled&quot;, connected);
+  disconnectBut.prop(&quot;disabled&quot;, !connected);
+
+  propAppId.prop(&quot;disabled&quot;, !connected);
+  propContentEncoding.prop(&quot;disabled&quot;, !connected);
+  propContentType.prop(&quot;disabled&quot;, !connected);
+  propCorrelationId.prop(&quot;disabled&quot;, !connected);
+  propDeliveryMode.prop(&quot;disabled&quot;, !connected);
+  propExpiration.prop(&quot;disabled&quot;, !connected);
+  propMessageId.prop(&quot;disabled&quot;, !connected);
+  propPriority.prop(&quot;disabled&quot;, !connected);
+  propReplyTo.prop(&quot;disabled&quot;, !connected);
+  propTimestamp.prop(&quot;disabled&quot;, !connected);
+  propType.prop(&quot;disabled&quot;, !connected);
+  propUserId.prop(&quot;disabled&quot;, !connected);
+
+  headerName1.prop(&quot;disabled&quot;, !connected);
+  headerType1.prop(&quot;disabled&quot;, !connected);
+  headerValue1.prop(&quot;disabled&quot;, !connected);
+  headerName2.prop(&quot;disabled&quot;, !connected);
+  headerType2.prop(&quot;disabled&quot;, !connected);
+  headerValue2.prop(&quot;disabled&quot;, !connected);
+
+  consumeExchange.prop(&quot;disabled&quot;, !connected);
+  consumeMessage.prop(&quot;disabled&quot;, !connected);
+  sendBut.prop(&quot;disabled&quot;, !connected);
+  flowOnBut.prop(&quot;disabled&quot;, !connected);
+  flowOffBut.prop(&quot;disabled&quot;, !connected);
+
+  txExchange.prop(&quot;disabled&quot;, !connected);
+  txMessage.prop(&quot;disabled&quot;, !connected);
+
+  if (connected) {
+    selectBut.prop(&quot;disabled&quot;, transacted);
+    txSendBut.prop(&quot;disabled&quot;, !transacted);
+    commitBut.prop(&quot;disabled&quot;, !transacted);
+    rollbackBut.prop(&quot;disabled&quot;, !transacted);
+  } else {
+    selectBut.prop(&quot;disabled&quot;, !connected);
+    txSendBut.prop(&quot;disabled&quot;, !connected);
+    commitBut.prop(&quot;disabled&quot;, !connected);
+    rollbackBut.prop(&quot;disabled&quot;, !connected);
+  }
+}
+
+var handleConnect = function() {
+  log(&quot;CONNECTING: &quot; + url.val() + &quot; &quot; + username.val());
+
+  queueName = &quot;client&quot; + Math.floor(Math.random() * 1000000);
+  txnQueueName = &quot;txnclient&quot; + Math.floor(Math.random() * 1000000);
+  myConsumerTag = &quot;client&quot; + Math.floor(Math.random() * 1000000);
+  myTxnConsumerTag = &quot;txnclient&quot; + Math.floor(Math.random() * 1000000);
+
+  amqpClient = amqpClientFactory.createAmqpClient();
+  amqpClient.addEventListener(&quot;close&quot;, function() {
+    log(&quot;DISCONNECTED&quot;);
+    updateGuiState(false);
+  });
+
+  amqpClient.addEventListener(&quot;error&quot;, function(e) {
+    log(&quot;CONNECTION ERROR:&quot; + e.message);
+  });
+
+  var credentials = {
+    username: username.val(),
+    password: password.val()
+  };
+  var options = {
+    url: url.val(),
+    virtualHost: virtualhost.val(),
+    credentials: credentials
+  };
+  amqpClient.connect(options, openHandler);
+}
+
+var openHandler = function() {
+  log(&quot;CONNECTED&quot;);
+  channelsReady = 0;
+
+  log(&quot;OPEN: Publish Channel&quot;);
+  publishChannel = amqpClient.openChannel(publishChannelOpenHandler);
+
+  log(&quot;OPEN: Consume Channel&quot;);
+  consumeChannel = amqpClient.openChannel(consumeChannelOpenHandler);
+
+  txnPublishChannel = amqpClient.openChannel(txnPublishChannelOpenHandler);
+  txnConsumeChannel = amqpClient.openChannel(txnConsumeChannelOpenHandler);
+};
+
+var publishChannelOpenHandler = function(channel) {
+  log(&quot;OPENED: Publish Channel&quot;);
+
+  publishChannel.declareExchange({
+    exchange: consumeExchange.val(),
+    type: &quot;fanout&quot;
+  });
+
+  // listen for these requests to return
+  publishChannel.addEventListener(&quot;declareexchange&quot;, function() {
+    log(&quot;EXCHANGE DECLARED: &quot; + consumeExchange.val());
+  });
+
+  publishChannel.addEventListener(&quot;error&quot;, function(e) {
+    log(&quot;CHANNEL ERROR: Publish Channel - &quot; + e.message);
+  });
+
+  publishChannel.addEventListener(&quot;close&quot;, function() {
+    log(&quot;CHANNEL CLOSED: Publish Channel&quot;);
+  });
+
+  updateGuiState(true);
+
+  channelsReady++;
+  if (channelsReady == 2) {
+    doBind();
+  }
+};
+
+var consumeChannelOpenHandler = function(channel) {
+  log(&quot;OPENED: Consume Channel&quot;);
+
+  channelsReady++;
+  if (channelsReady == 2) {
+    doBind();
+  }
+};
+
+var doBind = function() {
+  consumeChannel.addEventListener(&quot;declarequeue&quot;, function() {
+    log(&quot;QUEUE DECLARED: &quot; + queueName);
+  });
+
+  consumeChannel.addEventListener(&quot;bindqueue&quot;, function() {
+    log(&quot;QUEUE BOUND: &quot; + consumeExchange.val() + &quot; - &quot; + queueName);
+  });
+
+  consumeChannel.addEventListener(&quot;consume&quot;, function() {
+    log(&quot;CONSUME FROM QUEUE: &quot; + queueName);
+  });
+
+  consumeChannel.addEventListener(&quot;flow&quot;, function(e) {
+    log(&quot;FLOW: &quot; + (e.args.active ? &quot;ON&quot; : &quot;OFF&quot;));
+  });
+
+  consumeChannel.addEventListener(&quot;close&quot;, function() {
+    log(&quot;CHANNEL CLOSED: Consume Channel&quot;);
+  });
+
+  consumeChannel.addEventListener(&quot;message&quot;, function(message) {
+    handleMessageReceived(message);
+  });
+
+  // Passing a false value for &#x27;noAck&#x27; in the AmqpChannel.consumeBasic() 
+  // function. This means, there should be be explicit acknowledgement when 
+  // the message is received.
+  consumeChannel.declareQueue({
+    queue: queueName
+  })
+    .bindQueue({
+      queue: queueName,
+      exchange: consumeExchange.val(),
+      routingKey: routingKey
+    })
+    .consumeBasic({
+      queue: queueName,
+      consumerTag: myConsumerTag,
+      noAck: false
+    });
+
+  updateGuiState(true);
+};
+
+var txnPublishChannelOpenHandler = function(channel) {
+  txnPublishChannel.declareExchange({
+    exchange: txExchange.val(),
+    type: &quot;fanout&quot;
+  });
+
+  // listen for these requests to return
+  txnPublishChannel.addEventListener(&quot;selecttransaction&quot;, function() {
+    log(&quot;TXN SELECTED/STARTED&quot;);
+  });
+
+  txnPublishChannel.addEventListener(&quot;committransaction&quot;, function() {
+    log(&quot;TXN COMMITTED&quot;);
+  });
+
+  txnPublishChannel.addEventListener(&quot;rollbacktransaction&quot;, function() {
+    log(&quot;TXN ROLLED BACK&quot;);
+  });
+};
+
+var txnConsumeChannelOpenHandler = function(channel) {
+  txnConsumeChannel.addEventListener(&quot;message&quot;, function(event) {
+    var body = null;
+
+    if (typeof(ArrayBuffer) === &quot;undefined&quot;) {
+      body = event.getBodyAsByteBuffer().getString(Charset.UTF8);
+    } else {
+      body = arrayBufferToString(event.getBodyAsArrayBuffer())
+    }
+    log(&quot;TXN MESSAGE CONSUMED: &quot; + body);
+    var props = event.properties;
+    if (props != null) {
+      var headers = props.getHeaders();
+      if (headers != null) {
+        log(&quot;Headers: &quot; + headers.toString());
+      }
+      log(&quot;Properties &quot; + props.toString());
+    }
+
+    var dt = event.args.deliveryTag;
+    var channel = event.target;
+
+    // Acknowledge the message as we passed in a false for &#x27;noAck&#x27; in
+    // AmqpChannel.consumeBasic() call. If the message is not acknowledged, 
+    // the broker will keep holding the message. And, as more and more 
+    // messages are held by the broker, it will eventually result in 
+    // an OutOfMemoryError.
+    var config = {
+      deliveryTag: dt,
+      multiple: true
+    };
+    setTimeout(function() {
+      channel.ackBasic(config);
+    }, 0);
+  });
+
+  // Passing a false value for &#x27;noAck&#x27; in the AmqpChannel.consumeBasic() 
+  // function. This means, there should be be explicit acknowledgement when 
+  // the message is received.
+  txnConsumeChannel.declareQueue({
+    queue: txnQueueName
+  })
+    .bindQueue({
+      queue: txnQueueName,
+      exchange: txExchange.val(),
+      routingKey: txnRoutingKey
+    })
+    .consumeBasic({
+      queue: txnQueueName,
+      consumerTag: myTxnConsumerTag,
+      noAck: false
+    });
+};
+
+var handleDisconnect = function() {
+  log(&quot;DISCONNECT&quot;);
+  amqpClient.disconnect();
+
+  updateGuiState(false);
+}
+
+var handleSend = function() {
+  doSend(publishChannel, consumeExchange.val(), routingKey, consumeMessage.val(), &quot;MESSAGE PUBLISHED: &quot;, &quot;sendMessage&quot;);
+}
+
+var addProperties = function(props) {
+  var prop;
+
+  prop = propAppId.val().trim();
+  if (prop !== undefined &amp;&amp; prop.length &gt; 0) {
+    props.setAppId(prop);
+  }
+
+  prop = propContentType.val().trim();
+  if (prop !== undefined &amp;&amp; prop.length &gt; 0) {
+    props.setContentType(prop);
+  }
+
+  prop = propContentEncoding.val().trim();
+  if (prop !== undefined &amp;&amp; prop.length &gt; 0) {
+    props.setContentEncoding(prop);
+  }
+
+  prop = propCorrelationId.val().trim();
+  if (prop !== undefined &amp;&amp; prop.length &gt; 0) {
+    props.setCorrelationId(prop);
+  }
+
+  prop = propCorrelationId.val().trim();
+  if (prop !== undefined &amp;&amp; prop.length &gt; 0) {
+    props.setCorrelationId(prop);
+  }
+
+  prop = propDeliveryMode.val().trim();
+  props.setDeliveryMode(prop);
+
+  prop = propExpiration.val().trim();
+  if (prop !== undefined &amp;&amp; prop.length &gt; 0) {
+    props.setExpiration(prop);
+  }
+
+  prop = propMessageId.prop(&#x27;checked&#x27;);
+  if (prop) {
+    props.setMessageId((messageIdCounter++).toString());
+  }
+
+  prop = propPriority.val().trim();
+  props.setPriority(prop);
+
+  prop = propReplyTo.val().trim();
+  if (prop !== undefined &amp;&amp; prop.length &gt; 0) {
+    props.setReplyTo(prop);
+  }
+
+  prop = propTimestamp.prop(&#x27;checked&#x27;);
+  if (prop) {
+    props.setTimestamp(new Date());
+  }
+
+  prop = propType.val().trim();
+  if (prop !== undefined &amp;&amp; prop.length &gt; 0) {
+    props.setType(prop);
+  }
+
+  prop = propUserId.val().trim();
+  if (prop !== undefined &amp;&amp; prop.length &gt; 0) {
+    props.setUserId(prop);
+  }
+
+}
+
+var fff = function(customHeaders, headerName, headerType, headerValue) {
+  if (headerName !== undefined &amp;&amp; headerName.length &gt; 0) {
+    switch (headerType) {
+      case &quot;int&quot;:
+        customHeaders.addInteger(headerName, headerValue);
+        break;
+      case &quot;LongString&quot;:
+        customHeaders.addLongString(headerName, headerValue);
+        break;
+    }
+  }
+}
+
+var doSend = function(channel, exchangeName, routeKey, messageText, logText, className) {
+  if (messageText == null || messageText.length == 0) {
+    alert(&quot;Enter a valid string for message&quot;);
+    return;
+  }
+
+  var body = null;
+
+  if (typeof(ArrayBuffer) === &quot;undefined&quot;) {
+    body = new ByteBuffer();
+    body.putString(messageText, Charset.UTF8);
+    body.flip();
+  } else {
+    body = stringToArrayBuffer(messageText);
+  }
+
+  var props = new AmqpProperties();
+
+  addProperties(props);
+
+  var customHeaders = new AmqpArguments();
+
+  fff(customHeaders, headerName1.val().trim(), headerType1.val(), headerValue1.val().trim());
+  fff(customHeaders, headerName2.val().trim(), headerType2.val(), headerValue2.val().trim());
+
+  props.setHeaders(customHeaders);
+  p2 = props;
+
+  logMessageDiv(logText, className, messageText, props, exchangeName, routeKey);
+
+  channel.publishBasic({
+    body: body,
+    properties: props,
+    exchange: exchangeName,
+    routingKey: routeKey
+  });
+}
+
+var handleFlowOn = function() {
+  consumeChannel.flowChannel(true);
+}
+
+var handleFlowOff = function() {
+  consumeChannel.flowChannel(false);
+}
+
+var handleSelect = function() {
+  txnPublishChannel.selectTx(function() {
+    log(&quot;TXN SELECT&quot;);
+    updateGuiState(true, true);
+  });
+}
+
+var handleCommit = function() {
+  txnPublishChannel.commitTx(function() {
+    log(&quot;TXN COMMIT&quot;);
+    updateGuiState(true, false);
+  });
+}
+
+var handleTxSend = function() {
+  doSend(txnPublishChannel, txExchange.val(), txnRoutingKey, txMessage.val(), &quot;TXN MESSAGE PUBLISHED: &quot;, &quot;txSendMessage&quot;);
+}
+
+var handleRollback = function() {
+  txnPublishChannel.rollbackTx(function() {
+    log(&quot;TXN ROLLBACK&quot;);
+    updateGuiState(true, false);
+  });
+}
+
+var buildLogMessageRow = function(name, value) {
+  var row = $(&#x27;&lt;tr&gt;&#x27;)
+  row.append(&#x27;&lt;td&gt;&#x27; + name + &#x27;:&lt;/td&gt;&#x27;);
+  var v1 = value;
+  if (v1 === undefined) {
+    v1 = &quot;-&quot;;
+  }
+  row.append(&#x27;&lt;td&gt;&#x27; + v1 + &#x27;&lt;/td&gt;&#x27;);
+  return row;
+}
+
+var handleMessageReceived = function(event) {
+
+  receivedMessageCount.text(++receivedMessageCounter);
+
+  var body = null;
+
+  if (typeof(ArrayBuffer) === &quot;undefined&quot;) {
+    body = event.getBodyAsByteBuffer().getString(Charset.UTF8);
+  } else {
+    body = arrayBufferToString(event.getBodyAsArrayBuffer())
+  }
+  var props = event.properties;
+  var exchange = event.args.exchange;
+  var routingKey = event.args.routingKey;
+  var dt = event.args.deliveryTag;
+  var channel = event.target;
+  logMessageDiv(&quot;MESSAGE CONSUMED: &quot;, &quot;receiveMessage&quot;, body, props, exchange, routingKey);
+
+  // Acknowledge the message as we passed in a false for &#x27;noAck&#x27; in
+  // AmqpChannel.consumeBasic() call. If the message is not acknowledged, 
+  // the broker will keep holding the message. And, as more and more 
+  // messages are held by the broker, it will eventually result in 
+  // an OutOfMemoryError.
+  var config = {
+    deliveryTag: dt,
+    multiple: true
+  };
+  setTimeout(function() {
+    channel.ackBasic(config);
+  }, 0);
+}
+
+var logMessageDiv = function(text, divClass, body, props, exchange, routingKey) {
+  var messageDiv = $(&#x27;&lt;div&gt;&#x27;);
+  messageDiv.addClass(divClass);
+  messageDiv.text(text + body);
+
+  var table;
+  var tbody;
+
+  // Add the message information.
+  var destinationDiv = $(&#x27;&lt;div&gt;&#x27;);
+  destinationDiv.addClass(&quot;destination&quot;);
+  table = $(&#x27;&lt;table&gt;&#x27;);
+  destinationDiv.append(table);
+  tbody = $(&#x27;&lt;tbody&gt;&#x27;);
+  table.append(tbody);
+  tbody.append(buildLogMessageRow(&quot;Exchange&quot;, exchange));
+  tbody.append(buildLogMessageRow(&quot;Routing Key&quot;, routingKey));
+  messageDiv.append(destinationDiv);
+
+  if (props != null) {
+
+    // Add the custom headers.
+    var headers = props.getHeaders();
+    if (headers != null || headers.length &gt; 0) {
+      var headersDiv = $(&#x27;&lt;div&gt;&#x27;);
+      headersDiv.addClass(&quot;headers&quot;);
+      table = $(&#x27;&lt;table&gt;&#x27;);
+      headersDiv.append(table);
+      tbody = $(&#x27;&lt;tbody&gt;&#x27;);
+      table.append(tbody);
+      for (var i = 0; i &lt; headers.length; i++) {
+        var h = headers[i];
+        tbody.append(buildLogMessageRow(h.key, h.value + &quot; &lt;em&gt;(&quot; + h.type + &quot;)&lt;/em&gt;&quot;));
+      }
+      messageDiv.append(headersDiv);
+    }
+
+    // Add the properties.
+    var propertiesDiv = $(&#x27;&lt;div&gt;&#x27;);
+    propertiesDiv.addClass(&quot;properties&quot;);
+    table = $(&#x27;&lt;table&gt;&#x27;);
+    propertiesDiv.append(table);
+    tbody = $(&#x27;&lt;tbody&gt;&#x27;);
+    table.append(tbody);
+    tbody.append(buildLogMessageRow(&quot;appId&quot;, props.getAppId()));
+    tbody.append(buildLogMessageRow(&quot;contentEncoding&quot;, props.getContentEncoding()));
+    tbody.append(buildLogMessageRow(&quot;contentType&quot;, props.getContentType()));
+    tbody.append(buildLogMessageRow(&quot;correlationId&quot;, props.getCorrelationId()));
+    var deliveryMode;
+    if (props.getDeliveryMode() === 1) {
+      deliveryMode = &quot;1 &lt;em&gt;(Non-persistent)&lt;/em&gt;&quot;;
+    } else if (props.getDeliveryMode() === 2) {
+      deliveryMode = &quot;2 &lt;em&gt;(Persistent)&lt;/em&gt;&quot;;
+    } else {
+      deliveryMode = props.getDeliveryMode();
+    }
+    tbody.append(buildLogMessageRow(&quot;deliveryMode&quot;, deliveryMode));
+    tbody.append(buildLogMessageRow(&quot;expiration&quot;, props.getExpiration()));
+    tbody.append(buildLogMessageRow(&quot;messageId&quot;, props.getMessageId()));
+    tbody.append(buildLogMessageRow(&quot;priority&quot;, props.getPriority()));
+    tbody.append(buildLogMessageRow(&quot;replyTo&quot;, props.getReplyTo()));
+    tbody.append(buildLogMessageRow(&quot;timestamp&quot;, props.getTimestamp()));
+    tbody.append(buildLogMessageRow(&quot;type&quot;, props.getType()));
+    tbody.append(buildLogMessageRow(&quot;userId&quot;, props.getUserId()));
+    messageDiv.append(propertiesDiv);
+  }
+
+  logDiv(messageDiv);
+}
+
+var setupSSO = function(webSocketFactory) {
+  /* Respond to authentication challenges with popup login dialog */
+  if (webSocketFactory) {
+    var basicHandler = new BasicChallengeHandler();
+    basicHandler.loginHandler = function(callback) {
+      popupLoginDialog(callback);
+    }
+    webSocketFactory.setChallengeHandler(basicHandler);
+  }
+}
+
+var popupLoginDialog = function(callback) {
+
+  //popup dialog to get credentials
+  var popup = document.getElementById(&quot;logindiv&quot;);
+  $(&quot;#logindiv&quot;).slideToggle(300);
+  var login = document.getElementById(&quot;sso_login&quot;);
+  var cancel = document.getElementById(&quot;sso_cancel&quot;);
+
+  $(&#x27;#sso_username&#x27;).focus();
+
+  // As a convenience, connect when the user presses Enter
+  // in the location field.
+  $(&#x27;#sso_password&#x27;).keypress(function(e) {
+    if (e.keyCode == 13) {
+      e.stopImmediatePropagation(); // Prevent firing twice.
+      login.click();
+    }
+  });
+
+  //&quot;OK&quot; button was clicked, invoke callback function with credential to login
+  login.onclick = function() {
+    var username = document.getElementById(&quot;sso_username&quot;);
+    var password = document.getElementById(&quot;sso_password&quot;);
+    var credentials = new PasswordAuthentication(username.value, password.value);
+    //clear user input
+    username.value = &quot;&quot;;
+    password.value = &quot;&quot;;
+    //hide popup
+    $(&quot;#logindiv&quot;).slideToggle(100);
+    callback(credentials);
+  }
+
+  //&quot;Cancel&quot; button has been clicked, invoke callback function with null argument to cancel login
+  cancel.onclick = function() {
+    var username = document.getElementById(&quot;sso_username&quot;);
+    var password = document.getElementById(&quot;sso_password&quot;);
+    //clear user input
+    username.value = &quot;&quot;;
+    password.value = &quot;&quot;;
+    //hide popup
+    $(&quot;#logindiv&quot;).slideToggle(100);
+    callback(null);
+  }
+}
+</pre>
+        
+        </li>
+        <li>Save <strong>AmqpClient.html</strong> and drag it into a Web browser.</li>
+        <li>If you are using a local Kaazing WebSocket Gateway, start the Gateway and AMQP broker as described in <a href="../../about/setup-guide/index.html">Setting Up the Gateway and Clients</a>.</li>
+        <li>In the Web browser, test the client.
+          <ol>
+            <li>In <strong>Location</strong>, enter <code>wss://sandbox.kaazing.net/amqp091</code> for the publicly available Kaazing WebSocket Gateway and AMQP broker, or <span class="uri">ws://localhost:8000/amqp</span> for your local Kaazing WebSocket Gateway.</li>
+            <li>Click <strong>Connect</strong>. You can see the connection opened, the channels opened, the exchange declared, and the queues opened:
+              <pre class="auto-links: false; brush: js; toolbar: false;">
+                CONSUME FROM QUEUE: client506938
+                QUEUE BOUND: demo_exchange - client506938
+                QUEUE DECLARED: client506938
+                EXCHANGE DECLARED: demo_exchange
+                OPENED: Consume Channel
+                OPENED: Publish Channel
+                OPEN: Consume Channel
+                OPEN: Publish Channel
+                CONNECTED
+                CONNECTING: ws://localhost:8000/amqp guest
+              </pre>
+            </li>
+          </ol>
+        </li>
+</ol>
+
+
+
+<h2><a name="Other_Coding_Styles"></a>Other Coding Styles</h2>
+<p>In the procedure above, you have used a <em>continuation-passing</em> style of JavaScript programming. Additionally, you can use an <em>event listener</em> programming style or a <em>callback properties</em> programming style. The following example shows how you can declare an exchange using the event-listener programming style:</p>
+<pre class="auto-links: false; brush: js; toolbar: false;">publishChannel.addEventListener("declareexchange", function(e) {log("Exchange declared");});</pre>
+
+<p>The following example shows how you can declare an exchange using the callback properties programming style:</p>
+<pre class="auto-links: false; brush: js; toolbar: false;">publishChannel.ondeclareexchange = function(e) {log("Exchange declared");};</pre>
+
+<p>Finally, for completeness, you can add a <span class="code_inline">log()</span> function, which you can modify based on your logging requirements:</p>
+<pre class="brush: js; toolbar: false;">var log = function(message) {
+        // Implement this function based on your logging requirements.
+};
+</pre>
+<p>You can also combine one or more of these programming styles.</p>
+
+
+<h2><a name="migrate"></a>Migrate JavaScript Applications to Kaazing Gateway 4.x</h2>
+
+<p>If you wish to migrate your Kaazing Gateway - AMQP Edition 3.3-3.5 JavaScript clients to the Kaazing AMQP JavaScript Client SDK for 4.x, do the following:</p>
+
+<ul>
+        <li>Add the new WebSocket.js library to your client, as described in the procedure <a href="#procedure">To Use the Kaazing Gateway JavaScript AMQP Client Library</a>.</li>
+        <li>Add the new AmqpClient.js library from Kaazing AMQP JavaScript Client SDK for 4.x. WebSocket.js and AmqpClient.js have replaced the AmqpClient.js library from 3.3-3.5.</li>
+        <li><p>Update fixed parameter position API calls to configuration style API calls (i.e. using the Configuration object). In Kaazing Gateway - AMQP Edition 3.3-3.5, the JavaScript AMQP API classes <code>AmqpClient</code> and <code>AmqpChannel</code> supported two styles, a fixed parameter position API and a configuration style API. In Kaazing AMQP JavaScript Client SDK for 4.x, only configuration style APIs are supported. For example, if you had the following code:</p>
+        
+<pre class="auto-links: false; brush: js; toolbar: false;">
+var client = new amqpClient();
+client.connect('ws://localhost:8001/amqp', '/', {username: 'guest', password: 'guest'}, openHandler);
+</pre>
+
+<p>You would update it to:</p>
+
+<pre class="auto-links: false; brush: js; toolbar: false;">
+amqpClient = amqpClientFactory.createAmqpClient();
+var credentials = {
+        username: 'guest',
+        password: 'guest'
+};
+amqpClient.connect({
+        url: 'ws://localhost:8001/amqp',
+        virtualHost: '/',
+        credentials: credentials
+        },
+        openHandler);
+</pre>
+        </li>
+        <li><p>Modify challenge handler registration. In Kaazing AMQP JavaScript Client SDK for 4.x, <code>ChallengeHandlers</code> from 3.3-3.5 was replaced with the <code>setChallengeHandler</code> method of <code>WebSocketFactory</code>. The <code>setChallengeHandler</code> method is used to register a ChallengeHandler, which is then used during authentication for connections and subsequent revalidation that occurs at regular intervals.</p>
+        
+        <p>Kaazing Gateway 3.3-3.5:</p>
+        
+<pre class="auto-links: false; brush: js; toolbar: false;">
+function setupSSO() {
+        /* Respond to authentication challenges with popup login dialog */
+        var basicHandler = new BasicChallengeHandler();
+        basicHandler.loginHandler = function(callback) {
+                popupLoginDialog(callback);
+        }
+        ChallengeHandlers.setDefault(basicHandler);
+}
+</pre>
+
+        <p>Kaazing AMQP JavaScript Client SDK for 4.x:</p>
+        
+<pre class="auto-links: false; brush: js; toolbar: false;">
+function setupSSO(webSocketFactory) {
+        /* Respond to authentication challenges with popup login dialog */
+        var basicHandler = new BasicChallengeHandler();
+        basicHandler.loginHandler = function(callback) {
+                popupLoginDialog(callback);
+        }
+        webSocketFactory.setChallengeHandler(basicHandler);
+}
+</pre>
+        </li>
+        <li>Review the <a href="../apidoc/client/javascript/amqp/index.html">AmqpClient JavaScript API</a>.</li>
+</ul>
+
+<h2><a name="_"></a>Next Step</h2>
+<p><a href="p_dev_js_secure.html">Secure Your JavaScript AMQP Client</a></p>
+
+                  </section>
+                </article>
+
+            </div> <!-- #main -->
+        </div> <!-- #main-container -->
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

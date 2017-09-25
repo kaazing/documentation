@@ -1,0 +1,452 @@
+AMQP:
+  - component: client
+    platform: dotnet
+    version: '3.5'
+    itests: true
+  - component: client
+    platform: flash
+    version: '3.5'
+    itests: true
+  - component: client
+    platform: java
+    version: '3.5'
+    itests: true
+  - component: client
+    platform: javascript
+    version: '3.5'
+    itests: true
+  - component: client mobile
+    platform: javascript
+    version: '3.5'
+    itests: true
+  - component: client
+    platform: silverlight
+    version: '3.5'
+    itests: false
+  - component: client
+    platform: c
+    version: '4.0'
+    itests: true
+  - component: client
+    platform: dotnet
+    version: '4.0'
+    itests: true
+  - component: client
+    platform: flash
+    version: '4.0'
+    itests: true
+  - component: client
+    platform: java
+    version: '4.0'
+    itests: true
+  - component: client
+    platform: javascript
+    version: '4.0'
+    itests: true
+  - component: client mobile
+    platform: javascript
+    version: '4.0'
+    itests: true
+  - component: client
+    platform: silverlight
+    version: '4.0'
+    itests: true
+  - component: server
+    platform: '-'
+    version: '3.5'
+    itests: false
+  - component: server
+    platform: '-'
+    version: '4.0'
+    itests: false
+CORE:
+  - component: server
+    platform: '-'
+    version: '3.5'
+    itests: false
+  - component: server
+    platform: '-'
+    version: '4.0'
+    itests: false
+Gateway:
+  - component: client
+    platform: android
+    version: '4.0'
+    itests: true
+  - component: client
+    platform: c
+    version: '4.0'
+    itests: true
+  - component: client
+    platform: dotnet
+    version: '4.0'
+    itests: true
+  - component: client cluster
+    platform: dotnet
+    version: '4.0'
+    itests: false
+  - component: client
+    platform: flash
+    version: '4.0'
+    itests: true
+  - component: client cluster
+    platform: flash
+    version: '4.0'
+    itests: true
+  - component: client
+    platform: ios
+    version: '4.0'
+    itests: true
+  - component: client
+    platform: java
+    version: '4.0'
+    itests: true
+  - component: client cluster
+    platform: java
+    version: '4.0'
+    itests: true
+  - component: client
+    platform: javascript
+    version: '4.0'
+    itests: true
+  - component: client cluster
+    platform: javascript
+    version: '4.0'
+    itests: true
+  - component: client mobile
+    platform: javascript
+    version: '4.0'
+    itests: true
+  - component: client
+    platform: silverlight
+    version: '4.0'
+    itests: false
+  - component: client cluster
+    platform: silverlight
+    version: '4.0'
+    itests: false
+  - component: server
+    platform: '-'
+    version: '4.0'
+    itests: true
+  - component: server cluster
+    platform: '-'
+    version: '4.0'
+    itests: true
+JMS:
+  - component: client
+    platform: dotnet
+    broker: ActiveMQ
+    version: '3.5'
+    itests: true
+  - component: client
+    platform: dotnet
+    broker: EMS
+    version: '3.5'
+    itests: true
+  - component: client
+    platform: dotnet
+    broker: UMQ
+    version: '3.5'
+    itests: true
+  - component: client
+    platform: flash
+    broker: ActiveMQ
+    version: '3.5'
+    itests: true
+  - component: client
+    platform: flash
+    broker: EMS
+    version: '3.5'
+    itests: true
+  - component: client
+    platform: flash
+    broker: UMQ
+    version: '3.5'
+    itests: true
+  - component: client
+    platform: ios
+    broker: ActiveMQ
+    version: '3.5'
+    itests: true
+  - component: client
+    platform: ios
+    broker: EMS
+    version: '3.5'
+    itests: true
+  - component: client
+    platform: java
+    broker: ActiveMQ
+    version: '3.5'
+    itests: true
+  - component: client
+    platform: java
+    broker: EMS
+    version: '3.5'
+    itests: true
+  - component: client
+    platform: java
+    broker: JBoss
+    version: '3.5'
+    itests: true
+  - component: client
+    platform: java
+    broker: UMQ
+    version: '3.5'
+    itests: true
+  - component: client
+    platform: java
+    broker: WebLogic
+    version: '3.5'
+    itests: true
+  - component: client
+    platform: java
+    broker: WebSphere
+    version: '3.5'
+    itests: true
+  - component: client
+    platform: silverlight
+    broker: ActiveMQ
+    version: '3.5'
+    itests: true
+  - component: client
+    platform: silverlight
+    broker: EMS
+    version: '3.5'
+    itests: true
+  - component: client
+    platform: silverlight
+    broker: UMQ
+    version: '3.5'
+    itests: true
+  - component: server
+    platform: '-'
+    broker: ActiveMQ
+    version: '3.5'
+    itests: true
+  - component: server
+    platform: '-'
+    broker: EMS
+    version: '3.5'
+    itests: true
+  - component: server
+    platform: '-'
+    broker: JBoss
+    version: '3.5'
+    itests: true
+  - component: server
+    platform: '-'
+    broker: UMQ
+    version: '3.5'
+    itests: true
+  - component: server
+    platform: '-'
+    broker: WebLogic
+    version: '3.5'
+    itests: true
+  - component: server
+    platform: '-'
+    broker: WebSphere
+    version: '3.5'
+    itests: true
+  - component: client
+    platform: android
+    broker: ActiveMQ
+    version: '4.0'
+    itests: true
+  - component: client
+    platform: dotnet
+    broker: ActiveMQ
+    version: '4.0'
+    itests: true
+  - component: client
+    platform: dotnet
+    broker: EMS
+    version: '4.0'
+    itests: true
+  - component: client
+    platform: flash
+    broker: EMS
+    version: '4.0'
+    itests: true
+  - component: client
+    platform: ios
+    broker: ActiveMQ
+    version: '4.0'
+    itests: true
+  - component: client
+    platform: ios
+    broker: EMS
+    version: '4.0'
+    itests: true
+  - component: client
+    platform: java
+    broker: ActiveMQ 5.8.0
+    version: '4.0'
+    itests: true
+  - component: client
+    platform: java
+    broker: ActiveMQ 5.9.1
+    version: '4.0'
+    itests: true
+  - component: client
+    platform: java
+    broker: EMS 6.3
+    version: '4.0'
+    itests: true
+  - component: client
+    platform: java
+    broker: EMS 7.0
+    version: '4.0'
+    itests: true
+  - component: client
+    platform: java
+    broker: EMS 8.0
+    version: '4.0'
+    itests: true
+  - component: client
+    platform: java
+    broker: Redis
+    version: '4.0'
+    itests: true
+  - component: client
+    platform: java
+    broker: JBoss
+    version: '4.0'
+    itests: true
+  - component: client
+    platform: java
+    broker: RabbitMQ
+    version: '4.0'
+    itests: true
+  - component: client
+    platform: java
+    broker: UMQ
+    version: '4.0'
+    itests: true
+  - component: client
+    platform: java
+    broker: WebLogic
+    version: '4.0'
+    itests: true
+  - component: client
+    platform: java
+    broker: WebSphere Client 7.0.1.9
+    version: '4.0'
+    itests: true
+  - component: client
+    platform: java
+    broker: WebSphere Client 7.0.1.12
+    version: '4.0'
+    itests: true
+  - component: client
+    platform: java
+    broker: WebSphere Client 7.5.0.2
+    version: '4.0'
+    itests: true
+  - component: client
+    platform: java
+    broker: WebSphere Client 7.5.0.4
+    version: '4.0'
+    itests: true
+  - component: client
+    platform: silverlight
+    broker: ActiveMQ
+    version: '4.0'
+    itests: true
+  - component: client
+    platform: silverlight
+    broker: EMS
+    version: '4.0'
+    itests: true
+  - component: server
+    platform: '-'
+    broker: ActiveMQ 5.8.0 
+    version: '4.0'
+    itests: true
+  - component: server
+    platform: '-'
+    broker: ActiveMQ 5.9.1 
+    version: '4.0'
+    itests: true
+  - component: server
+    platform: '-'
+    broker: ActiveMQ 5.10.0 
+    version: '4.0'
+    itests: true
+  - component: server
+    platform: '-'
+    broker: EMS 6.3 
+    version: '4.0'
+    itests: true
+  - component: server
+    platform: '-'
+    broker: EMS 7.0.1 
+    version: '4.0'
+    itests: true
+  - component: server
+    platform: '-'
+    broker: EMS 8.0 
+    version: '4.0'
+    itests: true
+  - component: server
+    platform: '-'
+    broker: JBoss 
+    version: '4.0'
+    itests: true
+  - component: server
+    platform: '-'
+    broker: RabbitMQ 
+    version: '4.0'
+    itests: true
+  - component: server
+    platform: '-'
+    broker: UMQ 
+    version: '4.0'
+    itests: true
+  - component: server
+    platform: '-'
+    broker: WebLogic 
+    version: '4.0'
+    itests: true
+  - component: server
+    platform: '-'
+    broker: WebSphere 7.5.0.2 
+    version: '4.0'
+    itests: true
+  - component: server
+    platform: '-'
+    broker: WebSphere 7.5.0.4 
+    version: '4.0'
+    itests: true
+  - component: server
+    platform: '-'
+    broker: WebSphere Client 7.0.1.9
+    version: '4.0'
+    itests: true
+  - component: server
+    platform: '-'
+    broker: WebSphere Client 7.0.1.12
+    version: '4.0'
+    itests: true
+XMPP:
+  - component: client
+    platform: dotnet
+    version: '3.5'
+    itests: true
+  - component: client
+    platform: flash
+    version: '3.5'
+    itests: true
+  - component: client
+    platform: java
+    version: '3.5'
+    itests: true
+  - component: client
+    platform: javascript
+    version: '3.5'
+    itests: true
+  - component: client
+    platform: silverlight
+    version: '3.5'
+    itests: true

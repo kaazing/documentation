@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../css/pygments.css">
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/syntax.css">
+  <link rel="stylesheet" href="../css/doc.css">
+
+
+
+
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="../index.html"><img id="kaazing-logo-header" src="../img/Kaazing.png" alt="Kaazing.org"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+ <h1 id="kaazing-glossary">Kaazing Glossary</h1>
+
+<p>This document describes the terminology used in Kaazing’s products and product <a href="..">documentation</a>.</p>
+
+<ul>
+  <li><a href="#a">A-L</a></li>
+  <li><a href="#m">M-Z</a></li>
+</ul>
+
+<h2 id="a">A</h2>
+
+<h5 id="ajax">Ajax</h5>
+
+<p><em>A</em>synchronous <em>J</em>avaScript <em>a</em>nd <em>X</em>ML. A set of technologies based on HTML and CSS that enables web applications to retrieve information from a server asynchronously without refreshing the entire web page.</p>
+
+<h5 id="amqp">AMQP</h5>
+
+<p>Advanced Message Queuing Protocol. An open standard for messaging middleware that was originally designed by the financial services industry to provide an interoperable protocol for managing the flow of enterprise messages. To guarantee messaging interoperability, AMQP 0-9-1 defines both a wire-level protocol and a model — the AMQP Model — of messaging capabilities.</p>
+
+<h5 id="android">Android</h5>
+
+<p>Android is an SDK that is used for the development and deployment of Java-based Android applications (applications that run on the Android platform). The Android SDK includes a set of user interface components that you can use to build a rich Internet application (RIA), such as lists, grids, and text boxes.</p>
+
+<h5 id="authentication">authentication</h5>
+
+<p>The mechanism by which a system identifies a user and verifies whether or not the user really is who he represents himself to be. To start the authentication process, the Gateway issues a standard challenge using the <code>HTTP 401 Authorization Required</code> code. The browser or client then responds by providing the requested authentication information.</p>
+
+<h5 id="authorization">authorization</h5>
+
+<p>The mechanism by which a system determines what level of access a particular user has. Even after a user is successfully authenticated for general access, the user is not necessarily entitled to perform any operation. Access rights are typically stored in the policy store that is associated with the application.</p>
+
+<h2 id="b">B</h2>
+
+<h5 id="bidirectional-communication">bidirectional communication</h5>
+
+<p>Communication between a browser and server where messages can be sent and received by both the browser and server at the same time, as enabled by <a href="#kaazing-gateway">Kaazing Gateway</a>. See also <a href="#fullduplex"><em>full-duplex</em></a>.</p>
+
+<h2 id="c">C</h2>
+
+<h5 id="certification-authority-ca">Certification Authority (CA)</h5>
+
+<p>An entity that issues certificates. In practice, a CA is a server running a certificate service that processes certificate requests and performs certificate validation and revocation. In a <a href="#pki">PKI</a>, there is a single root CA and one or more subordinate CAs.</p>
+
+<h5 id="client-id">client ID</h5>
+
+<p>Client ID (sometimes referred to as front-end client ID) is the identifier set by the client application on its JMS Connection. The client ID is set by calling one of the <code>StompConnectionFactory.createConnection</code> methods that takes a <code>clientID</code> parameter, or you can configure <a href="#kwsg">Kaazing Gateway</a> to set the client ID automatically.</p>
+
+<h5 id="cluster">cluster</h5>
+
+<p>High availability for services is achieved by configuring multiple Gateways to be part of a cluster. To configure multiple Gateways (cluster members) to communicate with each other and to take advantage of clustering and load balancing, you add the cluster configuration element to the Gateway configuration (<code>gateway-config.xml</code>) file.</p>
+
+<h5 id="cluster-pair-or-pairing">cluster pair or pairing</h5>
+
+<p>Clustering for Enterprise Shield™ requires <em>pairing</em> (sometimes referred to as coupling) of Gateways. For example, in an Enterprise Shield™ topology you might configure each internal and DMZ cluster member to use pairing to match up each cluster member in the DMZ with a cluster member in the trusted internal network.</p>
+
+<h5 id="comet">Comet</h5>
+
+<p>Web-based communication where a server pushes data to a browser or client without an explicit request from the browser. Comet is not an official standard, but rather an umbrella term for <a href="#push">push technology</a> that is used in <a href="#ajax">Ajax</a> web applications. It is also known as “Reverse Ajax.”</p>
+
+<h5 id="cross-origin-resource-sharing-cors">Cross Origin Resource Sharing (CORS)</h5>
+
+<p>The <a href="#html5">HTML5</a> standard includes Cross Origin Resource Sharing (CORS) that makes it possible to safely share and move data across domains. Prior to CORS, web browsers abided by the same-origin policy that restricted user access to documents within the same origin. With CORS, you can build web applications to access documents and services in different domains.</p>
+
+<h2 id="d">D</h2>
+
+<h5 id="dmz-gateway">DMZ Gateway</h5>
+
+<p>A Gateway instance that receives connections from clients that are outside of the firewall. You can optionally set up Kaazing Gateway in a DMZ (perimeter network) for an additional layer of security. See also <a href="#internalgw">internal Gateway</a> and <a href="#enterpriseshield">Enteprise Shield™</a>.</p>
+
+<h5 id="durable-name">durable name</h5>
+
+<p>To create a durable subscriber for a topic, the client application calls the <code>createDurableSubscriber()</code> method of a <code>session</code> object and specifies a durable name and a destination. The durable names that the Gateway will use depend on whether or not a client ID is set.</p>
+
+<h2 id="e">E</h2>
+
+<h5 id="enterprise-shield">Enterprise Shield™</h5>
+
+<p>A Gateway implementation of reverse connectivity that protects your enterprise network by letting you close all inbound ports of your internal firewall, eliminating penetration into your trusted enterprise network. Enterprise Shield™ works by initiating the connection from the internal trusted network towards the DMZ. This provides maximum security and minimizes attack vectors for malicious users seeking to exploit the DMZ or ports in your firewall, while still allowing clients to initiate connections.</p>
+
+<h2 id="f">F</h2>
+
+<h5 id="full-duplex">full-duplex</h5>
+
+<p>Web-based communication between a browser and server where messages are sent and received by both the browser and server simultaneously, as enabled by <a href="#kwsg">Kaazing Gateway</a>. See also <a href="#bidirectional"><em>bidirectional.</em></a> Compare with <a href="#halfduplex">half-duplex</a>.</p>
+
+<h2 id="g">G</h2>
+
+<h5 id="gatewayhome">GATEWAY_HOME</h5>
+
+<p>This is the directory that contains Kaazing Gateway and its components. The default Gateway home is represented in the documentation as <code>GATEWAY_HOME</code> because the actual directory destination depends on your operating system and the method you use to install the Gateway:</p>
+
+<ul>
+  <li>If you download and unpack the Gateway using the standalone method, then you can unpack the download into a directory of your choice (for example, <code>C:\kaazing</code> or <code>/home/username/kaazing</code>).</li>
+  <li>If you install the Gateway using the Windows or Linux Installer, then the installation creates the destination directory location as described in the following table, where <em>edition</em> refers to the product edition (for example, JMS, XMPP, or AMQP) and <em>version</em> refers to the version number (for example, 4.0):</li>
+</ul>
+
+<table>
+  <thead>
+    <tr>
+      <th>Operating System</th>
+      <th><em>GATEWAY_HOME</em></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Windows: 32-bit</td>
+      <td><code>C:\Program Files\Kaazing\edition\version\Gateway</code></td>
+    </tr>
+    <tr>
+      <td>Windows: 64-bit</td>
+      <td><code>C:\Program Files\Kaazing\edition\version\Gateway</code></td>
+    </tr>
+    <tr>
+      <td>Windows: 32-bit installation on a 64-bit Windows system</td>
+      <td><code>C:\Program Files (x86)\Kaazing\edition\version\Gateway</code></td>
+    </tr>
+    <tr>
+      <td>Linux: Debian-based system</td>
+      <td><code>/usr/share/kaazing/edition/version/</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>You can find more information about <code>GATEWAY_HOME</code> and the directory structure that is set up during installation in <em>Setting Up the Gateway and Clients</em>. To read this document, go to the <a href="..">Kaazing Documentation home page</a>, choose the edition (for example, HTML5 or JMS) of the Gateway you are running, and open <em>Setting Up the Gateway and Clients</em>. See also <a href="#kaazinghome"><em>Kaazing_HOME</em></a>.</p>
+
+<h2 id="h">H</h2>
+
+<h5 id="half-duplex">half-duplex</h5>
+
+<p>Web-based communication between a browser and server where messages are sent or received by the browser or the server, one direction at a time (not simultaneously). A server can send a message to the browser; if the browser has a message to send back to the server, it must wait until it has received the message from the server before sending its message. Contrast with <a href="#fullduplex"><em>full-duplex</em></a> and <a href="#bidirectional">bidirectional.</a></p>
+
+<h5 id="html5">HTML5</h5>
+
+<p>The next major revision of HTML (Hypertext Markup Language) for the Web. It introduces new elements and attributes that reflect typical usage in modern web sites and web applications. See the <a href="//dev.w3.org/html5/spec/Overview.html">W3C specification</a>.</p>
+
+<h5 id="https">HTTPS</h5>
+
+<p>The name used to denote the URI scheme <code>https://</code>. The URI indicates that HTTP network traffic is protected using <a href="#tls">TLS</a> and <a href="#ssl">SSL</a>.</p>
+
+<h2 id="i">I</h2>
+
+<h5 id="internal-gateway">internal Gateway</h5>
+
+<p>A Gateway instance that is inside the firewall on the trusted network. The internal Gateway acts as a gatekeeper between the DMZ Gateway and the back-end server, which can include external services that exist either in a cloud vendor or another company’s infrastructure. See also <a href="#dmzgw">DMZ Gateway</a> and <a href="#enterpriseshield">Enteprise Shield™</a>.</p>
+
+<h5 id="ios-client">iOS client</h5>
+
+<p>A client application that runs on the iOS operating system. See <a href="#objcClient">Objective-C client</a>.</p>
+
+<h2 id="j">J</h2>
+
+<h5 id="java-message-service-jms">Java Message Service (JMS)</h5>
+
+<p>A public API that enables the publishing and subscribing of messages between one or more clients and a message broker, and consists of a <a href="#jmsprovider">JMS provider</a>, a <a href="#jmsclient">JMS client</a>, a <a href="#jmsproducer">JMS producer/publisher</a>, a <a href="#jmsconsumer">JMS consumer/subscriber</a>, a <a href="#jmsmessage">JMS message</a>, a <a href="#jmstopic">JMS topic</a>, and a <a href="#jmsqueue">JMS queue</a>.</p>
+
+<p>JMS messages can be transferred between a producer/publisher and a consumer/subscriber in two ways. A JMS producer/publisher sends a message to a destination in the JMS provider. This destination can be either a JMS queue or a JMS topic. If the destination is a queue, only the consumer/subscriber at that destination can receive the message. If the destination is a topic, any subscriber actively subscribing to the topic receives the message. See the <a href="//www.oracle.com/technetwork/java/docs-136352.html">JMS Specification</a>.</p>
+
+<h5 id="jms-client">JMS client</h5>
+
+<p>An application or process that creates and sends and/or receives <a href="#jms">JMS</a> messages.</p>
+
+<h5 id="jms-consumer-or-subscriber">JMS consumer (or subscriber)</h5>
+
+<p>A <a href="#jms">JMS</a> client that receives messages from a <a href="#jmsprovider">JMS provider</a>.</p>
+
+<h5 id="jms-message">JMS message</h5>
+
+<p>An object that contains the data being delivered between a <a href="#jmsproducer">JMS producer/publisher</a> and a <a href="#jmsconsumer">JMS consumer/subscriber</a>.</p>
+
+<h5 id="jms-producer-or-publisher">JMS producer (or publisher)</h5>
+
+<p>A <a href="#jmsclient">JMS client</a> that creates and sends messages to a <a href="#jmsprovider">JMS provider</a>.</p>
+
+<h5 id="jms-provider">JMS provider</h5>
+
+<p>A proprietary Java <a href="#jms">JMS</a> implementation or an adapter to a non-Java Message Oriented Middleware (MOM), such as 29West, Apache ActiveMQ, and TIBCO EMS.</p>
+
+<h5 id="jms-queue">JMS queue</h5>
+
+<p>A staging area that contains messages that have been sent but not yet received by the <a href="#jmsconsumer">JMS consumer/subscriber</a>.</p>
+
+<h5 id="jms-topic">JMS topic</h5>
+
+<p>A mechanism for distributing and publishing messages to multiple <a href="#jmsconsumer">JMS consumers/subscribers</a>.</p>
+
+<h2 id="k">K</h2>
+
+<h5 id="kaazinghome">Kaazing_HOME</h5>
+
+<p>By default, when you install or upgrade Kaazing Gateway, the <em>Kaazing_HOME</em> directory is created. This top-level directory contains the Kaazing Gateway directory (referred to as <em>GATEWAY_HOME</em>), a message broker home (depending on the Gateway edition you are running), and Gateway components. The value of <em>GATEWAY_HOME</em> depends on the operating system. See <a href="#gatewayhome"><em>GATEWAY_HOME</em></a> to learn more about Gateway directory destinations.</p>
+
+<p>This documentation assumes you are running the Gateway from the default location. You may override the default and install Kaazing Gateway into a directory of your choice.</p>
+
+<h5 id="kaazing-gateway">Kaazing Gateway</h5>
+
+<p>Kaazing provides a high-performance Web platform that enables <a href="#fullduplex">full-duplex</a> communication over the Web. Also known as <em>Kaazing Gateway</em>.</p>
+
+<h5 id="kerberos">Kerberos</h5>
+
+<p>A network authentication protocol that enables security on a web client with a web server. For information about Kerberos, see the <a href="//web.mit.edu/Kerberos/">Kerberos web site</a>.</p>
+
+<h2 id="l">L</h2>
+
+<h5 id="login-module">login module</h5>
+
+<p>A login module handles the challenge/response authentication sequence of events during authentication, and evaluates the encoded login credentials that the Gateway passes to it. You implement login modules using the Java Authentication and Authorization Service (JAAS) framework.</p>
+
+<h5 id="long-polling">long-polling</h5>
+
+<p>Web-based communication where the browser or client requests information from the server. If the server does not have any information to return at the time of the request, it waits for information to become available, then sends a complete response back to the client. See <em><a href="#comet">Comet</a></em>. Compare with <a href="#polling"><em>polling</em></a>.</p>
+
+<h2 id="m">M</h2>
+
+<h5 id="message-broker">message broker</h5>
+
+<p>A program that translates a message from the messaging protocol of the sender to the messaging protocol of the receiver, in a network where clients and servers communicate by exchanging messages.</p>
+
+<h5 id="mutual-verification-or-mutually-verified-connection">mutual verification or mutually verified connection</h5>
+
+<p>For added security, you can implement a mutual verification pattern where, in addition to the Gateway presenting a certificate to the client, the client also presents a certificate to the Gateway so that the Gateway can validate the client’s authenticity. This configuration is implemented using the <code>ssl.verify-client </code>and <code>socks.ssl.verify-client</code> options on the accept and connect elements to ensure that both the DMZ Gateway and internal Gateway are verified via TLS/SSL before transmitting data. This is also referred to as a mutually verified connection.</p>
+
+<h2 id="n">N</h2>
+
+<h5 id="network-interface-card-nic">network interface card (NIC)</h5>
+
+<p>A network interface card (NIC) is a computer circuit board or card that is installed in a computer so that it can be connected to a network and to the Internet. Each NIC has an IP address (or multiple addresses with sub-interfaces). Network security is improved by using separate NICs for the frontplane NIC and backplane NIC.</p>
+
+<p>For security purposes, networking routing rules may control how a NIC can be accessed. The <em>frontplane</em> contains NICs driving traffic to and from the clients, while the <em>backplane</em> contains NICs driving traffic to and from the back-end systems. For example, in an Enterprise Shield™ topology, the DMZ Gateway’s frontplane NIC is addressable from the Web, but the backplane is not. In contrast, the internal Gateway frontplane is not publicly addressable. See also <a href="#enterpriseshield">Enterprise Shield™</a>.</p>
+
+<h5 id="network-transport">network transport</h5>
+
+<p>A basic mechanism or protocol that carries information between endpoints in a topology, such as between clients and a back-end service. Kaazing Gateway has a sophisticated and flexible network transport framework that facilitates communication for a wide variety of use cases, including reverse connections in Enterprise Shield™ and VPA configurations. Systems administrators and network administrators can configure transport protocols such as TCP/IP, TLS, and SOCKS for communication across a Kaazing Gateway topology.</p>
+
+<h2 id="p">P</h2>
+
+<h5 id="objective-c-client">Objective-C client</h5>
+
+<p>A client application built using the iOS programming language. An Objective-C client is a mobile client application for devices running the iOS operating system, such as Apple iPhone and Apple iPad. See <a href="#iosClient">iOS client</a>.</p>
+
+<h5 id="pipe-transport">pipe transport</h5>
+
+<p>An in-memory, in-process transfer of bytes from one end of a “pipe” connection to the other. Pipes can be named, and are specified by URLs of the form <code>pipe://pipe-name</code>. The pipe transport is essential to the <a href="#reverseconn">reverse connectivity</a> topology.</p>
+
+<h5 id="polling">polling</h5>
+
+<p>Web-based communication where the browser sends HTTP requests to a server at regular intervals and immediately receives a response.</p>
+
+<h5 id="prepared-connection">prepared connection</h5>
+
+<p>A connection between Kaazing Gateway and a back-end service. In a Kaazing Gateway architecture, a client connects to the Gateway, which accepts the connection. The Gateway then connects to a back-end service, and establishes <a href="#fullduplex">full-duplex</a> communication between the client and the back-end service. A <em>prepared connection</em> is one that only exists between the Gateway and the back-end service, in preparation for use by a client.</p>
+
+<h5 id="protocol-client-libraries">protocol client libraries</h5>
+
+<p>Libraries built and packaged with <a href="#kwsg">Kaazing Gateway</a> to enable certain client-based WebSocket applications to interact with the Gateway. Examples of client libraries include <a href="#stomp">Stomp</a>, <a href="#amqp">AMQP</a>, and <a href="#xmpp">XMPP</a>.</p>
+
+<h5 id="public-key-infrastructure-pki">Public Key Infrastructure (PKI)</h5>
+
+<p>A hierarchical network security model where all trusted certificates are created, verified, and revoked from a trusted root <a href="#certificationauthority">Certificate Authority (CA)</a>. Adding Subordinate CAs to the hierarchy distribute the infrastructure across sites.</p>
+
+<h5 id="push-technology">push technology</h5>
+
+<p>Also known as <em>server push</em>. Web-based communication where the request for a transaction is initiated by the server. HTTP server push is an example of push technology, where data is sent from a web server to a web browser over an HTTP connection. See also <a href="#comet"><em>Comet</em></a>.</p>
+
+<h2 id="r">R</h2>
+
+<h5 id="reverse-connectivity">reverse connectivity</h5>
+
+<p>A feature of Kaazing Gateway that allows logical connections to be initiated from the internal Gateway to the DMZ Gateway, without requiring any ports to be open inbound towards the internal trusted network. With reverse connectivity, messages flow in reverse for all connections, from the back-end server on the trusted network through the internal Gateway to the clients outside of the DMZ Gateway. In other words, there are no inbound connections. See also <a href="#enterpriseshield">Enterprise Shield™&lt;/a.&gt;</a></p>
+
+<h5 id="ria">RIA</h5>
+
+<p>See <a href="#ria"><em>Rich Internet Application</em></a>.</p>
+
+<h5 id="rich-internet-application-ria">Rich Internet Application (RIA)</h5>
+
+<p>A web application that is typically delivered through a web browser and contains features similar to those in a desktop application.</p>
+
+<h2 id="s">S</h2>
+
+<h5 id="secure-session">Secure Session</h5>
+
+<p>The goal of a <a href="#tls">TLS</a> connection is to negotiate a secure session. A successful TLS connection will result is a secure session that contains a 48-byte secret shared between the client and server, known as the master secret (RFC 2246). A secure session also contains algorithm information and a session identifier used to resume the session.</p>
+
+<h5 id="secure-sockets-layer-ssl">Secure Sockets Layer (SSL)</h5>
+
+<p>A pioneering network security protocol based on public key cryptography and described in historical RFC 6101. SSL was never standardized by an IETF RFC. See <a href="#tls"><em>Transport Layer Security (TLS)</em></a>.</p>
+
+<h5 id="server-sent-events-sse">Server-Sent Events (SSE)</h5>
+
+<p>An HTML5 standard that describes how servers can initiate data transmission towards clients once an initial client connection has been established. These events are commonly used to send message updates or continuous data streams to a client. As such, SSE effectively standardizes <a href="#push">server-side push</a> (<a href="#comet">Comet</a>) technology. SSE was designed to enhance native, cross-browser streaming through the new EventSource JavaScript API, through which a client requests a particular URL in order to receive an event stream.</p>
+
+<h5 id="single-sign-on-sso">single sign-on (SSO)</h5>
+
+<p>The mechanism where users log in only once to access many different services, removing the need to distribute usernames, passwords, and ACLs throughout the enterprise.</p>
+
+<h5 id="spnego">SPNEGO</h5>
+
+<p>Simple and Protected GSSAPI Negotiation Mechanism. A pseudo-mechanism that uses a protocol to determine the common GSSAPI mechanisms that are available on a client and a remote server, selects one, then bases the security operations on it. Used when a client application needs to authenticate with a server, but it is not clear which authentication protocols each supports.</p>
+
+<h5 id="sse">SSE</h5>
+
+<p>See <a href="#serversentevents"><em>Server-Sent Events</em></a>.</p>
+
+<h5 id="ssl">SSL</h5>
+
+<p>Secure Sockets Layer. See <a href="#tls"><em>Transport Layer Security (TLS)</em></a>.</p>
+
+<h5 id="sso">SSO</h5>
+
+<p>See <a href="#sso">single sign-on (SSO)</a></p>
+
+<h5 id="stomp">Stomp</h5>
+
+<p>Streaming Text Oriented Messaging Protocol. A simple, yet effective protocol that provides an interoperable wire format, allowing Stomp clients to communicate with almost every available message broker. An example of a message broker that provides built-in support for Stomp is Apache ActiveMQ.</p>
+
+<h2 id="t">T</h2>
+
+<h5 id="tls">TLS</h5>
+
+<p>See <a href="#tls"><em>Transport Layer Security</em></a>.</p>
+
+<h5 id="transport-layer-security-tls">Transport Layer Security (TLS)</h5>
+
+<p>A network security protocol based on public key cryptography. The latest version of TLS is standardized in RFC 5246. TLS succeeded <a href="#ssl">SSL</a> as development in SSL ended in 1996. TLS provides secure transport for application level protocols, such as HTTP, WS, FTP, SMTP, and LDAP. TLS includes important improvements to SSL, such as new alert messages, an improved authentication algorithm, and the ability to verify certificates using subordinate <a href="#certificationauthority">CA</a>s. TLS is used to establish <a href="#wss">WSS</a>.</p>
+
+<h2 id="w">W</h2>
+
+<h5 id="websocket">WebSocket</h5>
+
+<p>An HTML5 API that enables <a href="#fullduplex">full-duplex</a> communication between web pages or web applications and a remote host over the Web. The two official WebSocket schemes are “ws” and “wss.” See the <a href="//dev.w3.org/html5/websockets/">W3C specification</a>.</p>
+
+<h5 id="websocket-acceleration">WebSocket Acceleration</h5>
+
+<p>The technology behind <a href="#kwsg">Kaazing Gateway</a> that handles the transmission of massive quantities of messages a second between clients and servers. WebSocket Acceleration extends any TCP-based messaging format out to the web client, which turns any browser into a full-featured enterprise platform: a first-class citizen of any enterprise messaging system that is both fast and fully manageable.</p>
+
+<h5 id="websocket-secure-wss">WebSocket Secure (WSS)</h5>
+
+<p>The name used to denote the URI scheme <code>wss://</code>. The URI indicates that <a href="#ws">WebSocket</a> traffic is protected using <a href="#tls">TLS</a> and <a href="#ssl">SSL</a>.</p>
+
+<h2 id="x">X</h2>
+
+<h5 id="xmpp">XMPP</h5>
+
+<p>Extensible Messaging and Presence Protocol (XMPP) is an open XML technology for presence and real-time communication, developed by the Jabber open-source community in 1999. XMPP was formalized by the Internet Engineering Task Force (IETF) between 2002 and 2004 and the protocol continues to be extended through the XMPP Standards Foundation.</p>
+
+<p>XMPP consists of XML streams that enable any two entities on the Internet to exchange messages, presence, and other structured information. Chat and presence are obvious candidates for real-time communication. Examples of chat solutions that use XMPP today are Google Talk and Apple iChat.</p>
+
+
+</div>
+
+</div>
+
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

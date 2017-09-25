@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+  <h1>Walkthrough: Deploy a JavaScript JMS App as a Hybrid iOS App </h1>
+  <p>In this walkthrough, you will learn how to deploy an existing JavaScript JMS web app as a hybrid iOS app for iOS. This topic walks you through the following subjects:</p>
+
+  <ol>
+  <li><a href="#accomplish">What You Will Accomplish</a></li>
+  <li><a href="#begin">Before You Begin</a></li>
+  <li><a href="#install">Install the Gateway (optional), Xcode 6.2, and Cordova 6.0</a></li>
+  <li><a href="#build">Build the Hybrid Mobile App Using Cordova</a></li>
+  <li><a href="#gateway">Run the Gateway and Apache ActiveMQ (optional)</a></li>
+  <li><a href="#run">Run and Test the Hybrid Mobile App in iOS Simulator</a></li>
+  <li><a href="#test">Test the Hybrid iOS app on an iOS device</a></li>
+  <li><a href="#tshoot">Troubleshooting</a></li>
+  <li><a href="#summary">Summary</a></li>
+  </ol><br>
+
+  <span class="note"><b>Notes:</b><br>
+  <ul class="arrow-2">
+      <li>This walkthrough only covers development on the Mac OS X operating system using <strong>Xcode 6.2 and Cordova 6.0</strong>. You can attempt to perform this walkthrough using a later version of Xcode, but the walkthrough has been tested with Xcode 6.2. You can find different versions of Xcode here: <a href="https://developer.apple.com/downloads/">https://developer.apple.com/downloads/</a> (requires Apple ID to log in).</li>
+      <li>A hybrid iOS app is a hybrid of a web-based app and a native iOS app. A native iOS app is built using Objective C and the iOS SDK. A hybrid iOS app is built using HTML, CSS, and JavaScript like a typical browser-based web app, and then packaged in a framework that allows it to be converted into an app that runs on iOS devices. Hybrid iOS apps enable web developers to leverage their experience to create apps for iOS and other mobile platforms. For information on native iOS development, see the <a href="//developer.apple.com/library/ios/navigation/">iOS Developer Library</a>.</li>
+      <li>A hybrid iOS app is also different from a browser-based web app that is intended for viewing in the Safari browser on iOS. If you have an existing Kaazing WebSocket Gateway JavaScript JMS browser-based web app, you can choose to create a hybrid iOS app or to modify the web content to make it compatible with Safari on iOS. For more information, see the <a href="//developer.apple.com/library/safari/#documentation/AppleApplications/Reference/SafariWebContent/Introduction/Introduction.html">Safari Web Content Guide</a>.</li>
+  </ul>
+  </span>
+
+  <h2><a name="accomplish"></a>What You Will Accomplish</h2>
+  <p>At the end of this walkthrough, a JavaScript JMS demo created using the Kaazing JavaScript JMS SDK libraries runs as a hybrid iOS app on iOS, connects to a publicly available (or a local) Apache ActiveMQ broker via the Gateway, and sends and receives JMS messages using a native or emulated WebSocket connection. Users can run the hybrid iOS app on any iOS device and connect via the Gateway to the Apache ActiveMQ broker.</p>
+
+  <p>This walkthrough uses the out of the JavaScript JMS tutorial app that is available on Github at <a href="https://github.com/kaazing/javascript.client.tutorials">https://github.com/kaazing/javascript.client.tutorials</a>, but the steps outlined in this walkthrough are the same for other JavaScript JMS client applications built with the Gateway.</p>
+
+
+  <p><span class="note"><strong>Note</strong>: For this walkthrough, you can use any local JMS-compliant message broker or the publicly available Gateway and Apache ActiveMQ message broker available at the URL <code>wss://sandbox.kaazing.net/jms</code>. By default, the local Gateway is configured to connect to the message broker on <code>tcp://localhost:61613</code>. You can configure the connect URL in the file <span class="code_inline"><em>GATEWAY_HOME</em>/conf/gateway-config.xml</span>. See <a href="../../integration-jms/o_jms_integrate/index.html">About Integrating Kaazing WebSocket Gateway and JMS-Compliant Message Brokers</a> for more information.</span></p>
+
+
+  <h2><a name="begin"></a>Before You Begin</h2>
+  <p>Before starting this walkthrough you need the following:</p>
+  <ul class="arrow-2">
+      <li>The Kaazing Enterprise JavaScript Client SDK. You will need the SDK to obtain the Kaazing JavaScript API libraries (the libraries are also available via a content delivery network). To download the SDK, see <a href="../../about/setup-guide/index.html">Setting Up the Gateway and Clients</a>.</li>
+      <li>If you are using the local Gateway, you will need Kaazing WebSocket Gateway. See <a href="../../about/setup-guide/index.html">Setting Up the Gateway and Clients</a>.</li>
+      <li>Kaazing JavaScript JMS Tutorial, available on Github at <a href="https://github.com/kaazing/javascript.client.tutorials">https://github.com/kaazing/javascript.client.tutorials</a>. Download or clone the project and then built it using the instructions here <a href="https://github.com/kaazing/javascript.client.tutorials/blob/develop/README.md">https://github.com/kaazing/javascript.client.tutorials/blob/develop/README.md</a>.</li>
+      <li><a href="https://developer.apple.com/downloads/">Apple Xcode 6.2</a> (requires Mac OS X 10.7.4 or later)</li>
+      <li><a href="https://cordova.apache.org/docs/en/latest/guide/cli/index.html#installing-the-cordova-cli">Apache Cordova 6.0 Command-Line Interface (CLI)</a></li>
+  </ul>
+
+  <p>Learn about supported browsers, operating systems, and platform versions in <a href="//kaazing.com/releases/client-javascript/">Release Notes</a>.</p>
+
+  <p><strong>Note:</strong> Steps for installing and configuring Xcode 6.2 and Cordova 6.0 are included in this walkthrough.</p>
+
+  <h2><a name="install"></a>Install the Gateway (optional), Xcode 6.2, and Cordova 6.0</h2>
+  <p>The following steps take you through the installation of the software required for deploying a hybrid iOS app. If you already have this software installed, you can simply note the locations of the installed software for later use with the shell script.</p>
+
+  <ol>
+      <li>Download or clone the Kaazing JavaScript JMS Tutorial, available on Github at <a href="https://github.com/kaazing/javascript.client.tutorials">https://github.com/kaazing/javascript.client.tutorials</a>. Build the project using the instructions here <a href="https://github.com/kaazing/javascript.client.tutorials/blob/develop/README.md">https://github.com/kaazing/javascript.client.tutorials/blob/develop/README.md</a>.</li>
+      <li>Install the Gateway as described in <a href="../../about/setup-guide.html">Setting Up Kaazing WebSocket Gateway</a> (optional). There is also a publicly available Kaazing WebSocket Gateway and Apache ActiveMQ message broker available at the URL <code>wss://sandbox.kaazing.net/jms</code>. You can use either option.</li>
+      <li><p>Install Xcode 6.2 from <a href="//developer.apple.com/devcenter/download.action?path=/Developer_Tools/Xcode_6.2/Xcode_6.2.dmg">http://developer.apple.com/devcenter/download.action?path=/Developer_Tools/Xcode_6.2/Xcode_6.2.dmg</a> (requires Apple ID to log in). You can also install Xcode 6.2 from <a href="https://developer.apple.com/downloads/">https://developer.apple.com/downloads/</a> by searching for Xcode 6.2. Once Xcode is installed, install the iOS Simulator.</p>
+          <ol type="a">
+              <li>In <strong>Xcode</strong>, click <strong>Xcode</strong>, and then click <strong>Preferences</strong>.</li>
+              <li>Click <strong>Downloads</strong>, and then click <strong>Components</strong>.</li>
+              <li>Click the download link next to <strong>iOS 8.2 Simulator</strong>. You can choose to use different simulators, but <strong>iPad 2 / iOS 8.2 Simulator</strong> is used for this walkthrough.</li>
+          </ol>
+      </li>
+      <li>Quit Xcode. Xcode should not be running when you are installing Cordova.</li>
+      <li>Download Cordova 6.0 by following the step in <a href="https://cordova.apache.org/docs/en/latest/guide/cli/index.html#installing-the-cordova-cli">Installing the Cordova CLI</a>.</li>
+  </ol>
+
+
+  <h2><a name="build"></a>Build the Hybrid Mobile App Using Cordova</h2>
+  <p>The following steps build the hybrid iOS app using the Xcode project you created.</p>
+  <ol>
+      <li>Note the location of the Kaazing JavaScript JMS Tutorial you downloaded and built, for example <code>/Users/johndoe/Desktop/github/javascript.client.tutorials/jms</code>. When you create your Cordova project you will reference the <strong>jms</strong> folder in order for Cordova to build the hybrid iOS app using the tutorial files.</li>
+      <li>Open a Terminal at the folder where you want to store your app.</li>
+      <li>In Terminal, enter the following command: <code>cordova create myApp com.example.myapp myApp --template /Users/johndoe/Desktop/github/javascript.client.tutorials/jms</code>.
+       <p>The <code>/Users/johndoe/Desktop/github/javascript.client.tutorials/jms</code> points to the JavaScript demo files you downloaded and built.</p>
+       <p><strong>Note:</strong> This walkthrough uses the JavaScript JMS tutorial app as an example web app, but when you create your own JavaScript JMS app, you can create it in your favorite IDE and then copy it to this <strong>www</strong> directory. You must name the HTML file for your app <strong>index.html</strong> and you must ensure that links in <strong>index.html</strong> point to the JavaScript WebSocket library and the JavaScript JMS library (see <a href="../../about/setup-guide/index.html">Setting Up the Gateway and Clients</a>), for example:</p>
+       <pre class="brush: xml; toolbar: false;">
+       &lt;script src=&quot;WebSocket.js&quot; type=&quot;text/javascript&quot; language=&quot;javascript&quot;&gt;&lt;/script&gt;
+       &lt;script src=&quot;JmsClient.js&quot; type=&quot;text/javascript&quot; language=&quot;javascript&quot;&gt;&lt;/script&gt;
+       </pre>
+      <p>For details on the command parameters, see <a href="https://cordova.apache.org/docs/en/latest/guide/cli/index.html#create-the-app">Create the App</a> from Cordova.</p>
+      </li>
+      <li>Press <strong>Enter</strong>. Cordova will create the <strong>MyApp</strong> app.</li>
+      <li>In Terminal, go to the <strong>myApp</strong> folder created by the Cordova command to see the files created by Cordova (<code>cd myApp</code>).</li>
+
+      <li>To specify the target platform as iOS, in Terminal, enter the following command: <code>cordova platform add ios</code>. Note: To see a list of the current platforms available, enter: <code>cordova platforms ls</code>.</li>
+
+      <li>To build the project, enter the following command: <code>cordova build ios</code>. The build process might take some time. When it is finsihed, Cordova generates platform-specific code within the project's <strong>platforms</strong> subdirectory (for example, <strong>myApp/platforms/ios/myApp.xcodeproj</strong>).</li>
+  </ol>
+
+
+  <h2><a name="gateway"></a>Run the Gateway and Apache ActiveMQ (optional)</h2>
+  <p>If you are going to use a local copy of Kaazing WebSocket Gateway, the following steps start the Apache ActiveMQ service that is included with the Gateway, configure the cross-site constraint for the jms service on the Gateway, and then run the Gateway.</p>
+
+  <ol>
+      <li>Start Apache ActiveMQ. For steps on starting Apache ActiveMQ, see the setup information for Apache ActiveMQ or <a href="../../about/setup-guide/index.html">Setting Up the Gateway and Clients</a>.</li>
+      <li><p>Open the <span class="code_inline"><em>GATEWAY_HOME</em>/conf/gateway-config.xml</span> file in a text editor. Modify the <strong>jms</strong> service <code>cross-site-constraint</code> setting to allow all cross-origin site access to the service. For example:</p>
+  <pre class="brush: xml; toolbar: false;highlight:[24,25,26];">
+  &lt;service&gt;
+    &lt;name&gt;JMS Service&lt;/name&gt;
+    &lt;description&gt;JMS Service&lt;/description&gt;
+    &lt;accept&gt;ws://${gateway.hostname}:${gateway.extras.port}/jms&lt;/accept&gt;
+
+    &lt;type&gt;jms&lt;/type&gt;
+
+    &lt;properties&gt;
+      &lt;connection.factory.name&gt;ConnectionFactory&lt;/connection.factory.name&gt;
+      &lt;context.lookup.topic.format&gt;dynamicTopics/%s&lt;/context.lookup.topic.format&gt;
+      &lt;context.lookup.queue.format&gt;dynamicQueues/%s&lt;/context.lookup.queue.format&gt;
+      &lt;env.java.naming.factory.initial&gt;org.apache.activemq.jndi.ActiveMQInitialContextFactory&lt;/env.java.naming.factory.initial&gt;
+      &lt;env.java.naming.provider.url&gt;tcp://${gateway.hostname}:61616&lt;/env.java.naming.provider.url&gt;
+    &lt;/properties&gt;
+
+    &lt;realm-name&gt;demo&lt;/realm-name&gt;
+
+    &lt;!--
+    &lt;authorization-constraint&gt;
+      &lt;require-role&gt;AUTHORIZED&lt;/require-role&gt;
+    &lt;/authorization-constraint&gt;
+    --&gt;
+
+    &lt;cross-site-constraint&gt;
+      &lt;allow-origin&gt;*&lt;/allow-origin&gt;
+    &lt;/cross-site-constraint&gt;
+  &lt;/service&gt;
+  </pre>
+          <p><strong>Note:</strong> This step is necessary because the hybrid iOS app in the iOS Simulator connects to the Gateway from the local file system.</p>
+      </li>
+      <li><p>Save <span class="code_inline">gateway-config.xml</span>, and then start the Gateway as described in <a href="../../about/setup-guide/index.html">Setting Up the Gateway and Clients</a>.</li>
+  </ol>
+
+
+  <h2><a name="run"></a>Run and Test the Hybrid Mobile App in iOS Simulator</h2>
+  <p>The following steps run the hybrid iOS app and test the connection to the Gateway and Apache ActiveMQ.</p>
+
+  <ol>
+    <li>In Terminal, ensure that you are in the root of project directory (for example, <strong>myApp</strong>), and enter the following to see a list of all available Simulator targets: <br><code>cordova run ios --list</code>. For this walkthrough, we will use <code>iPad-2</code>.</li>
+    <li><p>To run the app in the iOS Simulator, enter the following: <code>cordova run ios --target="iPad-2"</code>. The iOS Simulator opens and displays the hybrid iOS app. It might take several minutes for the iOS Simulator to launch and display the app. The app icon might appear on the iOS Simulator screen for a while before displaying the GUI of the app. You might need to relaunch the app within the iOS Simulator.</p>
+
+    <span class="note"><b>Note:</b> You can also use Xcode to launch the app in the iOS Simulator:
+      <ol>
+        <li><p>In Xcode, open your project, located in <strong>myApp/platforms/ios/myApp.xcodeproj</strong>.</li>
+        <li>In the scheme selector, select <strong>iPad 2</strong>.</li>
+        <li>Click the name of your project in Xcode and click <strong>Run</strong>. If you are prompted to confirm developer mode, click <strong>OK</strong>.</p>
+        <p>The iOS Simulator opens and displays the hybrid iOS app.</p>
+        </li>
+      </ol>
+    </span>
+
+    </li>
+    <li><p>In the hybrid app in the iOS Simulator, click in the <strong>Location</strong> field. If you are using a local Gateway, enter the <code>jms</code> service URI (<span class="code_inline">ws://localhost:8001/jms</span>), and click <strong>Connect</strong>. If you are using the publicly available Gateway and Apache ActiveMQ broker, enter <code>wss://sandbox.kaazing.net/jms</code> and click <strong>Connect</strong>.</p>
+      <p>The <strong>Log messages</strong> field reports a successful connection. If the app does not connect to your local Gateway or broker, ensure that you have the Gateway and Apache ActiveMQ running.</p>
+    </li>
+    <li>Play with hybrid app to see the full functionality.</li>
+  </ol>
+
+  <span class="note"><b>Notes:</b><br>
+   <ul class="arrow-2">
+     <li>If you make changes to the hybrid iOS app in Xcode, quit the iOS Simulator, clean the Xcode project, and then build the project again. This ensures that the iOS Simulator is using the most recent version of your project and hybrid iOS app.</li>
+     <li>If you are unable to connect to your local Apache ActiveMQ via the Gateway, confirm that the <code>cross-site-constraint</code> setting on the <code>jms</code> service is configured to allow all cross-origin site access to the service.</li>
+     <li>By default, the <span class="code_inline">authorization-constraint</span> setting on the jms service is commented out in <span class="code_inline">gateway-config.xml</span>. If you uncomment this setting in order to test authentication on the hybrid iOS app, ensure that the <span class="code_inline">http-challenge-scheme</span> for the <span class="code_inline">demo</span> realm is set to <span class="code_inline">Application Basic</span>. The <span class="code_inline">Basic</span> authentication scheme is intended for web browsers and the hybrid iOS app does not use the Safari browser on iOS. If the <span class="code_inline">Basic</span> authentication scheme is used, the hybrid iOS app will not connect to Apache ActiveMQ via the Gateway.</li>
+   </ul>
+  </span>
+
+
+  <h2><a name="test"></a>Test the Hybrid iOS app on an iOS device</h2>
+  <p>The following steps build a hybrid iOS app that you can copy and test on an iOS device (iPhone, iPad, iPod Touch).</p>
+  <p><strong>Note:</strong> To build a hybrid iOS app for use on an iOS device you must be a member of the <a href="https://developer.apple.com/programs/ios/">Apple iOS Developer Program</a>, you must <a href="//developer.apple.com/library/mac/#documentation/ToolsLanguages/Conceptual/OSXWorkflowGuide/CodeSigning/CodeSigning.html">code sign your app</a> using a Mac Submission Certificate, and you must have a <a href="//developer.apple.com/library/ios/#DOCUMENTATION/NetworkingInternet/Conceptual/RemoteNotificationsPG/ProvisioningDevelopment/ProvisioningDevelopment.html">Provisioned Device</a> to install your app onto. The following steps assume that you have met these requirements.</p>
+
+  <ol>
+      <li>In Xcode, click the stop button to stop running your hybrid iOS app in the iOS Simulator.</li>
+      <li>Quit the iOS Simulator.</li>
+      <li>In the Xcode, click <strong>Project</strong>, and then click <strong>Edit Scheme</strong>.</li>
+      <li>In the <strong>Run</strong> scheme, and in the <strong>Build Configuration</strong> menu, select <strong>Release</strong>, and click <strong>OK</strong>.</li>
+      <li>Click <strong>Project</strong>, click <strong>Build For</strong>, and then click <strong>Running</strong>.</li>
+      <li><p>When the build is completed, expand your project folder in the left pane in order to see the <strong>Products</strong> folder. The completed product is listed in this folder.</p>
+          <p><strong>Note:</strong> To see the app file, right-click your product and click <strong>Show in Finder</strong>.</p></li>
+      <li>Connect your iOS device to your development computer.</li>
+      <li><p>In the toolbar, change <strong>iPad 2</strong> to <strong>iOS Device</strong>.</p>
+          <p><strong>Note:</strong> In order to connect the hybrid iOS app on the iOS device to the locally running Gateway and Apache ActiveMQ, the iOS device must be able to resolve the host name of computer running the Gateway on the network. This is the host name that you will use in the <strong>Location</strong> field of the hybrid iOS app. For example, <span class="code_inline">ws://<em>host_name</em>:8001/jms</span>. You can also configure the Gateway to use the IP Address of the computer running the Gateway (for example, <span class="code_inline">ws://192.168.4.86:8001/jms</span>). Using the IP Address is often the easiest method during testing.</p></li>
+      <li><p>Click <strong>Run</strong> to run the hybrid iOS app on your iOS device, enter the jms service URI in the <strong>Location</strong> field, and click <strong>Connect</strong>.</p>
+          <p>The <strong>Log messages</strong> field reports a successful connection.</p></li>
+  </ol>
+
+  <h2><a name="tshoot"></a>Troubleshooting</h2>
+  <p>For errors that occur when trying to use your hybrid iOS app on an iOS device, see <a href="//developer.apple.com/library/ios/#documentation/Xcode/Conceptual/ios_development_workflow/40-iOS_Development_Troubleshooting_Guide/ios_development_troubleshooting.html">iOS Development: Troubleshooting</a> in the iOS Developer Library and the <a href="//stackoverflow.com/questions/tagged/cordova">stackoverflow forum</a>.</p>
+
+  <h2><a name="summary"></a>Summary</h2>
+  <p>As you have seen in this walkthrough, building a hybrid iOS app using the JavaScript JMS Tutorial is easy to accomplish. Building your own custom JavaScript JMS hybrid iOS app simply requires that you substitute your web app in the <strong>www</strong> folder in the Xcode project and then link the Kaazing WebSocket and JavaScript JMS libraries in the <strong>index.html</strong> file correctly. For information about building a hybrid Android app, see the <a href="../index.html">documentation</a>.</p>
+
+  <h2>Notes</h2>
+  <p>Clients built using Kaazing WebSocket Gateway 3.x libraries will work against the Kaazing 4.x JavaScript SDK. If you wish to upgrade your 3.x client to the 4.x libraries, please note that the 3.x clients used a single JMS library and 4.x clients include and use separate WebSocket and JMS libraries. Update your client library file and code references to include both the WebSocket and JMS libraries, as described in the 5.x documentation. For more migration information, see <a href="p_dev_js_client.html#migrate">Migrate JavaScript Applications to Kaazing WebSocket Gateway 4.x.</a></p>
+
+
+                  </section>
+                </article>
+
+            </div> <!-- #main -->
+        </div> <!-- #main-container -->
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

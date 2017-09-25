@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+  
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+<h1>Checklist: Build Android WebSocket Clients </h1>
+<p>The following checklist provides the steps necessary to build Kaazing Android WebSocket clients to communicate with Kaazing Gateway:</p>
+
+<table class="checklist">
+  <tr>
+    <th scope="col">#</th>
+    <th scope="col" width="380px">Step</th>
+    <th scope="col">Topic of Reference</th>
+  </tr>
+  <tr>
+  <td>1</td>
+    <td>Learn about supported browsers, operating systems, and platform versions.</td>
+    <td><a href="//kaazing.com/releases/client-android/">Release Notes</a></td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td>Use the WebSocket API provided by the Kaazing Android client library to take advantage of the HTML5 WebSocket standard.</td>
+    <td><a href="p_dev_android_client.html">Use the Kaazing Gateway Android Client API</a></td>
+  </tr>
+  <tr>
+    <td>3</td>
+    <td>Learn how to authenticate your Android client with the Gateway.</td>
+    <td><a href="../dev-java/p_dev_java_secure.html">Secure Your Java and Android Clients</a></td>
+  </tr>
+  <tr>
+    <td>4</td>
+    <td>Set up logging for your client.</td>
+    <td><a href="p_dev_android_log.html">Display Logs for the Android Client</a></td>
+  </tr>
+</table>
+<br>
+<span class="note"><b>Notes:</b>
+ <ul>
+   <li>For information about the Kaazing Gateway Android Client API, see <a href="../apidoc/client/android/gateway/index.html">Android Client API</a>.</li>
+   <li>Java Developer Kit (JDK) or Java Runtime Environment (JRE) 1.6 and above are required.</li>
+ </ul>
+</span>
+
+<h2>WebSocket and Android</h2>
+<p>Android is an operating system used by touchscreen smart phones and tablets. Android clients are developed in the Java programming language using the Android software development kit (SDK). The SDK includes development tools, software libraries, and an Android device emulator.</p>
+
+<p>Kaazing WebSocket Gateway provides an Android WebSocket Client SDK to enable HTML5 WebSocket protocol communication in new or existing Android applications. For example, you can create an Android client to get streaming financial data from a back-end server using WebSocket. The following figure shows a high-level overview of the architecture:</p>
+
+    <figure>
+        <img src="../images/f-html5-android-client-web.png">
+    <figcaption><strong>Figure: Enable Communication Between Your Android Client and a Back-end Server over WebSocket</strong></figcaption>    
+    </figure>
+
+<!-- <h2>Android and Server-Sent Events (SSE)</h2>
+<p>Kaazing WebSocket Gateway Android WebSocket Client SDK also provides support for Server-Sent Events (SSE). For information, see the <a href="../apidoc/client/android/gateway/com/kaazing/net/sse/package-summary.html">Android SSE API</a> and Java Client API topic <a href="../dev-java/p_dev_java_eventsource.html">Interact with Kaazing Gateway Using the EventSource API</a>.</p> -->
+
+<!-- <h2>Take a Look at the Android WebSocket Client Demo</h2>
+<p>Before you start, take a look at an out of the box demo built using the Android WebSocket Client API. The Android demo is part of the Android Client demo repo at <a href="https://github.com/kaazing/java.client.tutorials/tree/develop/android">https://github.com/kaazing/java.client.tutorials/tree/develop/android</a>. To see this Android demo in action, perform the following steps:</p>
+
+<ol>
+    <li>Download the Kaazing Android client tutorials from Github at <a href="https://github.com/kaazing/java.client.tutorials/tree/develop/android">https://github.com/kaazing/java.client.tutorials/tree/develop/android</a>.</li>
+    <li>Download the Android ADT Bundle from <a href="//developer.android.com/sdk/index.html">http://developer.android.com/sdk/index.html</a>. The Android ADT Bundle includes the Eclipse IDE. To use the Android SDK with an existing Eclipse IDE, see <a href="//developer.android.com/sdk/installing/index.html">http://developer.android.com/sdk/installing/index.html</a></li>
+    <li>To set up the ADT Bundle, see <a href="//developer.android.com/sdk/installing/bundle.html">http://developer.android.com/sdk/installing/bundle.html</a>.</li>
+    <li>Launch Eclipse from the installed ADT Bundle.</li>
+    <li>In Eclipse, click <strong>Window</strong>, and then click <strong>Android SDK Manager</strong>.
+        <ol type="a">
+            <li>Select any package from <strong>Android 2.3.3</strong> or later and then click <strong>Install package</strong>. Once the packages are installed, continue to the next step.</li>
+        </ol>
+    </li>
+    <li>In the Eclipse Package Explorer, right-click an empty area and select <strong>Import</strong>.</li>
+    <li>Expand the <strong>Android</strong> folder and click <strong>Existing Android Code Into Workspace</strong>, and then click <strong>Next</strong>.</li>
+    <li>In <strong>Import Projects</strong>, for <strong>Root Directory</strong>, click <strong>Browse</strong>.</li>
+    <li>Navigate to the Android Demo project files:
+        <span class="uri"><span class="uri">demos/ws</span></span>
+    </li>
+    <li>Click <strong>Open</strong>.</li>
+    <li>In <strong>Import Projects</strong>, click <strong>Select All</strong> (to select the <strong>EchoActivity</strong> project), select <strong>Copy projects into workspace</strong>, and then click <strong>Finish</strong>.
+    The Android Demo is added to Eclipse.</li>
+    <li>Create a new Android Virtual Device in Eclipse.
+        <ol type="a">
+            <li>In Eclipse, from the <strong>Window</strong> menu, click <strong>Android Virtual Device Manager</strong>.</li>
+            <li>In the <strong>Android Virtual Device Manager</strong>, click <strong>New</strong>.</li>
+            <li>Enter a name for your new virtual device in <strong>AVD Name</strong> (in this example, <strong>AndroidTablet</strong>).</li>
+            <li>In <strong>Device</strong>, select <strong>Galaxy Nexus</strong>.</li>
+            <li>In <strong>Target</strong>, select <strong>Android 4.2.2 - API Level 17</strong>.</li>
+            <li>In <strong>Keyboard</strong>, ensure <strong>Hardware Keyboard present</strong> is selected and click <strong>OK</strong>.</li>
+            <li>Click <strong>Create AVD</strong>. The new virtual device is listed in the <strong>Android Virtual Device Manager</strong>.</li>
+            <li>Select the new virtual device and click <strong>Start</strong>.
+                The Android emulator launches. You can close the AVD Manager dialog in Eclipse.
+            </li>
+        </ol>
+    </li>
+    <li>In Eclipse, right-click the <strong>EchoActivity</strong> project in <strong>Package Explorer</strong>, select <strong>Run As</strong>, and then click <strong>Android Application</strong>.
+        The Android emulator launches.
+            <figure>
+                <img src="../images/f-html5-android-TUI-web.png" height="50%" width="50%">
+            <figcaption><strong>Figure: Android Emulator Running the Echo Demo</strong></figcaption>
+            </figure>
+    </li>
+    <li>If the following location is not already listed in the <strong>Location</strong> field, enter it:
+        <span class="uri">ws://echo.websocket.org</span>
+    </li>
+    <li>Click <strong>Connect</strong>. The messages <span class="uri">CONNECTING</span> and then <span class="uri">CONNECTED</span> appear. The WebSocket connection to the Gateway was successful.</li>
+    <li>Click <strong>Send</strong>. The message <span class="uri">Hello World!</span> is sent to the Echo service over WebSocket and the message is echoed back as <span class="uri">Hello World!</span>. </li>
+    <li>Click the <strong>Send Binary</strong> checkbox and click <strong>Send</strong> again. The message <span class="uri">Hello World!</span> is sent to the Echo service over WebSocket as binary and is echoed back as:<br>
+        <span class="uri">RECEIVED: 48 65 6c 6c 6f 2c 20 57 65 62 53 6f 63 6b 65 74 21<br>
+      SEND BINARY: 48 65 6c 6c 6f 2c 20 57 65 62 53 6f 63 6b 65 74 21</span>
+    </li>
+    <li>To test the Android client on an Android device, ensure USB debugging is enabled on your Android device (<strong>Settings</strong> > <strong>Applications</strong> > <strong>Development</strong>), and plug the device into your system.</li>
+    <li>In Eclipse, right-click the <strong>EchoActivity</strong> project, select <strong>Run As</strong>, and then click <strong>Android Application</strong>.
+        The Android client is deployed to your Android device. Follow the location, connection and send steps to test the client on your device.
+    </li>
+</ol> -->
+
+<h2>See Also</h2>
+<p><a href="../apidoc/client/android/gateway/index.html">Android Client API</a></p>
+
+
+                  </section>
+                </article>
+
+            </div> <!-- #main -->
+        </div> <!-- #main-container -->
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

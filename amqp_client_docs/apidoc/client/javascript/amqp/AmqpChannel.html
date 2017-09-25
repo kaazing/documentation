@@ -1,0 +1,1915 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+	"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<title>JsDoc: AmqpChannel</title>
+	<style type="text/css">
+		body { background-color: #FFFFFF; }
+		.TableHeadingColor { background: #CCCCFF; }
+		.TableSubHeadingColor { background: #EEEEFF; }
+		.TableRowColor { background: #FFFFFF; }
+		
+		.FrameTitleFont
+		{
+			font-size: 10pts;
+			font-family: Helvetica, Arial, san-serif;
+		}
+		
+		.FrameHeadingFont
+		{
+			font-size: 10pts;
+			font-family: Helvetica, Arial, san-serif;
+		}
+		
+		.FrameItemFont
+		{
+			font-size: 10pts;
+			font-family: Helvetica, Arial, san-serif;
+		}
+		
+		.NavBar
+		{
+			font-family: Arial, Helvetica, sans-serif;
+			background-color: #FFFFFF;
+		}
+		
+		.jsdoc_ctime
+		{
+			font-family: Arial, Helvetica, sans-serif;
+			font-size: 9pt;
+			text-align: right;
+		}
+	</style>
+</head>
+
+<body>
+
+<table style="width: 100%">
+<tr>
+<td class="NavBar" valign="top"><font size="-2">SUMMARY:&nbsp;<a href="#field_summary">FIELD</a>&nbsp;|&nbsp;<a href="#constructor_summary">CONSTR</a>&nbsp;|&nbsp;<a href="#method_summary">METHOD</a></font></td>
+<td class="NavBar" valign="top"><font size="-2">DETAIL:&nbsp;<a href="#field_detail">FIELD</a>&nbsp;|&nbsp;<a href="#constructor_detail">CONSTR</a>&nbsp;|&nbsp;<a href="#method_detail">METHOD</a></font></td>
+</tr>
+</table>
+
+<hr>
+
+<h2>Class AmqpChannel</h2>
+
+
+
+<p>
+AmqpChannel is a channel opened with the AMQP broker. Use AmqpClient.openChannel() to create a new AmqpChannel.</p>
+
+
+
+
+<hr>
+
+<!-- =========== FIELD SUMMARY =========== -->
+
+<a name="field_summary"> </a> 
+<table border="1" cellpadding="3" cellspacing="0" width="100%">
+	<tr bgcolor="#CCCCFF" class="TableHeadingColor">
+		<td colspan=2>
+			<font size="+2"> <b>Field Summary</b></font>
+		</td>
+	</tr>
+	
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%">
+				<font size="-1"><code>Function</code></font>
+			</td>
+			<td>
+				<code><b><a href="#onbindqueue">onbindqueue</a></b></code> 
+				<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The bindqueue handler is called when a bind request completes.
+			</td>
+		</tr>
+	
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%">
+				<font size="-1"><code>Function</code></font>
+			</td>
+			<td>
+				<code><b><a href="#oncancel">oncancel</a></b></code> 
+				<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The cancel handler is called when a cancel request completes.
+			</td>
+		</tr>
+	
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%">
+				<font size="-1"><code>Function</code></font>
+			</td>
+			<td>
+				<code><b><a href="#onclose">onclose</a></b></code> 
+				<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The close handler is called when the channel closes.
+			</td>
+		</tr>
+	
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%">
+				<font size="-1"><code>Function</code></font>
+			</td>
+			<td>
+				<code><b><a href="#oncommittransaction">oncommittransaction</a></b></code> 
+				<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The committransaction handler is called when a transaction commit completes.
+			</td>
+		</tr>
+	
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%">
+				<font size="-1"><code>Function</code></font>
+			</td>
+			<td>
+				<code><b><a href="#onconsume">onconsume</a></b></code> 
+				<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The consume handler is called when a consume request completes.
+			</td>
+		</tr>
+	
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%">
+				<font size="-1"><code>Function</code></font>
+			</td>
+			<td>
+				<code><b><a href="#ondeclareexchange">ondeclareexchange</a></b></code> 
+				<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The declareexchange handler is called when an exchange declaration completes.
+			</td>
+		</tr>
+	
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%">
+				<font size="-1"><code>Function</code></font>
+			</td>
+			<td>
+				<code><b><a href="#ondeclarequeue">ondeclarequeue</a></b></code> 
+				<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The declarequeue handler is called when a queue declaration completes.
+			</td>
+		</tr>
+	
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%">
+				<font size="-1"><code>Function</code></font>
+			</td>
+			<td>
+				<code><b><a href="#ondeleteexchange">ondeleteexchange</a></b></code> 
+				<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The deleteexchange handler is called when a request to delete an exchange completes.
+			</td>
+		</tr>
+	
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%">
+				<font size="-1"><code>Function</code></font>
+			</td>
+			<td>
+				<code><b><a href="#ondeletequeue">ondeletequeue</a></b></code> 
+				<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The deletequeue handler is called when a request to delete a queue completes.
+			</td>
+		</tr>
+	
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%">
+				<font size="-1"><code>Function</code></font>
+			</td>
+			<td>
+				<code><b><a href="#onerror">onerror</a></b></code> 
+				<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The error handler is called when the channel .
+			</td>
+		</tr>
+	
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%">
+				<font size="-1"><code>Function</code></font>
+			</td>
+			<td>
+				<code><b><a href="#onflow">onflow</a></b></code> 
+				<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The flow handler is called when a flow request completes.
+			</td>
+		</tr>
+	
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%">
+				<font size="-1"><code>Function</code></font>
+			</td>
+			<td>
+				<code><b><a href="#onget">onget</a></b></code> 
+				<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The get handler is called when a get request returns.
+			</td>
+		</tr>
+	
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%">
+				<font size="-1"><code>Function</code></font>
+			</td>
+			<td>
+				<code><b><a href="#onmessage">onmessage</a></b></code> 
+				<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The message handler is called when a message is received.
+			</td>
+		</tr>
+	
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%">
+				<font size="-1"><code>Function</code></font>
+			</td>
+			<td>
+				<code><b><a href="#onopen">onopen</a></b></code> 
+				<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The open handler is called when the channel opens.
+			</td>
+		</tr>
+	
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%">
+				<font size="-1"><code>Function</code></font>
+			</td>
+			<td>
+				<code><b><a href="#onpurgequeue">onpurgequeue</a></b></code> 
+				<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The purgequeue handler is called when a purge request completes.
+			</td>
+		</tr>
+	
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%">
+				<font size="-1"><code>Function</code></font>
+			</td>
+			<td>
+				<code><b><a href="#onrecover">onrecover</a></b></code> 
+				<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The recover handler is called when a recover request completes.
+			</td>
+		</tr>
+	
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%">
+				<font size="-1"><code>Function</code></font>
+			</td>
+			<td>
+				<code><b><a href="#onreject">onreject</a></b></code> 
+				<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The reject handler is called when a reject request completes.
+			</td>
+		</tr>
+	
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%">
+				<font size="-1"><code>Function</code></font>
+			</td>
+			<td>
+				<code><b><a href="#onrollbacktransaction">onrollbacktransaction</a></b></code> 
+				<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The rollbacktransaction handler is called when a transaction rollback completes.
+			</td>
+		</tr>
+	
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%">
+				<font size="-1"><code>Function</code></font>
+			</td>
+			<td>
+				<code><b><a href="#onselecttransaction">onselecttransaction</a></b></code> 
+				<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The selecttransaction handler is called when a select request completes.
+			</td>
+		</tr>
+	
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%">
+				<font size="-1"><code>Function</code></font>
+			</td>
+			<td>
+				<code><b><a href="#onunbindqueue">onunbindqueue</a></b></code> 
+				<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The unbindqueue handler is called when a request to unbind a queue from and exchange completes.
+			</td>
+		</tr>
+	
+</table>
+&nbsp;
+
+<!-- =========== END FIELD SUMMARY =========== -->
+
+
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+<a name="constructor_summary"> </a>
+<table border="1" cellpadding="3" cellspacing="0" width="100%">
+<tr bgcolor="#CCCCFF" class="TableHeadingColor">
+	<td colspan=2><font size="+2"><b>Constructor Summary</b></font></td>
+</tr>
+
+	<tr bgcolor="white" class="TableRowColor">
+	   <td>
+	
+		<code>
+		<b><a href="#AmqpChannel">AmqpChannel</a></b>()
+		</code>
+		  <br>
+		  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		  AmqpChannel
+		  </td>
+	</tr>
+
+</table>
+&nbsp;
+<!-- ======== END CONSTRUCTOR SUMMARY ======== -->
+
+
+<!-- ========== METHOD SUMMARY =========== -->
+
+<a name="method_summary"> </a> 
+<table border="1" cellpadding="3" cellspacing="0" width="100%">
+	<tr bgcolor="#CCCCFF" class="TableHeadingColor">
+		<td colspan=2>
+			<font size="+2"> <b>Method Summary</b></font>
+		</td>
+	</tr>
+	
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%">
+				<font size="-1"><code>
+				&nbsp;AmqpChannel
+				</code></font> 
+			</td>
+			<td>
+				<code> <b> <a href="#ackBasic">ackBasic</a></b>(config) </code> 
+				<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; This method acknowledges one or more messages delivered via the Deliver
+or Get-Ok methods.
+ 
+			</td>
+		</tr>
+	
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%">
+				<font size="-1"><code>
+				&nbsp;AmqpChannel
+				</code></font> 
+			</td>
+			<td>
+				<code> <b> <a href="#bindQueue">bindQueue</a></b>(config, callback) </code> 
+				<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; This method binds a queue to an exchange.
+ 
+			</td>
+		</tr>
+	
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%">
+				<font size="-1"><code>
+				&nbsp;AmqpChannel
+				</code></font> 
+			</td>
+			<td>
+				<code> <b> <a href="#cancelBasic">cancelBasic</a></b>(config, callback) </code> 
+				<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; This method cancels a consumer.
+ 
+			</td>
+		</tr>
+	
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%">
+				<font size="-1"><code>
+				&nbsp;AmqpChannel
+				</code></font> 
+			</td>
+			<td>
+				<code> <b> <a href="#closeChannel">closeChannel</a></b>(config, callback) </code> 
+				<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; This method indicates that the sender wants to close the channel.
+ 
+			</td>
+		</tr>
+	
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%">
+				<font size="-1"><code>
+				&nbsp;AmqpChannel
+				</code></font> 
+			</td>
+			<td>
+				<code> <b> <a href="#commitTx">commitTx</a></b>(callback) </code> 
+				<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; This method commits all message publications and acknowledgments performed in
+the current transaction.
+ 
+			</td>
+		</tr>
+	
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%">
+				<font size="-1"><code>
+				&nbsp;AmqpChannel
+				</code></font> 
+			</td>
+			<td>
+				<code> <b> <a href="#consumeBasic">consumeBasic</a></b>(config, callback) </code> 
+				<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; This method asks the server to start a "consumer", which is a transient 
+request for messages from a specific queue.
+ 
+			</td>
+		</tr>
+	
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%">
+				<font size="-1"><code>
+				&nbsp;AmqpChannel
+				</code></font> 
+			</td>
+			<td>
+				<code> <b> <a href="#declareExchange">declareExchange</a></b>(config, callback) </code> 
+				<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; This method creates an exchange if it does not already exist, and if the 
+exchange exists, verifies that it is of the correct and expected class.
+ 
+			</td>
+		</tr>
+	
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%">
+				<font size="-1"><code>
+				&nbsp;AmqpChannel
+				</code></font> 
+			</td>
+			<td>
+				<code> <b> <a href="#declareQueue">declareQueue</a></b>(config, callback) </code> 
+				<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; This method creates or checks a queue.
+ 
+			</td>
+		</tr>
+	
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%">
+				<font size="-1"><code>
+				&nbsp;AmqpChannel
+				</code></font> 
+			</td>
+			<td>
+				<code> <b> <a href="#deleteExchange">deleteExchange</a></b>(config, callback) </code> 
+				<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; This method deletes an exchange.
+ 
+			</td>
+		</tr>
+	
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%">
+				<font size="-1"><code>
+				&nbsp;AmqpChannel
+				</code></font> 
+			</td>
+			<td>
+				<code> <b> <a href="#deleteQueue">deleteQueue</a></b>(config, callback) </code> 
+				<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; This method deletes a queue.
+ 
+			</td>
+		</tr>
+	
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%">
+				<font size="-1"><code>
+				&nbsp;AmqpChannel
+				</code></font> 
+			</td>
+			<td>
+				<code> <b> <a href="#flowChannel">flowChannel</a></b>(active, callback) </code> 
+				<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; This method asks the peer to pause or restart the flow of content data sent by
+a consumer.
+ 
+			</td>
+		</tr>
+	
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%">
+				<font size="-1"><code>
+				&nbsp;AmqpChannel
+				</code></font> 
+			</td>
+			<td>
+				<code> <b> <a href="#flowOkChannel">flowOkChannel</a></b>(active, callback) </code> 
+				<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Confirms to the peer that a flow command was received and processed.
+ 
+			</td>
+		</tr>
+	
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%">
+				<font size="-1"><code>
+				&nbsp;AmqpChannel
+				</code></font> 
+			</td>
+			<td>
+				<code> <b> <a href="#getBasic">getBasic</a></b>(config, callback) </code> 
+				<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; This method provides a direct access to the messages in a queue using a 
+synchronous dialogue that is designed for specific types of application 
+where synchronous functionality is more important than performance.
+ 
+			</td>
+		</tr>
+	
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%">
+				<font size="-1"><code>
+				&nbsp;AmqpChannel
+				</code></font> 
+			</td>
+			<td>
+				<code> <b> <a href="#publishBasic">publishBasic</a></b>(config, callback) </code> 
+				<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; This method publishes a message to a specific exchange.
+ 
+			</td>
+		</tr>
+	
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%">
+				<font size="-1"><code>
+				&nbsp;AmqpChannel
+				</code></font> 
+			</td>
+			<td>
+				<code> <b> <a href="#purgeQueue">purgeQueue</a></b>(config, callback) </code> 
+				<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; This method removes all messages from a queue which are not awaiting
+acknowledgment.
+ 
+			</td>
+		</tr>
+	
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%">
+				<font size="-1"><code>
+				&nbsp;AmqpChannel
+				</code></font> 
+			</td>
+			<td>
+				<code> <b> <a href="#qosBasic">qosBasic</a></b>(config, callback) </code> 
+				<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; This method requests a specific quality of service.
+ 
+			</td>
+		</tr>
+	
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%">
+				<font size="-1"><code>
+				&nbsp;AmqpChannel
+				</code></font> 
+			</td>
+			<td>
+				<code> <b> <a href="#recoverBasic">recoverBasic</a></b>(requeue, callback) </code> 
+				<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; This method asks the server to redeliver all unacknowledged messages on a
+specified channel.
+ 
+			</td>
+		</tr>
+	
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%">
+				<font size="-1"><code>
+				&nbsp;AmqpChannel
+				</code></font> 
+			</td>
+			<td>
+				<code> <b> <a href="#rejectBasic">rejectBasic</a></b>(config) </code> 
+				<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; This is the overloaded form of AmqpChannel.rejectBasic() function that 
+named parameters or arguments using the Configuration object.
+ 
+			</td>
+		</tr>
+	
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%">
+				<font size="-1"><code>
+				&nbsp;AmqpChannel
+				</code></font> 
+			</td>
+			<td>
+				<code> <b> <a href="#rollbackTx">rollbackTx</a></b>(callback) </code> 
+				<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; This method abandons all message publications and acknowledgments performed in
+the current transaction.
+ 
+			</td>
+		</tr>
+	
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%">
+				<font size="-1"><code>
+				&nbsp;AmqpChannel
+				</code></font> 
+			</td>
+			<td>
+				<code> <b> <a href="#selectTx">selectTx</a></b>(callback) </code> 
+				<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; This method sets the channel to use standard transactions.
+ 
+			</td>
+		</tr>
+	
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%">
+				<font size="-1"><code>
+				&nbsp;AmqpChannel
+				</code></font> 
+			</td>
+			<td>
+				<code> <b> <a href="#unbindQueue">unbindQueue</a></b>(config, callback) </code> 
+				<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; This method unbinds a queue from an exchange.
+ 
+			</td>
+		</tr>
+	
+</table>
+&nbsp;
+
+<!-- ========== EVENT SUMMARY =========== -->
+
+
+
+<!-- ========== INHERITED METHODS SUMMARY =========== -->
+
+<br/>
+
+<!-- ========== END INHERITED METHODS SUMMARY =========== -->
+
+<!-- ============ FIELD DETAIL START ========= -->
+
+<a name="field_detail"> </a> 
+<table border="1" cellpadding="3" cellspacing="0" width="100%">
+	<tr bgcolor="#CCCCFF" class="TableHeadingColor">
+		<td colspan=1>
+			<font size="+2"> <b>Field Detail</b></font> 
+		</td>
+	</tr>
+</table>
+
+
+	<!-- One single method detail entry -->
+	<a name="onbindqueue">
+	<!-- -->
+	</a> <h3>onbindqueue</h3>
+		<pre>Function <b>onbindqueue</b></pre> 
+	<ul>
+		The bindqueue handler is called when a bind request completes.
+	</ul>
+	<hr>
+
+	<!-- One single method detail entry -->
+	<a name="oncancel">
+	<!-- -->
+	</a> <h3>oncancel</h3>
+		<pre>Function <b>oncancel</b></pre> 
+	<ul>
+		The cancel handler is called when a cancel request completes.
+	</ul>
+	<hr>
+
+	<!-- One single method detail entry -->
+	<a name="onclose">
+	<!-- -->
+	</a> <h3>onclose</h3>
+		<pre>Function <b>onclose</b></pre> 
+	<ul>
+		The close handler is called when the channel closes.
+	</ul>
+	<hr>
+
+	<!-- One single method detail entry -->
+	<a name="oncommittransaction">
+	<!-- -->
+	</a> <h3>oncommittransaction</h3>
+		<pre>Function <b>oncommittransaction</b></pre> 
+	<ul>
+		The committransaction handler is called when a transaction commit completes.
+	</ul>
+	<hr>
+
+	<!-- One single method detail entry -->
+	<a name="onconsume">
+	<!-- -->
+	</a> <h3>onconsume</h3>
+		<pre>Function <b>onconsume</b></pre> 
+	<ul>
+		The consume handler is called when a consume request completes.
+	</ul>
+	<hr>
+
+	<!-- One single method detail entry -->
+	<a name="ondeclareexchange">
+	<!-- -->
+	</a> <h3>ondeclareexchange</h3>
+		<pre>Function <b>ondeclareexchange</b></pre> 
+	<ul>
+		The declareexchange handler is called when an exchange declaration completes.
+	</ul>
+	<hr>
+
+	<!-- One single method detail entry -->
+	<a name="ondeclarequeue">
+	<!-- -->
+	</a> <h3>ondeclarequeue</h3>
+		<pre>Function <b>ondeclarequeue</b></pre> 
+	<ul>
+		The declarequeue handler is called when a queue declaration completes.
+	</ul>
+	<hr>
+
+	<!-- One single method detail entry -->
+	<a name="ondeleteexchange">
+	<!-- -->
+	</a> <h3>ondeleteexchange</h3>
+		<pre>Function <b>ondeleteexchange</b></pre> 
+	<ul>
+		The deleteexchange handler is called when a request to delete an exchange completes.
+	</ul>
+	<hr>
+
+	<!-- One single method detail entry -->
+	<a name="ondeletequeue">
+	<!-- -->
+	</a> <h3>ondeletequeue</h3>
+		<pre>Function <b>ondeletequeue</b></pre> 
+	<ul>
+		The deletequeue handler is called when a request to delete a queue completes.
+	</ul>
+	<hr>
+
+	<!-- One single method detail entry -->
+	<a name="onerror">
+	<!-- -->
+	</a> <h3>onerror</h3>
+		<pre>Function <b>onerror</b></pre> 
+	<ul>
+		The error handler is called when the channel ...
+	</ul>
+	<hr>
+
+	<!-- One single method detail entry -->
+	<a name="onflow">
+	<!-- -->
+	</a> <h3>onflow</h3>
+		<pre>Function <b>onflow</b></pre> 
+	<ul>
+		The flow handler is called when a flow request completes.
+	</ul>
+	<hr>
+
+	<!-- One single method detail entry -->
+	<a name="onget">
+	<!-- -->
+	</a> <h3>onget</h3>
+		<pre>Function <b>onget</b></pre> 
+	<ul>
+		The get handler is called when a get request returns.
+	</ul>
+	<hr>
+
+	<!-- One single method detail entry -->
+	<a name="onmessage">
+	<!-- -->
+	</a> <h3>onmessage</h3>
+		<pre>Function <b>onmessage</b></pre> 
+	<ul>
+		The message handler is called when a message is received.
+	</ul>
+	<hr>
+
+	<!-- One single method detail entry -->
+	<a name="onopen">
+	<!-- -->
+	</a> <h3>onopen</h3>
+		<pre>Function <b>onopen</b></pre> 
+	<ul>
+		The open handler is called when the channel opens.
+	</ul>
+	<hr>
+
+	<!-- One single method detail entry -->
+	<a name="onpurgequeue">
+	<!-- -->
+	</a> <h3>onpurgequeue</h3>
+		<pre>Function <b>onpurgequeue</b></pre> 
+	<ul>
+		The purgequeue handler is called when a purge request completes.
+	</ul>
+	<hr>
+
+	<!-- One single method detail entry -->
+	<a name="onrecover">
+	<!-- -->
+	</a> <h3>onrecover</h3>
+		<pre>Function <b>onrecover</b></pre> 
+	<ul>
+		The recover handler is called when a recover request completes.
+	</ul>
+	<hr>
+
+	<!-- One single method detail entry -->
+	<a name="onreject">
+	<!-- -->
+	</a> <h3>onreject</h3>
+		<pre>Function <b>onreject</b></pre> 
+	<ul>
+		The reject handler is called when a reject request completes.
+	</ul>
+	<hr>
+
+	<!-- One single method detail entry -->
+	<a name="onrollbacktransaction">
+	<!-- -->
+	</a> <h3>onrollbacktransaction</h3>
+		<pre>Function <b>onrollbacktransaction</b></pre> 
+	<ul>
+		The rollbacktransaction handler is called when a transaction rollback completes.
+	</ul>
+	<hr>
+
+	<!-- One single method detail entry -->
+	<a name="onselecttransaction">
+	<!-- -->
+	</a> <h3>onselecttransaction</h3>
+		<pre>Function <b>onselecttransaction</b></pre> 
+	<ul>
+		The selecttransaction handler is called when a select request completes.
+	</ul>
+	<hr>
+
+	<!-- One single method detail entry -->
+	<a name="onunbindqueue">
+	<!-- -->
+	</a> <h3>onunbindqueue</h3>
+		<pre>Function <b>onunbindqueue</b></pre> 
+	<ul>
+		The unbindqueue handler is called when a request to unbind a queue from and exchange completes.
+	</ul>
+	<hr>
+
+
+<!-- ============ FIELD DETAIL END ========== -->
+
+
+<!-- ========= CONSTRUCTOR DETAIL START ======== -->
+<a name="constructor_detail"> </a>
+<table border="1" cellpadding="3" cellspacing="0" width="100%">
+   <tr bgcolor="#CCCCFF" class="TableHeadingColor">
+      <td colspan=1>
+      <font size="+2"><b>Constructor Detail</b></font>
+      </td>
+   </tr>
+
+</table>
+
+<a name="AmqpChannel"> </a>
+<h3>AmqpChannel</h3>
+
+	<pre><b>AmqpChannel</b>()</pre>
+	<ul>
+	   AmqpChannel
+	</ul>
+	
+	<!-- PARAMETERS START -->
+	
+	<!-- PARAMETERS END -->
+
+<hr/>
+<!-- END ADDITIONAL ATTRIBUTES  -->
+<!-- ========= CONSTRUCTOR DETAIL END ======== -->
+
+
+<!-- ============ METHOD DETAIL START ======= -->
+
+<a name="method_detail"> </a> 
+<table border="1" cellpadding="3" cellspacing="0" width="100%">
+	<tr bgcolor="#CCCCFF" class="TableHeadingColor">
+		<td colspan=1>
+			<font size="+2"> <b>Method Detail</b></font> 
+		</td>
+	</tr>
+</table>
+
+
+	<a name="ackBasic"> </a> <h3>ackBasic</h3>
+		<pre>AmqpChannel&nbsp;<b>ackBasic</b>(config)</pre> 
+	<ul>
+		This method acknowledges one or more messages delivered via the Deliver
+or Get-Ok methods. The client can ask to confirm a single message or a set of 
+messages up to and including a specific message.
+
+<p> AmqpChannel.ackBasic() function supports named parameters or 
+arguments using the Configuration object. Developers must invoke this 
+function as shown below:
+
+<pre>
+   var channel = ...;
+   var config = {deliveryTag: dt, multiple: true};
+   channel.ackBasic(config);
+</pre>
+	</ul>
+	<!-- METHOD PARAMETERS START -->
+	<ul>
+		<b>Parameters:</b>
+		<ul>
+			<code><i>Configuration</i>&nbsp;config </code> - Format is as shown below:
+                       <pre>
+                        {
+                          deliveryTag: dt_num_value,
+                          multiple: true|false
+                        }
+                       </pre>
+Parameter 'deliveryTag' is required. Boolean parameter 'multiple' is optional
+with false as the default value. 
+		</ul>
+	</ul>
+	<!-- METHOD PARAMETERS END -->
+	<!-- ADDITIONAL ATTRIBUTES START -->
+	<ul>
+		<b>Returns:</b>
+		<ul>
+			<code><i>AmqpChannel</i>&nbsp;</code> 
+		</ul>
+	</ul>
+	
+	<!-- ADDITIONAL ATTRIBUTES  END -->
+	<hr>
+
+	<a name="bindQueue"> </a> <h3>bindQueue</h3>
+		<pre>AmqpChannel&nbsp;<b>bindQueue</b>(config, callback)</pre> 
+	<ul>
+		This method binds a queue to an exchange. Until a queue is bound it will not
+receive any messages. In a classic messaging model, store-and-forward queues
+are bound to a direct exchange and subscription queues are bound to a topic
+exchange. Developers should invoke this function as shown below:
+
+<p> AmqpChannel.bindQueue() function supports named parameters or 
+arguments using the Configuration object. Developers must invoke this 
+function as shown below:
+
+<pre>
+   var channel = ...;
+   var config = {queue: myQueueName, 
+                 exchange: myExchangeName,
+                 routingKey: key};
+   channel.bindQueue(config, callback);
+</pre>
+
+<p>
+	</ul>
+	<!-- METHOD PARAMETERS START -->
+	<ul>
+		<b>Parameters:</b>
+		<ul>
+			<code><i>Configuration</i>&nbsp;config </code> - Format is as shown below:
+                       <pre>
+                        {
+                          queue: 'queue_name_str_value',
+                          exchange: 'exchange_name_str_value',
+                          routingKey: 'key_str_value'
+                          noWait: true|false,
+                          args: { }
+                        }
+                       </pre>
+Required parameter 'queue' specifies the queue name. Required parameter
+'exchange' specifies the exchange name. Required parameter 'routingKey'
+specifies the key to be used to bind the queue to the exchange. Boolean
+parameter 'noWait' is optional with false as the default value. Param 'args'
+is an optional amd can be used to pass in additional properties for 
+declaration. 
+		</ul>
+		<ul>
+			<code><i>Function</i>&nbsp;callback </code> - Optional param specifies the function that is 
+                             to be invoked on success. 
+		</ul>
+	</ul>
+	<!-- METHOD PARAMETERS END -->
+	<!-- ADDITIONAL ATTRIBUTES START -->
+	<ul>
+		<b>Returns:</b>
+		<ul>
+			<code><i>AmqpChannel</i>&nbsp;</code> 
+		</ul>
+	</ul>
+	
+	<!-- ADDITIONAL ATTRIBUTES  END -->
+	<hr>
+
+	<a name="cancelBasic"> </a> <h3>cancelBasic</h3>
+		<pre>AmqpChannel&nbsp;<b>cancelBasic</b>(config, callback)</pre> 
+	<ul>
+		This method cancels a consumer. This does not affect already delivered
+messages, but it does mean the server will not send any more messages for
+that consumer. The client may receive an arbitrary number of messages in
+between sending the cancel method and receiving the cancel-ok reply.
+
+<p> AmqpChannel.cancelBasic() function supports named parameters or 
+arguments using the Configuration object. Developers must invoke this 
+function as shown below:
+
+<pre>
+   var channel = ...;
+   var config = {consumerTag: clientTag, noWait: true};
+   channel.cancelBasic(config, callback);
+</pre>
+
+<p>
+	</ul>
+	<!-- METHOD PARAMETERS START -->
+	<ul>
+		<b>Parameters:</b>
+		<ul>
+			<code><i>Configuration</i>&nbsp;config </code> - Format is as shown below:
+                       <pre>
+                        {
+                          consumerTag: 'consumer_tag_str_value',
+                          noWait: true|false
+                        }
+                       </pre>
+Required parameter consumerTag' is required. Boolean parameters 'noWait' is 
+optional with false as the default value. 
+		</ul>
+		<ul>
+			<code><i>Function</i>&nbsp;callback </code> - Optional param specifies the function that is 
+                             to be invoked on success. 
+		</ul>
+	</ul>
+	<!-- METHOD PARAMETERS END -->
+	<!-- ADDITIONAL ATTRIBUTES START -->
+	<ul>
+		<b>Returns:</b>
+		<ul>
+			<code><i>AmqpChannel</i>&nbsp;</code> 
+		</ul>
+	</ul>
+	
+	<!-- ADDITIONAL ATTRIBUTES  END -->
+	<hr>
+
+	<a name="closeChannel"> </a> <h3>closeChannel</h3>
+		<pre>AmqpChannel&nbsp;<b>closeChannel</b>(config, callback)</pre> 
+	<ul>
+		This method indicates that the sender wants to close the channel. This 
+may be due to internal conditions (e.g. a forced shut-down) or due to an error 
+handling a specific method, i.e. an exception. When a close is due to an
+exception, the sender provides the class and method id of the method which
+caused the exception.
+
+<p> AmqpChannel.closeChannel() function that supports named parameters or 
+arguments using the Configuration object. Developers must invoke this 
+function as shown below:
+<pre>
+    var channel = ...;
+    var config = {replyCode: int1, 
+                  replyText, 'foo', 
+                  classId: int2,
+                  methodId: int3};
+    channel.closeChannel(config, callback);
+</pre>
+	</ul>
+	<!-- METHOD PARAMETERS START -->
+	<ul>
+		<b>Parameters:</b>
+		<ul>
+			<code><i>Configuration</i>&nbsp;config </code> - Format is as shown below:
+                       <pre>
+                       {
+                         replyCode: int_value,
+                         replyText: 'str_value',
+                         classId: int_value,
+                         methodId: int_value
+                       }
+                       </pre>
+Default values are as follows: 
+                       <pre>
+                         replyCode  --  0
+                         replyText  --  "" 
+                         classId    --  0
+                         methodId   --  0
+                         callback   -- undefined
+                       </pre>
+'callback' specifies a function to be called on success. 
+		</ul>
+		<ul>
+			<code><i>Function</i>&nbsp;callback </code> - Optional param specifies the function that is 
+                             to be invoked on success. 
+		</ul>
+	</ul>
+	<!-- METHOD PARAMETERS END -->
+	<!-- ADDITIONAL ATTRIBUTES START -->
+	<ul>
+		<b>Returns:</b>
+		<ul>
+			<code><i>AmqpChannel</i>&nbsp;</code> 
+		</ul>
+	</ul>
+	
+	<!-- ADDITIONAL ATTRIBUTES  END -->
+	<hr>
+
+	<a name="commitTx"> </a> <h3>commitTx</h3>
+		<pre>AmqpChannel&nbsp;<b>commitTx</b>(callback)</pre> 
+	<ul>
+		This method commits all message publications and acknowledgments performed in
+the current transaction.  A new transaction starts immediately after a commit.
+	</ul>
+	<!-- METHOD PARAMETERS START -->
+	<ul>
+		<b>Parameters:</b>
+		<ul>
+			<code><i>Function</i>&nbsp;callback </code> - Function to be called on success 
+		</ul>
+	</ul>
+	<!-- METHOD PARAMETERS END -->
+	<!-- ADDITIONAL ATTRIBUTES START -->
+	<ul>
+		<b>Returns:</b>
+		<ul>
+			<code><i>AmqpChannel</i>&nbsp;</code> 
+		</ul>
+	</ul>
+	
+	<!-- ADDITIONAL ATTRIBUTES  END -->
+	<hr>
+
+	<a name="consumeBasic"> </a> <h3>consumeBasic</h3>
+		<pre>AmqpChannel&nbsp;<b>consumeBasic</b>(config, callback)</pre> 
+	<ul>
+		This method asks the server to start a "consumer", which is a transient 
+request for messages from a specific queue. Consumers last as long as the 
+channel they were declared on, or until the client cancels them.
+
+<p> AmqpChannel.consumeBasic() function supports named parameters or 
+arguments using the Configuration object. Developers must invoke this 
+function as shown below:
+
+<pre>
+   var channel = ...;
+   var config = {queue: myQueueName, 
+                 consumerTag: clientTag, 
+                 exclusive: false,
+                 noLocal: true};
+   channel.consumeBasic(config, callback);
+</pre>
+	</ul>
+	<!-- METHOD PARAMETERS START -->
+	<ul>
+		<b>Parameters:</b>
+		<ul>
+			<code><i>Configuration</i>&nbsp;config </code> - Format is as shown below:
+                       <pre>
+                        {
+                          queue: 'queue_name_str_value',
+                          consumerTag: 'consumer_tag_str_value',
+                          noLocal: true|false,
+                          noAck: true|false,
+                          exclusive: true|false,
+                          noWait: true|false,
+                          args: { }
+                        }
+                       </pre>
+
+Required parameter 'queue' specifies the queue name. Parameter
+'consumerTag' is required. Boolean parameters 'noLocal', 'noWait', and
+'exclusive' are optional with false as the default value. 
+<p>
+Boolean parameter 'noAck' is optional with default value of true. If noAck is 
+true, the broker will not expect any acknowledgement from the client before
+discarding the message. If noAck is false, then the broker will expect an
+acknowledgement before discarding the message.  If noAck is specified to be
+false, then it's developers responsibility to explicitly acknowledge the
+received message using AmqpChannel.ackBasic() as shown below: 
+
+<pre>
+var handleMessageReceived = function(event) {
+   ....
+   var props = event.properties;
+   var exchange = event.args.exchange;
+   var routingKey = event.args.routingKey;
+   var dt = event.args.deliveryTag;
+   var channel = event.target;
+  
+   // Acknowledge the received message. Otherwise, the broker will eventually
+   // run out of memory.
+   var config = {deliveryTag: dt, multiple: true};
+   setTimeout(function() {
+               channel.ackBasic(config);
+             }, 0);
+}
+</pre>
+
+Parameter 'args' is optional and can be used to pass in additional properties
+for declaration. 
+		</ul>
+		<ul>
+			<code><i>Function</i>&nbsp;callback </code> - Optional param specifies the function that is 
+                             to be invoked on success. 
+		</ul>
+	</ul>
+	<!-- METHOD PARAMETERS END -->
+	<!-- ADDITIONAL ATTRIBUTES START -->
+	<ul>
+		<b>Returns:</b>
+		<ul>
+			<code><i>AmqpChannel</i>&nbsp;</code> 
+		</ul>
+	</ul>
+	
+	<!-- ADDITIONAL ATTRIBUTES  END -->
+	<hr>
+
+	<a name="declareExchange"> </a> <h3>declareExchange</h3>
+		<pre>AmqpChannel&nbsp;<b>declareExchange</b>(config, callback)</pre> 
+	<ul>
+		This method creates an exchange if it does not already exist, and if the 
+exchange exists, verifies that it is of the correct and expected class.
+
+<p> AmqpChannel.declareExchange() function supports named parameters or 
+arguments using the Configuration object. Developers must invoke this 
+function as shown below:
+<pre>
+   var channel = ...;
+   var config = {exchange: myExchangeName, type: 'direct'};
+   channel.declareExchange(config, callback);
+</pre>
+	</ul>
+	<!-- METHOD PARAMETERS START -->
+	<ul>
+		<b>Parameters:</b>
+		<ul>
+			<code><i>Configuration</i>&nbsp;config </code> - Format is as shown below:
+                       <pre>
+                        {
+                          exchange: 'str_value',
+                          type: 'direct'|'fanout'|'headers'|'topic',
+                          passive: true|false,
+                          durable: true|false,
+                          noWait: true|false,
+                          args: {  }
+                        }
+                       </pre>
+'exchange' specifies the name of the exchange and is a required param. The
+legal values of the required 'type' param are 'direct', 'fanout', 'headers', 
+and 'topic' Boolean params 'passive', 'durable', and 'noWait' have a default
+value of false. Param 'args' is an optional param that can be used to pass 
+in additional properties. 
+		</ul>
+		<ul>
+			<code><i>Function</i>&nbsp;callback </code> - Optional param specifies the function that is 
+                             to be invoked on success. 
+		</ul>
+	</ul>
+	<!-- METHOD PARAMETERS END -->
+	<!-- ADDITIONAL ATTRIBUTES START -->
+	<ul>
+		<b>Returns:</b>
+		<ul>
+			<code><i>AmqpChannel</i>&nbsp;</code> 
+		</ul>
+	</ul>
+	
+	<!-- ADDITIONAL ATTRIBUTES  END -->
+	<hr>
+
+	<a name="declareQueue"> </a> <h3>declareQueue</h3>
+		<pre>AmqpChannel&nbsp;<b>declareQueue</b>(config, callback)</pre> 
+	<ul>
+		This method creates or checks a queue. When creating a new queue the client 
+can specify various properties that control the durability of the queue and 
+its contents, and the level of sharing for the queue.
+
+<p> AmqpChannel.declareQueue() function supports named parameters or 
+arguments using the Configuration object. Developers must invoke this 
+function as shown below:
+
+<pre>
+   var channel = ...;
+   var config = {queue: myQueueName, exclusive: false};
+   channel.declareQueue(config, callback);
+</pre>
+	</ul>
+	<!-- METHOD PARAMETERS START -->
+	<ul>
+		<b>Parameters:</b>
+		<ul>
+			<code><i>Configuration</i>&nbsp;config </code> - Format is as shown below:
+                       <pre>
+                        {
+                          queue: 'queue_name_str_value',
+                          passive: true|false,
+                          durable: true|false,
+                          exclusive: true|false,
+                          autoDelete: true|false,
+                          noWait: true|false,
+                          args: { }
+                        }
+                       </pre>
+Required parameter 'queue' specifies the queue name. Boolean parameters
+'passive', 'durable', 'noWait', 'exclusive' and 'autoDelete' are optional 
+with false as the default value. Param 'args' is an optional param that 
+can be used to pass in additional properties for declaration. 
+		</ul>
+		<ul>
+			<code><i>Function</i>&nbsp;callback </code> - Optional param specifies the function that is 
+                             to be invoked on success. 
+		</ul>
+	</ul>
+	<!-- METHOD PARAMETERS END -->
+	<!-- ADDITIONAL ATTRIBUTES START -->
+	<ul>
+		<b>Returns:</b>
+		<ul>
+			<code><i>AmqpChannel</i>&nbsp;</code> 
+		</ul>
+	</ul>
+	
+	<!-- ADDITIONAL ATTRIBUTES  END -->
+	<hr>
+
+	<a name="deleteExchange"> </a> <h3>deleteExchange</h3>
+		<pre>AmqpChannel&nbsp;<b>deleteExchange</b>(config, callback)</pre> 
+	<ul>
+		This method deletes an exchange. When an exchange is deleted all queue 
+bindings on the exchange are cancelled.
+
+<p> AmqpChannel.deleteExchange() function supports named parameters or 
+arguments using the Configuration object. Developers must invoke this 
+function as shown below:
+
+<pre>
+   var channel = ...;
+   var config = {exchange: myExchangeName, noWait: false};
+   channel.deleteExchange(config, callback);
+</pre>
+	</ul>
+	<!-- METHOD PARAMETERS START -->
+	<ul>
+		<b>Parameters:</b>
+		<ul>
+			<code><i>Configuration</i>&nbsp;config </code> - Format is as shown below:
+                       <pre>
+                        {
+                          exchange: 'exchange_name_str_value',
+                          ifUnused: true|false,
+                          noWait: true|false
+                        }
+                       </pre>
+Required parameter 'exchange' specifies the name of the exchange. Default 
+values of the optional boolean parameters 'ifUnused' and 'noWait' is false. 
+		</ul>
+		<ul>
+			<code><i>Function</i>&nbsp;callback </code> - Optional param specifies the function that is 
+                             to be invoked on success. 
+		</ul>
+	</ul>
+	<!-- METHOD PARAMETERS END -->
+	<!-- ADDITIONAL ATTRIBUTES START -->
+	<ul>
+		<b>Returns:</b>
+		<ul>
+			<code><i>AmqpChannel</i>&nbsp;</code> 
+		</ul>
+	</ul>
+	
+	<!-- ADDITIONAL ATTRIBUTES  END -->
+	<hr>
+
+	<a name="deleteQueue"> </a> <h3>deleteQueue</h3>
+		<pre>AmqpChannel&nbsp;<b>deleteQueue</b>(config, callback)</pre> 
+	<ul>
+		This method deletes a queue. When a queue is deleted any pending messages 
+are sent to a dead-letter queue if this is defined in the server configuration, 
+and all consumers on the queue are cancelled.
+
+<p> AmqpChannel.deleteQueue() function supports named parameters or 
+arguments using the Configuration object. Developers must invoke this 
+function as shown below:
+
+<pre>
+   var channel = ...;
+   var config = {queue: myQueueName, ifEmpty: true};
+   channel.deleteQueue(config, callback);
+</pre>
+	</ul>
+	<!-- METHOD PARAMETERS START -->
+	<ul>
+		<b>Parameters:</b>
+		<ul>
+			<code><i>Configuration</i>&nbsp;config </code> - Format is as shown below:
+                       {
+                         queue: 'queue_name_str_value',
+                         ifUnused: true|false,
+                         ifEmpty: true|false,
+                         noWait: true|false
+                       }
+Required parameter 'queue' specifies the queue name. Boolean parameters 
+'ifUnused', 'ifEmpty', and 'noWait' are optional with false as the default 
+value. 
+		</ul>
+		<ul>
+			<code><i>Function</i>&nbsp;callback </code> - Optional param specifies the function that is 
+                             to be invoked on success. 
+		</ul>
+	</ul>
+	<!-- METHOD PARAMETERS END -->
+	<!-- ADDITIONAL ATTRIBUTES START -->
+	<ul>
+		<b>Returns:</b>
+		<ul>
+			<code><i>AmqpChannel</i>&nbsp;</code> 
+		</ul>
+	</ul>
+	
+	<!-- ADDITIONAL ATTRIBUTES  END -->
+	<hr>
+
+	<a name="flowChannel"> </a> <h3>flowChannel</h3>
+		<pre>AmqpChannel&nbsp;<b>flowChannel</b>(active, callback)</pre> 
+	<ul>
+		This method asks the peer to pause or restart the flow of content data sent by
+a consumer. This is a simple flow-control mechanism that a peer can use to avoid
+overflowing its queues or otherwise finding itself receiving more messages than
+it can process. Note that this method is not intended for window control. It does
+not affect contents returned by Basic.Get-Ok methods.
+	</ul>
+	<!-- METHOD PARAMETERS START -->
+	<ul>
+		<b>Parameters:</b>
+		<ul>
+			<code><i>Bit</i>&nbsp;active </code> - start/stop content frames 
+		</ul>
+		<ul>
+			<code><i>Function</i>&nbsp;callback </code> - Function to be called on success 
+		</ul>
+	</ul>
+	<!-- METHOD PARAMETERS END -->
+	<!-- ADDITIONAL ATTRIBUTES START -->
+	<ul>
+		<b>Returns:</b>
+		<ul>
+			<code><i>AmqpChannel</i>&nbsp;</code> 
+		</ul>
+	</ul>
+	
+	<!-- ADDITIONAL ATTRIBUTES  END -->
+	<hr>
+
+	<a name="flowOkChannel"> </a> <h3>flowOkChannel</h3>
+		<pre>AmqpChannel&nbsp;<b>flowOkChannel</b>(active, callback)</pre> 
+	<ul>
+		Confirms to the peer that a flow command was received and processed.
+	</ul>
+	<!-- METHOD PARAMETERS START -->
+	<ul>
+		<b>Parameters:</b>
+		<ul>
+			<code><i>Bit</i>&nbsp;active </code> - current flow setting 
+		</ul>
+		<ul>
+			<code><i>Function</i>&nbsp;callback </code> - Function to be called on success 
+		</ul>
+	</ul>
+	<!-- METHOD PARAMETERS END -->
+	<!-- ADDITIONAL ATTRIBUTES START -->
+	<ul>
+		<b>Returns:</b>
+		<ul>
+			<code><i>AmqpChannel</i>&nbsp;</code> 
+		</ul>
+	</ul>
+	
+	<!-- ADDITIONAL ATTRIBUTES  END -->
+	<hr>
+
+	<a name="getBasic"> </a> <h3>getBasic</h3>
+		<pre>AmqpChannel&nbsp;<b>getBasic</b>(config, callback)</pre> 
+	<ul>
+		This method provides a direct access to the messages in a queue using a 
+synchronous dialogue that is designed for specific types of application 
+where synchronous functionality is more important than performance.
+
+<p> AmqpChannel.getBasic() function supports named parameters or 
+arguments using the Configuration object. Developers must invoke this 
+function as shown below:
+<pre>
+   var channel = ...;
+   var config = {queue: myQueueName, noAck: true};
+   channel.getBasic(config, callback);
+</pre>
+	</ul>
+	<!-- METHOD PARAMETERS START -->
+	<ul>
+		<b>Parameters:</b>
+		<ul>
+			<code><i>Configuration</i>&nbsp;config </code> - Format is as shown below:
+                       <pre>
+                        {
+                          queue: 'queue_name_str_value',
+                          noAck: true|false
+                        }
+                       </pre>
+Required parameter 'queue' specifies the queue name. Boolean parameter 
+'noAck' is optional with false as the default value. 
+		</ul>
+		<ul>
+			<code><i>Function</i>&nbsp;callback </code> - Optional param specifies the function that is 
+                             to be invoked on success. 
+		</ul>
+	</ul>
+	<!-- METHOD PARAMETERS END -->
+	<!-- ADDITIONAL ATTRIBUTES START -->
+	<ul>
+		<b>Returns:</b>
+		<ul>
+			<code><i>AmqpChannel</i>&nbsp;</code> 
+		</ul>
+	</ul>
+	
+	<!-- ADDITIONAL ATTRIBUTES  END -->
+	<hr>
+
+	<a name="publishBasic"> </a> <h3>publishBasic</h3>
+		<pre>AmqpChannel&nbsp;<b>publishBasic</b>(config, callback)</pre> 
+	<ul>
+		This method publishes a message to a specific exchange. The message will 
+be routed to queues as defined by the exchange configuration and distributed
+to any active consumers when the transaction, if any, is committed.
+
+<p> AmqpChannel.publishBasic() function supports named parameters or 
+arguments using the Configuration object. Developers must invoke this 
+function as shown below:
+
+<pre>
+   var channel = ...;
+   var props = new AmqpProperties();
+   props.setMessageId("msgId1");
+   var config = {body: buffer, 
+                 properties: props,
+                 exchange: myExchangeName, 
+                 routingKey: key};
+   channel.publishBasic(config, callback);
+</pre>
+	</ul>
+	<!-- METHOD PARAMETERS START -->
+	<ul>
+		<b>Parameters:</b>
+		<ul>
+			<code><i>Configuration</i>&nbsp;config </code> - Format is as shown below:
+                       <pre>
+                        {
+                          body: ArrayBuffer_or_ByteBuffer_instance,
+                          properties: AmqpProperties_instance,
+                          exchange: 'exchange_name_str_value',
+                          routingKey: 'routingKey_str_value',
+                          mandatory: true|false,
+                          immediate: true|false
+                        }
+                       </pre>
+Required parameter 'body' takes an instance of either ArrayBuffer or 
+ByteBuffer. Newer browsers support ArrayBuffer. However, developers can
+continue to support older browsers by specify a ByteBuffer payload as 'body'.
+The 'properties' parameter takes an instance of AmqpProperties topass the 
+pre-defined properties as per AMQP 0-9-1 specification. AmqpProperties 
+provides getter/setter APIs for all the pre-defined properties as a 
+convenience. Required parameter 'exchange' specifies the name of the exchange. 
+Parameter 'routingKey' is required. Boolean parameters 'mandatory' and 
+'immediate' are optional with false as the default value. 
+		</ul>
+		<ul>
+			<code><i>Function</i>&nbsp;callback </code> - Optional param specifies the function that is 
+                             to be invoked on success. 
+		</ul>
+	</ul>
+	<!-- METHOD PARAMETERS END -->
+	<!-- ADDITIONAL ATTRIBUTES START -->
+	<ul>
+		<b>Returns:</b>
+		<ul>
+			<code><i>AmqpChannel</i>&nbsp;</code> 
+		</ul>
+	</ul>
+	
+	<!-- ADDITIONAL ATTRIBUTES  END -->
+	<hr>
+
+	<a name="purgeQueue"> </a> <h3>purgeQueue</h3>
+		<pre>AmqpChannel&nbsp;<b>purgeQueue</b>(config, callback)</pre> 
+	<ul>
+		This method removes all messages from a queue which are not awaiting
+acknowledgment.
+
+<p> AmqpChannel.purgeQueue() function supports named parameters or 
+arguments using the Configuration object. Developers must invoke this 
+function as shown below:
+
+<pre>
+   var channel = ...;
+   var config = {queue: myQueueName};
+   channel.purgeQueue(config, callback);
+</pre>
+	</ul>
+	<!-- METHOD PARAMETERS START -->
+	<ul>
+		<b>Parameters:</b>
+		<ul>
+			<code><i>Configuration</i>&nbsp;config </code> - Format is as shown below:
+                       <pre>
+                        {
+                          queue: 'queue_name_str_value',
+                          noWait: true|false
+                        }
+                       </pre>
+Required parameter 'queue' specifies the queue name. Boolean parameter 
+'noWait' is optional with false as the default value. 
+		</ul>
+		<ul>
+			<code><i>Function</i>&nbsp;callback </code> - Optional param specifies the function that is 
+                             to be invoked on success. 
+		</ul>
+	</ul>
+	<!-- METHOD PARAMETERS END -->
+	<!-- ADDITIONAL ATTRIBUTES START -->
+	<ul>
+		<b>Returns:</b>
+		<ul>
+			<code><i>AmqpChannel</i>&nbsp;</code> 
+		</ul>
+	</ul>
+	
+	<!-- ADDITIONAL ATTRIBUTES  END -->
+	<hr>
+
+	<a name="qosBasic"> </a> <h3>qosBasic</h3>
+		<pre>AmqpChannel&nbsp;<b>qosBasic</b>(config, callback)</pre> 
+	<ul>
+		This method requests a specific quality of service. The QoS can be specified
+for the current channel or for all channels on the connection. The particular
+properties and semantics of a qos method always depend on the content class 
+semantics. Though the qos method could in principle apply to both peers, it 
+is currently meaningful only for the server.
+
+<p> AmqpChannel.qosBasic() function supports named parameters or 
+arguments using the Configuration object. Developers must invoke this 
+function as shown below:
+
+<pre>
+   var channel = ...;
+   var config = {prefetchSize: size, prefetchCount: count, global: true};
+   channel.qosBasic(config, callback);
+</pre>
+	</ul>
+	<!-- METHOD PARAMETERS START -->
+	<ul>
+		<b>Parameters:</b>
+		<ul>
+			<code><i>Configuration</i>&nbsp;config </code> - Format is as shown below:
+                       <pre>
+                        {
+                          prefetchSize: size_long_value_in_octets,
+                          prefetchCount: count_short_value_in_octets,
+                          global: true|false
+                        }
+                       </pre>
+Parameter 'prefetchSize' and 'prefetchCount' are required. Boolean parameter
+'global' is optional with false as the default value. 
+		</ul>
+		<ul>
+			<code><i>Function</i>&nbsp;callback </code> - Optional param specifies the function that is 
+                             to be invoked on success. 
+		</ul>
+	</ul>
+	<!-- METHOD PARAMETERS END -->
+	<!-- ADDITIONAL ATTRIBUTES START -->
+	<ul>
+		<b>Returns:</b>
+		<ul>
+			<code><i>AmqpChannel</i>&nbsp;</code> 
+		</ul>
+	</ul>
+	
+	<!-- ADDITIONAL ATTRIBUTES  END -->
+	<hr>
+
+	<a name="recoverBasic"> </a> <h3>recoverBasic</h3>
+		<pre>AmqpChannel&nbsp;<b>recoverBasic</b>(requeue, callback)</pre> 
+	<ul>
+		This method asks the server to redeliver all unacknowledged messages on a
+specified channel. Zero or more messages may be redelivered.  This method
+replaces the asynchronous Recover.
+	</ul>
+	<!-- METHOD PARAMETERS START -->
+	<ul>
+		<b>Parameters:</b>
+		<ul>
+			<code><i>Bit</i>&nbsp;requeue </code> - requeue the message 
+		</ul>
+		<ul>
+			<code><i>Function</i>&nbsp;callback </code> - Function to be called on success 
+		</ul>
+	</ul>
+	<!-- METHOD PARAMETERS END -->
+	<!-- ADDITIONAL ATTRIBUTES START -->
+	<ul>
+		<b>Returns:</b>
+		<ul>
+			<code><i>AmqpChannel</i>&nbsp;</code> 
+		</ul>
+	</ul>
+	
+	<!-- ADDITIONAL ATTRIBUTES  END -->
+	<hr>
+
+	<a name="rejectBasic"> </a> <h3>rejectBasic</h3>
+		<pre>AmqpChannel&nbsp;<b>rejectBasic</b>(config)</pre> 
+	<ul>
+		This is the overloaded form of AmqpChannel.rejectBasic() function that 
+named parameters or arguments using the Configuration object.
+
+<p> AmqpChannel.rejectBasic() function supports named parameters or 
+arguments using the Configuration object. Developers must invoke this 
+function as shown below:
+<pre>
+   var channel = ...;
+   var config = {deliveryTag: dt, requeue: true};
+   channel.rejectBasic(config);
+</pre>
+
+This method allows a client to reject a message. It can be used to interrupt 
+and cancel large incoming messages, or return untreatable messages to their 
+original queue.
+	</ul>
+	<!-- METHOD PARAMETERS START -->
+	<ul>
+		<b>Parameters:</b>
+		<ul>
+			<code><i>Configuration</i>&nbsp;config </code> - Format is as shown below:
+                       <pre>
+                        {
+                          deliveryTag: dt_num_value,
+                          requeue: true|false
+                        }
+                       </pre>
+Parameter 'deliveryTag' is required. Boolean parameter 'requeue' is optional
+with false as the default value. 
+		</ul>
+	</ul>
+	<!-- METHOD PARAMETERS END -->
+	<!-- ADDITIONAL ATTRIBUTES START -->
+	<ul>
+		<b>Returns:</b>
+		<ul>
+			<code><i>AmqpChannel</i>&nbsp;</code> 
+		</ul>
+	</ul>
+	
+	<!-- ADDITIONAL ATTRIBUTES  END -->
+	<hr>
+
+	<a name="rollbackTx"> </a> <h3>rollbackTx</h3>
+		<pre>AmqpChannel&nbsp;<b>rollbackTx</b>(callback)</pre> 
+	<ul>
+		This method abandons all message publications and acknowledgments performed in
+the current transaction. A new transaction starts immediately after a rollback.
+Note that unacked messages will not be automatically redelivered by rollback;
+if that is required an explicit recover call should be issued.
+	</ul>
+	<!-- METHOD PARAMETERS START -->
+	<ul>
+		<b>Parameters:</b>
+		<ul>
+			<code><i>Function</i>&nbsp;callback </code> - Function to be called on success 
+		</ul>
+	</ul>
+	<!-- METHOD PARAMETERS END -->
+	<!-- ADDITIONAL ATTRIBUTES START -->
+	<ul>
+		<b>Returns:</b>
+		<ul>
+			<code><i>AmqpChannel</i>&nbsp;</code> 
+		</ul>
+	</ul>
+	
+	<!-- ADDITIONAL ATTRIBUTES  END -->
+	<hr>
+
+	<a name="selectTx"> </a> <h3>selectTx</h3>
+		<pre>AmqpChannel&nbsp;<b>selectTx</b>(callback)</pre> 
+	<ul>
+		This method sets the channel to use standard transactions. The client must use this
+method at least once on a channel before using the Commit or Rollback methods.
+	</ul>
+	<!-- METHOD PARAMETERS START -->
+	<ul>
+		<b>Parameters:</b>
+		<ul>
+			<code><i>Function</i>&nbsp;callback </code> - Function to be called on success 
+		</ul>
+	</ul>
+	<!-- METHOD PARAMETERS END -->
+	<!-- ADDITIONAL ATTRIBUTES START -->
+	<ul>
+		<b>Returns:</b>
+		<ul>
+			<code><i>AmqpChannel</i>&nbsp;</code> 
+		</ul>
+	</ul>
+	
+	<!-- ADDITIONAL ATTRIBUTES  END -->
+	<hr>
+
+	<a name="unbindQueue"> </a> <h3>unbindQueue</h3>
+		<pre>AmqpChannel&nbsp;<b>unbindQueue</b>(config, callback)</pre> 
+	<ul>
+		This method unbinds a queue from an exchange.
+
+<p> AmqpChannel.unbindQueue() function supports named parameters or 
+arguments using the Configuration object. Developers must invoke this 
+function as shown below:
+
+<pre>
+   var channel = ...;
+   var config = {queue: myQueueName, exchange: exchangeName, routingKey: key};
+   channel.unbindQueue(config, callback);
+</pre>
+	</ul>
+	<!-- METHOD PARAMETERS START -->
+	<ul>
+		<b>Parameters:</b>
+		<ul>
+			<code><i>Configuration</i>&nbsp;config </code> - Format is as shown below:
+                       <pre>
+                        {
+                          queue: 'queue_name_str_value',
+                          exchange: 'exchange_name_str_value',
+                          routingKey: 'routingKey_str_value',
+                          args: { }
+                        }
+                       </pre>
+Required parameter 'queue' specifies the queue name. Required parameter
+'exchange' specifies the exchange name. Required parameter 'routingKey'
+specifies the key that was used to bind the queue to the exchange. Parameter 
+'args' is optional and can be used to pass in additional properties for 
+declaration. Optional param 'callback' specifies the function to be invoked
+ on success. 
+		</ul>
+		<ul>
+			<code><i>Function</i>&nbsp;callback </code> - Optional param specifies the function that is 
+                             to be invoked on success. 
+		</ul>
+	</ul>
+	<!-- METHOD PARAMETERS END -->
+	<!-- ADDITIONAL ATTRIBUTES START -->
+	<ul>
+		<b>Returns:</b>
+		<ul>
+			<code><i>AmqpChannel</i>&nbsp;</code> 
+		</ul>
+	</ul>
+	
+	<!-- ADDITIONAL ATTRIBUTES  END -->
+	<hr>
+
+
+<!-- ============ METHOD DETAIL END ========== -->
+
+
+
+<!-- ============ EVENT DETAIL START ======= -->
+
+
+
+<!-- ============ EVENT DETAIL END ========== -->
+<div class="jsdoc_ctime">Documentation generated by <a href="//jsdoctoolkit.org/" target="_parent">JsDoc Toolkit</a> 1.3.3 on Thu Sep 25 2014 15:48:00 GMT-0700 (PDT)</div>
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

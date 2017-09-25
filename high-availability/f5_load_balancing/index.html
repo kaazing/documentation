@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+
+<h1>Configure F5 BIG-IP Load Balancing with the Gateway</h1>
+ 
+ <p>For enterprises that want to use the <a href="https://f5.com/products/big-ip">F5 BIG-IP load balancer</a>, this topic provides instructions on configuring BIG-IP to support a Kaazing WebSocket Gateway server pool.</p>
+ 
+ <p>Kaazing WebSocket Gateway includes its own load balancing and clustering functionality, documented in <a href="../o_high_availability/index.html">Configure the Gateway for High Availability</a>. The advantages of using Kaazing WebSocket Gateway for load balancing and clustering are:</p>
+
+ <ul>
+  <li>Designed for the load balancing of long-lived WebSocket connections.</li>
+  <li>Does not introduce a permanent, extra network hop for the lifetime of the connection.</li>
+  <li>You can free up your load balancer for other HTTP or Web use cases.</li>
+  <li>You can close your inbound firewall ports using the Kaazing WebSocket Gateway <a href="../../enterprise-shield/o_enterprise_shield_checklist/index.html">Enterprise Shield</a> feature.</li>
+ </ul>
+
+<h2>Example F5 BIG-IP and Kaazing WebSocket Gateway Topology</h2>
+
+<p>The following illustration provides a network topology example for F5 BIG-IP and Kaazing WebSocket Gateway integration. The IP addresses used by the hosts in the diagram will have been obtained via name resolution.</p>
+
+ <figure>
+  <img src="../../images/f5-big-ip-topology.png" />
+ <figcaption><strong>Figure: Example F5 BIG-IP and Kaazing WebSocket Gateway Topology</strong></figcaption> 
+ </figure>
+
+
+<p>By following the arrows you can see how a Kaazing WebSocket Gateway client connects to the Gateway and the back-end server:</p>
+
+<ol>
+ <li>The client initiates the WebSocket connection to F5 BIG-IP using the BIG-IP virtual server’s external, public IP address.</li>
+ <li>BIG-IP routes the connection to a Gateway in its server pool using its internal IP address and a load balancing configuration such as round robin.</li>
+ <li>All of the Gateways are configured to accept connections from the BIG-IP internal IP address. The Gateway selected by BIG-IP accepts the incoming connection. The WebSocket connection to the Gateway is now established.</li>
+ <li>The Gateway establishes the connection with the back-end server over TCP. Traffic may now travel back and forth from the client to the back-end server.</li>
+</ol>
+
+<h2>Components and Tools</h2>
+
+<table>
+<colgroup>
+<col width="25%" />
+<col width="75%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Components</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Kaazing WebSocket Gateway</td>
+<td align="left">You can install the Gateway on servers in your internal, trusted network and configure the F5 BIG-IP load balancer to treat them as a server pool. Once you have defined the pool, you can configure how you want the Gateway traffic balanced. For example, using Round Robin.</td>
+</tr>
+<tr class="even">
+<td align="left">Kaazing WebSocket Gateway clients</td>
+<td align="left">Client applications built using Kaazing Websocket Gateway client libraries will connect to the F5 BIG-IP load balancer using the external IP address configured for the BIG-IP Virtual Server.</td>
+</tr>
+<tr class="odd">
+<td align="left">F5 BIG-IP load traffic management</td>
+<td align="left">This guide applies to the set of local traffic management products that are part of the BIG-IP system family of products. For example, BIG-IP Local Traffic Manager and BIG-IP DNS.</td>
+</tr>
+<tr class="even">
+<td align="left">Virtual server</td>
+<td align="left">A virtual server is a traffic-management object on the BIG-IP system that is represented by an IP address and a service.</td>
+</tr>
+<tr class="even">
+<td align="left">Load balancing pool</td>
+<td align="left">A BIG-IP virtual server (also known as a load balancing virtual server) directs client traffic to a load balancing pool. A load balancing pool is a logical set of devices, such as Gateways, that you group together to receive and process traffic. When you first create the virtual server, you assign an existing default pool to it. From then on, the virtual server automatically directs traffic to that default pool.</td>
+</tr>
+<tr class="even">
+<td align="left">Load balancing method</td>
+<td align="left">The default load balancing method for the BIG-IP system is Round Robin, which simply passes each new connection request to the next server in line. All other load balancing methods take server capacity and/or status into consideration.</td>
+</tr>
+<tr class="even">
+<td align="left">External self IP address</td>
+<td align="left">The external self IP address is an IP address on the BIG-IP system that is used by the Kaazing WebSocket Gateway clients when establishing WebSocket connections.</td>
+</tr>
+<tr class="even">
+<td align="left">Internal self IP address</td>
+<td align="left">The internal self IP address is an IP address on the BIG-IP system that you associate with the load balancing pool.</td>
+</tr>
+<tr class="even">
+<td align="left">Nodes</td>
+<td align="left">A node is a logical object on the BIG-IP system that identifies the IP address of a physical resource on the network, such as a Gateway. You can explicitly create a node, or you can instruct the BIG-IP system to automatically create one when you add a pool member to a load balancing pool. You will create a node for each of the servers running Kaazing WebSocket Gateway.</td>
+</tr>
+<tr class="even">
+<td align="left">Custom iRule</td>
+<td align="left">An iRule is used to manage your network traffic. You will use a custom iRule to ensure that WebSocket traffic passes through the BIG-IP system and onto the Gateways in the load balancing pool. An iRule uses syntax based on the industry-standard Tools Command Language (Tcl). It allows you to select pools based on header data and direct traffic by searching on any type of content data that you define.</td>
+</tr>
+</tbody>
+</table>
+
+<h2>To Deploy F5 BIG-IP with Kaazing WebSocket Gateway</h2>
+
+<ol>
+ <li>Install Kaazing WebSocket Gateway on servers in your internal network. These servers will be used by BIG-IP as a server pool for maintaining client connections to Kaazing WebSocket Gateway.</li>
+  <li>Configure each Gateway service to listen for connections on its IP address and connect to the back-end servers in your internal network hosting the needed services. The easiest way to do this is to configure the Property Defaults on each Gateway with the IP address as the value for the host name of the Gateway (see <code>gateway.hostname</code> below) and the IP address of the back-end server the Gateway is connecting to (see <code>backend.hostname</code> below):
+  
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;properties&gt;
+&lt;property&gt;
+&lt;name&gt;gateway.hostname&lt;/name&gt;
+&lt;value&gt;20.20.20.14&lt;/value&gt;
+&lt;/property&gt;
+&lt;property&gt;
+&lt;name&gt;backend.hostname&lt;/name&gt;
+&lt;value&gt;192.0.2.11&lt;/value&gt;
+&lt;/property&gt;
+&lt;property&gt;
+&lt;name&gt;gateway.extras.port&lt;/name&gt;
+&lt;value&gt;8001&lt;/value&gt;
+&lt;/property&gt;
+&lt;/properties&gt;
+</pre>
+
+ <p>For more information, see <a href="../../admin-reference/r_configure_gateway_service/index.html#properties">properties</a> and <a href="../../admin-reference/p_configure_gateway_files/index.html">Configure Kaazing Gateway</a>.</p>
+
+ <span class="note"><b>Note:</b> Record the IP addresses of these servers as you will need the IP addresses when you set up Nodes in BIG-IP.</span>
+  
+  </li>
+  <li>Configure the services on the Gateway to accept connections from BIG-IP and connect to the back-end servers in your internal network hosting the needed services. For example, here are services for a JMS connection and an AMQP connection:
+  
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+<!-- JMS service -->
+&lt;service&gt;
+  &lt;name&gt;JMS Service&lt;/name&gt;
+  &lt;description&gt;JMS Service&lt;/description&gt;
+  &lt;accept&gt;ws://${gateway.hostname}:${gateway.extras.port}/jms&lt;/accept&gt;
+
+  &lt;type&gt;jms&lt;/type&gt;
+
+  &lt;properties&gt;
+    &lt;connection.factory.name&gt;ConnectionFactory&lt;/connection.factory.name&gt;
+    &lt;context.lookup.topic.format&gt;dynamicTopics/%s&lt;/context.lookup.topic.format&gt;
+    &lt;context.lookup.queue.format&gt;dynamicQueues/%s&lt;/context.lookup.queue.format&gt;
+    &lt;env.java.naming.factory.initial&gt;org.apache.activemq.jndi.ActiveMQInitialContextFactory&lt;/env.java.naming.factory.initial&gt;
+    &lt;env.java.naming.provider.url&gt;tcp://${backend.hostname}:61616&lt;/env.java.naming.provider.url&gt;
+  &lt;/properties&gt;
+
+  &lt;cross-site-constraint&gt;
+    &lt;allow-origin&gt;http://${gateway.hostname}:${gateway.extras.port}&lt;/allow-origin&gt;
+  &lt;/cross-site-constraint&gt;
+&lt;/service&gt;
+
+&lt;!-- AMQP service --&gt;
+&lt;service&gt;
+  &lt;name&gt;AMQP Service&lt;/name&gt;
+  &lt;description&gt;AMQP Service&lt;/description&gt;
+  &lt;accept&gt;ws://${gateway.hostname}:${gateway.extras.port}/amqp&lt;/accept&gt;
+  &lt;connect&gt;tcp://${backend.hostname}:5672&lt;/connect&gt;
+
+  &lt;type&gt;amqp.proxy&lt;/type&gt;
+
+&lt;/service&gt;
+</pre>
+  
+  <p>For more information, see <code><a href="../../admin-reference/r_configure_gateway_service/index.html">service</a></code> and <a href="../../admin-reference/p_configure_gateway_files/index.html">Configure Kaazing Gateway</a>.</p>
+  </li>
+  <li>Open the BIG-IP browser-based GUI. When you installed BIG-IP, a Management IP address was configured (for example, <code>192.168.4.245</code>). This address is used for performing system management via a web browser. Enter that IP address into your browser to open the management console (for example, <code>http://192.168.4.245</code>).</li>
+  <li>Set up the internal network address that BIG-IP will use as its address on the internal enterprise network.
+   <ol type="a">
+    <li>In the <strong>Main</strong> tab, click <strong>Network</strong>.</li>
+    <li>Click <strong>Self IPs</strong>.</li>
+    <li>Click <strong>Create</strong>.</li>
+    <li>In <strong>Name</strong>, enter the IP address (for example, <code>20.20.20.1</code>).</li>
+    <li>In <strong>VLAN/Tunnel</strong>, select <strong>internal</strong>.</li>
+    <li>Click <strong>Save</strong>.</li>
+   </ol>
+  </li>
+  <li>Enable the ports that BIG-IP will use for the internal network.
+   <ol type="a">
+    <li>In the <strong>Main</strong> tab, click <strong>Network</strong>.</li>
+    <li>Click <strong>Interfaces</strong>. The <strong>Interfaces</strong> list is displayed.</li>
+    <li>Click the checkbox for each interface and click <strong>Enable</strong>.</li>
+   </ol>
+  </li>
+  <li>Enable the nodes connected to the internal network.
+   <ol type="a">
+    <li>In the <strong>Main</strong> tab, click <strong>Network</strong>.</li>
+    <li>Click <strong>Nodes</strong>, and then <strong>Nodes List</strong>. You will create a node for each of the servers running Kaazing WebSocket Gateway.</li>
+    <li>For each node, click <strong>Create</strong>.</li>
+    <li>In <strong>Name</strong>, enter a name for the server running the Gateway (for example, <strong>Gateway-1</strong>).</li>
+    <li>In <strong>Address</strong>, enter the IP address of one of the servers running the Gateway.</li>
+    <li>Repeat these steps for the remaining servers running the Gateway.</li>
+   </ol>
+  </li>
+  <li>Set up the external network address that BIG-IP will use as its address when connecting to the Internet and that Kaazing WebSocket Gateway clients will use when creating a WebSocket connection.
+   <ol type="a">
+    <li>In the <strong>Main</strong> tab, click <strong>Network</strong>.</li>
+    <li>Click <strong>Self IPs</strong>.</li>
+    <li>Click <strong>Create</strong>.</li>
+    <li>In <strong>Name</strong>, enter the IP address that faces the external network.</li>
+    <li>In <strong>VLAN/Tunnel</strong>, select <strong>external</strong>.</li>
+    <li>Click <strong>Finished</strong>.</li>
+   </ol>
+  </li>
+  <li>Set up the <a href="https://support.f5.com/kb/en-us/products/big-ip_ltm/manuals/product/ltm_configuration_guide_10_0_0/ltm_pools.htm">F5 Load Balancing Pool</a>.
+   <ol type="a">
+    <li>In the <strong>Main</strong> tab, click <strong>Local Traffic</strong>.</li>
+    <li>Click <strong>Pools</strong>, and then click <strong>Pool List</strong>.</li>
+    <li>Click <strong>Create</strong>.</li>
+    <li>In <strong>Name</strong>, enter a name for the pool.</li>
+    <li>In <strong>Load Balancing Method</strong>, select <strong>Round Robin</strong>. For information about other methods, see <a href="https://support.f5.com/kb/en-us/products/big-ip_ltm/manuals/product/ltm_configuration_guide_10_0_0/ltm_pools.html#1215305">Selecting a load balancing method in the BIG-IP</a> documentation.</li>
+    <li>In <strong>New Members</strong>, in <strong>Address</strong>, select each node you added and click <strong>Add</strong>. All three nodes should be added in <strong>New Members</strong>.</li>
+    <li>Click <strong>Finished</strong>.</li>
+   </ol>
+  </li>
+  <li>Create a custom iRule for WebSocket traffic. You need a custom iRule for WebSocket traffic because BIG-IP might discard packets containing HTTP Upgrade headers. For more information, see <a href="https://support.f5.com/kb/en-us/solutions/public/14000/800/sol14814.html">SOL14814: The BIG-IP system may drop WebSocket traffic</a>.
+   <ol type="a">
+    <li>In the <strong>Main</strong> tab, click <strong>Local Traffic</strong>.</li>
+    <li>Click <strong>iRules</strong>, and then click <strong>New</strong>.</li>
+    <li>In <strong>Name</strong>, enter a name for the iRule, such as <code>allow-ws</code>.</li>
+    <li>Enter the following iRule:
+<pre class="auto-links: false; brush: js; toolbar: false;">
+when HTTP_REQUEST {
+ log local0. "processing irule for http request"
+ if { "websocket" eq [string tolower [HTTP::header value "Upgrade"]] } {
+  HTTP::disable
+  log local0. "enabling websockets and disabling http"
+ }
+}
+</pre>    
+    </li>
+    <li>Click <strong>Finished</strong>.</li>
+   </ol>
+  </li>
+  <li>Set up the Virtual Server with the iRule and Load Balancing Pool.
+   <ol type="a">
+    <li>In the <strong>Main</strong> tab, click <strong>Local Traffic</strong>.</li>
+    <li>Click <strong>Virtual Servers</strong>, and then click <strong>Virtual Servers List</strong>.</li>
+    <li>Click <strong>Create</strong>.</li>
+    <li>In <strong>Name</strong>, enter a name for the Virtual Server.</li>
+    <li>In <strong>Source</strong>, enter <code>0.0.0.0/0</code>. This value instructs the Virtual Server to accept any address.</li>
+    <li>In <strong>Destination</strong>, enter the IP address that clients will use to connect to the Gateway via the BIG-IP Load Balancer.</li>
+    <li>In <strong>Service Port</strong>, select <strong>All Ports</strong>.</li>
+    <li>In <strong>Protocol</strong>, select <strong>TCP</strong>.</li>
+    <li>In <strong>HTTP Profile</strong>, select <strong>http</strong>.</li>
+    <li>Under <strong>Resources</strong>, in <strong>iRules</strong>, in <strong>Available</strong>, click the iRule you created (for example, <strong>allow-ws</strong>), and click <strong>&lt;&lt;</strong> to move the iRule into the <strong>Enabled</strong> textbox.</li>
+    <li>In <strong>Default Pool</strong>, click the name of the Load Balancing Pool you created.</li>
+    <li>Click <strong>Finished</strong>.</li>
+   </ol>
+  </li>
+  <li>Save the system configuration.
+   <ol type="a">
+    <li>In the <strong>Main</strong> tab, click <strong>System</strong>.</li>
+    <li>Click <strong>Archives</strong>, and then click <strong>Create</strong>.</li>
+    <li>In <strong>Name</strong>, enter a name for the system configuration.</li>
+    <li>Click <strong>Finished</strong>.</li>
+   </ol>
+  </li>
+  <li>Start each Gateway in the internal network.</li>
+  <li>Set up Kaazing WebSocket Gateway clients. Ensure that the WebSocket clients direct their WebSocket connections to the IP Address you configured as the <strong>Destination</strong> for the Virtual Server.</li>
+  <li>Test a public client’s WebSocket connection to a Gateway in the load balancing pool.
+   <ol type="a">
+    <li>You can use the Echo test available at <a href="//www.websocket.org/echo.html" title="websocket.org Echo Test - Powered by Kaazing">http://www.websocket.org/echo.html</a> to connect to a Gateway in the load balancing pool. To test JMS or AMQP connections, build and use the JMS or AMQP tutorial apps at <a href="https://github.com/kaazing/javascript.client.tutorials">https://github.com/kaazing/javascript.client.tutorials</a>.</li>
+    <li>In the Echo test, in <strong>Location</strong>, enter the external IP address of the BIG-IP virtual server, for example, <strong>ws://203.0.113.10:80/</strong>.</li>
+    <li>Click <strong>Connect</strong>. In <strong>Log</strong>, you should see the message <code>CONNECTED</code>. If you do not see the message, try pinging the IP address to ensure that the client can connect to that address. If the ping is successful, ensure that your BIG-IP configuration is correct, and that your Gateways are running.</li>
+    <li>Click <strong>Send</strong>. The message is sent to a Gateway in the load balancing pool and the Echo response is returned to the client in the Log.</li>
+    <li>Next, use your own Kaazing WebSocket Gateway client to connect to the back-end server hosting a service via BIG-IP and the Gateways in the load balancing pool.</li>
+   </ol>
+  </li>
+</ol>
+
+
+<h2 id="summary">See Also</h2>
+<ul>
+ <li>For more information about using BIG-IP features, see the <a href="https://support.f5.com/kb/en-us/products/big-ip_ltm/manuals/product/ltm_configuration_guide_10_0_0.html">BIG-IP LTM manual</a>.</li>
+ <li>For information about WebSocket issues with BIG-IP, see <a href="https://support.f5.com/kb/en-us/solutions/public/14000/800/sol14814.html">SOL14814: The BIG-IP system may drop WebSocket traffic</a>.</li>
+</ul>
+
+
+</div>
+
+</div>
+
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

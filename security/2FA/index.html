@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+  
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+
+ <h1 id="two-factor-authentication-with-the-gateway">Two Factor Authentication (2FA) with the Gateway  <a href="../../admin-reference/p_configure_gateway_opts/index.html#enable-early-access-features"><img src="../../images/early-access-feature.png" title="This feature is available as an Early Access Feature."></a></h1>
+
+<span class="note"><b>Note:</b> This document assumes that you are familiar with two factor authentication. For more information, see <a href="https://en.wikipedia.org/wiki/Multi-factor_authentication">Multi-factor authentication</a>, <a href="https://en.wikipedia.org/wiki/RSA_SecurID">RSA SecurID</a>, and <a href="https://www.rsa.com/en-us/products-services/identity-access-management/securid/hardware-tokens">RSA SecurID Hardware Token</a>.</span>
+
+<p>Kaazing 2FA provides the following benefits:</p>
+
+<ul>
+<li>Maintains security even if a username and password are compromised.</li>
+<li>No change to backend server configuration. Kaazing 2FA is a drop-in solution.</li>
+<li>Kaazing 2FA is consistent across different backend server platforms. It provides an agnostic 2FA solution.</li>
+</ul>
+
+<h2>Overview</h2>
+
+<p>Single factor authentication follows a process where a user accesses a backend server in the WAN using client software: </p>
+
+<ol>
+ <li>The administrator enters the hostname or IP address of backend server to connect to the server.</li>
+ <li>The client software prompts for a username and password for authentication. </li>
+ <li>The user enters the username and password</li>
+ <li>The backend server authenticates the user.</li>
+ <li>The user access the backend server via the client software. For example, a database administrator (DBA) uses a SQL client to access a database server on the WAN.</li>
+</ol>
+
+<p>Two factor authentication follows a more secure process where the user runs a local Kaazing client application, Kaazing Secure Connector, that connects to an authorization gateway protecting the backend server:</p>
+
+<ol>
+ <li>In Kaazing Secure Connector, the user supplies a URL for an authorization gateway. </li>
+ <li>The authorization gateway requires that the user provide a username and password (first factor) and a <a href="https://www.rsa.com/en-us/products-services/identity-access-management/securid/hardware-tokens">RSA SecurID Hardware Token</a> (second factor), as shown in the following picture.
+ 
+  <figure>
+   <img src="https://www.rsa.com/content/dam/rsa/sid700-hardware-token.jpg">
+  <figcaption><strong>Figure 1: RSA SecurID Hardware Token</strong></figcaption> 
+  </figure>
+ 
+ </li>
+ <li>The authorization gateway validates both factors. </li>
+ <li>Once the user has supplied both factors successfully, the user can use their previous client software to connect the the backend server, only this time the user will enter the URL of the authorization gateway instead of the backend server.</li>
+</ol>
+
+<h2>2FA Topology and Components</h2>
+
+<p>You can deploy 2FA in a number of ways, with clients on the same network or on different networks. For the purposes of this document, we will document an enterprise topology where a database administrator (DBA) is on the same WAN as the database server.</p>
+
+<h3>Common Enterprise Topology</h3>
+<p>The following diagram shows an enterprise 2FA topology using the Kaazing Secure Connector application, a Gateway acting as a Discovery Service, and an authorization gateway protecting the database server.</p>
+
+ <figure>
+   <img src="../../images/2FA.jpg">
+ <figcaption><strong>Figure 2: Enterprise 2FA Deployment using the Gateway</strong></figcaption> 
+ </figure>
+
+<h3>Topology Components</h3>
+<p>The following table lists the components involved in an enterprise 2FA deployment.</p>
+
+<table border="0">
+  <tr>
+    <th scope="col" width="20%">Component</th>
+    <th scope="col" width="80%">Description</th>
+  </tr>
+  <tr>
+    <td>Administrator application</td>
+    <td>The application the administrator uses to access the backend server and its resources. For example, MySQL Workbench.</td>
+  </tr>
+  <tr>
+    <td>Backend server</td>
+    <td>The server running the protected resource the administrator wants to access.</td>
+  </tr>
+  <tr>
+    <td>Kaazing Secure Connector (KSC)</td>
+    <td>A desktop application run on the administrator’s workstation that enables the administrator to authenticate using 2FA and, once successful, KSC acts as a proxy to connect the administrator application to the backend server.</td>
+  </tr>
+  <tr>
+    <td>Discovery Service</td>
+    <td>A Gateway hosting a directory service that maps user friendly authorization gateway names to URIs. It responds to requests for authorization gateway URIs from the KSC.</td>
+  </tr>
+  <tr>
+    <td>Authorization gateway</td>
+    <td>The Gateway that performs 2FA and proxies connections from the KSC to the backend server.</td>
+  </tr>
+  <tr>
+    <td>Login Modules</td>
+    <td>A Java interface that provides authentication. <a href="https://docs.oracle.com/javase/8/docs/api/javax/security/auth/spi/LoginModule.html">Login modules</a> authenticate the administrator by verifying credentials such as usernames and passwords, and RSA SecureIDs.</td>
+  </tr>
+  <tr>
+    <td>First factor authentication</td>
+    <td>Authentication of the first credentials provided by the administrator. For example, authenticating a username and password against a file or database record of user accounts.</td>
+  </tr>
+  <tr>
+    <td>Second factor authentication</td>
+    <td>Authentication of the second credentials provided by the administrator. For example, authenticating a RSA SecureID against an RSA server.</td>
+  </tr>
+  <tr>
+    <td>RSA Authentication Manager</td>
+    <td>The platform behind RSA SecurID that allows for centralized management of the RSA SecurID environment including authentication methods, users, applications, and agents across multiple physical sites. For information on setting up Authentication Agents, see the RSA documentation: <a href="https://www.rsa.com/en-us/products-services/identity-access-management/securid/authentication-manager">RSA Authentication Manager</a>, and <a href="https://www.youtube.com/playlist?list=PL69kuTXA1IasAousLJVVK1qItFJVALlJc">RSA Solutions Training</a> videos.</td>
+  </tr>
+</table>
+
+<h2>Security in the 2FA Session</h2>
+
+<p>Security and authentication takes place at a number of points in the 2FA deployment:</p>
+<ul>
+<li>All connections made by the Kaazing Secure Connector are end-to-end encrypted using TLS. The connection between the Kaazing Secure Connector and the Discover service is encrypted using TLS, either by HTTPS or WSS. The connection between the Kaazing Secure Connector and the authorization gateway is encrypted using TLS via WSS. </li>
+<li>An encrypted connection between any DBA client application and the backend server is required by the Kaazing 2FA deployment.</li>
+<li>authorization gateway requires 2 factor authentication from the Kaazing Secure Connector:
+ <ul type="a">
+  <li>Username and password.</li>
+  <li>PIN/password such as RSA SecureID verified against a RSA SecureID server.</li>
+ </ul>
+</li>
+<li>Any backend TCP connectivity through the authorization gateway to the protected server must pass an IP whitelist.</li>
+</ul>
+
+<h2>Connection Process</h2>
+<p>The following process describes how a database administrator (DBA) using MySQL Workbench to connect to a database server is authenticated using Kaazing 2FA:</p>
+
+<ol>
+ <li>The DBA opens the Kaazing Secure Connector.</li>
+ <li>The Kaazing Secure Connector automatically creates a secure connection with the Discover Service Gateway and receives the list of available authorization gateways.</li>
+ <li>In Kaazing Secure Connector, the DBA enters the database to connect to by hostname or hostname:port or IP address:port. </li>
+ <li>The DBA then enters the hostname IP address for the computer that will connect to Kaazing Secure Connector. Typically, this is the local computer and the DBA will use localhost. This localhost address is the same address the DBA will later use in MySQL Workbench when entering the IP address of the database server.</li>
+ <li>The DBA presses <strong>Authenticate</strong>.</li>
+ <li>Kaazing Secure Connector connects to the authorization gateway via WebSocket Secure (WSS), requesting that the authorization gateway present a valid TLS certificate for its hostname. </li>
+ <li>The authorization gateway sends its TLS certificate to Kaazing Secure Connector.</li>
+ <li>Kaazing Secure Connector validates the TLS certificate and requests access to the database server.</li>
+ <li>The authorization gateway challenges the Kaazing Secure Connector for the first authentication factor, a username and password.</li>
+ <li>The DBA enters the username and password into Kaazing Secure Connector and presses Enter.</li>
+ <li>The authorization gateway authenticates the username and password and then challenges the Kaazing Secure Connector with the second authentication factor, the RSA SecureID. The challenge is displayed in Kaazing Secure Connector.</li>
+ <li>The DBA uses his <a href="https://www.rsa.com/en-us/products-services/identity-access-management/securid/hardware-tokens">RSA SecurID</a> device to obtain an RSA code, enters the code in Kaazing Secure Connector, and presses <strong>Enter</strong>.</li>
+ <li>The authorization gateway verifies the RSA code against the RSA server in the WAN.</li>
+ <li>The authorization gateway proxies the connection from Kaazing Secure Connector to the backend server. (Note, the connection between Kaazing Secure Connector and the authorization gateway remains encrypted by TLS.)</li>
+ <li>The DBA opens MySQL Workbench and opens the screen to connect to a remote database server.</li>
+ <li>The DBA enters the same localhost IP address:port it specified in Kaazing Secure Connector, and clicks <strong>Connect</strong>.</li>
+ <li>MySQL Workbench connects to the Kaazing Secure Connector via the localhost IP address:port, the Kaazing Secure Connector proxies that connection to the authorization gateway via its valid WSS and 2FA secured connection, and then the Authentication proxies the connection to the database server.</li>
+ <li>The DBA uses MySQL Workbench with the remote database server.</li>
+</ol>
+
+<h2>Deploying 2FA with the Gateway</h2>
+
+<p>Deploying 2FA involves minimal configuration of the Kaazing Secure Connector or the Gateways used for discovery and authentication. The Kaazing 2FA packaging includes login modules for various authentication sources, including RSA SecureID.</p>
+
+<p>The following deployment steps deploy the server components first, followed by the client components.</p>
+
+<p>To deploy 2FA, follow this checklist:</p>
+
+<table width="789" border="0">
+  <tr>
+    <th scope="col">#</th>
+    <th scope="col" width="400">Step</th>
+    <th scope="col">Section</th>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>Set up the authorization gateway.</td>
+    <td><a href="#set-up-the-authentication-gateway">Set Up the Authorization Gateway</a></td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td>Set up the Discovery service on a Gateway.</td>
+    <td><a href="#set-up-the-discovery-service">Set Up the Discovery Service</a></td>
+  </tr>
+  <tr>
+    <td>3</td>
+    <td>Install Kaazing Secure Connector on the administrator’s computer.</td>
+    <td><a href="#install-kaazing-secure-connector">Install Kaazing Secure Connector</a></td>
+  </tr>
+  <tr>
+    <td>4</td>
+    <td>Test your 2FA deployment by authenticating using Kaazing Secure Connector, and then by logging into the backend server using the 3rd party client software.</td>
+    <td><a href="#test-2fa-deployment">Test 2FA Deployment</a></td>
+  </tr>
+</table>
+
+
+<h3 id="set-up-the-authentication-gateway">Set Up the Authorization Gateway</h3>
+
+<p>The authorization gateway performs the 2FA for the user via Kaazing Secure Connector. Once authentication is successful, the authorization gateway proxies incoming connections from the Kaazing Secure Connector to the backend server. Configuring the authorization gateway involves setting up its 2FA and proxy service.</p>
+
+<span class="note"><b>Notes:</b>
+ <ul>
+  <li>Setting up the authorization gateway is very simple. The Gateway distribution comes with YAML configuration files that are easy to update, and several login modules to accommodate different authentication services.</li>
+  <li>The 2FA Gateway distribution ships with a configuration and files for testing purposes. The examples used in the following procedure include hostnames and file names used in testing. When you deploy Kaazing 2FA you will replace these names with live, production names.</li>
+ </ul>
+</span>
+
+<p>To configure the authorization gateway, do the following:</p>
+
+<ol>
+ <li>Download and install the Kaazing WebSocket Gateway - 2FA Edition on the server. </li>
+ <li>In the root of the distribution, open the authentication.gateway folder.</li>
+ <li>Open the conf folder. </li>
+ <li>Open the YAML configuration file (.yml). In the file you will see hostnames and IP addresses used for testing that you can use or replace with hostnames and IP addresses from your WAN. To use the testing hostnames and IP addresses, you will need to update the DNS service used by the hosts in your WAN. Here is what the YAML file looks like:
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+# The proxy service that accepts connections from the Kaazing Secure Connector
+# and proxies the connections to the tcpProxy service below
+wsProxy:
+    # The URI entered in the Kaazing Secure Connector to connect to
+    # the authorization gateway
+    - accept: auth1.2fa.kaazing.test:9443
+      # Bind the accept URI to the local server address and port
+      bind: 127.0.0.1:9443
+      # Connect Kaazing Secure Connector connections to tcpProxy
+      connect:
+          - localhost:3306
+
+# The proxy service that connects to the backend server
+tcpProxy:
+    # The URI the tcpProxy service listens on.
+    # It contains its local hostname and the same port number used
+    # in the wsProxy connect URI
+    - accept: db1-app.2fa.kaazing.test:3306
+      # Bind the connection to the local server IP address
+      bind: 127.0.0.1:4321
+      # IP addresses of hosts that may connect to via the proxy service
+      ipWhitelist:
+          - 127.0.0.1
+      # The IP address of the backend server and port for the backend service
+      connect:
+          - 192.168.99.100:8000
+    # Additional accept if the authorization gateway is being used
+    # by another application server
+    - accept: db2-app.2fa.kaazing.test:3307
+      # IP addresses of hosts that may connect to the proxy service
+      ipWhitelist:
+          - 192.168.99.0/24
+      # The IP address of the backend server and port for the backend service
+      connect:
+          - 192.168.99.100:9000
+# keystore containing the TLS certificate sent to the Kaazing Secure Connector
+keystore:
+    type: JCEKS
+    # The file containing the certificates
+    file: keystore.db
+    # Password file for the keystore
+    passwordFile: keystore.pw
+</pre>
+
+<span class="note"><b>Note:</b> The connect URI in <code>wsProxy</code> uses the same port number as the <code>accept</code> URI in the <code>tcpProxy</code> service. The tcpProxy service proxies connects from wsProxy to the backend server.</span>
+ </li>
+ <li>For production, modify the WebSocket proxy service. The WebSocket proxy service, <code>wsProxy</code>, accepts connections from the Kaazing Secure Connector, applies 2FA, and proxies traffic to the TCP proxy service, <code>tcpProxy</code>. <code>wsProxy</code> uses WebSocket Secure (WSS) and for the connection from Kaazing Secure Connector and therefore it provides a TLS certificate from its keystore to Kaazing Secure Connector to establish the TLS connection. The Kaazing 2FA Gateway distribution contains certificates you can use for testing under the hostname <code>2fa.kaazing.test</code>.
+ <p>When you move to production you will need to update the hostnames and IP addresses in wsProxy for your production hosts. In addition, you will need to add a TLS certificate to the keystore for the production hostname that the authorization gateway uses in its accept. For more information, see <a href="https://kaazing.com/doc/5.0/security/p_tls_trusted/index.html">Secure the Gateway Using Trusted Certificates</a>.</p>
+ </li>
+ <li>For production, modify the TCP proxy service. The TCP proxy service, <code>tcpProxy</code>, proxies connections from the <code>wsProxy</code> service to the backend server. When you move to production you will need to update the hostnames and IP addresses in <code>tcpProxy</code> for your production hosts.</li>
+ <li>Save the YAML file.</li>
+ <li>Modify the login modules and related files used to perform 2FA. The <code>wsProxy</code> service will use the login modules located and related files located in <code><em>GATEWAY_HOME</em>/security/src/main/java/com/kaazing/gateway/security/auth</code>. For example, a login module to authenticate the username and password is located in that folder along with a corresponding file containing usernames and passwords. A login module named <strong>RsaLoginModule.java</strong> is used for the RSASecureID authentication and calls a corresponding file, <code>rsa.property.file</code>, located in the same folder. You can update <code>rsa.property.file</code> with the RSA server information, such as IP address.</li>
+<li>Start the authorization gateway by running the startup script in the root folder of the distribution.</li>
+</ol>
+
+<h3 id="set-up-the-discovery-service">Set Up the Discovery Service</h3>
+
+<p>The Discover Service locates the authorization gateways according to the backend servers they proxy. When the Kaazing Secure Connector is used for the first time, the administrator will specify the backend server that he wants to access, and the Kaazing Secure Connector will contact the Discover Service to locate the authorization gateway for that backend server. To discover authorization gateways, the Discover Service uses a local discovery file that maps user-friendly names to backend server addresses. The Discover Service then returns the authorization gateway URI to the Kaazing Secure Connector.</p>
+
+<p>Configuring the Gateway for the Discover Service involves:</p>
+
+<ul>
+ <li>Configuring a directory service on the Gateway.</li>
+ <li>Configuring a keystore for the TLS certificate the Discovery Service will present to the Kaazing Secure Connector.</li>
+ <li>Populating a mapping file for the backend servers.</li>
+</ul>
+
+<span class="note"><b>Note:</b> The Discovery Service includes an API to allow you to configure your own database storage for the backend server mappings data. It is also an SPI that you can extend. For more information, see <a href="#discovery-service-apispi">Discovery Service API/SPI</a>.</span>
+
+<p>To configure the Discovery Service, do the following:</p>
+
+<ol>
+ <li>Download and install the Kaazing WebSocket Gateway - 2FA Edition on the server.</li>
+ <li>In the root of the distribution, open the <strong>discovery.service</strong> folder.</li>
+ <li>Open the <strong>conf</strong> folder.</li> 
+ <li><p>Modify the YAML configuration file (.yml). The configuration file contains a directory service and a keystore configuration.</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+directory:
+    # the URI the Kaazing Secure Connector uses to connect to the
+    # Discovery Service.
+    acceptURL: discovery.2fa.kaazing.test:8443
+    # The local IP address of the Gateway
+    bind: 127.0.0.1:8443
+# keystore containing the TLS certificate sent to the Kaazing Secure Connector
+keystore:
+    type: JCEKS
+    # The file containing the certificates
+    file: keystore.db
+    # Password file for the keystore
+    passwordFile: keystore.pw
+</pre>
+ 
+  <p>The Discovery Service provides a TLS certificate from its keystore to Kaazing Secure Connector to establish the TLS connection. The Kaazing 2FA Gateway distribution contains certificates you can use for testing under the hostname <code>2fa.kaazing.test</code>.</p>
+  <p>When you move to production you will need to update the hostnames and IP addresses in directory for your production hosts. In addition, you will need to add a TLS certificate to the keystore for the production hostname that the Discovery Service Gateway uses. For more information, see <a href="../../security/p_tls_trusted/index.html">Secure the Gateway Using Trusted Certificates</a>.</p></li> 
+ <li>Save the YAML configuration file.</li>
+ <li><p>Open the YAML mappings file that maps user-friendly names to authorization gateway URIs.
+   endpoints:</p>
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+- name: Auth 1
+  proxy: 'auth1.2fa.kaazing.test:8443'
+  backend: 'localhost:3306'
+- proxy: 'auth1.2fa.kaazing.test:8443'
+  backend: 'localhost:3307'
+- proxy: 'auth1.2fa.kaazing.test:8443'
+  backend: 'localhost:3308'
+- name: Auth 2
+  proxy: 'auth2.2fa.kaazing.test:8443'
+  backend: 'localhost:3309'
+- proxy: 'auth2.2fa.kaazing.test:8443'
+  backend: 'localhost:3310'
+</pre>
+  
+  <p>The name value is the user-friendly name that will appear in the Kaazing Secure Connector, such as <strong>Stock Database</strong>. The proxy value is the URI that the Kaazing Secure Connector will use to locate the authorization gateway. It is the same URI as the accept value in the authorization gateway’s configuration YAML file. When you move to production you will need to update these values.</p>
+  <span class="note"><b>Note:</b> Always synchronize the proxy value in the mappings file with the accept URI in the  authorization gateway config file.</span></li>
+ <li>Save the YAML configuration file.</li> 
+ <li>Start the Discovery Service Gateway by running the startup script in the root folder of the distribution.</li>
+ 
+</ol>
+
+<h3 id="install-kaazing-secure-connector">Install Kaazing Secure Connector</h3>
+
+<p>The Kaazing Secure Connector is the administrator’s interface to Kaazing 2FA. The administrator uses Kaazing Secure Connector to discover authorization gateways for the backend servers he wants to connect to, and he uses the Kaazing Secure Connector to enter in his credentials for 2FA.</p>
+
+<p>Configuring the Kaazing Secure Connector involves:</p>
+
+<ul>
+ <li>Specifying a remote endpoint for the connection. The remote endpoint is the user-friendly name for an Authorization Gateway. The Discovery Service maps the name to the URI of an Authorization Gateway.</li>
+ <li>Configuring an HTTPS/WSS connection from Kaazing Secure Connector to the Discovery Service. </li>
+ <li>Saving the administrator’s configuration after the initial run of  Kaazing Secure Connector.</li>
+</ul>
+
+<p>To configure the Kaazing Secure Connector, do the following:</p>
+
+<ol>
+ <li>Ensure that the workstation is connected to the company WAN. If you are working remotely, ensure that you have a VPN connection to the WAN.</li>
+ <li>Download and install the Kaazing WebSocket Gateway - 2FA Edition on the administrator's workstation. To install, run the installer inside the distribution.</li>
+ <li>Run the KSC app to connect to the authorization gateway. In <strong>Remote Endpoint</strong>, enter the name of an authorization gateway. The name is the value for the name element in the Discovery Service YAML mappings file, as described in <a href="#set-up-the-discovery-service">Set Up the Discovery Service</a>. The name will map to the default authorization gateway URI used for testing, <code>discovery.2fa.kaazing.test:8443</code>.</li>
+ <li>Modify the truststore. The truststore contains certificates that the Kaazing Secure Connector trusts. The truststore should contain the certificates for the hostname of the Discovery Service the administrator wants to connect with. The default distribution of Kaazing 2FA includes a self-signed certificate for the name <code>*.2fa.kaazing.test</code>. You can use this certificate for your testing phase, but when you move to production, a new, trusted certificate is required. For more information on modifying the truststore, see <a href="../../security/p_tls_trusted/index.html#gateway-to-server">Secure Gateway-to-Server Connections</a>.</li>
+</ol>
+
+<h3 id="test-2fa-deployment">Test 2FA Deployment</h3>
+
+<p>To test your 2FA deployment, do the following:</p>
+
+<ol>
+<li>Ensure that the following components are running and their hostnames can be resolved using DNS:
+RSA Server. Also, ensure it is running and is configured to verify codes.
+ <ol type="a">
+ <li>Backend server.</li>
+ <li>authorization gateway.</li>
+ <li>Discover Service Gateway.</li>
+ </ol>
+</li>
+<li>Run the Kaazing Secure Connector.</li> 
+<li>On the administrator workstation, open the client you typically use to connect to the backend server, for example MySQL Workbench.</li>
+<li>In the client, create a connection using the localhost address, 127.0.0.1:4444. Use username <strong>root</strong> and password <strong>password</strong>. The client connects through the KSC to the backend server.</li>
+</ol>
+
+<p>The whole setup runs out of the box with little configuration, other than changing DNS entries for the test host names.  The Kaazing 2FA distribution includes self-signed certificates for <code>*.2fa.kaazing.test</code>.</p>
+
+<h2 id="discovery-service-apispi">Discovery Service API/SPI</h2>
+
+<p>You can build your own program to modify, update or extend the Discovery Service. The Discovery Service API/SPI consists of 3 interfaces and 2 classes.</p>
+
+<h3 id="discovery-service-java">DiscoveryService.java</h3>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+/**
+ * Describes a service that can discover end-points that an application can use to connect to. 
+ */
+public interface DiscoveryService {
+
+    /**
+     * Gets the end-points it discovered.
+     *  
+     * @return the discovered end-points
+     */
+    List&lt;Endpoint&gt; getEndpoints();
+
+    /**
+     * Registers a new {@code DiscoveryServiceListener} to listen for end-point events.
+     * 
+     * @param listener the instance to register
+     */
+    void addListener(DiscoveryServiceListener listener);
+
+}
+</pre>
+
+<h3 id="discovery-serviceSpi-java">DiscoveryServiceSpi.java</h3>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+/**
+ * The Service Provider Interface for the {@link DiscoveryService} class.
+ * 
+ * &lt;p&gt;Providers wanting to implement a new discovery service type must implement this interface.
+ */
+public interface DiscoveryServiceSpi {
+
+    /**
+     * Returns the type of discovery service it can create.
+     * 
+     * @return the {@code DicoveryService} type
+     */
+    String getDiscoveryServiceType();
+
+    /**
+     * Creates a new {@code DiscoveryService} instance, using the provided {@code options}.
+     * 
+     * @param options the information needed to properly configure the service of this type
+     * @return a new {@code DiscoveryService} instance
+     */
+    DiscoveryService createDiscoveryService(Map&lt;String, ?&gt; options);
+}
+</pre>
+
+<h3 id="discovery-service-listener-java">DiscoveryServiceListener.java</h3>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+/**
+ * Describes a listener that can react to end-point related events.
+ */
+public interface DiscoveryServiceListener {
+
+    /**
+     * Defines the behavior of the listener when the {@code endpoint} provided as input is removed from the list of known end-points.
+     * 
+     * @param endpoint the removed end-point
+     */
+    public void endpointRemoved(Endpoint endpoint);
+
+    /**
+     * Defines the behavior of the listener when the a new {@code endpoint} is found by the {@code DiscoveryService}.
+     * 
+     * @param endpoint the newly discovered end-point
+     */
+    public void endpointAdded(Endpoint endpoint);
+}
+</pre>
+
+<h3 id="discovery-service-factory-java">DiscoveryServiceFactory.java</h3>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+/**
+* Creates a new {@code DiscoveryService} instance of the specified {@code type}, configured using the {@code options} map.
+* 
+* @param type the type of {@code DiscoveryService} to create
+* @param options a {@code Map} containing the information needed by the service to start properly
+* @return a new {@code DiscoveryService} instance
+*/
+public static DiscoveryService createDiscoveryService(String type, Map&lt;String, ?&gt; options) {...}
+</pre>
+
+<h3 id="endpoint-java">Endpoint.java</h3>
+
+<p>This is a <a href="https://en.wikipedia.org/wiki/Plain_Old_Java_Object">POJO</a> describing an communication endpoint. It contains three fields:</p>
+<ul>
+ <li>Name</li>
+ <li>Proxy address</li>
+ <li>Backend address</li>
+</ul>
+</div>
+
+</div>
+
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

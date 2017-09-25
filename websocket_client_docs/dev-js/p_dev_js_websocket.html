@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+  
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+<h1><a name="websocket" id="websocket"></a>Interact with Kaazing Gateway Using the WebSocket API</h1>
+<p>This section describes how you can use the <span class="uri">WebSocket</span> API provided by the Kaazing Gateway JavaScript client library (<a href="../apidoc/client/javascript/gateway/index.html" title="JsDoc">JavaScript Client API</a>). This API allows you to take advantage of the WebSocket standard as described in the <a href="//www.w3.org/TR/html5/" title="HTML5">HTML5 specification</a> and <a href="//dev.w3.org/html5/websockets/" title="The WebSocket API">WebSocket API</a> including the sending and receiving of string and binary messages. </p>
+
+<p>The steps in this topic show you how to create a simple JavaScript client using the WebSocket API as implemented in the Kaazing JavaScript WebSocket library. The Kaazing JavaScript client library is fully-compliant with the WebSocket API standard and includes several enhancements. The JavaScript client you will create in this topic is the same as the JavaScript WebSocket Echo demo available on Github at <a href="https://github.com/kaazing/javascript.client.tutorials/tree/develop/ws">https://github.com/kaazing/javascript.client.tutorials/tree/develop/ws</a>.</p> 
+
+<p>For this example, we will use a publicly availble Kaazing WebSocket Gateway address <code>wss://sandbox.kaazing.net/echo</code>.</p>
+
+<p>This topic covers the following information:</p>
+<ul class="arrow-2">
+<li><a href="#datatypes">Supported Data Types</a></li>
+<li><a href="#Walkthrough">Use the JavaScript WebSocket API</a></li>
+<li><a href="#WebSocketFactory">Setting and Overriding HttpRedirectPolicy Defaults on the WebSocketFactory</a></li>
+</ul>
+
+<p>The examples in this topic highlight some of the most commonly used WebSocket methods. Refer to the <a href="../apidoc/client/javascript/gateway/index.html" title="JsDoc">JavaScript Client API</a> for a complete description of all the available methods.</p>
+
+<h2>Before You Begin</h2>
+<p>This procedure is part of <a href="o_dev_js.html">Checklist: Build JavaScript Clients Using Kaazing Gateway</a>.</p>
+
+<p><span class="note"><b>Note:</b> Learn about supported browsers, operating systems, and platform versions in the <a href="//kaazing.com/releases/client-javascript/">Release Notes</a>.</span></p>
+
+<a name="datatypes"></a><h2>Supported Data Types</h2>
+<p>You can send a WebSocket message using one of the following data types:</p>
+<ul class="arrow-2">
+    <li><strong>String</strong> - A text WebSocket message (UTF-8).</li>
+    <li><strong>Blob</strong> - A pointer to a single, raw binary object called a blob (binary large object). Blobs can be multimedia, images, or even executable code. Blob objects are considered safe to spool to disk because the entire data object is intact. You might use a Blob data type when you do not intend to manipulate the data, but simply write it to disk, or you might use a blob when you want to slice a file into byte ranges. The blob data type will work on any web browser that supports the <a href="//www.w3.org/TR/FileAPI/" title="File API">File API</a>. For a list of web browsers that support the File API, see <a href="//caniuse.com/#feat=fileapi">caniuse.com</a>.</li>
+    <li><strong>ArrayBuffer</strong> - A fixed-length binary data buffer used to store data temporarily. You use a ArrayBufferView mask, such as Uint8Array, to view, index and manipulate the raw binary of the ArrayBuffer. There are different ArrayBufferView masks for different integer and floating point values (for example, you use a Uint16Array view to manipulate a 16-bit array of unsigned integers).<br>Use an ArrayBuffer data type instead of a Blob when you intend to work with the data, such as perform a calculation on the data. The ArrayBuffer data type is supported by web browsers that support the <a href="https://www.khronos.org/registry/typedarray/specs/latest/#7">Typed Array Specification</a>. For a list of web browsers that support the Typed Array Specification, see <a href="//caniuse.com/#feat=typedarrays">caniuse.com</a>.</li>
+  <li><strong>ByteBuffer</strong> - A compact byte array representation for sending, receiving and processing binary data using WebSocket. ByteBuffer is available for JavaScript clients built using the legacy Kaazing Gateway JavaScript ByteBuffer library. Legacy clients can use the latest JavaScript WebSocket library without having to change their client code. The current WebSocket.js library is all that is needed. The current JavaScript WebSocket API enables clients to convert <code>blob</code> to and from <code>bytebuffer</code>, thereby supporting the integration of blob binary messages in legacy clients.</li>
+</ul>
+
+<p><span class="note"><b>Note:</b> In the code examples in this topic, <code>binaryType</code> is specified in the send functions prior to sending binary data. This is to ensure that the received binary data will be of same binary type as the sent binary data. If you build an application that sends binary data (ArrayBuffer, Blob, ByteBuffer), you should specify <code>binaryType</code> based on the data type that you expect your received data will be. For example, you would set <code>binaryType="arraybuffer"</code> if you intend to receive binary message as ArrayBuffer.</span></p>
+
+<a name="Walkthrough"></a><h2>To Use the WebSocket API with the Gateway</h2>
+<p>The following example demonstrates how to send and receive text and binary messages with the Gateway over WebSocket using a JavaScript client and the Gateway <a href="../apidoc/client/javascript/gateway/index.html" title="JsDoc">JavaScript Client API</a>. The JavaScript client consists of an HTML page. You will add a <span class="uri">script</span> tag that points to the JavaScript WebSocket library from the HTML page, an HTML form, and the JavaScript needed to connect to the publicly available Gateway over WebSocket and send and receive WebSocket messages with the Echo service hosted on the Gateway.</p>
+
+<ol>
+  <li>Clone or download the WebSocket demo from <a href="https://github.com/kaazing/javascript.client.tutorials">https://github.com/kaazing/javascript.client.tutorials</a>.</li>
+  <li>In a file browser, navigate to the folder containing the WebSocket demo, <code>javascript.client.tutorials/ws</code>.</li>
+  <li><p>Create a new HTML page named <strong>echo.html</strong> and save it in the <code>javascript.client.tutorials/ws</code> folder.</p></li>
+
+    <li><p>Copy and paste the following text and HTML form into the new echo.html file:</p>
+<pre class="auto-links: false; brush: html; toolbar: false;">
+&lt;html&gt;
+
+&lt;head&gt;
+
+&lt;/head&gt;
+
+&lt;body&gt;
+  &lt;div class=&quot;main-container &quot;&gt;
+    &lt;div class=&quot;main wrapper clearfix&quot;&gt;
+      &lt;!-- End header --&gt;
+      &lt;article&gt;
+        &lt;section class=&quot;demo&quot;&gt;
+          &lt;!--  Kaazing scripts --&gt;
+          &lt;div id=&quot;echo&quot;&gt;
+            &lt;h1&gt;JavaScript Echo Demo&lt;/h1&gt;
+            &lt;p&gt;This demo uses the WebSocket API to send
+              text messages to the Kaazing Gateway Echo service, which echoes back the messages.&lt;/p&gt;
+              &lt;div id=&quot;location-div&quot; class=&quot;clearfix&quot;&gt;
+                &lt;div class=&quot;form-labels&quot;&gt;
+                  &lt;label&gt;Location&lt;/label&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;form-fields&quot;&gt;
+                  &lt;input id=&quot;wsurl&quot; size=&quot;40&quot;&gt;
+                  &lt;button id=&quot;connect&quot;&gt;Connect&lt;/button&gt;
+                  &lt;button id=&quot;close&quot;&gt;Close&lt;/button&gt;
+                &lt;/div&gt;
+
+                &lt;div id=&quot;logindiv&quot;&gt;
+                  &lt;div class=&quot;heading clearfix&quot;&gt;
+                    &lt;div class=&quot;text&quot;&gt;Login&lt;/div&gt;
+                    &lt;div class=&quot;image&quot;&gt;&lt;img src=&quot;images/lock-icon.png&quot; width=&quot;56&quot; height=&quot;56&quot;&gt;&lt;/div&gt;
+                  &lt;/div&gt;
+                  &lt;div class=&quot;clearfix&quot;&gt;
+                    &lt;div class=&quot;form-labels&quot;&gt;
+                      &lt;label for=&quot;username&quot;&gt;Username:&lt;/label&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;form-fields&quot;&gt;
+                      &lt;input id=&quot;username&quot; size=&quot;12&quot; value=&quot;&quot;/&gt;
+                    &lt;/div&gt;
+                  &lt;/div&gt;
+                  &lt;div class=&quot;clearfix&quot;&gt;
+                    &lt;div class=&quot;form-labels&quot;&gt;
+                      &lt;label for=&quot;password&quot;&gt;Password:&lt;/label&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;form-fields&quot;&gt;
+                      &lt;input id=&quot;password&quot; type=&quot;password&quot; size=&quot;12&quot; value=&quot;&quot;/&gt;&lt;br&gt;
+                      &lt;button id=&quot;login&quot;&gt;OK&lt;/button&gt;
+                      &lt;button id=&quot;cancel&quot;&gt;Cancel&lt;/button&gt;
+                    &lt;/div&gt;
+                  &lt;/div&gt;
+                &lt;/div&gt; &lt;!-- logindiv --&gt;
+
+              &lt;/div&gt; &lt;!-- location-div --&gt;
+
+              &lt;div id=&quot;message-div&quot; class=&quot;clearfix&quot;&gt;
+                &lt;div class=&quot;form-labels&quot;&gt;
+                  &lt;label&gt;Message&lt;/label&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;form-fields&quot;&gt;
+                  &lt;input id=&quot;message&quot; size=&quot;40&quot; value=&quot;Hello, WebSocket!&quot;&gt;&lt;br/&gt;
+                  &lt;button id=&quot;sendText&quot;&gt;Send Text&lt;/button&gt;
+                  &lt;button id=&quot;sendBlob&quot;&gt;Send Blob&lt;/button&gt;
+                  &lt;button id=&quot;sendArrayBuffer&quot;&gt;Send Array Buffer&lt;/button&gt;
+                  &lt;button id=&quot;sendByteBuffer&quot;&gt;Send Byte Buffer&lt;/button&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+
+              &lt;div id=&quot;console-div&quot;&gt;
+                Log messages
+                &lt;div id=&quot;consoleLog&quot;&gt;&lt;/div&gt;
+                &lt;button id=&quot;clear&quot;&gt;Clear Log&lt;/button&gt;
+              &lt;/div&gt;
+            &lt;/div&gt; &lt;!-- #echo --&gt;
+          &lt;/section&gt;
+        &lt;/article&gt;
+        &lt;!-- Start footer --&gt;
+      &lt;/div&gt; &lt;!-- #main --&gt;
+    &lt;/div&gt; &lt;!-- #main-container --&gt;
+  &lt;/body&gt;
+
+&lt;/html&gt;
+</pre>
+<p>Note the <span class="uri">id</span> in each form element. These <span class="uri">ids</span> will be used in your JavaScript code to reference user input and events.</p>
+    </li>
+
+    <li><p>In the <span class="uri">head</span> section, add the following link tags for the CSS stylesheets:</p>
+<pre class="auto-links: false; brush: html; toolbar: false;">
+&lt;link rel=&quot;stylesheet&quot; href=&quot;css/normalize.css&quot;&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;css/dev.css&quot;&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;css/demo.css&quot;&gt;
+  
+&lt;script src=&quot;https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js&quot;&gt;&lt;/script&gt;
+</pre>
+    </li>
+
+    <li>Save the HTML page. </li>
+
+    <li>To see how the page looks, drag the echo.html file into a browser.</li>
+
+    <li><p>In your HTML page named <strong>echo.html</strong>, add a <span class="uri">script</span> tag in the <span class="uri">head</span> section that points to the Kaazing JavaScript WebSocket library available on a content delivery network:</p>
+<pre class="auto-links: false; brush: html; toolbar: false;">
+  &lt;script src=&quot;http://cdn.kaazing.com/releases/enterprise.javascript.client/4.1.0/WebSocket.js&quot;&gt;&lt;/script&gt;
+</pre>
+<p>For more information about where you can get the Kaazing JavaScript WebSocket library, see <a href="//kaazing.com/download/#client-javascript" title="Kaazing - Download">kaazing/download</a>.</p>
+    </li>
+
+    <li>After the script tag for the Gateway JavaScript WebSocket library, add a new script tag and a new JavaScript function named <span class="uri">setup()</span>.
+<pre class="auto-links: false; brush: html; toolbar: false;">
+&lt;script&gt;
+function setup() {
+
+}
+&lt;/script&gt;
+</pre>
+<p>This function will contain all of the JavaScript for the client. The function is named <span class="uri">setup()</span> because we will run the function when the page loads.</p>
+    </li>
+
+    <li>Inside the <span class="uri">setup()</span> function, declare a variable for the WebSocket object:
+<pre class="auto-links: false; brush: js; toolbar: false;">
+var websocket;
+</pre>
+</li>
+
+    <li>Declare variables for the form elements:
+<pre class="auto-links: false; brush: js; toolbar: false;">
+var locationURI = new URI(&quot;ws://sandbox.kaazing.net/echo&quot;);
+var consoleLog = document.getElementById(&quot;consoleLog&quot;);
+var clear = document.getElementById(&quot;clear&quot;);
+var wsurl = document.getElementById(&quot;wsurl&quot;);
+var message = document.getElementById(&quot;message&quot;);
+var connect = document.getElementById(&quot;connect&quot;);
+var sendText = document.getElementById(&quot;sendText&quot;);
+var sendBlob = document.getElementById(&quot;sendBlob&quot;);
+var sendArrayBuffer = document.getElementById(&quot;sendArrayBuffer&quot;);
+var sendByteBuffer = document.getElementById(&quot;sendByteBuffer&quot;);
+var close = document.getElementById(&quot;close&quot;);
+</pre>
+    </li>
+
+    <li>Set all of the buttons in the form as disabled when the page is loaded:
+<pre class="auto-links: false; brush: js; toolbar: false;">
+// Enable or disable controls based on whether or not we are connected.
+// For example, disable the Connect button if we&#x27;re connected.
+var setFormState = function (connected) {
+	wsurl.disabled = connected;
+	connect.disabled = connected;
+	close.disabled = !connected;
+	message.disabled = !connected;
+	sendText.disabled = !connected;
+	sendBlob.disabled = !connected;
+	sendArrayBuffer.disabled = !connected || (typeof(Uint8Array) === &quot;undefined&quot;);
+	sendByteBuffer.disabled = !connected;
+}
+</pre>
+    </li>
+
+    <li>Next, we will add a function to display the log in the <strong>Log messages</strong> section of the client (the <span class="uri">div</span> tag with the id <span class="uri">console-div</span>). When the JavaScript client sends or receives messages, this function will be called and the sent and received messages are displayed in the <strong>Log messages</strong> section.
+<pre class="auto-links: false; brush: js; toolbar: false;">
+wsurl.value = locationURI.toString();
+setFormState(false);
+var log = function (message) {
+	var pre = document.createElement(&quot;pre&quot;);
+	pre.style.wordWrap = &quot;break-word&quot;;
+	pre.innerHTML = message;
+	consoleLog.appendChild(pre);
+	consoleLog.scrollTop = consoleLog.scrollHeight;
+	while (consoleLog.childNodes.length &gt; 25) {
+		consoleLog.removeChild(consoleLog.firstChild);
+	}
+};
+
+var logResponse = function (message) {
+	log(&quot;&lt;span style=&#x27;color:blue&#x27;&gt;&quot; + message + &quot;&lt;/span&gt;&quot;);
+}
+</pre>
+    </li>
+    <li>Convert text strings into binary. Use the ByteBuffer object to enable the JavaScript client to convert text messages (strings) to binary before sending them. The messages sent using the JavaScript client are text messages. When you want to send these text messages as binary by clicking the <strong>Send Array Buffer</strong> button, you will need to convert the text string into a byte buffer first. A byte buffer is just an allocation of memory containing binary.
+<pre class="auto-links: false; brush: js; toolbar: false;">
+// Takes a string and Returns an array of bytes decoded as UTF8
+var getBytes = function(str) {
+    // Create a new ByteBuffer container for the binary data
+    var buf = new ByteBuffer();
+    // Encode a string into a ByteBuffer
+    Charset.UTF8.encode(str, buf);
+    /* Flip the buffer so that it can be read starting at 0,
+    switching the buffer from writing mode to reading mode.
+    */
+    buf.flip();
+    // Return the byte array to the sendArrayBuffer function
+    return buf.array;
+}
+</pre>
+    </li>
+        <li>Add a functionat expression for when a user clicks <strong>Send Text</strong>.
+<pre class="auto-links: false; brush: js; toolbar: false;">
+var doSendText = function () {
+	try {
+		var text = message.value;
+		log(&quot;SEND TEXT: &quot; + text);
+		websocket.send(text);
+	} catch (e) {
+		log(&quot;EXCEPTION: &quot; + e);
+	}
+};
+
+sendText.onclick = doSendText;
+</pre>
+        </li>
+    <li><p>Add an ArrayBuffer function for when a user clicks <strong>Send Array Buffer</strong>.</p>
+        <p>Turning a text string into binary via a byte buffer provides you with a memory allocation of binary data, but it does not give you a context or view of the data, such as the data type, starting offset, and number of elements. Without that context, it is impossible to access the data stored in the buffer accurately. The ArrayBuffer as defined in the <a href="https://www.khronos.org/registry/typedarray/specs/latest/">Typed Array Specification</a> stores the data in a typed array and provides array buffer views to access the memory contained in the buffer. You use a ArrayBufferView mask, such as Uint8Array, to view, index and manipulate the raw binary of the ArrayBuffer. For a list of web browsers that support the Typed Array Specification, see <a href="//caniuse.com/#feat=typedarrays">caniuse.com</a>.</p>
+<pre class="auto-links: false; brush: js; toolbar: false;">
+// Run this function when the Send Array Buffer button is clicked
+sendArrayBuffer.onclick = function() {
+    try {
+    /* Send the text message to the getBytes function,
+    and get a byte array back
+    */
+    var bytes = getBytes(message.value);
+    // View the byte buffer as an array of 8-bit unsigned integers
+    var array = new Uint8Array(bytes);
+    // Log the binary array
+    log("SEND ARRAY BUFFER: " + array.buffer);
+    // Identify the data type of the WebSocket connection as arraybuffer
+    websocket.binaryType = "arraybuffer";
+    // Send the array buffer over WebSocket
+    websocket.send(array.buffer);
+    } catch (e) {
+    // Log exceptions
+    log("EXCEPTION: "+e);
+    }
+}
+</pre>
+    </li>
+
+    <li>Add a Blob function for when a user clicks <strong>Send Blob</strong>. Sending a blob uses <a href="../apidoc/client/javascript/gateway/BlobUtils.html">BlobUtils</a>, is a portable, cross-browser utility library for working with Blob instances. Blob is the default binaryType for WebSocket connections.
+<pre class="auto-links: false; brush: js; toolbar: false;">
+// Run this function when the Send Blob button is clicked
+sendBlob.onclick = function() {
+    try {
+    /* Use BlobUtils to create a Blob from a string via UTF-8 encoding. 
+    Returns a blob instance*/
+    var blob = BlobUtils.fromString(message.value, "transparent");
+    // Log the blob
+    log("SEND BLOB: " + blob);
+    // Identify the data type of the WebSocket connection as blob
+    websocket.binaryType = "blob";
+    // Send the blob over WebSocket
+    websocket.send(blob);
+    } catch (e) {
+    log("EXCEPTION: "+e);
+    }
+}
+</pre>
+    </li>
+
+    <li>Add a ByteBuffer function for when a user clicks <strong>Send Byte Buffer</strong>. ByteBuffer is available for JavaScript clients built using the legacy Kaazing Gateway JavaScript ByteBuffer library. Legacy clients can use the latest JavaScript WebSocket library without having to change their client code. The current WebSocket.js library is all that is needed. The current JavaScript WebSocket API enables clients to convert blob to and from Bytebuffer, thereby supporting the integration of blob binary messages in legacy clients.
+<pre class="auto-links: false; brush: js; toolbar: false;">
+// Run this function when the Send Byte Buffer button is clicked
+sendByteBuffer.onclick = function() {
+try {
+    // Create new ByteBuffer object
+    var buf = new ByteBuffer();
+    // Put the string into a byte buffer using UTF8 to encode the bytes
+    buf.putString(message.value, Charset.UTF8);
+    /* Flip the buffer so that it can be read starting at 0,
+    switching the buffer from writing mode to reading mode.*/
+    buf.flip();
+    // Log the buffer
+    log("SEND BYTE BUFFER: " + buf);
+    // Identify the data type of the WebSocket connection as bytebuffer
+    websocket.binaryType = "bytebuffer";
+    // Send the buffer over WebSocket
+    websocket.send(buf);
+    } catch (e) {
+    log("EXCEPTION: "+e);
+    }
+}
+</pre>
+    </li>
+
+    <!-- <li>Add a Text function for when a user clicks <strong>Send Text</strong>. No binaryType is specified for this WebSocket message, and a text string is expected by the Gateway.
+<pre class="auto-links: false; brush: js; toolbar: false;">
+// Run this function when the Send Text button is clicked
+sendText.onclick = function() {
+    try {
+        // Create a variable to hold the text string of the message
+        var text = message.value;
+        // Log the text string
+        log("SEND TEXT: " + text);
+        // Send the text string
+        websocket.send(text);
+    } catch (e) {
+        log("EXCEPTION: "+e);
+    }
+}
+
+sendText.onclick = doSendText;
+</pre>
+    </li> -->
+
+    <li>Add event handlers for the WebSocket connection and messages.
+<pre class="auto-links: false; brush: js; toolbar: false;">
+var doConnect = function () {
+	log(&quot;CONNECT: &quot; + wsurl.value);
+	connect.disabled=true;
+	try {
+		var factory = new WebSocketFactory();
+		websocket = factory.createWebSocket(wsurl.value);
+
+		websocket.onopen = function (evt) {
+			log(&quot;CONNECTED&quot;);
+			setFormState(true);
+			message.focus();
+		}
+
+		websocket.onmessage = function (evt) {
+			var data = evt.data;
+			if (typeof(data) == &quot;string&quot;) {
+				//text
+				logResponse(&quot;RECEIVED TEXT: &quot; + data);
+			}
+			else if (data.constructor == ByteBuffer) {
+				//bytebuffer
+				logResponse(&quot;RECEIVED BYTE BUFFER: &quot; + data);
+			}
+			else if (data.byteLength) {
+				//arraybuffer
+				var u = new Uint8Array(data);
+				var bytes = [];
+				for (var i = 0; i &lt; u.byteLength; i++) {
+					bytes.push(u[i]);
+				}
+				logResponse(&quot;RECEIVED ARRAY BUFFER: &quot; + bytes);
+			}
+			else if (data.size) {
+				//blob
+				var cb = function (result) {
+					logResponse(&quot;RECEIVED BLOB: &quot; + result);
+				};
+				BlobUtils.asNumberArray(cb, data);
+			}
+			else {
+				logResponse(&quot;RECEIVED UNKNOWN TYPE: &quot; + data);
+			}
+		}
+
+		websocket.onclose = function (evt) {
+			log(&quot;CLOSED: (&quot; + evt.code + &quot;) &quot; + evt.reason);
+			setFormState(false);
+		}
+
+	}
+	catch (e) {
+		connect.disabled=false;
+		log(&quot;EXCEPTION: &quot; + e);
+		setFormState(true);
+	}
+};
+
+connect.onclick = doConnect;
+
+close.onclick = function () {
+	log(&quot;CLOSE&quot;);
+	websocket.close();
+};
+
+clear.onclick = function () {
+	while (consoleLog.childNodes.length &gt; 0) {
+		consoleLog.removeChild(consoleLog.lastChild);
+	}
+};
+</pre>
+
+<p>This is the last code entry in the <code>setup()</code> function.</p>
+    </li>
+
+    <li><p>Below the closing brace of the <code>setup()</code> function, enter a new jquery function to load the JavaScript you wrote when the page loads.</p>
+    
+<pre class="auto-links: false; brush: js; toolbar: false;">
+$(document).ready(function () {
+	setup();
+});
+</pre>
+    
+    </li>
+    
+    <li>Save the file.</li>
+    
+    <!-- <li>If you want to use a local Kaazing WebSocket Gateway, follow the </li>
+
+  <li>Open the configuration file for the Gateway located here: <span class="uri"><em>GATEWAY_HOME</em>/conf/gateway-config.xml</span>.</li>
+
+  <li>In the <a href="../admin-reference/r_conf_service/index.html#echo">Echo</a> service, add a WebSocket <a href="../admin-reference/r_conf_service/index.html#acceptele">accept</a> and <a href="../admin-reference/r_conf_service/index.html#xsiteconst">cross-site-constraint</a> for port 8000 because your JavaScript client is in the <strong>base</strong> directory:
+
+<pre class="auto-links: false; brush: xml; toolbar: false; highlight:[5,19,20,21];">
+&lt;service&gt;
+   &lt;name&gt;echo&lt;/name&gt;
+   &lt;description&gt;Simple echo service&lt;/description&gt;
+   &lt;accept&gt;ws://${gateway.hostname}:${gateway.extras.port}/echo&lt;/accept&gt;
+   &lt;accept&gt;ws://localhost:8000/echo&lt;/accept&gt;
+
+   &lt;type&gt;echo&lt;/type&gt;
+
+   &lt;realm-name&gt;demo&lt;/realm-name&gt;
+   &lt;!--
+   &lt;authorization-constraint&gt;
+     &lt;require-role&gt;AUTHORIZED&lt;/require-role&gt;
+   &lt;/authorization-constraint&gt;
+   --&gt;
+
+   &lt;cross-site-constraint&gt;
+     &lt;allow-origin&gt;http://${gateway.hostname}:${gateway.extras.port}&lt;/allow-origin&gt;
+   &lt;/cross-site-constraint&gt;
+   &lt;cross-site-constraint&gt;
+     &lt;allow-origin&gt;http://localhost:8000&lt;/allow-origin&gt;
+   &lt;/cross-site-constraint&gt;
+ &lt;/service&gt;
+</pre>
+
+  </li>
+
+  <li>Save the configuration file.</li>
+
+  <li>Start the Gateway by following the steps in <a href="../../about/setup-guide/index.html">Setting Up the Gateway and Clients</a>. </li> -->
+
+    <li>Test the JavaScript client. Drag the echo.html page into a web browser. The URL <span class="uri">wss://sandbox.kaazing.net/echo</span> is displayed in the <strong>Location</strong> field.</li>
+
+    <li>Click <strong>Connect</strong>. The <strong>Log</strong> displays a successful connection to the Gateway. If there is an exception, review your code for possible errors.</li>
+
+    <li>Click each of the send buttons and note the information displayed in the log.
+    <p>The following table provides examples of what the log should display for each button and the message <span class="uri">&ldquo;Hello, WebSocket!&rdquo;</span>.</p>
+    <table class="reference">
+      <tr>
+        <th scope="col">Button</th>
+        <th scope="col">Message Returned</th>
+      </tr>
+      <tr>
+        <td>Send Text</td>
+        <td><span class="uri">RECEIVED: Hello, WebSocket!<br>
+                        SEND TEXT: Hello, WebSocket!</span></td>
+      </tr>
+      <tr>
+        <td>Send Blob</td>
+        <td><span class="uri">RECEIVED BLOB: 72,101,108,108,111,44,32,87,101,98,83,111,99,107,101,116,33<br>
+                        SEND BLOB: [object Blob]</span></td>
+      </tr>
+      <tr>
+        <td>Send Array Buffer</td>
+        <td><span class="uri">RECEIVED ARRAYBUFFER: 72,101,108,108,111,44,32,87,101,98,83,111,99,107,101,116,33<br>
+                        SEND ARRAY BUFFER: [object ArrayBuffer]</span></td>
+      </tr>
+      <tr>
+        <td>Send Byte Buffer</td>
+        <td><span class="uri">RECEIVED BYTEBUFFER: 48 65 6c 6c 6f 2c 20 57 65 62 53 6f 63 6b 65 74 21<br>
+                        SEND BYTE BUFFER: 48 65 6c 6c 6f 2c 20 57 65 62 53 6f 63 6b 65 74 21</span></td>
+      </tr>
+    </table>
+    </li>
+
+    <li>Click <strong>Close</strong> to close the WebSocket connection.</li>
+
+</ol>
+<h2><a name="WebSocketFactory"></a>Setting and Overriding HttpRedirectPolicy Defaults on the WebSocketFactory</h2>
+<p>You can set a default redirect-policy on the WebSocketFactory that enables you to determine how your application handles server redirects. For example, you can set the client application to never follow HTTP redirects. All the WebSockets created using that factory automatically inherit the default. You can then override the defaults on an individual WebSocket, if desired. The Kaazing Gateway JavaScript API also provides the following options:</p>
+
+<table class="reference">
+  <tr>
+    <th scope="col">Option</th>
+    <th scope="col">Description</th>
+  </tr>
+  <tr>
+    <td>NEVER</td>
+    <td>Do not follow HTTP redirects.</td>
+  </tr>
+  <tr>
+    <td>ALWAYS</td>
+    <td>Follow the HTTP redirect requests always, regardless of the origin, domain, etc.</td>
+  </tr>
+  <tr>
+    <td>SAME_ORIGIN</td>
+    <td>Follow the HTTP redirect only if the origin of the redirect request matches. This implies that both the scheme/protocol and the authority between the current and the redirect URIs should match. The port number should also be the same between the two URIs.</td>
+  </tr>
+  <tr>
+    <td>SAME_DOMAIN</td>
+    <td>Follow HTTP redirect only if the domain of the redirect request matches the domain of the current request. For example, URIs with identical domains would be <span class="uri">ws://production.example.com:8001</span> and <span class="uri">ws://production.example.com:8002</span>.</td>
+  </tr>
+  <tr>
+    <td>PEER_DOMAIN</td>
+    <td>Follow the HTTP redirect only if the redirected request is for a peer-domain. For example, the domain in the URI ws://sales.example.com:8001 is a peer of the domain in the URI ws://marketing.example.com:8002.</td>
+  </tr>
+  <tr>
+    <td>SUB_DOMAIN</td>
+    <td>Follow the HTTP redirect only if the request is for sub-domain. For example, the domain in the URI ws://benefits.hr.example.com:8002 is a sub-domain of the domain in the URI ws://hr.example.com:8001.</td>
+  </tr>
+</table>
+
+<p>You can specify HttpRedirectPolicy on the WebSocketFactory such that it will be inherited by all the WebSockets that are created using the factory. The following example shows <code>HttpRedirectPolicy.SAME_DOMAIN</code> as the default redirect policy set on the WebSocketFactory. So, all the WebSockets created using the factory will inherit the same redirect policy that was specified on the WebSocketFactory.</p>
+
+<pre class="auto-links: false; brush: js; toolbar: false;">
+var webSocketFactory = new WebSocketFactory();
+webSocketFactory.setDefaultRedirectPolicy(HttpRedirectPolicy.SAME_DOMAIN);
+var webSocket = webSocketFactory.createWebSocket(“ws://localhost:8001/echo”);
+</pre>
+
+<p>You can also override the inherited HttpRedirectPolicy by specifying it directly on the WebSocket. The following example shows the redirect policy on the individual WebSocket can be overridden to <code>HttpRedirectPolicy.PEER_DOMAIN</code>.
+
+<pre class="auto-links: false; brush: js; toolbar: false;">
+var webSocketFactory = new WebSocketFactory();
+webSocketFactory.setDefaultRedirectPolicy(HttpRedirectPolicy.SAME_DOMAIN);
+var webSocket = webSocketFactory.createWebSocket(“ws://localhost:8001/echo”);
+webSocket.setRedirectPolicy(HttpRedirectPolicy.PEER_DOMAIN);
+</pre>
+
+
+<h2>See Also</h2>
+<p><a href="../apidoc/client/javascript/gateway/WebSocket.html">WebSocket API documentation</a></p>
+
+                  </section>
+                </article>
+
+            </div> <!-- #main -->
+        </div> <!-- #main-container -->
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

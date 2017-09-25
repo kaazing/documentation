@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+  
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+  
+
+ <h1 id="common-kaazing-gateway-production-topologies">Common Kaazing Gateway Production Topologies</h1>
+
+<p>This topic describes some of the most common production topologies for the Kaazing Gateway. It is intended to familiarize network administrators and systems software developers with general Kaazing Gateway production deployments. Your actual production deployment of the Gateway will likely be some variation of the topologies covered here.</p>
+
+<p>All of the topologies in this topic begin with clients on one end and the back-end service or message broker at the opposite end of the connection. It is the number and configuration of Gateway instances between the clients and the back-end service or message broker that distinguishes each Gateway topology.</p>
+
+<p>Developers that want to develop against the Gateway can run the Gateway locally as described in <a href="../../about/setup-guide/index.html">Setting Up the Gateway</a>.</p>
+
+<p><strong>Note:</strong> Most topologies use Gateway clustering and load balancing. For information on using these features, see <a href="../../high-availability/o_high_availability/index.html">Configure the Gateway for High Availability</a>.</p>
+
+<p>This topic covers the following information:</p>
+
+<ul>
+  <li><a href="#dmz-to-trusted-network-topology">DMZ to Trusted Network Topology</a>
+    <ul>
+      <li><a href="#deploying-the-dmz-to-trusted-network-topology">Deploying the DMZ to Trusted Network Topology</a></li>
+    </ul>
+  </li>
+  <li><a href="#enterprise-shield--">Enterprise Shield™</a></li>
+  <li><a href="#virtual-private-connection">Virtual Private Connection</a></li>
+  <li><a href="#tlsssl-security-considerations">TLS/SSL Security Considerations</a></li>
+</ul>
+
+<h2 id="dmz-to-trusted-network-topology">DMZ to Trusted Network Topology</h2>
+
+<p>In this topology, client to back-end service or message broker connections are protected by two layers of network security, a firewall-protected DMZ and a firewall-protected Trusted Network. A Gateway or Gateway cluster is deployed in the firewall-protected DMZ peripheral network to service requests from Kaazing Gateway clients on the Web. The DMZ Gateway connects through a firewall to a second Gateway deployed in the internal, Trusted Network. The Internal Gateway connects to the back-end service or message broker.</p>
+
+<p>Here is an example of the topology.</p>
+
+<p><img src="../../images/f-dmz-trusted-top.png" alt="DMZ to Trusted Network Topology" /></p>
+
+<p><strong>Figure: DMZ to Trusted Network Topology</strong></p>
+
+<h3 id="deploying-the-dmz-to-trusted-network-topology"><a name="Deploy_DMZ_to_Internal"></a>Deploying the DMZ to Trusted Network Topology</h3>
+
+<p>Deploying this topology involves the following:</p>
+
+<ol>
+  <li>Configure the Internal Gateway to connect with the back-end service or message broker using an internal URI. For more information, see the <code>service</code> element. The internal URI might be something such as <code>tcp://broker.internal.com:8080</code>.</li>
+  <li>Configure the DMZ Gateway to proxy client requests to the Internal Gateway using a private, internal URI. The DMZ Gateway to Internal Gateway is a full duplex, bidirectional communication over WebSocket, TCP, UDP, or SSL.</li>
+  <li>Configure the DMZ Gateway to listen on a public URI for clients, such as <code>wss://example.com:443/path</code>.</li>
+  <li>Configure Kaazing Gateway clients to connect to the DMZ Gateway using the public URI. Once the clients are connected to the DMZ Gateway, full duplex, bidirectional communication is established and communication flows in both directions simultaneously.</li>
+</ol>
+
+<p>This topology is typically deployed using Gateway clustering and load balancing. For more information, see <a href="../../high-availability/o_high_availability/index.html">Configure the Gateway for High Availability</a>. Load balancing can also be performed by a third party load balancer.</p>
+
+<h2 id="enterprise-shield--">Enterprise Shield™  </h2>
+
+<p>Enterprise Shield™ protects your enterprise network by using reverse connectivity (a reverse proxy connection) to initiate the connection from the Gateway in the internal, Trusted Network towards a DMZ Gateway. The Enterprise Shield™ topology is documented in depth in <a href="../../enterprise-shield/o_enterprise_shield_checklist#about-enterprise-shield">About Enterprise Shield™</a>.</p>
+
+<h2 id="virtual-private-connection">Virtual Private Connection</h2>
+
+<p>In this topology, the VPC solution (sometimes called <em>NoVPN</em>) transparently uses the Web Tier for all of its secure communication. This topology provides a VPN-style solution without the need for specialist VPN software.</p>
+
+<p>Kaazing Gateway can be configured to allow TCP (and UDP) clients to connect to servers over the Web without the need for any special WebSocket libraries, thus creating a virtual private connection. Kaazing Gateway is designed not only to proxy TCP protocols using the WebSocket protocol, but to run in a WebSocket protocol to TCP mode. This design allows system and network administrators to configure two or more Gateway instances to enable applications to traverse the Web securely through firewalls and proxy servers. The VPC topology delivers sophisticated server-to-server systems and rich client applications over a LAN or WAN web infrastructure in the same manner as conventional distributed applications, all without the expense or complexity of a private line.</p>
+
+<h2 id="tlsssl-security-considerations">TLS/SSL Security Considerations</h2>
+
+<p>Kaazing Gateway topologies use TLS/SSL to ensure that network intermediaries, such as transparent proxy servers and firewalls that are unaware of WebSocket, do not drop the WebSocket connection. WebSocket uses the same HTTP upgrade method commonly used to upgrade HTTP connections to HTTPS. Intermediaries unfamiliar with WebSocket might drop the unfamiliar WebSocket upgrade as a security precaution, preventing the WebSocket connection. When using the WSS connection over TLS/SSL, however, intermediaries trust the WSS connection and allow it to pass.</p>
+
+<p>When using TLS/SSL with Gateway topologies, the Gateway must provide Kaazing Gateway clients (built using Kaazing Gateway libraries) with the certificate for the domain name in the URI that the clients use to connect to the Gateway. If TLS/SSL is deployed between Gateway instances, then certificates must be used for the hostnames in the URIs used by the connected Gateway instances.</p>
+
+<p>For more information, see <a href="../../security/u_tls_works#tlsssl-with-the-gateway-example">TLS/SSL with the Gateway Example</a> and <a href="../../security/o_tls/index.html">Secure Network Traffic with the Gateway</a>.</p>
+
+
+</div>
+
+</div>
+
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

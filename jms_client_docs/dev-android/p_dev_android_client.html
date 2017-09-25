@@ -1,0 +1,1379 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+  
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+<h1>Use the Kaazing Gateway Android JMS Client API</h1>
+
+<p>In this procedure, you will learn how to create an Android JMS Client using the Kaazing Enterprise <a href="../apidoc/client/android/jms/index.html">Android JMS Client API</a>. You will learn how to create an Android Studio project and add the necessary Java classes in order to use the Android JMS Client API. You will learn how to implement the Android JMS Client API methods to enable your Android client to send and receive messages to a JMS broker via a local or publicly available Gateway.</p>
+
+<p>The <a href="../apidoc/client/java/jms/index.html">Android JMS Client API</a> is nearly identical to the Java JMS Client API. You can review an overview of the Java JMS Client API connection, session, message producer, and message consumer code in <a href="../dev-java/p_dev_java_client.html">Use the Kaazing Gateway Java JMS Client Library</a>. For information about using durable subscribers, see <a href="../dev-java/p_dev_java_client.html#durables">Durable Subscribers</a>.</p>
+
+
+<p><span class="note"><strong>Note</strong>: For this how-to, we describe how to use both a local and a publicly available Gateway and JMS broker. The public address is <code>wss://sandbox.kaazing.net/jms</code>. Locally, you can use any JMS-compliant message broker. By default, the Gateway is configured to connect to the broker on <code>tcp://localhost:61613</code>. You can configure the <code>connect</code> URL in the file <span class="code_inline"><em>GATEWAY_HOME</em>/conf/gateway-config.xml</span>. See <a href="../../integration-jms/o_jms_integrate/index.html">About Integrating Kaazing Gateway and JMS-Compliant Message Brokers</a> for more information.</span></p>
+
+<h2>Before You Begin</h2>
+<p>This procedure is part of <a href="o_dev_android.html">Checklist: Build Android JMS Clients</a>.</p>
+
+<p><span class="note"><b>Note:</b> Learn about supported browsers, operating systems, and platform versions in the <a href="//kaazing.com/releases/client-android/">Release Notes</a>.</span></p>
+
+<h2>To Use the Kaazing Android or Java JMS API</h2>
+
+<ol>
+<li>Add the necessary import statements:
+<pre class="auto-links: false; brush: java; toolbar: false;">
+// Security-related imports
+import com.kaazing.gateway.jms.client.demo.LoginDialogFragment.LoginDialogListener;
+import com.kaazing.net.auth.BasicChallengeHandler;
+import com.kaazing.net.auth.ChallengeHandler;
+import com.kaazing.net.auth.LoginHandler;
+// JMS-related imports
+import com.kaazing.gateway.jms.client.ConnectionDisconnectedException;
+import com.kaazing.gateway.jms.client.JmsConnectionFactory;
+import com.kaazing.net.ws.WebSocketFactory;
+</pre>
+</li>
+<li>Create a JMS connection object and connect to the Gateway:
+<pre class="auto-links: false; brush: java; toolbar: false;">
+private JmsConnectionFactory connectionFactory;
+...
+connectionFactory = JmsConnectionFactory.createConnectionFactory();
+WebSocketFactory webSocketFactory = connectionFactory.getWebSocketFactory();
+onnectionFactory.setGatewayLocation("wss://sandbox.kaazing.net/jms");
+connection = connectionFactory.createConnection();
+connection.start();
+</pre>
+</li>
+<li>To send messages, add a <code>MessageProducer</code> object. The following example responds to when a user clicks a <strong>Send</strong> button. It uses a try/catch statement to send the message, and an if/else statement to send either binary or text messages. You will also note that this function uses ansynchronous dispatch, <code>dispatchQueue.dispatchAsync(new Runnable()</code>, defined in a separate file named <a href="https://github.com/kaazing/java.client.tutorials/blob/develop/android/jms/app/src/main/java/com/kaazing/gateway/jms/client/demo/DispatchQueue.java">DispatchQueue.java</a>.
+<pre class="auto-links: false; brush: java; toolbar: false; highlight:[];">
+sendBtn.setOnClickListener(new OnClickListener() {
+  public void onClick(View v) {
+    hideKeyboard(); // hide the keyboard
+    final boolean sendBinary = sendBinaryCheckBox.isChecked(); // check if Binary checkbox selected
+    final String text = messageText.getText().toString(); // get the message enter by user
+    logMessage(&quot;SEND: &quot; + text); // log the message text
+    dispatchQueue.dispatchAsync(new Runnable() {  // run as a separate, ansynchronous thread
+      public void run() {
+        try {
+          String destinationName = destinationText.getText().toString(); // get the destination submitted by user
+          // create a MessageProducer to send messages to the specified destination
+          MessageProducer producer = session.createProducer(getDestination(destinationName)); 
+
+          Message message;
+          if (sendBinary) { // construct binary message
+            BytesMessage bytesMessage = session.createBytesMessage();
+            bytesMessage.writeUTF(text);
+            message = bytesMessage;
+          }
+          else { // use text message
+            message = session.createTextMessage(text);
+          }
+							
+          producer.send(message); // send the message to the destination for the producer
+          producer.close(); // close the message producer when not needed
+        } catch (JMSException e) { // catch and write exceptions to the log console
+          e.printStackTrace();
+          logMessage(e.getMessage());
+        }
+      }
+    });
+  }		
+});
+</pre>
+</li>
+<li>To receive or consume messages, add a <code>MessageListener</code> object. The function manages both text and binary messages, and instances of <a href="//docs.oracle.com/javaee/7/api/javax/jms/MapMessage.html" title="MapMessage (Java(TM) EE 7 Specification APIs)">MapMessage</a> (used to send a set of name-value pairs).</li>
+<pre class="auto-links: false; brush: java; toolbar: false;">
+private class DestinationMessageListener implements MessageListener {
+	
+  public void onMessage(Message message) { //respond when a message is received
+    try {
+      if (message instanceof TextMessage) { // log test messages in the UI console
+        logMessage(&quot;RECEIVED TextMessage: &quot; + ((TextMessage)message).getText());
+      }
+      else if (message instanceof BytesMessage) { // manage binary using BytesMessage
+        BytesMessage bytesMessage = (BytesMessage)message;
+
+        long len = bytesMessage.getBodyLength(); // order the binary and display hex in console
+        byte b[] = new byte[(int)len];
+        bytesMessage.readBytes(b);
+
+        logMessage(&quot;RECEIVED BytesMessage: &quot; + hexDump(b)); // see this function below
+      }
+      else if (message instanceof MapMessage) { // manage MapMessage pairs, text or binary
+        MapMessage mapMessage = (MapMessage)message;
+        Enumeration mapNames = mapMessage.getMapNames();
+        while (mapNames.hasMoreElements()) {
+          String key = (String)mapNames.nextElement();
+          Object value = mapMessage.getObject(key);
+
+          if (value == null) {
+            logMessage(key + &quot;: null&quot;);
+          } else if (value instanceof byte[]) {
+            byte[] arr = (byte[])value;
+            StringBuilder s = new StringBuilder(); // see this function below
+            s.append(&quot;[&quot;);
+            for (int i = 0; i &lt; arr.length; i++) {
+              if (i &gt; 0) {
+                s.append(&quot;,&quot;);
+              }
+              s.append(arr[i]);
+            }
+            s.append(&quot;]&quot;);
+            logMessage(key + &quot;: &quot;+ s.toString() + &quot; (Byte[])&quot;); // display binary name and value pairs
+          } else {
+            logMessage(key + &quot;: &quot; + value.toString() + &quot; (&quot; + value.getClass().getSimpleName() + &quot;)&quot;); // display text name and value pairs
+          }
+        }
+        logMessage(&quot;RECEIVED MapMessage: &quot;);
+      }
+      else {
+        logMessage(&quot;UNKNOWN MESSAGE TYPE: &quot;+message.getClass().getSimpleName());
+      }
+
+    }
+    catch (Exception ex) { // handle exceptions
+      ex.printStackTrace();
+      logMessage(&quot;EXCEPTION: &quot; + ex.getMessage());
+    }
+  }
+
+  private String hexDump(byte[] b) { // convert the binary to hexadecimal and return
+    if (b.length == 0) {
+      return &quot;empty&quot;;
+    }
+
+    StringBuilder out = new StringBuilder(); // convert MapMessage binary to hexadecimal pairs and return
+    for (int i=0; i &lt; b.length; i++) {
+      out.append(Integer.toHexString(b[i])).append(&#x27; &#x27;);
+    }
+    return out.toString();
+  }
+	
+}
+</pre>
+</ol>
+
+
+<h2>Build the Kaazing Android JMS Messaging Tutorial App</h2>
+
+<span class="note"><b>Note:</b> This procedure teaches you the Kaazing Android JMS API by building the tutorial app that is available on Github. To look at the completed tutorial app, download or clone the Android Demo project from <a href="https://github.com/kaazing/java.client.tutorials/tree/develop/android/jms">https://github.com/kaazing/java.client.tutorials/tree/develop/android/jms</a>. Once the project is extracted, you can build the JMS tutorial app by following the steps here: <a href="https://github.com/kaazing/java.client.tutorials/blob/develop/android/jms/README.md">https://github.com/kaazing/java.client.tutorials/blob/develop/android/jms/README.md</a>.</span>
+
+<p>In this procedure you will do the following <strong>major</strong> steps (these step numbers do not correspond to the procedure step numbers directly):</p>
+<ol>
+ <li>Install the Kaazing Enterprise Android Client SDK.</li>
+ <li>Set up an Android project in Android Studio.</li>
+ <li>Import the Kaazing Gateway Android and JMS API libraries.</li>
+ <li>Create the Android client Touch User Interface (TUI).</li>
+ <li>Add a dispatch queue class to the Android client.</li>
+ <li>Add the import statements for the common Java and Android classes.</li>
+ <li>Add the import statements for the Kaazing Gateway Android JMS Client API classes.</li>
+ <li>Add the variables for the program.</li>
+ <li>Add the onCreate() method with event listeners.</li>
+ <li>Add the connect() and disconnect() methods.</li>
+ <li>Add the getDestination() method for creating topics and queues.</li>
+ <li>Add the ConnectionExceptionListener class to handle when a JMS provider detects an exception.</li>
+ <li>Add the DestinationMessageListener class and onMessage() method to manage messages.</li>
+ <li>Add the methods for when the client is paused, resumes, and when the client is closed.</li>
+ <li>Add the methods for updating the Connect and Disconnect buttons.</li>
+ <li>Run the Android client in the Android Emulator.</li>
+ <li>Test the Android client in the Android Emulator.</li>
+</ol>
+
+
+<ol>
+  <li>Install the Kaazing Enterprise Android Client SDK. Download the Kaazing Enterprise Android Client SDK as described in <a href="../../about/setup-guide/index.html">Setting Up the Gateway and Clients</a>.</li>
+  <li>Download and install Android Studio and the Android SDK from <a href="https://developer.android.com/studio/index.html">https://developer.android.com/studio/index.html</a>.</li>
+  <li>Set up an Android project in Android Studio.
+   <ol tupe="a">
+    <li>Launch Android Studio.</li>
+    <li>Click <strong>Start a New Android Studio Project</strong>.</li>
+    <li>In Configure your new project, in <strong>Application Name</strong>, name the project <strong>jms</strong>.</li>
+    <li>In <strong>Company Name</strong>, enter <strong>mycompany.example.com</strong>.</li>
+    <li>In <strong>Package Name</strong>, click <strong>Edit</strong>, enter <strong>com.kaazing.gateway.jms.client.demo</strong>, and click <strong>Done</strong>.</li>
+    <li>In <strong>Project location</strong>, enter or browse to a location for your project. The location path cannot contain spaces.</li>
+    <li>Click <strong>Next</strong>.</li>
+    <li>In <strong>Select the form factors your app will run on</strong>, enable <strong>Phone and Tablet</strong>.</li>
+    <li>In <strong>Minimum SDK</strong>, choose <strong>API 19: Android 4.4 (KitKat)</strong> and click <strong>Next</strong>.</li>
+    <li>On <strong>Add an Activity to Mobile</strong>, click <strong>Empty Activity</strong>, and click <strong>Next</strong>.</li>
+    <li>In <strong>Customize the Activity</strong>, in <strong>Activity Name</strong>, enter <strong>JMSDemoActivity</strong>.</li>
+    <li>In <strong>Layout Name</strong> enter <strong>main</strong> (ensure that the Activity Name is still JMSDemoActivity) and click <strong>Finish</strong>. If there are dependencies that you need to install, the <strong>Finish</strong> button is not available. The new project is generated.</li>
+   </ol>
+  </li>
+  <li><a name="Import"></a>Import the Kaazing Android SDK libraries. You can import the libraries in a number ways, such as using a .zip or Maven, as described on <a href="//kaazing.com/download/#client-android" title="Kaazing - Download">kaazing.com/download</a>. Follow the steps for the method you want to use.
+  
+    <p>Here is an example <strong>app/build.gradle</strong> configuration:</p>
+    
+<pre class="auto-links: false; brush: java; toolbar: false;">
+apply plugin: &#x27;com.android.application&#x27;
+
+repositories {
+    mavenCentral()
+    maven {
+        url &quot;https://repository.kaazing.com/maven/&quot;
+    }
+}
+
+android {
+    compileSdkVersion 19
+    buildToolsVersion &quot;23.0.2&quot;
+
+    defaultConfig {
+        applicationId &quot;com.kaazing.gateway.jms.client.demo&quot;
+        minSdkVersion 19
+        targetSdkVersion 19
+        multiDexEnabled true
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile(&#x27;proguard-android.txt&#x27;), &#x27;proguard-rules.txt&#x27;
+        }
+    }
+}
+
+dependencies {
+    compile group: &#x27;com.kaazing&#x27;, name: &#x27;enterprise.android.client.all&#x27;, version: &#x27;4.1.0&#x27;
+    compile &#x27;org.apache.geronimo.specs:geronimo-jms_1.1_spec:1.1.1&#x27;
+    compile &#x27;com.google.android:support-v4:r7&#x27;
+}
+</pre>
+  
+  </li>
+  <li>Update the AndroidManifest.xml file. Open the AndroidManifest.xml file in <code>app/src/main/AndroidManifest.xml</code> and replace its contents with the following (the code is available <a href="https://github.com/kaazing/java.client.tutorials/blob/develop/android/jms/app/src/main/AndroidManifest.xml">here</a> also):
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;manifest xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+  package=&quot;com.kaazing.gateway.jms.client.demo&quot; android:versionCode=&quot;1&quot; android:versionName=&quot;4.0&quot;&gt;
+  &lt;application android:icon=&quot;@drawable/icon&quot; android:label=&quot;@string/app_name_short&quot;&gt;
+    &lt;activity android:name=&quot;.JMSDemoActivity&quot; android:configChanges=&quot;orientation&quot; android:windowSoftInputMode=&quot;stateHidden&quot;&gt;
+      &lt;intent-filter&gt;
+        &lt;action android:name=&quot;android.intent.action.MAIN&quot; /&gt;
+        &lt;category android:name=&quot;android.intent.category.LAUNCHER&quot; /&gt;
+      &lt;/intent-filter&gt;
+    &lt;/activity&gt;
+  &lt;/application&gt;
+  &lt;uses-permission android:name=&quot;android.permission.INTERNET&quot;/&gt;
+&lt;/manifest&gt;
+</pre>
+  </li>
+  <li>Add the icon for the app. This is the icon that appears on the home screen of the device. Drag the icon from the Android demo folder <code>java.client.tutorials/android/jms/res/drawable-hdpi/icon.png</code> to the <strong>drawable-hdpi</strong> folder in your project at <code>app/src/main/res/drawable-hdpi</code>.</li>
+  <li>Delete the automatically generated <strong>styles.xml</strong> file in your project at <code>app/src/main/res/values</code>. This file isn't needed in the project and can cause errors.</li>
+  <li><a name="TUI"></a>Create the Android client Touch User Interface (TUI). Next you will add the text strings and layout for the Android client TUI. When you are finished, the Android client will look like this:
+      <figure>
+        <img src="android-TUI.png">
+      <figcaption><strong>Figure: Android JMS Client TUI</strong></figcaption>  
+      </figure>
+  </li>
+
+  <li>Open the <strong>strings.xml</strong> file located at <span class="code_inline"><a href="https://github.com/kaazing/java.client.tutorials/blob/develop/android/jms/res/values/strings.xml">jms/res/values/strings.xml</a></span> and replace its contents with the following:
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;resources&gt;
+    &lt;string name=&quot;app_name_short&quot;&gt;JMS Demo&lt;/string&gt;
+    &lt;string name=&quot;app_name&quot;&gt;JMS Messaging Demo&lt;/string&gt;
+    &lt;string name=&quot;location_label&quot;&gt;Location&lt;/string&gt;
+    &lt;string name=&quot;connectBtn_label&quot;&gt;Connect&lt;/string&gt;
+    &lt;string name=&quot;disconnectBtn_label&quot;&gt;Disconnect&lt;/string&gt;
+    &lt;string name=&quot;destination_label&quot;&gt;Destination&lt;/string&gt;
+    &lt;string name=&quot;destination_default&quot;&gt;/topic/destination&lt;/string&gt;
+    &lt;string name=&quot;location_default&quot;&gt;ws://10.0.2.2:8001/jms&lt;/string&gt;
+    &lt;string name=&quot;subscribe_label&quot;&gt;Subscribe&lt;/string&gt;
+    &lt;string name=&quot;unsubscribe_label&quot;&gt;Unsubscribe&lt;/string&gt;
+    &lt;string name=&quot;message_label&quot;&gt;Message&lt;/string&gt;
+    &lt;string name=&quot;message_default&quot;&gt;Hello, message&lt;/string&gt;
+    &lt;string name=&quot;send_label&quot;&gt;Send&lt;/string&gt;
+    &lt;string name=&quot;clear_label&quot;&gt;Clear&lt;/string&gt;
+    &lt;string name=&quot;username_hint&quot;&gt;Username&lt;/string&gt;
+    &lt;string name=&quot;password_hint&quot;&gt;Password&lt;/string&gt;
+    &lt;string name=&quot;ok_label&quot;&gt;OK&lt;/string&gt;
+    &lt;string name=&quot;cancel_label&quot;&gt;Cancel&lt;/string&gt;
+    &lt;string name=&quot;sendBinary_label&quot;&gt;Send Binary&lt;/string&gt;
+&lt;/resources&gt;
+</pre>
+
+ <span class="note"><b>Important:</b> When pasting text into Android Studio, whitespace will likely be included and cause errors in your project. To avoid this problem, you can paste text into a text editor first, copy it from there, and paste it into Android Studio. Alternatively, you can copy the text from the files stored in Github here: <a href="https://github.com/kaazing/java.client.tutorials/tree/develop/android/jms">https://github.com/kaazing/java.client.tutorials/tree/develop/android/jms</a>.</span>
+
+  </li>
+  
+  <li>Open the <strong>dimens.xml</strong> file from <code>app/src/main/res/values/dimens.xml</code> and replace its contents with the following:
+  <pre class="auto-links: false; brush: xml; toolbar: false;">
+  <?xml version="1.0" encoding="utf-8"?>
+  &lt;resources&gt;
+      &lt;dimen name=&quot;edit_text_size&quot;&gt;12dp&lt;/dimen&gt;
+  &lt;/resources&gt;
+  </pre>
+  </li>
+  
+  
+  <li>Open the <strong>main.xml</strong> file located at <span class="code_inline"><a href="https://github.com/kaazing/java.client.tutorials/blob/develop/android/jms/res/layout/main.xml">jms/res/layout/main.xml</a></span> and replace its contents with the following:
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;RelativeLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    android:id=&quot;@+id/RelativeLayout1&quot;
+    android:layout_width=&quot;fill_parent&quot;
+    android:layout_height=&quot;fill_parent&quot;
+    android:background=&quot;#F27A31&quot;&gt;
+
+    &lt;LinearLayout
+        android:id=&quot;@+id/linearLayout1&quot;
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:layout_alignParentTop=&quot;true&quot;
+        android:layout_centerHorizontal=&quot;true&quot;
+        android:layout_margin=&quot;5dp&quot; &gt;
+
+        &lt;TextView
+            android:id=&quot;@+id/textView1&quot;
+            android:layout_width=&quot;wrap_content&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            android:text=&quot;@string/location_label&quot;
+            android:textAppearance=&quot;?android:attr/textAppearanceMedium&quot;
+            android:textSize=&quot;@dimen/edit_text_size&quot; /&gt;
+
+        &lt;EditText
+            android:id=&quot;@+id/locationText&quot;
+            android:layout_width=&quot;0dp&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            android:layout_marginLeft=&quot;5dp&quot;
+            android:layout_weight=&quot;1&quot;
+            android:ems=&quot;10&quot;
+            android:text=&quot;@string/location_default&quot;
+            android:textSize=&quot;@dimen/edit_text_size&quot; &gt;
+            &lt;requestFocus /&gt;
+        &lt;/EditText&gt;
+        
+    &lt;/LinearLayout&gt;
+
+    &lt;Button
+        android:id=&quot;@+id/disconnectBtn&quot;
+        style=&quot;?android:attr/buttonStyleSmall&quot;
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:layout_alignParentRight=&quot;true&quot;
+        android:layout_below=&quot;@+id/linearLayout1&quot;
+        android:layout_marginRight=&quot;5dp&quot;
+        android:enabled=&quot;false&quot;
+        android:text=&quot;@string/disconnectBtn_label&quot;
+        android:textSize=&quot;@dimen/edit_text_size&quot; /&gt;
+
+    &lt;Button
+        android:id=&quot;@+id/connectBtn&quot;
+        style=&quot;?android:attr/buttonStyleSmall&quot;
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:layout_alignBaseline=&quot;@+id/disconnectBtn&quot;
+        android:layout_alignBottom=&quot;@+id/disconnectBtn&quot;
+        android:layout_toLeftOf=&quot;@+id/disconnectBtn&quot;
+        android:text=&quot;@string/connectBtn_label&quot;
+        android:textSize=&quot;@dimen/edit_text_size&quot; /&gt;
+
+    &lt;LinearLayout
+        android:id=&quot;@+id/linearLayout2&quot;
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:layout_alignParentLeft=&quot;true&quot;
+        android:layout_below=&quot;@+id/connectBtn&quot;
+        android:layout_marginLeft=&quot;5dp&quot;
+        android:layout_marginRight=&quot;5dp&quot; &gt;
+
+        &lt;TextView
+            android:id=&quot;@+id/textView2&quot;
+            android:layout_width=&quot;wrap_content&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            android:text=&quot;@string/destination_label&quot;
+            android:textAppearance=&quot;?android:attr/textAppearanceMedium&quot;
+            android:textSize=&quot;@dimen/edit_text_size&quot; /&gt;
+
+        &lt;EditText
+            android:id=&quot;@+id/destinationText&quot;
+            android:layout_width=&quot;0dp&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            android:layout_marginLeft=&quot;5dp&quot;
+            android:layout_weight=&quot;1&quot;
+            android:ems=&quot;10&quot;
+            android:text=&quot;@string/destination_default&quot;
+            android:textSize=&quot;@dimen/edit_text_size&quot; &gt;
+        &lt;/EditText&gt;
+    &lt;/LinearLayout&gt;
+
+    &lt;Button
+        android:id=&quot;@+id/subscribeBtn&quot;
+        style=&quot;?android:attr/buttonStyleSmall&quot;
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:layout_alignBaseline=&quot;@+id/unsubscribeBtn&quot;
+        android:layout_alignBottom=&quot;@+id/unsubscribeBtn&quot;
+        android:layout_below=&quot;@+id/linearLayout2&quot;
+        android:layout_toLeftOf=&quot;@+id/unsubscribeBtn&quot;
+        android:enabled=&quot;false&quot;
+        android:text=&quot;@string/subscribe_label&quot;
+        android:textSize=&quot;@dimen/edit_text_size&quot; /&gt;
+    &lt;Button
+        android:id=&quot;@+id/unsubscribeBtn&quot;
+        style=&quot;?android:attr/buttonStyleSmall&quot;
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:layout_alignParentRight=&quot;true&quot;
+        android:layout_below=&quot;@+id/linearLayout2&quot;
+        android:layout_marginRight=&quot;5dp&quot;
+        android:enabled=&quot;false&quot;
+        android:text=&quot;@string/unsubscribe_label&quot;
+        android:textSize=&quot;@dimen/edit_text_size&quot; /&gt;
+
+    &lt;LinearLayout
+        android:id=&quot;@+id/linearLayout3&quot;
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:layout_alignParentLeft=&quot;true&quot;
+        android:layout_below=&quot;@+id/subscribeBtn&quot;
+        android:layout_marginLeft=&quot;5dp&quot;
+        android:layout_marginRight=&quot;5dp&quot; &gt;
+
+        &lt;TextView
+            android:id=&quot;@+id/textView3&quot;
+            android:layout_width=&quot;wrap_content&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            android:text=&quot;@string/message_label&quot;
+            android:textAppearance=&quot;?android:attr/textAppearanceMedium&quot;
+            android:textSize=&quot;@dimen/edit_text_size&quot; /&gt;
+
+        &lt;EditText
+            android:id=&quot;@+id/messageText&quot;
+            android:layout_width=&quot;0dp&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            android:layout_marginLeft=&quot;5dp&quot;
+            android:layout_weight=&quot;1&quot;
+            android:ems=&quot;10&quot;
+            android:text=&quot;@string/message_default&quot;
+            android:textSize=&quot;@dimen/edit_text_size&quot; &gt;
+        &lt;/EditText&gt;
+    &lt;/LinearLayout&gt;
+
+    &lt;Button
+        android:id=&quot;@+id/sendBtn&quot;
+        style=&quot;?android:attr/buttonStyleSmall&quot;
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:layout_alignParentRight=&quot;true&quot;
+        android:layout_below=&quot;@+id/linearLayout3&quot;
+        android:layout_marginRight=&quot;5dp&quot;
+        android:enabled=&quot;false&quot;
+        android:text=&quot;@string/send_label&quot;
+        android:textSize=&quot;@dimen/edit_text_size&quot; /&gt;
+    &lt;CheckBox
+        android:id=&quot;@+id/sendBinaryCheckBox&quot;
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:layout_alignBottom=&quot;@+id/sendBtn&quot;
+        android:layout_alignParentLeft=&quot;true&quot;
+        android:layout_below=&quot;@id/linearLayout3&quot;
+        android:text=&quot;@string/sendBinary_label&quot;
+        android:textSize=&quot;@dimen/edit_text_size&quot; /&gt;
+
+    &lt;LinearLayout
+        android:id=&quot;@+id/logContainer&quot;
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;fill_parent&quot;
+        android:orientation=&quot;vertical&quot;
+        android:layout_below=&quot;@+id/sendBtn&quot;&gt;
+
+        &lt;TextView
+            android:id=&quot;@+id/logView&quot;
+            android:layout_width=&quot;fill_parent&quot;
+            android:layout_height=&quot;0dp&quot;
+            android:layout_marginLeft=&quot;5dp&quot;
+            android:layout_marginRight=&quot;5dp&quot;
+            android:layout_weight=&quot;1&quot;
+            android:background=&quot;@android:drawable/editbox_background&quot;
+            android:scrollbars=&quot;horizontal|vertical&quot;
+            android:textColor=&quot;#000000&quot;
+            android:maxLines=&quot;80&quot;
+            android:textSize=&quot;@dimen/edit_text_size&quot; /&gt;
+
+        &lt;Button
+            android:id=&quot;@+id/clearBtn&quot;
+            style=&quot;?android:attr/buttonStyleSmall&quot;
+            android:layout_width=&quot;wrap_content&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            android:layout_gravity=&quot;right&quot;
+            android:layout_marginRight=&quot;5dp&quot;
+            android:text=&quot;@string/clear_label&quot;
+            android:textSize=&quot;@dimen/edit_text_size&quot; /&gt;
+
+    &lt;/LinearLayout&gt;
+&lt;/RelativeLayout&gt;
+</pre>
+  </li>
+  
+  <li><a name="dispatch"></a>Add a dispatch queue class to the Android client. A dispatch queue class is used to run tasks in a separate thread from the main thread (to run some tasks asynchronously). The dispatch queue class is used to add <a href="//docs.oracle.com/javase/7/docs/api/java/lang/Runnable.html">Runnable</a> in a queue. Runnable will be run in a first-in first-out basis. All of the blocking calls of the Android client will be run in a background thread so that the TUI is not blocked and can remain responsive.
+    <ol type="a">
+      <li>Right-click the package <strong>com.kaazing.gateway.client.demo</strong>, click <strong>New</strong>, and click <strong>Class</strong>.</li>
+      <li>In <strong>Name</strong> enter <strong>DispatchQueue</strong> and click <strong>Finish</strong>. The new <strong>DispatchQueue.java</strong> class is added to the <strong>src</strong> folder.</li>
+      <li>Double-click <strong><a href="https://github.com/kaazing/java.client.tutorials/blob/develop/android/jms/app/src/main/java/com/kaazing/gateway/jms/client/demo/DispatchQueue.java">DispatchQueue.java</a></strong>.</li>
+      <li>Replace the contents with the following code:
+      
+<pre class="auto-links: false; brush: java; toolbar: false;">
+package com.kaazing.gateway.jms.client.demo;
+
+import android.os.Handler;
+import android.os.HandlerThread;
+
+/**
+ * The class is used to add Runnable in a queue and the runnable added to the queue 
+ * will be run in a first in first out basis. This class is useful to run a series of tasks 
+ * sequentially in a separate thread from the main thread.
+ *
+ */
+public class DispatchQueue extends HandlerThread {
+
+	private Handler handler;
+
+	public DispatchQueue(String name) {
+		super(name);
+	}
+	
+	/**
+	 * The message blocks until the thread is started. This should be called 
+	 * after call to start() to ensure the thread is ready.
+	 */
+	public void waitUntilReady() {
+		handler = new Handler(getLooper());
+	}
+	
+	/**
+	 * Adds the Runnable to the message queue which will be run on the thread.
+	 * The runnable will be run in a first in first out basis.
+	 */
+	public void dispatchAsync(Runnable task) {
+		handler.post(task);
+	}
+	
+	public void removePendingJobs() {
+		handler.removeCallbacksAndMessages(null);
+	}
+
+}
+</pre>
+      </li>
+    </ol>
+  </li>
+  
+  <li>Modify the main class for the Android client. In the <strong>src</strong> folder for the project, under <strong>com.kaazing.gateway.jms.client.demo</strong>, double-click <strong><a href="https://github.com/kaazing/java.client.tutorials/blob/develop/android/jms/app/src/main/java/com/kaazing/gateway/jms/client/demo/JMSDemoActivity.java">JMSDemoActivity.java</a></strong>. You will add the main Java code for the Android client in this file.</li>
+
+  <li>Delete all of the contents except the <span class="code_inline">com.kaazing.gateway.jms.client.demo</span> package declaration and the <span class="code_inline">JMSDemoActivity</span> class declaration:
+  
+<pre class="auto-links: false; brush: java; toolbar: false;">
+package com.kaazing.gateway.jms.client.demo;
+
+  // Import statements will go here
+
+  public class JMSDemoActivity extends FragmentActivity {
+
+    // the remaining code will go here
+
+}
+</pre>
+  
+  </li>
+  
+  <li><a name="common"></a>Add the import statements for the common Java and Android classes. Add the statements directly after the package <span class="code_inline">com.kaazing.gateway.jms.client.demo</span> package declaration:
+  
+<pre class="auto-links: false; brush: java; toolbar: false;">
+// General classes used for the program
+import java.net.PasswordAuthentication;
+import java.net.URI;
+import java.util.ArrayDeque;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.concurrent.Semaphore;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+// These classes are used for JMS connections and messages
+import javax.jms.BytesMessage;
+import javax.jms.Connection;
+import javax.jms.Destination;
+import javax.jms.ExceptionListener;
+import javax.jms.JMSException;
+import javax.jms.MapMessage;
+import javax.jms.Message;
+import javax.jms.MessageConsumer;
+import javax.jms.MessageListener;
+import javax.jms.MessageProducer;
+import javax.jms.Session;
+import javax.jms.TextMessage;
+
+// These classes are used for the TUI
+import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.TextView;
+</pre>
+  
+  </li>
+
+
+  <li><a name="API"></a>Add the import statements for the Kaazing Gateway Android JMS Client API classes.
+  
+<pre class="auto-links: false; brush: java; toolbar: false;">
+// Include these statements with any client
+import com.kaazing.net.ws.WebSocketFactory; // WebSocket
+import com.kaazing.gateway.jms.client.JmsConnectionFactory; // JMS
+import com.kaazing.gateway.jms.client.ConnectionDisconnectedException; // Exceptions
+import com.kaazing.gateway.jms.client.util.Tracer; // Logging
+
+// Include these statements when a client must authenticate with the Gateway
+import com.kaazing.net.auth.BasicChallengeHandler;
+import com.kaazing.net.auth.ChallengeHandler;
+import com.kaazing.net.auth.LoginHandler;
+</pre>
+  
+  </li>
+  
+  <li><a name="variables"></a>Under the <code>// the remaining code will go here</code> comment, add the variables for the program, and a method for hiding the keyboard since the app will be pre-loaded with a URL.
+  
+<pre class="auto-links: false; brush: java; toolbar: false;">
+public class JMSDemoActivity extends FragmentActivity {
+
+  // Log API for send output to the log
+  private static String TAG = &quot;com.kaazing.gateway.jms.client.android.demo&quot;;
+
+  // Button variables
+  private Button connectBtn;
+  private Button disconnectBtn;
+  private Button subscribeBtn;
+  private Button unsubscribeBtn;
+  private Button sendBtn;
+  private Button clearBtn;
+  private CheckBox sendBinaryCheckBox;
+  
+  // Text variables
+  private EditText locationText;
+  private EditText destinationText;
+  private EditText messageText;
+  private TextView logTextView;
+
+  // Connection variables
+  private JmsConnectionFactory connectionFactory;
+  private Connection connection;
+  private Session session;
+
+  // Dispatch queue
+  private DispatchQueue dispatchQueue;
+
+  // Hash map holds active consumer instances created with destination string as a key
+  private HashMap&lt;String, ArrayDeque&lt;MessageConsumer&gt;&gt; consumers = new HashMap&lt;String, 
+    ArrayDeque&lt;MessageConsumer&gt;&gt;();
+
+  // Hide keyboard
+  private void hideKeyboard() {
+   InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+   imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+}
+</pre>
+  <p>The hash map uses an <a href="//docs.oracle.com/javase/7/docs/api/java/util/ArrayDeque.html">array deque</a> for the MessageConsumer object. Array deques hold multiple elements prior to processing (deques) and have no capacity restrictions; they grow as necessary to support usage.</p>
+  </li>
+  
+  <li><p><a name="onCreate"></a>Add the <span class="code_inline">onCreate()</span> method with event listeners.</p>
+  <p>The <span class="code_inline">onCreate()</span> method is called when the activity is first created. This is a long method that includes event listeners for user actions in the TUI. The method also contains the <span class="code_inline">JmsConnectionFactory()</span> API call. The <span class="code_inline">JmsConnectionFactory()</span> is the JMS client implementation of ConnectionFactory. <span class="code_inline">JmsConnectionFactory()</span> is used to create a connection with a JMS provider via a WebSocket connection. <span class="code_inline">JmsConnectionFactory()</span> provides the ability to set the Gateway location dynamically.</p>
+  
+<pre class="auto-links: false; brush: java; toolbar: false;">
+@Override
+public void onCreate(Bundle savedInstanceState) {
+
+  super.onCreate(savedInstanceState);
+  Log.i(TAG, "onCreate");
+  setContentView(R.layout.main);
+
+  // Create variables for the TUI elements
+  connectBtn      = (Button)findViewById(R.id.connectBtn);
+  disconnectBtn   = (Button)findViewById(R.id.disconnectBtn);
+  subscribeBtn    = (Button)findViewById(R.id.subscribeBtn);
+  unsubscribeBtn  = (Button)findViewById(R.id.unsubscribeBtn);
+  sendBtn         = (Button)findViewById(R.id.sendBtn);
+  clearBtn        = (Button)findViewById(R.id.clearBtn);
+  sendBinaryCheckBox = (CheckBox)findViewById(R.id.sendBinaryCheckBox);
+
+  locationText    = (EditText)findViewById(R.id.locationText);
+  destinationText = (EditText)findViewById(R.id.destinationText);
+  messageText = (EditText)findViewById(R.id.messageText);
+
+  logTextView     = (TextView)findViewById(R.id.logView);
+  logTextView.setMovementMethod(new ScrollingMovementMethod());
+
+  // Create the JMS connection factory and the underlying WebSocket factory
+  // to create and establish WebSocket connection to send and receive 
+  // JMS data over a WebSocket connection.
+  if (connectionFactory == null) {
+    try {
+      connectionFactory = JmsConnectionFactory.createConnectionFactory();
+      WebSocketFactory webSocketFactory = connectionFactory.getWebSocketFactory();
+      
+      // setDefaultFollowRedirect() sets the default HttpRedirectPolicy that is
+      // inherited by all the WebSockets created using this factory instance.
+      webSocketFactory.setDefaultFollowRedirect(HttpRedirectPolicy.SAME_DOMAIN);
+    } catch (JMSException e) {
+      e.printStackTrace();
+      logMessage("EXCEPTION: " + e.getMessage());
+    }
+  }
+
+  // Run when Connect button is clicked
+  connectBtn.setOnClickListener(new OnClickListener() {           
+    public void onClick(View v) {
+      connectBtn.setEnabled(false);
+      dispatchQueue = new DispatchQueue("DispatchQueue");
+      dispatchQueue.start();
+      dispatchQueue.waitUntilReady();
+
+      // Call the connect() method defined later in this code
+      connect();
+    }            
+  });
+  
+  // Run when Disconnect button is clicked
+  disconnectBtn.setOnClickListener(new OnClickListener() {            
+    public void onClick(View v) {
+      // Call the disconnect() method defined later in this code
+      disconnect();
+    }
+  });
+
+  // Run when Subscribe button is clicked
+  subscribeBtn.setOnClickListener(new OnClickListener() {
+    public void onClick(View v) {
+      // Get the destination name entered by the user
+      final String destinationName = destinationText.getText().toString();
+      logMessage("SUBSCRIBE - " + destinationName);
+      dispatchQueue.dispatchAsync(new Runnable() {
+        public void run() {
+          try {
+            Destination destination = getDestination(destinationName);
+            if (destination == null) {
+              return;
+            }
+            
+            // Create a consumer using the destination
+            MessageConsumer consumer = session.createConsumer(destination);
+            
+            // Create an array deque mapping consumers to the destination
+            ArrayDeque&lt;MessageConsumer&gt; consumersToDestination = 
+              consumers.get(destinationName);
+              // If there is no consumers to destination map, add this new map
+              if (consumersToDestination == null) {
+                consumersToDestination = new ArrayDeque&lt;MessageConsumer&gt;();
+                  consumers.put(destinationName, consumersToDestination);
+                }
+                // If there is a map, update it with the new consumer 
+                consumersToDestination.add(consumer);
+                // Set a message listener in the DestinationMessageListener() method
+                consumer.setMessageListener(new DestinationMessageListener());
+          } catch (JMSException e) {
+            e.printStackTrace();
+            logMessage("EXCEPTION: " + e.getMessage());
+          }
+        }
+      });
+    }
+  });
+
+  // Run when Unsubscribe button is clicked
+  unsubscribeBtn.setOnClickListener(new OnClickListener() {        
+    public void onClick(View v) {
+      // Clear the queue created in subscribeBtn.setOnClickListener() 
+      String destinationName = destinationText.getText().toString();
+      logMessage("UNSUBSCRIBE - " + destinationName);
+      ArrayDeque&lt;MessageConsumer&gt; consumersToDestination = consumers.get(destinationName);
+      if (consumersToDestination == null) {
+        return;
+      }
+      // Make MessageConsumer equal to the first element in the array deque 
+      final MessageConsumer consumer = consumersToDestination.poll();
+      if (consumer == null) {
+        return;
+      }
+      dispatchQueue.dispatchAsync(new Runnable() {
+        public void run() {
+          try {
+            // Close the consumer
+            consumer.close();
+          } catch (JMSException e) {
+            e.printStackTrace();
+            logMessage(e.getMessage());
+          }
+        }
+      });
+    }
+  });
+
+  // Run when Send button is clicked
+  sendBtn.setOnClickListener(new OnClickListener() {
+    public void onClick(View v) {
+      // Get the message text
+      final boolean sendBinary = sendBinaryCheckBox.isChecked();
+      final String message = messageText.getText().toString();
+      logMessage("SEND: " + message);
+      dispatchQueue.dispatchAsync(new Runnable() {            
+        public void run() {
+          try {
+            // Get the destination for the message
+            String destinationName = destinationText.getText().toString();
+            // Create a MessageProducer to send messages to the destination
+            MessageProducer producer = 
+              session.createProducer(getDestination(destinationName));
+            // Add the message
+            Message message;
+            // Determine if the message is binary or text
+            if (sendBinary) {
+              BytesMessage bytesMessage = session.createBytesMessage();
+              bytesMessage.writeUTF(text);
+              message = bytesMessage;
+            }
+            else {
+              message = session.createTextMessage(text);
+            }
+
+            // Send the message
+            producer.send(message);
+            // Close the producer
+            producer.close();
+          } catch (JMSException e) {
+            e.printStackTrace();
+            logMessage(e.getMessage());
+          }
+        }
+      });
+    }
+  });
+
+  // Run when Clear button is clicked
+  clearBtn.setOnClickListener(new OnClickListener() {        
+    public void onClick(View v) {
+      // Clear the log
+      logTextView.setText("");
+    }
+  });
+}
+</pre>
+  </li>
+  
+  
+  <li><a name="connect"></a>Add the <span class="code_inline">connect()</span> and <span class="code_inline">disconnect()</span> methods for connecting to the Gateway and updating the TUI.
+  
+<pre class="auto-links: false; brush: java; toolbar: false;">
+private void connect() {
+  logMessage("CONNECTING");
+
+  // Since createConnection() is a blocking method that does not return until 
+  // the connection is established or fails, it is a good practice to 
+  // establish the connection on a separate thread and prevent the TUI from being blocked.
+  dispatchQueue.dispatchAsync(new Runnable() {
+    public void run() {
+      try {
+        // Get the location entered by the user
+        String location = locationText.getText().toString();
+        // Set the target Gateway location
+        connectionFactory.setGatewayLocation(URI.create(location));
+        // Create the connection to the Gateway
+        connection = connectionFactory.createConnection();
+        // Connect to the Gateway
+        connection.start();
+
+        // Create a Session object and set the client to 
+        // acknowledge any messages it receives automatically
+        session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+        logMessage("CONNECTED");
+        // Set an exception listener for the client 
+        connection.setExceptionListener(new ConnectionExceptionListener());    
+        // Update the TUI 
+        updateButtonsForConnected();
+      } catch (Exception e) {
+        updateButtonsForDisconnected();
+        e.printStackTrace();
+        logMessage("EXCEPTION: " + e.getMessage());
+      }
+    }
+  });    
+}
+
+private void disconnect() {
+  logMessage("DISCONNECTING");
+
+  // Clear the queue of any pending messages
+  dispatchQueue.removePendingJobs();
+  dispatchQueue.quit();
+  new Thread(new Runnable() {
+    public void run() {
+      try {
+        // Close the connection
+        connection.close();
+        logMessage("DISCONNECTED");
+      } catch (JMSException e) {
+        e.printStackTrace();
+        logMessage("EXCEPTION: " + e.getMessage());
+      }
+      finally {
+        connection = null;
+        // Update the TUI with the connection status
+        updateButtonsForDisconnected();
+      }
+    }
+  }).start();
+}
+</pre>
+  <p>For more information on sessions and exception listeners, see the Java <a href="//docs.oracle.com/javaee/7/api/javax/jms/Connection.html">Connection interface</a>.</p>
+  </li>
+
+
+  <li><a name="getDestination"></a>Add the <span class="code_inline">getDestination()</span> method for creating topics and queues.
+  
+<pre class="auto-links: false; brush: java; toolbar: false;">
+private Destination getDestination(String destinationName) throws JMSException {
+  Destination destination;
+  // Create the topic using the destination name entered by the user
+  if (destinationName.startsWith("/topic/")) {
+    destination = session.createTopic(destinationName);
+  }
+  // Create the queue using the destination name entered by the user
+  else if (destinationName.startsWith("/queue/")) {
+    destination = session.createQueue(destinationName);
+  }
+  else {
+    logMessage("Invalid destination name: " + destinationName);
+    return null;
+  }
+  return destination;
+}
+</pre>
+  <span class="note"><b>Notes:</b><br>
+   <ul class="arrow-2">
+     <li>When setting up your message consumers and producers, you must use the format <span class="code_inline">"/topic/"</span> for regular topics.</li>
+     <li>The Kaazing Gateway Java JMS Client API supports the <a href="//docs.oracle.com/cd/E19182-01/820-7853/6nj374las/index.html">Java Naming and Directory Interface (JNDI)</a>, but the Kaazing Gateway Android JMS Client API does not.</li>
+   </ul>
+  </span>
+  </li>
+  
+  <li><a name="ConnectionExceptionListener"></a>Add the <span class="code_inline">ConnectionExceptionListener</span> class to handle when a JMS provider detects a serious problem with a connection object.
+  
+<pre class="auto-links: false; brush: java; toolbar: false;">
+private class ConnectionExceptionListener implements ExceptionListener {
+
+  public void onException(final JMSException exception) {
+    logMessage(exception.getMessage());
+    if (exception instanceof ConnectionDisconnectedException) {
+      updateButtonsForDisconnected();
+    }
+  }
+}
+</pre>
+    <p>For more information, see the Java <a href="//docs.oracle.com/javaee/7/api/javax/jms/ExceptionListener.html">ExceptionListener</a> interface.</p>
+  </li>
+  
+  <li><a name="DestinationMessageListener"></a>Add the <span class="code_inline">DestinationMessageListener</span> class and <span class="code_inline">onMessage()</span> method to manage messages. For more information, see the Java <a href="//docs.oracle.com/javaee/7/api/javax/jms/MessageListener.html">MessageListener</a> interface.
+  
+<pre class="auto-links: false; brush: java; toolbar: false;">
+private class DestinationMessageListener implements MessageListener {
+
+  // Run when a message is received
+  public void onMessage(Message message) {
+    // This try block is used to handle both text and binary messages
+    try {
+      if (message instanceof TextMessage) {
+        logMessage("RECEIVED TextMessage: " + ((TextMessage)message).getText());
+      }
+      else if (message instanceof BytesMessage) {
+        BytesMessage bytesMessage = (BytesMessage)message;
+        long len = bytesMessage.getBodyLength();
+        byte b[] = new byte[(int)len];
+        // Read a portion of the bytes message stream equal to its length
+        bytesMessage.readBytes(b);
+        // Send the bytes to the hexDump() method and display the string returned
+        logMessage("RECEIVED BytesMessage: " + hexDump(b));
+      }
+
+      // This condition provides support for the Java MapMessage interface.
+      // This client receives MapMessage messages, but it does not send them.
+      // Review the Android JMS API for information on reading MapMessage messages.
+      else if (message instanceof MapMessage) {
+        MapMessage mapMessage = (MapMessage)message;
+        Enumeration mapNames = mapMessage.getMapNames();
+        while (mapNames.hasMoreElements()) {
+          String key = (String)mapNames.nextElement();
+          Object value = mapMessage.getObject(key);
+
+          if (value == null) {
+            logMessage(key + ": null");
+          } else if (value instanceof byte[]) {
+            byte[] arr = (byte[])value;
+            StringBuilder s = new StringBuilder();
+            s.append("[");
+            for (int i = 0; i &lt; arr.length; i++) {
+              if (i > 0) {
+                s.append(",");
+              }
+              s.append(arr[i]);
+            }
+            s.append("]");
+            logMessage(key + ": "+ s.toString() + " (Byte[])");
+          } else {
+            logMessage(key + ": " + value.toString() + 
+              " (" + value.getClass().getSimpleName() + ")");
+          }
+        }
+        logMessage("RECEIVED MapMessage: ");
+      }
+      else {
+        logMessage("UNKNOWN MESSAGE TYPE: "+message.getClass().getSimpleName());
+      }
+    }
+    catch (Exception ex) {
+      ex.printStackTrace();
+      logMessage("EXCEPTION: " + ex.getMessage());
+    }
+  }
+
+  // Return a string representation of the bytes received
+  private String hexDump(byte[] b) {
+    if (b.length == 0) {
+      return "empty";
+    }
+    StringBuilder out = new StringBuilder();
+    for (int i=0; i &lt; b.length; i++) {
+      out.append(Integer.toHexString(b[i])).append(' ');
+    }
+    return out.toString();
+  }
+}
+</pre>
+  <p>For more information on byte streams, see the Java <a href="//docs.oracle.com/javaee/7/api/javax/jms/BytesMessage.html">BytesMessage</a> interface. For more information on MapMessage, see the Java <a href="//docs.oracle.com/javaee/7/api/javax/jms/MapMessage.html">MapMessage</a> interface.</p>
+  </li>
+  
+    <li><a name="paused"></a>Add the methods for when the client is paused, resumes, and when the client is closed.
+    
+<pre class="auto-links: false; brush: java; toolbar: false;">
+// Run when the client is paused
+public void onPause() {
+  if (connection != null) {
+    // Stop the connection in a separate thread
+    dispatchQueue.dispatchAsync(new Runnable() {    
+      @Override
+      public void run() {
+        try {
+          connection.stop();
+        } catch (JMSException e) {
+          e.printStackTrace();
+        }
+      }
+    });
+  }
+  super.onPause();
+}
+
+// Restart the connection when the client resumes activity
+public void onResume() {
+  if (connection != null) {
+    dispatchQueue.dispatchAsync(new Runnable() {    
+      @Override
+      public void run() {
+        try {
+          connection.start();
+        } catch (JMSException e) {
+          e.printStackTrace();
+        }
+      }
+    });
+  }
+  super.onResume();
+  }
+
+// Disconnect with the client is shutdown 
+public void onDestroy() {
+  if (connection != null) {
+    disconnect();
+  }
+  super.onDestroy();
+}
+</pre>
+  </li>
+    
+  <li><a name="updating"></a>Add the methods for updating the <strong>Connect</strong> and <strong>Disconnect</strong> buttons according to the state of the WebSocket connection.
+  
+<pre class="auto-links: false; brush: java; toolbar: false;">
+// Run when the client is connected
+private void updateButtonsForConnected() {
+  runOnUiThread(new Runnable() {
+    public void run() {
+      connectBtn.setEnabled(false);
+      disconnectBtn.setEnabled(true);
+      subscribeBtn.setEnabled(true);
+      unsubscribeBtn.setEnabled(true);
+      sendBtn.setEnabled(true);
+    }
+  });
+}
+
+// Run when the client is disconnected    
+private void updateButtonsForDisconnected() {
+  runOnUiThread(new Runnable() {
+    public void run() {
+      connectBtn.setEnabled(true);
+      disconnectBtn.setEnabled(false);
+      subscribeBtn.setEnabled(false);
+      sendBtn.setEnabled(false);
+      unsubscribeBtn.setEnabled(false);
+    }
+  });
+}
+</pre>
+  
+  </li>
+  
+  <li>Add the <span class="code_inline">logMessage()</span> method for the <strong>Log</strong> area displayed in the client. This method keeps the log to a 100 line maximum.
+  
+<pre class="auto-links: false; brush: java; toolbar: false;">
+private void logMessage(final String message) {
+  runOnUiThread(new Runnable() {
+    public void run() {
+      // Clear log after 100 messages
+      if (logTextView.getLineCount() > 100) {
+        logTextView.setText(message);
+      }
+      else {
+        logTextView.setText(message + "\n" + logTextView.getText());
+      }
+    }
+  });
+}
+</pre>
+  </li>
+  
+  <li>If you are using a local Gateway to test your Android JMS client, update the <span class="code_inline">jms</span> service on the Gateway configuration file to accept on your local IP address. If you are using the publicly available Gateway and JMS broker at <code>wss://sandbox.kaazing.net/jms</code>, you can skip this step.
+    <ol type="a">
+      <li>Open the Gateway configuration file located at <span class="code_inline"><em>GATEWAY_HOME</em>/conf/gateway-config.xml</span>.</li>
+      <li>Modify the <span class="code_inline">jms</span> service to accept connections containing your local IP address (replace <span class="code_inline">local-ip-address</span> with your IP address):
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;service&gt;
+  &lt;name&gt;JMS Service&lt;/name&gt;
+  &lt;description&gt;JMS service to JMS server&lt;/description&gt;
+  
+  &lt;accept&gt;ws://build-macmini3.kaazing.test:${gateway.extras.port}/jms&lt;/accept&gt;
+  &lt;accept&gt;ws://local-ip-address:${gateway.extras.port}/jms&lt;/accept&gt;
+  &lt;type&gt;jms&lt;/type&gt;
+
+  &lt;properties&gt;
+    &lt;connection.factory.name&gt;ConnectionFactory&lt;/connection.factory.name&gt;
+    &lt;context.lookup.topic.format&gt;dynamicTopics/%s&lt;/context.lookup.topic.format&gt;
+    &lt;context.lookup.queue.format&gt;dynamicQueues/%s&lt;/context.lookup.queue.format&gt;
+    &lt;env.java.naming.factory.initial&gt;
+      org.apache.activemq.jndi.ActiveMQInitialContextFactory
+    &lt;/env.java.naming.factory.initial&gt;
+    &lt;env.java.naming.provider.url&gt;
+      tcp://localhost:61616
+    &lt;/env.java.naming.provider.url&gt;
+  &lt;/properties&gt;
+
+&lt;realm-name&gt;demo&lt;/realm-name&gt;
+
+  &lt;cross-site-constraint&gt;
+    &lt;allow-origin&gt;http://build-macmini3.kaazing.test:${gateway.extras.port}&lt;/allow-origin&gt;
+  &lt;/cross-site-constraint&gt;
+&lt;/service&gt;
+</pre>
+      </li>
+      <li>Save the file, then restart the Gateway by following the steps in <a href="../../about/setup-guide/index.html">Setting Up the Gateway and Clients</a>.</li>
+      <li>If you are using a local broker, then start the broker. For the Apache ActiveMQ broker provided by Kaazing, see <a href="../../about/setup-guide/index.html">Setting Up the Gateway and Clients</a>.</li>
+    </ol>
+  </li>
+  
+  <li><a name="Run"></a>Run the Android client in the Android Emulator. Click the <strong>Run</strong> arrow, select or create a Deployment Target (with a minimum API 19: Android 4.4), and click <strong>OK</strong>. The Android emulator launches.
+   
+   <p><span class="note"><b>Note:</b> The Android Emulator can be slow and resource intensive. Another option for running Android apps on your computer is <a href="https://www.genymotion.com/">Genymotion</a>.</span></p>
+   
+    <figure>
+      <img src="android-TUI.png">
+    <figcaption><strong>Figure: Android JMS Client in the Android Emulator</strong></figcaption>  
+    </figure>
+  </li>
+  
+  <li><a name="Test"></a>Test the Android client in the Android Emulator.
+    <ol type="a">
+      <li>In the <strong>Location</strong> field, enter either the URI used by the publicly available Gateway and JMS broker provided by Kaazing, <code>wss://sandbox.kaazing.net/jms</code>, or enter the local address <span class="code_inline">ws://<em>local-ip-address</em>:8001/jms</span> using your local IP address. For example, <span class="code_inline">ws://192.168.0.103:8001/jms</span>.</li>
+      <li>Click <strong>Connect</strong>. The messages <span class="code_inline">CONNECTING</span> and then <span class="code_inline">CONNECTED</span> appear. The WebSocket connection to the Gateway and JMS broker was successful.</li>
+      <li>Click <strong>Subscribe</strong>. The message <span class="code_inline">SUBSCRIBE - /topic/destination</span> appears. You have subscribed to the destination.</li>
+      <li>Click <strong>Send</strong>. The following messages appear:<br>
+        <span class="code_inline">RECEIVED TextMessage: Hello, message<br>
+        SEND: Hello, message</span>
+        <p>You sent a message <span class="code_inline">Hello, message</span> to the destination and received the same message because you are subscribed to that destination.</p>
+      </li>
+      <li>Click the <strong>Send Binary</strong> checkbox and click <strong>Send</strong> again. The following messages appear:<br>
+      <span class="code_inline">SEND BytesMessage: Hello, message<br>
+        RECEIVED BytesMessage: 0,14,72,101,108,108,111,44,32,109,101,115,115,97,103,101</span>
+      </li>
+      <li>Click <strong>Disconnect</strong> to end the session.</li>
+    </ol>
+  </li>
+</ol>
+
+<h2>Next Steps</h2>
+<p><a href="../dev-java/p_dev_java_secure.html">Secure Your Java and Android Clients</a></p>
+
+                  </section>
+                </article>
+
+            </div> <!-- #main -->
+        </div> <!-- #main-container -->
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

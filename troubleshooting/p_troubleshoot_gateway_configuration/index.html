@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+
+ <h1 id="troubleshoot-kaazing-gateway-configuration-and-startup">Troubleshoot Kaazing Gateway Configuration and Startup</h1>
+ 
+ <span class="note"><b>Important:</b> Please refer to the <a href="//kaazing.com/releases/kwg/" title="Kaazing - Release Notes - EE Gateway">Release Notes</a> for Kaazing WebSocket Gateway to review system requirements and known issues.</span>
+
+<p>When you set up and configure Kaazing Gateway, you may encounter one of the errors described in this topic. To resolve an issue, follow the guidance provided for the associated error.</p>
+
+<h2 id="troubleshooting-kaazing-gateway">Troubleshooting Kaazing Gateway</h2>
+
+<p>This topic is part of <a href="../o_troubleshoot/index.html">Troubleshoot Kaazing Gateway</a> that groups troubleshooting topics into the categories shown in the following table:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>What Problem Are You Having?</th>
+      <th>Topic or Reference</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Configuration and startup</strong></td>
+      <td><strong>Troubleshoot Kaazing Gateway Configuration and Startup</strong></td>
+    </tr>
+    <tr>
+      <td>Clusters and load balancing</td>
+      <td><a href="../p_troubleshoot_high_availability/index.html">Troubleshoot Kaazing Gateway Cluster and Load Balancing</a></td>
+    </tr>
+    <tr>
+      <td>Security</td>
+      <td><a href="../p_troubleshoot_security/index.html">Troubleshoot Kaazing Gateway Security</a></td>
+    </tr>
+    <tr>
+      <td>Clients</td>
+      <td><a href="../p_dev_troubleshoot/index.html">Troubleshoot Your Clients</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="what-problem-are-you-having">What Problem Are You Having?</h2>
+
+<ul>
+  <li><a href="#port-8000-or-8001-is-already-in-use">Port 8000 or 8001 Is Already in Use</a></li>
+  <li><a href="#maximum-number-of-connections-reached-or-exceeded">Maximum Number of Connections Reached or Exceeded</a></li>
+  <li><a href="#too-many-open-files-warning">Too Many Open Files Warning</a></li>
+  <li><a href="#out-of-memory-error-when-starting-kaazing-gateway">Out of Memory Error When Starting Kaazing Gateway</a></li>
+  <li><a href="#error-starting-kaazing-gateway-on-the-microsoft-vista-operating-system">Error Starting Kaazing Gateway on the Microsoft Vista Operating System</a></li>
+  <li><a href="#error-unable-to-bind-to-resource-network-address--network-address-cause-address-already-in-use">Error: Unable to bind to resource: [network address] @ [network address] cause: Address already in use.</a></li>
+  <li><a href="#error-when-starting-the-gateway-string-value-value-does-not-match-pattern-for-datasize-in-namespace">Error When Starting the Gateway: String Value [<em>‘value’</em>] does not match pattern for DataSize in namespace</a></li>
+  <li><a href="#warning-error-on-websocket-connection">Warning: Error on WebSocket connection</a></li>
+  <li><a href="#warning-error-string-value-value-does-not-match-pattern">Warning: ERROR string value ‘<em>value</em>’ does not match pattern</a></li>
+  <li><a href="#localhost-is-not-configured">Localhost Is Not Configured</a></li>
+  <li><a href="#demos-do-not-work-when-using-fiddler-web-debugger-as-an-http-proxy">Demos Do Not Work When Using Fiddler Web Debugger as an HTTP Proxy</a></li>
+  <li><a href="#error-using-the-gateway-to-proxy-from-back-end-server-over-tcp-to-client-over-websocket">Error Using the Gateway to Proxy From Back-End Server over TCP to Client over WebSocket</a></li>
+</ul>
+
+<h3 id="port-8000-or-8001-is-already-in-use">Port 8000 or 8001 Is Already in Use</h3>
+
+<p><strong>Cause:</strong> Port conflict is a common problem that occurs when another web server or process is already using one of the default Kaazing Gateway ports, either port 8000 (the default HTTP port to which the Gateway binds at startup) or 8001 (includes the Gateway documentation and demos).</p>
+
+<p><strong>Solution:</strong> To avoid port conflicts, change the port number by performing the following steps:</p>
+
+<ol>
+  <li>Open the file <code>GATEWAY_HOME/conf/gateway-config.xml</code> and search for instances of 8000 or 8001.</li>
+  <li>Change the instances to a port number that is not in use and is greater than 1024, because ports less than or equal to 1024 require superuser access to bind under UNIX. For example, you might change the default home-page port from 8000 to 8884.</li>
+  <li>Restart the Gateway.</li>
+  <li>Test the port change by accessing the Gateway at <code>http://localhost:new-port-number/</code> in your browser. For example, if you changed the default port from 8000 to 8884, you can now access the Gateway home page at <code>http://localhost:8884/</code>.</li>
+</ol>
+
+<h3 id="maximum-number-of-connections-reached-or-exceeded">Maximum Number of Connections Reached or Exceeded</h3>
+
+<p><strong>Cause:</strong> You have exceeded the number of allowed client connections to the Gateway. The terms of your Kaazing Gateway license specify a maximum number of allowed concurrent client connections. For example, the developer’s version of the Kaazing Gateway bundle allows only a limited number of concurrent client connections.</p>
+
+<p>If you see the following warning message in the file <code>GATEWAY_HOME/log/error.log</code> file:</p>
+
+<p><code>WARN Maximum number of connections reached.</code></p>
+
+<p>You have exceeded the <em>soft limit</em> of allowed connections. To give you time to to upgrade the terms of your license and to avoid closed connections, additional connections are still allowed. However, if you see the following error message:</p>
+
+<code>ERROR Maximum number of connections exceeded. Closing connection.</code>
+
+<p>You have exceeded the <em>hard limit</em> of allowed connections and all new incoming connections are closed until you have upgraded the terms of your license.</p>
+
+<p><strong>Solution:</strong> To upgrade your license, contact your <a href="&#109;&#097;&#105;&#108;&#116;&#111;:&#115;&#097;&#108;&#101;&#115;&#064;&#107;&#097;&#097;&#122;&#105;&#110;&#103;&#046;&#099;&#111;&#109;">Customer Support Representative</a>.</p>
+
+<h3 id="too-many-open-files-warning">Too Many Open Files Warning</h3>
+
+<p><strong>Cause:</strong> If your server is unable to open more files to handle the number of open client connections, then the following warning message is recorded in the file <code>GATEWAY_HOME/log/error.log</code> file on UNIX or Linux:</p>
+
+<p><code>java.io.IOException: Too many open files</code></p>
+
+<p>By default, a UNIX or Linux user may only be able to open a maximum of a few hundred or thousand files. A number of file handles are used for each client connection that is established with Kaazing Gateway: typically one for the client connection (double that in case of WebSocket emulation) and one for the back-end service connection.</p>
+
+<p><strong>Solution:</strong> To avoid running out of available file handles you should increase the limit of files that the user can open to handle your expected load.</p>
+
+<ol>
+  <li>
+    <p>Check the open file limit on UNIX or Linux, use the <code>ulimit</code> command as shown in the following example:</p>
+
+    <p><code>ulimit -n</code></p>
+  </li>
+  <li>
+    <p>Update the open file limit:</p>
+    <ul>
+      <li>
+        <p>To temporarily update the open file limit, use the <code>ulimit</code> command as shown in the following example:</p>
+
+        <p><code>ulimit -n &lt;new_value&gt;</code></p>
+      </li>
+      <li>
+        <p>To permanently apply the <code>ulimit</code> value, you may need to restart and reconfigure your server settings. Refer to your operating system documentation for more information.</p>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="out-of-memory-error-when-starting-kaazing-gateway">Out of Memory Error When Starting Kaazing Gateway</h3>
+
+<p><strong>Cause:</strong> An out-of-memory error can result when starting the Gateway if the maximum heap size is not set appropriately for your physical memory capacity. The default maximum heap size is only 516 MB, which typically is not sufficient for production deployment.</p>
+
+<p><strong>Solution:</strong> Set the Java <code>-Xmx</code> option in your Gateway startup file to approximately 70% of the physical memory capacity. For example, if the physical memory capacity of the machine is 4 GB, then edit your Gateway startup script and modify the <code>GATEWAY_OPTS</code> environment variable to <code>-Xmx3072m</code>. Then start the Gateway as described in <a href="../../about/setup-guide/index.html">Setting Up the Gateway and Clients</a>. See <a href="../../admin-reference/p_configure_gateway_opts/index.html">Configure Kaazing Gateway Using the GATEWAY_OPTS Environment Variable</a> for more information about setting the <code>GATEWAY_OPTS</code> environment variable.</p>
+
+<h3 id="error-starting-kaazing-gateway-on-the-microsoft-vista-operating-system">Error Starting Kaazing Gateway on the Microsoft Vista Operating System</h3>
+
+<p><strong>Cause:</strong> If you are running Kaazing Gateway on the Microsoft Vista operating system and an IPv6 address is specified for <code>localhost</code> in your <code>hosts</code> file, then you could receive the following error message:</p>
+
+<p><code>java.net.SocketException: Address family not supported by protocol family: bind</code></p>
+
+<p><strong>Solution:</strong> To start the server successfully, perform the following steps:</p>
+
+<ol>
+  <li>Open your <code>hosts</code> file (typically <code>C:\Windows\System32\drivers\etc\hosts</code>).</li>
+  <li>
+    <p>Replace:</p>
+
+    <p><code>::1 localhost</code></p>
+
+    <p>With:</p>
+
+    <p><code>127.0.0.1 localhost</code></p>
+  </li>
+  <li>Save the file and restart Kaazing Gateway.</li>
+</ol>
+
+<h3 id="error-unable-to-bind-to-resource-network-address--network-address-cause-address-already-in-use">Error: Unable to bind to resource: [network address] @ [network address] cause: Address already in use.</h3>
+
+<p><strong>Cause:</strong> On startup, the Gateway is unable to bind to the resource and returns an exception similar to the following in the log:</p>
+
+<p><code>java.lang.RuntimeException: Unable to bind to resource: wss://localhost:9001/echo @ wss://localhost:9111/echo cause: Address already in use               at org.kaazing.gateway.server.transport.nio.AbstractNioAcceptor.bind(AbstractNioAcceptor.java:98)...</code></p>
+
+<p>This exception can be caused by the following conditions:</p>
+
+<ul>
+  <li>The port being bound is in use by another external process running on the host, such as an Apache HTTP server.</li>
+  <li>The port listed in the error has already been bound to another incompatible protocol in the <code>gateway-config.xml</code>. For example, you cannot bind HTTP and HTTPS to the same host and port combination.</li>
+</ul>
+
+<p><strong>Solution:</strong> Check the <a href="../../admin-reference/r_configure_gateway_service/index.html#protocolbind"><em>protocol.</em>bind</a> element in your services (you may need to check the <a href="../../admin-reference/r_configure_gateway_service_defaults/index.html#service-defaults">service-defaults</a> section, as well) to ensure that multiple services are not bound to same port. Also, check that secure and unsecure protocols are not bound to the same port.</p>
+
+<h3 id="error-when-starting-the-gateway-string-value-value-does-not-match-pattern-for-datasize-in-namespace">Error When Starting the Gateway: String Value [<em>‘value</em>’] does not match pattern for DataSize in namespace</h3>
+
+<p><strong>Cause:</strong> When the <code>maximum.pending.bytes</code> property contains an invalid value, the following errors display when you start the Gateway:</p>
+
+<p><code>ERROR Validation errors in gateway-config.xml ERROR   Line: 15 Column: 33 ERROR   string value ‘128KB’ does not match pattern for DataSizeString in namespace http://xmlns.kaazing.org/2016/06/gateway ERROR   &lt;xml-fragment xmlns:xsi=<a href="//www.w3.org/2001/XMLSchema-instance">“http://www.w3.org/2001/XMLSchema-instance”</a>/&gt;</code></p>
+
+<p><strong>Solution:</strong> Set the <code>maximum.pending.bytes</code> property of the <a href="../../admin-reference/r_configure_gateway_service/index.html#proxy-amqpproxy-and-jmsproxy">proxy</a> service element to a valid value.</p>
+
+<h3 id="warning-error-on-websocket-connection">Warning: Error on WebSocket connection</h3>
+
+<p><strong>Cause:</strong> When a message incoming from a client to the Gateway exceeds the maximum size either specified by <a href="../../admin-reference/r_configure_gateway_service/index.html#wsmaximummessagesize"><code>ws.maximum.message.size</code></a> or by the default Gateway configuration of 128k, the following warning is written to the Gateway log:</p>
+
+<p><code>2044-06-06 16:19:28,621 WARN  Error on WebSocket connection, closing connection: incoming message size exceeds permitted maximum of 131072 bytes (Hexdump:...)</code></p>
+
+<p><strong>Solution:</strong> To resolve this issue, the client can reconnect to the Gateway. If you wish to adjust the maximum message size that the Gateway can accept from a client, see <a href="../../admin-reference/r_configure_gateway_service/index.html#wsmaximummessagesize">ws.maximum.message.size</a>.</p>
+
+<h3 id="warning-error-string-value-value-does-not-match-pattern">Warning: ERROR string value ‘<em>value</em>’ does not match pattern</h3>
+
+<p><strong>Cause:</strong> When the <code>ws.maximum.message.size</code> element is set to an invalid value (indicated by “<em>value</em>” in the example warning), the following warning occurs when the Gateway starts:</p>
+
+<p><code>ERROR   string value some_value does not match pattern for DataSizeString in namespace http://xmlns.kaazing.org/2016/06/gateway</code></p>
+
+<p><strong>Solution:</strong> Open the <code>GATEWAY_HOME/conf/gateway-config.xml</code> and set the <a href="../../admin-reference/r_configure_gateway_service/index.html#wsmaximummessagesize"><code>ws.maximum.message.size</code></a> to a valid value.</p>
+
+<h3 id="localhost-is-not-configured">Localhost Is Not Configured</h3>
+
+<p><strong>Cause:</strong> “Localhost” is not found when you try to access Kaazing Gateway. This can happen if your browser is configured to use a proxy server.</p>
+
+<p><strong>Solution:</strong> Make sure your proxy configuration bypasses the proxy to access <code>localhost</code>.</p>
+
+<h3 id="demos-do-not-work-when-using-fiddler-web-debugger-as-an-http-proxy">Demos Do Not Work When Using Fiddler Web Debugger as an HTTP Proxy</h3>
+
+<p><strong>Cause:</strong> When Fiddler is used as an HTTP proxy, it can handle both <code>http://</code> and <code>https://</code> traffic. However, to monitor the <code>https://</code> traffic, Fiddler must be able to decrypt the traffic. Fiddler can do this only if it serves a [fake] SSL certificate. When Kaazing Gateway detects that traffic is flowing through an HTTP proxy (such as Fiddler), the Gateway attempts to automatically use an SSL downstream for the emulated WebSocket because unencrypted streaming responses can be buffered by the HTTP proxy. This can cause potentially lengthy delays in message delivery. The browser automatically fails when attempting to download an <code>https://</code> URL with untrusted (fake) certificate.</p>
+
+<p><strong>Solution:</strong> When the main URL for the entire page is from the fake URL the page displays some links allowing the user to <em>trust</em> the fake certificate anyway. For example, surfing to <code>https://localhost:9000/</code> with Fiddler as the HTTP proxy presents the opportunity to trust the fake localhost certificate served by Fiddler. Once the browser has been instructed to trust the fake Fiddler certificate, then the demos should continue to work as before.</p>
+
+<p><strong>See Also:</strong> <a href="//www.fiddler2.com/Fiddler/help/httpsdecryption.asp"><code>http://www.fiddler2.com/Fiddler/help/httpsdecryption.asp</code></a> for more information about Fiddler.</p>
+
+<h3 id="error-using-the-gateway-to-proxy-from-back-end-server-over-tcp-to-client-over-websocket">Error Using the Gateway to Proxy from Back-End Server over TCP to Client over WebSocket</h3>
+
+<p><strong>Cause:</strong> When the Gateway is configured as a proxy receiving binary data over TCP from a back-end server and sends that data over WebSocket to Flash. .NET client applications, the client applications must use a ByteSocket client library to send and receive binary data. In this scenario, using a WebSocket client library on the client application will fail. Note: the WebSocket class in Kaazing Gateway JavaScript, Java, Objective-C, and Android clients supports binary.</p>
+
+<p><strong>Solution:</strong> Include a ByteBuffer class (included with all of the APIs) that provides an automatically expanding byte buffer for ByteSocket.</p>
+
+
+</div>
+
+</div>
+
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+  
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+ <div class="container page-content text-left">
+
+
+  <h1 id="mobile-client-notifications">Configuring Mobile Client Notifications </h1>
+
+
+<p>You can configure the Gateway to support mobile app messaging notifications using <a href="https://firebase.google.com/">Firebase Cloud Messaging (FCM)</a> and the <code><a href="../../admin-reference/r_conf_jms/index.html#jms">jms</a></code> service. This feature enables you to notify users that messages are awaiting them when their Kaazing mobile app is in the background on their device.</p>
+
+<p>Here is an example of the production topology for supporting mobile app notifications with the Gateway:</p>
+
+ <figure>
+  <img src="../../images/firebase-topology.png">
+ <figcaption><strong>Figure 1: Supporting Mobile Apps with Firebase</strong></figcaption> 
+ </figure>
+ 
+ <p>This document contains the following sections:</p>
+
+<ul>
+<li><a href="#notification-process">Notification Process</a></li>
+<li><a href="#components">Components</a></li>
+<li><a href="#deployment-and-testing-process">Deployment and Testing Process</a></li>
+<li><a href="#jms-broker-and-backend-service-configuration">JMS Broker and Backend Service Configuration</a>
+ <ul type="a">
+  <li><a href="#jms-broker-configuration">JMS Broker Configuration</a></li>
+  <li><a href="#backend-service-configuration">Backend Service Configuration</a></li>
+  <li><a href="#notification-queue-message-properties">Notification Queue Message Properties</a></li>
+ </ul>
+</li>
+<li><a href="#firebase-configuration-for-mobile-clients">Firebase Configuration for Mobile Clients</a></li>
+<li><a href="#kaazing-websocket-gateway-configuration">Kaazing WebSocket Gateway Configuration</a>
+
+ <ul type="a">
+  <li><a href="#jms-service-configuration">JMS (or IBMMQ) Service Configuration</a></li>
+   <li><a href="#jms-service-with-notifications-example">JMS service with Notifications Example</a></li>
+  <li><a href="#notification-properties-for-jms-service">Notification Properties for JMS Service</a></li>
+  <li><a href="#login-module-for-secure-propagation-of-jmsxuserid-property">Login Module for Secure Propagation of JMSXUserID Property</a></li>
+  <li><a href="#prevent-client-subscriptions-to-registration-queue">Prevent Client Subscriptions to Registration Queue</a></li>
+  <li><a href="#error-queue">Error Queue</a></li>
+   <li><a href="#notifications_error_code-property-values">NOTIFICATIONS_ERROR_CODE Property Values</a></li>
+  <li><a href="#device-token-refresh">Device Token Refresh</a></li>
+  </ul>
+</li>
+<li><a href="#mobile-app-configuration">Mobile App Configuration</a></li>
+<li><a href="#notes">Notes</a></li>
+</ul> 
+
+
+<h2 id="notification-process">Notification Process</h2>
+
+<p>Once the Backend Service is configured with the user ID and corresponding device tokens for each user, the following notification process can occur:</p>
+
+<ol>
+<li>The Backend Service receives an update such as a stock trade.</li>
+<li>The Backend Service creates a message to be sent as a notification for a user. The message is created using a persistent store containing user-specific information, and using custom properties such as device tokens, notification sound, etc.</li>
+<li>The Backend Service sends a message to the Message Broker using a designated JMS queue. The message contains the user ID and device information for each user.</li>
+<li>The Gateway, which is subscribed to the same notification queue, receives the message posted by the Backend Service via the Message Broker.</li>
+<li>If the notification message has the special notification properties set, the Gateway sends a notification to Firebase Cloud Messaging (FCM). If more than one device token is specified, the Gateway sends a multicast notification to FCM.</li>
+<li>Firebase sends a message notification to Mobile Client devices. If the Kaazing JMS app on the device is in the background, and notifications are enabled for the app, the device notifies the user that there is a new message.</li>
+</ol>
+
+<span class="note"><b>Notes:</b>
+ <ul>
+  <li>Notifications are only supported from the <code><a href="../../admin-reference/r_conf_jms/index.html#jms">jms</a></code> and <code><a href="../../admin-reference/r_conf_mq/index.html">ibmmq</a></code> services in Kaazing Enterprise Gateway 5.x.</li>
+  <li>Notifications for iOS 8.4 and later are supported.</li>
+  <li>Notifications for Android API Level 23 and later are supported.</li>
+  <li>The notification payload is limited to a maximum of 2KB. If the notification payload is more than 2KB, the Gateway will log a warning.</li>
+  <li>Developers must add iOS apps to a Firebase project to be able to receive Apple Push Notification Service (APNs) notifications via Firebase on their iOS devices.</li>
+  <li>The Gateway only supports downstream notifications, from the Gateway to the client device via FCM over XMPP.</li>
+ </ul>
+</span>
+
+<h2 id="components">Components</h2>
+
+<p>The exact components involved in your Kaazing mobile client notification deployment depends on how you decide to collect the JMSXUserID and Firebase registration tokens. The following table lists the components involved in the recommended deployment.</p>
+
+<table width="100%" border="0">
+  <tr>
+    <th scope="col" width="20%">Component</th>
+    <th scope="col" width="80%">Description</th>
+  </tr>
+  <tr>
+    <td>Kaazing WebSocket Gateway</td>
+    <td>The Gateway contains the <code><a href="../../admin-reference/r_conf_jms/index.html#jms">jms</a></code> and <code><a href="../../admin-reference/r_conf_mq/index.html">ibmmq</a></code> service needed for mobile client notifications. For more information, see <a href="//kaazing.com/download/#ee-kwg">kaazing.com/download</a>.</td>
+  </tr>
+  <tr>
+    <td><code><a href="../../admin-reference/r_conf_jms/index.html#jms">jms</a></code> and <code><a href="../../admin-reference/r_conf_mq/index.html">ibmmq</a></code> service on Gateway</td>
+    <td>The <code>jms</code> or <code>ibmmq</code> service is configured on the Gateway to support messaging between the mobile clients and the JMS broker. For more information, see <a href="../../admin-reference/r_conf_jms/index.html">JMS Services for Kaazing Gateway</a> and <a href="../../integration-jms/o_jms_integrate/index.html">About Integrating Kaazing Gateway and JMS-Compliant Message Brokers</a>.</td>
+  </tr>
+  <tr>
+    <td>Mobile clients</td>
+    <td><a href="//kaazing.com/download/#client-objectivec">Objective-C (iOS)</a> or <a href="//kaazing.com/download/#client-android">Android</a> devices that can receive notifications.</td>
+  </tr>
+  <tr>
+    <td>Firebase Cloud Messaging (FCM)</td>
+    <td>Firebase must be added to your iOS and Android mobile clients to receive notifications from the Gateway. Once you have added Firebase, your app will use FCM to receive notifications. For information on adding Firebase, see <a href="https://firebase.google.com/docs/cloud-messaging/ios/client">Setting Up a Firebase Cloud Messaging Client App on iOS</a> or <a href="https://firebase.google.com/docs/cloud-messaging/android/client">Set Up a Firebase Cloud Messaging Client App on Android</a> from Firebase.</td>
+  </tr>
+  <tr>
+    <td>Firebase registration device tokens</td>
+    <td>To verify that they can send and receive messages, client apps must register with Firebase Cloud Messaging (FCM). In the Kaazing mobile client notification process, the client obtains a unique registration token from Firebase and sends a message to a registration queue via the Gateway. A backend service subscribed to that queue stores the token for later use when sending notification messages. For more information, see <a href="https://developers.google.com/cloud-messaging/registration">Registering Client Apps</a>.</td>
+  </tr>
+  <tr>
+    <td>Backend Service</td>
+    <td>The Backend Service is the notification publishing service. The service must be able to store the user ID and Firebase device token mappings and send notifications to the JMS Broker using those mappings on designated notifications queues. The service must subscribe to a user details queue to receive messages containing the user IDs and Firebase device tokens.</td>
+  </tr>
+  <tr>
+    <td>JMS Broker</td>
+    <td>The JMS Broker used to send and receive messages between the backend service and the Gateway.</td>
+  </tr>
+  <tr>
+    <td>Registration JMS queue</td>
+    <td>When a Kaazing mobile client first launches it will send a message to a registration queue configured on the JMS broker to provide the backend service with the user ID and Firebase registration device token. The user ID is included in the standard JMSXUserID property and the device token is included in a custom property of the message. The backend service is subscribed to the queue to receive and store the user ID and device token.</td>
+  </tr>
+  <tr>
+    <td>Notification JMS queue</td>
+    <td>When the backend service wants to send a notification, it sends a notification message to one or more notification queues configured on the JMS broker. The Gateway receives the notification message and then uses Firebase to notify the mobile client.</td>
+  </tr>
+  <tr>
+    <td>JMSXUserID</td>
+    <td>The JMS message property used to collect the user ID. JMSXUserID is applied to the registration queue used to collect user and device information. For security reasons, the JMSXUserID property is set on the Gateway.</td>
+  </tr>
+  <tr>
+    <td>LoginModule</td>
+    <td>For security reasons, it is preferable that the Gateway set the JMSXUserID property on the message instead of the client. To be able to accomplish this, a LoginModule is configured on the JMS service hosted by the Gateway. For more information on Login Modules, see <a href="../../security/p_auth_configure_login_module/index.html">Configure a Chain of Login Modules</a> and <a href="../../security/p_auditing_jms_secure/index.html">Configuring User Auditing</a>.</td>
+  </tr>
+</table>
+
+<h2 id="deployment-and-testing-process">Deployment and Testing Process</h2>
+
+<p>Here is an overview of setting up mobile app notifications with the Gateway:</p>
+
+<table width="100%" border="0">
+  <tr>
+    <th scope="col" width="5%">Step</th>
+    <th scope="col" width="70%">Description</th>
+    <th scope="col" width="25%">Reference</th>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>On the JMS broker, set up a designated registration queue to receive messages from mobile clients via the Gateway that contain their Firebase device tokens and user IDs.</td>
+    <td><a href="#jms-broker-configuration">JMS Broker Configuration</a></td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td>On the JMS broker, set up a designated notification queue. The notification queue is used as follows:
+     <ul>
+      <li>The backend service publishes notification messages to the queue.</li>
+      <li>The Gateway subscribes to the queue to receive notification messages.</li>
+     </ul>
+    </td>
+    <td><a href="#jms-broker-configuration">JMS Broker Configuration</a></td>
+  </tr>
+  <tr>
+    <td>3</td>
+    <td>On the JMS broker, set up a designated error queue. The backend service will monitor the error queue. The Gateway publishes messages to the error queue if a notification cannot be sent to a particular device. The name of the error queue should be specified in the Gateway configuration file and should be given the privileges to publish messages to the error queue.</td>
+    <td><a href="#error-queue">Error Queue</a></td>
+  </tr>
+  <tr>
+    <td>4</td>
+    <td>Set up the backend service with a persistent store for the JMS user IDs and Firebase device tokens. Subscribe the backend service to the designated JMS registration queue.</td>
+    <td><a href="#backend-service-configuration">Backend Service Configuration</a></td>
+  </tr>
+  <tr>
+    <td>5</td>
+    <td>Configure the <code>jms</code> or <code>ibmmq</code> service on the Gateway to support notifications. The service contains configuration elements that specify all notification-related information.</td>
+    <td><a href="#jms-broker-configuration">JMS Broker Configuration</a></td>
+  </tr>
+  <tr>
+    <td>6</td>
+    <td>Integrate Firebase for Cloud with your Kaazing mobile apps.</td>
+    <td><a href="#firebase-configuration-for-mobile-clients">Firebase Configuration for Mobile Clients</a></td>
+  </tr>
+  <tr>
+    <td>7</td>
+    <td>Launch a Kaazing Mobile Client in order for the client to post a message to the user detail queue via Gateway containing their Firebase device tokens. The Gateway will then add the user ID, and submit the message to the Message Broker. The Backend Service is subscribed to the user details queue and receives the user ID and Firebase token for mapping and storage.</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>8</td>
+    <td>Have the Backend Service send a notification message to the notification queue using the user ID and Firebase token it has stored.</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>9</td>
+    <td>Ensure that the Kaazing mobile client app is in the background and that notifications are enabled. Verify that the device receives a notification message.</td>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+
+<h2 id="jms-broker-and-backend-service-configuration">JMS Broker and Backend Service Configuration</h2>
+
+<p>Configure and deploy the JMS broker as the first step in deploying Kaazing client mobile notifications. Once the JMS broker is set up, the backend service can be configured to receive user ID and device token information from the JMS broker via a designated queue and then send notification messages to users via notification queues.
+</p>
+
+ <h3 id="jms-broker-configuration">JMS Broker Configuration</h3>
+ 
+ <p>Configure the JMS Broker as follows:</p>
+ 
+ <ol>
+  <li><strong>Registration Queue:</strong> Create a designated registration queue for receiving user ID and Firebase device tokens. When the Kaazing JMS client first launches, it will send a message to this queue that contains its user ID and Firebase device token as message properties.</li>
+  <li><strong>Notification Queues:</strong> Create one or more designated notification queues, for example, NOTIFICATIONS_BANKERS, NOTIFICATIONS_CUSTOMERS, etc. These queues are used by the backend service to pass information such as user ID, device tokens, sound, and badge number as custom properties of a message sent as a notification.</li>
+  <li><strong>Error Queue:</strong> Create an error queue to notify the backend service of unsuccessful notifications. When the backend service receives messages from the error queue, it can determine what the best response is to perform.</li>
+ </ol>
+ 
+ <p>Later in the deployment, the JMS service in Kaazing Enterprise Gateway will be made aware of the names of designated notification queues and the names of the custom properties so that it can subscribe to them.</p>
+ 
+ <h3 id="backend-service-configuration">Backend Service Configuration</h3>
+ 
+ <p>Your backend service needs to perform the following actions to support mobile client notifications:</p>
+ 
+ <ol>
+  <li><strong>Client registration:</strong> The backend service must subscribe to the registration queue to receive messages from Kaazing mobile clients containing their user IDs and device tokens. When new messages arrive on the registration queue, the backend service can create a mapping between the <code>JMSXUserID</code> and the corresponding device tokens which can then be cached using persistent storage.</li>
+  <li><strong>Notification messages:</strong> For notifications, the backend service posts messages to the notification queue on the JMS broker. The backend service must use the collected <code>JMSXUserID</code> and corresponding Firebase registration tokens, and pass them to the JMS broker as custom properties of the notification message. </li>
+  <li><strong>Error messages:</strong> For unsuccessful notifications, set up a designated error queue. The backend service will monitor the error queue. The Gateway publishes messages to the error queue if a notification cannot be sent to a particular device. The name of the error queue should be specified in the Gateway configuration file and should be given the privileges to publish messages to the error queue. For more information, see <a href="#error-queue">Error Queue</a>.</li>
+ </ol>
+ 
+  <h4 id="notification-queue-message-properties">Notification Queue Message Properties</h4>
+  
+  <p>When the backend service publishes messages to designated notifications queues it may set the message properties described in this section. The property names can be customized using the service property named in the <strong>Service Property</strong> column. The <strong>Message Property</strong> column gives the default name. Only the device token property (FIREBASE_DEVICE_TOKENS) is required.</p>
+  
+  <p>In table below, there are two types of properties: message property (for example, <code>NOTIFICATION_COLOR</code>) and its corresponding Gateway service property (for example, <code>color.property.name</code>).</p>
+
+  <p>For example, the default property for text color is <code>NOTIFICATION_COLOR</code>. To specify text color for a message using the default <code>NOTIFICATION_COLOR</code> property, do the following:</p>
+  
+  <pre class="auto-links: false; brush: java; toolbar: false;">
+   textMessage.setStringProperty("NOTIFICATION_COLOR", "#E04006");
+  </pre>
+
+  <p>To change the property for text color to something else, modify the service property like this:</p>
+
+  <pre class="auto-links: false; brush: xml; toolbar: false;">
+   &lt;color.property.name&gt;COLOR&lt;/color.property.name&gt;
+  </pre>
+
+  <p>And then change the code that sets the text color like this:</p>
+
+  <pre class="auto-links: false; brush: java; toolbar: false;">
+   textMessage.setStringProperty("COLOR", "#E04006");
+  </pre>
+  
+<table border="0">
+  <tr>
+    <th scope="col">Service Property</th>
+    <th scope="col">Message Property</th>
+    <th scope="col">Type</th>
+    <th scope="col">Details</th>
+  </tr>
+  <tr>
+    <td><code>device.tokens.property.name</code></td>
+    <td><code>FIREBASE_DEVICE_TOKENS</code></td>
+    <td>String</td>
+    <td>Comma separated list of device tokens. If not specified, a notification will not be sent and a message will be published to <code>error.queue</code> (if configured).</td>
+  </tr>
+  <tr>
+    <td><code>badge.number.property.name</code></td>
+    <td><code>NOTIFICATION_BADGE_NUMBER</code></td>
+    <td>Integer</td>
+    <td>Badge number (number of waiting notifications) to be shown on the app.</td>
+  </tr>
+  <tr>
+    <td><code>color.property.name</code></td>
+    <td><code>NOTIFICATION_COLOR</code></td>
+    <td>String</td>
+    <td>Format <code>#RRGGBB</code>.</td>
+  </tr>
+  <tr>
+    <td><code>icon.property.name</code></td>
+    <td><code>NOTIFICATION_ICON</code></td>
+    <td>String</td>
+    <td>For Android, this property indicates the notification icon. It sets the value to a drawable resource in the client project.</td>
+  </tr>
+  <tr>
+    <td><code>sound.property.name</code></td>
+    <td><code>NOTIFICATION_SOUND</code></td>
+    <td>String</td>
+    <td>Name of the sound file that is packaged in the app. The sound is played on the device when the notification is delivered. The default value is <code>default</code>. The default value included in the JSON payload is “default”.</td>
+  </tr>
+  <tr>
+    <td><code>title.property.name</code></td>
+    <td><code>NOTIFICATION_TITLE</code></td>
+    <td>String</td>
+    <td>The notification message title.</td>
+  </tr>
+</table><br>
+  
+  <p>The Gateway is made aware of the names of the special custom properties via the JMS service configuration on the Gateway. If the configuration for property names are not specified, then the Gateway uses the corresponding default property names.</p>
+  
+<h2 id="firebase-configuration-for-mobile-clients">Firebase Configuration for Mobile Clients</h2>
+
+<p>In the Kaazing mobile client notifications deployment, Firebase is used by the Gateway to turn JMS notification messages into Firebase notifications that are sent to mobile clients configured for Firebase. A standard Firebase configuration is used.</p>
+
+<p>To configure your Kaazing JMS app to use Firebase, do the following:</p>
+
+<ol>
+ <li>For iOS, do the following steps to configure the app to receive notifications from APNs directly and from Firebase:
+  <ol type="a">
+  <li>Use <a href="https://developer.apple.com/download/">Apple Developer Member Center</a> to create an explicit AppID with Push Notifications enabled.</li>
+  <li>Use Apple Developer Member Center to create a client SSL certificate specifically for the AppID.</li>
+  <li>Download and add the certificate to the keychain. Export the certificate in .p12 format from the keychain.</li>
+  <li>Use Apple Developer Member Center to create a new provisioning profile for the AppID created earlier. Download the profile and install it in the iOS device.</li>
+  <li>Follow the steps in the <a href="https://firebase.google.com/docs/cloud-messaging/ios/client">Setting Up a Firebase Cloud Messaging Client App on iOS</a> from Firebase. </li>
+  </ol>
+ </li>
+ <li>For Android, follow the steps in the <a href="https://firebase.google.com/docs/cloud-messaging/android/client">Set Up a Firebase Cloud Messaging Client App on Android</a> from Firebase.</li>
+</ol>
+
+<p>Once your client has Firebase installed and configured, it can receive Firebase messages from the Firebase console. To enable your app to receive messaging notification via the Gateway, proceed to the next step.
+</p>
+
+<h2 id="kaazing-websocket-gateway-configuration">Kaazing WebSocket Gateway Configuration</h2>
+
+<p>For Kaazing mobile client notifications, there are two processes involving the JMS service on the Gateway:</p>
+
+<ul>
+ <li><strong>Registration:</strong> The JMS message sent from the Kaazing mobile app to the registration queue is received by the Gateway, modified to add the JMSXUserID, and passed to the JMS broker which, in turn, passes the message to the backend service.</li>
+ <li><strong>Notification:</strong> The notification queue messages from the backend service via the JMS broker are received by the Gateway and then converted into the Firebase format and sent to Firebase. Firebase sends the notification to the Kaazing mobile apps.</li>
+</ul>
+
+<p>The following steps provide the Gateway configuration settings to support both processes.</p>
+
+<span class="note"><b>Note:</b> Only one JMS service is required to support both registrations and notifications.</span>
+
+ <h3 id="jms-service-configuration">JMS (or IBMMQ) Service Configuration</h3>
+ 
+ <p>A standard JMS service configuration (a <code><a href="../../admin-reference/r_conf_jms/index.html#jms">jms</a></code> or <code><a href="../../admin-reference/r_conf_mq/index.html">ibmmq</a></code> service) supports Kaazing mobile client messages to the registration queue. Notification messages require that you configure notification-specific elements in the JMS service.</p>
+ 
+ <p>To send a notification using Firebase, the <code><a href="../../admin-reference/r_conf_jms/index.html#jms">jms</a></code> or <code><a href="../../admin-reference/r_conf_mq/index.html">ibmmq</a></code> service is configured with the following information:</p>
+ 
+ <ul>
+  <li>Information about Cloud Messaging Provider</li>
+  <li>Names of Notification Queues</li>
+  <li>Name of Error Queue</li>
+  <li>Custom Message Property Names</li>
+ </ul>
+ 
+ <p>When the Gateway starts, it subscribes to all notification queues and dispatches notifications for the incoming messages using the custom message properties. The JMS service configuration elements are described in <a href="#notification-properties-for-jms-service">Notification Properties for JMS Service</a>.</p>
+ 
+ <p>To provide the Gateway with the necessary Firebase information, the JMS service <code>notifications</code> configuration element specifies all notification-related information. The <code>notifications</code> configuration element is a child of the JMS service <code>properties</code> element.</p>
+ 
+ <h3 id="jms-service-with-notifications-example">JMS service with Notifications Example</h3>
+ 
+ <p>The following JMS service example illustrates the properties for integrating Firebase notifications.</p>
+ 
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;service&gt;
+  &lt;name&gt;JMS Service&lt;/name&gt;
+  &lt;description&gt;JMS Service&lt;/description&gt;
+  &lt;type&gt;jms&lt;/type&gt;
+
+  &lt;properties&gt;
+    &lt;notifications&gt;
+      &lt;firebase&gt;
+        &lt;server.key&gt;jUtz-oGeIk3R&lt;/server.key&gt;
+        &lt;server.hostname&gt;fcm-xmpp.googleapis.com&lt;/server.hostname&gt;
+        &lt;server.port&gt;5236&lt;/server.port&gt;
+        &lt;sender.id&gt;163072308877&lt;/sender.id&gt;
+        &lt;device.tokens.property.name&gt;FIREBASE_DEVICE_TOKENS&lt;/device.tokens.property.name&gt;
+      &lt;/firebase&gt;
+      &lt;notification.queues&gt;
+        NOTIFICATIONS_BANKERS
+        NOTIFICATIONS_CUSTOMERS
+      &lt;/notification.queues&gt;
+      &lt;error.queue&gt;NOTIFICATION_ERROR&lt;/error.queue&gt;
+      &lt;badge.number.property.name&gt;BADGE&lt;/badge.number.property.name&gt;
+      &lt;color.property.name&gt;COLOR&lt;/color.property.name&gt;&lt;!-- The color is in format #RRGGBB--&gt;
+      &lt;icon.property.name&gt;ICON&lt;/icon.property.name&gt;
+      &lt;sound.property.name&gt;SOUND&lt;/sound.property.name&gt;
+      &lt;title.property.name&gt;TITLE&lt;/title.property.name&gt;
+    &lt;/notifications&gt;
+    ...
+  &lt;/properties&gt;
+  ...
+&lt;/service&gt;
+</pre>
+ 
+ <p>Here is a simplified example without any of the optional properties.</p>
+ 
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;notifications&gt;
+...
+  &lt;firebase&gt;
+    &lt;sender.id&gt;163072308877&lt;/sender.id&gt;
+    &lt;server.key&gt;AIzaSyD_fYqS9jUtz-oGeIk3RGNbQebNvngYu_s&lt;/server.key&gt;
+    &lt;device.tokens.property.name&gt;FIREBASE_DEVICE_TOKENS&lt;/device.tokens.property.name&gt;
+    
+    &lt;notification.queues&gt;
+    NOTIFICATIONS_BANKERS
+    NOTIFICATIONS_CUSTOMERS
+    &lt;/notification.queues&gt;
+    
+    &lt;error.queue&gt;NOTIFICATION_ERROR&lt;/error.queue&gt;
+
+  &lt;/firebase&gt;
+...
+&lt;/notifications&gt;
+</pre>
+  
+ <h3 id="notification-properties-for-jms-service">Notification Properties for JMS Service</h3>
+ 
+ <p>The following JMS service properties are used to integrate the Gateway with Firebase.</p>
+ 
+<table width="789" border="0">
+  <tr>
+    <th scope="col">Property</th>
+    <th scope="col">Required or Optional?</th>
+    <th scope="col">Description</th>
+  </tr>
+  <tr>
+    <td>notifications</td>
+    <td>Required</td>
+    <td>Parent element of all notifications properties. A child of the properties element.</td>
+  </tr>
+  <tr>
+    <td>firebase</td>
+    <td>Required</td>
+    <td>Parent element of all properties relating to Firebase (the following five properties marked in <font color="blue">blue</font>). A child of the notifications element.</td>
+  </tr>
+  <tr>
+    <td><font color="blue">server.key</font></td>
+    <td>Required</td>
+    <td>Firebase server key used to establish a secure connection between the Gateway and the FCM servers. To locate your Firebase server key, in Firebase, click <strong>Project Settings</strong>, then click on the <strong>Cloud Messaging</strong> tab. The key is located under <strong>Server Key</strong>.</td>
+  </tr>
+  <tr>
+    <td><font color="blue">server.hostname</font></td>
+    <td>Optional</td>
+    <td>The hostname of the Firebase server. The Gateway must be able to resolve this hostname using DNS. By default, the value of <code>server.host</code> is <code>fcm-xmpp.googleapis.com</code> but you can specify a different hostname for testing purposes.</td>
+  </tr>
+  <tr>
+    <td><font color="blue">server.port</font></td>
+    <td>Optional</td>
+    <td>The port number for Firebase service on the Firebase server. The production environment default value is <code>5235</code>. The testing environment default value is <code>5236</code>.</td>
+  </tr>
+  <tr>
+    <td><font color="blue">sender.id</font></td>
+    <td>Required</td>
+    <td>The Firebase sender ID is used to establish a secure connection between the Gateway and the FCM servers. It can be found in the Firebase Console.  In <strong>Project Settings</strong>, click <strong>Cloud Messaging</strong>.</td>
+  </tr>
+  <tr>
+    <td><font color="blue">device.tokens.property.name</font></td>
+    <td>Optional</td>
+    <td>The name of the message property used to specify the device token or tokens to which a notification is to be sent. Default is <code>FIREBASE_DEVICE_TOKENS</code>.</td>
+  </tr>
+  <tr>
+    <td>notification.queues</td>
+    <td>Required</td>
+    <td>Lists the names of the designated notification queues. These are the same queues to which the backend service is sending messages. The Gateway subscribes to these queues and receives messages sent as notifications using the custom properties on the message. Type is String. If <code>notification.queues</code> is not specified, the Gateway logs a warning because the Gateway cannot subscribe to the designated notification queues and cannot receive any messages to deliver as a notification.</td>
+  </tr>
+  <tr>
+    <td>error.queue</td>
+    <td>Optional</td>
+    <td>If the Gateway fails to send a notification to Firebase for any reason, the reason for the error along with the message ID is logged. If an error queue is configured using error.queue, a message containing the details of the failure are published to the specified error queue.</td>
+  </tr>
+  <tr>
+    <td>badge.number.property.name</td>
+    <td>Optional</td>
+    <td>The name of the message property used to specify the badge number for the notification. Default is <code>BADGE</code>.</td>
+  </tr>
+  <tr>
+    <td>color.property.name</td>
+    <td>Optional</td>
+    <td>The name of the message property used to specify the color for the notification. Default is <code>COLOR</code>.</td>
+  </tr>
+  <tr>
+    <td>icon.property.name</td>
+    <td>Optional</td>
+    <td>The name of the message property used to specify the icon for the notification. Default is <code>NOTIFICATION_ICON</code>.</td>
+  </tr>
+  <tr>
+    <td>sound.property.name</td>
+    <td>Optional</td>
+    <td>The name of the property used to specify the sound for the notification. Default is <code>NOTIFICATION_SOUND</code>.</td>
+  </tr>
+  <tr>
+    <td>title.property.name</td>
+    <td>Optional</td>
+    <td>Indicates notification title. Type is String. Default is <code>NOTIFICATION_TITLE</code>.</td>
+  </tr>
+</table>
+ 
+ <span class="note"><b>Notes:</b>
+  <ul>
+   <li>For details about the notification payload contents, see <a href="https://firebase.google.com/docs/cloud-messaging/http-server-ref#notification-payload-support">Firebase Cloud Messaging HTTP Protocol</a>.</li>
+   <li>The names of the custom properties are configurable. You may specify your own property names but you must configure the Gateway with the custom property names using the JMS service configuration.</li>
+   <li>If the mandatory properties are not specified, the Gateway logs a warning. When the Gateway receives messages from the designated notification queue, they are not delivered as notifications. Instead, an exception is logged indicating the failure to send a notification and a message is published to <code>error.queue</code>, if configured.</li>  </ul>
+ </span>
+ 
+ <h3 id="login-module-for-secure-propagation-of-jmsxuserid-property">Login Module for Secure Propagation of JMSXUserID Property</h3>
+ 
+ <p>For security reasons, the Gateway sets the JMSXUserID property on the registration message instead of the Kaazing mobile client. The property is set using a <a href="//docs.oracle.com/javase/8/docs/technotes/guides/security/jaas/JAASLMDevGuide.html#Intro" title="Java Authentication and Authorization Service (JAAS): LoginModule Developer's Guide">LoginModule</a>.</p>
+ 
+ <p>While applications write to the <a href="//docs.oracle.com/javase/8/docs/api/javax/security/auth/login/LoginContext.html" title="LoginContext (Java Platform SE 8 )">LoginContext</a> Application Programming Interface (API), authentication technology providers implement the LoginModule interface. A <a href="//docs.oracle.com/javase/8/docs/api/javax/security/auth/login/Configuration.html" title="Configuration (Java Platform SE 8 )">Configuration</a> specifies the LoginModule(s) to be used with a particular login application. The LoginContext is responsible for reading the Configuration and instantiating the specified LoginModules. Each LoginModule is initialized with a Subject, a CallbackHandler, shared LoginModule state, and LoginModule-specific options.</p>
+ 
+ <p>The Subject represents the user or service currently being authenticated and is updated by a LoginModule with relevant Principals and credentials if authentication succeeds.</p>
+ 
+ <p>To configure the LoginModule that will set the JMSXUserID, do the following:</p>
+ 
+ <ol>
+  <li>Review the steps for creating a <a href="//kaazing.com/doc/5.0/security/p_auth_configure_custom_login_module/index.html">LoginModule in Create a Custom Login Module</a>.</li>
+  <li>In your LoginModule, for example, <code>com.example.NotificationsLoginModule</code> populate the Subject with a known Principal with the user’s credentials, for example <code>com.example.CorpNotificationsPrincipal</code>. </li>
+  <li>Implement a user identity resolver, for example <code>com.example.NotificationsUserResolver</code>, and add it to the JMS service configuration on the Gateway using the <code>user.id.resolver</code> property as shown below:
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;properties&gt;
+ &lt;user.id.resolver&gt;
+  com.example.NotificationsUserResolver
+ &lt;/user.id.resolver&gt;
+&lt;/properties&gt;
+</pre>
+  </li>
+ </ol>
+
+<p>The <code>NotificationsUserResolver</code> can be implemented as shown below:</p> 
+
+<pre class="auto-links: false; brush: java; toolbar: false;">
+Public class NotificationsUserResolver implements Function&lt;Subject, String&gt; {
+
+  public String apply(Subject subject) {
+    Set&lt;NotificationsPrincipal&gt; principals = subject.getPrincipals(NotificationsPrincipal.class);
+
+    if (principals != null &amp;&amp; !principals.isEmpty()) {
+      NotificationsPrincipal principal = principals.iterator().next();
+      return principal.getName();
+    }
+    return null;
+  }
+</pre>
+ 
+ <p>For more information about configuring and implementing a user identity resolver, see <a href="//kaazing.com/doc/5.0/security/p_auditing_jms_secure/index.html">Configure Auditing Messages Produced by Clients</a>.</p>
+ 
+ <h3 id="prevent-client-subscriptions-to-registration-queue">Prevent Client Subscriptions to Registration Queue</h3>
+ 
+ <p>A registration queue used by Kaazing mobile clients to post messages that register their user IDs and Firebase device tokens with the backend service via the Gateway and JMS broker. While the backend service is subscribed to this queue, no clients should subscribe to it.</p>
+ 
+ <p>To prevent any client subscriptions to the registration queue, the customer can implement a <a href="https://kaazing.com/doc/5.0/apidoc/server/jms/server/spi/com/kaazing/gateway/jms/server/spi/security/JmsAuthorizationFactory.html">JmsAuthorizationFactory</a> such that the <a href="https://kaazing.com/doc/5.0/apidoc/server/jms/server/spi/com/kaazing/gateway/jms/server/spi/security/JmsAuthorization.html#canSubscribeToQueue(com.kaazing.gateway.jms.server.spi.JmsQueue,%20java.lang.String,%20java.lang.String)">JmsAuthorization.canSubscribeToQueue()</a> method returns false if the queue name passed in matches the name of the registration queue.</p>
+ 
+ <p>For an example of pluggable authorization, see <a href="//kaazing.com/doc/5.0/security/p_client_jms_secure/">Secure the Connection from Each Client to the Gateway</a> and <a href="//kaazing.com/doc/5.0/admin-reference/r_conf_jms/index.html#section-2">authorization.factory</a>.</p>
+ 
+ <h3 id="error-queue">Error Queue</h3>
+ 
+ <p>To notify the backend service of unsuccessful notifications, you can configure an error queue on the Gateway and JMS broker that the backend service can subscribe to. When the backend service receives messages from the error queue, it can determine what the best response is to perform.</p>
+ 
+ <p>To configure an error queue, use the <code>error.queue</code> element on the JMS service as follows:</p>
+ 
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;notifications&gt;
+...
+&lt;error.queue&gt;NOTIFICATION_ERRORS&lt;/error.queue&gt;
+...
+&lt;/notifications&gt;
+</pre>
+
+<p>The name of the queue in this example is <code>NOTIFICATION_ERRORS</code>.</p>
+
+<p>Before adding a message to the error queue, Gateway will set the following custom properties with appropriate values to help correct errors.</p>
+ 
+<table width="789" border="0">
+  <tr>
+    <th scope="col">Property Name</th>
+    <th scope="col">Type</th>
+    <th scope="col">Description</th>
+  </tr>
+  <tr>
+    <td>NOTIFICATIONS_DEVICE_TOKEN</td>
+    <td>String</td>
+    <td><strong>Required.</strong> Token of the device to where the notification was sent.</td>
+  </tr>
+  <tr>
+    <td>NOTIFICATIONS_REFRESHED_DEVICE_TOKEN</td>
+    <td>String</td>
+    <td>New or refreshed device token. This is set <em>only</em> when the value of the custom property NOTIFICATIONS_ERROR_CODE is DEVICE_TOKEN_REFRESHED.</td>
+  </tr>
+  <tr>
+    <td>NOTIFICATIONS_MESSAGE_ID</td>
+    <td>String</td>
+    <td><strong>Required.</strong> Value of the JMSMessageID header.</td>
+  </tr>
+  <tr>
+    <td>NOTIFICATIONS_ERROR_CODE</td>
+    <td>String</td>
+    <td>Required. Check <a href="#notifications_error_code-property-values">NOTIFICATIONS_ERROR_CODE Property Values</a> for possible values of this property.</td>
+  </tr>
+  <tr>
+    <td>NOTIFICATIONS_ERROR_DESC</td>
+    <td>String</td>
+    <td>Required. Check <a href="#notifications_error_code-property-values">NOTIFICATIONS_ERROR_CODE Property Values</a> for values of this property corresponding to the error code.</td>
+  </tr>
+</table>
+ 
+ <h3 id="notifications_error_code-property-values">NOTIFICATIONS_ERROR_CODE Property Values</h3>
+ 
+<table>
+<tr>
+ <th>NOTIFICATIONS_ERROR_CODE</th>
+ <th>NOTIFICATIONS_ERROR_DESC</th>
+</tr>
+<tr>
+ <td>CONNECTION_DRAINING</td>
+ <td>The message could not be processed because Firebase is draining. This happens because, periodically, the Firebase server needs to close down a connection to perform load balancing. <strong>Important:</strong> The backend service must republish messages that were not sent as notifications due to this issue.</td>
+</tr>
+<tr>
+ <td>CONNECTION_FAILED</td>
+ <td>Failed to connect to Firebase.</td>
+</tr>
+<tr>
+ <td>DEVICE_MESSAGE_RATE_EXCEEDED</td>
+ <td>The rate of messages to device with token  <code>\&rdquo;%s\&rdquo;</code> is too high. Reduce the number of messages sent to this device, and do not immediately retry sending to this device.</td>
+</tr>
+<tr>
+ <td>DEVICE_TOKENS_PROPERTY_MISSING</td>
+ <td>Missing required property <code>\&quot;%s\&quot;</code> on the notification message.</td>
+</tr>
+<tr>
+ <td>DEVICE_TOKEN_REFRESHED</td>
+ <td>Warning from Firebase that the device token <code>\&quot;%s\&quot;</code> has been refreshed to <code>\&quot;%s\&quot;</code>. Please use the refresh token from now on. The notification was still sent.</td>
+</tr>
+<tr>
+ <td>DEVICE_UNREGISTERED</td>
+ <td>Device token <code>\&rdquo;%s\&rdquo;</code> may have ceased to be valid.</td>
+</tr>
+<tr>
+ <td>INVALID_DEVICE_TOKEN</td>
+ <td>Device token <code>\&rdquo;%s\&rdquo;</code> is invalid.</td>
+</tr>
+<tr> 
+ <td>INVALID_JSON</td>
+ <td>Badly formatted JSON or size exceeded Firebase limits of 4K bytes.</td>
+</tr>
+<tr>
+ <td>INTERNAL_SERVER_ERROR</td>
+ <td>Firebase server encountered an error while trying to process the request.</td>
+</tr>
+<tr>
+ <td>SERVICE_UNAVAILABLE</td>
+ <td>Firebase server could not process the request in time.</td>
+</tr> 
+</table> 
+
+ <h3 id="device-token-refresh">Device Token Refresh</h3>
+
+<p>Firebase device tokens get refreshed periodically. The backend service must be able to manage refreshed tokens and update its user and device list. Here is an example of the process for token refresh:</p>
+
+<ol>
+ <li>The Gateway sends a message to Firebase along with the device token <em>token A</em>. </li>
+ <li>As part of the acknowledgement for that message, Firebase sends the newly refreshed token of the device (<em>token B</em>).</li>
+ <li>This refresh information is then published as part of an error message that is sent by the Gateway to the configured JMS <a href="#error-queue">error queue</a>. </li>
+ <li>The backend service is subscribed to the error queue and receives the error message. </li>
+ <li>The backend service must update the token from <em>token A</em> to <em>token B</em>. </li>
+ <li>When the backend service publishes the next notification message to the notification queue, the custom property that provides the device token will include the refreshed token (<em>token B</em>).</li>
+</ol>
+
+<h2 id="mobile-app-configuration">Mobile App Configuration</h2>
+
+<p>The only Kaazing mobile client app configuration you need to perform is to set up your app for Firebase. Firebase must be added to your iOS and Android mobile clients to receive notifications from the Gateway. Once you have added Firebase, your app will use FCM to receive notifications.</p>
+
+<p>For information on adding Firebase, see the following documentation from Firebase:</p>
+
+<ul>
+ <li><a href="https://firebase.google.com/docs/cloud-messaging/ios/client">Setting Up a Firebase Cloud Messaging Client App on iOS</a> </li>
+ <li><a href="https://firebase.google.com/docs/cloud-messaging/android/client">Set Up a Firebase Cloud Messaging Client App on Android</a></li>
+</ul>
+
+<p>The mobile app must use the <a href="//kaazing.com/download/#clients">Kaazing JMS Client libraries</a> to connect to Kaazing WebSocket Gateway.</p>
+
+<h2 id="notes">Notes</h2>
+
+<ul>
+ <li><strong>Clustered Deployment:</strong> The number of Kaazing WebSocket Gateway nodes in a cluster configured for notifications is equal to the number of connections from the Gateways to the JMS broker. While all nodes are subscribed to each of the configured notification queues, a message is delivered to only one node based on queue dispatching policies. Also, the incoming message contains all of the information needed to send a notification to Firebase. Therefore a cluster node does not have to cache any information specific to user and device or deal with scenarios where the information can become stale. </li>
+ <li><strong>Message Acknowledgement:</strong> Sending notifications via Firebase is not guaranteed. Notifications might fail for various reasons. For example, when a user ignores the notification and it sits in the app Notification Center for an extended period of time. Consequently, the JMS service on the Gateway cannot rely on the user to receive the message and acknowledge it explicitly to guarantee notification delivery. To avoid the designated notification queues from growing indefinitely, the JMS service will acknowledge the message as soon as the notification is sent to Firebase.</li>
+</ul>
+
+ </div>
+
+</div>
+
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

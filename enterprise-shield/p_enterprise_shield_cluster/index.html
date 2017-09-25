@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+  
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+
+ <h1 id="walkthrough-configure-enterprise-shield-for-high-availability-">Walkthrough: Configure Enterprise Shield™ for High Availability </h1>
+
+<p>This step extends the use case to configure an Enterprise Shield™ configuration described in <a href="../p_enterprise_shield_config">Walkthrough: Configure Enterprise Shield</a> into a cluster configuration that has two Gateways running in the trusted network and DMZ and a matching set of Gateways in the DMZ. This configuration provides maximum security and also high availability for failover (system resilience) during hardware or network failures. The complete configuration files for the cluster are available on <a href="https://github.com/kaazing/enterprise.gateway/tree/develop/samples/enterprise-shield">Github</a> at <code>enterprise-shield-use-case-3-cluster.xml</code>.</p>
+
+<p><strong>Note:</strong> Enterprise Shield does not affect the behavior of the cluster in any way. Clients initiate requests in the same way and are unaware that the cluster is configured for reverse connectivity. You connect with a client in the same way as you would for a cluster without Enterprise Shield.</p>
+
+<p>In Figure 1, there are two Gateways running in the DMZ and a matching set of two Gateways on the trusted network. Thus, each internal Gateway is paired to one explicit cluster member in the DMZ.</p>
+
+<p><img src="../../images/f-es-maxsecurity-cluster.png" alt="Gateway Topology Showing Reverse Connectivity in a Cluster" /></p>
+
+<p><strong>Figure 1: Enterprise Shield Topology Configured for High Availability</strong></p>
+
+<p>The key to making the Enterprise Shield configuration highly available is to configure clustering on each cluster member in the DMZ, and have an equivalent number of cluster members in the DMZ and the trusted network.</p>
+
+<p>The following steps provide a high-level overview about cluster configuration. See <a href="../../high-availability/p_high_availability_cluster/index.html">Configure a Kaazing Gateway Cluster</a> for detailed information about cluster configuration and the <a href="../../admin-reference/r_configure_gateway_cluster/index.html">cluster</a> element.</p>
+
+<ul>
+  <li>
+    <p>Update the properties element to use a unique value for the DMZ backplane variable—such as <code>gateway1</code>—that is a unique name for the Gateway cluster pair:</p>
+
+    <p><strong>Internal Gateway</strong></p>
+
+    <pre class="auto-links: false; brush: xml; toolbar: false;">&lt;properties&gt;
+
+  &lt;!-- The Gateway in the DMZ to connect to. --&gt;
+  &lt;property&gt;
+    &lt;name&gt;dmz.cluster.backplane.hostname&lt;/name&gt;
+    &lt;value&gt;gateway1.example.dmz.net&lt;/value&gt;
+  &lt;/property&gt;
+
+&lt;/properties&gt;
+</code></pre>
+
+    <p><strong>DMZ Gateway</strong></p>
+
+    <pre class="auto-links: false; brush: xml; toolbar: false;">&lt;properties&gt;
+  &lt;!-- The IP address of this cluster member. --&gt;
+  &lt;property&gt;
+    &lt;name&gt;gateway.ip.address&lt;/name&gt;
+    &lt;value&gt;172.19.20.1&lt;/value&gt;
+  &lt;/property&gt;
+
+  &lt;!-- The port number (value) must be different for each member. --&gt;
+  &lt;property&gt;
+    &lt;name&gt;cluster.port&lt;/name&gt;
+    &lt;value&gt;5941&lt;/value&gt;
+  &lt;/property&gt;
+
+  &lt;!-- The publicly addressable hostname. --&gt;
+  &lt;property&gt;
+    &lt;name&gt;dmz.cluster.frontplane.hostname&lt;/name&gt;
+    &lt;value&gt;gateway1.example.com&lt;/value&gt;
+  &lt;/property&gt;
+
+  &lt;!-- The private address that the internal gateway connects to. --&gt;
+  &lt;property&gt;
+    &lt;name&gt;dmz.cluster.backplane.hostname&lt;/name&gt;
+     &lt;value&gt;gateway1.example.dmz.net&lt;/value&gt;
+  &lt;/property&gt;
+
+&lt;/properties&gt;
+</code></pre>
+  </li>
+  <li>
+    <p>On the DMZ Gateway, add the cluster element:</p>
+
+    <pre class="auto-links: false; brush: xml; toolbar: false;">&lt;cluster&gt;
+  &lt;name&gt;dmzCluster&lt;/name&gt;
+  &lt;accept&gt;tcp://${gateway.ip.address}:${cluster.port}&lt;/accept&gt;
+  &lt;connect&gt;udp://224.2.2.44:44444&lt;/connect&gt;
+&lt;/cluster&gt;
+</code></pre>
+
+    <p>The accept element contains the URI on which the cluster member listens for other cluster members. The connect element contains the URI used to discover other cluster members. In this case, it uses a multicast address.</p>
+  </li>
+  <li>
+    <p>On the DMZ Gateway, add a balancer service for each service. The following example shows the balancer service for DMZ App1:</p>
+
+    <pre class="auto-links: false; brush: xml; toolbar: false;">&lt;service&gt;
+
+  &lt;name&gt;Balancer for DMZ App1&lt;/name&gt;
+  &lt;accept&gt;wss://gateway.example.com:443/app1&lt;/accept&gt;
+
+  &lt;type&gt;balancer&lt;/type&gt;
+
+  &lt;accept-options&gt;
+    &lt;tcp.bind&gt;${gateway.ip.address}:443&lt;/tcp.bind&gt;
+  &lt;/accept-options&gt;
+
+  &lt;cross-site-constraint&gt;
+    &lt;allow-origin&gt;*&lt;/allow-origin&gt;
+  &lt;/cross-site-constraint&gt;
+
+&lt;/service&gt;
+</code></pre>
+
+    <p>To configure a balancer service for DMZ App2, duplicate this block of configuration elements and substitute App2 and app2 in the name and accept elements.</p>
+
+    <p>The <code>tcp.bind</code> element in the <code>accept-options</code> binds the public URI in the accept element to the local IP address of the cluster member. Because <code>tcp.bind</code> contains the local IP address of that cluster member, it allows the accept URIs in the balancer service to be identical on every cluster member. For more information, see <a href="../../admin-reference/r_configure_gateway_service#protocolbind"><em>protocol</em>.bind</a> and <a href="../../high-availability/p_high_availability_loadbalance/index.html">Set Up Kaazing Gateway as a Load Balancer</a>.</p>
+  </li>
+  <li>
+    <p>On the DMZ Gateway, add a balance element for each service, specifying the URI accepted by the balancer service. Clients then use these URIs to connect to the service.</p>
+
+    <p><strong>For App1, add:</strong></p>
+
+    <pre class="auto-links: false; brush: xml; toolbar: false;">&lt;balance&gt;wss://gateway.example.com:443/app1&lt;/balance&gt;
+</code></pre>
+
+    <p><strong>For App2, add:</strong></p>
+
+    <pre class="auto-links: false; brush: xml; toolbar: false;">&lt;balance&gt;wss://gateway.example.com:443/app2&lt;/balance&gt;
+</code></pre>
+  </li>
+  <li>Start each Gateway and verify the cluster is running.</li>
+  <li>
+    <p>Repeat these steps for each cluster pair you want to add to the Enterprise Shield topology.</p>
+
+    <p>Remember to use unique hostnames, IP addresses, and ports for each cluster pair. For example, for Gateway Cluster Pair 2 you might use <code>gateway2.example.dmz.net</code>, and for Gateway Cluster Pair 3 use <code>gateway3.example.dmz.net</code>.</p>
+  </li>
+</ul>
+
+<p>The complete configuration files for all of the Enterprise Shield Use Cases are located on <a href="https://github.com/kaazing/enterprise.gateway/tree/develop/samples/enterprise-shield">Github</a>.</p>
+
+<h2 id="see-also">See Also</h2>
+
+<ul>
+  <li><a href="../../admin-reference/c_configure_gateway_concepts/index.html">About Gateway Configuration</a></li>
+  <li><a href="../../admin-reference/r_configure_gateway_service/index.html">Service Reference</a></li>
+  <li><a href="../../admin-reference/r_configure_gateway_cluster/index.html">Cluster Reference</a></li>
+</ul>
+
+
+</div>
+
+</div>
+
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

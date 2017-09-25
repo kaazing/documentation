@@ -1,0 +1,1701 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+  
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+
+ <h1 id="jms-services-for-kaazing-gateway">JMS Services for Kaazing Gateway </h1>
+
+<p>This document describes the JMS services for Kaazing Gateway that you can use in a Gateway configuration:</p>
+
+<ul>
+  <li><a href="#jms">jms</a></li>
+  <li><a href="#jmsproxy">jms.proxy</a></li>
+</ul>
+
+
+<h2 id="jms">jms</h2>
+
+<p>This type of service is used to expose the <code>jms</code> service, which allows you to configure the Gateway to connect to any back-end JMS-compliant message brokers. To learn about common Gateway production deployments, see <a href="../c_topologies">Common Kaazing Gateway Production Topologies</a>.</p>
+
+<p>The following sections provide more information about the <code>jms</code>Service for Kaazing Gateway:</p>
+
+<ul>
+  <li><a href="#how-the-jms-service-handles-connections">How the jms Service Handles Connections</a></li>
+  <li><a href="#how-the-jms-service-handles-topic-subscribers">How the jms Service Handles Topic Subscribers</a></li>
+  <li><a href="#durable-subscribers">Durable Subscribers</a></li>
+  <li><a href="#last-value-cache">Last Value Cache</a></li>
+  <li><a href="#delta-messaging">Delta Messaging</a></li>
+  <li><a href="#using-wildcards-with-last-value-cache-or-delta-messaging">Using Wildcards with Last Value Cache or Delta Messaging</a></li>
+  <li><a href="#message-conflation">Message Conflation</a></li>
+  <li><a href="#property-based-routing-and-virtual-queues">Property-Based Routing (PBR) and Virtual Queues</a></li>
+  <li><a href="#jms-service-required-elements">jms Service Required Elements</a></li>
+  <li><a href="#jms-service-properties">jms Service Properties</a></li>
+  <li><a href="#jms-service-properties-for-the-topic-element">jms Service Properties for the topic Element</a></li>
+  <li><a href="#jms-service-environment-properties">jms Service Environment Properties</a></li>
+  <li><a href="#configuration-examples-jms-service">Configuration Examples: jms Service</a></li>
+</ul>
+
+
+<p><strong>Note:</strong> To integrate the Gateway with different JMS-compliant message brokers, see <a href="../../integration-jms/o_jms_integrate/index.html">About Integrating Kaazing Gateway and JMS-compliant message brokers</a>. </p>
+
+<p>The <code>jms</code> service <em>offloads connections</em> and topic subscriptions using a single connection between the Gateway and your JMS-compliant message broker. The main benefit of offloading is that the Gateway scales to a massive number of clients while putting minimal pressure on your messaging system.</p>
+
+<ul>
+  <li><em>Offloading connections</em> means the <code>jms</code> service can maintain many client connections through a single connection to the JMS-compliant message broker.</li>
+  <li><em>Offloading topic subscriptions</em> means that the <code>jms</code> service can maintain many clients subscribing to a given topic using a single subscription to the JMS-compliant message broker.</li>
+</ul>
+
+<p>JMS connections and topic subscriptions are described in <a href="#how-the-jms-service-handles-connections">How the jms Service Handles Connections</a> and <a href="#how-the-jms-service-handles-topic-subscribers">How the jms Service handles Topic Subscribers</a>.</p>
+
+<p>The following figure shows how each incoming client connection enters the Gateway, then connects through the <code>jms</code> service using a single connection to the JMS-compliant message broker.</p>
+
+<p><img src="../../images/f-jms-service-web.png" alt="jms service topology" /></p>
+
+<p><strong>Figure: Offloading Connections Using the <code>jms</code> Service</strong></p>
+
+<p>Most JMS destinations (queues and topics) are created and treated as static resources, but dynamic destinations, known as temporary destinations (temporary topics and temporary queues), are also supported by the <code>jms</code> service. Temporary destinations are created dynamically, not statically by an administrator, to automatically enable private, scalable communication between the client and the server.</p>
+
+<p>When a client subscribes to a destination, a corresponding, new temporary JMS destination is created implicitly by the client application, and is used as a unique destination for replies. Because the identity of the temporary destination is known only by the connection or session that created it, the JMS header field <code>JMSReplyTo</code> is always used in conjunction with temporary destinations to communicate the identity of the temporary destination in the message header.</p>
+
+<p>Upon receiving a message, the client picks up the identity of the temporary destination from the <code>JMSReplyTo</code> field in the message header, performs the requested workflow, and then sends the message out to the temporary destination. The temporary destination exists only for the duration of the connection and is removed on the server side as soon as the connection or session is closed.</p>
+
+<p>JMS implementations provide a factory class in their JAR files. For example, the Apache ActiveMQ class, <code>org.apache.activemq.jndi.ActiveMQInitialContextFactory</code>, is included in the <code>activemq-all-5.10.0.jar</code> file that ships with the Gateway. The Gateway connects directly to Apache ActiveMQ when you use the <code>jms.proxy</code> service. To use another JMS implementation, see <a href="../../integration-jms/o_jms_integrate/index.html">About Integrating Kaazing Gateway and JMS-compliant message brokers</a> to learn how to copy the implementation’s JAR file to the <code>GATEWAY_HOME/lib</code> directory and specify the name of the class as the value for the <code>env.java.naming.factory.initial</code> property.</p>
+
+<h3 id="how-the-jms-service-handles-connections">How the jms Service Handles Connections</h3>
+
+<p>To support very large numbers of Web clients (in the tens of thousands or even hundreds of thousands), the <code>jms</code> service uses just one or a few JMS connections to the JMS-compliant message broker to service all clients. This is known as <em>connection sharing</em> or <em>connection fanout</em>. By default, the <code>jms</code> service uses just one connection but you can configure a specific number of broker connections using the <a href="#jms-service-properties"><code>connection.count</code></a> service property.</p>
+
+<p>Each client connection is associated with one of the broker connections for the duration of the client connection. If the broker reports an exception on a particular connection, then that connection is closed and reestablished automatically by the <code>jms</code> service, without interrupting service to the associated clients.</p>
+
+<h3 id="how-the-jms-service-handles-topic-subscribers">How the jms Service Handles Topic Subscribers</h3>
+
+<p>When a client subscribes to a topic (that is, creates a <a href="https://docs.oracle.com/javaee/7/api/javax/jms/MessageConsumer.html"><code>MessageConsumer</code></a> object on a topic), the <code>jms</code> service establishes a corresponding subscription with the JMS-compliant message broker. That same subscription is then used to service all other clients subscribing to the same topic and JMS API message selector (if applicable). By offloading topic subscriptions in this way, a single topic subscription to the broker can service tens of thousands of clients subscribing to the same topic. This feature is known as <em>subscription sharing</em> or <em>subscription fanout</em>.</p>
+
+<p>The topic subscription is maintained as long as at least one client is subscribed to that topic, unless you specifically configure the topic to maintain a <em>permanent topic subscription</em> (described in the <a href="#how-the-jms-service-handles-connections">How the JMS Service Handles Connections</a> section).</p>
+
+<p>If there are multiple broker connections (that is, the <a href="#connectioncount"><code>connection.count</code></a> service property is set to a value greater than 1), each with clients subscribed to the topic, then a <em>shared wildcard subscription</em> (described in the <a href="#how-the-jms-service-handles-connections">How the JMS Service Handles Connections</a> section) is made to the topic on each connection.</p>
+
+<p><strong>Note:</strong> You can use <a href="#using-wildcards-with-last-value-cache-or-delta-messaging">wildcards</a> to identify large numbers of topics on which you want to configure a last value cache.</p>
+
+<h4 id="permanent-topic-subscriptions">Permanent topic subscriptions</h4>
+
+<p>Configuring permanent topic subscriptions is primarily intended for use with <a href="#last-value-cache">last value cache</a>. To configure the <code>jms</code> service to maintain permanent subscriptions with the JMS-compliant message broker for certain topics:</p>
+
+<ol>
+  <li>Add <code>topic</code> elements to the <code>jms</code> service properties in the Gateway configuration file.</li>
+  <li>Configure the <a href="#subscriptionlifetime"><code>subscription.lifetime</code></a> topic property with its value set to <code>connection</code>. When the <a href="#subscriptionlifetime"><code>subscription.lifetime</code></a> topic property is set to <code>connection</code>, a subscription to the topic is established automatically during Gateway startup for each connection that the <code>jms</code> service establishes with the broker.</li>
+</ol>
+
+<p>If subscription to the topic fails (for example, because the topic is not defined in the JMS-compliant message broker), then this is treated the same as a failure to connect to the JMS-compliant message broker. That is, the connection is closed and reattempted later, depending on the setting of the <a href="#reconnectdelay"><code>reconnect.delay</code></a> service property (the default is a five-second delay). The error message from the failed attempt to subscribe is reported in the Gateway error log. Clients cannot connect to the <code>jms</code> service until the subscription succeeds.</p>
+
+<h4 id="shared-wildcard-subscriptions">Shared wildcard subscriptions</h4>
+
+<p>To support a greater level of subscription fanout, you can configure the <a href="#subscriptionsharing">subscription.sharing</a> topic property to use a single subscription to a wildcard topic to service all clients subscribing to any topics matching that wildcard. In this case, the Gateway establishes a subscription to the wildcard topic with the JMS-compliant message broker whenever a client first subscribes to any matching topic (or during Gateway startup if the <a href="#subscriptionlifetime">subscription.lifetime</a> topic property is set to connection). The Gateway then receives and processes all messages arriving on that wildcard topic, routes the messages to the appropriate clients depending on the actual topic to which the message was originally sent, or drops the message if there are no matching clients.</p>
+
+<p>Shared wildcard subscriptions are useful in systems with a great many topics (for example, thousands or more) where clients each subscribe to a large number of different topics. In such cases, it is more efficient to service clients using a single wildcard subscription to the JMS-compliant message broker instead of using a separate subscription to each individual topic. Subscription sharing is especially useful when used with last value cache.</p>
+
+<p>See <a href="#last-value-cache">Last Value Cache</a> for more information and examples.</p>
+
+
+<h3 id="durable-subscribers">Durable Subscribers</h3>
+
+<p>The <code>jms</code> service also supports durable subscriptions with certain JMS-compliant message brokers. This support ensures that all messages are retained until they are received by the subscriber or until they expire. Even if the subscriber goes offline, messages are retained and delivered once the subscriber returns and resumes the durable subscription. To use durable subscriptions with the Gateway, you may need to configure your JMS-compliant message broker to accept durable subscriptions. As an administrator, you need to determine the durable subscriber names used by the Gateway.</p>
+
+<h4 id="configuring-the-jms-compliant-message-broker-to-accept-durable-subscriptions">Configuring the JMS-Compliant Message Broker to Accept Durable Subscriptions</h4>
+
+<p>The Gateway support for durable subscriptions depends on your JMS-compliant message broker:</p>
+
+<ul>
+  <li><strong>TIBCO Enterprise Message Service (EMS)</strong>: The Gateway supports durable subscriptions without additional configuration.</li>
+  <li><strong>Apache ActiveMQ</strong>: The Gateway does not currently support the use of durable subscriptions with ActiveMQ.</li>
+  <li><strong>Informatica Ultra Messaging (UM)</strong>: The Gateway supports durable subscriptions with the following requirements: you must use the fixed client ID value on all connections and you must specify the same fixed client ID value with the <code>anonymous.clientid.pattern</code> property on the <code>jms</code> service. This property allows the Gateway to verify that all connections to Informatica UM are using the same client ID, which is essential for durable subscribers to work properly.</li>
+  <li><strong>Other message brokers</strong>: Durable subscribers may work with other JMS-compliant message broker if the message broker implements specific behavior for the <code>createDurableSubscriber()</code> method as required by the Gateway. The message broker must support one of the following conditions:
+    <ul>
+      <li>Creating durable subscribers using JMS Connections with no client ID set. This capability is in the emerging JMS 2.0 specification, and is already supported by some message brokers (such as TIBCO EMS). The durable subscription must be able to migrate to another connection without closing the first connection.</li>
+      <li>Creating durable subscribers on multiple JMS connections that ALL have the same client ID. The durable subscription must be able to migrate to another connection without closing the first connection. In this case, to use durable subscribers with such JMS-compliant message broker, the provider must be configured to use the fixed client ID value on all connections, and you must specify the same fixed client ID value with the <code>anonymous.clientid.pattern</code> property on the <code>jms</code> service. This property allows the Gateway to verify that all connections to the JMS-compliant message broker are using the same client ID, which is essential for durable subscribers to work properly.</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="configuring-durable-subscriber-names-used-by-the-gateway">Configuring Durable Subscriber Names Used by the Gateway</h4>
+
+<p>To create a durable subscriber for a topic, the client application calls the <code>createDurableSubscriber()</code> method of a <code>session</code> object and specifies a durable name and a destination. When your client application creates a durable subscriber, the Gateway creates a corresponding durable subscriber on the JMS-compliant message broker. To allow the Gateway to do this, you must either configure the JMS-compliant message broker to allow the Gateway to use dynamic durable subscribers or statically predefine in your JMS-compliant message broker all the durable subscribers that you will be using.</p>
+
+<p>The durable names that the Gateway will use depend on whether or not a client ID is set. For instructions for determining how to set the client ID in the application, see the <a href="../..">client how-to</a> appropriate to the language of your application and follow the steps for using the client library. The following table describes the durable names the Gateway uses:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th width="200px">If the client application …</th>
+      <th>The Durable Name …</th>
+      <th>The Gateway …</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Does not set a client ID</td>
+      <td>The durable name the client passes into the <code>createDurableSubscriber()</code> method must be globally unique. Each user of the application must use a distinct name because the Gateway uses the same name for the back-end durable subscriber on the JMS-compliant message broker.</td>
+      <td>Creates a durable subscriber in the JMS-compliant message broker using only the given durable name. For example, if the client application creates a durable subscriber with the name <code>user1_price</code> then the Gateway creates a back-end durable subscriber in the JMS-compliant message broker with the name <code>user1_price</code>.</td>
+    </tr>
+    <tr>
+      <td>Sets a client ID</td>
+      <td>The same durable name can be used by multiple clients (or users) when creating a durable subscriber, because the different durable subscribers are distinguished by the different client ID values. The client ID forms part of the full, unique identifier of the back-end durable subscription name.</td>
+      <td>Dynamically creates a corresponding durable subscriber on the JMS-compliant message broker whenever the client application creates a durable subscriber. The back-end durable name is formed from the durable name given by the client application and the client ID set on the client application’s connection in the format specified by the <a href="#clientdurablenameformat"><code>client.durable.name.format</code></a> property on the <code>jms</code> service or the <a href="#clientdurablenameformat"><code>client.durable.name.format</code></a> property on the <code>jms.proxy</code> service.</td>
+    </tr>
+  </tbody>
+</table><br>
+
+<p>The <a href="../..">documentation for developers</a> provides complete information about using the Gateway client libraries to create durable subscribers. Also, see the JMS API documentation for more information about the <a href="//docs.oracle.com/javaee/6/api/javax/jms/Session.html#createDurableSubscriber(javax.jms.Topic,%20java.lang.String" title="Interface Session">createDurableSubscriber</a> method.</p>
+
+<h3 id="last-value-cache">Last Value Cache</h3>
+
+<p>You can configure the Gateway to hold recent messages for a topic in a <em>last value cache</em>. When you enable last value cache and a client subscribes to a destination, the Gateway first delivers any cached messages to the client and then delivers the live stream of messages.</p>
+
+<p>Last value cache is especially useful for clients that make a new subscription to a topic and want to immediately receive the most recent message history for the topic. For example, if messages are delivered hourly, a client connection that arrives 30 minutes into the hour can get the latest message immediately. Some use cases for the last value cache feature include:</p>
+
+<ul>
+  <li>When your publisher publishes messages infrequently, or unpredictably</li>
+  <li>When a client would need to wait too long for the next message when they first subscribe</li>
+</ul>
+
+<p><strong>Note:</strong> Last value cache only applies to non-durable topic subscriptions. Last value cache does not apply to queue receivers or durable topic subscribers, because the JMS-compliant message broker maintains state on those destinations (queues and durables) and tracks whether messages should be redelivered.</p>
+
+<p>You do not need to write any custom code to use last value cache. Last value cache is disabled by default (per standard JMS behavior) but you can easily enable it by editing the Gateway configuration. For example, edit the <code>gateway-config.xml</code> file to add a <code>topic</code> element and set the <a href="#how-the-jms-service-handles-topic-subscribers"><code>cache.size</code></a> property along with any additional associated last value cache properties for the topics on which last value cache behavior is desired.</p>
+
+<p>When you enable last value cache for a topic, then the <code>jms</code> service:</p>
+
+<ul>
+  <li>Creates a separate in-memory last value cache <strong>for each topic subscription made to the JMS-compliant message broker</strong>.</li>
+  <li>Maintains the last value cache for the duration of that subscription. See <a href="#how-the-jms-service-handles-topic-subscribers">How the JMS Service handles Topic Subscribers</a> for a description of the lifecycle of topic subscriptions to the JMS-compliant message broker.</li>
+</ul>
+
+<p>For more information about configuration properties, see <a href="#jms-service-properties-for-the-topic-element">jms Service Properties for the topic Element</a>.</p>
+
+<h4 id="configuring-and-using-last-value-cache">Configuring and Using Last Value Cache</h4>
+
+<ul>
+  <li><a href="#enable-last-value-cache-on-specific-topics">Enable Last Value Cache on Specific Topics</a></li>
+  <li><a href="#configure-last-value-cache-to-populate-bootstrap-in-memory-last-value-cache">Configure Last Value Cache to Populate (Bootstrap) In-Memory Last Value Cache</a></li>
+  <li><a href="#configure-a-shared-wildcard-subscription-to-minimize-the-number-of-topic-subscriptions-and-use-a-single-shared-cache">Configure a Shared Wildcard Subscription to Minimize the Number of Topic Subscriptions and Use a Single Shared Cache</a></li>
+</ul>
+
+<h5 id="enable-last-value-cache-on-specific-topics">Enable Last Value Cache on Specific Topics</h5>
+
+<p>The following example enables last value cache on a specific topic <code>events.calendar</code> and any topics that match a wildcard name of <code>events.football.&gt;</code>. Each topic needs to be in its own <code>topic</code> element. In this example, the Gateway retains the last message for the destinations given. When a new client subscribes to one of those destinations, the last value cache messages are sent to the client before any new live messages from the broker.</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;service&gt;
+  &lt;accept&gt;ws://gateway.example.com/jms&lt;/accept&gt;
+ 
+  &lt;type&gt;jms&lt;/type&gt;
+ 
+  &lt;properties&gt;
+    &lt;topic&gt;
+      &lt;!-- Single topic --&gt;
+      &lt;name&gt;events.calendar&lt;/name&gt;
+      &lt;cache.size&gt;1&lt;/cache.size&gt;
+      &lt;cache.durable.name.format&gt;lvc_%s&lt;/cache.durable.name.format&gt;
+      &lt;cache.durable.client.id&gt;client1&lt;/cache.durable.client.id&gt;
+    &lt;/topic&gt;
+    
+    &lt;topic&gt;
+      &lt;!-- Broker specific topic wildcard --&gt;
+      &lt;name&gt;events.football.&gt;&lt;/name&gt;
+      &lt;cache.size&gt;1&lt;/cache.size&gt;
+    &lt;/topic&gt;
+    
+    &lt;topic&gt;
+       ...
+    &lt;/topic&gt;
+  &lt;/properties&gt;
+&lt;/service&gt;
+</code></pre>
+
+<p><strong>Note:</strong> Set the <a href="#cachesize"><code>cache.size</code></a> property to 1 to handle the majority of use cases. (The <a href="#cachesize"><code>cache.size</code></a> property defaults to 0.) See <a href="#jms-service-properties-for-the-topic-element">jms Service Properties for the topic Element</a> for information about the <a href="#cachesize"><code>cache.size</code></a> property and other topic properties.</p>
+
+<h5 id="configure-last-value-cache-to-populate-bootstrap-in-memory-last-value-cache">Configure Last Value Cache to Populate (Bootstrap) In-Memory Last Value Cache</h5>
+
+<p>You can optionally configure last value cache to populate (bootstrap) its in-memory last value cache for a given topic whenever recent messages for that topic are not already available in cache.</p>
+
+<p>How you configure bootstrapping depends on whether or not your JMS-compliant message broker already has built-in support for replaying prior messages (sometimes referred to as <em>last value cache</em> or <em>subscription recovery</em>).</p>
+
+<ul>
+  <li>If your JMS-compliant message broker supports replaying prior messages, then enable it for the topics in question and do not specify the <a href="#cachedurablenameformat">cache.durable.name.format</a> and <a href="#cachedurableclientid">cache.durable.client.id</a> properties in the Gateway configuration. Some brokers already have built-in support for replaying prior messages.  For example, see the <a href="//activemq.apache.org/subscription-recovery-policy.html">Apache ActiveMQ documentation</a> for more information about the ActiveMQ subscription recovery policy.</li>
+  <li>
+    <p>If your JMS-compliant message broker does not already have built-in support for replaying prior messages, then you should set the <a href="#cachedurablenameformat">cache.durable.name.format</a> and <a href="#cachedurableclientid">cache.durable.client.id</a> properties to allow the Gateway to populate (bootstrap) the last value cache for a given topic when needed using a durable subscriber.</p>
+
+    <p>To trigger bootstrapping, specify the <a href="#cachedurablenameformat">cache.durable.name.format</a> and <a href="#cachedurableclientid">cache.durable.client.id</a> topic properties, as shown in the following example.</p>
+
+    <pre class="auto-links: false; brush: xml; toolbar: false;">&lt;service&gt;
+  &lt;accept&gt;ws://gateway.example.com/jms&lt;/accept&gt;
+      
+  &lt;type&gt;jms&lt;/type&gt;
+      
+  &lt;properties&gt;
+         
+    &lt;topic&gt;
+      &lt;!-- Broker specific topic wildcard --&gt;
+      &lt;name&gt;events.&gt;&lt;/name&gt;
+      &lt;cache.size&gt;1&lt;/cache.size&gt;
+      &lt;cache.durable.name.format&gt;lvc_%s&lt;/cache.durable.name.format&gt;
+      &lt;cache.durable.client.id&gt;client1&lt;/cache.durable.client.id&gt;    
+      &lt;subscription.lifetime&gt;connection&lt;/subscription.lifetime&gt;
+    &lt;/topic&gt;
+         
+    &lt;topic&gt;
+       ...
+    &lt;/topic&gt;
+  &lt;/properties&gt;
+&lt;/service&gt;
+</code></pre>
+  </li>
+</ul>
+
+<p>Bootstrapping last value cache is useful to make sure last value messages are always available for clients, even when the Gateway is restarted, or in a situation where all clients unsubscribe and then one client re-subscribes. The preceding example includes the <a href="#subscriptionlifetime"><code>subscription.lifetime</code></a> topic property that is set to <code>connection</code>. In this case, bootstrapping efficiently preloads the cache before clients first subscribe, getting the high message volume work done so the users do not experience lag when first subscribing to the topic.</p>
+
+<p>If the <a href="#subscriptionlifetime"><code>subscription.lifetime</code></a> topic property is set to <code>consumer</code>, then bootstrapping is performed only when a client first subscribes to the topic through the Gateway. The bootstrap process uses a durable subscriber that is created by the Gateway the first time bootstrap occurs (unless it was manually created externally in advance).</p>
+
+<p>The last <a href="#cachesize"><code>cache.size</code></a> messages sent to the topic since the durable subscriber was created are replayed from the cache (or the durable subscriber) to each new client that subscribes to the topic. Configuring the <a href="#subscriptionlifetime"><code>subscription.lifetime</code></a> topic property is described in the <a href="#configure-a-shared-wildcard-subscription-to-minimize-the-number-of-topic-subscriptions-and-use-a-single-shared-cache">Configure a Shared Wildcard Subscription to Minimize the Number of Topic Subscriptions and Use a Single Shared Cache</a> section.</p>
+
+<p>If your broker supports it, you should specify an upper bound on the number of messages to retain on the durable subscriber that is used for bootstrap. Doing so helps to limit overhead on the broker. In addition, you might want to set a time to live (TTL) when publishing messages so they live in the broker only long enough for newer messages to replace them. For example, if messages are published every hour, then set the expiration to one hour to be certain there is at least one message persisted by the broker at all times while keeping the total number of messages bounded.</p>
+
+<p>The broker does not persist messages until the durable subscriber is created. Because the Gateway only creates the durable subscriber when a client first subscribes to the topic (or when the Gateway is first started if <a href="#subscriptionlifetime"><code>subscription.lifetime</code></a> is set to <code>connection</code>), the first client does not see any cached last value messages. For the first client to see the messages, you can manually create the durable subscriber and then send some messages to the topic before starting up the Gateway. The Gateway then replays those messages to all clients.</p>
+
+<p>See <a href="#cachedurablenameformat"><code>cache.durable.name.format</code></a>, <a href="#cachedurableclientid"><code>cache.durable.client.id</code></a>, and <a href="#subscriptionlifetime"><code>subscription.lifetime</code></a> for more information.</p>
+
+<h5 id="configure-a-shared-wildcard-subscription-to-minimize-the-number-of-topic-subscriptions-and-use-a-single-shared-cache">Configure a Shared Wildcard Subscription to Minimize the Number of Topic Subscriptions and Use a Single Shared Cache</h5>
+
+<p>Unless you configure the special topic properties, <a href="#subscriptionlifetime"><code>subscription.lifetime</code></a> and <a href="#subscriptionsharing"><code>subscription.sharing</code></a>, the in-memory last value cache for a given topic comes and goes according to whether or not any clients are currently subscribed to that topic. For consistent availability of last messages when clients subscribe, you must do one of the following:</p>
+
+<ul>
+  <li>Configure your JMS-compliant message broker to provide last messages (if the broker has that capability)</li>
+  <li>Configure the <code>jms</code> service to bootstrap last value cache</li>
+  <li>Use the <a href="#subscriptionsharing"><code>subscription.sharing</code></a> and <a href="#subscriptionlifetime"><code>subscription.lifetime</code></a> topic properties</li>
+</ul>
+
+<p>The <a href="#subscriptionsharing"><code>subscription.sharing</code></a> and <a href="#subscriptionlifetime"><code>subscription.lifetime</code></a> topic properties are specifically designed to:</p>
+
+<ul>
+  <li>Provide consistent last value messages across all topics matching a given wildcard.</li>
+  <li>Reduce the number of durable subscribers needed to bootstrap last value cache.</li>
+  <li>Perform bootstrap during Gateway startup to avoid clients experiencing delays.</li>
+</ul>
+
+<p>The following topic configuration example shows how you might configure <a href="#subscriptionsharing"><code>subscription.sharing</code></a> and <a href="#subscriptionlifetime"><code>subscription.lifetime</code></a>:</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">   
+    &lt;topic&gt;
+      &lt;!-- Broker specific topic wildcard --&gt;
+      &lt;name&gt;quotes.*.*&lt;/name&gt;
+      &lt;cache.size&gt;1&lt;/cache.size&gt;    
+      &lt;subscription.lifetime&gt;connection&lt;/subscription.lifetime&gt;
+      &lt;subscription.sharing&gt;wildcard&lt;/subscription.sharing&gt;
+    &lt;/topic&gt;
+</code></pre>
+
+<p>With this configuration, the <code>jms</code> service establishes a subscription to the wildcard topic name <code>quotes.*.*</code> immediately after establishing the connection to the JMS-compliant message broker during Gateway startup. An in-memory cache of last messages is maintained from that time on. When a client subscribes to any topic matching the wildcard (for example, <code>quotes.NASDAQ.NFLX</code>), any available last messages matching that destination are served from the cache, and any incoming matching live messages are delivered to the client. This applies even if the client subscribes to a wildcard, provided that wildcard matches the configured wildcard, for example: <code>quotes.NASDAQ.*</code>.</p>
+
+<p>A shared wildcard subscription is recommended when last value cache functionality is needed on a very large number of topics (hundreds, thousands or even hundreds of thousands) because it greatly offloads the JMS-compliant message broker (by using a single subscription to it) and provides a consistent cache of last value messages.</p>
+
+<h5 id="when-should-you-use-shared-wildcard-subscriptions">When should you use shared wildcard subscriptions?</h5>
+
+<p>It is important to know the disadvantages and tradeoffs when using shared wildcard subscriptions. The Gateway must process all messages on all topics matching the wildcard (<code>quotes.*.*</code>) to keep the last value cache up to date in memory. If the message rate is high that may use significant memory and CPU, which is wasted if no clients actually subscribe to matching topics. It is important to be judicious in choosing which wildcard topic names to configure in this way. For example:</p>
+
+<ul>
+  <li>If you know that clients only subscribe to NASDAQ quotes, then it is more efficient to set the wildcard name to <code>quotes.NASDAQ.*</code>.</li>
+  <li>If you know that clients only subscribe to NASDAQ or NYSE, then define two separate topic configurations: one for <code>quotes.NASDAQ.*</code> and one for <code>quotes.NYSE.*</code>.</li>
+</ul>
+
+<h5 id="memory-usage-with-shared-wildcard-subscriptions">Memory Usage with Shared Wildcard Subscriptions</h5>
+
+<p>How you set up shared wildcard subscriptions is also important when it comes to memory usage. If you use a shared wildcard subscription with last value cache, especially a permanent one (with <code>subscription.lifetime=connection</code>), the memory taken up by the cache increases each time a message is received on a new topic matching the shared wildcard subscription established by the Gateway. For example, if the configured wildcard name is <code>quotes.NASDAQ.*</code> and messages are sent to 100,000 different topics (such as stock tickers), and the configured <code>cache.size</code> is 1 (message per concrete topic), then 100,000 messages are cached in memory.</p>
+
+<p>The exact amount of memory used depends on the nature of the messages (property set by the application, length of the message body, and so on). In fact, in test cases where text messages with a 200-character body and no application-specific properties were set, the memory used per cached message was approximately 920 bytes; 100,000 cached messages used 92 megabytes of memory. Depending on the size of your messages, this number might be larger or smaller for your applications.</p>
+
+<p>To optimize memory usage with last value cache:</p>
+
+<ul>
+  <li>Avoid using wildcards that are too sweeping by focusing your wildcard subscriptions as described in <a href="#when-should-you-use-shared-wildcard-subscriptions">When should you use shared wildcard subscriptions?</a>.</li>
+  <li>Consider setting an expiration time (TTL) so messages live in the broker only long enough for newer messages to replace them. Cached entries are only cleared if a user subscribes to a particular topic and matching messages in the cache are found to have expired.</li>
+  <li>Follow the recommendations in <a href="#best-practices-for-last-value-cache">Best Practices for Last Value Cache</a>.</li>
+</ul>
+
+<h4 id="best-practices-for-last-value-cache">Best Practices for Last Value Cache</h4>
+
+<h5 id="focus-shared-wildcard-subscriptions-as-narrowly-as-possible">Focus shared wildcard subscriptions as narrowly as possible</h5>
+
+<p>When configuring shared wildcard subscriptions (specifying the <a href="#subscriptionsharing"><code>subscription.sharing</code></a> topic property as wildcard), target the subscription as narrowly as possible to reduce unnecessary messages being delivered from the message broker to the Gateway. For example, imagine you have the following configuration:</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">    &lt;topic&gt;
+      &lt;!-- Broker specific topic wildcard --&gt;
+      &lt;name&gt;events.&gt;&lt;/name&gt;
+      &lt;cache.size&gt;1 &lt;/cache.size&gt;
+    &lt;/topic&gt;
+</code></pre>
+
+<p>For instance, say the subscription <code>events.&gt;</code> resolves to thousands of topics. All of the messages for those topics are now delivered to the Gateway. If your clients only subscribe to a small number of those topics, then the majority of messages are delivered to the Gateway and cached when there are no consumers that need them. This uses unnecessary resources.</p>
+
+<p>In this case, a more specific subscription is better. If your clients all subscribe to <code>events.football</code>, then use this configuration:</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">    &lt;topic&gt;
+      &lt;!-- Broker specific topic wildcard --&gt;
+      &lt;name&gt;events.football.&gt;&lt;/name&gt;
+      &lt;cache.size&gt;1&lt;/cache.size&gt;
+    &lt;/topic&gt;
+</code></pre>
+
+<p>Now the Gateway will not receive and cache messages for <code>events.baseball</code>, <code>events.cricket</code>, <code>events.racing</code>, and so on.</p>
+
+<p>Specifying the wildcard subscription as narrowly as possible reduces memory usage, gives better performance, and reduces load on the message broker.</p>
+
+<h5 id="set--to-wildcard">Set <code>subscription.sharing</code> to wildcard</h5>
+
+<p>If <code>subscription.sharing</code> is unspecified or is set to <code>exact</code> (the default), then each unique topic name results in a separate subscription from the Gateway to the message broker and, if bootstrap is enabled, to an associated durable subscriber.</p>
+
+<p>For example, if consumers subscribe to <code>events.football</code> and <code>events.baseball</code>, that results in two subscriptions from the Gateway to the broker. It does not matter how many consumers there are, as it is unique topic names that matter, not the number of consumers subscribing to them.</p>
+
+<p>If your client base subscribes to a large number of unique topic names, that results in a large number of subscriptions from the Gateway to the broker. But by setting <a href="#subscriptionsharing"><code>subscription.sharing</code></a> to <code>wildcard</code> and specifying a wildcard subscription in your Gateway configuration, you can reduce the number of individual subscriptions from the Gateway to the message broker.</p>
+
+<p>For example, if your Gateway has the following configuration, then it defaults to <code>exact</code> because <code>subscription.sharing</code> is unspecified:</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">    &lt;topic&gt;
+      &lt;!-- Broker specific topic wildcard --&gt;
+      &lt;name&gt;events.&gt;&lt;/name&gt;
+      &lt;cache.size&gt;1&lt;/cache.size&gt;
+    &lt;/topic&gt;
+</code></pre>
+
+<p>If consumers subscribe to the topics <code>events.football</code>, <code>events.baseball</code>, <code>events.cricket</code>, and <code>events.racing</code>, then that results in four subscriptions from the Gateway to the message broker.</p>
+
+<p>Now, let’s change the configuration wildcard to the following:</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">    &lt;topic&gt;
+      &lt;!-- Broker specific topic wildcard --&gt;
+      &lt;name&gt;events.&gt;&lt;/name&gt;
+      &lt;cache.size&gt;1&lt;/cache.size&gt;
+      &lt;subscription.sharing&gt;wildcard&lt;/subscription.sharing&gt;
+    &lt;/topic&gt;
+</code></pre>
+
+<p>If consumers subscribe to the topics <code>events.football</code>, <code>events.baseball</code>, <code>events.cricket</code>, and <code>events.racing</code>, then there is only one subscription from the Gateway to the message broker. That’s because the subscription to <code>events.&gt;</code> results in messages that also apply to <code>events.football</code>, <code>events.baseball</code>, <code>events.cricket</code>, and <code>events.racing</code>.</p>
+
+<p>Setting <a href="#subscriptionsharing"><code>subscription.sharing</code></a> to <code>wildcard</code> in this way provides several benefits:</p>
+
+<ul>
+  <li>Minimizes the number of subscriptions to the message broker, reducing load on the broker.</li>
+  <li>Allows the Gateway to have only one last value cache instead of one for each unique subscription.</li>
+  <li>If bootstrap is enabled, then last value cache uses a single durable subscriber instead of four.</li>
+</ul>
+
+<h5 id="set--to-">Set <code>cache.size</code> to <code>1</code></h5>
+
+<p>By default, the <code>cache.size</code> property is set to <code>0</code>, which means that last value cache is disabled. In general, you should set the <a href="#cachesize"><code>cache.size</code></a> property to 1 to handle most use cases.</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">    &lt;topic&gt;
+      &lt;!-- Broker specific topic wildcard --&gt;
+      &lt;name&gt;events.&gt;&lt;/name&gt;
+      &lt;cache.size&gt;1&lt;/cache.size&gt;
+    &lt;/topic&gt;
+</code></pre>
+
+<p>While replaying messages from the last value cache, the Gateway delivers higher priority messages before lower priority messages for each topic if the <a href="#cachesize"><code>cache.size</code></a> property is set to a value greater than one.</p>
+
+<h5 id="enable-clustering-when-using-last-value-cache-with-durable-subscriptions">Enable Clustering when Using Last Value Cache with Durable Subscriptions</h5>
+
+<p>If you use <code>cache.durable.client.id</code> or <code>cache.durable.name.format</code> in your last value cache configuration, then a durable subscription is made to the JMS messaging system. The connection for this subscription is very short lived, usually sub-second, existing just long enough to retrieve newer messages.</p>
+
+<p>If you have more than one Gateway configured this way, then multiple Gateways connect with the same durable client ID. The JMS specification says that you cannot have multiple subscribers with the same client ID at the same time. Therefore, the best practice is to configure clustering between the gateways so that they can coordinate usage of the durable client ID. Administrators must configure the <code>cluster</code> element for each Gateway using <code>cache.durable.client.id</code> or <code>cache.durable.name.format</code> in a <code>topic</code> element of the configuration.</p>
+
+<h4 id="notes">Notes</h4>
+
+<ul>
+  <li>Message expiration: The Gateway does not deliver messages to the client if the messages have expired.</li>
+  <li>Handling reconnections: When a client loses connectivity and then reconnects, the current set of messages from the last value cache is replayed, which may cause messages already observed by that client to be sent before the live stream. Following standard JMS practices, the JMSRedelivered field is always set on messages played from the last value cache. The client application can use this field to determine how to process the messages from the last value cache. For information about the <code>JMSRedelivered</code> property in a Kaazing Gateway client API, see the <a href="../..">Client API Documentation</a>.</li>
+  <li>Wildcards: You can use <a href="#using-wildcards-with-last-value-cache-or-delta-messaging">wildcards</a> to identify large numbers of topics on which you want to configure a last value cache.</li>
+</ul>
+
+<h3 id="delta-messaging">Delta Messaging</h3>
+
+<p>Delta messaging, when enabled, results in the Gateway sending a full message to the client, and thereafter only sending the deltas for subsequent messages. Configuring the Gateway to send deltas reduces bandwidth utilization and ensures clients receive current data.</p>
+
+<p>Deltas can be any of the following:</p>
+
+<ul>
+  <li>JMS Message Headers</li>
+  <li>JMS Message Properties</li>
+  <li>JMS MapMessage Items</li>
+</ul>
+
+<p>Delta messages are disabled by default and must be enabled in the configuration. To enable delta messages, add a <code>topic</code> element to the properties for the <code>jms</code> service configuration and specify the topics on which to enable delta messages. You can name individual topics or specify multiple topics using wildcard syntax. Then set the <code>message.delivery.strategy</code> property to <code>delta</code>.</p>
+
+<h4 id="notes-1">Notes</h4>
+
+<ul>
+  <li>Delta messages only apply to topics. Messages on queues or durable subscriptions to topics are not eligible for delta messages because they provide guaranteed message delivery (as described in the <a href="//download.oracle.com/otndocs/jcp/7195-jms-1.1-fr-spec-oth-JSpec/">JMS specification</a>).</li>
+  <li>To achieve bandwidth reduction with delta messaging, ensure that applications convey changes from one message to the other via message properties or using MapMessages (rather than to the body of a BytesMessage or TextMessage).</li>
+  <li>Wildcards: You can use <a href="#using-wildcards-with-last-value-cache-or-delta-messaging">wildcards</a> to identify large numbers of topics on which you want to configure delta messaging.</li>
+</ul>
+
+<p>After you enable delta messaging, the Gateway automatically computes deltas. The publisher and client application are unaware of the optimization. The publisher will always publish complete messages, and the client application will always receive complete messages.</p>
+
+<p>See the <code>message.delivery.strategy</code> property and <a href="#example-3-jms-service-with-delta-messaging">Example 3: JMS service with Delta Messaging</a> for more information and an example.</p>
+
+<h3 id="using-wildcards-with-last-value-cache-or-delta-messaging">Using Wildcards with Last Value Cache or Delta Messaging</h3>
+
+<p>You can use wildcards to configure last value cache for a large number of topics or to apply delta messaging to a number of topics without listing every topic in the Gateway configuration. Wildcard syntax differs depending on your JMS-compliant message broker. The wildcard name you use must conform to the syntax expected by your JMS-compliant message broker.</p>
+
+<p>A common syntax is the “<code>*</code>” and “<code>&gt;</code>” syntax. The “<code>*</code>” syntax will match any name on a path, and the “<code>&gt;</code>” syntax recursively matches any destination starting from this name. If you use a message, refer to the broker documentation for more syntax information. (For example, if you are using a JMS-compliant message broker such as Apache ActiveMQ, see the <a href="//activemq.apache.org/wildcards.html">Apache ActiveMQ documentation</a> for more information about wildcards. In such a scenario, a JMS-compliant message broker that uses different characters might require that you configure the service properties <code>wildcard.separator</code>, <code>wildcard.any.child</code>, and <code>wildcard.any.descendent</code>.</p>
+
+<p><strong>Note:</strong> For IBM WebSphere MQ and RabbitMQ, the Gateway dynamically sets the following (required) wildcard properties:</p>
+
+<p><code>wildcard.any.descendent=#</code><br />
+<code>wildcard.separator=/</code><br />
+<code>wildcard.any.child=+</code></p>
+
+<h4 id="client-subscriptions-versus-gateway-configuration">Client Subscriptions Versus Gateway Configuration</h4>
+
+<p>Using wildcards in the Gateway configuration simplifies administration by enabling you to use a single symbol (wildcard) instead of listing every static topic and also lets you configure for dynamic topics where the topic names are not already known. Regardless of your use of wildcards in the Gateway configuration, the client can subscribe to specific named topics, or use wildcard subscriptions. The wildcard syntax you specify in the Gateway configuration does not have to be used in the client subscription; the client subscription and topic specification in the configuration are independent of each other.</p>
+
+<p>The interplay between the client subscription and the Gateway configuration occurs when the client subscribes. The following table illustrates some examples of how different client subscriptions might or might not match topic definitions in the configuration. The topic name given in the client subscription is matched against the names given in the topic entries in the Gateway configuration. If there is no match, then delta messages are not applied.</p>
+
+<p>The set of real topic names matched (or resolved by the broker after applying wildcards) for the client subscription must match or be a subset of the set matched for the configuration. In other words, the “Client Subscription” column in the following table must match or be a subset of the “Gateway Configuration” column.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Gateway Configuration</th>
+      <th>Client Subscription</th>
+      <th>Result</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>events.football</code></td>
+      <td><code>events.football.*</code></td>
+      <td>No match</td>
+    </tr>
+    <tr>
+      <td><code>events.football</code></td>
+      <td><code>events.football.&gt;</code></td>
+      <td>No match</td>
+    </tr>
+    <tr>
+      <td><code>events.football.*</code></td>
+      <td><code>events.football.&gt;</code></td>
+      <td>No match</td>
+    </tr>
+    <tr>
+      <td><code>events.football.*</code></td>
+      <td><code>events.football</code></td>
+      <td>No match</td>
+    </tr>
+    <tr>
+      <td><code>events.football.&gt;</code></td>
+      <td><code>events.football.*</code></td>
+      <td>Match</td>
+    </tr>
+    <tr>
+      <td><code>events.football.&gt;</code></td>
+      <td><code>events.football.saturday.*</code></td>
+      <td>Match</td>
+    </tr>
+    <tr>
+      <td><code>events.football.&gt;</code></td>
+      <td><code>events.football.saturday.&gt;</code></td>
+      <td>Match</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="message-conflation">Message Conflation</h3>
+
+<p>Message conflation enables slower consumers to receive an approximation of higher rate message flows so that they do not get too far behind in the message stream. The Gateway performs message conflation, where a new message replaces the previous message, in a situation where a client cannot keep up with the live stream. Kaazing Gateway conflates messages on a topic from the JMS-compliant message broker arriving for that client. Whenever the client is able to start receiving messages, it receives the latest data. If all clients keep up with the live message stream, then no conflation occurs.</p>
+
+<p>Conflation is always enabled on all topics and does not require configuration or custom code. Conflation does not apply to queues and durable topic subscriptions because they provide guaranteed message delivery, which requires all unexpired messages to be delivered to the client.</p>
+
+<p>The Gateway conflates JMS messages that are in the same <em>series</em>—that is, the messages have the same body type (specifically, MapMessage, TextMessage, and BytesMessage), JMSDestination, JMSType and JMSPriority. For example:</p>
+
+<ul>
+  <li>Messages must have the same JMSDestination to conflate (this is only relevant for wildcard subscriptions). The Gateway will not conflate messages on destination <code>events.football.manchester-vs-liverpool</code> with a message on destination <code>events.football.united-vs-arsenal</code>.</li>
+  <li>Messages must have the same JMSType to conflate. The Gateway will not conflate a message of JMSType=car with a message of JMSType=plane.</li>
+  <li>Messages must have the same JMSPriority to conflate. If there are messages with multiple priorities, they are conflated and cached separately and then replayed in priority order from the cache.</li>
+</ul>
+
+<p>The Gateway also conflates messages in a shared topic. For example, a single topic might have messages for stock prices for different symbols. If you do not wish messages in a shared topic to conflate, then you can set the JMSType for different messages to be different, so that the Gateway only conflates messages of the same type.</p>
+
+<p>When a client cannot keep up with the message flow, the Gateway must cache the messages that cannot be delivered into a conflation cache in order to apply the rules (listed previously) for conflation. The cache contains one entry for each message series such that there is an entry in the cache for each unique combination of JMSDestination, JMSType and JMSPriority.</p>
+
+<p>The maximum number of entries in the conflation cache defaults to 100 and is controlled by the <a href="#maximumconflationcachesize"><code>maximum.conflation.cache.size</code></a> service property. If cache size is not sufficient, then warning messages are written to the Gateway log file, and you should increase the value of the <a href="#maximumconflationcachesize"><code>maximum.conflation.cache.size</code></a> property.</p>
+
+<p>The Gateway delivers all messages from the <a href="#last-value-cache">last value cache</a> without conflation. After the client is on the live stream, messages automatically conflate if the client becomes a slow consumer.</p>
+
+
+<h3 id="property-based-routing-and-virtual-queues">Property-Based Routing (PBR) and Virtual Queues</h3>
+
+<p>PBR allows a single physical queue to be used as an unlimited number of virtual queues, and routes messages to the appropriate consumer based on the value of a message property. Routing is based one of the following:</p>
+
+<ul>
+ <li>The virtual queue name to which the consumer subscribed. </li>
+ <li>A value derived from the logged on Subject by a configured identity resolver. Typically, the user's identity: user id or role.</li> 
+</ul>
+
+<p>If multiple clients subscribe to the same virtual queue, each will see all unacknowledged messages on that queue. Any clients may acknowledge the messages. If two clients acknowledge the same message, the second acknowledge has no effect. This behavior helps in cases where the virtual queue is driven by the user's identity and the same user logs on to multiple devices.</p>
+
+<h4 id="properties-for-the-queue-element">Properties for the queue Element</h4>
+
+<p>The <code>queue</code> element can be used in the <code>jms</code> and <code>ibmmq</code> services.</p>
+
+<p>The following property descriptions use the concept of virtual name. This is the logical queue name to which the client is subscribed. The virtual name is the name passed into the <code>JmsAuthorizationFactory</code>, and reported as the <code>JMSDestination</code> property of messages received by the message consumer. The virtual name defaults to <code>name</code>. It can be automatically constructed by specifying <code>virtual.name.format</code> and <code>virtual.name.resolver</code>.</p>
+
+<table>
+  <tr>
+    <th scope="col" width="100px">Property</th>
+    <th scope="col" width="150px">Required?</th>
+    <th scope="col">Description</th>
+  </tr>
+  <tr>
+    <td><code>queue</code></td>
+    <td>Required</td>
+    <td>This property is required to configure PBR and virtual queues. It is the parent element to the following elements.</td>
+  </tr>
+  <tr>
+   <td><code>name</code></td>
+   <td>Required</td>
+   <td>The queue name used by the client application to create a message consumer. If the value of <code>name</code> is a pattern (for example, <code>name_*</code>) then the variable part (represented by the *) is known as the <em>discriminator</em>.</td>
+  </tr>
+  <tr>
+   <td><code>virtual.name.format</code></td>
+   <td>Optional</td>
+   <td>A pattern used to form the virtual queue name (using <code><a href="https://docs.oracle.com/javase/7/docs/api/java/util/Formatter.html">String.format</a></code>). It should contain a placeholder, <code>%s</code>, which will be replaced with the value returned by the class named in <code>virtual.name.resolver</code>.</td>
+  </tr>
+  <tr>
+   <td><code>virtual.name.resolver</code></td>
+   <td>Optional</td>
+   <td>This property is used to form the virtual queue name. The value of <code>virtual.name.resolver</code> is a class implementing interface <code>Function&lt;Subject, String&gt;</code>. The Gateway will instantiate and invoke the class to get a value which will then be injected into the <code>virtual.name.format</code> pattern (using String.format) to form the virtual name. This is not to be confused with the JmsUserIdentityResolver that might be configured in the <code>user.id.resolver</code> service property for auditing purposes. In some cases, the same class might be used for both purposes. </td>
+  </tr>
+  <tr>
+   <td><code>system.name</code></td>
+   <td>Optional</td>
+   <td>The name of the queue to which the Gateway will actually subscribe. This name might be modified by the <code>queue.name.format</code> property. If <code>system.name</code> is not in the configuration, then the system name defaults to the value of <code>name</code>.</td>
+  </tr>
+  <tr>
+   <td><code>system.routing.property</code></td>
+   <td>Optional</td>
+   <td>The value for this property is the name of the message property that will distinguish between messages sent to different virtual queues (for example, <code>discriminator</code>). This property may be used when the name is a pattern (such as <code>stock_*</code>)  or when a <code>virtual.name.format</code> is given (such as <code>stock_%s</code>). The value of this message property is injected into the virtual name format to form the destination virtual queue name. When a user subscribes, messages are delivered to them when the value of the property named in <code>system.routing.property</code> matches the variable part of the virtual queue name to which the user is subscribed. For example, if a client subscribes to queue <code>stock_ORCL</code> they will receive all messages on the <code>stocksys</code> queue which have the <code>discriminator</code> property set to <code>ORCL</code>.</td>
+  </tr>
+  <tr>
+   <td><code>message.consumers</code></td>
+   <td>Optional</td>
+   <td>This property enables the <code>ibmmq</code> service to deliver each message to all consumers. The permitted values are <code>one</code> and <code>all</code>. For compatibility with normal JMS behavior, the default setting is <code>one</code> for regular queues. For queues using property based routing (PBR), <code>message.consumers</code> may only be set to the value all (the default value for such queues). Only available to the <code>ibmmq</code> service.</td>
+  </tr>
+  <tr>
+   <td><code>routing.cache.size</code></td>
+   <td>Optional</td>
+   <td>This property sets the size of the cache of message IDs stored to enable the <code>ibmmq</code> service to use a single shared queue subscription for all subscribers to the various virtual queues. For more information, see <a href="#property-based-routing-with-mq">Property Based Routing (PBR) with MQ</a>. Default value is <code>1000000</code>. Only available to the <code>ibmmq</code> service.</td>
+  </tr>
+  <tr>
+   <td><code>read.interval</code></td>
+   <td>Optional.<br><code>ibmmq</code> service-only.</td>
+   <td>Allows you to specify the maximum time the <code>ibmmq</code> service waits between get calls (<a href="//www.ibm.com/support/knowledgecenter/SSFKSJ_9.0.0/com.ibm.mq.ref.dev.doc/q101830_.htm" title="IBM Knowledge Center">MQGET</a>) to poll queues with active subscribers for new messages, for queues matching the name of this queue element. This overrides any value given in service property <code>queue.read.interval</code>. This interval may be configured on a per queue basis inside a <code>queue</code> element (for any queue, not just those with property-based routing). You can specify the time interval syntax in milliseconds, seconds, minutes, or hours (spelled out or abbreviated). For example, all of the following are valid and represent typical values for this setting: 300ms, 300 milliseconds, 5s, 5sec, 5 secs, 5 seconds or 5seconds. Wildcard syntax can be used in the <code>name</code> property to apply <code>read.interval</code> to multiple queues. For example, the &lt;name&gt;personal_queue_*&lt;/name&gt; property with &lt;read.interval&gt;1 sec&lt;/read.interval&gt; would configure all queues with names starting <code>personal_queue_</code> to have a read interval of one second.</td>
+  </tr>
+  <tr>
+   <td><code>subscription.lifetime</code></td>
+   <td>Optional.<br><code>ibmmq</code> service-only.</td>
+   <td>Causes the MQ service to preload the message ID cache when the Gateway starts and when the Gateway reconnects to the MQ broker after a connection failure. The purpose of this property is to prepare the Gateway to handle incoming client subscriptions to virtual queues quickly. Permitted values are <code>connection</code> and <code>subscription</code>. To enable this functionality, set <code>subscription.lifetime</code> to <code>connection</code>. If <code>subscription.lifetime</code> is omitted or configured with the value <code>subscription</code>, then there is no automatic subscription to initialize the historical message ID cache. If <code>subscription.lifetime</code> is set to <code>connection</code> on a <code>queue</code> element that does not specify property-based routing (no value for <code>system.routing.property</code>), then an exception is thrown.</td>
+  </tr>
+</table><br>
+
+<p>For examples using these properties, see <a href="#use-cases-for-property-based-routing-and-virtual-queues">Use Cases for Property-Based Routing (PBR) and Virtual Queues</a>.</p>
+
+<h4 id="limitations-of-property-based-routing">Limitations of Property-Based Routing</h4>
+
+<ul>
+ <li>Queue message distribution is always to all consumers for the ibmmq service.</li>
+ <li>The JMSRedelivered message property is never set to true for the ibmmq service. For information about the JMSRedelivered property in a JMS message, see the JMS Message interface and the getJMSRedelivered and setJMSRedelivered methods.</li>
+ <li>When subscribing to a queue with property-based routing, the use of a message selector is not currently supported for the jms or ibmmq services. It will result in an error.</li>
+</ul>
+
+<h4>Example Configurations with the <code>ibmmq</code> and <code>jms</code> Services</h4>
+
+<p>The following configuration examples demonstrate how PBR is configured for the <code>ibmmq</code> and <code>jms</code> services.</p>
+
+<h5><code>ibmmq</code> Example</h5>
+
+<p>The following example shows a <code>ibmmq</code> service configuration using property-based routing.</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;service&gt;
+ &lt;name&gt;IBM MQ JMS Service&lt;/name&gt;
+ &lt;description&gt;Optimized JMS Service for IBM MQ&lt;/description&gt;
+ &lt;accept&gt;ws://${gateway.hostname}:${gateway.extras.port}/jms&lt;/accept&gt;
+
+ &lt;type&gt;ibmmq&lt;/type&gt;
+
+ &lt;properties&gt;
+  &lt;queue&gt;
+   &lt;name&gt;chat&lt;/name&gt;
+   &lt;virtual.name.format&gt;chat_%s&lt;/virtual.name.format&gt;
+   &lt;virtual.name.resolver&gt;com.acme.messaging.UserIdResolver&lt;/virtual.name.resolver&gt;
+   &lt;system.name&gt;chatsys&lt;/system.name&gt;
+   &lt;system.routing.property&gt;to&lt;/system.routing.property&gt;
+  &lt;/queue&gt;
+ &lt;/properties&gt;
+
+ &lt;realm-name&gt;demo&lt;/realm-name&gt;
+
+ &lt;!--
+ &lt;authorization-constraint&gt;
+ &lt;require-role&gt;AUTHORIZED&lt;/require-role&gt;
+ &lt;/authorization-constraint&gt;
+ --&gt;
+
+ &lt;cross-site-constraint&gt;
+  &lt;allow-origin&gt;${gateway.hostname}:${gateway.extras.port}&lt;/allow-origin&gt;
+ &lt;/cross-site-constraint&gt;
+&lt;/service&gt;
+</pre>
+
+
+<p>For more information about the <code>ibmmq</code> service, see <a href="//example.com/">IBM&reg; MQ Service for Kaazing WebSocket Gateway</a>.</p>
+
+<h5><code>jms</code> Service Example</h5>
+
+<p>The following example shows a common <code>jms</code> service configuration with the addition of a <code>queue</code> property, a queue <code>name</code>, <code>system.name</code>, and <code>system.routing.property</code> specified.</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;service&gt;
+ &lt;name&gt;JMS Service&lt;/name&gt;
+ &lt;description&gt;JMS Service&lt;/description&gt;
+ &lt;accept&gt;ws://${gateway.hostname}:${gateway.extras.port}/jms&lt;/accept&gt;
+
+ &lt;type&gt;jms&lt;/type&gt;
+
+ &lt;properties&gt;
+  &lt;queue&gt;
+   &lt;name&gt;stock_*&lt;/name&gt;
+   &lt;system.name&gt;stocksys&lt;/system.name&gt;
+   &lt;system.routing.property&gt;discriminator&lt;/system.routing.property&gt;
+  &lt;/queue&gt;
+
+  &lt;connection.factory.name&gt;ConnectionFactory&lt;/connection.factory.name&gt;
+  &lt;context.lookup.topic.format&gt;%s&lt;/context.lookup.topic.format&gt;
+  &lt;context.lookup.queue.format&gt;%s&lt;/context.lookup.queue.format&gt;
+  &lt;env.java.naming.factory.initial&gt;
+   com.sun.jndi.fscontext.RefFSContextFactory
+  &lt;/env.java.naming.factory.initial&gt;
+
+  &lt;!-- The location of the .bindings file --&gt;
+  &lt;env.java.naming.provider.url&gt;
+   file:/bindings_file_location
+  &lt;/env.java.naming.provider.url&gt;
+  &lt;!-- Dynamic destinations support; omit for static destinations --&gt;
+  &lt;destination.strategy&gt;context&lt;/destination.strategy&gt;
+
+ &lt;/properties&gt;
+
+ &lt;realm-name&gt;demo&lt;/realm-name&gt;
+
+ &lt;!--
+ &lt;authorization-constraint&gt;
+ &lt;require-role&gt;AUTHORIZED&lt;/require-role&gt;
+ &lt;/authorization-constraint&gt;
+ --&gt;
+
+ &lt;cross-site-constraint&gt;
+  &lt;allow-origin&gt;${gateway.hostname}:${gateway.extras.port}&lt;/allow-origin&gt;
+ &lt;/cross-site-constraint&gt;
+&lt;/service&gt;
+</pre>
+
+<h4 id="use-cases-for-property-based-routing-and-virtual-queues">Use Cases for Property-Based Routing (PBR) and Virtual Queues</h4>
+
+
+<p><strong>Case 1 - PBR with Wildcarding</strong></p>
+
+<p>In this case, the client subscribes to a name such as <code>stock_ORCL</code> and gets a user view of <code>stocksys</code> via <code>discriminator</code>. The <code>virtual.name.format</code> is implicit. </p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;queue&gt; 
+  &lt;name&gt;stock_*&lt;/name&gt;
+
+  &lt;system.name&gt;stocksys&lt;/system.name&gt;
+  &lt;system.routing.property&gt;discriminator&lt;/system.routing.property&gt;
+&lt;/queue&gt;
+</pre>
+
+<p>When user sends a message to <code>stock_ORCL</code>, the message is sent to the system name (<code>stocksys</code>) with the routing property (<code>discriminator</code>) automatically set to <code>ORCL</code>. When a user subscribes to <code>stock_ORCL</code>, they receive all messages on the <code>stocksys</code> queue which have the <code>discriminator</code> property set to the value <code>ORCL</code>. The <code>getJMSDestination()</code> method on such <a href="//docs.oracle.com/javaee/7/api/javax/jms/Message.html#getJMSDestination--" title="Message (Java(TM) EE 7 Specification APIs)">Messages</a> returns the value <code>stock_ORCL</code>.</p>
+
+<p><strong>Case 2 - Automatic Subscribe to a User-specific Physical Queue</strong></p>
+
+<p>In this case, the client subscribes to messages and implicitly subscribes to their personal queue <code>messages_USERID</code> at the broker (there is a separate messages queue for each user in the broker).</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;queue&gt;
+  &lt;name&gt;messages&lt;/name&gt;
+
+  &lt;virtual.name.format&gt;messages_%s&lt;/virtual.name.format&gt;
+  &lt;virtual.name.resolver&gt;com.acme.messaging.UserIdResolver&lt;/virtual.name.resolver&gt;
+&lt;/queue&gt;
+</pre>
+
+<p>When user sends a message to <code>messages_John.Cage</code> it gets sent to that queue with no transformation. Typically, in this case, users would be allowed to subscribe only to queue messages to see their own messages and would not be allowed to subscribe to say <code>messages_John.Adams</code> to see messages addressed to another user. This would be enforced by configuring a <code>JmsAuthorizationFactory</code>.</p>
+
+<p><strong>Case 3 - User-Based Routing Example</strong></p>
+
+<p>User-based routing uses the <code>virtual.name.resolver</code> property to form the virtual queue name from the user ID, and then uses property-based routing to use a single physical queue at the broker, improving efficiency over a separate queue per user. Here is an example where a client application being used by user <code>John.Adams</code> creates a message consumer on queue chat.</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;queue&gt;
+  &lt;name&gt;chat&lt;/name&gt;
+  &lt;virtual.name.format&gt;chat_%s&lt;/virtual.name.format&gt;
+  &lt;virtual.name.resolver&gt;com.acme.messaging.UserIdResolver&lt;/virtual.name.resolver&gt;
+  &lt;system.name&gt;chatsys&lt;/system.name&gt;
+  &lt;system.routing.property&gt;to&lt;/system.routing.property&gt;
+  &lt;routing.cache.size&gt;2000000&lt;/routing.cache.size&gt;
+  &lt;subscription.lifetime&gt;connection&lt;/subscription.lifetime&gt;
+&lt;/queue&gt;
+</pre>
+
+
+<p>Based on this configuration, the Gateway and broker interact in the following way:</p>
+
+<ol>
+ <li>When the client application being used by user <code>John.Adams</code> creates a message consumer on queue chat, the user is logically considered to have subscribed to <code>chat_John.Adams</code>, assuming that <code>John.Adams</code> is the value generated by the <code>UserIdResolver</code> class specified in <code>virtual.name.resolver</code>.</li>
+ <li>If the customer's <code>JmsAuthorizationFactory</code> is configured, it verifies whether the user is allowed to subscribe to queue <code>chat_John.Adams</code> (and would forbid explicit subscribe to <code>chat_John.Cage</code> for example).</li>
+ <li>The Gateway subscribes to queue <code>chatsys</code> if it is not already subscribed to it.</li>
+ <li>The Gateway routes all messages whose to property value is <code>John.Adams</code> to the client application's message consumer.</li>
+ <li>When a Gateway client wants to send messages to a particular user, it must send them to the full virtual queue name, for example, <code>chat_John.Cage</code>. The Gateway translates this name and sends the message to queue <code>chatsys</code> with the to property set to <code>John.Cage</code>.</li>
+</ol>
+
+<p>Back office applications must ensure that any messages sent directly to the broker without going through the Gateway have the destination property set to indicate the intended recipient of the message, and use the system queue name <code>chatsys</code>, not chat. To send a message to <code>John.Cage</code> users would set the to message property to <code>John.Cage</code> then send the message to queue <code>chatsys</code>.</p>
+
+<h3 id="jms-service-required-elements">jms Service Required Elements</h3>
+
+<p>The <code>jms</code> service has the following required elements:</p>
+
+<ul>
+  <li><code>accept</code>: the URL at which the service accepts connections.</li>
+  <li><code>properties</code>: the properties needed to run the Gateway. The table in <a href="#jms-service-properties">jms Service Properties</a> describes the required and optional properties in more detail.</li>
+</ul>
+
+<h3 id="jms-service-properties">jms Service Properties</h3>
+
+<p>You can set the properties described in the following list at the service level on the <code>jms</code> service.</p>
+
+<p>See also <a href="#jms-service-properties-for-the-topic-element">jms Service Properties for the topic Element</a> for a list of properties that you can set at the topic level. Properties set at the topic level override values set at the service level.</p>
+
+<h4 id="section"><a name="anonymousclientidpattern"></a><code>anonymous.clientid.pattern</code></h4>
+
+<p><strong>Required?</strong> Yes</p>
+
+<p>This property is required if the JMS-compliant message broker is configured to use a fixed client ID. For durable subscribers, set this property to the value of the fixed clientID. For example, on connections created using the UM connection factory, the clientID is preset to UME1. Thus, to use durable subscribers with UM, you must set anonymous.clientid.pattern to UME1.<br />
+  - If this property is set, then the Gateway verifies that the clientID is set to the specified value on every JMS connection. <br />
+  - If this property is not set, then the Gateway disallows the creation of durable subscribers because durable subscribers will not be able to function properly.</p>
+
+<h4 id="section-1"><a name="applicationid"></a><code>application.id</code></h4>
+
+<p><strong>Required?</strong> Optional</p>
+
+<p>A unique identifier used to audit messages produced by clients using this service. See <a href="../../security/p_auditing_jms_secure/index.html">Configure Auditing Messages Produced by Clients</a> for more information.</p>
+
+<h4 id="section-2"><a name="authorizationfactory"></a><code>authorization.factory</code></h4>
+
+<p><strong>Required?</strong> Optional</p>
+
+<p>The value of this property is a fully qualified class name of an implementation of the abstract class: <code>com.kaazing.gateway.jms.server.spi.</code> <code>security.JmsAuthorizationFactory</code>. See <a href="../../security/o_jms_secure/index.html">Secure Your JMS Configuration</a> for more information.</p>
+
+<h4 id="section-3"><a name="authenticationrealm"></a><code>authentication.realm</code></h4>
+
+<p><strong>Required?</strong> Optional</p>
+
+<p>The value of this property should be one of the <code>realm</code> names declared in the <code>gateway-config.xml</code> file’s <code>security</code> section. This value identifies the realm used by the service for authentication.</p>
+
+<h4 id="section-4"><a name="clientdurablenameformat"></a><code>client.durable.name.format</code></h4>
+
+<p><strong>Required?</strong> Optional</p>
+
+<p>For durable subscribers, this property specifies a pattern with which to form a back-end durable name from the durable name supplied by the client application in a <code>createDurableSubscriber()</code> call and the clientID set by the client application on its JMS Connection object. </p>
+
+<p>The value of this property must be a valid format string for the Java <code>String.format()</code> method, with two string parameters. The Gateway forms the back-end durable name by doing the equivalent of the following call in Java: <code>String.format(*thePropertyValue*, *ClientID*, *DurableName*)</code> </p>
+
+<p>In the string:<br />
+- <code>ClientID</code> is the clientID set on the JMS connection<br />
+- <code>durableName</code> is the value of the name parameter passed into the <code>createDurableSubscriber()</code> method<br />
+- <code>thePropertyValue</code> is the value of the <code>client.durable.name.format</code> property. </p>
+
+<p>For example, suppose the client application sets the clientID to <code>user1</code> and creates a durable subscriber with name <code>price_updates</code>. If the <code>client.durable.name.format</code> property value is set to <code>%s@%s</code>, then the Gateway creates a corresponding back-end durable subscriber in the JMS-compliant message broker called <code>user1@price_updates</code>. If the property is set to <code>%2\$s:%1\$s</code> then the Gateway sets the back-end durable name to <code>price_updates:user1</code>.</p>
+
+<p>Use this property only if durable subscribers are being used and the client application sets a client ID on its JMS Connection. If the property is not set, calls to <code>createDurableSubscriber()</code> result in an exception.</p>
+
+<h4 id="conflationstrategy"><code>conflation.strategy</code></h4>
+
+<p><strong>Required?</strong> Optional</p> 
+
+<p>Defines how topic messages are conflated when a client that is a non-durable topic subscriber is not reading messages fast enough from the network. The <code>conflation.strategy</code> setting is applied when <code><a href="#conflationthreshold">conflation.threshold</a></code> is exceeded. The default value is <code>replace</code>. This property can be overridden for individual topics inside topic configuration elements. For more information, see <a href="#topicconflationstrategy">conflation.strategy</a>.</p> 
+
+<p>There are two permitted values:</p>
+
+<ul>
+<li><code>replace</code> &ndash; New messages replace old messages. This is the default value.</li>
+<li><code>disconnect</code> &ndash; The client is disconnected. Use this setting when you require that clients subscribing to the topic receive all messages (and conflation is not desired). If you use <code>disconnect</code>, specify a high value for <code>conflation.threshold</code> to ensure that clients must be significantly behind in consuming messages before they are disconnected.</li>
+</ul>
+
+<h4 id="conflationthreshold"><code>conflation.threshold</code></h4>
+
+<p><strong>Required?</strong> Optional</p>
+
+<p>The maximum number of messages the Gateway buffers before it employs conflation. The Gateway buffers topic messages when it cannot deliver them to a client (a non-durable topic subscriber) because the client is not reading messages fast enough from the network. The default value is <code>10</code>.</p>
+
+<p>When the number of buffered topic messages equals the value set for <code>conflation.threshold</code>, the Gateway conflates messages according to the strategy set by <code><a href="#conflationstrategy">conflation.strategy</a></code>.</p> 
+
+<span class="note"><b>Notes:</b>
+ <ul>
+  <li>The number set in <code>conflation.threshold</code> is in addition to the number of messages buffered by network data buffers.</li>
+<li>This property can be overridden for individual topics inside topic configuration elements. For more information, see <a href="#topicconflationthreshold">conflation.threshold</a>.</li>
+<li>This property may be used in the <a href="../../admin-reference/r_conf_jms/index.html#jms">jms</a> and <a href="../../5.0/admin-reference/r_conf_mq/index.html">ibmmq</a> services.</li>
+ </ul>
+</span>
+
+
+<h4 id="section-5"><a name="connectioncount"></a><code>connection.count</code></h4>
+
+<p><strong>Required?</strong> Optional</p>
+
+<p>The number of JMS-compliant message broker connections the service uses to connect to the JMS-compliant message broker. If unspecified, the default value is <code>1</code>. In cases where there are a large number of users (for example, thousands of users), performance can be improved by increasing the number of connections using <code>connection.count</code>. This is especially the case when all users are subscribing to the same topic. See also the <a href="#topicsessioncount">topic.session.count</a> property.</p>
+
+<h4 id="section-6"><a name="connectionsecuritycredentials"></a><code>connection.security.credentials</code></h4>
+
+<p><strong>Required?</strong> Optional</p>
+
+<p>The JMS credentials used in the <code>createConnection()</code> method. </p>
+<ul>
+<li>If <code>connection.security.credentials.key</code>is not configured, then the value of this property is treated as a clear-text password.</li>
+<li>If <code>connection.security.credentials.key</code> is configured, then the value of this property is treated as encrypted credentials.</li>
+</ul>
+
+<p>See <a href="../../security/p_encrypted_jms_secure/index.html">Configure the Gateway to Use Encrypted Credentials</a> for more information.</p>
+
+<h4 id="section-7"><a name="connectionsecuritycredentialskey"></a><code>connection.security.credentials.key</code></h4>
+
+<p><strong>Required?</strong> Optional</p>
+
+<p>The encryption key to use to decrypt the value of <code>connection.security.credentials</code> if using encrypted credentials. See <a href="../../security/p_encrypted_jms_secure/index.html">Configure the Gateway to Use Encrypted Credentials</a> for more information.</p>
+
+<h4 id="section-8"><a name="connectionsecurityprincipal"></a><code>connection.security.principal</code></h4>
+
+<p><strong>Required?</strong> Optional</p>
+
+<p>The JMS principal used in the <code>createConnection()</code> method.</p>
+
+<h4 id="section-9"><a name="connectionfactoryname"></a><code>connection.factory.name</code></h4>
+
+<p><strong>Required?</strong> Yes</p>
+
+<p>The name of the JMS connection factory. The default value is <code>ConnectionFactory</code>.</p>
+
+<h4 id="section-10"><a name="consumerstrategy"></a><code>consumer.strategy</code></h4>
+
+<p><strong>Required?</strong> Optional</p>
+
+<p>Configure this property to improve performance when a very large number of topic subscriptions are being processed on the Gateway in a short time frame. Choose the <code>strict</code> or <code>optimized</code> strategy depending on your browser and its conformance to the <a href="//download.oracle.com/otndocs/jcp/7195-jms-1.1-fr-spec-oth-JSpec/">Java Message Service Specification Final Release 1.1</a>:<br />
+ - The <code>optimized</code> strategy is only for brokers that are able to support adding message listeners to sessions without having to stop the connection. Apache ActiveMQ, TIBCO EMS. and Informatica UMQ default to the <code>optimized</code> strategy and must not be changed.<br />
+ - The <code>strict</code> strategy strictly conforms to the <a href="//download.oracle.com/otndocs/jcp/7195-jms-1.1-fr-spec-oth-JSpec/">Java Message Service Specification Final Release 1.1</a> and will stop a connection before adding message listeners to a session. </p>
+
+<p>IBM Websphere MQ defaults to the <code>strict</code> strategy and must not be changed because IBM Websphere MQ does not support the behavior required to use the <code>optimized</code> strategy. All other message brokers (except Apache ActiveMQ, TIBCO EMS. and Informatica UMQ) default to the <code>strict</code> strategy and should be changed only if the message broker supports adding message listeners to sessions without having to stop the connection. See the <a href="//download.oracle.com/otndocs/jcp/7195-jms-1.1-fr-spec-oth-JSpec/">Java Message Service Specification Final Release 1.1</a> for complete information about setting message listener on sessions.</p>
+
+<h4 id="section-11"><a name="contextlookupqueueformat"></a><code>context.lookup.queue.format</code></h4>
+
+<p><strong>Required?</strong> Optional*    </p>
+
+<p>The format the Gateway should use for queue names when performing JNDI lookups. The value should be a format string following the rules of the Java <code>String.format</code> method, with a single parameter in the form “<code>%s</code>”. For example: <code>/dynamicQueues/%s</code>. </p>
+
+<p>*The <code>context.lookup.queue.format</code> property is optional if the <code>destination.strategy</code> property is set to the value <code>session</code>. Otherwise, <code>context.lookup.queue.format</code> is required.</p>
+
+<h4 id="section-12"><a name="contextlookuptopicformat"></a><code>context.lookup.topic.format</code></h4>
+
+<p><strong>Required?</strong> Optional*</p>
+
+<p>The format the Gateway should use for topic names when performing JNDI lookups. The value should be a format string following the rules of the Java <code>String.format</code> method, with a single parameter in the form “<code>%s</code>”. For example: <code>/dynamicTopics/%s</code>. </p>
+
+<p>*The <code>context.lookup.topic.format</code> property is optional if the <code>destination.strategy</code> property is set to the value <code>session</code>. Otherwise, the <code>context.lookup.topic.format</code> property is required.</p>
+
+<h4 id="section-13"><a name="destinationstrategy"></a><code>destination.strategy</code></h4>
+
+<p><strong>Required?</strong> Optional</p>
+
+<p>This property specifies how the Gateway looks up or creates JMS Topic and Queue objects. Valid values are:<br />
+- <code>context</code> This is the default setting. The Gateway performs a JNDI lookup for the topic or queue using the initial context factory specified in the <code>env.java.naming.factory.initial</code> property. The name used for the lookup is formed from the requested topic or queue name using the format string set in the <code>context.lookup.topic.format</code> or <code>context.lookup.queue.format</code> property. For example, if <code>context.lookup.queue.format</code> is set to “<code>/dynamicQueues/%s</code>” and the client application looks up <code>/queues/myQueue</code> or calls <code>createQueue</code>(<code>"/queues/myQueue"</code>), then the Gateway performs a JNDI lookup using the name <code>/dynamicQueues/myQueue</code>.<br />
+- <code>session</code> The Gateway uses the methods <code>createTopic</code> or <code>createQueue</code> on the JMS Session object. The <code>session</code> value is appropriate when using dynamic destinations (dynamic means they are not predefined in the broker but are instead created by the application as needed) and your broker does not have support for dynamic destinations using JNDI. The <code>session</code> value is also appropriate if your broker does not support JNDI lookup, or it is inconvenient to use JNDI lookup.</p>
+
+<p>Note that this property only controls how the Gateway behaves. Irrespective of the setting of this property, client applications (using the Kaazing Gateway JMS client library) can lookup or create Topic and Queue objects either by using the <code>session.createTopic()</code> method (for example, <code>Topic myTopic = session.createTopic("/topic/myTopic")</code>, or by performing a JNDI lookup using the <code>initialContext.lookup()</code> method (for example, <code>Topic myTopic = initialContext.lookup("/topic/myTopic"</code>). The Kaazing Gateway JMS client libraries currently require the “<code>/topic/</code>” or “<code>/queue/</code>” prefix even when using <code>createTopic</code> or <code>createQueue</code>.</p>
+
+<h4 id="section-14"><a name="durablemaximumpendingacknowledgments"></a><code>durable.maximum.pending.acknowledgments</code></h4>
+
+<p><strong>Required?</strong> Optional</p>
+
+<p>For durable subscribers, specifies the maximum number of pending acknowledgments in flight for each subscription. If unspecified, then the value defaults to <a href="#maximumpendingacknowledgments">maximum.pending.acknowledgments</a>. </p>
+
+<p><strong>Note:</strong> If your JMS provider does not support individual message acknowledgments, the value for this property is forced to 1 to allow the Gateway to ensure JMS-compliant behavior and the Gateway logs a warning message. In this case, you must ensure your client applications acknowledge each message received from a queue or durable subscriber. Otherwise, the client will receive only one message from that queue or durable subscriber. See <a href="../../troubleshooting/p_dev_troubleshoot/index.html">Troubleshoot Your Clients</a> for client-specific troubleshooting tips.</p>
+
+<h4 id="section-15"><a name="durableredeliveryscope"></a><code>durable.redelivery.scope</code></h4>
+
+<p><strong>Required?</strong> Optional</p>
+
+<p>For durable subscribers, use this property to specify how the Gateway triggers the JMS-compliant message broker to redeliver unacknowledged messages on a durable subscriber. The action you choose varies with each JMS-compliant message broker. Set the property to one of the following values:<br />
+    - <code>consumer</code>: Indicates that any messages that are received on a durable <code>TopicSubscriber</code> but are not acknowledged will be redelivered (the next time someone subscribes) when the <code>TopicSubscriber</code> is closed.<br />
+    - <code>session</code>: (the default) Indicates that it is necessary to close the Session (and the <code>TopicSubscriber</code>) to cause redelivery of unacknowledged queue messages.</p>
+
+<h4 id="section-16"><a name="durableretrytimeout"></a><code>durable.retry.timeout</code></h4>
+
+<p><strong>Required?</strong> Optional</p>
+
+<p>For durable subscribers, use this property to specify the maximum time (in seconds) that the <code>jms</code> service will keep retrying the <code>createDurableSubscriber</code> call to the JMS-compliant message broker if the call fails initially. </p>
+
+<p>When a client establishes a durable topic subscription (using the <code>createDurableSubscriber()</code> call), the Gateway <code>jms</code> service issues a corresponding <code>createDurableSubscriber()</code> call to the JMS-compliant message broker. In situations where a client network connection is lost and the client reconnects then re-attempts the <code>createDurableSubscriber()</code> call, the corresponding call via the <code>jms</code> service might initially fail because the original (failed) durable subscription is still active. This situation can result because the Gateway has not yet detected (through the <a href="../r_configure_gateway_service#wsinactivitytimeout">ws.inactivity.timeout</a>) that the original connection was lost and so has not yet closed the original durable subscriber. The <code>durable.retry.timeout</code> property handles this situation by repeatedly retrying the <code>createDurableSubscriber()</code> broker for the new connection if it fails initially, for the time specified.<br />
+- If you specify the <code>durable.retry.timeout</code> property, then the connection is dropped if the <code>createDurableSubscriber()</code> broker call fails for the new connection for the number of seconds specified.<br />
+- If you do not specify the <code>durable.retry.timeout</code> property, then the connection is dropped in twice the number of seconds specified for the <code>ws.inactivity.timeout</code> property. If the <code>ws.inactivity.timeout</code> property is not set, then <code>durable.retry.timeout</code> defaults to 0, in which case the <code>createDurableSubscriber()</code> call is not retried if it fails.</p>
+
+<p>In multitier topologies where the <code>jms</code> service is accessed via the <code>jms.proxy</code> service running in another Gateway, set the <code>durable.retry.timeout</code> to a value greater than the <code>ws.inactivity.timeout</code> setting on the outer (jms.proxy service) Gateway. For example, double that value. Configuring the timeout in this way ensures the <code>createDurableSubscriber</code> call is retried sufficiently long for the client connection loss to be detected, but not longer than necessary. This can avoid problems in a multitier topology where, although the <code>ws.inactivity.timeout</code> value is set on the <code>jms.proxy</code> service, that accept-option is either not set on the inner (<code>jms</code> service) Gateway or it is set to a higher value.</p>
+
+<h4 id="section-17"><a name="durablesessionacknowledgemode"></a><code>durable.session.acknowledge.mode</code></h4>
+
+<p><strong>Required?</strong> Optional</p>
+
+<p>For durable subscribers, this property must be set if and only if the <code>durable.session.acknowledge.scope</code> property is set. The value of the <code>durable.session.acknowledge.mode</code> property indicates the fully qualified name of the Java constant that the Gateway should use for the acknowledge mode when creating JMS sessions, which will then be used to create durable subscribers. If your JMS-compliant message broker supports individual message acknowledgment, you should use this property to specify the name of the corresponding Java constant. If this property is not specified, the Gateway chooses a value depending on your JMS-compliant message broker. <br />
+ - TIBCO EMS: <code>com.tibco.tibjms.Tibjms.EXPLICIT\_CLIENT\_ACKNOWLEDGE</code><br />
+ - Apache ActiveMQ: <code>org.apache.activemq.ActiveMQSession.INDIVIDUAL\_ACKNOWLEDGE</code><br />
+ - Other JMS-compliant message brokers: <code>javax.jms.Session.CLIENT\_ACKNOWLEDGE</code></p>
+
+<h4 id="section-18"><a name="durablesessionacknowledgescope"></a><code>durable.session.acknowledge.scope</code></h4>
+
+<p><strong>Required?</strong> Optional</p>
+
+<p>For durable subscribers, this property must be set if and only if the <code>durable.session.acknowledge.mode</code> property is set. The value of the <code>durable.session.acknowledge.scope</code> property indicates the behavior implied by value set for the <code>durable.session.acknowledge.net </code>property.</p>
+
+<p>You can set this property to either <code>session</code> or <code>message</code>. Setting the property to <code>session</code> tells the Gateway that when the <code>acknowledge()</code> method is called on the message, the JMS-compliant message broker implicitly acknowledges all messages received on the session up to that point in time. Setting the value to <code>message</code> tells the Gateway that when the <code>acknowledge()</code> method is called on the message, the JMS-compliant message broker implicitly acknowledges only that message. If this property is not specified, the Gateway will choose a value depending on your JMS-compliant message broker. <br />
+ - TIBCO EMS: <code>message</code><br />
+ - Apache ActiveMQ: <code>message</code><br />
+ - Other JMS-compliant message brokers: <code>session</code></p>
+
+<h4 id="section-19"><a name="jmsxdefinedproperties"></a><code>jmsx.defined.properties</code></h4>
+
+<p><strong>Required?</strong> Optional</p>
+
+<p>Configures the Gateway to include or exclude JMS defined properties (those with names that start with the <code>JMSX</code> prefix) when forwarding messages from the JMS provider to the client.<br />
+- Set to <code>include</code> (the default) to include all properties with the <code>JMSX</code> prefix.<br />
+- Set to <code>exclude</code> to omit all properties with the <code>JMSX</code>” prefix and reduce network bandwidth when <code>JMSX</code> properties are not needed by the client application set. This is especially useful for JMS-compliant message brokers that add many <code>JMSX</code> properties. </p>
+
+<p>See also <a href="#providerspecificproperties">provider.specific.properties.</a></p>
+
+<h4 id="section-20"><a name="maximumconflationcachesize"></a><code>maximum.conflation.cache.size</code></h4>
+
+<p><strong>Required?</strong> Optional</p>
+
+<p>Set this property to put an upper bound on the number of messages held in memory for conflation, per client topic subscription, to limit memory consumption. It is only relevant if any topic subscription can receive messages that vary in one or more of the following: JMSDestination, JMSType, JMSPriority and/or message body type. </p>
+
+<p>If those values remain constant across messages received on any one topic, which is the common case, then only one entry is held in the conflation cache for each topic subscription and you do not need to change the setting (because changing it will have no effect). However, if there are a great many possible values, then you might set this property to allow enough messages of different types to be cached when the client is not keeping up with the message flow. For example, you might set <code>maximum.conflation.cache.size</code> in a system where users subscribe to wildcard topics that match many concrete topics upon which messages are being received. </p>
+
+<p>If unspecified, then the value of <code>maximum.conflation.cache.size</code> defaults to 100. </p>
+
+<p>See <a href="#message-conflation">Message Conflation</a> for more information.</p>
+
+<h4 id="section-21"><a name="maximumpendingacknowledgments"></a><code>maximum.pending.acknowledgments</code></h4>
+
+<p><strong>Required?</strong> Optional</p>
+
+<p>The maximum number of pending acknowledgments in flight for each queue or durable topic subscription. If unspecified, the default value is <code>100</code>. </p>
+
+<p><strong>Note:</strong> If your JMS provider does not support individual message acknowledgment, the value for this property is forced to 1 to allow the Gateway to ensure JMS-compliant behavior and the Gateway logs a warning message. In this case, you must ensure your client applications acknowledge each message received from a queue or durable subscriber. Otherwise, the client will receive only one message from that queue or durable subscriber. See <a href="../../troubleshooting/p_dev_troubleshoot/index.html">Troubleshoot Your Clients</a> for client-specific troubleshooting tips.</p>
+
+<h4 id="section-22"><a name="maximumpendingsends"></a><code>maximum.pending.sends</code></h4>
+
+<p><strong>Required?</strong> Optional</p>
+
+<p>The maximum number of pending sends that are *in flight* (where the client has sent the message but has not yet received the receipt for it from the Gateway) for one client connection. If unspecified, the default value is <code>100</code>.</p>
+
+<h4 id="section-23"><a name="messagedeliverystrategy"></a><code>message.delivery.strategy</code></h4>
+
+<p><strong>Required?</strong> Optional</p>
+
+<p>Set to <code>delta</code> to enable delta messaging on a topic. The Gateway automatically computes deltas. By default, the Gateway sends full messages. See <a href="#delta-messaging">Delta Messaging</a> for more information. If unspecified, then the value defaults to <code>full</code>.</p>
+
+<h4 id="section-24"><a name="messageheaderexpiration"></a><code>message.header.expiration</code></h4>
+
+<p><strong>Required?</strong> Optional</p>
+
+<p>Indicates whether the Gateway includes the JMSExpiration header when sending messages to clients.<br />
+- Set to <code>include</code> (the default) to include the JMSExpiration header in all messages.<br />
+- Set to <code>exclude</code> to omit the JMSExpiration message header from JMS messages sent to clients. This setting reduces network bandwidth usage and is appropriate when the client application does not need to use this header.</p>
+
+<h4 id="section-25"><a name="messageheadermessageid"></a><code>message.header.messageID</code></h4>
+
+<p><strong>Required?</strong> Optional</p>
+
+<p>Indicates whether the Gateway includes the JMSMessageID header when sending messages to non-durable topic subscribers.<br />
+- Set to <code>include</code> (the default) to include the JMSMessageID header in all messages.<br />
+- Set to <code>exclude</code> to omit the JMSMessageID header on JMS messages sent to non-durable topic subscribers. This setting can greatly reduce network bandwidth usage and is appropriate when the client application does not need to access this header. Note that JMSMessageID headers are only excluded for non-durable topic subscribers (for queue receivers and durable topic subscribers they are never excluded because they are needed for acknowledgment).</p>
+
+<h4 id="section-26"><a name="messageheadertimestamp"></a><code>message.header.timestamp</code></h4>
+
+<p><strong>Required?</strong> Optional</p>
+
+<p>Indicates whether the Gateway includes the JMSTimestamp header when sending messages to clients.<br />
+- Set to <code>include</code> (the default) to include the JMSTimestamp header in all messages.<br />
+- Set to <code>exclude</code> to omit the JMSTimestamp header on JMS messages sent to clients. This setting reduces network bandwidth usage and is appropriate when the client application does not need to use this header.</p>
+
+<h4 id="section-27"><a name="providerspecificproperties"></a><code>provider.specific.properties</code></h4>
+
+<p><strong>Required?</strong> Optional</p>
+
+<p>Configures the Gateway to include or exclude vendor-specific properties (those with names that start with the “<code>JMS</code>” prefix) when forwarding messages from the JMS provider to the client.<br />
+- Set to <code>include</code> (the default) to include all properties with the “<code>JMS</code>” prefix.<br />
+- Set to <code>exclude</code> to omit all properties with the “<code>JMS</code>” prefix and reduce network bandwidth when <code>JMS</code> provider-related properties are not needed by the client application set. This is especially useful for JMS-compliant message broker that add many <code>JMS</code> properties. </p>
+
+<p>See also <a href="#jmsxdefinedproperties"><code>jmsx.defined.properties</code></a>.</p>
+
+<h4 id="section-28"><a name="queuemaximumpendingacknowledgments"></a><code>queue.maximum.pending.acknowledgments</code></h4>
+
+<p><strong>Required?</strong> Optional</p>
+
+<p>For queues, specifies the maximum number of pending acknowledgments in flight for each subscription. If unspecified, then the value defaults to <a href="#maximumpendingacknowledgments"><code>maximum.pending.acknowledgments</code></a>. </p>
+
+<p><strong>Note:</strong> If your JMS provider does not support individual message acknowledgment, the value for this property is forced to 1 to allow the Gateway to ensure JMS-compliant behavior and the Gateway logs a warning message. In this case, you must ensure your client applications acknowledge each message received from a queue or durable subscriber. Otherwise, the client will receive only one message from that queue or durable subscriber. See <a href="../../troubleshooting/p_dev_troubleshoot/index.html">Troubleshoot Your Clients</a> for client-specific troubleshooting tips.</p>
+
+<h4 id="section-29"><a name="queueredeliveryscope"></a><code>queue.redelivery.scope</code></h4>
+
+<p><strong>Required?</strong> Optional</p>
+
+<p>Informs the Gateway how the JMS-compliant message broker handles unacknowledged queue messages. There are two possible values: <br />
+- <code>consumer</code>: Indicates that any messages that were received on a MessageConsumer from a queue but which were not acknowledged are redelivered (to other MessageConsumers) when the MessageConsumer is closed. The Gateway defaults to this value only when the JMS-compliant message broker is Apache ActiveMQ. <br />
+- <code>session</code>: Indicates that it is necessary to close the Session (as well as the MessageConsumer) to cause redelivery of unacknowledged queue messages. The Gateway defaults to this value for all JMS-compliant message brokers other than Apache ActiveMQ.</p>
+
+<p>If the JMS-compliant message broker you are using redelivers unacknowledged queue messages as soon as the MessageConsumer is closed, then you should set this property to the value <code>consumer</code> for improved performance when using queues. This is automatically done for Apache ActiveMQ.</p>
+
+<h4 id="section-30"><a name="queuesessionacknowledgmemode"></a><code>queue.session.acknowledge.mode</code></h4>
+
+<p><strong>Required?</strong> Optional</p>
+
+<p>For queues, this property must be set if and only if the <code>queue.session.acknowledge.scope</code> property is set. The value of the <code>queue.session.acknowledge.mode</code> property indicates the fully qualified name of the Java constant that the Gateway should use for the acknowledge mode when creating JMS sessions, which will then be used to create queues. If your JMS-compliant message broker supports individual message acknowledgment, you should use this property to specify the name of the corresponding Java constant. If this property is not specified, then the Gateway chooses a value depending on your JMS-compliant message broker. <br />
+- TIBCO EMS: <code>com.tibco.tibjms.Tibjms.EXPLICIT\_CLIENT\_ACKNOWLEDGE</code><br />
+- ActiveMQ: <code>org.apache.activemq.ActiveMQSession.INDIVIDUAL\_ACKNOWLEDGEAll</code> <br />
+- other JMS-compliant message brokers: <code>javax.jms.Session.CLIENT\_ACKNOWLEDGE</code></p>
+
+<h4 id="section-31"><a name="queuesessionacknowledgescope"></a><code>queue.session.acknowledge.scope</code></h4>
+
+<p><strong>Required?</strong> Optional</p>
+
+<p>For queues, this property must be set if and only if the <code>queue.session.acknowledge.mode</code> property is set. The value of the <code>queue.session.acknowledge.scope</code> property indicates the behavior implied by value set for the <code>queue.session.acknowledge.net</code> property. You can set this property to either <code>session</code> or <code>message</code>:<br />
+- Setting the property to <code>session</code> tells the Gateway that when the <code>acknowledge()</code> method is called on the message, the JMS-compliant message broker implicitly acknowledges all messages received on the session up to that point in time. <br />
+- Setting the value to <code>message</code> tells the Gateway that <code>acknowledge()</code> method is called on the message, the JMS-compliant message broker implicitly acknowledges only that message. </p>
+
+<p>If this property is not specified, then the Gateway chooses a value depending on your JMS-compliant message broker. <br />
+- TIBCO EMS: <code>message</code><br />
+- Apache ActiveMQ: <code>message</code><br />
+- All other JMS-compliant message brokers: <code>session</code></p>
+
+<h4 id="queue.session.count"><code>queue.session.count</code></h4>
+
+<p><strong>Required?</strong> Optional</p>
+
+<p>The number of JMS sessions used for reading messages from queues.</p>
+
+<h4 id="section-32"><a name="reconnectdelay"></a><code>reconnect.delay</code></h4>
+
+<p><strong>Required?</strong> Optional</p>
+
+<p>The duration (in seconds) that the server should wait before attempting to reconnect to the back-end JMS-compliant message broker service. If unspecified, then the default value is <code>5</code> seconds.</p>
+
+<h4 id="sendsessioncount"><code>send.session.count</code></h4>
+
+<p><strong>Required?</strong> Optional</p>
+
+<p>The number of JMS sessions and threads used for sending client messages to the message broker. The default value is <code>1</code>. You can use <code>send.session.count</code> to increase the number of sessions and threads for systems where clients are sending many messages per second, or if the connection to the message broker is going over a high latency network. Increasing sessions and threads increases throughput by allowing sends to be executed in parallel (where each JMS session used for sending is run in a separate thread). </p>
+
+<h4 id="sendtransactionsize"><code>send.transaction.size</code></h4>
+
+<p><strong>Required?</strong> Optional</p>
+
+<p>Instructs the Gateway to groups JMS send calls and send them as transactions. This tuning reduces the number of round trips on the network between the Gateway and the message broker. For example, if <code>send.transaction.size</code> is set to <code>10</code> the Gateway groups every 10 JMS send calls (i.e. send calls from Gateway clients) into a transaction, and each broker JMS Session used by the Gateway for sends is now a transactional session. This results in higher throughput. Note: if any of the sends in a transaction fails, all sends in that group fail, potentially effecting multiple Gateway clients.</p>
+
+
+
+<h4 id="section-33"><a name="topicsessioncount"></a><code>topic.session.count</code></h4>
+
+<p><strong>Required?</strong> Optional</p>
+
+<p>The number of sessions used for a single connection. If unspecified, this property defaults to 1. When this property is set to a value greater than 1, subscriptions to different topics are divided equally between the sessions (only one session is used for each topic to which one or more clients are subscribed). For example. if you had subscriptions to 100 different topics and <code>topic.session.count</code> is set to 2, then each of the 2 sessions would subscribe to 50 topics.</p>
+
+<p>In cases where there are a large number of users (for example, thousands of users), and multiple topics are being subscribed to, performance can be improved by increasing the value of this property. A common example is when many users subscribe to different topics rather than the same topic. See also the <a href="#connectioncount">connection.count</a> property.</p>
+
+<h4 id="section-34"><a name="useridresolver"></a><code>user.id.resolver</code></h4>
+
+<p><strong>Required?</strong> Optional</p>
+
+<p>The name of the class that resolves a message’s subject to a valid user ID. This is used to audit messages produced by clients. See <a href="../../security/p_auditing_jms_secure/index.html">Configure Auditing Messages Produced by Clients</a> for more information.</p>
+
+<p>Example</p>
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;properties&gt;
+    ...
+    &lt;user.id.resolver&gt;com.kaazing.demo.security.jmsauth.MyIdentityResolver&lt;/user.id.resolver&gt;
+    ...
+&lt;/properties&gt;
+</pre>
+
+<p>The Java class referenced in <code>user.id.resolver</code> must reside in the folder <code><em>GATEWAY_HOME</em>/lib</code>.</p>
+
+<h3 id="jms-service-properties-for-the-topic-element">jms Service Properties for the topic Element</h3>
+
+<p>The following list describes the properties you can set for topics of the <code>jms</code> service. Properties set at the topic level override values set at the service level. See <a href="#jms-service-required-elements">jms Service Required Elements</a> for a list of properties that you can set at the service level.</p>
+
+<h4 id="section-35"><a name="cachedurableclientid"></a><code>cache.durable.client.id</code></h4>
+
+<p><strong>Required?</strong> Optional* </p>
+
+<p>Specifies the clientID which should be set on the JMS Connection that is used for last value cache bootstrap. Together with the <code>cache.durable.name.format</code> property, this gives complete control over the identity of the durable subscriber used for cache bootstrap. See <a href="#last-value-cache">Last Value Cache</a> for more information. </p>
+
+<p>* The <code>cache.durable.client.id</code> property is required if the JMS-compliant message broker requires setting a clientID on a JMS connection to create a durable subscriber. This is the case for most brokers. </p>
+
+<h4 id="section-36"><a name="cachedurablenameformat"></a><code>cache.durable.name.format</code></h4>
+
+<p><strong>Required?</strong> Optional* </p>
+
+<p>Specifies how to form the name of the durable subscriber that is to be used for last value cache bootstrap. The value of this property must be a valid format string for the <code>Java String.format()</code> method, with zero or one string parameters. The Gateway forms the durable name by doing the equivalent of the following call in Java: <code>String.format(thePropertyValue, topicName)</code> where <code>topicName</code> is the name of the topic to which the client subscribed. See <a href="#last-value-cache">Last Value Cache</a> for more information. </p>
+
+<p>* The <code>cache.durable.name.format</code> property is required to implement last value cache bootstrap. </p>
+
+<h4 id="section-37"><a name="cachesize"></a><code>cache.size</code></h4>
+
+<p><strong>Required?</strong> Optional</p>
+
+<p>Specifies the number of messages the Gateway should cache for a particular topic. When a client subscribes to a destination, the Gateway first delivers any messages in the cache, followed by the live stream of messages. The <code>cache.size</code> property is set to zero by default, which means that last value cache is disabled. In general, you should set <code>cache.size</code> to 1 to handle most use cases. See <a href="#last-value-cache">Last Value Cache</a> for more information. </p>
+
+
+<h4 id="topicconflationstrategy"><code>conflation.strategy</code></h4>
+
+<p><strong>Required?</strong> Optional</p>
+
+<p>Overrides the value of the service-level property <code><a href="#conflationstrategy">conflation.strategy</a></code> for topics matching the topic name. This element is configured the same as the service-level property <code>conflation.strategy</code>.</p> 
+
+
+<h4 id="topicconflationthreshold"><code>conflation.threshold</code></h4>
+
+<p><strong>Required?</strong> Optional</p> 
+
+<p>Overrides the value of the service-level property <code><a href="#conflationthreshold">conflation.threshold</a></code> for topics matching the topic name. This element is configured the same as the service-level property <code>conflation.threshold</code>.</p>
+
+
+<h4 id="section-38"><a name="maximumconflationcachesize"></a><code>maximum.conflation.cache.size</code></h4>
+
+<p><strong>Required?</strong> Optional</p>
+
+<p>Specifies the maximum number of items to cache per topic. Because the Gateway conflates messages in a topic separately by JMSType, you can set this property to the number of JMSTypes you want conflated per topic. See <a href="#message-conflation">Message Conflation</a> for more information. </p>
+
+<p>The default setting of 100 for this property handles most use cases. However, if you have a shared topic with multiple JMSTypes, consider increasing the value to greater than or equal to the number of JMSTypes in that topic. </p>
+
+<p>This setting puts an upper bound on the number of messages held in memory for conflation, per client topic subscription. It is only relevant if any topic subscription can receive messages which vary in one or more of the following: JMSDestination, JMSType, JMSPriority and/or message body type. </p>
+
+<p>If those values remain constant across messages received on any one topic, which is the common case, then there will only be one entry in the conflation cache for each topic subscription and there is no need to change the setting. However, if there are multiple values, then you might need to set this property to limit memory consumption. For example, this could be the case in a system where users subscribe to wildcard topics that match many concrete topics upon which messages are being received. </p>
+
+<p>If unspecified, then the value defaults to 100.</p>
+
+<h4 id="section-39"><a name="messagedeliverystrategy"></a><code>message.delivery.strategy</code></h4>
+
+<p><strong>Required?</strong> Optional</p>
+
+<p>Set to <code>delta</code> to enable delta messaging on a topic. The Gateway automatically computes deltas. By default, the Gateway sends full messages. See <a href="#delta-messaging">Delta Messaging</a> for more information. If unspecified, then the value defaults to <code>full</code>. </p>
+
+<h4 id="section-40"><a name="messageheaderexpiration"></a><code>message.header.expiration</code></h4>
+
+<p><strong>Required?</strong> Optional</p>
+
+<p>Indicates whether the Gateway includes the JMSExpiration header when sending messages to clients. <br />
+- Set to <code>include</code> (the default) to include the JMSExpiration header in all messages.<br />
+- Set to <code>exclude</code> to omit the JMSExpiration message header from JMS messages sent to clients. This setting reduces network bandwidth usage and is appropriate when the client application does not need to use this header. </p>
+
+<h4 id="section-41"><a name="messageheadermessageid"></a><code>message.header.messageID</code></h4>
+
+<p><strong>Required?</strong> Optional</p>
+
+<p>Indicates whether the Gateway includes the JMSMessageID header when sending messages to non-durable topic subscribers.<br />
+- Set to <code>include</code> (the default) to include the JMSMessageID header in all messages.<br />
+- Set to <code>exclude</code> to omit the JMSMessageID header on JMS messages sent to non-durable topic subscribers. This setting can greatly reduce network bandwidth usage and is appropriate when the client application does not need to access this header. </p>
+
+<p>Note that JMSMessageID headers are only excluded for non-durable topic subscribers (for queue receivers and durable topic subscribers they are never excluded because they are needed for acknowledgment).</p>
+
+<h4 id="section-42"><a name="messageheadertimestamp"></a><code>message.header.timestamp</code></h4>
+
+<p><strong>Required?</strong> Optional</p>
+
+<p>Indicates whether the Gateway includes the JMSTimestamp header when sending messages to clients.<br />
+- Set to <code>include</code> (the default) to include the JMSTimestamp header in all messages.<br />
+- Set to <code>exclude</code> to omit the JMSTimestamp header on JMS messages sent to clients. This setting reduces network bandwidth usage and is appropriate when the client application does not need to use this header. </p>
+
+<h4 id="section-43"><a name="name"></a><code>name</code></h4>
+
+<p><strong>Required?</strong> Yes</p>
+
+<p>Indicates the name of the topic. </p>
+
+<h4 id="section-44"><a name="subscriptionlifetime"></a><code>subscription.lifetime</code></h4>
+
+<p><strong>Required?</strong> Optional</p>
+
+<p>Controls the duration of topic subscriptions to the JMS-compliant message broker. This property is most useful for Last Value Cache, to provide consistent availability of last messages.<br />
+- Set to <code>consumer</code> (the default) if you want the last value cache to exist for the lifetime of the subscription to that topic. In other words, the last value cache comes into existence when the first consumer arrives, and is released when the last consumer unsubscribes.<br />
+- Set to <code>connection</code> if you want the last value cache to be created at service startup and maintained until shutdown or broker connection failure.</p>
+
+<h4 id="section-45"><a name="subscriptionsharing"></a><code>subscription.sharing</code></h4>
+
+<p><strong>Required?</strong> Optional</p>
+
+<p>Indicates whether the Gateway should use a single wildcard topic subscription to service clients subscribing to multiple different topics.<br />
+- Set to <code>exact</code> (the default) to use a separate subscription to the broker for each distinct topic that clients subscribe to.<br />
+- Set to <code>wildcard</code> to use a single broker subscription (to the wildcard topic specified in name) for all time subscriptions matching a wildcard (provided no message selectors are used). </p>
+
+<p>By default, <code>subscription.sharing</code> is set to <code>exact</code>, which creates extra subscriptions to the message broker. Because each subscription has its own last value cache, additional memory is likely to be consumed. You can set <code>subscription.sharing</code> to <code>wildcard</code> so that client subscriptions that match the wildcard topic name do not create an extra subscription to the message broker, thereby reducing memory usage.</p>
+
+<h3 id="jms-service-environment-properties">jms Service Environment Properties</h3>
+
+<p>You can specify environment properties for the <code>jms</code> service. The first two properties in the following list are required to initialize the JMS client library:</p>
+
+<h4 id="section-46"><a name="envjavanamingfactoryinitial"></a><code>env.java.naming.factory.initial</code></h4>
+
+<p><strong>Required?</strong> Yes</p>
+
+<p>The fully qualified class name for a factory class that creates the initial context for the <code>InitialContext</code> in JMS.          </p>
+
+<h4 id="section-47"><a name="envjavanamingproviderurl"></a><code>env.java.naming.provider.url</code></h4>
+
+<p><strong>Required?</strong> Yes</p>
+
+<p>The URL at which the JMS-compliant message broker exposes its services.                                                       </p>
+
+<h4 id="section-48"><a name="envjavanamingreferral"></a><code>env.java.naming.referral</code></h4>
+
+<p><strong>Required?</strong> Optional</p>
+
+<p>The name of the environment property that specifies how referrals encountered by the service provider should be processed. The value of this property can be <code>follow</code>, <code>ignore</code>, or <code>throw</code>.</p>
+
+<p>You can specify additional properties but they must be prefixed by <code>env</code>. For example, <code>&lt;env.example.property\&gt;example.value\&lt;/env.example.property&gt;</code>. For a complete list, refer to the field summary in <a href="//download.oracle.com/javase/7/docs/"><code>http://download.oracle.com/javase/7/docs/</code></a>. The Gateway does not enforce any of these property values; it just passes them to the JMS API via the Java environment.</p>
+
+<h3 id="configuration-examples-jms-service">Configuration Examples: jms Service</h3>
+
+<p><strong>Note:</strong> Many <code>accept</code> element examples for <code>jms</code> include <code>/jms</code> at the end of the URLs (for example:<code> &lt;accept&gt;ws://example.com:8000/jms&lt;/accept&gt;</code>). This trailing notation, while not required, indicates to the Gateway that you want to configure <code>jms</code> to accept multiple connections on the same hostname and port. For example: <br />
+<code>&lt;accept&gt;ws://example.com:8000/jms1&lt;/accept&gt;</code></p>
+
+<p><code>&lt;accept&gt;ws://example.com:8000/jms2&lt;/accept&gt;</code></p>
+
+<p>If you configure a <em>single</em> <code>accept</code> element and include the <code>/jms</code> notation at the end of the URL, then the Gateway ignores the notation. If you configure <em>multiple</em> <code>accept</code> elements for the same hostname and port without including the <code>/jms</code> notation, then the Gateway returns an exception when starting. See <a href="../c_configure_gateway_multiple_services">Configuring Multiple Services on the Same Host and Port</a> for complete information.</p>
+
+<h4 id="example-1-jms-service-using-localhost-and-connecting-to-apache-activemq">Example 1: jms Service Using Localhost and Connecting to Apache ActiveMQ</h4>
+
+<p>The following example of a <code>service</code> element of type <code>jms</code> connects to the Apache ActiveMQ broker that ships in the bundle.</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;service&gt;
+  &lt;accept&gt;ws://localhost:8000/jms&lt;/accept&gt;
+  &lt;accept&gt;wss://localhost:9000/jms&lt;/accept&gt;
+
+  &lt;type&gt;jms&lt;/type&gt;
+
+  &lt;properties&gt;
+    &lt;connection.factory.name&gt;ConnectionFactory&lt;/connection.factory.name&gt;
+    &lt;context.lookup.topic.format&gt;dynamicTopics/%s&lt;/context.lookup.topic.format&gt;
+    &lt;context.lookup.queue.format&gt;dynamicQueues/%s&lt;/context.lookup.queue.format&gt;
+
+    &lt;env.java.naming.factory.initial&gt;
+      org.apache.activemq.jndi.ActiveMQInitialContextFactory
+    &lt;/env.java.naming.factory.initial&gt;
+    &lt;env.java.naming.provider.url&gt;
+      tcp://localhost:61616
+    &lt;/env.java.naming.provider.url&gt;
+  &lt;/properties&gt;
+
+  &lt;cross-site-constraint&gt;
+    &lt;allow-origin&gt;http://localhost:8000&lt;/allow-origin&gt;
+  &lt;/cross-site-constraint&gt;
+  &lt;cross-site-constraint&gt;
+    &lt;allow-origin&gt;https://localhost:9000&lt;/allow-origin&gt;
+  &lt;/cross-site-constraint&gt;
+&lt;/service&gt;
+</code></pre>
+
+<h4 id="example-2-jms-service-connecting-to-a-jms-compliant-message-broker">Example 2: jms Service Connecting to a JMS-compliant message broker</h4>
+
+<p>The following example uses ports <code>80</code> and <code>443</code> to connect to the back-end JMS service, such as when a desktop Java application uses the Gateway to connect to a JMS-compliant message broker over WebSocket (you can omit the default ports <code>80</code> or <code>443</code>).</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;service&gt;
+  &lt;accept&gt;ws://example.com:80/jms&lt;/accept&gt;
+  &lt;accept&gt;wss://example.com:443/jms&lt;/accept&gt;
+ 
+  &lt;type&gt;jms&lt;/type&gt;
+ 
+  &lt;properties&gt;
+    &lt;connection.factory.name&gt;ConnectionFactory&lt;/connection.factory.name&gt;
+    &lt;context.lookup.topic.formatdynamicTopics/%s&lt;/context.lookup.topic.format&gt;
+    &lt;context.lookup.queue.format&gt;dynamicQueues/%s&lt;/context.lookup.queue.format&gt;
+ 
+    &lt;env.java.naming.factory.initial&gt;
+      org.apache.activemq.jndi.ActiveMQInitialContextFactory
+    &lt;/env.java.naming.factory.initial&gt;
+    &lt;env.java.naming.provider.url&gt;
+      tcp://localhost:61616
+    &lt;/env.java.naming.provider.url&gt;
+  &lt;/properties&gt;
+ 
+  &lt;cross-site-constraint&gt;
+    &lt;allow-origin&gt;*&lt;/allow-origin&gt;
+  &lt;/cross-site-constraint&gt;
+&lt;/service&gt;
+</code></pre>
+
+<h4 id="example-3-jms-service-with-delta-messaging">Example 3: jms Service with Delta Messaging</h4>
+
+<p>The following example enables delta messages on a specific topic <code>events.calendar</code> and for any topics that match the wildcard name <code>events.football.&gt;</code>. In the example:</p>
+
+<ul>
+  <li>If a client subscribes to <code>events.calendar</code> then delta messages are enabled for that subscription.</li>
+  <li>If a client subscribes to <code>events.football.manchester-vs-liverpool.final-score</code> then that matches the wildcard name and delta messages are enabled.</li>
+  <li>If a client subscribes to <code>events.basketball</code> then no topic name matches in the configuration shown above and delta messages are not enabled. Full messages are sent over the wire.</li>
+</ul>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;service&gt;
+  &lt;accept&gt;ws://gateway.example.com/jms&lt;/accept&gt;
+
+  &lt;type&gt;jms&lt;/type&gt;
+ 
+  &lt;properties&gt;
+    &lt;topic&gt;
+      &lt;!-- Single topic --&gt;
+      &lt;name&gt;events.calendar&lt;/name&gt;
+      &lt;message.delivery.strategy&gt;delta&lt;/message.delivery.strategy&gt;
+    &lt;/topic&gt;
+    
+    &lt;topic&gt;
+      &lt;!-- Broker specific topic wildcard --&gt;
+      &lt;name&gt;events.football.&gt;&lt;/name&gt;
+      &lt;message.delivery.strategy&gt;delta&lt;/message.delivery.strategy&gt;    
+    &lt;/topic&gt; 
+    
+    &lt;topic&gt;
+       ...    
+    &lt;/topic&gt; 
+  &lt;/properties&gt;
+&lt;/service&gt;
+</code></pre>
+
+<h2 id="jmsproxy">jms.proxy</h2>
+
+<p>This type of service is used in an advanced network topology that uses two perimeter networks for security, typically referred to as a “Distributed DMZ (DDMZ).” You can set up an instance of the Gateway in each of the two DMZs and facilitate communication between clients and brokers through both DMZs and gateways using the <code>jms.proxy</code> service.</p>
+
+<p>In the DDMZ configuration, client data passes to the Gateway located in the outer DMZ and configured with the <code>jms.proxy</code> service. That gateway then sends the data to a gateway in a second, inner DMZ configured with the <a href="#jms"><code>jms</code></a> service. This second gateway connects to the JMS-compliant message broker. See the image below for an example.</p>
+
+<p><img src="../../images/f-jms-proxy-web.png" alt="jms.proxy topology" /></p>
+
+<p><strong>Figure: Distributing Gateway Connections Using the <code>jms.proxy</code> Service in a Distributed DMZ (DDMZ) Topology</strong></p>
+
+<p><strong>Note:</strong> The connection between the Gateway in the outer DMZ and the Gateway in the inner DMZ can be over WS or TCP and on any permitted port.</p>
+
+<p>This service type establishes a connection between the Gateway and the next Gateway for <em>each client connection</em>. The benefit of using the <code>jms.proxy</code> service is that you can control security independently per connection, and enable a fail-fast when a user fails to authenticate correctly. In addition, delta messages can be passed through from <code>jms</code> service in the internal Gateway through a DMZ Gateway that is running the <code>jms.proxy</code> service in Enterprise Shield™ configurations. See <a href="#delta-messaging">Delta Messaging</a> for more information.</p>
+
+<h3 id="required-elements-for-the-jmsproxy-service">Required Elements for the jms.proxy Service</h3>
+
+<p>The <code>jms.proxy</code> service requires the following elements:</p>
+
+<ul>
+  <li><code>accept</code>: the URL at which the service accepts connections</li>
+  <li><code>connect</code>: the URL of the service to which the Gateway connects</li>
+</ul>
+
+<h3 id="properties-for-the-jmsproxy-service">Properties for the jms.proxy Service</h3>
+
+<p>You can use the following properties with the <code>jms.proxy</code> service:</p>
+
+<h4 id="section-49"><a name="applicationid"></a><code>application.id</code></h4>
+
+<p><strong>Required?</strong> Optional</p>
+
+<p>A unique identifier used to audit messages produced by clients using this service. See <a href="../../security/p_auditing_jms_secure/index.html">Configure Auditing Messages Produced by Clients</a> for more information. </p>
+
+<h4 id="section-50"><a name="authorizationfactory"></a><code>authorization.factory</code></h4>
+
+<p><strong>Required?</strong> Optional</p>
+
+<p>The value of this property is a fully qualified class name of an implementation of the abstract class: <code>com.kaazing.gateway.jms.server.spi.security.JmsAuthorizationFactory</code>. See <a href="../../security/o_jms_secure/index.html">Secure Your JMS Configuration</a> for more information.</p>
+
+<h4 id="section-51"><a name="authenticationrealm"></a><code>authentication.realm</code></h4>
+
+<p><strong>Required?</strong> Optional</p>
+
+<p>The value of this property should be one of the realm names declared in the gateway-config.xml file’s <code>security</code> section. This value identifies the realm used by the service for authentication.</p>
+
+<h4 id="section-52"><a name="maxiumpendingbytes"></a><code>maximum.pending.bytes</code></h4>
+
+<p><strong>Required?</strong> Optional</p>
+
+<p>The size of data the service buffers for one client connection before slowing <strong>outgoing</strong> data (messages going from the broker though the <code>jms.proxy</code> service to the client). The value must be a positive integer with either no specified unit or appended with <code>B</code>, <code>kB</code>, or <code>MB</code> (the unit is case insensitive) to indicate bytes, kilobytes, or megabytes. If no unit is specified, the default unit is bytes. If you do not specify this property, its default value is <code>64kB</code>. For example: <br />
+- A value of 2048 sets the buffer to 2048 bytes<br />
+- A value of 128kB sets the buffer to 128 kilobytes<br />
+- No instance of the <code>maximum.pending.bytes</code> property in the gateway-config.xml sets the buffer to 64 kilobytes</p>
+
+<p>The Gateway uses this buffer when the speed of the data incoming to the <code>jms.proxy</code> service is faster than the speed of the data being consumed by the receiving end, which is either the client or the back-end JMS-compliant message broker. The buffer stores the data up to the limit you specify in this property per client connection, then slows the incoming data, until either the client or the back-end JMS-compliant message broker (whichever is consuming the data) has consumed more than 50% of the outgoing data flow.</p>
+
+<p>For example, suppose you set this property to 128kB. If the back-end server sends 256kB of data to a client and the client has only consumed 128kB, the remaining 128kB (the limit you set in the property) is buffered. At this time, the Gateway suspends reading the data from the back-end JMS-compliant message broker; as the client consumes the buffered data, the size of the buffered data decreases. When the buffered data falls below 64kB, the Gateway resumes reading the data from the back-end JMS-compliant message broker.</p>
+
+<h4 id="section-54"><a name="maximumrecoveryinterval"></a><code>maximum.recovery.interval</code></h4>
+
+<p><strong>Required?</strong> Optional</p>
+
+<p>The maximum interval (in seconds) between attempts by the service to establish a connection to a jms service running in another Gateway. This property is specified by the connect element. <br />
+- If specified, the value must be a non-negative integer. You must enable this property to ensure the client can reconnect to another jms service running in a Gateway that has a good connection.<br />
+- If unspecified or if the value is set to 0, then the property is disabled but the Gateway will start and run successfully. However, when the property is not enabled, the load balancer does not detect when a service is disconnected or when the broker is unavailable. </p>
+
+<p>If the jms service becomes unavailable or the Gateway cannot establish a connection to the jms service, then the Gateway triggers a recovery. The Gateway attempts to re-establish a connection to the jms service. Initially, the interval between attempts is short, but grows until it reaches the specified value. From that point on, the Gateway attempts to re-establish a connection only at the interval specified.</p>
+
+<p>During this recovery phase, the Gateway unbinds the service, and clients attempting to connect to this service receive a “404 Not Found” error. Once the jms service recovers and the Gateway establishes a connection, the Gateway binds the service and clients can connect to the service. </p>
+
+<h4 id="section-55"><a name="preparedconnectioncount"></a><code>prepared.connection.count</code></h4>
+
+<p><strong>Required?</strong> Optional</p>
+
+<p>Set this property when configuring the <code>jms.proxy</code> service on the outer DMZ Gateway if you need to allow clients to connect more quickly. Configuring <code>prepared.connection.count</code> sets the number of connections the outer DMZ Gateway creates (or prepares) in advance to the service to which it is connecting, such as the jms service on the inner Gateway. When the outer DMZ Gateway starts, it creates the specified number of connections to the jms service, thus creating a “prepared connection.” When an incoming client connection uses a prepared connection, the outer DMZ Gateway creates another connection to the service, thus maintaining the specified number of prepared connections to the jms service on the inner Gateway. If you do not set this property, then the Gateway does not prepare connections to the service to which it connects. </p>
+
+<h4 id="section-56"><a name="useridresolver-proxy"></a><code>user.id.resolver</code></h4>
+
+<p><strong>Required?</strong> Optional</p>
+
+<p>The name of the class that resolves a message’s subject to a valid user ID. This is used to audit messages produced by clients. See <a href="../../security/p_auditing_jms_secure/index.html">Configure Auditing Messages Produced by Clients</a> for more information.</p>
+
+<p>Example</p>
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;properties&gt;
+    ...
+    &lt;user.id.resolver&gt;com.kaazing.demo.security.jmsauth.MyIdentityResolver&lt;/user.id.resolver&gt;
+    ...
+&lt;/properties&gt;
+</pre>
+
+<p>The Java class referenced in <code>user.id.resolver</code> must reside in the folder <code><em>GATEWAY_HOME</em>/lib</code>.</p>
+
+<p>For more information about JMS property values, refer to the field summary in <code>http://download.oracle.com/javase/7/docs/</code>. The Gateway does not enforce any of these property values; it just passes them to the JMS API.</p>
+
+<h3 id="configuration-example--service">Configuration Example: <code>jms.proxy</code> Service</h3>
+
+<p>The following example shows the <code>service</code> element in two configuration files: one for the Gateway in the outer DMZ communicating with clients (hostname1) and one for the Gateway in the trusted (or internal) network communicating with the Gateway in the DMZ and the JMS-compliant message broker (hostname2).</p>
+
+<p>The <code>service</code> element in the configuration file for the outer DMZ Gateway accepting data from clients and connecting to the inner Gateway.</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;service&gt;
+  &lt;accept&gt;ws://hostname1:4503/path&lt;/accept&gt;
+  &lt;connect&gt;tcp://hostname2:4502&lt;/connect&gt;
+  
+  &lt;type&gt;jms.proxy&lt;/type&gt;
+  
+  &lt;cross-site-constraint&gt;
+    &lt;allow-origin&gt;http://hostname1:4503/&lt;/allow-origin&gt;
+  &lt;/cross-site-constraint&gt;
+&lt;/service&gt;
+</code></pre>
+
+<p>The <code>service</code> element in the configuration file for the inner Gateway receiving data from the DMZ Gateway and communicating with the JMS-compliant message broker:</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;service&gt;
+  &lt;accept&gt;tcp://hostname2:4502/&lt;/accept&gt;
+    
+  &lt;type&gt;jms&lt;/type&gt;
+    
+  &lt;properties&gt;
+    &lt;connection.factory.name&gt;ConnectionFactory&lt;/connection.factory.name&gt;
+    &lt;context.lookup.topic.format&gt;dynamicTopics/%s&lt;/context.lookup.topic.format&gt;
+    &lt;context.lookup.queue.format&gt;dynamicQueues/%s&lt;/context.lookup.queue.format&gt;
+
+    &lt;env.java.naming.factory.initial&gt;
+        org.apache.activemq.jndi.ActiveMQInitialContextFactory
+    &lt;/env.java.naming.factory.initial&gt;
+    &lt;env.java.naming.provider.url&gt;
+        tcp://localhost:61613/
+    &lt;/env.java.naming.provider.url&gt;
+  &lt;/properties&gt;
+
+  &lt;cross-site-constraint&gt;
+    &lt;allow-origin&gt;*&lt;/allow-origin&gt;
+  &lt;/cross-site-constraint&gt;
+&lt;/service&gt;
+</code></pre>
+
+<h3 id="configuration-example--service-with-advanced-properties">Configuration Example: <code>jms.proxy</code> Service with Advanced Properties</h3>
+
+<p>The following example shows a <code>service</code> element of type <code>jms.proxy</code>, containing the accept element, which signals the outer DMZ Gateway to listen on address hostname1 on port 4503. The service contains a connect element, which tells the service to connect via TCP to hostname2 on port 4502, which is a <code>jms</code> service on the inner Gateway. This example also contains the following properties:</p>
+
+<ul>
+  <li><code>maximum.recovery.interval</code> property, which tells the DMZ Gateway to ping the service at hostname2:4502 at short intervals, then increase the interval between attempts until it reaches 30 seconds. Once the interval reaches 30 seconds, the DMZ Gateway continues to ping the internal Gateway every 30 seconds until the <code>jms</code> service on the internal Gateway becomes available.</li>
+  <li><code>prepared.connection.count</code> property, which tells the DMZ Gateway to prepare 10 connections to the service on the internal Gateway specified by the <code>connect</code> element, then maintain 10 connections as clients consume each connection.</li>
+</ul>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;service&gt;
+  &lt;accept&gt;ws://hostname1:4503/path&lt;/accept&gt;
+  &lt;connect&gt;tcp://hostname2:4502&lt;/connect&gt;
+  
+  &lt;type&gt;jms.proxy&lt;/type&gt;
+
+  &lt;properties&gt;
+    &lt;maximum.recovery.interval&gt;30&lt;/maximum.recovery.interval&gt;
+    &lt;prepared.connection.count&gt;10&lt;/prepared.connection.count&gt;
+  &lt;/properties&gt;
+
+  &lt;cross-site-constraint&gt;
+    &lt;allow-origin&gt;http://hostname1:4503/&lt;/allow-origin&gt;
+  &lt;/cross-site-constraint&gt;
+&lt;/service&gt;
+</code></pre>
+
+
+
+</div>
+
+</div>
+
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

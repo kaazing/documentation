@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+  
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+
+ <h1 id="monitor-with-jmx">Monitor with JMX</h1>
+
+<p>Kaazing Gateway supports Java Management Extension (JMX) access through any JMX-compliant console, such as Java’s built-in Java Management and Monitoring Console (<a href="//docs.oracle.com/javase/7/docs/technotes/guides/management/jconsole.html" title="Using JConsole - Java SE Monitoring and Management Guide">JConsole</a>) or MC4J, or through any program that supports communication using the JMX protocol. The Gateway supports a <code>management.jmx</code> service to allow JMX-compliant applications to monitor current Gateway service and session state and operate on individual sessions. See the <a href="../../admin-reference/r_configure_gateway_service/index.html">Service Reference</a> for information about the JMX management service (<code>management.jmx</code>).</p>
+
+<h2 id="before-you-begin">Before You Begin</h2>
+
+<p>This procedure is part of <a href="../o_monitor">Monitor the Gateway</a>:</p>
+
+<ol>
+  <li><a href="../o_monitor#introduction-to-monitoring-kaazing-gateway">Introduction to Monitoring Kaazing Gateway</a></li>
+  <li><a href="../p_monitor_configure_secure">Secure Kaazing Gateway Monitoring</a></li>
+  <li>Monitor a Gateway or Gateway cluster
+    <ul>
+      <!-- <li><a href="../p_monitor_cc">Monitor with Command Center</a> (<strong>Recommended</strong>)</li> -->
+      <li><strong>Monitor with JMX</strong></li>
+    </ul>
+  </li>
+  <li><a href="../../troubleshooting/o_troubleshoot/index.html">Troubleshoot the Gateway</a></li>
+</ol>
+
+<h2 id="to-monitor-with-jmx">To Monitor with JMX</h2>
+
+<ol>
+  <li>Stop the Gateway if it is running.</li>
+  <li>Open the Gateway configuration file, <code><em>GATEWAY_HOME</em>/gateway-config.xml</code>.</li>
+  <li>Add the <code>management.jmx</code> service as defined in <a href="../../admin-reference/r_configure_gateway_service/index.html#managementjmx">management.jmx</a>.</li>
+  <li>
+    <p>Start the Gateway as described in <a href="../../about/setup-guide/index.html">Setting Up the Gateway</a>. </p>
+
+    <p><strong>Note:</strong> To connect to a JMX service on a Gateway running on an EC2 instance, configure the <code>GATEWAY_OPTS</code> environment variable with the <code>-Djava.rmi.server.hostname</code> property set to the IP address or hostname being used in the RMI registry. For example, <code>GATEWAY_OPTS="-Xmx512m -Djava.rmi.server.hostname=ec2-54-205-184-88.example-1.amazonaws.com</code>. See the topic <a href="../../admin-reference/p_configure_gateway_opts/index.html">Configure Kaazing Gateway Using the GATEWAY_OPTS Environment Variable</a> for more information.</p>
+  </li>
+  <li>Ensure secure monitoring by verifying that your configuration specifies a security realm name and an authorization constraint. This is set up automatically if you use the default Gateway configuration. See <a href="../p_monitor_configure_secure">Secure Kaazing Gateway Monitoring</a> for more information.</li>
+  <li>Start your favorite Java monitoring console or application. This documentation uses JConsole for its examples.</li>
+  <li>
+    <p>Select the local process, for example <code>org.kaazing.gateway.server.Main</code> (as shown in the following screenshot), then click <strong>Connect</strong>. (For Windows, the local process name is <code>org.kaazing.gateway.server.WindowsMain</code>.)</p>
+
+    <p><img src="../../images/jconsole-mgt-bean.png" alt="JConsole" /></p>
+
+    <p><strong>Figure: Monitoring the Local Process with JConsole</strong></p>
+
+    <p><strong>Notes:</strong></p>
+
+    <ul>
+      <li>To connect to a <em>remote</em> process you must specify an address that uniquely represents the remote instance of the Gateway and provide the administrator’s user name and password (by default, <code>admin</code>/<code>admin</code>). If there are multiple instances of the Gateway on a remote server then JMX management is hosted on different ports.</li>
+      <li>For remote monitoring, ensure that you set the correct system properties when you start the Gateway (for example, <code>Dcom.sun.management.jmxremote.port</code>). For more information, see <a href="//docs.oracle.com/javase/8/docs/technotes/guides/management/agent.html">Monitoring and Management Using JMX Technology</a> from Oracle.</li>
+      <li>Use the following syntax to access your local Gateway as a remote process (where <code>hostname</code> is the remote hostname): <code>service:jmx:rmi://hostname/jndi/rmi://hostname:2020/jmxrmi</code></li>
+      <li>Password authentication over the Secure Sockets Layer (SSL) and Transport Layer Security (TLS) is enabled by default in JMX. Consequently, you must have a digital certificate for the hostname of the Gateway in the keystore.db file used by the Gateway. In addition, access to port 2020 must be enabled in your network for the remote monitoring agent to connect to the Gateway. For information on how to create a certificate for the hostname of the Gateway, see <a href="../../security/o_tls/index.html">Secure Network Traffic with the Gateway</a>.</li>
+    </ul>
+  </li>
+  <li>JConsole displays information about the particular JVM process you just clicked on or entered.</li>
+  <li>Click the <strong>MBeans</strong> tab.</li>
+  <li>
+    <p>Expand the service that you want to monitor.</p>
+
+    <p>For example, the following JConsole screenshot shows an expanded <code>org.kaazing.gateway.server.management</code> &gt; <code>service</code> and expanded the <code>echo</code> node.</p>
+
+    <p><img src="../../images/jconsole-session.png" alt="JConsole session" /></p>
+
+    <p><strong>Figure: Viewing the Echo Service in JConsole</strong></p>
+  </li>
+  <li>Click one of the session IDs. The session data exposed by the MBeans displays. Here, you can examine the user sessions on the Gateway.</li>
+</ol>
+
+<h2 id="get-started-with-jmx-monitoring">Get Started with JMX Monitoring</h2>
+
+<p>The steps in this section use the JConsole example from the previous section to demonstrate the procedure.</p>
+
+<h3 id="to-examine-available-sessions">To Examine Available Sessions:</h3>
+
+<ol>
+  <li>
+    <p>Click the service that you want to examine.</p>
+
+    <p>For example, in our running JConsole example, you would click the <strong>Echo</strong> service, as this is the service being used by the demo you started.</p>
+  </li>
+  <li>Expand the connection.</li>
+  <li>Expand the sessions node to view the session IDs.</li>
+  <li>
+    <p>Select the session ID you want to manage. The following screenshot shows that you can manually manage the session, such as using the <code>close()</code> or the <code>closeImmediately</code> operation, to explicitly close the specific session:</p>
+
+    <p><img src="../../images/jconsole-session-id.png" alt="This screenshot shows the JConsole GUI displying the service &gt; echo &gt; ws://localhost:8001/echo &gt; sessions &gt; Operations path. Two operations are available under Operations: close and closeImmediately" /></p>
+
+    <p><strong>Figure: Subscribing to a Session in JConsole</strong></p>
+  </li>
+  <!-- <li>
+    <p>To subscribe to notifications in the console, expand the <strong>summary</strong> section, click <strong>Notifications</strong>, then click <strong>javax.management.Notification</strong>, as shown in the following screenshot:</p>
+
+    <p><img src="../../images/jconsole-session-subscribe.png" alt="This screenshot shows the JConsole GUI displying the service &gt; echo &gt; ws://localhost:8001/echo &gt; summary &gt; Notifications path. Two operations are available under Notifications" /></p>
+
+    <p><strong>Figure: Subscribing to Notifications in JConsole</strong></p>
+  </li>
+  <li>Now that you’ve taken a look at some of the actions you can perform on a session, you can use this information with your own management console to manage user sessions. The Gateway also tracks the information you see here, such as the opening and closing of sessions, and sends this information by way of JMX notifications. You can then set up your JMX clients to subscribe to these notifications or query the sessions directly from the JMX server bean. To learn how to do this, see the next section, <a href="#to-configure-notifications">To Configure Notifications</a>.</li> -->
+</ol>
+
+<!-- <h2 id="to-configure-notifications">To Configure Notifications</h2>
+
+<p>The Gateway tracks sessions that are opened and closed in the management interface and sends out JMX notifications. You can configure a JMX client to subscribe to these notifications or configure the Gateway to query the connected sessions. The JMX notification includes the user’s data, which consists of a key and a value.</p>
+
+<p>You can also configure the Gateway to extract user information from the authentication information within the session. For example, in the security section of the <code>gateway-config.xml</code> file, you can use the <code>user-principal-class</code> property, as shown in the following example.</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;security&gt;
+    &lt;realm&gt;
+        &lt;name&gt;demo&lt;/name&gt;
+        &lt;user-principal-class&gt;
+            org.kaazing.gateway.server.auth.config.parse.DefaultUserConfig
+        &lt;/user-principal-class&gt;
+        &lt;user-principal-class&gt;
+            org.kaazing.gateway.server.auth.gss.GssSourcePrincipal
+        &lt;/user-principal-class&gt;
+        &lt;user-principal-class&gt;
+            org.kaazing.gateway.server.auth.gss.GssTargetPrincipal
+        &lt;/user-principal-class&gt;
+    &lt;/realm&gt;
+&lt;/security&gt;
+</code></pre>
+
+<p>After you add the <code>userPrincipalClass</code> property to the <a href="../../admin-reference/r_configure_gateway_security#realm">realm</a>, save the <code>gateway-config.xml</code> file and start the Gateway. You should then see notifications in JConsole of one of two types: <code>session.created</code> or <code>session.closed</code>.</p> -->
+
+<h2 id="next-step">Next Step</h2>
+
+<p>You have configured management with JMX for Kaazing Gateway.</p>
+
+<h2 id="see-also">See Also</h2>
+
+<ul>
+  <li>The <a href="../../admin-reference/r_configure_gateway_security#realm">realm</a> element for reference information about the <code>user-principal-class</code> property.</li>
+  <li>Kaazing Gateway <a href="../..">documentation</a> for more information about Gateway administration.</li>
+</ul>
+
+
+</div>
+
+</div>
+
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+  
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+
+<h1>TLS/SSL Offloading with the Gateway</h1>
+
+<p>The Kaazing WebSocket Gateway can manage TLS/SSL connections between its clients and its back-end server. There are deployments that require that a different server, such as a load balancer, handle TLS/SSL connections and you can support these scenarios using TLS/SSL offloading and minor changes to the Gateway configuration.</p>
+ 
+<p>TLS/SSL offloading simply means using a server, such as a load balancer, to act as a TLS/SSL intermediary between clients and the Gateway and encrypt and/or decrypt the requests and responses between the Gateway and its clients. Data that passes between the load balancer and the clients is encrypted. Data that passes between the load balancer and the Gateway is not encrypted.</p>
+
+<p>There are two scenarios discussed below:</p>
+
+<ul>
+<li><a href="#with-host-header">Load balancer performs encryption and <strong>preserves the Host request-header</strong></a></li>
+<li><a href="#modify-host-header">Load balancer performs encryption and <strong>modifies the Host request-header</strong></a></li>
+</ul>
+
+<p>Once the Gateway is configured for TLS/SSL Offloading, you simply need to configure your load balancer to use the digital certificates for client connections intended for the Gateway. Here are some examples:</p>
+
+<ul>
+ <li><a href="https://www.nginx.com/blog/nginx-ssl/">SSL/TLS Offloading, Encryption, and Certificates with NGINX and NGINX Plus</a></li>
+ <li><a href="https://www.lullabot.com/articles/setting-up-ssl-offloading-termination-on-an-f5-bigip-load-balancer">Setting up SSL Offloading (Termination) on an F5 Big-IP Load Balancer</a></li>
+</ul>
+
+
+<h2 id="with-host-header">Load Balancer Performs Encryption and Preserves the Host Header</h2>
+
+<p>In this scenario, when the Gateway client sends a request, the load balancer decrypts the payload and keeps the host name in the <a href="https://tools.ietf.org/html/rfc2616#section-14.23">Host request-header field</a> consistent with the client request. For example, the client connects to <code>wss://gateway.example.com/</code> (on port 443). The load balancer decrypts the message, and forwards the decrypted message to Kaazing Gateway keeping the host name <code>gateway.example.com:443</code> in the Host header-request field.</p>
+
+<p>When the load balancer forwards the request, it uses the actual host name of the Gateway, which is not <code>gateway.example.com</code>, and the actual port number (80, in this example) for the connection, which might be different than the logical port number used in the Host header-request field (443).</p>
+
+<p>The Gateway service must be configured to accept requests at the host name specified in the Host header-request field, and it must specify which network interface to use when accepting the request. For example, when the client sends a request to <code>wss://gateway.example.com/</code> (on port 443), the Gateway service must have an <code>accept</code> for <code>wss://gateway.example.com/</code> and an <code>http.transport</code> for the network interface. Here is a generic example:</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;service&gt;
+  &lt;accept&gt;wss://gateway.example.com/&lt;/accept&gt;
+  ...
+  &lt;accept-options&gt;
+    &lt;http.transport&gt;tcp://@eth0:80&lt;/http.transport&gt;
+  &lt;/accept-options&gt;
+&lt;/service&gt;
+</pre>
+
+
+<h2 id="modify-host-header">Load Balancer Performs Encryption and Modifies the Host Header</h2>
+
+<p>In this scenario, when the Gateway client sends a request, the load balancer decrypts the payload and changes the host name in the <a href="https://tools.ietf.org/html/rfc2616#section-14.23">Host request-header field</a> to a new host name. For example, the client connects to <code>wss://gateway.example.com/</code> (on port 443). The load balancer decrypts the message, and forwards the decrypted message to Kaazing Gateway with a new host name <code>gateway.internal.net:80</code> in the Host header-request field.</p>
+
+<p>When the load balancer forwards the request, it uses the actual host name of the Gateway, which is not <code>gateway.internal.net</code>, and the actual port number (80, in this example) for the connection, which might be different than the logical port number used in the Host header-request field.</p>
+
+<p>The Gateway service must be configured to accept requests at the host name specified in the Host header-request field, and it must specify which network interface to use when accepting the request. For example, when the client sends a request to <code>wss://gateway.example.com/</code> (on port 443) and the load balancer changes the host name to <code>gateway.internal.net</code>, the Gateway service must have an <code>accept</code> for <code>wss://gateway.internal.net/</code> and an <code>http.transport</code> for the network interface. Here is a generic example:</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;service&gt;
+  &lt;accept&gt;wss://gateway.internal.net/&lt;/accept&gt;
+  ...
+  &lt;accept-options&gt;
+    &lt;http.transport&gt;tcp://@eth0:80&lt;/http.transport&gt;
+  &lt;/accept-options&gt;
+&lt;/service&gt;
+</pre>
+
+<h2>Notes</h2>
+
+ <ul>
+   <li>The address of the <code>accept</code> must match the Host header-request field.</li>
+   <li>The port number used in the <code>accept</code> comes from the Host header-request field. The port number used in <code>http.transport</code> comes from the address the load balancer forwarded to. The port numbers do not have to match.</li>
+   <li>The examples use an interface alias <code>@eth0</code> for the network interface name receiving the request, but you could also specify the physical hostname or IP address of the host running the Gateway. Using <code>@eth0</code> (or the appropriate network interface name in your environment) is portable and prevents hardcoding physical network information in the configuration. Also, <code>@eth0</code> lets you easily scale by duplicating the configuration file on other other Gateway hosts without modification. For more information, see <a href="../../high-availability/o_high_availability/index.html">Configure the Gateway for High Availability</a>.</li>
+ </ul>
+</span>
+
+
+<h4 id="see-also">See Also</h4>
+
+<ul>
+  <li><a href="../o_tls/index.html">Secure Network Traffic with the Gateway</a></li>
+  <li><a href="../c_tls/index.html">Transport Layer Security (TLS/SSL) Concepts</a></li>
+</ul>
+
+
+</div>
+
+</div>
+
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

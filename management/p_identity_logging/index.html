@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+  
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+
+<h1>Identity Logging</h1>
+
+<p>Kaazing WebSocket Gateway identity logging identifies clients that have signed in using a Login Module as part of a Single Sign On (SSO) interaction. Once a client is signed in successfully, the Gateway logs all the network activity for that client across TCP, HTTP(S), and WebSocket (WS and WSS) connections. For each client connection, the logs display the client IP and client identity, enabling you to determine which protocol connection for each client succeeded or failed.</p>
+
+
+<h2>Configure the Log4j File</h2>
+
+<p>A WebSocket connection with the Gateway will have multiple transports associated with it, depending on the connection scenario. For example, a secure connection to the Gateway will include the TLS transport. To display specific transports in the log, ensure that the Log4j file for the Gateway, located in <code>GATEWAY_HOME/conf/log4j-config.xml</code>, has the loggers included, for example:</p>
+
+  
+<pre class="auto-links: false; brush: js; toolbar: false;">
+
+&lt;logger name=&quot;transport.tcp&quot;&gt;
+    &lt;level value=&quot;info&quot;/&gt;
+    &lt;appender-ref ref=&quot;AccessFile&quot;/&gt;
+&lt;/logger&gt;
+
+&lt;logger name=&quot;transport.http&quot;&gt;
+    &lt;level value=&quot;info&quot;/&gt;
+    &lt;appender-ref ref=&quot;AccessFile&quot;/&gt;
+&lt;/logger&gt;
+
+&lt;logger name=&quot;transport.wsn&quot;&gt;
+    &lt;level value=&quot;info&quot;/&gt;
+    &lt;appender-ref ref=&quot;AccessFile&quot;/&gt;
+&lt;/logger&gt;
+
+&lt;logger name=&quot;transport.wseb&quot;&gt;
+    &lt;level value=&quot;info&quot;/&gt;
+    &lt;appender-ref ref=&quot;AccessFile&quot;/&gt;
+&lt;/logger&gt;
+
+</pre>
+
+<p>You can add loggers for other transports as needed.</p>
+
+<h2>Log File Syntax for Identity Logging</h2>
+
+<p>When looking at the log file, you can identify all of the log information for each user by locating the client IP address and then locating each log item that includes that address. Here is an example of a log that includes identity logging.</p>
+
+<p>The first line is an opened TCP connection from client 192.0.2.1. It identifies the IP address of the client and the IP address of the server hosting the Gateway, 198.51.100.1:</p>
+
+<code>INFO [tcp#1 192.0.2.1:52882] OPENED: (#00000001: kaazing niosocketchannel, server, /192.0.2.1:52882 => /198.51.100.1:8080)</code>
+
+<p>The next line is an open HTTP connection from the same client and it includes the authorized name of the client, johnSmith and the URI used to create the HTTP connection with the Gateway:</p>
+
+<code>INFO [http#2 johnSmith 192.0.2.1:52882] OPENED: (#00000002: kzg http, server, http://example.com:8080/jms?.kl=Y => http://example.com:8080/jms)</code>
+
+<p>The next line is the open, native WebSocket connection to the JMS broker from the same client and it includes the authorized name of the client, johnSmith and the URI used to create the WebSocket connection with the Gateway:</p>
+
+<code>INFO [wsn#3 johnSmith 192.0.2.1:52882] OPENED: (#00000004: kzg wsn, server, ws://example.com:8001/jms => wsn://example.com:8001/jms)</code>
+
+<p>The next line is the second WebSocket connection for the user. The second connection is used when the Kaazing WebSocket Gateway extension handshake is used:</p>
+
+<code>INFO [wsn#4 johnSmith 192.0.2.1:52882] OPENED: (#00000004: kzg wsn, server, ws://example.com:8001/jms => wsn://example.com:8001/jms)</code>
+
+<p>The next line is a closed HTTP connection. The HTTP connection with the Gateway is now closed because the WebSocket handshake has taken place and the client and Gateway are connected over WebSocket:
+</p>
+
+<code>INFO [http#2 johnSmith 192.0.2.1:52882] CLOSED: (#00000002: kzg http, server, http://example.com:8001/jms?.kl=Y => http://example.com:8001/jms)</code>
+
+<p>The next line shows the Kaazing WebSocket Gateway extension handshake used for proprietary extensions:</p>
+
+<code>INFO [ws://192.0.2.1/jms x-kaazing-handshake] [http://192.0.2.1/jms?.kl=Y ws/rfc6455]</code>
+
+
+<h2>Transport and Service Client Identifiers</h2>
+
+<p>The Gateway logs the identity associated with each transport level and service. For example, when a user is authorized by the Gateway via a login module, a record is written to the log for the HTTP transport connection and includes the username associated with the security token presented to the Gateway during the sign in process.</p>
+
+<p>Higher layer transports and services inherit client information from the layer beneath. For example, HTTP and TLS inherit the client identity from TCP, which is a remote IP address and port. WebSocket and protocol transports like JMS inherit client identity from HTTP, which is both the IP address or, if available, the authenticated client identifier, such as the username associated with the security token.</p>
+
+<p>If a transport layer does not specify its own identity resolver, then it inherits the identity resolver from the layer below. For example, if the identity resolver for TCP returns a string like 74.14.20.137:58392, then each layer above that will also show that string as the authorized entity in the log lines, unless overridden by a new identity resolver.</p>
+
+<p>A description of each transport and service log record is listed in the following table.</p>
+
+<h3>Transport and Service Identifiers Table</h3>
+
+
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Transport or Service</th>
+<th style="text-align:left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">TCP and UDP</td>
+<td style="text-align:left">The Gateway logs the remote address and <a href="https://en.wikipedia.org/wiki/Ephemeral_port">ephemeral port</a> of the client, for example, <code>192.0.2.1:52882</code>.<br>
+  Example:  <br>
+  <code>INFO [tcp#1 192.0.2.1:52882] OPENED: (#00000001: kaazing niosocketchannel, server, /192.0.2.1:52882 =&gt; /198.51.100.1:8080)</code></td>
+</tr>
+<tr>
+<td style="text-align:left">TLS</td>
+<td style="text-align:left">The Gateway configuration file uses the <code>ssl.verify-client</code> child element of <code>accept-options</code> or <code>connect-options</code> to specify whether or not to use client certificates. The value can be set to required, optional, or none (the default).  Currently, TLS identity logging is not implemented for TLS. The client identity for this layer is inherited from below.</td>
+</tr>
+<tr>
+<td style="text-align:left">SOCKS</td>
+<td style="text-align:left">Authorization is not implemented at the SOCKS layer by the Gateway. The client identity for this layer is inherited from below.</td>
+</tr>
+<tr>
+<td style="text-align:left">HTTP</td>
+<td style="text-align:left">The client identity at the HTTP transport layer is a user identifier, such as a username. This assists administrators in identifying their users in the log.  <br>
+  Example:  <br>
+  <code>INFO [http#2 johnSmith 192.0.2.1:52882] OPENED: (#00000002: kzg http, server, http://example.com:8080/jms?.kl=Y =&gt; http://example.com:8080/jms)</code>.  For the HTTP layer, an administrator may override the default client identity by specifying a Principal class that contains an identity string. For more information, see <a href="#overriding-client-identity-using-a-principal-class">Overriding Client Identity using a Principal Class</a>.</td>
+</tr>
+<tr>
+<td style="text-align:left">WebSocket</td>
+<td style="text-align:left">Authorization is not implemented at the WebSocket layer as the handshake is done in HTTP. The WebSocket layer inherits client identity from the HTTP layer.  <br>
+  Example:  <br>
+  <code>INFO [wsn#3 johnSmith 192.0.2.1:52882] OPENED: (#00000004: kzg wsn, server, ws://example.com:8001/jms =&gt; wsn://example.com:8001/jms)</code></td>
+</tr>
+<tr>
+<td style="text-align:left">JMS</td>
+<td style="text-align:left">If a <a href="//kaazing.com/doc/5.0/apidoc/server/jms/server/spi/index.html?com/kaazing/gateway/jms/server/spi/security/JmsUserIdentityResolver.html">JmsUserIdentityResolver</a> is specified, then it is used as the identity string when logging. The JmsUserIdentityResolver is responsible for resolving the JMS user identity from the authenticated Subject.  If no JmsUserIdentityResolver is specified, then logging inherits from the layer below.</td>
+</tr>
+<tr>
+<td style="text-align:left">AMQP</td>
+<td style="text-align:left">If an <a href="//kaazing.com/doc/5.0/apidoc/server/amqp/server/spi/com/kaazing/gateway/amqp/server/spi/AmqpPrincipal.html">AmqpPrincipal</a> class is specified,  then it is used for the client identity string when logging. AmqpPrincipal is used to inject credentials into AMQP 0.9.1 messages. To implement single-sign-on, developers can set up AmqpPrincipal in the Subject their existing LoginModule implementation.  For more information, see <a href="../../security/p_aaa_userid_promo/index.html">Promote User Identity into the AMQP Protocol</a>.  If no AmqpPrincipal is set, then logging inherits from the layer below.</td>
+</tr>
+</tbody>
+</table>
+
+
+<h2>Overriding Client Identity in HTTP using a Principal Class</h2>
+
+<p>The HTTP layer allows you to override the default client identifier by specifying a Principal class that contains the identity string. To specify the Principal class, use the existing <code>user-principal-class</code> setting which is part of the <code>realm</code> element.</p>
+
+<p>The <code>user-principal-class</code> setting contains the name of the class that represents a user principal. When a principal of this class is authorized, a notification of such is sent through the management service. If no management service is configured, then this element is ignored. The class must implement java.security.Principal (see <a href="//docs.oracle.com/javase/7/docs/api/java/security/Principal.html">http://docs.oracle.com/javase/7/docs/api/java/security/Principal.html</a> for more information).</p>
+
+<p>The <code>user-principal-class</code> setting informs JMX that these classes exist, and the class will appear in JConsole. You may populate the value in each login module. Any Principal class you add to your login module is available for this element, and then available to JMX.</p>
+
+<p>Here is an example of the setting in the Gateway configuration:</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;realm&gt;
+  &lt;user-principal-class&gt;
+     com.kaazing.demo.auth.MyUsernamePrincipal
+  &lt;/user-principal-class&gt;
+
+  &lt;name&gt;demo&lt;/name&gt;
+  &lt;authentication&gt;
+    &lt;http-challenge-scheme&gt;Application Token&lt;http-challenge-scheme&gt;
+
+    &lt;login-modules&gt;
+    ...
+    &lt;/login-modules&gt;
+  &lt;/authentication&gt;
+&lt;/realm&gt;
+</pre>
+
+<p><strong>Notes:</strong></p>
+
+<ul>
+  <li>In the case of multiple instances of <code>user-principal-class</code>, the first <code>user-principal-class</code> is used for identity logging.</li>
+  <li>If the value of <code>user-principal-class</code> cannot be converted to a valid class, an exception with the following message is thrown:<br>
+  
+  <code>Class <code>class name</code> could not be loaded. Please check the gateway configuration xml and confirm that <code>user-principal-class</code> value(s) are spelled correctly for realm <code>realm name</code></code>
+  </li>
+</ul>
+
+<p>You can use the login module to create the Principal, populate it, and add it to the Subject. Typically the Principal will contain the username or some other user identifier, but the administrator can choose to put any information they want into it.</p>
+
+<p>Here is sample Java code from a login module that creates and populates the Principal and then adds it to the Subject.</p>
+
+<p>File 1:</p>
+
+<pre class="auto-links: false; brush: java; toolbar: false;">
+/**
+ * Store the username or user id that uniquely identifies a user.
+ */
+
+package com.kaazing.demo.auth;
+
+public class MyUsernamePrincipal implements Principal {
+
+    String username;
+
+    public MyUsernamePrincipal(String username) {
+        this.username = username;
+    }
+
+    @Override
+    public String getName() {
+        return username;
+    }
+
+}
+</pre>
+
+<p>File 2:</p>
+
+<pre class="auto-links: false; brush: java; toolbar: false;">
+package com.kaazing.demo.auth;
+
+/**
+ * LoginModule which extracts the username from the authorization token and
+ * adds it as a Principal to the Subject.
+ */
+public class SimpleLoginModule implements LoginModule
+{
+  private MyUsernamePrincipal usernamePrincipal;
+  ...
+  public boolean login()
+  throws LoginException
+  {
+    ...
+    // Get the username from the token and validate it
+    String username = ...
+    if (isValid(username)) {
+      this.usernamePrincipal = new MyUsernamePrincipal(username);
+    }
+    ...
+  }
+
+  public boolean commit()
+  throws LoginException
+  {
+    ...
+    if (this.usernamePrincipal != null)
+    {
+      this.subject.getPrincipals().add(this.usernamePrincipal);
+    }
+    ...
+  }
+  ...
+}
+</pre>
+                  
+
+<p>An interesting feature of the HTTP layer is that it has access to the Forwarded header. Layers below HTTP accessing the remote IP address might be getting the IP address of an intermediary in the DMZ, such as another Gateway or a third party load balancer. In that case, all identity logging done at the lower layers might have the same IP address, but not the actual IP address of the client.</p>
+
+<p>If an intermediary propagates the Forwarded header, then the header can be accessed from the LoginModule via a <a href="../../security/p_geolocation_security.html">callback</a>. You can then choose to add the true client IP address to the Principal, perhaps concatenating it with the username.</p>
+
+<h2>Using Identity Logging for Troubleshooting</h2>
+
+<p>When a user is experiencing problems connecting to resources via the Gateway, you can use the identity logging in the log file to troubleshoot the problem for that user. Let’s take a look at a couple of examples.</p>
+
+<h3>Is the User Connected?</h3>
+
+<p><strong>Problem:</strong> A user says that he is connected, but is not receiving messages from the back-end server via the Gateway.</p>
+
+<p><strong>Troubleshoot:</strong></p>
+
+<ol>
+  <li>Open the log file to identify the user. The log file is located in GATEWAY_HOME/log/error.log.</li>
+  <li>Verify that the user is open on all transports (TCP, etc). Look for OPENED in the log. For example:<br>
+
+    <code>INFO [http#2 johnSmith 192.0.2.1:52882] OPENED: (#00000002: kzg http, server, http://example.com:8080/jms?.kl=Y => http://example.com:8080/jms)</code>
+  </li>
+  
+  <li>If TCP and HTTP connections opened successfully, but the WebSocket connection (wsn) opened and then closed, then authorization likely failed. For example:<br>
+
+<code>  
+  INFO  [http#5 192.0.2.1:63901] OPENED: (#00000005: kzg http, server, http://example.com:8001/echo?.kl=Y => http://example.com:8001/echo)<br>
+  INFO  [wsn#6 192.0.2.1:63901] OPENED: (#00000006: kzg wsn, server, ws://example.com:8001/echo => wsn://example.com:8001/echo)<br>
+  INFO  [http#5 192.0.2.1:63901] CLOSED: (#00000005: kzg http, server, http://example.com:8001/echo?.kl=Y => http://example.com:8001/echo)<br>
+  INFO  [wsn#6 192.0.2.1:63901] CLOSED: (#00000006: kzg wsn, server, ws://example.com:8001/echo => wsn://example.com:8001/echo)
+</code>
+  </li>
+</ol>
+
+<h3>Why Did the Connection Close?</h3>
+
+<p><strong>Problem:</strong> A client connected, but the connection closed on them.</p>
+
+<p><strong>Troubleshoot:</strong> The Gateway will include a error message in the error.log, such as:</p>
+
+<code>INFO [wsn#6 192.0.2.1:63901] EXCEPTION: java.io.IOException: Network connectivity has been lost or transport was closed at other end</code>
+
+<h2>Notes</h2>
+
+<ul>
+  <li>The syntax for native WebSocket connections is <code>wsn</code>.</li>
+  <li>The syntax for emulated WebSocket connections is <code>wse</code> and <code>wseb</code>. You might also see the suffix <code>u</code> or <code>d</code> to indicate upstream and downstream connections, such as <code>wseb#4u</code> and <code>wseb#5d</code>.</li>
+  <li>The syntax for Kaazing WebSocket Gateway extensions is <code>httpxe</code>. These connections are not important for administrators to monitor.</li>
+</ul>
+
+
+</div>
+
+</div>
+
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>
+

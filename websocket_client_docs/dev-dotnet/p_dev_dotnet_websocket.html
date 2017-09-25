@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+  
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+<h1>Interact with Kaazing Gateway Using the WebSocket API</h1>
+          <p>This procedure describes how you can use the WebSocket API&mdash;provided by the Kaazing .NET client library&mdash;from a .NET application. This API allows you to take advantage of the WebSocket standard as described in the <a href="//dev.w3.org/html5/spec/Overview.html#network">HTML5 specification</a>. For example, you can create a .NET application that uses the Kaazing .NET client library to interact directly with a back-end server. The support for WebSocket is provided by the WebSocket class and its supporting classes.</p>
+
+<p>The Kaazing Microsoft .NET WebSocket API supports the following deployment scenarios:</p>
+
+<ul>
+<li>.NET 4.0 Frameworks</li>
+<li>.NET 4.5 (4.5.1) Frameworks, including Windows Surface RT</li>
+<li>Windows 8 (8.1) desktop and Surface Pro applications</li>
+<li>Windows Phone 8.1 native apps</li>
+</ul>
+<span class="note"><b>Note:</b> There is no support for Windows CE.</span>
+
+<h2>Before You Begin</h2>
+<p>This procedure is part of <a href="o_dev_dotnet.html" title="Kaazing | Documentation">Checklist: Build Microsoft .NET WebSocket Clients</a>.</p>
+
+<p><span class="note"><b>Note:</b> Learn about supported browsers, operating systems, and platform versions in the <a href="//kaazing.com/download/#client-dotnet">Release Notes</a>.</span></p>
+
+
+<h2>Taking a Look at the Microsoft .NET Client Tutorial App</h2>
+
+<p>Take a look at a demonstration application that was built with the Kaazing .NET SDK. To see this demo in action, perform the following steps:</p>
+
+<ol>
+ <li>Download or clone the Kaazing .NET Tutorials project from <a href="https://github.com/kaazing/dotnet.client.tutorials">https://github.com/kaazing/dotnet.client.tutorials</a>.</li>
+ <li>Navigate to the WebSocket app for Windows Desktop at <strong>dotnet.client.tutorials\ws\WindowsDesktop</strong>.</li>
+ <li>Double-click EchoDemo.sln. The solution opens in Visual Studio.</li>
+ <li>In Solution Explorer, right-click <strong>EchoDemo</strong> and click <strong>Build</strong>.</li>
+ <li><p>To run the app, click the <strong>Start</strong> arrow. The desktop app appears in a new window.</p>
+  <figure>
+   <img src="../images/EchoWindowsDesktop.png" />
+  <figcaption><strong>Figure: Windows Desktop Tutorial App</strong></figcaption> 
+  </figure>
+ </li>
+ <li>In the app, click <strong>Connect</strong> to connect to the publicly available Kaazing WebSocket Gateway and Echo service at URL <code>wss://sandbox.kaazing.net/echo</code>.</li>
+ <li>Click <strong>Send</strong> to send and receive a message from the Kaazing WebSocket Gateway.</li>
+</ol>
+
+
+<h2>Supported Data Types</h2>
+
+<p>You can send a WebSocket message using one of the following data types:</p>
+
+<ul>
+<li>String — A text WebSocket message (UTF-8).</li>
+<li>Binary (using the ByteBuffer class) — A compact byte array representation for sending, receiving and processing binary data using WebSocket.</li>
+</ul>
+
+<h3>Primary WebSocket Microsoft .NET API Features</h3>
+
+<p>The examples in this section will demonstrate how to open and close a WebSocket connection, send and receive messages, and error handling.</p>
+
+<h4>Connecting and Closing Connections</h4>
+
+<p>The following example demonstrates how to open and close a connection. The code includes authentication, and calls functions to update the client UI with messages describing the connection state.</p>
+
+<pre class="auto-links: false; brush: java; toolbar: false;">
+private void ConnectButton_Click(object sender, EventArgs e)
+{
+ // Immediately disable the connect button
+ ConnectButton.Enabled = false;
+ LocationText.Enabled = false;
+
+ //setup ChallengeHandler to handler Basic/Application Basic authentications
+ BasicChallengeHandler basicHandler = BasicChallengeHandler.Create();
+ basicHandler.LoginHandler = new LoginHandlerDemo(this);
+
+ factory.ChallengeHandler = basicHandler;
+ webSocket = factory.CreateWebSocket();
+ Log("CONNECT:" + LocationText.Text);
+
+ webSocket.OpenEvent += new OpenEventHandler(OpenHandler);
+ webSocket.CloseEvent += new CloseEventHandler(CloseHandler);
+ webSocket.MessageEvent += new MessageEventHandler(MessageHandler);
+
+ webSocket.Connect(LocationText.Text);
+}
+
+private void DisconnectButton_Click(object sender, EventArgs e)
+{
+ Log("DISCONNECT");
+ webSocket.Close();
+}
+</pre>
+
+<h4>Sending and Receiving Messages</h4>
+
+<p>The following code demonstrates sending (<code>SendButton_Click</code>) and receiving messages (<code>MessageHandler</code>) using all of the supported data types.</p>
+
+<pre class="auto-links: false; brush: java; toolbar: false;">
+private void SendButton_Click(object sender, EventArgs e)
+{
+ if (checkBox_Binary.Checked)
+ {
+  ByteBuffer buf = new ByteBuffer();
+  buf.PutString(MessageText.Text, Encoding.UTF8);
+  buf.Flip();
+  Log("SEND BINARY:" + buf.GetHexDump());
+  webSocket.Send(buf);
+ }
+ else
+ {
+  Log("SEND TEXT:" + MessageText.Text);
+  webSocket.Send(MessageText.Text);
+ }
+}
+...
+private void MessageHandler(object sender, MessageEventArgs args)
+{
+ this.BeginInvoke((InvokeDelegate)(() =>
+ {
+  switch(args.MessageType) {
+   case EventType.BINARY:
+   Log("BINARY MESSAGE: "+  BitConverter.ToString(args.Data.Array));
+   break;
+   case EventType.TEXT:
+   Log("TEXT MESSAGE: " + Encoding.UTF8.GetString(args.Data.Array));
+   break;
+   case EventType.CLOSE:
+   Log("CLOSED");
+   break;
+  }
+ }));
+}
+</pre>
+
+<h2>To Use the Kaazing WebSocket .NET API</h2>
+
+<p>To demonstrate the Kaazing WebSocket .NET SDK, let's create a simple .NET desktop application that uses the Kaazing WebSocket Gateway and its Echo service to send and receives Echo messages over WebSocket. This is the same .NET Echo desktop application that is available on Github as part of the Kaazing .NET tutorials here <a href="https://github.com/kaazing/dotnet.client.tutorials">https://github.com/kaazing/dotnet.client.tutorials</a>.</p>
+
+<ol>
+  <li>Install <a href="https://www.microsoft.com/en-us/download/details.aspx?id=42642">.NET Framework 4.5.2</a>. To see if you have this version installed, see <a href="https://msdn.microsoft.com/en-us/library/hh925568%28v=vs.110%29.aspx?f=255&amp;MSPPError=-2147217396">How to: Determine Which .NET Framework Versions Are Installed</a>.</li>
+  <li><p>Install a .NET Integrated Development Environment (IDE). This procedure assumes that you are using Microsoft Visual Studio or the free <a href="https://www.visualstudio.com/en-us/products/visual-studio-community-vs.aspx">Visual Studio Community</a>.</p>
+      <p><span class="note"><strong>Note</strong>: You can develop .NET Framework applications in any of the .NET programming languages. Microsoft Visual C# is used in the code examples in this document.</span></p>
+  </li>
+  <li>Download the Kaazing Microsoft .NET SDK NuGet package file (.nupkg) from <a href="//kaazing.com/download/#client-dotnet">kaazing.com/download</a>.</li>
+  <li>Open Visual Studio.</li>
+  <li>Create a new project. Click <strong>File</strong>, click <strong>New</strong>, and then click <strong>Project</strong>.</li>
+  <li>Click the <strong>Installed</strong> navigation heading, expand <strong>Templates</strong>, expand <strong>Visual C#</strong>, and click <strong>Windows Desktop</strong>.</li>
+  <li>Click <strong>Windows Forms Application</strong>.</li>
+  <li>At the top of the dialog, select <strong>.NET Framework 4.5.2</strong>.</li>
+  <li>In <strong>Name</strong>, enter <strong>EchoDemo</strong> and click <strong>OK</strong>. Visual Studio created the new EchoDemo project.</li>
+  <li>Install the Kaazing Microsoft .NET SDK.
+   <ol type="a">
+   <li>Click <strong>TOOLS</strong>, click <strong>NuGet Package Manager</strong>, and then click <strong>Package Manager Settings</strong>.</li>
+  <li>In the navigation, click <strong>Package Sources</strong>.</li>
+  <li>Click the plus icon to add a new source.</li>
+  <li>In <strong>Name</strong>, enter <strong>Kaazing</strong>.</li>
+  <li>In <strong>Source</strong>, click the browse button, <strong>...</strong>.</li>
+  <li>Locate the folder containing the .nupkg file for the Kaazing Microsoft .NET SDK and click <strong>Select</strong>.</li>
+  <li>Click <strong>OK</strong>.</li>
+  <li>Right-click the EchoDemo project, and click <strong>Manage NuGet Packages</strong>.</li>
+  <li>Click <strong>Online</strong>, click <strong>Kaazing</strong>, and then click <strong>Install</strong>.</li>
+  <li>Click <strong>Close</strong>.</li>
+  <li>In your project, expand the <strong>References</strong> element to see the Kaazing .NET SDK libraries.</li>
+  </ol>
+ </li>
+  <li>Next, let's create the UI for the application. In EchoDemo, rename the <strong>Form1.cs</strong> form to <strong>MainForm.cs</strong> and let Visual Studio rename all related references.
+   <ol type="a">
+  <li>Expand <strong>MainForm.cs</strong> and click <strong>MainFormDesigner.cs</strong>.</li>
+  <li>Replace the existing code with the code below. You can also obtain the code on Github at <a href="https://github.com/kaazing/dotnet.client.tutorials/blob/develop/ws/WindowsDesktop/MainForm.Designer.cs">https://github.com/kaazing/dotnet.client.tutorials/blob/develop/ws/WindowsDesktop/MainForm.Designer.cs</a>. This code will define the User Interface for the application:
+
+<pre class="auto-links: false; brush: java; toolbar: false;">
+namespace EchoDemo
+{
+ partial class MainForm
+ {
+  /// &lt;summary&gt;
+  /// Required designer variable.
+  /// &lt;/summary&gt;
+  private System.ComponentModel.IContainer components = null;
+
+  /// &lt;summary&gt;
+  /// Clean up any resources being used.
+  /// &lt;/summary&gt;
+  /// &lt;param name=&quot;disposing&quot;&gt;true if managed resources should be disposed; otherwise, false.&lt;/param&gt;
+  protected override void Dispose(bool disposing)
+  {
+   if (disposing &amp;&amp; (components != null))
+   {
+    components.Dispose();
+   }
+   base.Dispose(disposing);
+  }
+
+  #region Windows Form Designer generated code
+
+  /// &lt;summary&gt;
+  /// Required method for Designer support - do not modify
+  /// the contents of this method with the code editor.
+  /// &lt;/summary&gt;
+  private void InitializeComponent()
+  {
+   System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
+   this.checkBox_Binary = new System.Windows.Forms.CheckBox();
+   this.label3 = new System.Windows.Forms.Label();
+   this.Subtitle = new System.Windows.Forms.Label();
+   this.Title = new System.Windows.Forms.Label();
+   this.SendButton = new System.Windows.Forms.Button();
+   this.MessageText = new System.Windows.Forms.TextBox();
+   this.MessageLabel = new System.Windows.Forms.Label();
+   this.DisconnectButton = new System.Windows.Forms.Button();
+   this.ConnectButton = new System.Windows.Forms.Button();
+   this.ClearLogButton = new System.Windows.Forms.Button();
+   this.Output = new System.Windows.Forms.TextBox();
+   this.LocationText = new System.Windows.Forms.TextBox();
+   this.LocationLabel = new System.Windows.Forms.Label();
+   this.SuspendLayout();
+   // 
+   // checkBox_Binary
+   // 
+   this.checkBox_Binary.AutoSize = true;
+   this.checkBox_Binary.Location = new System.Drawing.Point(537, 146);
+   this.checkBox_Binary.Name = &quot;checkBox_Binary&quot;;
+   this.checkBox_Binary.Size = new System.Drawing.Size(55, 17);
+   this.checkBox_Binary.TabIndex = 38;
+   this.checkBox_Binary.Text = &quot;Binary&quot;;
+   this.checkBox_Binary.UseVisualStyleBackColor = true;
+   // 
+   // label3
+   // 
+   this.label3.AutoSize = true;
+   this.label3.Font = new System.Drawing.Font(&quot;Microsoft Sans Serif&quot;, 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+   this.label3.Location = new System.Drawing.Point(75, 73);
+   this.label3.Name = &quot;label3&quot;;
+   this.label3.Size = new System.Drawing.Size(343, 17);
+   this.label3.TabIndex = 37;
+   this.label3.Text = &quot;directly with an echo service on the Kaazing Gateway&quot;;
+   // 
+   // Subtitle
+   // 
+   this.Subtitle.AutoSize = true;
+   this.Subtitle.Font = new System.Drawing.Font(&quot;Microsoft Sans Serif&quot;, 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+   this.Subtitle.Location = new System.Drawing.Point(75, 56);
+   this.Subtitle.Name = &quot;Subtitle&quot;;
+   this.Subtitle.Size = new System.Drawing.Size(390, 17);
+   this.Subtitle.TabIndex = 36;
+   this.Subtitle.Text = &quot;This is a demo of a .Net Framework client that communicates&quot;;
+   // 
+   // Title
+   // 
+   this.Title.AutoSize = true;
+   this.Title.Font = new System.Drawing.Font(&quot;Microsoft Sans Serif&quot;, 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+   this.Title.Location = new System.Drawing.Point(108, 30);
+   this.Title.Name = &quot;Title&quot;;
+   this.Title.Size = new System.Drawing.Size(435, 26);
+   this.Title.TabIndex = 35;
+   this.Title.Text = &quot;Kaazing .Net Framework WebSocket Demo&quot;;
+   // 
+   // SendButton
+   // 
+   this.SendButton.Enabled = false;
+   this.SendButton.Location = new System.Drawing.Point(617, 137);
+   this.SendButton.Name = &quot;SendButton&quot;;
+   this.SendButton.Size = new System.Drawing.Size(85, 28);
+   this.SendButton.TabIndex = 34;
+   this.SendButton.Text = &quot;Send&quot;;
+   this.SendButton.UseVisualStyleBackColor = true;
+   this.SendButton.Click += new System.EventHandler(this.SendButton_Click);
+   // 
+   // MessageText
+   // 
+   this.MessageText.Location = new System.Drawing.Point(168, 145);
+   this.MessageText.Name = &quot;MessageText&quot;;
+   this.MessageText.Size = new System.Drawing.Size(349, 20);
+   this.MessageText.TabIndex = 33;
+   this.MessageText.Text = &quot;Hello, Message&quot;;
+   // 
+   // MessageLabel
+   // 
+   this.MessageLabel.AutoSize = true;
+   this.MessageLabel.Font = new System.Drawing.Font(&quot;Microsoft Sans Serif&quot;, 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+   this.MessageLabel.Location = new System.Drawing.Point(80, 146);
+   this.MessageLabel.Name = &quot;MessageLabel&quot;;
+   this.MessageLabel.Size = new System.Drawing.Size(77, 17);
+   this.MessageLabel.TabIndex = 32;
+   this.MessageLabel.Text = &quot;Message:&quot;;
+   // 
+   // DisconnectButton
+   // 
+   this.DisconnectButton.Enabled = false;
+   this.DisconnectButton.Location = new System.Drawing.Point(617, 100);
+   this.DisconnectButton.Name = &quot;DisconnectButton&quot;;
+   this.DisconnectButton.Size = new System.Drawing.Size(85, 28);
+   this.DisconnectButton.TabIndex = 31;
+   this.DisconnectButton.Text = &quot;Disconnect&quot;;
+   this.DisconnectButton.UseVisualStyleBackColor = true;
+   this.DisconnectButton.Click += new System.EventHandler(this.DisconnectButton_Click);
+   // 
+   // ConnectButton
+   // 
+   this.ConnectButton.Location = new System.Drawing.Point(526, 100);
+   this.ConnectButton.Name = &quot;ConnectButton&quot;;
+   this.ConnectButton.Size = new System.Drawing.Size(85, 28);
+   this.ConnectButton.TabIndex = 30;
+   this.ConnectButton.Text = &quot;Connect&quot;;
+   this.ConnectButton.UseVisualStyleBackColor = true;
+   this.ConnectButton.Click += new System.EventHandler(this.ConnectButton_Click);
+   // 
+   // ClearLogButton
+   // 
+   this.ClearLogButton.Location = new System.Drawing.Point(604, 538);
+   this.ClearLogButton.Name = &quot;ClearLogButton&quot;;
+   this.ClearLogButton.Size = new System.Drawing.Size(99, 33);
+   this.ClearLogButton.TabIndex = 29;
+   this.ClearLogButton.Text = &quot;Clear Log&quot;;
+   this.ClearLogButton.UseVisualStyleBackColor = true;
+   this.ClearLogButton.Click += new System.EventHandler(this.ClearLogButton_Click);
+   // 
+   // Output
+   // 
+   this.Output.Location = new System.Drawing.Point(78, 181);
+   this.Output.Multiline = true;
+   this.Output.Name = &quot;Output&quot;;
+   this.Output.Size = new System.Drawing.Size(625, 351);
+   this.Output.TabIndex = 28;
+   // 
+   // LocationText
+   // 
+   this.LocationText.Location = new System.Drawing.Point(168, 105);
+   this.LocationText.Name = &quot;LocationText&quot;;
+   this.LocationText.Size = new System.Drawing.Size(349, 20);
+   this.LocationText.TabIndex = 27;
+   this.LocationText.TextChanged += new System.EventHandler(this.LocationText_TextChanged);
+   // 
+   // LocationLabel
+   // 
+   this.LocationLabel.AutoSize = true;
+   this.LocationLabel.Font = new System.Drawing.Font(&quot;Microsoft Sans Serif&quot;, 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+   this.LocationLabel.Location = new System.Drawing.Point(80, 105);
+   this.LocationLabel.Name = &quot;LocationLabel&quot;;
+   this.LocationLabel.Size = new System.Drawing.Size(75, 17);
+   this.LocationLabel.TabIndex = 26;
+   this.LocationLabel.Text = &quot;Location:&quot;;
+   // 
+   // MainForm
+   // 
+   this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+   this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+   this.BackColor = System.Drawing.SystemColors.ControlLightLight;
+   this.ClientSize = new System.Drawing.Size(784, 581);
+   this.Controls.Add(this.checkBox_Binary);
+   this.Controls.Add(this.label3);
+   this.Controls.Add(this.Subtitle);
+   this.Controls.Add(this.Title);
+   this.Controls.Add(this.SendButton);
+   this.Controls.Add(this.MessageText);
+   this.Controls.Add(this.MessageLabel);
+   this.Controls.Add(this.DisconnectButton);
+   this.Controls.Add(this.ConnectButton);
+   this.Controls.Add(this.ClearLogButton);
+   this.Controls.Add(this.Output);
+   this.Controls.Add(this.LocationText);
+   this.Controls.Add(this.LocationLabel);
+   this.Name = &quot;MainForm&quot;;
+   this.Text = &quot;Kaaazing WebSocket Echo Demo&quot;;
+   this.Load += new System.EventHandler(this.MainForm_Load);
+   this.ResumeLayout(false);
+   this.PerformLayout();
+
+  }
+
+  #endregion
+
+  private System.Windows.Forms.CheckBox checkBox_Binary;
+  private System.Windows.Forms.Label label3;
+  private System.Windows.Forms.Label Subtitle;
+  private System.Windows.Forms.Label Title;
+  private System.Windows.Forms.Button SendButton;
+  private System.Windows.Forms.TextBox MessageText;
+  private System.Windows.Forms.Label MessageLabel;
+  private System.Windows.Forms.Button DisconnectButton;
+  private System.Windows.Forms.Button ConnectButton;
+  private System.Windows.Forms.Button ClearLogButton;
+  private System.Windows.Forms.TextBox Output;
+  private System.Windows.Forms.TextBox LocationText;
+  private System.Windows.Forms.Label LocationLabel;
+ }
+}
+</pre>
+  </li>
+  </ol>
+ </li>
+  <li>Next, let's start adding the code for our application. Right-click <strong>MainForm.cs</strong> and click <strong>View Code</strong>. <br><span class="note"><b>Note:</b> The entire code for MainForm.cs can be found on Github at <a href="https://github.com/kaazing/dotnet.client.tutorials/blob/develop/ws/WindowsDesktop/MainForm.cs">https://github.com/kaazing/dotnet.client.tutorials/blob/develop/ws/WindowsDesktop/MainForm.cs</a>.</span>
+  <ol type="a">
+   <li><p>In the MainForm.cs code window, replace the default import statements with the following:</p>
+<pre class="auto-links: false; brush: java; toolbar: false;">
+using Kaazing.HTML5;
+using Kaazing.Security;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+</pre>
+  </li>
+  <li>In the MainForm class, add the WebSocket factory object:
+<pre class="auto-links: false; brush: java; toolbar: false;">
+namespace EchoDemo
+{
+    public partial class MainForm : Form
+    {
+        private WebSocket webSocket = null;
+        private WebSocketFactory factory = new WebSocketFactory();
+        
+        public delegate void InvokeDelegate();
+
+        /// The code for the subsequent steps goes here.
+
+    }
+}
+</pre>
+  </li>
+  <li>Next, add the <code>MainForm()</code> function just below the <code>/// The code for the subsequent steps goes here</code> comment. It will set up the form, and set the default URL for the application to connect to. We will use the publicly available Kaazing WebSocket Gateway at <code>wss://sandbox.kaazing.net/echo</code>:
+
+<pre class="auto-links: false; brush: java; toolbar: false;">
+/// &lt;summary&gt;
+/// .Net HTML5 Demo Form
+/// &lt;/summary&gt;
+public MainForm()
+{
+    InitializeComponent();
+
+    string defaultLocation = &quot;wss://sandbox.kaazing.net/echo&quot;;
+    LocationText.Text = defaultLocation;
+}
+
+private void HTML5DemoForm_Load(object sender, EventArgs e)
+{
+}
+
+private void HandleLog(string message)
+{
+    this.BeginInvoke((InvokeDelegate)(() =&gt;
+    {
+        Log(&quot;LOG: &quot; + message);
+    }));
+}
+</pre>
+  </li>
+  <li>Create a function to respond when the user clicks the <strong>Connect</strong> and <strong>Disconnect</strong> buttons. The method will respond to the <strong>Connect</strong> button by creating a WebSocket connection using the WebSocket factory, call methods to update the UI (we will add these later), call the <code>MessageEventHandler()</code> to handle the messages that will be received on the connection, and connect to the URL specified earlier:
+<pre class="auto-links: false; brush: java; toolbar: false;">
+///
+///  Button click handlers
+///
+private void ConnectButton_Click(object sender, EventArgs e)
+{
+    // Immediately disable the connect button
+    ConnectButton.Enabled = false;
+    LocationText.Enabled = false;
+
+    webSocket = factory.CreateWebSocket();
+    Log(&quot;CONNECT:&quot; + LocationText.Text);
+
+    webSocket.OpenEvent += new OpenEventHandler(OpenHandler);
+    webSocket.CloseEvent += new CloseEventHandler(CloseHandler);
+    webSocket.MessageEvent += new MessageEventHandler(MessageHandler);
+
+    webSocket.Connect(LocationText.Text);
+}
+
+private void DisconnectButton_Click(object sender, EventArgs e)
+{
+    Log(&quot;DISCONNECT&quot;);
+    webSocket.Close();
+}
+</pre>
+  </li>
+  <li>Create a function to respond when the user clicks the <strong>Send</strong> button. The <code>SendButton_Click()</code> function determines if the <strong>Binary</strong> checkbox is selected and uses the <strong>ByteBuffer()</strong> object to handle binary data. The function then updates the console with the message and sends the message over WebSocket.
+<pre class="auto-links: false; brush: java; toolbar: false;">
+private void SendButton_Click(object sender, EventArgs e)
+{
+    if (checkBox_Binary.Checked)
+    {
+        ByteBuffer buf = new ByteBuffer();
+        buf.PutString(MessageText.Text, Encoding.UTF8);
+        buf.Flip();
+        Log("SEND BINARY:" + buf.GetHexDump());
+        webSocket.Send(buf);
+    }
+    else
+    {
+        Log("SEND TEXT:" + MessageText.Text);
+        webSocket.Send(MessageText.Text);
+    }
+}
+</pre>
+  </li>
+  <li>Define the console log for the User Interface. This console is updated by most event handlers and displays both send and received messages.
+<pre class="auto-links: false; brush: java; toolbar: false;">
+///
+/// Console output
+///
+private const int LOG_LIMIT = 50;
+private Queue&lt;string&gt; logLines = new Queue&lt;string&gt;();
+private void Log(string arg)
+{
+    logLines.Enqueue(arg);
+    if (logLines.Count &gt; LOG_LIMIT)
+    {
+        logLines.Dequeue();
+    }
+    string[] o = logLines.ToArray&lt;string&gt;();
+
+    o = o.Reverse&lt;string&gt;().ToArray&lt;string&gt;();
+
+    Output.Text = string.Join(&quot;\r\n&quot;, o);
+}
+
+private void ClearLogButton_Click(object sender, EventArgs e)
+{
+    logLines.Clear();
+    Output.Text = &quot;&quot;;
+}
+</pre>
+  </li>
+  <li>Add the event handler that is called when the application connects to the Gateway. The function prevents crossthreading via Invoke and then enables the Send Disconnect buttons now that the connection is made.
+<pre class="auto-links: false; brush: java; toolbar: false;">
+private void OpenHandler(object sender, OpenEventArgs args)
+{
+    this.BeginInvoke((InvokeDelegate)(() =>
+    {
+        Log("CONNECTED");
+
+        DisconnectButton.Enabled = true;
+        SendButton.Enabled = true;
+    }));
+}
+</pre>
+  </li>
+  <li>Add the event handler that is called when the WebSocket connection is closed.
+<pre class="auto-links: false; brush: java; toolbar: false;">
+private void CloseHandler(object sender, CloseEventArgs args)
+{
+    this.BeginInvoke((InvokeDelegate)(() =>
+    {
+        Log("DISCONNECTED");
+        LocationText.Enabled = true;
+        ConnectButton.Enabled = true;
+        DisconnectButton.Enabled = false;
+        SendButton.Enabled = false;
+    }));
+}
+</pre>
+  </li>
+  <li>Add the <code>MessageHandler()</code> function to manage received messages. As you can see, messages fall into one of three event types: binary, text, and a control message. A switch statement is used to evaluate the messages, encode them as needed, and log the messages to the console.
+<pre class="auto-links: false; brush: java; toolbar: false;">
+private void MessageHandler(object sender, MessageEventArgs args)
+{
+    this.BeginInvoke((InvokeDelegate)(() =>
+    {
+        switch(args.MessageType) {
+            case EventType.BINARY:
+                Log("BINARY MESSAGE: "+  BitConverter.ToString(args.Data.Array));
+                break;
+            case EventType.TEXT:
+                Log("TEXT MESSAGE: " + Encoding.UTF8.GetString(args.Data.Array));
+                break;
+            case EventType.CLOSE:
+                Log("CLOSED");
+                break;
+
+        }
+        
+    }));
+}
+</pre>
+  </li>
+  <li>Add a event handler to respond to when the WebSocket URL is changed by the user.
+<pre class="auto-links: false; brush: java; toolbar: false;">
+private void LocationText_TextChanged(object sender, EventArgs e)
+{
+    if (LocationText.Text.Length == 0)
+    {
+        ConnectButton.Enabled = false;
+    }
+    else
+    {
+        ConnectButton.Enabled = true;
+    }
+}
+</pre>
+  </li>
+  <li>Lastly, enter an event handler for loading the main form.
+<pre class="auto-links: false; brush: java; toolbar: false;">
+private void MainForm_Load(object sender, EventArgs e)
+{
+
+}
+</pre>
+  </li>
+  <li>Ensure that you have the closing braces.
+<pre class="auto-links: false; brush: java; toolbar: false;">
+    }
+}
+</pre>
+  </li>
+  <li>Save your project.</li>
+  </ol>
+ </li>
+ <li>Build and test your WebSocket .NET application.
+   <ol type="a">
+    <li>From the <strong>Build</strong> menu, click <strong>Build</strong>. The Visual Studio output console records the successful build.</li>
+    <li>Click <strong>Start</strong>. The WebSocket .NET desktop application displays.</li>
+    <li>Ensure that the <strong>Location</strong> field contains <strong>wss://sandbox.kaazing.net/echo</strong>. Click <strong>Connect</strong>. The log console displays <strong>CONNECTED</strong>.</li>
+    <li>Click <strong>Send</strong>. The text message is sent and the Echo service on the Gateway returns the message.</li>
+   </ol>
+  </li>
+</ol>
+
+<h2>Notes</h2>
+  <ul>
+    <li>The Microsoft .NET 4.0 Frameworks has a maximum connection limit of two per domain, similar to the browser limitation. For any Microsoft .NET application that uses more than one WebSocket connection at a time, you must either ensure that any WebSocket connection is closed by using <code>WebSocket.Close()</code> before opening another WebSocket connection, or increase the connection limit on the application by updating the <code>maxconnection</code> attribute in the <code>app.config</code> file. For more information, see <strong>(KG-1851) Two Connection Limit in Kaazing Clients for Microsoft .NET</strong> in <a href="//kaazing.com/download/#client-dotnet">Release Notes</a>.</li>
+    <!-- <li>You can verify that Kaazing has signed the relevant .NET DLL by selecting the DLL in the File Browser, then right-clicking and opening the Properties dialog. On the Digital Signatures tab, you can view the Name of Signer value "Kaazing Corporation" and a timestamp of when the DLL was signed. The email address is "Not available." For more information, see <a href="//msdn.microsoft.com/en-us/library/aa382384%28VS.85%29.aspx"> an example C program</a> that shows how to use the Microsoft mechanism to verify a signature (a DLL is one example of a Portable Executable, or PE, file). You can also learn more about <a href="//support.microsoft.com/kb/2389418">preventing DLL pre-loading attacks</a>.</li> -->
+  </ul>
+
+<h2>See Also</h2>
+<p><a href="../apidoc/client/dotnet/gateway/html/N_Kaazing_HTML5.htm">.NET WebSocket Client API</a></p>
+
+
+                  </section>
+                </article>
+
+            </div> <!-- #main -->
+        </div> <!-- #main-container -->
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

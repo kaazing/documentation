@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+  
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+<h1>Walkthrough: Deploy Microsoft .NET or Silverlight WebSocket Clients to iOS or Android Using Xamarin</h1>
+
+<p>In this walkthrough, you will learn how to deploy an existing Microsoft .NET WebSocket web client as a Xamarin app for iOS and Android. This procedure demonstrates how you can build a Microsoft .NET WebSocket client using the Kaazing Gateway Microsoft .NET WebSocket client library and then use Xamarin to deploy the client as an app on iOS or Android devices.</p>
+
+<p>This topic walks you through the following subjects:</p>
+
+<ol>
+  <li><a href="#accomplish">What You Will Accomplish</a></li>
+  <li><a href="#before">Before You Begin</a></li>
+  <li><a href="#install">Install the Gateway and Xamarin 3</a></li>
+  <li><a href="#configure">Configure Xamarin</a></li>
+  <li><a href="#reuse">Reusing UIs with Xamarin.Forms</a>
+    <ol type="a">
+      <li><a href="#classic-unified">Classic and Unified APIs</a></li>
+    </ol>
+  </li>
+  <li><a href="#start">Run the Gateway</a></li>
+  <li><a href="#build">Build the Xamarin Apps</a></li>
+  <li><a href="#run">Run and Test the Xamarin App in iOS Simulator or Android Emulator</a>
+    <ol type="a">
+      <li><a href="#run_android">Run the Xamarin App in the Android Emulator</a></li>
+      <li><a href="#run_ios">Run the Xamarin App in the iOS Simulator</a></li>
+      <li><a href="#test">Test the iOS or Android Demo</a></li>
+    </ol>
+  </li>
+  <li><a href="#event-handlers">WebSocket Event Handlers in Xamarin</a></li>
+</ol>
+
+<span class="note"><b>Note:</b> For information on troubleshooting or displaying logs, see <a href="p_dev_dotnet_tshoot.html" title="Kaazing Developer Network">Troubleshoot Your Microsoft .NET and Silverlight Clients</a> and <a href="p_clientlogging_dotnet.html" title="Kaazing Developer Network">Display Logs for .NET and Silverlight Clients</a>.</span>
+
+<h2><a name="accomplish"></a>What You Will Accomplish</h2>
+
+<p>At the end of this walkthrough, an Xamarin .NET WebSocket demo created using the Kaazing Gateway Microsoft .NET and Silverlight WebSocket library runs as an app on iOS and Android, connects to the Gateway, and sends and receives Echo messages using an emulated WebSocket connection. Users can run the Xamarin app on any iOS or Android device.</p>
+
+<p>This walkthrough uses the out of the box Xamarin WebSocket demo that is included with the Gateway as the example app, but the steps outlined in this walkthrough are the same for other Xamarin WebSocket client applications built with the Gateway.</p>
+
+<h2><a name="before"></a>Before You Begin</h2>
+
+<p>Before starting this walkthrough you need the following:</p>
+
+<ul>
+  <li>Kaazing Gateway. See <a href="../../about/setup-guide/index.html">Setting Up the Gateway and Clients</a>.</li>
+  <li><a href="//xamarin.com/" title="Mobile App Development &amp; App Creation Software - Xamarin">Xamarin Platform</a> 3.</li>
+  <li>An Xamarin account. To create an Xamarin account, see <a href="https://store.xamarin.com/Login?from=%2faccount%2f">https://store.xamarin.com/Login?from=%2faccount%2f</a>.</li>
+  <li>iOS SDK. The iOS SDK is required in order to use the iOS Simulator. For the iOS SDK, see <a href="https://developer.apple.com/xcode/">https://developer.apple.com/xcode/</a>. You can run the Xamarin iOS demo on iOS 5.1+, 6.0+, 7.0+, and 8.0+.</li>
+  <li>Android SDK. The Android SDK is required in order to use the Android Emulator. For the Android SDK, see <a href="https://developer.android.com/sdk/index.html">https://developer.android.com/sdk/index.html</a>.</li>
+  <li>Learn about supported browsers, operating systems, and platform versions in <a href="//kaazing.com/download/">Release Notes</a>.</li>
+</ul>
+
+<h2><a name="install"></a>Install the Gateway and Xamarin 3</h2>
+
+<p>The following steps link to resources to take you through the installation of the software required for deploying an Xamarin app. If you already have this software installed, you can simply note the locations of the installed software for later use.</p>
+
+<ol>
+  <li>Install the Gateway as described in <a href="../../about/setup-guide/index.html">Setting Up the Gateway and Clients</a>.</li>
+  <li>Download and install Xamarin 3 from <a href="//xamarin.com/platform" title="Mobile Application Development to Build Apps in C# - Xamarin">http://xamarin.com/platform</a>.</li>
+</ol>
+
+<h2><a name="configure"></a>Configure Xamarin</h2>
+
+<p>The following steps configure Xamarin Studio for building the iOS and Android apps.</p>
+
+<ol>
+  <li>Launch Xamarin Studio.</li>
+  <li>Click the <strong>Xamarin Studio</strong> menu and click <strong>Account</strong>.</li>
+  <li>Click <strong>Log In</strong>. Log in with your account information.</li>
+  <li>Close the <strong>Account</strong> dialog.</li>
+  <li>Add the Kaazing Gateway demo.
+    <ol type="a">
+      <li>In Xamarin Studio, click <strong>Open</strong>.</li>
+      <li>Navigate to the location of the Xamarin demos in your distribution of the Gateway: <span class="uri"><em>GATEWAY_HOME</em>/demo/xamarin/src/gateway</span>.</li>
+      <li>Click the file named <strong>gateway.client.xamarin.demo.sln</strong> and click <strong>Open</strong>. Xamarin Studio loads the demos for Android and iOS. The following demos are loaded:
+        <ul>
+          <li>KaazingGatewayXamarinDemo.Android</li>
+          <li>KaazingGatewayXamarinDemo.Common</li>
+          <li>KaazingGatewayXamarinDemo.iOS.Classic</li>
+          <li>KaazingGatewayXamarinDemo.iOS.Unified</li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+</ol>
+
+<span class="note"><b>Notes:</b>
+ <ul>
+   <li>KaazingGatewayXamarinDemo.Android and KaazingGatewayXamarinDemo.iOS.Classic both share KaazingGatewayXamarinDemo.Common. The UI is defined once using Xamarin.Forms in KaazingGatewayXamarinDemo.Common and is reused by the iOS and Android projects. Similarly, the code that handles user events in KaazingGatewayXamarinDemo.Common is reused by the iOS and Android projects. This method demonstrates how to develop an app using C# and deploy the same app to both iOS and Android.</li>
+   <li>The Xamarin.Forms package is not available for the Unified API. As a result, KaazingGatewayXamarinDemo.iOS.Unified defines its own UI using a storyboard and has code for dealing with user events. KaazingGatewayXamarinDemo.iOS.Unified is not sharing or reusing the code from KaazingGatewayXamarinDemo.Common like KaazingGatewayXamarinDemo.Android and KaazingGatewayXamarinDemo.iOS.Classic are. For more information, see <a href="//forums.xamarin.com/discussion/24616/xamarin-forms-and-ios-unified-api" title="Xamarin.Forms and iOS Unified API - Xamarin Forums">http://forums.xamarin.com/discussion/24616/xamarin-forms-and-ios-unified-api</a>.</li>
+   <li>The Kaazing Gateway .NET client library, <strong>Kaazing.Gateway.dll</strong>, is picked up from <span class="uri"><em>GATEWAY_HOME</em>/demo/xamarin/src/gateway/KaazingLibs</span> automatically.</li>
+ </ul>
+</span>
+
+
+<h2><a name="reuse"></a>Reusing UIs with Xamarin.Forms</h2>
+
+<p><a href="//developer.xamarin.com/guides/cross-platform/xamarin-forms/introduction-to-xamarin-forms/" title="An Introduction to Xamarin.Forms - Xamarin">Xamarin.Forms</a> is a cross-platform natively backed UI toolkit abstraction that allows developers to easily create user interfaces that can be shared across Android and iOS. The Kaazing Gateway Xamarin demo uses Xamarin.Forms to implement the UI once and reuse it across multiple platforms and thus avoid duplication. With Xamarin.Forms, the UI is built using C# code instead of a storyboard for iOS and XAML for Android. The same C# code is then reused for iOS and Android platforms.</p>
+
+<p>Xamarin.Forms is used to share the UI in KaazingGatewayXamarinDemo.Common with KaazingGatewayXamarinDemo.Android and KaazingGatewayXamarinDemo.iOS.Classic, but not with KaazingGatewayXamarinDemo.iOS.Unified.</p>
+
+<h3><a name="classic-unified"></a>Classic and Unified APIs</a></h3>
+
+<p>The Kaazing Gateway Xamarin includes projects that showcase how to build iOS apps under Xamarin using both Classic and Unified APIs. Xamarin recommends using the Unified API, but Xamarin.Forms works well with Classic API only, at this time. Xamarin.Forms for the Unified API is still in pre-release stage and has <a href="//forums.xamarin.com/discussion/24616/xamarin-forms-and-ios-unified-api" title="Xamarin.Forms and iOS Unified API - Xamarin Forums">issues</a>.</p>
+
+<p>While the project for KaazingGatewayXamarinDemo.iOS.Classic uses the Xamarin.Forms’ reusable UI that is shared with KaazingGatewayXamarinDemo.Android, the KaazingGatewayXamarinDemo.iOS.Unified project does not use Xamarin.Forms. Instead, the UI for KaazingGatewayXamarinDemo.iOS.Unified is defined in a storyboard just as it is done in Xcode for a regular iOS project and has its own event-handling code written in C#.</p>
+
+<h2><a name="start"></a>Run the Gateway</h2>
+
+<p>The following steps review the Echo service and start the Gateway.</p>
+
+<ol>
+  <li><p>Open the <span class="uri"><em>GATEWAY_HOME</em>/conf/gateway-config.xml</span> file in a text editor. Review the <strong>echo</strong> service to see the configuration of the connection to the Gateway. For example:</p>
+  
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;service&gt;
+  &lt;name&gt;echo&lt;/name&gt;
+  &lt;description&gt;Simple echo service&lt;/description&gt;
+  &lt;accept&gt;ws://${gateway.hostname}:${gateway.extras.port}/echo&lt;/accept&gt;
+
+  &lt;type&gt;echo&lt;/type&gt;
+
+  &lt;realm-name&gt;demo&lt;/realm-name&gt;
+
+  &lt;!--
+  &lt;authorization-constraint&gt;
+    &lt;require-role&gt;AUTHORIZED&lt;/require-role&gt;
+  &lt;/authorization-constraint&gt;
+  --&gt;
+  
+  &lt;cross-site-constraint&gt;
+    &lt;allow-origin&gt;http://${gateway.hostname}:${gateway.extras.port}&lt;/allow-origin&gt;
+  &lt;/cross-site-constraint&gt;
+&lt;/service&gt;
+</pre>
+  
+  <span class="note"><b>Note:</b> By default, the Gateway uses <a href="../admin-reference/c_conf_concepts/index.html#aboutconfelements" title="Kaazing Developer Network">Property defaults</a> for <span class="uri">ws://${gateway.hostname}:${gateway.extras.port}/echo</span> and the actual URI is <span class="uri">ws://localhost:8001/echo</span>. The Android Emulator or device will not allow the use of <span class="uri">localhost</span>. For Android, change the value of the <strong>accept</strong> tag to the local IP address of the Gateway server.</span>
+  </li>
+  <li>Start the Gateway as described in <a href="../../about/setup-guide/index.html">Setting Up the Gateway and Clients</a>.   </li>
+</ol>
+
+<h2><a name="build"></a>Build the Xamarin Apps</h2>
+
+<p>The following steps build the Xamarin apps for iOS and Android using the Xamarin project you created.</p>
+
+<ol>
+  <li>For Android, right-click the Android demo named <strong>KaazingGatewayXamarinDemo.Android</strong>, and then click <strong>Build <em>Project_Name</em></strong>, where <em>Project_Name</em> is the name of the project.</li>
+  <li>For iOS, right-click either the iOS demo named <strong>KaazingGatewayXamarinDemo.iOS.Unified</strong>, <strong>KaazingGatewayXamarinDemo.Common</strong>, or <strong>KaazingGatewayXamarinDemo.iOS.Classic</strong>, and then click <strong>Build <em>Project_Name</em></strong>.<br>
+    Xamarin Studio informs you that the project is built. If you encounter Kaazing Gateway .NET library errors, ensure that you have included the library in the <strong>Reference</strong> folder for the demo as described in <a href="#configure">Configure Xamarin</a>.</li>
+</ol>
+
+<h2><a name="run"></a>Run and Test the Xamarin App in iOS Simulator or Android Emulator</h2>
+
+<p>The following steps run the Xamarin app and test the connection to the Gateway.</p>
+
+<span class="note"><b>Note:</b> The iOS SDK is required in order to use the iOS Emulator. For the iOS SDK, see <a href="https://developer.apple.com/xcode/">https://developer.apple.com/xcode/</a>. You can run the Xamarin iOS demo on iOS 5.1+, 6.0+, 7.0+, and 8.0+. The Android SDK is required in order to use the Android Emulator. For the Android SDK, see <a href="https://developer.android.com/sdk/index.html">https://developer.android.com/sdk/index.html</a>.</span>
+
+<h2><a name="run_android"></a>Run the Xamarin App in the Android Emulator</h2>
+
+<p>For information on using the Android Emulator in Xamarin Studio, see the Xamarin article here: <a href="//developer.xamarin.com/guides/android/getting_started/installation/configure_emulator/" title="Configure the Emulator - Xamarin">http://developer.xamarin.com/guides/android/getting_started/installation/configure_emulator/</a>.</p>
+
+<ol>
+  <li>Start the Android virtual device you will use for testing.<br>
+    <ol type="a">
+      <li>Click the Android demo.</li>
+      <li>In the top left of Xamarin Studio, click <strong>Debug</strong> in the dropdown menu.</li>
+      <li>Click <strong>Select Device</strong>, then click <strong>Virtual Devices</strong> and select the <strong>Android Emulator</strong> virtual device. If the Android Emulator is not running, click <strong>Manage Devices</strong> and then start the emulator. Wait for the emulator to start before running the demo.</li>
+      <li>For the demo, you need to run a virtual device with <strong>Android 4.4.2 API 19</strong> or later. In you do not have a virtual device with this requirement (in the Android Virtual Device Manager, you will see the message <strong>No system images installed for this target</strong>), then you need to install <strong>Android 4.4.2 (API 19)</strong> using the <a href="//developer.android.com/tools/help/sdk-manager.html" title="SDK Manager | Android Developers">Android SDK Manager</a> (in the Android SDK Manager, click the <strong>Tools</strong> menu, and then click <strong>Android SDK Manager</strong>). Here is an example virtual device setup:<br>
+        <ul>
+          <li><strong>Device:</strong> Nexus 5</li>
+          <li><strong>Target:</strong> Android 4.4.2 - API Level 19</li>
+          <li><strong>CPU/ABI:</strong> ARM (armeabi-v7a)</li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+  <li>Run the Android demo. In Xamarin Studio, click the Android demo, and then click the <strong>Play</strong> button. The virtual device displays the demo.</li>
+</ol>
+
+<h3><a name="run_ios"></a>Run the Xamarin App in the iOS Simulator</h3>
+
+<p>For iOS, see the iOS Simulator guide here: <a href="https://developer.apple.com/library/ios/documentation/IDEs/Conceptual/iOS_Simulator_Guide/Introduction/Introduction.html">https://developer.apple.com/library/ios/documentation/IDEs/Conceptual/iOS_Simulator_Guide/Introduction/Introduction.html</a>.</p>
+
+<ol>
+  <li>Run the iOS demo.<br>
+    <ol type="a">
+      <li>In Xamarin, click the iOS demo.</li>
+      <li>In the top left of Xamarin Studio, right-click the iOS demo, click <strong>Run With</strong>, and then click an iOS Simulator (for example, iPhone 6 / iOS 8.1). The iOS Simulator opens and displays the demo.</li>
+    </ol>
+  </li>
+</ol>
+
+<span class="note"><b>Note:</b> For running the demo on a device, configure the <strong>iOS Deployment</strong> setting in <strong>Project Options</strong>.</span>
+
+<h3><a name="test"></a>Test the iOS or Android Demo</h3>
+
+<p>The following step test the Xamarin app on the iOS Simulator or Android Emulator.</p>
+
+<ol>
+<li>In the demo running in the iOS Simulator or Android Emulator, click <strong>Connect</strong>. The demo connects to the Gateway.<br>
+  <span class="note"><b>Note:</b> The Android Emulator or device will not allow the use of <span class="uri">localhost</span>. For the Android, change the value of the accept tag in the configuration file of the Gateway to the local IP address of the Gateway server, and enter the IP address in the <strong>Location</strong> field of the app.</span>
+</li>
+<li>Click <strong>Send</strong>. The message is sent and the Echo message is received.</li>  
+</ol>
+
+<h2><a name="event-handlers"></a>WebSocket Event Handlers in Xamarin</h2>
+
+<p>You can see the WebSocket event handlers in the file <strong>KaazingGatewayDemoController.cs</strong> in <strong>KaazingGatewayXamarinDemo.Common</strong>, shown below. The code demonstrates WebSocket open, close, and message events. In addition, the code demonstrates how to use a Login Handler and Challenge Handler to perform user authentication using the Gateway.</p>
+
+<pre class="auto-links: false; brush: vb; toolbar: false;">
+using System;
+using Xamarin.Forms;
+using System.Collections.Generic;
+using Kaazing.Security;
+using System.Threading.Tasks;
+using Kaazing.HTML5;
+using System.Threading;
+using System.Diagnostics;
+
+namespace KaazingGatewayXamarinDemo
+{
+    public class KaazingGatewayDemoController
+    {
+    protected KaazingGatewayDemoPage _demoPage;
+
+        bool _isConnected = false;
+        string _username = null;
+        string _password = null;
+        AutoResetEvent _userInputCompleted;
+
+    WebSocket _webSocket = null;
+
+    public KaazingGatewayDemoController(KaazingGatewayDemoPage demoPage)
+        {
+            _demoPage = demoPage;
+
+      _webSocket = new WebSocket();
+
+            BasicChallengeHandler basicHandler = ChallengeHandlers.Load&lt;BasicChallengeHandler&gt;(typeof(BasicChallengeHandler));
+            basicHandler.LoginHandler = new KaazingDemoLoginHandler(this);
+            ChallengeHandlers.Default = basicHandler;
+
+      _webSocket.OpenEvent += new OpenEventHandler(OpenHandler);
+      _webSocket.CloseEvent += new CloseEventHandler(CloseHandler);
+      _webSocket.MessageEvent += new MessageEventHandler(MessageHandler);
+
+            _userInputCompleted = new AutoResetEvent(false);
+        }
+
+        public void SetUsernameAndPassword(string username, string password)
+        {
+            _username = username;
+            _password = password;
+
+            // Once the member variables are set, now unblock the other
+            // thread so that it can create credentials using the username/password.
+            _userInputCompleted.Set();
+        }
+
+    public async void ConnectOrDisconnect(object sender, EventArgs eventArgs)
+        {
+            try {
+
+                if (!_isConnected) {
+                    string uriInput = _demoPage.URI;
+                    _demoPage.Log(&quot;CONNECTING: &quot; + uriInput);
+                    await Task.Factory.StartNew(() =&gt; {
+            _webSocket.Connect(uriInput);
+                    });
+                } else {
+          _demoPage.Log(&quot;CLOSING&quot;);
+          await Task.Factory.StartNew(() =&gt; {
+            _webSocket.Close ();
+          });
+                }
+
+            } catch(Exception exc) {
+                _demoPage.Log(&quot;CONNECTION FAILED: &quot; + exc.Message);
+            }
+        }
+
+    ///
+    /// HTML5 Event Handlers
+    ///
+    private void OpenHandler(object sender, OpenEventArgs args)
+    {
+      // Enable User Interface for Connected application
+      _demoPage.EnableUI(true);
+      _isConnected = true;
+      _demoPage.Log(&quot;CONNECTED&quot;);
+    }
+
+    private void CloseHandler(object sender, CloseEventArgs args)
+    {
+      _demoPage.EnableUI(false);
+      _isConnected = false;
+      _demoPage.Log(&quot;DISCONNECTED&quot;);
+    }
+
+    private void MessageHandler(object sender, MessageEventArgs args)
+    {
+      _demoPage.Log(&quot;RECIEVED MESSAGE: &quot; + args.Data);
+    }
+//
+        async public void SendMessage(object sender, EventArgs eventArgs)
+        {
+            string messageInput = _demoPage.Message;
+
+            await Task.Factory.StartNew(() =&gt; {
+        _webSocket.Send (messageInput);
+            });
+            _demoPage.Log(&quot;SEND: &quot; + messageInput);
+        }
+
+        public void ClearLog(object sender, EventArgs eventArgs)
+    {
+      Device.BeginInvokeOnMainThread(() =&gt; {
+        _demoPage.LogView = &quot;&quot;;
+      });
+    }
+//
+        public  PasswordAuthentication AuthenticationHandler()
+        {
+            PasswordAuthentication credentials = null;
+            try {
+                _userInputCompleted.Reset();
+                Device.BeginInvokeOnMainThread(() =&gt; {
+                    _demoPage.Navigation.PushModalAsync(new KaazingDemoLoginPage(this));
+                });
+                _userInputCompleted.WaitOne();
+                credentials = new PasswordAuthentication(_username, _password.ToCharArray());
+            } catch(Exception ex) {
+                _demoPage.Log(ex.Message);
+            }
+            return credentials;
+        }
+    }
+}
+</pre>
+
+                  </section>
+                </article>
+
+            </div> <!-- #main -->
+        </div> <!-- #main-container -->
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>
+                    

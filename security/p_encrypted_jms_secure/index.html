@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+  
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+
+ <h1 id="configure-the-gateway-to-use-encrypted-credentials">Configure the Gateway to Use Encrypted Credentials</h1>
+
+<p>In this procedure, you will learn how to configure the Gateway to connect to the back-end JMS-compliant message broker using encrypted credentials.</p>
+
+<h2 id="before-you-begin">Before You Begin</h2>
+
+<p>This procedure is part of <a href="../o_jms_secure">Checklist: Secure Your JMS Configuration</a>, that includes the following steps:</p>
+
+<ol>
+  <li><a href="../p_broker_jms_secure">Secure the Connection from the Gateway to the Message Broker</a></li>
+  <li><a href="../p_client_jms_secure">Secure the Connection from Each Client to the Gateway</a></li>
+  <li><a href="../p_auditing_jms_secure">Configure Auditing Messages Produced by Clients</a></li>
+  <li><strong>Configure the Gateway to Use Encrypted Credentials</strong></li>
+</ol>
+
+<h2 id="to-configure-the-gateway-to-use-encrypted-credentials">To Configure the Gateway to Use Encrypted Credentials</h2>
+
+<p>You can configure the Gateway to connect to the back-end JMS-compliant message broker using encrypted credentials. You can store this information in the <code>gateway-config.xml</code> as optional properties for the <code>jms.proxy</code> and <code>jms</code> services. To encrypt credentials for the Gateway to use to the back-end JMS-compliant message broker, you must first create the encrypted credentials, then configure the Gateway to use the encrypted credentials, as described in the following sections:</p>
+
+<ul>
+  <li><a href="#creating-encrypted-credentials">Creating Encrypted Credentials</a></li>
+  <li><a href="#configuring-the-gateway-to-use-encrypted-credentials">Configuring the Gateway to Use Encrypted Credentials</a></li>
+</ul>
+
+<h4 id="creating-encrypted-credentials">Creating Encrypted Credentials</h4>
+
+<p>The Gateway includes a tool you can use to generate the encrypted credentials using a 128-bit key and a password that you must provide. To create the key, perform the following steps:</p>
+
+<ol>
+  <li>Open a command prompt.</li>
+  <li>In your <code>GATEWAY_HOME</code>, navigate to the <code>bin</code> directory, then <code>tools</code>.</li>
+  <li>
+    <p>Type the following command to use the <code>encrypt-credentials.jar</code>, the key you wish to use , and a sample password, which you should replace with the desired password:</p>
+
+    <p><code>    java -jar encrypt-credentials.jar &lt;128-bit key&gt; &lt;my_password&gt;</code></p>
+
+    <p>The following is an example of this command:</p>
+
+    <p><code>     java -jar encrypt-credentials.jar 0123456789012345 secretsauce</code></p>
+  </li>
+</ol>
+
+<p><strong>Note</strong>  In this case, the resulting string is base64-encoded, and has been encrypted using an AES algorithm along with a multi-byte random salt argument and iterated multiple times. You can alternatively use a 256-bit key to generate the credentials. The Gateway can decrypt credentials generated from both types of keys. For more information about using these keys, see the <a href="//docs.oracle.com/javase/8/docs/technotes/guides/security/crypto/CryptoSpec.html">Java documentation</a>.</p>
+
+<ol>
+  <li>After you press <strong>Enter</strong>, the tool generates the credentials. Copy the generated credentials, as you must then add it to your <code>gateway-config.xml</code>, as described in the next section.</li>
+</ol>
+
+<h4 id="configuring-the-gateway-to-use-encrypted-credentials">Configuring the Gateway to Use Encrypted Credentials</h4>
+
+<p>Once you generate the encryption credentials, you must configure the Gateway to use the credentials to access your back-end JMS-compliant message broker. To do so, perform the following steps:</p>
+
+<ol>
+  <li>In a text editor, open <code>GATEWAY_HOME/conf/gateway-config.xml</code> and locate the <code>jms</code> service section.</li>
+  <li>
+    <p>To use your newly generated encrypted credentials to access the back-end JMS-compliant message broker, you must set two properties on this service, one to point to the key you used to generate the credentials (<code>connection.security.credentials.key</code>), and one to point to the credentials you copied (<code>connection.security.credentials</code>). The following example shows the <code>jms</code> service with these two properties shown in lines 7-12:</p>
+
+    <pre class="auto-links: false; brush: xml; toolbar: false;">&lt;service&gt;
+  &lt;accept&gt;ws://localhost:8000/jms&lt;/accept&gt;
+  &lt;accept&gt;wss://localhost:9000/jms&lt;/accept&gt;
+  &lt;type&gt;jms&lt;/type&gt;
+
+  &lt;properties&gt;
+    &lt;connection.factory.name&gt;ConnectionFactory&lt;/connection.factory.name&gt;
+    &lt;connection.security.principal&gt;guest&lt;/connection.security.principal&gt;
+    &lt;connection.security.credentials.key&gt;
+      0123456789012345
+    &lt;/connection.security.credentials.key&gt;
+    &lt;connection.security.credentials&gt;generated_credentials&lt;/connection.security.credentials&gt;
+    &lt;context.lookup.topic.format&gt;dynamicTopics/%s&lt;/context.lookup.topic.format&gt;
+    &lt;context.lookup.queue.format&gt;dynamicQueues/%s&lt;/context.lookup.queue.format&gt;
+    &lt;env.java.naming.factory.initial&gt;org.apache.activemq.jndi.ActiveMQInitialContextFactory
+    &lt;/env.java.naming.factory.initial&gt;
+    &lt;env.java.naming.provider.url&gt;
+      tcp://localhost:61616
+    &lt;/env.java.naming.provider.url&gt;
+  &lt;/properties&gt;
+  ...
+&lt;/service&gt;
+</code></pre>
+
+    <p><strong>Note</strong>: You must set <em>both</em> properties to take advantage of using encrypted credentials to access the back-end JMS-compliant message broker. If you do not set the <code>connection.security.credentials.key</code> property, the Gateway considers the value of <code>connection.security.credentials</code> as a clear-text password.</p>
+  </li>
+  <li>Save the <code>gateway-config.xml</code>.</li>
+</ol>
+
+<p>Refer to <a href="../../admin-reference/r_conf_jms#jms">jms</a> and <a href="../../admin-reference/r_conf_jms#jmsproxy">jms.proxy</a> for more information about the configuration parameters.</p>
+
+<h2 id="next-steps">Next Steps</h2>
+
+<p>You have finished securing your JMS configuration. Learn more about securing Kaazing Gateway <a href="../o_auth_configure">Configure Authentication and Authorization</a>.</p>
+
+
+</div>
+
+</div>
+
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

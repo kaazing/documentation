@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+  
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+
+ <h1 id="monitor-with-command-center">Monitor with Command Center</h1>
+
+<p>You can monitor a Gateway or a Gateway cluster through Command Center, which is a browser-based application enabled in the default Gateway configuration. This procedure describes how to launch Command Center and begin monitoring a Gateway or a Gateway cluster.</p>
+
+<p><strong>Note:</strong> You can monitor a Gateway or Gateway cluster through Command Center as long as the Gateway where you launch Command Center uses the Kaazing Gateway load balancing technology. See <a href="../../high-availability/o_high_availability/index.html">Configure the Gateway for High Availability</a> to learn more about the Gateway’s integrated clustering and load balancing features.</p>
+
+<h2 id="before-you-begin">Before You Begin</h2>
+
+<p>This procedure is part of <a href="../o_monitor">Monitor the Gateway</a>:</p>
+
+<ol>
+  <li><a href="../o_monitor#introduction-to-monitoring-kaazing-gateway">Introduction to Monitoring Kaazing Gateway</a></li>
+  <li><a href="../p_monitor_configure_secure">Secure Kaazing Gateway Monitoring</a></li>
+  <li>Monitor a Gateway or Gateway cluster
+    <ul>
+      <li><strong>Monitor with Command Center</strong> (Recommended)</li>
+      <li><a href="../p_monitor_jmx">Monitor with JMX</a></li>
+    </ul>
+  </li>
+  <li><a href="../../troubleshooting/o_troubleshoot/index.html">Troubleshoot the Gateway</a></li>
+</ol>
+
+<h2 id="to-launch-command-center">To launch Command Center</h2>
+
+<ol>
+  <li>If the Gateway is not already installed, then download the Gateway distribution from <a href="//kaazing.org">kaazing.org</a> and see <a href="../../about/setup-guide/index.html">Setting Up the Gateway and Clients</a> for help with Gateway set-up and configuration.</li>
+  <li>Ensure secure monitoring by verifying that your configuration specifies a security realm name and an authorization constraint. This is set up automatically if you use the default Gateway configuration. See <a href="../p_monitor_configure_secure">Secure Kaazing Gateway Monitoring</a> for more information.</li>
+  <li>Start Kaazing Gateway.
+    <ul>
+      <li>
+        <p>To start the Gateway using the default Gateway configuration file supplied in <code>GATEWAY_HOME/conf/gateway.config.xml</code>, follow the instructions in <a href="../../about/setup-guide/index.html">Setting Up the Gateway</a>.</p>
+
+        <p>Command Center does not require any custom coding and it works immediately if you start the Gateway using the default Gateway configuration file. Once the Gateway starts, then skip to step 4.</p>
+      </li>
+      <li>
+        <p>To start the Gateway using a custom Gateway configuration file requires that you copy these pieces from the default <code>GATEWAY_HOME/conf/gateway-config.xml</code> file:</p>
+
+        <ul>
+          <li>The <code>management.snmp</code> management service</li>
+          <li>The directory service <code>commandcenter-directory</code></li>
+          <li>The <code>commandcenter</code> security realm</li>
+        </ul>
+
+        <p>See the <a href="../../admin-reference/r_configure_gateway_service/index.html">Service Reference</a> documentation for information and examples. For more information about default and custom Gateway configuration files, see <a href="../../admin-reference/p_configure_gateway_files/index.html">Configure Kaazing Gateway</a>.</p>
+      </li>
+    </ul>
+  </li>
+  <li>Open a Web browser and enter one of the following URLs:
+    <ul>
+      <li>To monitor a cluster, the default URL is: <code>http://localhost:8080/commandcenter</code>.</li>
+      <li>For single Gateway monitoring, the default URL is: <code>http://localhost:8000/commandcenter</code></li>
+    </ul>
+
+    <p><strong>Note:</strong> On startup, Command Center verifies that your browser supports HTML5 and CSS3. If you are using an older browser that does not meet the requirements for Command Center, then you may receive an error message from Command Center. See the README.txt file in the <em><code>GATEWAY_HOME</code></em> directory where you unpacked the Kaazing Gateway distribution.</p>
+  </li>
+  <li>
+    <p>Log into Command Center using Administrator credentials and provide the administrator’s username and password (by default, <code>admin/admin</code>). If necessary, you can find the login credentials in <code>GATEWAY_HOME/conf/jaas-config.xml</code>.</p>
+
+    <p><strong>Note:</strong> If you are running the Gateway on an Amazon Web Services (AWS) Marketplace instance, the password is set to the public instance ID by default. You can replace the default password by configuring the <code>cloud.instanceid</code> parameter in the <code>GATEWAY_HOME/conf/jaas-config.xml</code> file. See <a href="../../admin-reference/p_configure_gateway_files/index.html">Configure Kaazing Gateway</a> for more information about the <code>cloud.instanceid</code> parameter.</p>
+
+    <p>When you log into Command Center, you can enter a URL for any Gateway running the management service (including localhost) or take the default URL provided by Command Center:</p>
+
+    <ul>
+      <li>By default, Command Center uses the SNMP management URL to the Gateway that you accessed to start the Command Center itself. For example, if you launched Command Center using <code>http://localhost:8000/commandcenter</code>, then Command Center defaults to <code>ws://localhost:8000/snmp</code>. In this example, the <code>ws</code> scheme is the address specified in the <code>accept</code> configuration element for the <code>management.snmp</code> management service.</li>
+      <li>You can override the default and enter a Management URL during the login dialog by entering the path to any Gateway to which you have network access.</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="get-started-with-command-center">Get Started with Command Center</h2>
+
+<p>Command Center provides information about your cluster, its cluster members, and services and sessions through the following main pages:</p>
+
+<ul>
+  <li><a href="#dashboard-page">Dashboard Page</a></li>
+  <li><a href="#configuration-page">Configuration Page</a></li>
+  <li><a href="#overview-page-general-configuration-information">Overview Page</a></li>
+  <li><a href="#monitoring-pages">Monitoring Page</a></li>
+</ul>
+
+<p><strong>Note:</strong> In a Gateway cluster, it is recommended that all cluster members have identical configurations. However, if a cluster member’s configuration does not match the other cluster members, then the dissimilar member is quarantined and remains running and joined to the cluster but all of its services will be stopped (unbound), except for its management services. See <a href="../../high-availability/o_high_availability/index.html">Configure the Gateway for High Availability</a> for complete information about configuring clustering and load balancing.</p>
+
+<p>The following sections provide a high-level description of the information you can view with Command Center.</p>
+
+<h3 id="dashboard-page">Dashboard Page</h3>
+
+<p>The Dashboard page provides an overview of the Gateway cluster by means of a user-selectable set of dynamic, scrolling charts The charts show current performance metrics (such as sessions, system information, I/O, JVM memory, and so on). Some of the charts you can view include:</p>
+
+<ul>
+  <li>CPU%</li>
+  <li>Current Sessions</li>
+  <li>JVM Heap</li>
+  <li>Total Read/Write Throughput</li>
+  <li>Read Throughput Combined</li>
+  <li>Write Throughput Combined</li>
+  <li>Write Throughput Per Interface Card</li>
+</ul>
+
+<p>You can personalize the Dashboard by adding and removing charts to include only the charts you need. The menu at the top of the page allows you to dynamically add and remove any of the graphs to customize your view. Plus, you can drag and drop the charts to organize them in a way that makes sense to you. Command Center stores the chart order in the browser so that you get the same display the next time you log in.</p>
+
+<p>In addition, the Dashboard helps to catch and diagnose cluster misconfigurations at a glance. Metrics just above the charts indicate the number of running cluster members and if any members are quarantined.</p>
+
+<h3 id="configuration-page">Configuration Page</h3>
+
+<p>Command Center shows all of the Gateway configuration details, from a graphical overview of services and realms through all configuration settings in all Gateways in the cluster. Command Center helps you monitor all cluster members from a single view, and when viewing a cluster, the Configuration pages help you quickly find where cluster member configurations match and do not match.</p>
+
+<p>All configuration settings in all Gateway cluster members are available through the various Configuration pages to help you determine if there are configuration differences between members. The Configuration pages provide a more detailed look at all of the configuration types and show the Gateway configuration elements that have been configured and their current settings. In short, anything that you have in your Gateway configuration file can be viewed on the Configuration pages, including:</p>
+
+<ul>
+  <li>Service configuration defaults such as supported <a href="../../admin-reference/r_configure_gateway_service#mime-mapping">MIME types</a> and <a href="../../admin-reference/r_configure_gateway_service#protocolbind">bind</a> information</li>
+  <li>Specific security information about the <a href="../../admin-reference/r_configure_gateway_security#realm">realms</a>, <a href="../../admin-reference/r_configure_gateway_security#truststore">truststores</a>, <a href="../../admin-reference/r_configure_gateway_security#keystore">keystores</a>, and login details</li>
+  <li>Licensing information for a single Gateway and cluster licensing</li>
+</ul>
+
+<p>The Configuration pages can be instrumental in diagnosing issues you may have seen on either the Overview or Dashboard pages. For example, if you have configured each cluster member identically but Command Center shows that two services in your cluster have the same name (for example, on the Command Center Overview page), then you can view the Configuration pages to find out why the services are different. If you discover that there is a configuration issue, then you can also look at all the service options available and decide how to correct the issue. See <a href="../../high-availability/o_high_availability/index.html">Configure the Gateway for High Availability</a> for complete information about configuring and using clusters.</p>
+
+<h3 id="overview-page-general-configuration-information">Overview Page (General Configuration Information)</h3>
+
+<p>Command Center presents a graphical display of all the services for a single Gateway or all Gateway members in a cluster. The Overview page is an option under the Configuration menu that presents a live graphical display of the available services and their security realms for your installation, whether you are viewing a single Gateway or an entire cluster.</p>
+
+<p>As with the Configuration page, the overview information displays configuration objects that match or differ to help you find issues (such as with the service and realm definitions) in the configuration. Links embedded in the actual objects provide a direct path to other pages in the Command Center that have more detailed information.</p>
+
+<p>Whether you are viewing a single Gateway or a cluster, the overview page facilitates navigation between service and realm views, and shows:</p>
+
+<ul>
+  <li>Details of services, realms, and other configuration settings such as properties, global defaults, security settings, and more</li>
+  <li>The <a href="../../admin-reference/r_configure_gateway_service#accept">accept</a> and <a href="../../admin-reference/r_configure_gateway_service#connect">connect</a> elements configured for your services</li>
+  <li>High level view of security and items in the keystore and truststore</li>
+  <li>License information</li>
+  <li>All public Gateway configuration settings</li>
+</ul>
+
+<p>When viewing a cluster, the Overview page helps you quickly find where cluster member configurations match or do not match. The Overview page helps you determine if there are configuration differences and on which cluster members. For example, the gray box in the previous screenshot shows the demo realm twice, and, in a cluster, there should only be one demo realm. If the Overview page shows two realms with the same name, then you immediately know that there are differences between the cluster members. Other information on the Overview Page can help you determine where the differences occur. With this information, you know at a glance where the problem lies for fast evaluation to quickly fix differences. See <a href="../../high-availability/o_high_availability/index.html">Configure the Gateway for High Availability</a> for more information about configuring clusters.</p>
+
+<h3 id="monitoring-pages">Monitoring Pages</h3>
+
+<p>Command Center provides live metrics about higher-level concepts than Dashboard. The monitoring pages indicate what is going on in the cluster right now, including details for individual services, sessions, and each Gateway overall.</p>
+
+<p>In particular, you can view a number of session details or you can view all of the services that are running. The Monitoring pages also provide high-level totals about what is coming in and going out across the entire cluster.</p>
+
+<p>The following list describes some of the tabular information you see in the Monitoring pages:</p>
+
+<ul>
+  <li>Service Monitoring
+    <ul>
+      <li>Displays services as a “top-level” item.</li>
+      <li>Sets a filter to show only certain service lines.</li>
+      <li>Allows you to sort service data.</li>
+      <li>No session information is displayed in the service monitoring pages.</li>
+    </ul>
+  </li>
+  <li>Session Monitoring
+    <ul>
+      <li>Allows you to search for sessions that meet certain criteria, within a certain scope, and displays basic information about the sessions that match.</li>
+      <li>Shows sessions anywhere in the cluster and filter them to view only particular sessions.</li>
+      <li>Allows you to set a filter to show only certain session data.</li>
+      <li>Allows you to sort session data.</li>
+      <li>Can stop a session.</li>
+      <li>Shows the session type - WebSocket (native or emulated), TCP, and so on.</li>
+      <li>Differentiates between inbound (accept) sessions and outbound (connect) sessions.</li>
+    </ul>
+  </li>
+  <li>Security Configuration
+    <ul>
+      <li><a href="../../admin-reference/r_configure_gateway_security#realm">realms</a></li>
+      <li><a href="../../admin-reference/r_configure_gateway_security#keystore">keystores</a></li>
+      <li><a href="../../admin-reference/r_configure_gateway_security#truststore">truststores</a></li>
+      <li>License</li>
+    </ul>
+  </li>
+  <li>
+    <p>Cluster Member Monitoring</p>
+
+    <p>Gathers data from each cluster member that has a direct connection and displays the data in a single instance of Command Center. See the <a href="#notes">Notes</a> for more information about configuring cluster member connections.</p>
+  </li>
+</ul>
+
+<h2 id="next-step">Next Step</h2>
+
+<p>You are done getting started with Command Center monitoring. For more information about Gateway administration, see the <a href="../..">documentation</a>.</p>
+
+<h2 id="notes">Notes</h2>
+
+<ul>
+  <li>Command Center connects to each cluster member using that Gateway’s <code>management.snmp</code> service. If that service is not defined in the Gateway’s configuration file (such as <code>gateway-config.xml</code>), then Command Center cannot connect to the cluster member. See the <a href="../../admin-reference/r_configure_gateway_service#service">Service Reference</a> documentation for help configuring the <code>management.snmp</code> service for Command Center.</li>
+  <li>In a Gateway cluster, if a cluster member’s configuration is different than the other members of the cluster, the dissimilar member is quarantined. Thus, a cluster member with no management section in the Gateway’s configuration (such as <code>gateway-config.xml</code> file) will be quarantined. But because the member has no management section, Command Center cannot interact with that member. To troubleshoot common problems with startup, security, clusters, and clients, see <a href="../../troubleshooting/o_troubleshoot/index.html">Troubleshoot the Gateway</a>.</li>
+</ul>
+
+
+</div>
+
+</div>
+
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

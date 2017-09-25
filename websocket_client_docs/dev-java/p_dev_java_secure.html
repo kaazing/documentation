@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+  
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+<h1>Secure Your Java and Android Clients </h1>
+    <p>This topic provides information on how to add user authentication functionality to Java and Android clients. The Java and Android Client APIs use the same authentication classes and methods.</p>
+    
+                <p>A challenge handler is a constructor used in an application to respond to authentication challenges from the Gateway when the application attempts to access a protected resource. Each of the resources protected by the Gateway is configured with a different authentication scheme (for example, Basic, Application Basic, Application Negotiate, or Application Token), and your application requires a challenge handler for each of the schemes that it will encounter or a single challenge handler that will respond to all challenges. Also, you can add a dispatch challenge handler to route challenges to specific challenge handlers according to the URI of the requested resource.</p>
+
+                <p>For information about each authentication scheme type, see <a href="../../security/p_authentication_config_http_challenge_scheme/index.html">Configure the HTTP Challenge Scheme</a>.</p>
+                
+                <p>Before you add security to your clients, follow the steps in <a href="../../security/o_tls/index.html">Checklist: Secure Network Traffic with the Gateway</a> and <a href="../../security/o_auth_configure/index.html">Checklist: Configure Authentication and Authorization</a> to set up security on Kaazing Gateway for your client. The authentication and authorization methods configured on the Gateway influence your client security implementation. In this procedure, we provide an example of the most common implementation.</p>
+
+<p><span class="note"><b>Note:</b> This procedure is part of <a href="../dev-android/o_dev_android.html">Checklist: Build Android Clients</a> and <a href="o_dev_java.html">Checklist: Build Java Clients</a>.</span></p>
+
+
+<h2>To Secure Your Java and Android Clients</h2>
+                <p>This section includes the following topics:</p>
+<ul>
+        <li><a href="#overview">Overview of Challenge Handlers</a></li>
+        <li><a href="#imports">Challenge Handler Class Imports</a></li>
+        <li><a href="#creating_basic">Creating a Basic Challenge Handler</a></li>
+        <li><a href="#create_challenge">Creating a Custom Challenge Handler</a></li>
+        <li><a href="#override_challenge">Overriding Default Challenge Handler Implementations</a></li>
+        <li><a href="#manage">Managing Log In Attempts</li>
+  <!--
+        <li><a href="#authentication">Authentication and Connections</li> 
+  -->
+        <li><a href="#register_challenge">Registering Challenge Handlers at Locations</a></li>
+        <li><a href="#wildcards_challenge">Using Wildcards to Match Sub Domains and Paths</a></li>
+        <li><a href="#kerberos_challenge">Creating Kerberos Challenge Handlers</a></li>
+</ul>
+
+<h2><a name="overview"></a>Overview of Challenge Handlers</h2>
+<p>A challenge handler is responsible for producing responses to authentication challenges from the Gateway. The challenge handler process is as follows:</p>
+<ol>
+        <li>When an attempt to access a URI protected by the Gateway is made, the Gateway responds with an authentication request, indicating that credentials need to be provided before access to the resource is granted. The specific type of challenge is indicated in a HTTP header called "WWW-Authenticate". </li>
+        <li>The authentication request and the header are converted into a ChallengeRequest (as defined in RFC 2617) and sent to a challenge handler registered in the client application for authentication challenge responses. </li>
+        <li>The ChallengeResponse credentials generated by a registered challenge handler are included in a replay of the original request to the Gateway, which allows access to the resource (assuming the credentials are sufficient).</li>
+</ol>
+
+<p>Authenticating your Java client involves implementing a <a href="../apidoc/client/java/gateway/com/kaazing/net/auth/ChallengeHandler.html">challenge handler</a> to respond to authentication challenges from the Gateway. If your challenge handler is responsible for obtaining user credentials, then implement a <a href="../apidoc/client/java/gateway/com/kaazing/net/auth/LoginHandler.html">login handler</a>. </p>
+
+<h2><a name="imports"></a>Challenge Handler Class Imports</h2>
+<p>To use a challenge handler in your Java client you must add the following imports:</p>
+<pre class="auto-links: false; brush: java; toolbar: false;">
+import com.kaazing.gateway.jms.client.demo.LoginDialogFragment.LoginDialogListener;
+import com.kaazing.net.auth.BasicChallengeHandler;
+import com.kaazing.net.auth.ChallengeHandler;
+import com.kaazing.net.auth.LoginHandler;
+</pre>
+
+<p>Here is an example of all the JMS imports, including challenge handlers and login handlers:</p>
+
+<pre class="auto-links: false; brush: java; toolbar: false;">
+import com.kaazing.gateway.jms.client.demo.LoginDialogFragment.LoginDialogListener;
+import com.kaazing.gateway.jms.client.ConnectionDisconnectedException;
+import com.kaazing.gateway.jms.client.JmsConnectionFactory;
+import com.kaazing.net.auth.BasicChallengeHandler;
+import com.kaazing.net.auth.ChallengeHandler;
+import com.kaazing.net.auth.LoginHandler;
+import com.kaazing.net.ws.WebSocketFactory;
+</pre>
+
+<h2><a name="creating_basic"></a>Creating a Basic Challenge Handler</h2>
+
+<p>Clients with a single challenge handling strategy for authentication requests can set a specific challenge handler as the default using the setDefaultChallengeHandler() method in the WebSocketFactory class. For example, here is how a Challenge Handler is set on a Kaazing JMS connection: </p>
+        
+<pre class="auto-links: false; brush: java; toolbar: false;">
+private JmsConnectionFactory connectionFactory;
+...
+connectionFactory = JmsConnectionFactory.createConnectionFactory();
+WebSocketFactory webSocketFactory = connectionFactory.getWebSocketFactory();
+webSocketFactory.setDefaultChallengeHandler(createChallengehandler());
+</pre>
+
+<p>Each WebSocket created from the factory can have its own Challenge Handler associated with it:</p>
+
+<pre class="auto-links: false; brush: java; toolbar: false;">
+wsFactory = WebSocketFactory.createWebSocketFactory();
+WebSocket ws = wsFactory.createWebSocket(location);
+BasicChallengeHandler challengeHandler = BasicChallengeHandler.create();
+challengeHandler.setLoginHandler(loginHandler);
+ws.setChallengeHandler(challengeHandler);
+</pre>
+
+<p><span class="note"><b>Note:</b> The challenge handler API is very flexible and there are many different ways to implement challenge handlers to suit the needs of your client application. For more detailed information on challenge handlers, see the <a href="../apidoc/client/java/gateway/index.html">Java Client API</a>.</span></p>
+        
+
+<h2>Creating a Login Handler</h2>
+<p>A login handler is responsible for obtaining credentials from an arbitrary source, such as a dialog presented to the user. Login handlers can be associated with one or more challenge handlers (ChallengeHandler objects) to ensure that when a challenge handler requires credentials for a challenge response (ChallengeResponse), the work is delegated to a login handler.</p>
+
+<p>To demonstrate how you can integrate a Challenge Handler and Login Handler into you application, we will use the Kaazing Android JMS tutorial app available here <a href="https://github.com/kaazing/java.client.tutorials/tree/develop/android/jms">https://github.com/kaazing/java.client.tutorials/tree/develop/android/jms</a>. Follow the <a href="https://github.com/kaazing/java.client.tutorials/blob/develop/android/jms/README.md">steps</a> in the repo to clone or download the project and build it in Android Studio. You can look at the code of the project on Github or in Android Studio to see how a Challenge Handler and Login Handler are integrated.</p>
+
+<p>First, the Challenge Handler is set on the JMS connection when the connection is created, in the main program file <a href="https://github.com/kaazing/java.client.tutorials/blob/develop/android/jms/app/src/main/java/com/kaazing/gateway/jms/client/demo/JMSDemoActivity.java">JMSDemoActivity.java</a>:</p>
+
+<pre class="auto-links: false; brush: java; toolbar: false;">
+import com.kaazing.gateway.jms.client.demo.LoginDialogFragment.LoginDialogListener;
+import com.kaazing.gateway.jms.client.ConnectionDisconnectedException;
+import com.kaazing.gateway.jms.client.JmsConnectionFactory;
+import com.kaazing.net.auth.BasicChallengeHandler;
+import com.kaazing.net.auth.ChallengeHandler;
+import com.kaazing.net.auth.LoginHandler;
+import com.kaazing.net.ws.WebSocketFactory;
+...
+    public void onCreate(Bundle savedInstanceState) {
+     ...
+     if (connectionFactory == null) {
+      try {
+       connectionFactory = JmsConnectionFactory.createConnectionFactory();
+       WebSocketFactory webSocketFactory = connectionFactory.getWebSocketFactory();
+       webSocketFactory.setDefaultChallengeHandler(createChallengehandler());
+      } catch (JMSException e) {
+       e.printStackTrace();
+       logMessage("EXCEPTION: " + e.getMessage());
+      }
+     }
+     ...
+     
+</pre>
+
+<p>Next, a <a href="https://github.com/kaazing/java.client.tutorials/blob/develop/android/jms/app/src/main/java/com/kaazing/gateway/jms/client/demo/LoginDialogFragment.java">LoginDialogFragment.java</a> file is added to the project to define the popup dialog that users will see when a challenge handler is used and a login handler must be used to collect user credentials. Note the class <code>LoginDialogFragment</code>, as it will be called from the main program, and note that the username and password are obtained and returned via <code>getUsername()</code> and <code>getPassword()</code>:</p>
+
+<pre class="auto-links: false; brush: java; toolbar: false; highlight:[11,24,25,26,27,28,29,30,45,46,47,48,49,50,51];">
+package com.kaazing.gateway.jms.client.demo;
+
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.view.LayoutInflater;
+import android.widget.EditText;
+
+public class LoginDialogFragment extends DialogFragment {
+	
+	private String username;
+	private String password;
+	private LoginDialogListener listener;
+	private boolean cancelled;
+	
+	public Dialog onCreateDialog(Bundle savedInstanceState) {
+		
+		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+		LayoutInflater layoutInflaor = getActivity().getLayoutInflater();
+		builder.setView(layoutInflaor.inflate(R.layout.login, null)).setPositiveButton(R.string.ok_label, new DialogInterface.OnClickListener() {
+			
+			public void onClick(DialogInterface dialog, int which) {
+				EditText usernameText = (EditText)LoginDialogFragment.this.getDialog().findViewById(R.id.username);
+				EditText passwordText = (EditText)LoginDialogFragment.this.getDialog().findViewById(R.id.password);
+				username = usernameText.getText().toString();
+				password = passwordText.getText().toString();
+				LoginDialogFragment.this.getDialog().dismiss();
+				listener.onDismissed();
+				
+			}
+		})
+        .setNegativeButton(R.string.cancel_label, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+            	cancelled = true;
+                LoginDialogFragment.this.getDialog().cancel();
+                listener.onDismissed();
+            }
+        });
+		return builder.create();
+		
+	}
+	
+	public String getUsername() {
+		return username;
+	}
+	
+	public String getPassword() {
+		return password;
+	}
+	
+	public boolean isCancelled() {
+		return cancelled;
+	}
+	
+	public void setListener(LoginDialogListener listener) {
+		this.listener = listener;
+	}
+	
+	public interface LoginDialogListener {
+		public void onDismissed();
+	}
+}
+</pre>
+
+<p>Finally, in the main program in <a href="https://github.com/kaazing/java.client.tutorials/blob/develop/android/jms/app/src/main/java/com/kaazing/gateway/jms/client/demo/JMSDemoActivity.java#L402-L446">JMSDemoActivity.java</a>, the Challenge Handler and Login Handler are set in a function named <code>createChallengehandler()</code>, and the popup dialog is launched, collects the user credentials, and returns them to the Gateway.</p>
+
+<pre class="auto-links: false; brush: java; toolbar: false; highlight:[2,3,4,,6,13,14,20,21,22,23,24,34,35,39,42,43,44];">
+private ChallengeHandler createChallengehandler() {
+  final LoginHandler loginHandler = new LoginHandler() {
+    private String username;
+    private char[] password;
+    @Override
+    public PasswordAuthentication getCredentials() {
+      try {
+        final Semaphore semaphore = new Semaphore(1);
+        		
+        // Acquire semaphore so that subsequent acquire will block until released.
+        // This is used to wait until the login dialog is dismissed
+        semaphore.acquire();
+        final LoginDialogFragment loginDialog = new LoginDialogFragment();
+        loginDialog.setListener(new LoginDialogListener() {
+          public void onDismissed() {
+            semaphore.release();
+          }
+        });
+        runOnUiThread(new Runnable() {				
+          public void run() {
+            loginDialog.show(getSupportFragmentManager(), &quot;Login Dialog Fragment&quot;);
+            loginDialog.getFragmentManager().executePendingTransactions();
+            loginDialog.getDialog().setCanceledOnTouchOutside(false);
+          }
+        });
+            	
+        // wait until the dialog is dismissed
+        semaphore.acquire();
+            	
+        if (loginDialog.isCancelled()) {
+          return null;
+        }
+            	
+        username = loginDialog.getUsername();
+        password = loginDialog.getPassword().toCharArray();
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+      return new PasswordAuthentication(username, password);
+    }
+  };
+  BasicChallengeHandler challengeHandler = BasicChallengeHandler.create();
+  challengeHandler.setLoginHandler(loginHandler);
+  return challengeHandler;
+}
+</pre>
+
+
+       
+<h2><a name="create_challenge"></a>Creating a Custom Challenge Handler</h2>
+<p>There are two methods used in ChallengeHandler:</p>
+<ul>
+        <li><code>canHandle(ChallengeRequest challengeRequest)</code> determines if the challenge handler can handle the authentication scheme required by the Gateway (for example, Basic, Application Basic, Negotiate, Application Negotiate, or Application Token). The method takes a ChallengeRequest object containing a challenge and returns true if the challenge handler has the potential to respond meaningfully to the challenge. If this method determines that the challenge handler can handle the authentication scheme, it returns true and the <code>handle()</code> method is used. If this method returns false, the ChallengeHandler class (that contains all of the registered individual ChallengeHandler objects) continues looking for a ChallengeHandler to handle the request.</li>
+        <li><code>handle(ChallengeRequest challengeRequest)</code> handles the authentication challenge by returning a challenge response. Typically, the challenge response invokes a login handler to collect user credentials and transforms that information into a ChallengeResponse object. The ChallengeResponse sends the credentials to the Gateway in an Authorization header and notifies the Gateway on what challenge handler to use for future requests. If <code>handle()</code> cannot create a challenge response, it returns <code>null</code>.</li>
+</ul>
+
+<p>For information about each authentication scheme type, see <a href="../../security/p_authentication_config_http_challenge_scheme/index.html">Configure the HTTP Challenge Scheme</a>.</p>
+
+
+<h3><a name="override_challenge"></a>Overriding Default Challenge Handler Implementations</h3>
+<p>After you have developed your own challenge handler, you can install it for future use. For example, to install your own implementation of <code>BasicChallengeHandler</code> for a Java client:</p>
+
+<ol>
+        <li>Add a JAR file with your <code>BasicChallengeHandler</code> implementation to your classpath parameter before the Kaazing Gateway Java client libraries.</li>
+        <li>Ensure the JAR file contains the following file inside:<br>
+                META-INF/services/com.kaazing.gateway.client.security.BasicChallengeHander. The contents of the file should consist of a single line listing the fully-qualified name of your new implementation class (for example, <code>fully.qualified.challenge.handler.impl.MyChallengeHandler</code>). For more information, see the <a href="//docs.oracle.com/javase/7/docs/api/java/util/ServiceLoader.html">Service Loader</a> documentation.
+        </li>
+</ol>
+
+<a id="manage"></a><h2>Managing Log In Attempts</h2>
+<p>When it is not possible for the Kaazing Gateway client to create a challenge response, the client must return <code>null</code> to the Gateway to stop the Gateway from continuing to issue authentication challenges.</p>
+
+<p>The following example demonstrates how to stop the Gateway from issuing further challenges.</p>
+
+<pre class="auto-links: false; brush: java; toolbar: false;">
+/**
+* Sets up the login handler for responding to "Application Basic" or "Application Negotiate" challenges.
+*/
+private static int maxRetries = 2; //max retries allowed for wrong credentials
+private int retry = 0;    // retry counter
+
+private void setupLoginHandler(final Frame parentFrame, String locStr) {
+  wsFactory = WebSocketFactory.createWebSocketFactory();
+  int index = locStr.indexOf("://");
+  @Override
+  public PasswordAuthentication getCredentials() {
+    try {
+      if (retry++ >= maxRetries) {
+        return null;    // stop authentication process if max retry reached
+      }
+      LoginDialog dialog = new LoginDialog(parentFrame);
+      if (dialog.isCanceled()) {
+        retry = 0;    // user stopped authentication, reset retry counter
+        return null;  // stop authentication process
+      }
+      username = dialog.getUsername();
+      password = dialog.getPassword();
+
+      updateButtonsForConnected();
+      log("CONNECTED");
+      retry = 0;    //reset retry counter;
+
+      // Receive messages using WebSocketMessageReader.
+      final WebSocketMessageReader messageReader = webSocket.getMessageReader();
+    }
+  } 
+  catch (Exception e1) {
+    retry = 0;     //reset retry counter
+    e1.printStackTrace();
+    log("EXCEPTION: "+e1.getMessage());  }
+...</pre>
+
+<!--
+<a name="authentication"></a><h2>Authentication and Connections</h2>
+
+<p>Both <code>WebSocketFactory</code> and <code>JMSConnectionFactory</code> are used when adding a challenge handler to a Java or Android client's JMS connection to the Gateway. In the following code example, the challenge handler is initiated during the connect event for the JMS connection (lines 27-29, 45-52):</p>
+
+<pre class="auto-links: false; brush: java; toolbar: false; highlight:[27, 28, 29, 45, 46, 47, 48, 49, 50, 51, 52];">
+...
+import com.kaazing.net.auth.BasicChallengeHandler;
+import com.kaazing.net.auth.ChallengeHandler;
+import com.kaazing.net.auth.LoginHandler;
+...
+public class JmsPanel extends javax.swing.JPanel implements ActionListener, MessageListener, ExceptionListener {
+  ...
+  private ChallengeHandler createChallengeHandler(String location) {
+    final LoginHandler loginHandler = new LoginHandler() {
+      private String username;
+      private char[] password;
+      @Override
+      public PasswordAuthentication getCredentials() {
+        try {
+          LoginDialog dialog = new LoginDialog(Frame.getFrames()[0]);
+          if (dialog.isCanceled()) {
+            return null;
+          }
+          username = dialog.getUsername();
+          password = dialog.getPassword();
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+        return new PasswordAuthentication(username, password);
+      }
+    };
+    BasicChallengeHandler challengeHandler = BasicChallengeHandler.create();
+    challengeHandler.setLoginHandler(loginHandler);
+    return challengeHandler;
+  }
+  ...
+  public void actionPerformed(ActionEvent arg0) {
+    try {
+      if (arg0.getSource() == connect) {
+
+        final ExceptionListener applet = this;
+        Thread connectThread = new Thread() {
+
+          @Override
+          public void run() {
+            try {
+              String url = location.getText();
+              logMessage("CONNECT: " + url);
+                          
+              if (connectionFactory instanceof JmsConnectionFactory) {
+                JmsConnectionFactory stompConnectionFactory = (JmsConnectionFactory)connectionFactory;
+                // initialize the login handler for the target location
+                ChallengeHandler challengeHandler = createChallengeHandler(url);
+                stompConnectionFactory.setGatewayLocation(new URI(url));
+                WebSocketFactory webSocketFactory = stompConnectionFactory.getWebSocketFactory();
+                webSocketFactory.setDefaultChallengeHandler(challengeHandler);
+                webSocketFactory.setDefaultRedirectPolicy(HttpRedirectPolicy.SAME_DOMAIN);
+              }
+              ...
+</pre>
+-->
+
+<h2><a name="register_challenge"></a>Registering Challenge Handlers at Locations</h2>
+<p>When authentication challenges arrive for specific URI locations, the <code>DispatchChallengeHandler</code> is used to route challenges to the appropriate challenge handlers. This allows clients to use specific challenge handlers to handle specific types of challenges at different URI locations.</p>
+
+<p>Here is an example of registering a specific location for a challenge handler:</p>
+
+<pre class="auto-links: false; brush: java; toolbar: false;">
+LoginHandler someServerLoginHandler = ...
+NegotiateChallengeHandler  nch = NegotiateChallengeHandler.create();
+NegotiableChallengeHandler nblch = NegotiableChallengeHandler.create();
+DispatchChallengeHandler   dch = DispatchChallengeHandler.create();
+
+WebSocketFactory                wsFactory = WebSocketFactory.createWebSocketFactory();
+wsFactory.setDefaultChallengeHandler(dch.register("ws://host.example.com",
+        nch.register(nblch).setLoginHandler(someServerLoginHandler)
+);
+ // register more alternatives to negotiate here.
+)
+</pre>
+
+<h2><a name="wildcards_challenge"></a>Using Wildcards to Match Sub Domains and Paths</h2>
+<p>You can use wildcards (“*”) when registering locations using <code>locationDescription</code> in <code>DispatchChallengeHandler</code>. Some examples of <code>locationDescription</code> values with wildcards are:</p>
+
+<ul>
+        <li><span class="uri">*/</span> matches all requests to any host on port 80 (default port), with no user information or path specified.</li>
+        <li><span class="uri">*.hostname.com:8000</span> matches all requests to port 8000 on any sub domain of hostname.com, but not hostname.com itself.</li>
+        <li><span class="uri">server.hostname.com:*/*</span> matches all requests to a particular server on any port on any path but not the empty path.</li>
+</ul>
+
+<h2><a name="kerberos_challenge"></a>Creating Kerberos Challenge Handlers</h2>
+<p>The following examples demonstrate different implementations of Kerberos challenge handlers. When registered with the <code>DispatchChallengeHandler</code>, a <code>KerberosChallengeHandler</code> directly responds to Negotiate challenges where Kerberos-generated authentication credentials are required. In addition, you can use a <code>KerberosChallengeHandler</code> indirectly in conjunction with a <code>NegotiateChallengeHandler</code> to assist in the construction of a challenge response using object identifiers. For more information, see the <a href="../apidoc/client/java/gateway/index.html">Java Client API</a>.</p>
+
+<p>This abstract class captures common requirements for a number of implementation flavors for Kerberos, including <a href="//tools.ietf.org/html/rfc4559">Microsoft's SPNEGO implementation</a>, and a <a href="//tools.ietf.org/html/rfc4178">SPNEGO</a> <a href="//tools.ietf.org/html/rfc4121">Kerberos v5 GSS</a> implementation.</p>
+
+<p>To successfully use a <code>KerberosChallengeHandler</code>, one must know one or more Kerberos KDC service locations and optionally (if not defaulted to "HTTP/requestedURIHostname") provide the name of the specific service being requested.</p>
+
+<p>For the KDC service location, one must establish either:</p>
+<ul>
+        <li>a default Kerberos KDC service location, using <code>setDefaultLocation(java.net.URI)</code>, or</li>
+        <li>a mapping from a Kerberos Realm to at least one Kerberos KDC service location using<br><code>setRealmLocation(String, java.net.URI)</code>.</li>
+</ul>
+
+<p>For the non-defaulted service name being requested, one can configure the service name using <code>setServiceName(String)</code>.</p>
+
+<p>For example, one may install negotiate and a kerberos challenge handler that work together to handle a challenge as:</p>
+
+<pre class="auto-links: false; brush: java; toolbar: false;">
+import com.kaazing.net.auth.BasicChallengeHandler;
+import com.kaazing.net.auth.DispatchChallengeHandler;
+import com.kaazing.net.auth.KerberosChallengeHandler;
+import com.kaazing.net.auth.LoginHandler;
+import com.kaazing.net.auth.NegotiateChallengeHandler;
+.
+.
+.
+LoginHandler someServerLoginHandler = ...; // perhaps this pops a dialog
+
+KerberosChallengeHandler kerberosChallengeHandler =
+        KerberosChallengeHandler.create()
+                .setDefaultLocation(URI.create("ws://kb.hostname.com/kerberos5"))
+                .setRealmLocation("ATHENA.MIT.EDU", URI.create("ws://athena.hostname.com/kerberos5"))
+                .setServiceName("HTTP/servergw.hostname.com")
+                        .setLoginHandler(someServerLoginHandler)
+
+NegotiateChallengeHandler negotiateChallengeHandler = NegotiateChallengeHandler.create()
+        .register(kerberosChallengeHandler);
+
+WebSocketFactory wsFactory = WebSocketFactory.createWebSocketFactory();
+wsFactory.setDefaultChallengeHandler(WebSocketDemoChallengeHandler.create()
+        .register("ws://gateway.kaazing.wan:8001/echo", negotiateChallengeHandler)
+        .register("ws://gateway.kaazing.wan:8001/echo/*", negotiateChallengeHandler));
+</pre>
+
+<p>At this point, any user attempting to access <span class="uri">servergw.hostname.com:8000/echo</span> will be challenged using a <code>KerberosChallengeHandler</code> instance. If the user enters credentials with the ATHENA.MIT.EDU realm the realm-specific <span class="uri">athena.hostname.com</span> KDC will be used to ask for Kerberos credentials for the challenge response. If the user enters credentials with any other realm the <span class="uri">kb.hostname.com</span> KDC will be used to ask for Kerberos credentials. All requests to either KDC will be for the service name <span class="uri">HTTP/servergw.hostname.com</span> (indicating access to that HTTP server is the service for which Kerberos credentials are being requested).</p>
+
+
+
+                <!-- <h2>Next Step</h2>
+                <p><a href="p_dev_java_logging.html">Display Logs for the Java Client</a></p>            -->
+
+                  </section>
+                </article>
+
+            </div> <!-- #main -->
+        </div> <!-- #main-container -->
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

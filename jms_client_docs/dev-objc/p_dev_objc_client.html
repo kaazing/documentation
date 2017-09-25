@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+<h1>Use the Kaazing Objective-C JMS Client API </h1>
+<p>In this procedure, you will learn how to create an iOS JMS client using the Kaazing Enterprise Objective-C Client SDK. You will learn how to create an Xcode project and add the necessary frameworks in order to use the Objective-C JMS client API. You will learn how to implement the Objective-C JMS client API methods to enable your client to send and receive messages to a JMS-compliant message broker over WebSocket through a local or publicly available Gateway.</p>
+
+<p>For information about deploying your Objective-C (iOS) client on devices with the arm64 architecture, see <a href="#arm64">Convert Your Objective-C (iOS) Client to a 64-Bit Runtime Environment</a>.</p>
+
+
+<p><span class="note"><strong>Note</strong>: For this tutorial, we describe how to use both a local and a publicly available Gateway and JMS broker. The public address is <code>wss://sandbox.kaazing.net/jms</code>. Locally, you can use any JMS-compliant message broker with the Gateway. By default, the Gateway is configured to connect to the broker on <code>tcp://localhost:61613</code>. You can configure the <code>connect</code> URL in the file <span class="code_inline"><em>GATEWAY_HOME</em>/conf/gateway-config.xml</span>. See <a href="../../integration-jms/o_jms_integrate/index.html">About Integrating Kaazing Gateway and JMS-Compliant Message Brokers</a> for more information.</span></p>
+
+
+<p>In this procedure you will do the following:</p>
+<ol>
+<li>Set up your development environment using the Gateway (optional) and Xcode 4.4 or later.</li>
+<li>Review the components that will be used to create the Objective-C JMS client.</li>
+<li>Create a new Xcode project.</li>
+<li>Add the <strong>Kaazing Gateway Objective-C framework</strong>.</li>
+<li>Add <strong>CFNetwork.framework</strong> to the project.</li>
+<li>Add the <span class="code_inline">-ObjC</span> value to the <strong>Other Linker Flags</strong> build setting.</li>
+<li>Build the interface for the client using <strong>MainStoryboard.storyboard</strong>.</li>
+<li>Add the actions for the buttons to the view controller header file.</li>
+<li>Add the <strong>StompConnectionListener</strong> to the <strong>JMSViewController.m</strong> implementation file.</li>
+<li>Add the <strong>MessageListener</strong> to the <strong>JMSViewController.m</strong> implementation file.</li>
+<li>Add the <strong>ExceptionListener</strong> to the <strong>JMSViewController.m</strong> implementation file.</li>
+<li>Update the <strong>JMSViewController</strong> class in <strong>JMSViewController.m</strong> to use the <strong>StompConnectionListener</strong>, <strong>MessageListener</strong>, and <strong>ExceptionListener</strong> code.</li>
+<li>Build and run the client in the iPhone Simulator.</li>
+</ol>
+
+<p>For information about the Kaazing Gateway Objective-C JMS client library, see <a href="../apidoc/client/ios/jms/KMStompJMS/index.html">Objective-C JMS Client API</a>.</p>
+
+<span class="note"><b>Notes:</b>
+ <ul class="arrow-2">
+   <li>For information about durable subscribers, see <a href="#durable">Durable Subscribers</a>.</li>
+   <li>This procedure assumes that you are familiar with Objective-C programming and are an advanced user of the <a href="https://developer.apple.com/xcode/">Xcode</a> IDE for creating native iOS clients. If you are new to Objective-C and Xcode, see <a href="//klanguedoc.hubpages.com/hub/IOS-5-A-Beginners-Guide-to-Storyboard-Connection">A Beginner’s Guide to Storyboard</a>, <a href="https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/Introduction/Introduction.html#//apple_ref/doc/uid/TP40011210">Programming with Objective-C</a> and the tutorial <a href="https://developer.apple.com/library/ios/referencelibrary/GettingStarted/RoadMapiOS/FirstTutorial.html#//apple_ref/doc/uid/TP40011343-CH3-SW1">Start Developing iOS Apps Today</a>. A very quick overview of Objective-C is <a href="//cocoadevcentral.com/d/learn_objectivec/">Learn Objective-C</a> from <a href="//cocoadevcentral.com/">Learn Cocoa</a>.</li>
+   <li>This procedure assumes that you have the required iOS Developer Program credentials.</li>
+   <li>The Xcode project created in this procedure uses features available in Xcode 4.1 or later and iOS SDK 5.0 and later.</li>
+ </ul>
+</span>
+
+<h2>Before You Begin</h2>
+<p>This procedure is part of <a href="o_dev_objc.html">Checklist: Build Objective-C (iOS) JMS Clients</a>.</p>
+
+<p><span class="note"><b>Note:</b> Learn about supported browsers, operating systems, and platform versions in the <a href="//kaazing.com/releases/client-objectivec/">Release Notes</a>.</span></p>
+
+<h2>To Use the Kaazing Gateway Objective-C JMS Client API</h2>
+<p>
+<ol>
+    <li>Set up your development environment using the following:
+        <ul class="arrow-2">
+            <li>Download the Kaazing Enterprise Objective-C Client SDK, as described in <a href="../../about/setup-guide/index.html">Setting Up the Gateway and Clients</a>.</li>
+            <li>Download or clone the Kaazing iOS Tutorial from Github at <a href="https://github.com/kaazing/ios.client.tutorials">https://github.com/kaazing/ios.client.tutorials</a>.</li>
+            <li>If you are going to test your Android JMS client against a local Gateway and JMS broker, install the Gateway as described in <a href="../../about/setup-guide/index.html">Setting Up the Gateway and Clients</a>. </li>
+            <li>Download and install Apple <a href="https://developer.apple.com/xcode/">Xcode 4.4</a> or later (requires Mac OS X 10.7.4 or later). The Xcode bundle includes the iOS SDK.</li>
+        </ul>
+    </li>
+
+    <li><p>Review the components that will be used to create the Objective-C client. A quick review of these components will give you an overview of how the client is constructed.</p>
+        <table class="reference">
+            <tr><th width="230px">Component</th><th>Description</th></tr>
+            <tr><td>KGWebSocket.framework</td><td>Kaazing Gateway Objective-C WebSocket framework.</td></tr>
+            <tr><td>KMStompJMS.framework</td><td>Kaazing Gateway Objective-C JMS framework.</td></tr>
+            <tr><td>CFNetwork.framework</td><td>Core Foundation framework that provides a library of abstractions for network protocols. For more information on CFNetwork, see <a href="https://developer.apple.com/library/mac/#documentation/Networking/Conceptual/CFNetwork/Introduction/Introduction.html">Introduction to CFNetwork Programming Guide</a>.</td></tr>
+            <tr><td>MainStoryboard.storyboard</td><td>The storyboard for the user interface look and feel and the interactive controls.</td></tr>
+            <tr><td>JMSViewController.h</td><td>The header file that contains the target-action mechanism: how the user interface elements send an action message to an object that knows how to perform the corresponding action method (defined in JMSViewController.m).
+In this file, user interface objects and outlet connections (connections between user interface objects and custom controller objects) are defined for the user interface controls. For more information, see <a href="//developer.apple.com/library/mac/#documentation/General/Conceptual/CocoaEncyclopedia/Outlets/Outlets.html">Outlets</a>.</td></tr>
+            <tr><td>JMSViewController.m</td><td>The implementation file (sometimes called a source file) where the architecture of the client is defined, including how the client responds to different events.</td></tr>
+            <tr><td>StompConnectionListener class</td><td>The JMS listener interface for connection events, including the instance method implementations.</td></tr>
+            <tr><td>MessageListener class</td><td>The JMS message listener interface, including the <span class="code_inline">onMessage:()</span> method.</td></tr>
+            <tr><td>ExceptionListener class</td><td>The JMS exception listener interface, including the <span class="code_inline">onException:()</span> method.</td></tr>
+            <tr><td>JMSViewController class</td><td>The fundamental view-management model for the client. This class defines how the client’s data and its visual appearance are linked. For more information, see <a href="//developer.apple.com/library/ios/#documentation/uikit/reference/UIViewController_Class/Reference/Reference.html">UIViewController Class</a>.</td></tr>
+        </table>
+    </li>
+
+    <li>Launch Xcode.</li>
+    <li><p>Create a new Xcode project.</p>
+        <ol type="a">
+            <li>Click <strong>File</strong>, then <strong>New</strong>, and then <strong>Project</strong>.</li>
+            <li><p>Under <strong>iOS</strong>, click <strong>Application</strong>, and click <strong>Single View Application</strong>. Click <strong>Next</strong>. The project options page appears.</p>
+                    <figure>
+                        <img src="dev-io-client-project-options.jpg">
+                    <figcaption><strong>Figure: Options for the Single View Application project</strong></figcaption>
+                    </figure>
+            </li>
+            <li>Enter a name for your product in <strong>Product Name</strong>, such as <span class="code_inline">JMSDemo</span>, and a class prefix such as <span class="code_inline">JMS</span> in <strong>Class Prefix</strong>. Xcode uses the product name you entered to name your project and the client, and the class prefix to name the classes and files it generates for you.</li>
+            <li>In <strong>Company Identifier</strong>, enter the name of your company.</li>
+            <li>In <strong>Devices</strong>, make sure that <strong>iPhone</strong> is selected.</li>
+            <li>Make sure that the <strong>Use Storyboards</strong> and <strong>Use Automatic Reference Counting</strong> options are selected and that the <strong>Include Unit Tests</strong> option is unselected.</li>
+            <li>Click <strong>Next</strong>.</li>
+            <li><p>Specify a location for your project (leave the <strong>Source Control</strong> option unselected) and then click <strong>Create</strong>.</p>
+            <p>The new project is created along with the default files.</p>
+                <figure>
+                    <img src="dev-ios-client-project.jpg">
+                <figcaption><strong>Figure: New Xcode Project</strong></figcaption>
+                </figure>
+            </li>
+        </ol>
+    </li>
+
+    <li><p>Next, add the Kaazing Gateway Objective-C framework to the project.</p>
+        <ol type="a">
+            <li><p>Navigate to the location of your downloaded Kaazing Enterprise Objective-C Client SDK.</p>
+            </li>
+            <!-- <li>In the <code>lib</code> folder, double-click the <strong>KMStompJMS.dmg</strong> and <strong>KGWebSocket.dmg</strong> images to mount them.</li> -->
+            <li>Drag the <strong>KGWebSocket.framework</strong> folder from the mounted volume into the <strong>Frameworks</strong> folder in the Xcode project navigator.</li>
+            <li><p>In the <strong>Choose options for adding these files</strong> dialog that appears, enable the <strong>Copy items into destination group’s folder</strong> checkbox, select your project in <strong>Add to targets</strong>, and click <strong>Finish</strong>.</p>
+            <li>Repeat steps c and d for the <strong>KMStompJMS.framework</strong>.</li>
+            <p>Xcode adds the frameworks to the project navigator, updates the <strong>Framework Search Paths</strong> setting in <strong>Build Settings</strong> with the path to the frameworks, and updates the <strong>Link Binary With Libraries</strong> settings in <strong>Build Phases</strong> automatically.</p></li>
+            <p><strong>Note:</strong> You can also choose to add the <strong>KGWebSocket.framework</strong> and <strong>KMStompJMS.framework</strong> files into your local <strong>/Library/Frameworks/</strong> folder or a network share before adding them to your project. This is a common practice for managing frameworks.</p>
+            </li>
+        </ol>
+    </li>
+
+    <li><p>Add CFNetwork.framework to the project. CFNetwork is a framework in the iOS Core Services framework that provides a library of abstractions for network protocols.</p>
+        <ol type="a">
+            <li>In the project navigator, select the target to which you want to add a library or framework. In this example, <span class="code_inline">JMSDemo</span>.</li>
+            <li>Click <strong>Build Phases</strong> at the top of the project editor.</li>
+            <li>Open the <strong>Link Binary With Libraries</strong> section.</li>
+            <li>Click the <strong>Add (+)</strong> button to add a library or framework.</li>
+            <li><p>Enter <span class="code_inline">CFNetwork.framework</span> in the search field, select <strong>CFNetwork.framework</strong> in the results, and click <strong>Add</strong>.</p>
+<p>The CFNetwork.framework is now listed in the <strong>Frameworks</strong> folder in the project navigator.</p></li>
+        </ol>
+    </li>
+
+    <li><p>Add the <span class="code_inline">-ObjC</span> value to the <strong>Other Linker Flags</strong> build setting because the Kaazing Gateway Objective-C API code you add links against an Objective-C static library that contains categories. You must add this value to prevent a runtime exception of "selector not recognized". For more information, see <a href="//developer.apple.com/library/mac/#qa/qa1490/_index.html">Building Objective-C static libraries with categories</a>.</p>
+        <ol>
+            <li>In the project navigator, select the target to which you want to add a library or framework. In this example, <span class="code_inline">JMSDemo</span>.</li>
+            <li>Click the <strong>Build Settings</strong> tab and scroll down to the <strong>Linking</strong> section.</li>
+            <li>In <strong>Other Linker Flags</strong>, add the value <span class="code_inline">-ObjC</span>.</li>
+        </ol>
+    </li>
+  <li><p>Apply the <strong>-fobjc-arc-exceptions</strong> flag. By default in Objective-C, ARC is not exception-safe for normal releases. If the <strong>-fobjc-arc-exceptions</strong> flag is not specified, then the lifetime of <code>__strong</code> variables are not ended when their scopes are abnormally terminated by an exception. To enable exceptions, on the <strong>Build Settings</strong> tab, under <strong>Apple LLVM compiler 4.2 Language</strong>, expand <strong>Other C Flags</strong>, click the + button next to <strong>Release</strong> and add the flag <strong>-fobjc-arc-exceptions</strong>.</p>
+
+    <p>For more information, see <a href="//clang.llvm.org/docs/AutomaticReferenceCounting.html#exceptions">http://clang.llvm.org/docs/AutomaticReferenceCounting.html#exceptions</a>.</p>
+
+    </li>
+    <li><p>Build the interface for the client using <strong>MainStoryboard.storyboard</strong> and the View Controller.</p>
+        <ol type="a">
+            <li>Click <strong>MainStoryboard.storyboard</strong> in the project navigator. A blank scene appears.</li>
+            <li>Expand <strong>View Controller</strong> in the editor area and click <strong>View</strong>.</li>
+            <li>Click the <strong>Utility</strong> view to display the <a href="https://developer.apple.com/library/ios/recipes/xcode_help-general/Chapters/AbouttheUtilityArea.html#//apple_ref/doc/uid/TP40010548-CH8-SW1">Utility area</a>.</li>
+            <li>Show the Object Library, and choose <strong>Controls</strong> from the pop-up menu.</li>
+            <li><p>Drag the following controls into the scene, and give them the values listed in the following table. You might want to add a background color to the scene in order to display controls clearly.</p>
+                <table class="reference">
+                    <tr><th width="100px">Control</th><th width="350px">Purpose</th><th>Value</th></tr>
+                    <tr><td>Label</td><td>URI text label</td><td><span class="code_inline">URI:</span></td></tr>
+                    <tr><td>Text Field</td><td>Field where users enter a WebSocket address</td><td><span class="code_inline">wss://sandbox.kaazing.net/jms</span></td></tr>
+                    <tr><td>Label</td><td>Destination label</td><td><span class="code_inline">Destination:</span></td></tr>
+                    <tr><td>Button</td><td>Connect button</td><td><span class="code_inline">Connect</span></td></tr>
+                    <tr><td>Button</td><td>Subscribe button</td><td><span class="code_inline">Subscribe</span></td></tr>
+                    <tr><td>Button</td><td>Send button</td><td><span class="code_inline">Send </span></td></tr>
+                    <tr><td>Text Field</td><td>Field where users enter the JMS destination</td><td><span class="code_inline">/topic/destination</span></td></tr>
+                    <tr><td>Label</td><td>Message label</td><td><span class="code_inline">Message:</span></td></tr>
+                    <tr><td>Text Field</td><td>Field where users enter a message</td><td><span class="code_inline">Hello, WebSocket</span></td></tr>
+                    <tr><td>Text View</td><td>Area where the connection and subscription state is displayed, and where sent and received messages are displayed</td><td>No value</td></tr>
+                    <tr><td>Button</td><td>Clear button that clears previous connection and message info</td><td><span class="code_inline">Clear</span></td></tr>
+                </table>
+                <p>When you are finished, the scene should look like the following:</p>
+                    <figure>
+                        <img src="dev-ios-client-view.jpg">
+                    <figcaption><strong>Figure: Completed View Controller Scene</strong></figcaption>
+                    </figure>
+            </li>
+        </ol>
+    </li>
+
+    <li><p>Add the actions for the buttons to the view controller header file. In our example, the file is named <span class="code_inline">JMSViewController.h</span>.</p>
+        <ol type="a">
+            <li><p>Modify the <span class="code_inline">JMSViewController</span> class as follows:</p>
+
+<pre class="auto-links: false; brush: java; toolbar: false;">
+#import &lt;UIKit/UIKit.h&gt;
+
+// Declare the JMSViewController class and add the log and updateUI methods
+@interface JMSViewController : UIViewController&lt;UITextFieldDelegate&gt;
+- (void) log:(NSString *)str;
+- (void) updateUI:(BOOL)connectStatus;
+- (void) cleanup;</pre>
+            </li>
+            <li><p>Control-drag the UI controls into the <span class="code_inline">JMSViewController</span> class extension in JMSViewController.h to create actions and outlet connections (an outlet describes a connection between two objects). Configure the actions and outlet connections so that JMSViewController.h appears as follows:</p>
+
+<pre class="auto-links: false; brush: java; toolbar: false; first-line: 7;">
+/* Add the action method declarations. Corresponding stub methods
+are added to JMSViewController.m automatically */
+- (IBAction)connectOrDisconnect:(id)sender;
+- (IBAction)subscribe:(id)sender;
+- (IBAction)send:(id)sender;
+- (IBAction)clear:(id)sender;
+
+/* Add the outlet connections. Corresponding statements are added to the
+viewDidLoad method in JMSViewController.m
+automatically */
+@property (weak, nonatomic) IBOutlet UIButton *connectDisconnectButton;
+@property (weak, nonatomic) IBOutlet UIButton *sendButton;
+@property (weak, nonatomic) IBOutlet UIButton *subscribeButton;
+@property (weak, nonatomic) IBOutlet UIButton *clearButton;
+
+@property (weak, nonatomic) IBOutlet UITextField *locationField;
+@property (weak, nonatomic) IBOutlet UITextField *destinationField;
+@property (weak, nonatomic) IBOutlet UITextField *messageField;
+@property (weak, nonatomic) IBOutlet UITextView *logView;
+
+@end</pre>
+
+        <p>When you Control-drag the UI controls in the <span class="code_inline">JMSViewController</span>, the popover control appears:</p>
+
+          <figure>
+            <img src="dev-ios-popover-control.png">
+          <figcaption><strong>Figure: The Xcode popover control</strong></figcaption>
+          </figure>
+
+        <p>For action method declarations (<span class="code_inline">IBAction</span>), choose <strong>Action</strong> in the the <strong>Connection</strong> drop-down. For outlet connections (<span class="code_inline">IBOutlet</span>), choose <strong>Outlet</strong> in the <strong>Connection</strong> drop-down. This is a common Xcode procedure. If you are unfamiliar with this procedure, see <a href="//klanguedoc.hubpages.com/hub/IOS-5-A-Beginners-Guide-to-Storyboard-Connection">A Beginner’s Guide to Storyboard</a>.</p>
+
+                <span class="note"><b>Notes:</b>
+                 <ul class="arrow-2">
+                     <li>For all of the buttons, ensure that <strong>Touch Up Inside</strong> is selected in the <strong>Sent Events</strong> section of the <strong>Connections Inspector</strong>. Xcode will likely configure this automatically.</li>
+                   <li>While you can paste the above code into your header file, if you control-drag (press and hold the Control key while you drag the button to the implementation file in the assistant editor pane) the UI elements into the code from the scene and use the popover control to specify the outlet connections you can ensure that you have all the settings correct. This is a common Xcode procedure. If you are unfamiliar with this procedure, see <a href="//klanguedoc.hubpages.com/hub/IOS-5-A-Beginners-Guide-to-Storyboard-Connection">A Beginner’s Guide to Storyboard</a>.</li>
+                   <li>When you add the action methods, corresponding stub methods are added to the JMSViewController.m implementation file automatically. You will update these methods in JMSViewController.m with the Kaazing Gateway Objective-C API in later steps.</li>
+                   <li>Some iOS clients define the interface in the implementation file instead of the header file. The client in this procedure defines the interface in the header file and the implementation methods in the implementation file.</li>
+                 </ul>
+                </span>
+            </li>
+      <li>Set the delegate for the text fields. In the view, Control-drag each text field to the yellow sphere in the scene dock (the view controller object). Select <span class="code_inline">delegate</span> in the <strong>Outlets</strong> section of the panel that appears. For more information, see <a href="//klanguedoc.hubpages.com/hub/IOS-5-A-Beginners-Guide-to-Storyboard-Connection">A Beginner’s Guide to Storyboard</a>.</li>
+        </ol>
+    </li>
+    <li><p>Add the <!-- APNs --> files <strong>JMSAppDelegate.h</strong> and <strong>JMSAppDelegate.m</strong> to the project. <!-- The APNs functionality is discussed in another topic, <a href="p_dev_objc_apns.html" title="Kaazing Developer Network">Add APNs Support to Your Objective-C JMS Client</a>, but the code you will add in the following steps includes some APNs functionality and without <strong>JMSAppDelegate.h</strong> and <strong>JMSAppDelegate.m</strong> Xcode will throw errors during building. --></p>
+    <p>To add these files, drag them from the Kaazing iOS tutorial you downloaded. The Kaazing iOS tutorial is located at <a href="https://github.com/kaazing/ios.client.tutorials">https://github.com/kaazing/ios.client.tutorials</a>. Once you have downloaded the tutorial, the files are located in <code>ios.client.tutorials/jms/src/JMSDemo</code>. Drag these files to the <strong>JMSDemo</strong> project folder in Xcode.</p>
+  </li>
+    <li><p>In Xcode, click <strong>JMSViewController.m</strong>. You are going to modify this file to manage JMS communication to the JMS broker via the Gateway.</p></li>
+
+  <li><p>Replace the code in <strong>JMSViewController.m</strong> with the following code sample. The new code includes the following changes:</p>
+    <ol type="a">
+      <li>Add the import directive and class declaration below the import statement for JMSViewController.h (<code>#import "JMSViewController.h"</code>) (starts at line 1).</li>
+      <li>Declare the <code>StompConnectionListener</code> class (starts at line 72).</li>
+      <li>Declare the <code>MessageListener</code> class after the <code>StompConnectionListener</code> class (starts at line 111).</li>
+      <li>Declare the <code>ExceptionListener</code> class after the <code>MessageListener</code> class (starts at line 174).</li>
+      <li>Replace the <code>JMSViewController</code> class in <strong>JMSViewController.m</strong> with the <code>JMSViewController</code> class in the code sample to use the <code>StompConectionListener</code>, <code>MessageListener</code>, and <code>ExceptionListener</code> code (starts at line 201).</li>
+    </ol>
+  </li>
+<pre class="auto-links: false; brush: java; toolbar: false; highlight:[1, 72, 111, 174, 201];">
+#import &quot;JMSViewController.h&quot;
+#import &quot;JMSAppDelegate.h&quot;
+#import &lt;KMStompJMS/KMStompJMS.h&gt;
+#import &lt;KGWebSocket/WebSocket.h&gt;
+
+@class JMSViewController;
+
+
+// --------------- LoginHandler Implementation ---------------
+@interface DemoLoginHandler : KGLoginHandler
+@end
+
+@implementation DemoLoginHandler {
+  int            _buttonIndex;
+  NSString      *_username;
+  NSString      *_password;
+  UIAlertView   *_alertView;
+}
+
+-(void) dealloc {
+}
+
+- (id) init {
+  NSLog(@&quot;[DemoLoginHandler init]&quot;);
+  self = [super init];
+  return self;
+}
+
+-(NSURLCredential *) credentials {
+
+  _buttonIndex = -1;
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [self popupLogin];
+  });
+
+  // Wait for click
+  while (_buttonIndex &lt; 0) {
+    [NSThread sleepForTimeInterval:.2];
+  }
+
+  // Clicked the Submit button
+  if (_buttonIndex != 0) {
+    return [[NSURLCredential alloc] initWithUser:_username password:_password persistence:NSURLCredentialPersistenceNone];
+  } else {
+    return nil;
+  }
+}
+
+- (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+  _username = [_alertView textFieldAtIndex:0].text;
+  _password = [_alertView textFieldAtIndex:1].text;
+  _buttonIndex = buttonIndex;
+}
+
+- (void) popupLogin {
+  _buttonIndex = -1;
+
+  _alertView = [[UIAlertView alloc] initWithTitle:@&quot;Please Login:&quot; message:nil
+  delegate:self
+  cancelButtonTitle:@&quot;Cancel&quot;
+  otherButtonTitles:@&quot;OK&quot;, nil];
+
+  _alertView.alertViewStyle = UIAlertViewStyleLoginAndPasswordInput;
+
+  // Show alert on screen.
+  [_alertView show];
+}
+
+@end
+
+
+// --------------- StompConnectionListener Implementation ---------------
+
+@interface JMSConnectionListener : NSObject&lt;KMStompConnectionListener&gt; {
+  JMSViewController    *_controller;
+}
+@end
+
+@implementation JMSConnectionListener
+
+- (id) initWithController:(JMSViewController *)controller {
+  self = [super init];
+  if (self) {
+    _controller = controller;
+  }
+
+  return self;
+}
+
+- (void) onConnect:(KMConnection *)connection {
+  [_controller log:@&quot;CONNECTED&quot;];
+  [_controller updateUI:YES];
+}
+
+- (void) onStart:(KMConnection *)connection {
+  [_controller log:@&quot;CONNECTION STARTED&quot;];
+}
+
+- (void) onStop:(KMConnection *)connection {
+  [_controller log:@&quot;STOPPED&quot;];
+}
+
+- (void) onClose:(KMConnection *)connection {
+  [_controller log:@&quot;DISCONNECTED\n&quot;];
+  [((JMSViewController *)_controller) cleanup];
+  [_controller updateUI:NO];
+}
+
+@end
+
+// -------------------- MessageListener Implementation -----------------
+@interface JMSMessageListener : NSObject&lt;KMMessageListener&gt;
+@end
+
+@implementation JMSMessageListener {
+  JMSViewController *_controller;
+}
+
+- (id) initWithController:(JMSViewController *)controller {
+  self = [super init];
+  if (self) {
+    _controller = controller;
+  }
+
+  return self;
+}
+
+- (NSString *) typeFromObject:(NSObject *)value {
+  if (value == nil) {
+    return @&quot;nil&quot;;
+  } else if ([value isKindOfClass:[NSString class]]) {
+    return @&quot;NSString&quot;;
+  } else if ([value isKindOfClass:[NSNumber class]]) {
+    return @&quot;NSNumber&quot;;
+  } else if ([value isKindOfClass:[NSData class]]) {
+    return @&quot;NSData&quot;;
+  } else if ([value isKindOfClass:[NSNull class]]) {
+    return @&quot;NSNull&quot;;
+  } else {
+    return @&quot;UNKNOWN TYPE&quot;;
+  }
+}
+
+- (void) onMessage:(KMMessage *)message {
+  if ([message isKindOfClass:[KMTextMessage class]]) {
+    KMTextMessage *textMessage = (KMTextMessage *)message;
+    [_controller log:[NSString stringWithFormat:@&quot;RECEIVED KMTextMessage: %@&quot;, [textMessage text]]];
+
+  } else if ([message isKindOfClass:[KMBytesMessage class]])  {
+    KMBytesMessage *bytesMessage = (KMBytesMessage *)message;
+    NSString *utf8String = [bytesMessage readUTF];
+    [_controller log:[NSString stringWithFormat:@&quot;RECEIVED KMBytesMessage: %@&quot;, utf8String]];
+
+  } else if ([message isKindOfClass:[KMMapMessage class]]) {
+    KMMapMessage *mapMessage = (KMMapMessage *)message;
+    [_controller log:[NSString stringWithFormat:@&quot;RECEIVED KMMapMessage:&quot;]];
+
+    int count = 0;
+    for (NSString *key in [mapMessage mapNames]) {
+      id value = [mapMessage getObject:key];
+      NSString *type = [self typeFromObject:value];
+      [_controller log:[NSString stringWithFormat:@&quot;  %@: %@ (%@)&quot;, key, value, type]];
+      count++;
+    }
+    [_controller log:[NSString stringWithFormat:@&quot;%d entries&quot;, count]];
+
+  } else {
+    [_controller log:@&quot;RECEIVED UNKNOWN MESSAGE&quot;];
+  }
+}
+
+@end
+
+// -------------------- ExceptionListener Implementation -----------------
+@interface JMSExceptionListener : NSObject&lt;KMExceptionListener&gt;
+@end
+
+@implementation JMSExceptionListener {
+  JMSViewController *_controller;
+}
+
+- (id) initWithController:(JMSViewController *)controller {
+  self = [super init];
+  if (self) {
+    _controller = controller;
+  }
+
+  return self;
+}
+
+- (void) onException:(KMJMSException *)exception {
+  NSString *msg = [exception reason];
+  [_controller log:[NSString stringWithFormat:@&quot;EXCEPTION: %@&quot;, msg]];
+  if ([exception isKindOfClass:[KMConnectionDisconnectedException class]]) {
+    [((JMSViewController *)_controller) cleanup];
+  }
+}
+
+@end
+
+// -------------------- JMSViewController Implementation ---------------
+
+@interface JMSViewController ()
+-(KMDestination*) createDestination:(NSString*)destinationName;
+@end
+
+@implementation JMSViewController
+
+@synthesize connectDisconnectButton;
+@synthesize sendButton;
+@synthesize subscribeButton;
+@synthesize clearButton;
+
+@synthesize locationField;
+@synthesize destinationField;
+@synthesize messageField;
+@synthesize logView;
+
+bool                      connected = NO;
+KMStompConnectionFactory *factory = nil;
+KMConnection             *conn = nil;
+KMSession                *session = nil;
+KMMessageProducer        *producer = nil;
+KMMessageConsumer        *consumer = nil;
+
+
+- (void) viewDidLoad {
+  subscribeButton.enabled = NO;
+  subscribeButton.alpha = 0.5f;
+  sendButton.enabled = NO;
+  sendButton.alpha = 0.5f;
+
+  [[NSNotificationCenter defaultCenter] addObserver:self
+  selector:@selector(suspendOrResume:)
+  name:@&quot;suspendOrResume&quot;
+  object:nil];
+  [super viewDidLoad];
+}
+
+- (void) viewDidUnload {
+  [self setLocationField:nil];
+  [self setDestinationField:nil];
+  [self setMessageField:nil];
+  [self setLogView:nil];
+  [self setConnectDisconnectButton:nil];
+  [self setSendButton:nil];
+  [self setSubscribeButton:nil];
+  [self setClearButton:nil];
+
+  subscribeButton.enabled = NO;
+  subscribeButton.alpha = 0.5f;
+  sendButton.enabled = NO;
+  sendButton.alpha = 0.5f;
+
+  [super viewDidUnload];
+  // Release any retained subviews of the main view.
+}
+
+#pragma mark &lt;UIViewController Methods&gt;
+
+- (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+  if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
+  } else {
+    return YES;
+  }
+}
+
+#pragma mark &lt;UITextFieldDelegate Method&gt;
+
+- (BOOL) textFieldShouldReturn:(UITextField *)theTextField {
+  if ((theTextField == self.locationField)    ||
+  (theTextField == self.destinationField) ||
+  (theTextField == self.messageField)) {
+    [theTextField resignFirstResponder];
+  }
+  return YES;
+}
+
+#pragma mark &lt;JMSViewController Methods&gt;
+
+- (IBAction) connectOrDisconnect:(id)sender {
+  // Cache values from the UI widgets in the main thread itself to avoid warnings/errors
+  // related to UIKit invoked from secodary thread.
+  NSString *location = [locationField text];
+
+  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    if (!connected) {
+      NSURL                       *url = [[NSURL alloc] initWithString:location];
+      KMStompConnectionProperties *props = [[KMStompConnectionProperties alloc] init];
+
+      props-&gt;_connectionTimeout = 5000;
+
+      @try {
+        factory = [[KMStompConnectionFactory alloc] initWithUrl:url properties:props];
+
+        KGWebSocketFactory   *webSocketFactory = [factory webSocketFactory];
+        KGChallengeHandler   *challengeHandler = [self createBasicChallengeHandler];
+        JMSAppDelegate       *delegate = [[UIApplication sharedApplication] delegate];
+        NSData               *devToken = [delegate deviceToken];
+
+        [webSocketFactory setDefaultChallengeHandler:challengeHandler];
+
+        [self log:@&quot;CONNECTING&quot;];
+        id&lt;KMStompConnectionListener&gt; listener = [[JMSConnectionListener alloc] initWithController:self];
+        conn = [factory createConnectionWithListener:listener];
+        [conn setExceptionListener:[[JMSExceptionListener alloc] initWithController:self]];
+        [conn start];
+        session = (KMSession *)[conn createSession:KMSessionAutoAcknowledge transacted:NO];
+
+      }
+      @catch (NSException *ex) {
+        [self log:[NSString stringWithFormat:@&quot;EXCEPTION: %@&quot;, [ex reason]]];
+        NSLog(@&quot;Exception: %@&quot;, [ex reason]);
+
+        if (session != nil) {
+          [session close];
+        }
+
+        if (conn != nil) {
+          [conn close];
+        }
+
+        session = nil;
+        conn = nil;
+        factory = nil;
+      }
+    } else {
+      connected = NO;
+      [self log:@&quot;CLOSING&quot;];
+
+      [session close];
+      [conn close];
+    }
+  });
+}
+
+- (IBAction) subscribe:(id)sender {
+  // Cache values from the UI widgets in the main thread itself to avoid warnings/errors
+  // related to UIKit invoked from secondary thread.
+  NSString      *destinationName = [destinationField text];
+
+  // Subscribing can be a blocking operation, so perform it in the background.
+  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    @try {
+      // Create a destination.
+      KMDestination *dest = [self createDestination:destinationName];
+      if (dest == nil) {
+        return;
+      }
+
+      // Create a consumer and attach a listener.
+      consumer = [session createConsumer:dest];
+      [consumer setMessageListener:[[JMSMessageListener alloc] initWithController:self]];
+
+      // Update the UI. These calls will schedule themselves in the main queue.
+      [self log:[NSString stringWithFormat:@&quot;SUBSCRIBED TO: %@&quot;, destinationName]];
+      [self disableSubscribeButton];
+    }
+    @catch (NSException *exception) {
+      NSString *msg = [exception reason];
+      [self log:[NSString stringWithFormat:@&quot;EXCEPTION: %@&quot;, msg]];
+
+      if (consumer != nil) {
+        [consumer close];
+      }
+
+      consumer = nil;
+    }
+  });
+}
+
+- (IBAction) send:(id)sender {
+  // Cache values from the UI widgets in the main thread itself to avoid warnings/errors
+  // related to UIKit invoked from secondary thread.
+  NSString *destinationName = [destinationField text];
+  NSString *messageText = [messageField text];
+
+  // Sending a message is a blocking operation, so we do not want to
+  // do that in the UI thread. Instead, we want to do it in the background.
+  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    @try {
+      // Create a destination.
+      KMDestination *dest = [self createDestination:destinationName];
+      if (dest == nil) {
+        return;
+      }
+
+      // Create a producer and message.
+      producer = [session createProducer:dest];
+      KMTextMessage *message = [session createTextMessage];
+
+      // Set the message text and send it away.
+      [message setText:messageText];
+      [producer send:message];
+
+      // Update the UI. This call will schedule itself in the main queue.
+      [self log:[NSString stringWithFormat:@&quot;MESSAGE SENT TO %@: %@&quot;, destinationName, messageText]];
+    }
+    @catch (NSException *exception) {
+      NSString *msg = [exception reason];
+      [self log:[NSString stringWithFormat:@&quot;EXCEPTION: %@&quot;, msg]];
+
+      if (producer != nil) {
+        [producer close];
+      }
+
+      producer = nil;
+    }
+  });
+}
+
+- (IBAction) clear:(id)sender {
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [logView setText:@&quot;&quot;];
+  });
+}
+
+#pragma mark&lt;Private Methods&gt;
+
+- (KGChallengeHandler *) createBasicChallengeHandler {
+  // Set up ChallengeHandlers to handle authentication challenge.
+  KGLoginHandler          *loginHandler = [[DemoLoginHandler alloc] init];
+  KGBasicChallengeHandler *challengeHandler = [KGBasicChallengeHandler create];
+
+  [challengeHandler setLoginHandler:loginHandler];
+  return challengeHandler;
+}
+
+// Create a KMTopic or KMQueue depending on the text prefix inside the destination field.
+- (KMDestination *) createDestination:(NSString*)destinationName {
+  if ([destinationName hasPrefix:@&quot;/topic/&quot;]) {
+    return [session createTopic:destinationName];
+  }
+  else if ([destinationName hasPrefix:@&quot;/queue/&quot;]) {
+    return [session createQueue:destinationName];
+  }
+
+  // Make sure that the error dialog is shown in the main UI thread.
+  dispatch_async(dispatch_get_main_queue(), ^{
+    UIAlertView *badPrefixAlert = [[UIAlertView alloc] initWithTitle:@&quot;Invalid destination&quot;
+    message:@&quot;Destination must begin with /topic/ or /queue/&quot;
+    delegate:nil
+    cancelButtonTitle:@&quot;OK&quot;
+    otherButtonTitles:nil];
+    [badPrefixAlert show];
+  });
+
+  return nil;
+}
+
+- (void) cleanup {
+  if (producer != nil) {
+    [producer close];
+  }
+
+  if (consumer != nil) {
+    [consumer close];
+  }
+
+  if (session != nil) {
+    [session close];
+  }
+
+  if (conn != nil) {
+    [conn close];
+  }
+
+  producer = nil;
+  session = nil;
+  conn = nil;
+  factory = nil;
+}
+
+- (void) log:(NSString *)str {
+  dispatch_async(dispatch_get_main_queue(), ^{
+    NSString *text = str;
+    NSString *log = [logView text];
+
+    if ((log != nil) &amp;&amp; ([log length] &gt; 0)) {
+      text = [NSString stringWithFormat:@&quot;%@\n%@&quot;, [logView text], str];
+    }
+
+    // remove old text if text field is too large
+    if ([[logView text] length] &gt; 5000) {
+      text = [text substringFromIndex:3000];
+    }
+
+    [logView setText:text];
+    [logView scrollRangeToVisible:NSMakeRange([logView.text length], 0)];
+  });
+}
+
+- (void) disableSubscribeButton {
+  dispatch_async(dispatch_get_main_queue(), ^{
+    subscribeButton.enabled = NO;
+    subscribeButton.alpha = 0.5f;
+  });
+}
+
+- (void) suspendOrResume:(NSNotification *)notification {
+  NSDictionary      *dict = [notification userInfo];
+  NSString          *str = (NSString *) [dict valueForKey:@&quot;CONNECTION_STATE&quot;];
+  JMSAppDelegate    *delegate = [[UIApplication sharedApplication] delegate];
+  NSData            *devToken = [delegate deviceToken];
+
+  if ([str isEqualToString:@&quot;resume&quot;]) {
+    @try {
+      if (devToken == nil) {
+        // Application switched from background to foreground. Start the connection
+        // if it was earlier connected.
+        if (conn != nil) {
+          [conn start];
+        }
+        return;
+      }
+
+      NSString                 *location = [locationField text];
+      NSURL                    *url = [[NSURL alloc] initWithString:location];
+      KMStompConnectionFactory *factory = [[KMStompConnectionFactory alloc] initWithUrl:url];
+      KGWebSocketFactory       *webSocketFactory = [factory webSocketFactory];
+      KGChallengeHandler       *challengeHandler = [self createBasicChallengeHandler];
+
+      [webSocketFactory setDefaultChallengeHandler:challengeHandler];
+      NSString *bundleId = [[NSBundle mainBundle] bundleIdentifier];
+
+      [webSocketFactory setDefaultEnabledExtensions:enabledExtensions];
+
+      [self log:@&quot;CONNECTING&quot;];
+      id&lt;KMStompConnectionListener&gt; listener = [[JMSConnectionListener alloc] initWithController:self];
+      conn = [factory createConnectionWithListener:listener];
+      [conn setExceptionListener:[[JMSExceptionListener alloc] initWithController:self]];
+      [conn start];
+      session = (KMSession *)[conn createSession:KMSessionAutoAcknowledge transacted:NO];
+
+      // Create a destination.
+      NSString      *destinationName = [destinationField text];
+      KMDestination *dest = [self createDestination:destinationName];
+      if (dest == nil) {
+        return;
+      }
+
+      // Create a consumer and attach a listener.
+      consumer = [session createConsumer:dest];
+      [consumer setMessageListener:[[JMSMessageListener alloc] initWithController:self]];
+
+
+      // Update the UI. These calls will schedule themselves in the main queue.
+      [self log:[NSString stringWithFormat:@&quot;SUBSCRIBED TO: %@&quot;, destinationName]];
+      connected = YES;
+      [self updateUI:YES];
+      [self disableSubscribeButton];
+    }
+    @catch (NSException *ex) {
+      [self log:[NSString stringWithFormat:@&quot;EXCEPTION: %@&quot;, [ex reason]]];
+      NSLog(@&quot;Exception: %@&quot;, [ex reason]);
+
+      if (consumer != nil) {
+        [consumer close];
+      }
+
+      if (session != nil) {
+        [session close];
+      }
+
+      if (conn != nil) {
+        [conn close];
+      }
+
+      consumer = nil;
+      session = nil;
+      conn = nil;
+    }
+  }
+  else { // suspend
+    @try {
+      if (devToken == nil) {
+        // Application switched from foreground to background. Stop the connection
+        // if it was connected.
+        if (conn != nil) {
+          [conn stop];
+        }
+        return;
+      }
+    }
+    @catch (NSException *ex) {
+      [self log:[NSString stringWithFormat:@&quot;EXCEPTION: %@&quot;, [ex reason]]];
+      NSLog(@&quot;Exception: %@&quot;, [ex reason]);
+    }
+  }
+}
+
+- (void) updateUI:(BOOL)connectStatus {
+  dispatch_async(dispatch_get_main_queue(), ^{
+    if (connectStatus) {
+      [connectDisconnectButton setTitle:@&quot;Disconnect&quot; forState:UIControlStateNormal];
+      connected = YES;
+      subscribeButton.enabled = YES;
+      subscribeButton.alpha = 1.0f;
+      sendButton.enabled = YES;
+      sendButton.alpha = 1.0f;
+    } else {
+      [connectDisconnectButton setTitle:@&quot;Connect&quot; forState:UIControlStateNormal];
+      connected = NO;
+      subscribeButton.enabled = NO;
+      subscribeButton.alpha = 0.5f;
+      sendButton.enabled = NO;
+      sendButton.alpha = 0.5f;
+    }
+  });
+}
+
+@end
+</pre>
+    <li><p>Build and run the client in the iPhone Simulator.</p>
+        <ol type="a">
+            <li>In the <strong>Scheme</strong> menu, select <strong>iPhone 5.1 Simulator</strong> (you might have a more recent version such as iPhone 6.1).
+                    <figure>
+                        <img src="dev-ios-client-scheme.jpg">
+                    <figcaption><strong>Figure: Scheme using iPhone 5.1 Simulator</strong></figcaption>
+                    </figure>
+            </li>
+            <li><p>Click <strong>Run</strong>.</p>
+                <p>The iPhone Simulator displays the client.</p>
+                <figure>
+                    <img src="dev-ios-client-simulator.jpg">
+                <figcaption><strong>Figure: Your JMS Demo client on the iPhone Simulator</strong></figcaption>
+                </figure>
+            </li>
+            <li>In <strong>URI</strong>, enter <strong>wss://sandbox.kaazing.net/jms</strong>.</li>
+            <li>Click <strong>Connect</strong>. The client connects to the JMS service via a publicly available instance of the Gateway.</li>
+            <li>Click <strong>Subscribe</strong>. You are now subscribed to the topic.</li>
+            <li>Click <strong>Send</strong>. The message is sent and the received instantly because you are a subscriber.</li>
+            <li>Click <strong>Disconnect</strong> to end the connection.</li>
+        </ol>
+    </li>
+</ol>
+</p>
+
+<h2><a name="migrate"></a>Migrate iOS Applications to Kaazing Objective-C Client 4.x</h2>
+<p>If you wish to migrate your Kaazing Gateway 3.3-3.5 iOS clients to Kaazing Objective-C Client 4.x and use its new library, do the following:</p>
+  <ol>
+  <li>Add the new KGWebSocket.framework in Kaazing Objective-C Client 4.x to your client, as described in the above procedure.</li>
+  <li>Add the new KMStompJMS.framework in Kaazing Objective-C Client 4.x to your client, as described in the above procedure. This has replaced the KMStompJMS.framework from 3.3-3.5.</li>
+  <li>Change any KMStompJMS references to both KGWebSocket and KMStompJMS, such as in the import statements in <strong>JMSViewController.m</strong> above (<code>#import &lt;KGWebSocket/WebSocket.h&gt;, #import &lt;KMStompJMS/KMStompJMS.h&gt;</code>). You do not need to change any instances of <code>KMStompConnectionFactory</code>.</li>
+  <li><p>Modify challenge handlers. In Kaazing Objective-C Client 4.x, the <code>KGChallengeHandlers</code> class from 3.3-3.5 was replaced with by the <code>KGChallengeHandler</code> modifier of the <code>WebSocketFactory</code> class. The <code>KGChallengeHandler</code> modifier is used during authentication for connections and subsequent revalidation that occurs at regular intervals.</p>
+
+    <p>Kaazing Gateway 3.3-3.5:</p>
+
+<pre class="auto-links: false; brush: java; toolbar: false;">
+// Set up ChallengeHandlers to handle authentication challenge.
+KGLoginHandler          *loginHandler = [[DemoLoginHandler alloc] init];
+KGBasicChallengeHandler *challengeHandler = [KGChallengeHandlers load:@"KGBasicChallengeHandler"];
+
+[challengeHandler setLoginHandler:loginHandler];
+[KGChallengeHandlers setDefault:challengeHandler];
+</pre>
+
+    <p>Kaazing Objective-C Client 4.x:</p>
+
+<pre class="auto-links: false; brush: js; toolbar: false;">
+- (KGChallengeHandler *) createBasicChallengeHandler {
+    // Set up ChallengeHandlers to handle authentication challenge.
+    KGLoginHandler          *loginHandler = [[DemoLoginHandler alloc] init];
+    KGBasicChallengeHandler *challengeHandler = [KGBasicChallengeHandler create];
+
+    [challengeHandler setLoginHandler:loginHandler];
+    return challengeHandler;
+}
+</pre>
+  </li>
+  <li>Review the <a href="../apidoc/client/ios/jms/KMStompJMS/index.html">Objective-C JMS Client API</a>.</li>
+</ol>
+
+<a name="durable"></a><h2>Durable Subscribers</h2>
+
+<span class="note"><b>Note:</b> Currently, the Gateway does not support durable subscribers with Apache ActiveMQ. You may use durable subscribers with <a href="../../integration-jms/p_jms_integrate_tibco/index.html">TIBCO EMS</a> or <a href="../../integration-jms/p_jms_integrate_informatica/index.html">Informatica UM</a>. For more information, see <a href="../../admin-reference/r_conf_jms/index.html#durable-subscribers">Durable Subscribers</a>.</span>
+
+
+<p>If your JMS client needs to receive all of the messages published on a topic, including the ones published while the subscriber is inactive because it is not being used or has lost connections (which is common when using mobile devices), create a durable <code>KMTopicSubscriber</code> using the <span class="code_inline">createDurableSubscriber</span> method on the <code>KMSession</code> object.</p>
+
+<p>To unsubscribe from a durable topic, use the <span class="code_inline"><a href="../apidoc/client/ios/jms/KMStompJMS/Classes/KMSession.html#//api/name/unsubscribe:">- unsubscribe</a></span> method of the <code>KMSession</code> object.</p>
+
+<p>The JMS provider retains a separate record of each durable subscription and ensures that all messages from the topic's publishers are retained until they are acknowledged by each durable subscriber or they have expired. Whether messages have been acknowledged is tracked separately for each durable subscriber, and each durable subscriber is identified by the combination of its name and the clientID (if any) set on the Connection. Ensure your application confirms that the clientID (if used) is unique to the user or device, or, if it does not use clientID's, ensure that the durable name is unique to the user or device.</p>
+
+<p><span class="note"><b>Note:</b> The following code example is not intended to be integrated into the iOS JMS client created earlier in this topic. The following example is a separate iOS JMS client that demonstrates durable subscribers.</span></p>
+
+<h3>Example</h3>
+<p>The following code shows the interface and implementation of the JMSDurableSubscriberMessageListener API.</p>
+
+<pre class="auto-links: false; brush: js; toolbar: false;">
+@interface JMSDurableSubscriberMessageListener : NSObject&lt;KMMessageListener&gt;
+@end
+
+@implementation JMSDurableSubscriberMessageListener {
+    NSString *_expectedValue;
+}
+
+- (void) onMessage:(KMMessage *)message {
+    KMTextMessage *textMsg = (KMTextMessage *)message;
+    NSString      *text = [textMsg text];
+    NSLog(@&quot;RECEIVED MESSAGE: %@&quot;, text);
+}
+@end</pre>
+
+<p>The following snippet, which is not part of the preceding class, creates the connection and the durable subscription. It provides examples of creating a durable subscription with and without a message selector.</p>
+
+<pre class="auto-links: false; brush: js; toolbar: false; hightlight:[];">
+.
+.
+.
+- (void) receiveMessageUsingDurableSubscriber:(BOOL)withMessageSelector {
+    // Create a KMConnectionListener.
+    id&lt;KMStompConnectionListener&gt; listener = [
+        [JMSDurableSubscriptionConnectionListener alloc] init];
+
+    KMConnection *conn = [super createConnectionWithListener:listener];
+    [conn start];
+
+    KMSession *session = [conn createSession:KMSessionAutoAcknowledge
+        transacted:NO];
+    KMTopic *topic = [session createTopic:@&quot;/topic/destination&quot;];
+
+    // Create a durable subscriber.
+    KMMessageConsumer *consumer = nil;
+    NSString *expectedValue = nil;
+
+    // Without Message Selector
+    if (!withMessageSelector) {
+        consumer = [session createDurableSubscriber:topic name:@&quot;durable1&quot;];
+        expectedValue = @&quot;Hello, Durable Subscriber!&quot;;
+    }
+
+    // With Message Selector
+    else {
+        consumer = [session createDurableSubscriber:topic
+        name:@&quot;durable1&quot;
+        messageSelector:@&quot;symbol=&#x27;KZNG&#x27;&quot;
+        noLocal:NO];
+        expectedValue = @&quot;Hello, Durable Subscriber with MessageSelector!&quot;;
+    }
+
+    [consumer setMessageListener:[[JMSDurableSubscriberMessageListener alloc]
+        initWithTestcase:self expectedValue:expectedValue]];
+
+    [consumer close];
+
+    // Unsubscribe durable subscriber
+    [session unsubscribe:@&quot;durable1&quot;];
+
+    sleep(3);
+
+    [session close];
+    [conn close];
+}
+</pre>
+
+<p>When using message selectors, the same string value is used by methods sending or receiving messages with a message selector. You can see that the <span class="code_inline">receiveMessageUsingDurableSubscriber</span> method above uses a message selector string (line 26). A send method should have a condition such as:</p>
+
+<pre class="auto-links: false; brush: js; toolbar: false;">
+if (withMessageSelector) {
+    [textMsg setStringProperty:@"symbol" value:@"KZNG"];
+}
+</pre>
+
+<p>Durable subscriptions do not require message selectors. Nor are message selectors limited to durable subscriptions. The preceding example simply shows a common combination of durable subscriptions and message selectors.</p>
+
+<h2><a name="arm64"></a>Convert Your Objective-C (iOS) Client to a 64-Bit Runtime Environment</h2>
+<p>iPhone 5s, iPad Air and iPad mini (2nd generation) both run on a completely new processor architecture: arm64. arm64 is the standard, 64-Bit architecture in Xcode 5.0.1. You can use Xcode 5.0.1 to update your Objective-C (iOS) client to support arm64. For more information, see <a href="https://developer.apple.com/library/ios/documentation/General/Conceptual/CocoaTouch64BitGuide/ConvertingYourAppto64-Bit/ConvertingYourAppto64-Bit.html">Converting Your App to a 64-Bit Binary</a>.</p>
+
+<p>To update your Objective-C (iOS) client to support arm64:</p>
+<ol>
+<li>Install Xcode 5.0.1 or later from the <a href="https://itunes.apple.com/us/app/xcode/id497799835?mt=12">Mac App Store</a>.</li>
+<li>Open your Objective-C (iOS) client project. Xcode prompts you to modernize your project. Modernizing the project adds new warnings and errors that are important when compiling your app for 64-bit.</li>
+<li>Update your project settings to support iOS 5.1.1 or later. You cannot build a 64-bit project if it targets an iOS version earlier than iOS 5.1. Change the <strong>Architectures</strong> build setting in your project to <strong>Standard Architectures (including 64-bit)</strong>. Set the <strong>Deployment Target</strong> to <strong>7.1</strong>. For more information, see <a href="https://developer.apple.com/library/ios/documentation/General/Conceptual/CocoaTouch64BitGuide/ConvertingYourAppto64-Bit/ConvertingYourAppto64-Bit.html">Converting Your App to a 64-Bit Binary</a>.</li>
+</ol>
+
+<h2>Next Step</h2>
+<p><a href="p_dev_objc_secure.html">Secure Your Objective-C Client</a></p>
+
+<h2>Notes</h2>
+<ul class="arrow-2">
+    <li>Clients built using Kaazing Gateway 3.x libraries will work against Kaazing Gateway 4.x. If you wish to upgrade your 3.x client to the 4.x libraries, please note that the 3.x clients used a single Stomp JMS library and 4.x clients include and use separate WebSocket and Stomp JMS libraries. Update your client library file and code references to include both the WebSocket and Stomp JMS libraries, as described in the 4.x documentation.</li>
+    <li>For information about the <span class="code_inline">dispatch_get_global_queue</span> and <span class="code_inline">dispatch_get_main_queue</span> functions used in the JMSViewController implementation, see <a href="//developer.apple.com/library/ios/#documentation/General/Conceptual/ConcurrencyProgrammingGuide/OperationQueues/OperationQueues.html">Dispatch Queues</a> in the <a href="//developer.apple.com/library/ios/#documentation/General/Conceptual/ConcurrencyProgrammingGuide/Introduction/Introduction.html">Concurrency Programming Guide of the iOS Developer Library</a>.</li>
+    <li><a href="https://developer.apple.com/library/ios/documentation/IDEs/Conceptual/AppDistributionGuide/Troubleshooting/Troubleshooting.html#//apple_ref/doc/uid/TP40012582-CH5-SW2">iOS Development: Troubleshooting</a></li>
+    <li><span class="code_inline">TemporaryTopic</span> and <span class="code_inline">TemporaryQueue</span> objects are destroyed when the client loses its connection to the Gateway, or when the JMS-compliant message broker loses its connection to the Gateway. To address this, monitor the client's exception listener to handle recovery for your application. Once the connection is re-established, recreate <span class="code_inline">TemporaryTopic</span> and <span class="code_inline">TemporaryQueue</span>. <span class="code_inline">ConnectionDroppedException</span> and <span class="code_inline">ConnectionInterruptedException</span> are delivered to the connection's exception listener via <span class="code_inline">onException</span>, indicating that messages in flight might be lost, depending on message delivery options. <span class="code_inline">ConnectionRestoredException</span> is delivered to indicate that the connection through to the JMS-compliant message broker has been re-established. <span class="code_inline">TemporaryTopic</span> and <span class="code_inline">TemporaryQueue</span> should be recreated at that time to resume operations.</li>
+</ul>
+
+
+
+                  </section>
+                </article>
+
+            </div> <!-- #main -->
+        </div> <!-- #main-container -->
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

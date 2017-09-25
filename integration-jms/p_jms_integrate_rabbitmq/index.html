@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+  
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+
+ <h1 id="integrate-rabbitmq-messaging--">Integrate RabbitMQ Messaging  </h1>
+
+<p>In this procedure, you will learn how to integrate Kaazing Gateway and RabbitMQ, a highly reliable enterprise messaging system based on the AMQP standard.</p>
+
+<p><strong>Note:</strong> The instructions in this topic use RabbitMQ 3.1.5.</p>
+
+<h2 id="to-integrate-rabbitmq-messaging">To Integrate RabbitMQ Messaging</h2>
+
+<ol>
+  <li>Set up RabbitMQ.
+    <ol>
+      <li>Download and install RabbitMQ by following the instructions on the RabbitMQ <a href="//www.rabbitmq.com/download.html">website</a>. The root folder for the RabbitMQ installation will be referred to as <code>RABBITMQ_HOME</code> in this procedure.</li>
+      <li>
+        <p>Download the <strong>JMS client and server plug-in 1.0.5 for vFabric RabbitMQ 3.1.5</strong> on the VMware <a href="https://my.vmware.com/web/vmware/details?downloadGroup=VFRMQ_JMS_105&amp;productId=349">website</a> (for Mac or Linux, <strong>rabbitmq-jms-package-1.0.5-client-and-plugin.tar.gz</strong>; for Windows, <strong>rabbitmq-jms-package-1.0.5-client-and-plugin.zip</strong>).</p>
+
+        <p><strong>Note:</strong> For Windows users, ensure that the downloaded files are not blocked. Before unzipping the download, right-click the zip file, click <strong>Properties</strong>, and click the <strong>Unblock</strong> button. For more information, see <a href="//www.thewindowsclub.com/fix-windows-blocked-access-file" title="Fix: Windows has blocked access to this file">Fix: Windows has blocked access to this file</a>.</p>
+      </li>
+      <li>Extract the <strong>JMS client and server plug-in 1.0.5 for vFabric RabbitMQ 3.1.5</strong>.</li>
+      <li>Navigate to the <strong>plugin</strong> folder in the extracted directory and copy the file <strong>rjms-topic-selector-1.0.5.ez</strong>.</li>
+      <li>Navigate to the <code>RABBITMQ_HOME/plugins</code> folder and paste <strong>rjms-topic-selector-1.0.5.ez</strong> into that folder.</li>
+      <li>Open a shell or command prompt on the location <code>RABBITMQ_HOME/sbin</code>.</li>
+      <li>
+        <p>Enable the plugin by running the following command:</p>
+
+        <p>For Windows:<br />
+ <code>rabbitmq-plugins.bat enable rabbitmq_jms_topic_exchange</code></p>
+
+        <p>For Mac and Linux:<br />
+ <code>./rabbitmq-plugins enable rabbitmq_jms_topic_exchange</code></p>
+
+        <p>You will see the following output:<br />
+ <code>The following plugins have been enabled: rabbitmq_jms_topic_exchange Plugin configuration has changed. Restart RabbitMQ for changes to take effect.</code></p>
+      </li>
+      <li>
+        <p>Start RabbitMQ by running the following command:</p>
+
+        <p>For Windows:<br />
+ <code>rabbitmq-server.bat</code></p>
+
+        <p>For Mac and Linux:<br />
+ <code>./rabbitmq-server</code></p>
+
+        <p>The output will contain the following:<br />
+ ` Starting broker… completed with 1 plugins.`</p>
+
+        <p>The RabbitMQ broker is started along with the installed plugin.</p>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <p>Set up the Gateway.</p>
+
+    <ol>
+      <li>Download and install the Gateway as described in <a href="../../about/setup-guide/index.html">Setting Up the Gateway</a>.</li>
+      <li>Navigate to the extracted folder for the <strong>JMS client and server plug-in 1.0.5 for vFabric RabbitMQ 3.1.5</strong>.</li>
+      <li>Copy the following files into <code>GATEWAY_HOME/lib/ext</code>
+        <ul>
+          <li>rabbitmq-jms-1.0.5.jar</li>
+          <li>dependencies/amqp-client-3.1.5.jar</li>
+        </ul>
+      </li>
+      <li>Next, you will need to add the <strong>fscontext.jar</strong> and <strong>providerutil.jar</strong> files from the JNDI File System Service Provider. Go to the Java Archive Downloads page here: <a href="//www.oracle.com/technetwork/java/javasebusiness/downloads/java-archive-downloads-java-plat-419418.html">http://www.oracle.com/technetwork/java/javasebusiness/downloads/java-archive-downloads-java-plat-419418.html</a></li>
+      <li>Search for <strong>scontext-1_2-beta3.zip</strong> and download the file.</li>
+      <li>Extract the <strong>scontext-1_2-beta3.zip</strong> file, and copy the following files from the extracted <strong>lib</strong> folder into <code>GATEWAY_HOME/lib/ext</code>: <strong>fscontext.jar</strong>, <strong>providerutil.jar</strong>.</li>
+      <li>
+        <p>Create a JNDI .bindings file for the connection to the RabbitMQ broker. Here is an example of a .bindings file:</p>
+
+        <p><code>ConnectionFactory/ClassName=com.rabbitmq.jms.admin.RMQConnectionFactory<br>
+ConnectionFactory/FactoryName=com.rabbitmq.jms.admin.RMQObjectFactory<br>
+<br>
+ConnectionFactory/RefAddr/0/Content=jms/ConnectionFactory<br>
+ConnectionFactory/RefAddr/0/Type=name<br>
+ConnectionFactory/RefAddr/0/Encoding=String<br>
+<br>
+ConnectionFactory/RefAddr/1/Content=javax.jms.ConnectionFactory<br>
+ConnectionFactory/RefAddr/1/Type=type<br>
+ConnectionFactory/RefAddr/1/Encoding=String<br>
+<br>
+ConnectionFactory/RefAddr/2/Content=com.rabbitmq.jms.admin.RMQObjectFactory<br>
+ConnectionFactory/RefAddr/2/Type=factory<br>
+ConnectionFactory/RefAddr/2/Encoding=String<br>
+<br>
+# Change this line accordingly if the broker is not at localhost<br>
+ConnectionFactory/RefAddr/3/Content=localhost<br>
+ConnectionFactory/RefAddr/3/Type=host<br>
+ConnectionFactory/RefAddr/3/Encoding=String
+</code></p>
+
+        <p>For static destinations, you need to add an additional set of entries for each static destination. The snippet below shows how to add a static topic named “MyTopic”, and a queue named “MyQueue” in JNDI:</p>
+
+<p><code>
+MyTopic/ClassName=com.rabbitmq.jms.admin.RMQDestination<br>
+MyTopic/FactoryName=com.rabbitmq.jms.admin.RMQObjectFactory<br>
+<br>
+MyTopic/RefAddr/0/Content=jms/Topic<br>
+MyTopic/RefAddr/0/Type=name<br>
+MyTopic/RefAddr/0/Encoding=String<br>
+<br>
+MyTopic/RefAddr/1/Content=javax.jms.Topic<br>
+MyTopic/RefAddr/1/Type=type<br>
+MyTopic/RefAddr/1/Encoding=String<br>
+<br>
+MyTopic/RefAddr/2/Content=com.rabbitmq.jms.admin.RMQObjectFactory<br>
+MyTopic/RefAddr/2/Type=factory<br>
+MyTopic/RefAddr/2/Encoding=String<br>
+<br>
+MyTopic/RefAddr/3/Content=MyTopic<br>
+MyTopic/RefAddr/3/Type=destinationName<br>
+MyTopic/RefAddr/3/Encoding=String<br>
+<br>
+MyQueue/ClassName=com.rabbitmq.jms.admin.RMQDestination<br>
+MyQueue/FactoryName=com.rabbitmq.jms.admin.RMQObjectFactory<br>
+<br>
+MyQueue/RefAddr/0/Content=jms/Queue<br>
+MyQueue/RefAddr/0/Type=name<br>
+MyQueue/RefAddr/0/Encoding=String<br>
+<br>
+MyQueue/RefAddr/1/Content=javax.jms.Queue<br>
+MyQueue/RefAddr/1/Type=type<br>
+MyQueue/RefAddr/1/Encoding=String<br>
+<br>
+MyQueue/RefAddr/2/Content=com.rabbitmq.jms.admin.RMQObjectFactory<br>
+MyQueue/RefAddr/2/Type=factory<br>
+MyQueue/RefAddr/2/Encoding=String<br>
+<br>
+MyQueue/RefAddr/3/Content=MyQueue<br>
+MyQueue/RefAddr/3/Type=destinationName<br>
+MyQueue/RefAddr/3/Encoding=String
+</code></p>
+
+        <p><strong>Notes:</strong></p>
+
+        <ul>
+          <li>If you need to modify the .bindings file, please refer to the attributes at: <a href="//pubs.vmware.com/vfabric53/index.jsp?topic=/com.vmware.vfabric.rabbitmq.3.2/jms-client/install.html">Installing and Configuring JMS Client for vFabric RabbitMQ</a>. For example, the value of <code>ConnectionFactory/RefAddr/&lt;an-attribute-number&gt;/Type</code> in this file corresponds to the attribute names of <code>jms/ConnectionFactory</code>, which are described in the table in the link above. The value of the attribute would then be <code>ConnectionFactory/RefAddr/&lt;same-attribute-number&gt;/Content</code> in this file.&lt;/span&gt;</li>
+          <li>If you are running RabbitMQ on a non-standard port or with authorization enabled, you might need to specify the port, username, and password to connect to RabbitMQ. For more information, see <a href="//pubs.vmware.com/vfabric53/index.jsp?topic=/com.vmware.vfabric.rabbitmq.3.2/jms-client/install-configure-client.html">Configure JMS Applications to Use JMS Client for vFabric RabbitMQ</a>.</li>
+        </ul>
+      </li>
+      <li>Note the location of your JNDI .bindings file for the connection to the RabbitMQ broker. You will use this file location when configuring the <a href="../../admin-reference/r_conf_jms/index.html#jms">jms</a> service on the Gateway. A file path without spaces is easier to configure.</li>
+      <li>Open the configuration file for the Gateway, located at <code>GATEWAY_HOME/conf/gateway-config.xml</code>.</li>
+      <li>
+        <p>Modify the <code>properties</code> element of the <a href="../../admin-reference/r_conf_jms/index.html#jms">jms</a> service with the following:</p>
+
+        <pre class="auto-links: false; brush: xml; toolbar: false;">&lt;service&gt;
+  &lt;accept&gt;ws://example.com:8000/jms&lt;/accept&gt;
+
+  &lt;type&gt;jms&lt;/type&gt;
+
+  &lt;properties&gt;
+    &lt;connection.factory.name&gt;ConnectionFactory&lt;/connection.factory.name&gt;
+    &lt;!-- Set dynamic destinations --&gt;
+    &lt;context.lookup.topic.format&gt;%s&lt;/context.lookup.topic.format&gt;
+    &lt;context.lookup.queue.format&gt;%s&lt;/context.lookup.queue.format&gt;
+
+    &lt;env.java.naming.factory.initial&gt;
+      com.sun.jndi.fscontext.RefFSContextFactory
+    &lt;/env.java.naming.factory.initial&gt;
+    &lt;env.java.naming.provider.url&gt;
+      file:/bindings_file_location
+    &lt;/env.java.naming.provider.url&gt;
+    &lt;!-- Dynamic destinations support; omit for static destinations --&gt;
+    &lt;destination.strategy&gt;session&lt;/destination.strategy&gt;
+  &lt;/properties&gt;
+          
+  &lt;realm-name&gt;demo&lt;/realm-name&gt;
+          
+  &lt;cross-site-constraint&gt;
+    &lt;allow-origin&gt;http://example.com:8000&lt;/allow-origin&gt;
+  &lt;/cross-site-constraint&gt;
+&lt;/service&gt;
+</code></pre>
+
+        <p>Replace <code>bindings_file_location</code> in the <code>env.java.naming.provider.url</code> element with the file path to the JNDI .bindings file <strong>folder</strong> for the connection to the RabbitMQ broker. Do not include the .bindings file name in the file path. For example, <code>file:/C:/JNDI-Directory</code> (Windows) or <code>file:/Users/johndoe/Desktop/JNDI-Directory</code> (Mac and Linux).</p>
+      </li>
+      <li>
+        <p>Start the Gateway as described in <a href="../../about/setup-guide/index.html">Setting Up the Gateway</a>.</p>
+
+        <p>When the Gateway detects the connection to RabbitMQ, the Gateway dynamically sets the following wildcard properties that are required by RabbitMQ:</p>
+
+<p><code>
+wildcard.any.descendent=#<br>
+wildcard.separator=/<br>
+wildcard.any.child=+
+</code></p>
+
+        <p>See <a href="../../admin-reference/r_conf_jms/index.html#using-wildcards-with-last-value-cache-or-delta-messaging">Using Wildcards with Last Value Cache or Delta Messaging</a> for more information about using wildcards in the Gateway configuration.</p>
+      </li>
+    </ol>
+  </li>
+</ol>
+
+<h2 id="jms-integration-verification">JMS Integration Verification</h2>
+
+<ol>
+  <li>Download the Kaazing JMS JavScript Demo. The demo is located on Github at <a href="https://github.com/kaazing/javascript.client.tutorials/tree/develop/jms">https://github.com/kaazing/javascript.client.tutorials/tree/develop/jms</a>.</li>
+  <li>In a browser, navigate to the JMS JS demo and enter <code>ws://localhost:8001/jms</code> in <strong>Location</strong>.</li>
+  <li>Click <strong>Connect</strong>.<br />
+The status message <code>CONNECT: ws://localhost:8001/jms</code> appears followed by <code>CONNECTED</code>.</li>
+  <li>Click <strong>Subscribe</strong>.<br />
+The status message <code>SUBSCRIBE: /topic/destination</code> appears.</li>
+  <li>
+    <p>Click <strong>Send</strong>. The sent message appears in <strong>Log messages</strong> along with the received message from the subscription. For example:</p>
+
+<p><code>SEND TextMessage: Hello, message<br>
+Destination: /topic/destination<br>
+RECEIVED TextMessage: Hello, message<br>
+Destination: /topic/destination [#3]
+</code></p>
+
+    <p><strong>Note:</strong> Transactions are not supported.</p>
+  </li>
+</ol>
+
+<h2 id="notes">Notes</h2>
+
+<ul>
+  <li>Because you are using a JMS provider that does not support individual message acknowledgement, you must ensure your client applications acknowledge each message received from a queue or durable subscriber. Otherwise, the client will receive only one message from that queue or durable subscriber.</li>
+</ul>
+
+<h2 id="see-also">See Also</h2>
+
+<ul>
+  <li>For information on troubleshooting JMS integration, see <a href="../p_jms_integrate_tshoot/index.html">Troubleshoot JMS Integration</a>.</li>
+  <li>For information on troubleshooting JMS clients, see <a href="../../troubleshooting/p_dev_troubleshoot/index.html">Troubleshoot Your Clients</a>.</li>
+  <li>For general troubleshooting information, see <a href="../../troubleshooting/o_troubleshoot/index.html">Troubleshoot the Gateway</a>.</li>
+  <li><a href="//pubs.vmware.com/vfabric53/index.jsp?topic=/com.vmware.vfabric.rabbitmq.3.2/jms-client/install-configure-client.html">Configure JMS Applications to Use JMS Client for vFabric RabbitMQ</a> from VMware.</li>
+  <li><a href="//pubs.vmware.com/vfabric53/index.jsp?topic=/com.vmware.vfabric.rabbitmq.3.2/rabbit-web-docs/plugins.html" title="vFabric Documentation Center">vFabric Suite 5.3 Documentation</a> from VMware (RabbitMQ plugins guide).</li>
+  <li>For information about message selectors support in the vFabric JMS Client for vFabric RabbitMQ, see <a href="//pubs.vmware.com/vfabric53/topic/com.vmware.vfabric.rabbitmq.3.2/jms-client/overview.html" title="About JMS Client for vFabric RabbitMQ">About JMS Client for vFabric RabbitMQ</a> from VMware.</li>
+  <li>For information on the limitations of using the vFabric JMS Client for vFabric RabbitMQ, <a href="//pubs.vmware.com/vfabric53/topic/com.vmware.vfabric.rabbitmq.3.2/jms-client/overview-limitations.html" title="Limitations">Using the JMS Client for vFabric RabbitMQ</a> from VMWare.</li>
+  <li>For information about <code>Reffscontextfactory</code>, see the CapTech Consulting Blogs post <a href="//blogs.captechconsulting.com/blog/david-tiller/riff-the-reffscontextfactory">A Riff on the RefFSContextFactory</a>.</li>
+  <li>For information on topic name syntax (wildcards, hierarchy), see the <a href="//pubs.vmware.com/vfabric53/topic/com.vmware.vfabric.rabbitmq.3.2/rabbit-web-docs/tutorials/tutorial-five-java.html" title="RabbitMQ Tutorial - Topics">RabbitMQ Tutorial - Topics from VMware</a>.</li>
+</ul>
+
+
+
+</div>
+
+</div>
+
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

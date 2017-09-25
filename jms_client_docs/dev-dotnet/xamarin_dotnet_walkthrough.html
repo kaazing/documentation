@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+<h1>Walkthrough: Deploy .NET JMS Clients to iOS or Android Using Xamarin </h1>
+
+<p>In this walkthrough, you will learn how to deploy an existing Microsoft .NET JMS web client as a Xamarin app for iOS and Android. This procedure demonstrates how you can build a Microsoft .NET JMS client using the Kaazing Gateway Microsoft .NET JMS client library and then use Xamarin to deploy the client as an app on iOS or Android devices.</p>
+
+<p>This topic walks you through the following subjects:</p>
+
+<ol>
+<li><a href="#accomplish">What You Will Accomplish</a></li>
+<li><a href="#before">Before You Begin</a></li>
+<li><a href="#install">Download the Kaazing Library and Demo Files and Xamarin</a></li>
+<li><a href="#configure">Configure Xamarin Studio</a></li>
+<!-- <li><a href="#start">Run the Gateway and Apache ActiveMQ</a></li> -->
+<li><a href="#build">Build the Xamarin Apps</a></li>
+<li><a href="#run">Run and Test the Xamarin Apps in iOS Simulator or Android Emulator</a>
+	<ol type="a">
+		<li><a href="#run_android">Run the Xamarin App in the Android Emulator</a></li>
+		<li><a href="#run_ios">Run the Xamarin App in the iOS Simulator</a></li>
+		<li><a href="#test">Test the iOS or Android Demo</a></li>
+	</ol>
+</li>
+</ol>
+
+<span class="note"><b>Note:</b> For information on troubleshooting or displaying logs, see <a href="p_dev_dotnet_tshoot.html" title="Kaazing Developer Network">Troubleshoot Your Microsoft .NET JMS Clients</a> and <a href="p_clientlogging_dotnet.html">Display Logs for .NET JMS Clients</a>.</span>
+
+<h2><a name="accomplish"></a>What You Will Accomplish</h2>
+<p>At the end of this walkthrough, a Xamarin .NET JMS demo created using the Kaazing Gateway Microsoft .NET JMS libraries runs as an app on iOS and Android, connects to a publicly available message broker and Gateway, and sends and receives JMS messages using a native or emulated WebSocket connection. Users can run the iOS or Android app on any iOS or Android device and connect via the Gateway to the message broker.</p>
+
+<p>This walkthrough uses the Xamarin JMS demo available on Github at <a href="https://github.com/kaazing/xamarin.client.tutorials/tree/develop/jms">https://github.com/kaazing/xamarin.client.tutorials/tree/develop/jms</a>, but the steps outlined in this walkthrough are the same for other Xamarin JMS client applications built with the Kaazing Enterprise Xamarin Client SDK.</p>
+
+<h2><a name="before"></a>Before You Begin</a></h2>
+
+<p>Before starting this walkthrough you need the following:</p>
+<ul>
+<li>Kaazing Enterprise .NET SDK (includes Xamarin). See <a href="../../about/setup-guide/index.html">Setting Up the Gateway and Clients</a>.</li>
+<li>Kaazing Xamarin Demo on Github at <a href="https://github.com/kaazing/xamarin.client.tutorials">https://github.com/kaazing/xamarin.client.tutorials</a>.</li>
+<li><a href="https://www.xamarin.com/studio">Xamarin Studio Community</a> if you are developing on Mac OS, or <a href="https://www.xamarin.com/visual-studio">Xamarin for Visual Studio</a> if you are developing on Windows.</li>
+<li>A Xamarin account. To create a Xamarin account, see <a href="https://store.xamarin.com/Login?from=%2faccount%2f">https://store.xamarin.com/Login?from=%2faccount%2f</a>.</li>
+<li>iOS SDK (optional). The iOS SDK is required in order to use the iOS Simulator.</li>
+<li>Android SDK (optional). The Android SDK is required in order to use the Android Emulator. For the Android SDK, see <a href="https://developer.android.com/sdk/index.html">https://developer.android.com/sdk/index.html</a>.</li>
+</ul>
+<p>Learn about supported browsers, operating systems, and platform versions in <a href="//kaazing.com/releases/client-dotnet/">Release Notes</a>.</p>
+
+<h2><a name="install"></a>Download the Kaazing Library and Demo Files and Xamarin</a></h2>
+<p>The following steps link to resources to take you through the installation of the software required for deploying Xamarin apps. If you already have this software installed, you can simply note the locations of the installed software for later use.</p>
+
+<ol>
+<li>Download the Kaazing Enterprise .NET SDK (includes Xamarin) as described in <a href="../../about/setup-guide/index.html">Setting Up the Gateway and Clients</a>.</li>
+<li>Download the Kaazing Xamarin Demos on Github at <a href="https://github.com/kaazing/xamarin.client.tutorials">https://github.com/kaazing/xamarin.client.tutorials</a>.</li>
+<li>Download and install <a href="https://www.xamarin.com/studio">Xamarin Studio Community</a> if you are developing on Mac OS, or <a href="https://www.xamarin.com/visual-studio">Xamarin for Visual Studio</a> if you are developing on Windows.</li>
+</ol>
+
+<h2><a name="configure"></a>Configure Xamarin Studio</a></h2>
+
+<p>The following steps configure Xamarin Studio Community on Mac OSX for building iOS and Android apps.</p>
+
+<ol>
+	<li>Launch Xamarin Studio Community.</li>
+	<li><p>Add the the Kaazing Xamarin JMS tutorial.</p>
+		<ol type="a">
+			<li>In Xamarin Studio, click <strong>Open</strong>.</li>
+			<li>Navigate to the location of the Xamarin tutorials in your copy of the Kaazing Xamarin demo: <span class="uri">xamarin.client.tutorials/jms</span>.</li>
+			<li><p>Click the file named <strong>jms.client.xamarin.demo.sln</strong> and click <strong>Open</strong>. Xamarin Studio loads the demos for Android and iOS. The following demos are loaded:</p>
+			<ul>
+				<li>KaazingJMSXamarinDemo.Android</li>
+				<li>KaazingJMSXamarinDemo.Common</li>
+				<li>KaazingJMSXamarinDemo.iOS.Classic</li>
+				<li>KaazingJMSXamarinDemo.iOS.Unified</li>
+			</ul>
+			</li>
+		</ol>
+	</li>
+	<li><p>Add the Kaazing Enterprise .NET client libraries to the demos:</p>
+		<ol type="a">
+			<li>Expand the demo you want to build and run.</li>
+			<li>Right-click <strong>References</strong> and click <strong>Edit References</strong>.</li>
+			<li>In the <strong>Edit References</strong> dialog, click the <strong>.Net Assembly</strong> tab.</li>
+			<li>Click <strong>Browse</strong> and navigate to the location of the Kaazing .NET client libraries, for example: <code>kaazing.enterprise.4.1.1/lib/Xamarin.iOS</code>.</li>
+			<li>Click both <strong>Kaazing.Gateway.dll</strong> and <strong>Kaazing.JMS.dll</strong>, and then click <strong>Add</strong>.</li>
+			<li>Click <strong>OK</strong>. In the <strong>References</strong> folder, you will now see <strong>Kaazing.JMS</strong> and <strong>Kaazing.WebSocket</strong>.</li>
+		</ol>
+	</li>
+</ol>
+
+<span class="note"><b>Notes:</b>
+ <ul>
+   <li>KaazingJMSXamarinDemo.Android and KaazingJMSXamarinDemo.iOS.Classic both share KaazingJMSXamarinDemo.Common. The UI is defined once using Xamarin.Forms in KaazingJMSXamarinDemo.Common and is reused by the iOS and Android projects. Similarly, the code that handles user events in KaazingJMSXamarinDemo.Common is reused by the iOS and Android projects. This method demonstrates how to develop an app using C# and deploy the same app to both iOS and Android.</li>
+   <li>The Xamarin.Forms package is not available for the Unified API. As a result, KaazingJMSXamarinDemo.iOS.Unified defines its own UI using a storyboard and has code for dealing with user events. KaazingJMSXamarinDemo.iOS.Unified is not sharing or reusing the code from KaazingJMSXamarinDemo.Common like KaazingJMSXamarinDemo.Android and KaazingJMSXamarinDemo.iOS.Classic are. For more information, see <a href="//forums.xamarin.com/discussion/24616/xamarin-forms-and-ios-unified-api" title="Xamarin.Forms and iOS Unified API - Xamarin Forums">http://forums.xamarin.com/discussion/24616/xamarin-forms-and-ios-unified-api</a>.</li>
+ </ul>
+</span>
+
+<!-- <h2><a name="start"></a>Run the Gateway and Apache ActiveMQ</a></h2>
+
+<p>The following steps start the Apache ActiveMQ service that is included with the Gateway and then run the Gateway.</p>
+
+<ol>
+  <li>Start Apache ActiveMQ. For steps on starting Apache ActiveMQ, see the <a href="../../about/setup-guide/index.html">Setting Up the Gateway and Clients</a>. </li>
+  <li><p>Open the <span class="uri"><em>GATEWAY_HOME</em>/conf/gateway-config.xml</span> file in a text editor. Review the <a href="../../../admin-reference/r_conf_jms/index.html#stompjms">jms</a> service to see the configuration of the connection to the Apache ActiveMQ. For example.</p>
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;service&gt;
+  &lt;accept&gt;ws://build-macmini3.kaazing.test:${gateway.extras.port}/jms&lt;/accept&gt;
+  &lt;type&gt;jms&lt;/type&gt;
+  &lt;properties&gt;
+    &lt;connection.factory.name&gt;ConnectionFactory&lt;/connection.factory.name&gt;
+    &lt;context.lookup.topic.format&gt;dynamicTopics/%s&lt;/context.lookup.topic.format&gt;
+    &lt;context.lookup.queue.format&gt;dynamicQueues/%s&lt;/context.lookup.queue.format&gt;
+    &lt;env.java.naming.factory.initial&gt;
+      org.apache.activemq.jndi.ActiveMQInitialContextFactory
+    &lt;/env.java.naming.factory.initial&gt;
+    &lt;env.java.naming.provider.url&gt;tcp://localhost:61616&lt;/env.java.naming.provider.url&gt;
+  &lt;/properties&gt;
+
+  &lt;realm-name&gt;demo&lt;/realm-name&gt;
+  &lt;!--
+  &lt;authorization-constraint&gt;
+    &lt;require-role&gt;AUTHORIZED&lt;/require-role&gt;
+  &lt;/authorization-constraint&gt;
+  --&gt;
+  &lt;cross-site-constraint&gt;
+    &lt;allow-origin&gt;http://build-macmini3.kaazing.test:${gateway.extras.port}&lt;/allow-origin&gt;
+  &lt;/cross-site-constraint&gt;
+&lt;/service&gt;
+</pre>
+
+<span class="note"><b>Note:</b> The Android Emulator or device will not allow the use of <span class="uri">localhost</span>. For the Android, change the value of the <span class="uri">accept</span> tag to the local IP address of the Gateway.</span>
+  </li>
+  <li>Start the Gateway as described in <a href="../../about/setup-guide/index.html">Setting Up the Gateway and Clients</a>. Invoke the <code>gateway.start</code> command by navigating to the <span class="uri"><em>GATEWAY_HOME</em>/bin</span> directory where you installed the Gateway, and then enter the following to run the <code>gateway.start</code> script:<br>
+<code>./gateway.start</code></li>
+</ol> -->
+
+<h2><a name="build"></a>Build the Xamarin Apps</a></h2>
+
+<p>The following steps build the Xamarin apps for iOS and Android using the Xamarin project you created.</p>
+
+<ol>
+	<li>For Android, right-click the Android tutorials named <strong>KaazingJMSXamarinDemo.Android</strong>, and then click <strong>Build KaazingJMSXamarinDemo.Android</strong>.</li>
+	<li>For iOS, right-click either the iOS tutorials named <strong>KaazingJMSXamarinDemo.iOS.Unified</strong>, <strong>KaazingJMSXamarinDemo.Common</strong>, or <strong>KaazingJMSXamarinDemo.iOS.Classic</strong>, and then click <strong>Build <em>Project_Name</em></strong>.</li>
+</ol>
+
+<p>Xamarin Studio informs you that the project is built. If you encounter Kaazing Gateway .NET library errors, ensure that you have included the libraries in the <strong>Reference</strong> folder for the demo as described in <a href="#configure">Configure Xamarin</a>.</p>
+
+<span class="note"><b>Notes:</b>
+ <ul>
+   <li>If you receive provisioning errors for iOS apps, such as <code>Warning: No installed provisioning profiles match the bundle identifier. (KaazingJMSXamarinDemo.iOS.Classic</code>, see <a href="https://developer.xamarin.com/guides/ios/getting_started/installation/device_provisioning/">Device Provisioning</a> from Xamarin.</li>
+   <li>If you receive Android API errors, run the Android SDK Manager from Xamarin Studio (<strong>Tools</strong> > <strong>Open Android SDK Manager</strong>) and add the required SDK version.</li>
+ </ul>
+</span>
+
+<h2><a name="run"></a>Run and Test the Xamarin Apps in iOS Simulator or Android Emulator</a></h2>
+
+	<p>The following steps run the Xamarin app and test the connection to the Gateway and Apache ActiveMQ.</p>
+
+<span class="note"><b>Note:</b> The iOS SDK is required in order to use the iOS Simulator. For the iOS SDK, see <a href="https://developer.apple.com/xcode/">https://developer.apple.com/xcode/</a>. The Android SDK is required in order to use the Android Emulator. For the Android SDK, see <a href="https://developer.android.com/sdk/index.html">https://developer.android.com/sdk/index.html</a>. Learn about supported browsers, operating systems, and platform versions in <a href="//kaazing.com/releases/client-dotnet/">Release Notes</a>.</span>
+
+<h3><a name="run_android"></a>Run the Xamarin App in the Android Emulator</a></h3>
+
+<p>For information on using the Android Emulator in Xamarin Studio, see the Xamarin article here: <a href="//developer.xamarin.com/guides/android/getting_started/installation/configure_emulator/" title="Configure the Emulator | Xamarin">http://developer.xamarin.com/guides/android/getting_started/installation/configure_emulator/</a>.</p>
+
+<ol>
+	<li><p>Start the Android virtual device you will use for testing.</p>
+		<ol type="a">
+			<li>Right-click the Android demo, click <strong>Run With</strong>, and then select an emulator device.
+    
+    <p>For the demo, you need to run a virtual device with Android 6.0 - API 23 or later. In you do not have a virtual device with this requirement (in the Android Virtual Device Manager, you will see the message <code>No system images installed for this target</code>), then you need to install <strong>Android 6.0 (API 23)</strong> using the Android SDK Manager and update your virtual device. Here is an example virtual device setup:</p>
+			<ul>
+				<li><strong>Device:</strong> Nexus 5</li>
+				<li><strong>Target:</strong> Android 6.0 - API 23</li>
+				<li><strong>CPU/ABI:</strong> ARM (armeabi-v7a)</li>
+			</ul>
+		</ol>
+  
+  <p>The target Adroid framework for the project must match the Android framework in the virtual device. To see the target framework for your project, right-click the project, click <strong>Options</strong>, and click <strong>Android Application</strong>. To change the target framework of your virtual device, you can run the Android Device Manager from the <strong>Tools</strong> menu of the Android SDK Manager.</p>
+  
+	</li>
+</ol>
+
+<h3><a name="run_ios"></a>Run the Xamarin App in the iOS Simulator</a></h3>
+
+<p>For iOS, see the iOS Simulator guide here: <a href="https://developer.apple.com/library/ios/documentation/IDEs/Conceptual/iOS_Simulator_Guide/Introduction/Introduction.html">https://developer.apple.com/library/ios/documentation/IDEs/Conceptual/iOS_Simulator_Guide/Introduction/Introduction.html</a>. </p>
+
+<ol>
+	<li>Run the iOS demo. In Xamarin Studio, right-click the iOS demo, click <strong>Run With</strong>, and then click an iOS Simulator (for example, <strong>iPhone 6 / iOS 8.1</strong>). The iOS Simulator opens and displays the demo.</li>
+	</li>
+</ol>
+
+<span class="note"><b>Note:</b> For running the demo on a device, configure the <strong>iOS Deployment</strong> setting in <strong>Project Options</strong>.</span>
+
+<h3><a name="test"></a>Test the iOS or Android Demo</a></h3>
+
+<p>The following steps test the Xamarin app on the iOS Simulator or Android Emulator.</p>
+<ol>
+	<li><p>In the demo running in the iOS Simulator or Android Emulator, enter the location <code>wss://sandbox.kaazing.net/jms</code> and click <strong>Connect</strong>. The demo connects to the publicly available message broker and Gateway.</p>
+	<span class="note"><b>Note:</b> If you decide to use a local Gateway, the Android Emulator or device will not allow the use of <span class="uri">localhost</span>. For the Android, change the value of the <span class="uri">accept</span> tag in the configuration file of the Gateway to the local IP address of the Gateway, and enter the IP address in the <strong>Location</strong> field of the app.</span>
+	</li>
+<li>Click <strong>Subscribe</strong>. You are subscribed to the topic destination.</li>
+<li>Click <strong>Send</strong>. The message is sent to the message broker and the subscription is updated with the received message.</li>
+</ol>
+
+<h2>Next Step</h2>
+
+<a href="p_dev_dotnet_tshoot.html">Troubleshoot Your Microsoft .NET JMS Clients</a>
+                  </section>
+                </article>
+
+            </div> <!-- #main -->
+        </div> <!-- #main-container -->
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,3111 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+
+ <h1 id="service-reference">Service Reference</h1>
+
+<p>This document describes all of the elements and properties you can use to configure Kaazing Gateway services.</p>
+
+<h2 id="overview">Overview</h2>
+
+<p>You can use the optional <code>service</code> element to configure one or more services running on Kaazing Gateway.</p>
+
+<h2 id="structure">Structure</h2>
+
+<p>The Gateway configuration file (<code>gateway-config.xml</code> or <code>gateway-config.xml</code>) defines the <code>service</code> configuration element and its subordinate elements and properties that are contained in the top-level <code>gateway-config</code> element:</p>
+
+<ul>
+  <li><a href="../r_configure_gateway_gwconfig">gateway-config</a>
+    <ul>
+      <li><a href="#service">service</a>
+        <ul>
+          <li><a href="#service">name</a></li>
+          <li><a href="#service">description</a></li>
+          <li><a href="#accept">accept</a></li>
+          <li><a href="#connect">connect</a></li>
+          <li><a href="#balance">balance</a></li>
+          <li><a href="#type">type</a>
+            <ul>
+              <li><a href="#proxy-amqpproxy-and-jmsproxy">amqp.proxy</a>
+                <ul>
+                  <li>maximum.pending.bytes</li>
+                  <li>maximum.recovery.interval</li>
+                  <li>prepared.connection.count</li>
+                  <li>virtual.host</li>
+                </ul>
+              </li>
+              <li><a href="#balancer">balancer</a></li>
+              <li><a href="#broadcast">broadcast</a>
+                <ul>
+                  <li>accept</li>
+                </ul>
+              </li>
+              <li><a href="#directory">directory</a>
+                <ul>
+                  <li>directory</li>
+                  <li>options</li>
+                  <li>welcome-file</li>
+                  <li>error-pages-directory</li>
+                </ul>
+              </li>
+              <li><a href="#echo">echo</a></li>
+              <li><a href="#httpproxy">http.proxy</a> </li>
+              <li><a href="#httpredirect">http.redirect</a></li>
+              <li><a href="../../admin-reference/r_conf_mq/index.html">ibmmq</a> </li>
+              <li><a href="../r_conf_jms">jms</a> </li>
+              <li><a href="../r_conf_jms">jms.proxy</a> </li>
+              <li><a href="#managementjmx">management.jmx</a></li>
+              <!-- <li><a href="#managementsnmp">management.snmp</a></li> -->
+              <li><a href="#kerberos5proxy">kerberos5.proxy</a> </li>
+              <li><a href="#proxy-amqpproxy-and-jmsproxy">proxy</a>
+                <ul>
+                  <li>connect.strategy</li>
+                  <li>maximum.pending.bytes</li>
+                  <li>maximum.recovery.interval</li>
+                  <li>prepared.connection.count</li>
+                </ul>
+              </li>
+              <!-- <li><a href="../../brokers/p_integrate_redis/index.html">redis</a>  </li> -->
+              <li><a href="#turnproxy">turn.proxy</a></li>
+              <li><a href="#turnrest">turn.rest</a></li>
+            </ul>
+          </li>
+          <li><a href="#pipe">Pipe scheme</a></li>
+          <li><a href="#properties">properties</a></li>
+          <li><a href="#accept-options-and-connect-options">accept-options and connect-options</a>
+            <ul>
+              <li><a href="#protocolbind"><em>protocol</em>.bind</a>, where <em>protocol</em> can be ws, wss, http, https, socks, ssl, tcp, or udp</li>
+              <li><a href="#protocoltransport"><em>protocol</em>.transport</a>, where <em>protocol</em> can be <a href="#pipe">pipe</a>, tcp, ssl, or http</li>
+              <li><a href="#wsmaximummessagesize">ws.maximum.message.size</a></li>
+              <li><a href="#httpkeepalive">http.keepalive</a></li>
+              <li><a href="#httpkeepaliveconnections">http.keepalive.connections</a></li>
+              <li><a href="#httpkeepalivetimeout">http.keepalive.timeout</a></li>
+              <li><a href="#httpmaximumredirects">http.maximum.redirects</a></li>
+              <li><a href="#sslciphers">ssl.ciphers</a></li>
+              <li><a href="#sslprotocols-and-sockssslprotocols">ssl.protocols</a></li>
+              <li><a href="#sslencryption">ssl.encryption</a></li>
+              <li><a href="#sslverify-client">ssl.verify-client</a></li>
+              <li><a href="#socksmode">socks.mode</a> </li>
+              <li><a href="#sockssslciphers">socks.ssl.ciphers</a> </li>
+              <li><a href="#sslprotocols-and-sockssslprotocols">socks.ssl.protocols</a> </li>
+              <li><a href="#sockssslverify-client">socks.ssl.verify-client</a> </li>
+              <li><a href="#socksretrymaximuminterval">socks.retry.maximum.interval</a> </li>
+              <li><a href="#tcpmaximumoutboundrate">tcp.maximum.outbound.rate</a> </li>
+              <li><a href="#wsinactivitytimeout">ws.inactivity.timeout</a></li>
+              <li><a href="#httpserverheader">http.server.header</a></li>
+            </ul>
+          </li>
+          <li><a href="#realm-name">realm-name</a></li>
+          <li><a href="#authorization-constraint">authorization-constraint</a>
+            <ul>
+              <li>require-role</li>
+              <li>require-valid-user</li>
+            </ul>
+          </li>
+          <li><a href="#mime-mapping">mime-mapping</a>
+            <ul>
+              <li>extension</li>
+              <li>mime-type</li>
+            </ul>
+          </li>
+          <li><a href="#cross-site-constraint">cross-site-constraint</a>
+            <ul>
+              <li>allow-origin</li>
+              <li>allow-methods</li>
+              <li>allow-headers</li>
+              <li>maximum-age</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="service">service</h2>
+
+<p>Each <code>service</code> can contain any of the subordinate elements listed in the following table.</p>
+
+<p><strong>Note:</strong> Subordinate elements must be specified in the order shown in the following table.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Subordinate Element</th>
+      <th style="text-align: left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">name</td>
+      <td style="text-align: left">The name of the service. You must provide a name for the service. The <code>name</code> element can be any name.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">description</td>
+      <td style="text-align: left">A description of the service is optional.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">accept</td>
+      <td style="text-align: left">The URLs on which the service accepts connections.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">connect</td>
+      <td style="text-align: left">The URL of a back-end service or message broker to which the proxy service or <a href="#broadcast">broadcast</a> service connects.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">balance</td>
+      <td style="text-align: left">The URI that is balanced by a <code>balancer</code> service. See <a href="#balancer">balancer</a> service for details.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">type</td>
+      <td style="text-align: left">The type of service. One of the following: <a href="#balancer">balancer</a>, <a href="#broadcast">broadcast</a>, <a href="#directory">directory</a>, <a href="#echo">echo</a>, <a href="../../admin-reference/r_conf_mq/index.html">ibmmq</a> , <a href="#kerberos5proxy">kerberos5.proxy</a> , <a href="#managementjmx">management.jmx</a>, <!-- <a href="#managementsnmp">management.snmp</a> -->, <a href="#proxy-amqpproxy-and-jmsproxy">proxy</a>, <a href="#proxy-amqpproxy-and-jmsproxy">amqp.proxy</a>, <!-- <a href="../../brokers/p_integrate_redis/index.html">redis</a> , -->  <a href="../r_conf_jms">jms</a>  , <a href="../r_conf_jms">jms.proxy</a> .</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">properties</td>
+      <td style="text-align: left">The service type-specific properties.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">accept-options</td>
+      <td style="text-align: left">Options for the <code>accept</code> element. See <a href="#accept-options-and-connect-options">accept-options</a>.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">connect-options</td>
+      <td style="text-align: left">Options for the <code>connect</code> element. See <a href="#accept-options-and-connect-options">connect-options</a>.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">realm-name</td>
+      <td style="text-align: left">The name of the security realm used for authorization. If you do not include a realm name, then authentication and authorization are not enforced for the service.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">authorization-constraint</td>
+      <td style="text-align: left">The user roles that are authorized to access the service. See <a href="#authorization-constraint">authorization-constraint</a>.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">mime-mapping</td>
+      <td style="text-align: left">Mappings of file extensions to MIME types. Each <code>mime-mapping</code> entry defines the HTTP Content-Type header value to be returned when a client or browser requests a file that ends with the specified extension. See <a href="#mime-mapping">mime-mapping</a>.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">cross-site-constraint</td>
+      <td style="text-align: left">The cross-origin sites (and their methods and custom headers) allowed to access the service. See <a href="#cross-site-constraint">cross-site-constraint</a>.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="supported-url-schemes">Supported URL Schemes:</h3>
+
+<p>When specifying URLs for the <code>accept</code> or <code>connect</code> elements, you can use <code>tcp://{hostname}:{port}</code> to make a basic TCP connection, or specify any of the supported protocol schemes:</p>
+
+<ul>
+  <li>ws</li>
+  <li>wss</li>
+  <li>http</li>
+  <li>https</li>
+  <li>ssl</li>
+  <li>tcp</li>
+  <li>udp</li>
+</ul>
+
+<span class="note"><b>Notes:</b>
+ <ul>
+   <li>For TCP and UDP URLs in <code>accept</code>, <code>tcp.bind</code>, <code>udp.bind</code>, <code>cluster</code>, and <code>protocol.transport</code> elements, you can use the name of a network interface in place of a hostname or IP address. For example, <code>&lt;accept&gt;tcp://@eth0:8123&lt;/accept&gt;</code> (Linux/Mac) and <code>&lt;tcp.bind&gt;[@Local Area Connection]:8123&lt;/tcp.bind&gt;</code> (Windows). Use square brackets around a subinterface name or when the name contains spaces (<code>&lt;tcp.bind&gt;[@eth0:1]:8123&lt;/tcp.bind&gt;</code>). Binding to an interface binds to all IP addresses defined on that interface (IPv4, IPv6).</li>
+ <li>By using network interface names instead of IP address, the Gateway configuration file, gateway-config.xml, can be copied between Gateway cluster members without the need to update each cluster member’s configuration with its IP address.</li>
+ <li>You can use network interface names in <code>connect-options</code> in a service for reverse connectivity in Enterprise Shield&trade;. For more information, see <a href="../../enterprise-shield/o_enterprise_shield_checklist/index.html">Configure Enterprise Shield™ with the Gateway</a>.</li>
+ <li>If the network interface name is not recognized by the Gateway during startup, an error is thrown to the Gateway startup output.</li>
+ <li>If the <a href="https://docs.oracle.com/javase/8/docs/api/java/net/doc-files/net-properties.html">System.setProperty</a> <code>-Djava.net.preferIPv4Stack=true</code> is set, then only IPv4 addresses are bound on the specified interface.</li>
+ </ul>
+</span>
+
+<h3 id="accept">accept</h3>
+
+<p><strong>Required?</strong> Yes; <strong>Occurs:</strong> At least once.</p>
+
+<p>The URLs on which the service accepts connections (see <a href="#supported-url-schemes">Supported URL schemes</a>).</p>
+
+<h4 id="example">Example</h4>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;service&gt;
+  &lt;accept&gt;ws://balancer.example.com:8081/echo&lt;/accept&gt;
+  .
+  .
+  .
+&lt;/service&gt;
+</code></pre>
+
+<h4 id="notes">Notes</h4>
+
+<ul>
+  <li>There is no default value for the accept element. You must configure it and specify the URI on which the service accepts connections.</li>
+  <li>The Gateway is configured by default to provide services only to users on the same machine (<code>localhost</code>) as that on which it is running. To customize the Gateway for your environment, choose the appropriate type of service (for example, <code>balancer</code>, <code>broadcast</code>, <code>directory</code>, and so on) to signal the Gateway to accept incoming connections from clients using any supported URL scheme.</li>
+  <li>
+    <p><a href="#supported-url-schemes">Supported URL schemes</a>: When specifying URLs for the <code>accept</code> or <code>connect</code> elements, you can use <code>tcp://{hostname}:{port}</code> to make a basic TCP connection, or specify any of the supported protocol schemes:</p>
+
+    <ul>
+      <li>ws</li>
+      <li>wss</li>
+      <li>http</li>
+      <li>https</li>
+      <li>ssl</li>
+      <li>tcp</li>
+      <li>udp</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="connect">connect</h3>
+
+<p><strong>Required?</strong> Yes; <strong>Occurs:</strong> At least once.</p>
+
+<p>The URL of a back-end service or message broker to which the proxy service (for example, <code>proxy</code> or <code>amqp.proxy</code> service) or <a href="#broadcast">broadcast</a> service connects (see <a href="#supported-url-schemes">Supported URL schemes</a>).</p>
+
+<h4 id="example-1">Example</h4>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;service&gt;
+ &lt;accept&gt;ws://example.com&lt;/accept&gt;
+ &lt;connect&gt;tcp://192.0.2.11:5943&lt;/connect&gt;
+...
+&lt;/service&gt;
+</code></pre>
+
+<h4 id="notes-1">Notes</h4>
+
+<ul>
+  <li>There is no default value for the <code>connect</code> element. You must configure it and specify the URI on which the service makes a connection to the back-end service or message broker.</li>
+  <li>
+    <p><a href="#supported-url-schemes">Supported URL schemes</a>: When specifying URLs for the <code>accept</code> or <code>connect</code> elements, you can use <code>tcp://{hostname}:{port}</code> to make a basic TCP connection, or specify any of the supported protocol schemes:</p>
+
+    <ul>
+      <li>ws</li>
+      <li>wss</li>
+      <li>http</li>
+      <li>https</li>
+      <li>ssl</li>
+      <li>tcp</li>
+      <li>udp</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="balance">balance</h3>
+
+<p><strong>Required?</strong> Optional; <strong>Occurs:</strong> one or more.</p>
+
+<p>A URI that matches the <code>accept</code> URI in a <a href="#balancer"><code>balancer</code></a> service. The <code>balance</code> element is added to a <code>service</code> in order for that <code>service</code> to be load balanced between cluster members.</p>
+
+<h4 id="example-2">Example</h4>
+
+<p>The following example shows a Gateway with a <code>balancer</code> service and an Echo service that contains a <code>balance</code> element. Note that the <code>accept</code> URI in the <code>balancer</code> service matches the <code>balance</code> URI in the Echo service.</p>
+
+<p><strong>Balancer Service</strong></p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;service&gt;
+  &lt;name&gt;balancer service&lt;/name&gt;
+  &lt;accept&gt;ws://balancer.example.com:8081/echo&lt;/accept&gt;
+
+  &lt;type&gt;balancer&lt;/type&gt;
+
+  &lt;accept-options&gt;
+    &lt;ws.bind&gt;192.168.2.10:8081&lt;/ws.bind&gt;
+  &lt;/accept-options&gt;
+
+&lt;/service&gt;
+</code></pre>
+
+<p><strong>Gateway Service Participating in Load Balancing</strong></p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;service&gt;
+  &lt;name&gt;Echo service&lt;/name&gt;
+  &lt;accept&gt;ws://node1.example.com:8081/echo&lt;/accept&gt;
+  &lt;balance&gt;ws://balancer.example.com:8081/echo&lt;/balance&gt;
+
+  &lt;type&gt;echo&lt;/type&gt;
+
+  &lt;cross-site-constraint&gt;
+    &lt;allow-origin&gt;http://directory.example.com:8080&lt;/allow-origin&gt;
+  &lt;/cross-site-constraint&gt;
+&lt;/service&gt;
+</code></pre>
+
+<h4 id="notes-2">Notes</h4>
+
+<ul>
+  <li>There is no default value for the balance element. If you configure it, then you must specify a URI for its value.</li>
+  <li>The <code>balance</code> and <code>accept</code> element URIs in a <code>service</code> must use the same port number and path. The hostnames in the URIs may be different.</li>
+  <li>See the <a href="#balancer">balancer</a> service to configure the balancer.</li>
+  <li>See <a href="../../high-availability/p_high_availability_loadbalance/index.html">Set Up Kaazing Gateway as a Load Balancer</a> for a complete load balancing description and example.</li>
+</ul>
+
+<h3 id="type">type</h3>
+
+<p>The type of service. For each service that you configure, you define any of the service types in the following table to customize the Gateway for your environment.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Type of Service</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><a href="#balancer">balancer</a></td>
+      <td>Configures load balancing using either the built-in load balancing features of the Gateway or a third-party load balancer. When you configure a balancer service, the Gateway balances load requests for any other Gateway service type. Services running on Kaazing Gateway support peer load balancer awareness with the balance element for a cluster of Gateways. See the <a href="../../high-availability/o_high_availability/index.html">Configure the Gateway for High Availability</a> topic that describes Gateway clusters and load balancing in detail.</td>
+    </tr>
+    <tr>
+      <td><a href="#broadcast">broadcast</a></td>
+      <td>Configures the Gateway to accept connections initiated by the back-end server or broker and broadcast (or relay) messages that are sent along that connection to clients.</td>
+    </tr>
+    <tr>
+      <td><a href="#directory">directory</a></td>
+      <td>Specifies the directory path of your static files relative to <em>GATEWAY_HOME</em>/web, where <em>GATEWAY_HOME</em> is the directory where you installed Kaazing Gateway. <strong>Note:</strong> An absolute path cannot be specified.</td>
+    </tr>
+    <tr>
+      <td><a href="#echo">echo</a></td>
+      <td>Receives a string of characters through a WebSocket and returns the same characters to the sender. The service echoes any input. This service is used primarily for validating the basic Gateway configuration. The echo service runs a separate port to verify cross-origin access.</td>
+    </tr>
+    <tr>
+      <td><a href="#kerberos5proxy">kerberos5.proxy</a> </td>
+      <td>Connects the Gateway to the Kerberos Key Distribution Center.</td>
+    </tr>
+    <tr>
+      <td><a href="#managementjmx">management.jmx</a></td>
+      <td>Track and monitors user sessions and configuration data using JMX Managed Beans.</td>
+    </tr>
+    <!-- <tr>
+      <td><a href="#managementsnmp">management.snmp</a></td>
+      <td>Monitors a Gateway or a Gateway cluster through Command Center, which is a browser-based application. Using Command Center is the recommended method for monitoring the Gateway. The <code>management.snmp</code> service is enabled by default in the Gateway configuration file.</td>
+    </tr> -->
+    <tr>
+      <td><a href="#proxy-amqpproxy-and-jmsproxy">amqp.proxy</a></td>
+      <td>Enables the use of the Advanced Message Queuing Protocol (AMQP) that is an open standard for messaging middleware and was originally designed by the financial services industry to provide an interoperable protocol for managing the flow of enterprise messages. To guarantee messaging interoperability, AMQP defines both a wire-level protocol and a model, the AMQP Model, of messaging capabilities. An example of a message broker that provides built-in support for AMQP is RabbitMQ.</td>
+    </tr>
+    <tr>
+      <td><a href="#proxy-amqpproxy-and-jmsproxy">proxy</a></td>
+      <td>Enables a client to make a WebSocket connection to a back-end server or broker that cannot natively accept WebSocket connections.</td>
+    </tr>
+    <!-- <tr>
+      <td><a href="../../brokers/p_integrate_redis/index.html">redis</a> </td>
+      <td>Integrates Kaazing Gateway and Redis, an open source, BSD licensed, advanced key-value cache and store. Kaazing Gateway includes a Redis service and integrated Redis driver for publishing and subscribing to Redis topics.</td>
+    </tr> -->
+    <tr>
+      <td><a href="../r_conf_jms">jms</a>  </td>
+      <td>Uses the <code>jms</code> service, which allows you to configure the Gateway to connect to any back-end JMS-compliant message broker. The <code>jms</code> service offloads connections and topic subscriptions using a single connection between the Gateway and your JMS-compliant message broker.</td>
+    </tr>
+    <tr>
+      <td><a href="../r_conf_jms">jms.proxy</a>  </td>
+      <td>Establishes a connection between the Gateway and the next Gateway for each client connection. The benefit of using the <code>jms.proxy</code> service is that you can control security independently per connection, and enable a fail-fast when a user fails to authenticate correctly. In addition, delta messages can be passed through from <code>jms</code> service in the internal Gateway through a DMZ Gateway that is running the <code>jms.proxy</code> service in Enterprise Shield™ configurations.</td>
+    </tr>
+
+  </tbody>
+</table>
+
+<h3 id="balancer">balancer</h3>
+
+<p>Use the <code>balancer</code> service to balance load for requests for any other Gateway service type.</p>
+
+<h4 id="example-3">Example</h4>
+
+<p>The following example shows a Gateway with a <code>balancer</code> service and an Echo service that contains a <code>balance</code> element. Note that the <code>accept</code> URI in the <code>balancer</code> service matches the <code>balance</code> URI in the Echo service.</p>
+
+<p><strong>Balancer Service</strong></p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;service&gt;
+  &lt;accept&gt;ws://balancer.example.com:8081/echo&lt;/accept&gt;
+
+  &lt;type&gt;balancer&lt;/type&gt;
+
+  &lt;accept-options&gt;
+    &lt;ws.bind&gt;192.168.2.10:8081&lt;/ws.bind&gt;
+  &lt;/accept-options&gt;
+
+  &lt;cross-site-constraint&gt;
+    &lt;allow-origin&gt;http://directory.example.com:8080&lt;/allow-origin&gt;
+  &lt;/cross-site-constraint&gt;
+&lt;/service&gt;
+</code></pre>
+
+<p><strong>Gateway Service Participating in Load Balancing</strong></p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;service&gt;
+  &lt;name&gt;Echo service&lt;/name&gt;
+  &lt;accept&gt;ws://node1.example.com:8081/echo&lt;/accept&gt;
+  &lt;balance&gt;ws://balancer.example.com:8081/echo&lt;/balance&gt;
+
+  &lt;type&gt;echo&lt;/type&gt;
+
+  &lt;cross-site-constraint&gt;
+    &lt;allow-origin&gt;http://directory.example.com:8080&lt;/allow-origin&gt;
+  &lt;/cross-site-constraint&gt;
+&lt;/service&gt;
+</code></pre>
+
+<h4 id="notes-3">Notes</h4>
+
+<ul>
+  <li>When you configure the Gateway as a load balancer you specify <code>accept</code> elements that identify the URLs on which the balancer service listens for client requests. The <code>balancer</code> service is used to balance load for a cluster of Gateways.</li>
+  <li>As with all services, the <code>balancer</code> service needs to have appropriate cross-site constraints defined.</li>
+  <li>For more information about load balancing and using the <code>balancer</code> service, see the <a href="../../high-availability/o_high_availability/index.html">Configure the Gateway for High Availability</a> topic.</li>
+</ul>
+
+<h3 id="broadcast">broadcast</h3>
+
+<p>Use the <code>broadcast</code> service to relay information from a back-end service or message broker. The <code>broadcast</code> service has the following property:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>accept</code></td>
+      <td>The URL of the broadcast service to which a back-end service or message broker connects.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="examples">Examples</h4>
+
+<ul>
+  <li>The following example configures the <code>broadcast</code> service with the <code>accept</code> element coded inside the <code>properties</code> element. This configures the Gateway to accept connections initiated by the back-end service or message broker and broadcast messages that are sent along that connection to clients.</li>
+</ul>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;service&gt;
+  &lt;name&gt;broadcast service&lt;/name&gt;
+  &lt;accept&gt;sse://localhost:8000/sse&lt;/accept&gt;
+  &lt;accept&gt;sse+ssl://localhost:9000/sse&lt;/accept&gt;
+
+  &lt;type&gt;broadcast&lt;/type&gt;
+
+  &lt;properties&gt;
+    &lt;accept&gt;udp://localhost:50505&lt;/accept&gt;
+  &lt;/properties&gt;
+
+  &lt;cross-site-constraint&gt;
+    &lt;allow-origin&gt;http://localhost:8000&lt;/allow-origin&gt;
+  &lt;/cross-site-constraint&gt;
+
+  &lt;cross-site-constraint&gt;
+    &lt;allow-origin&gt;https://localhost:9000&lt;/allow-origin&gt;
+  &lt;/cross-site-constraint&gt;
+&lt;/service&gt;
+</code></pre>
+
+<ul>
+  <li>The following example configures the <code>broadcast</code> service with a <code>connect</code> element that contains the URL of the back-end service or message broker (<code>news.example.com:50505</code>) to which the Gateway connects. If you configure the Gateway in this way, then the Gateway initiates the connection to the back-end service or message broker. When the service receives information, it broadcasts it to all the SSE channels accepted from clients on <code>www.example.com</code>.</li>
+</ul>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;service&gt;
+  &lt;name&gt;broadcast service&lt;/name&gt;
+  &lt;accept&gt;sse://www.example.com:8000/sse&lt;/accept&gt;
+  &lt;accept&gt;sse+ssl://www.example.com:9000/sse&lt;/accept&gt;
+  &lt;connect&gt;tcp://news.example.com:50505/&lt;/connect&gt;
+  &lt;type&gt;broadcast&lt;/type&gt;
+
+  &lt;cross-site-constraint&gt;
+    &lt;allow-origin&gt;http://www.example.com:8000&lt;/allow-origin&gt;
+  &lt;/cross-site-constraint&gt;
+  &lt;cross-site-constraint&gt;
+    &lt;allow-origin&gt;https://www.example.com:9000&lt;/allow-origin&gt;
+  &lt;/cross-site-constraint&gt;
+&lt;/service&gt;
+</code></pre>
+<ul>
+  <li>For an example showing how to configure a <code>broadcast</code> service that uses a multicast address, see <a href="../p_configure_multicast">Configure the Gateway to Use Multicast</a>.</li>
+</ul>
+
+<h3 id="directory">directory</h3>
+
+<p>Use the <code>directory</code> service to expose directories or files hosted on the Gateway. The <code>directory</code> service has the following properties:</p>
+
+<p><strong>Note:</strong> The properties must be specified in the order shown in the following table.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Required or Optional?</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>directory</code></td>
+      <td>Required</td>
+      <td>The path to the directory to be exposed on the Gateway.</td>
+    </tr>
+    <tr>
+      <td><code>options</code></td>
+      <td>Optional</td>
+      <td>Enables directory browsing of the files and folders in the location specified by the <code>directory</code> property. The value <code>indexes</code> must be entered. For example, <code>&lt;options&gt;indexes&lt;/options&gt;</code> enables directory browsing. Omitting the <code>options</code> property disables directory browsing. Browsing a directory with <code>welcome-file</code> will serve the welcome file.</td>
+    </tr>
+    <tr>
+      <td><code>welcome-file</code></td>
+      <td>Optional</td>
+      <td>The path to the file to be exposed on the Gateway.</td>
+    </tr>
+    <tr>
+      <td><code>error-pages-directory</code></td>
+      <td>Optional</td>
+      <td>The path to the directory containing the <code>404.html</code> file. By default, the Gateway includes a <code>404.html</code> file in <code>GATEWAY_HOME/error-pages</code>. See the Notes for more information.</td>
+    </tr>
+    <tr>
+      <td><code>location</code></td>
+      <td>Optional</td>
+      <td>You add this element to configure Cache-Control for a resource(s) hosted by the <code>directory</code> service. <code>location</code> provides a resource(s)-specific scope to the <code>cache-control</code> setting, enabling you to specify the Cache-Control for multiple locations served by the directory service. The <code>patterns</code> and <code>cache-control</code> elements are child elements of <code>location</code>.  See <a href="#http-caching-with-the-directory-service">HTTP Caching with the Directory Service</a> and <a href="#cache-control-examples">Cache-Control Examples</a>.</td>
+    </tr>
+    <tr>
+      <td><code>patterns</code></td>
+      <td>Optional</td>
+      <td>You add this element to instruct the Gateway on which file types and names to apply Cache-Control directives. For example, <patterns>**/*</patterns> specifies all files and <patterns>**/*.html</patterns> specifies HTML files. The `patterns` element uses the <a href="http://maven.apache.org/shared-archives/maven-shared-utils-0.8/apidocs/org/apache/maven/shared/utils/io/DirectoryScanner.html" title="DirectoryScanner (Apache Maven Shared Utils 0.8 API)">Apache DirectoryScanner</a> syntax. Note: as <code>patterns</code> applies to a URL path, the separator is / not \. The <code>patterns</code> element contains one or more patterns that are whitespace separated, for example. See <a href="#http-caching-with-the-directory-service">HTTP Caching with the Directory Service</a> and <a href="#cache-control-examples">Cache-Control Examples</a>.</td>
+    </tr>
+    <tr>
+      <td><code>cache-control</code></td>
+      <td>Optional</td>
+      <td>You add this element to configure the caching behavior for the resource(s) matching by the <code>patterns</code> value. The syntax is <code>&lt;cache-control&gt;value&lt;/cache-control&gt;</code> where <code>value</code> is a string containing valid Cache-Control directives, as specified by <a href="https://tools.ietf.org/html/rfc7234#section-5.2.2">RFC 7234</a>, <strong>section 5.2.2 Response Cache-Control Directives</strong>. The directive names used in <code>cache-control</code> must be those specified in RFC 7234, such as <code>max-age</code>, <code>public</code>, <code>no-cache</code>, etc. The format must be as specified in RFC 7234, namely comma-separated. Example: <code>&lt;cache-control&gt;max-age=60, public, no-store&lt;/cache-control&gt;</code>. See <a href="#http-caching-with-the-directory-service">HTTP Caching with the Directory Service</a> and <a href="#cache-control-examples">Cache-Control Examples</a>.</td>
+    </tr>
+    <tr>
+      <td><code>symbolic-links</code></td>
+      <td>Optional</td>
+      <td>Enables the use of symbolic links in the <code>directory</code> property element. To enable symbolic links, use the value <code>&lt;symbolic-links&gt;follow&lt;/symbolic-links&gt;</code>. If <code>symbolic-links</code> is omitted, then symbolic links are not allowed. You can also disable symbolic links by using <code>&lt;symbolic-links&gt;restricted&lt;/symbolic-links&gt;</code>. This setting does not effect a symbolic link that points to a location under the value of <code>directory</code>. It effects a symbolic link that points to a target outside of the value of <code>directory</code>.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4><a name="http-caching-with-the-directory-service"></a>HTTP Caching with the Directory Service</h4>
+
+<p>HTTP/1.0 provided the <code>Expires</code> header as a simple way for an origin server to mark a response with a time before which a client cache could return the response validly. The server might then either respond with a 304 (Not Modified) status code, implying that the cache entry is valid, or it might send a normal 200 (OK) response to replace the cache entry. The problem with this mechanism is that neither origin servers or clients can give full and explicit instructions to caches, leading incorrect caching of some responses that should not have been cached, and failure to cache some responses that could have been cached.</p>
+
+<p>In <a href="https://tools.ietf.org/html/rfc7234#section-5.2.2">RFC 7234</a>, HTTP/1.1 adds the new `Cache-Control` header to make caching requirements more explicit than in HTTP/1.0. The Cache-Control header allows an extensible set of directives to be transmitted in both requests and responses. See <a href="#cache-control-examples">Cache-Control Examples</a>.</p>
+
+<p>Here are a few examples of Cache-Control directives that are used in the <code>cache-control</code> property:</p>
+
+<h5>max-age</h5>
+
+<p>You use this Cache-Control directive to state that the resource included in the response is to be considered stale after its age is greater than the specified number of seconds. For example, <code>&lt;cache-control&gt;max-age=0&lt;/cache-control&gt;</code> means the resource expires immediately.</p>
+
+<p>You can specify your preferred time interval syntax in milliseconds, seconds, minutes, or hours (spelled out or abbreviated). For example, all of the following are valid: 1800s, 1800sec, 1800 secs, 1800 seconds, 1800seconds, 3m, 3min, or 3 minutes. If you do not specify a time unit then seconds are assumed.</p>  
+
+<p>You can also use the formula <code>[m+]N [time unit]</code>. <code>m</code> represents the last modified date. <code>N</code> can be 0 or a positive integer. 0 signifies the resource expires immediately. <code>[time unit]</code> is optional, and defaults to seconds if omitted. For example: <code>max-age=m+2 hours</code> instructs the client to expire the file two hours after the file was last modified.</p>
+
+<p>There is an important difference between expiry of a file based on when the client downloaded the resource and expiry based on the last modified date of the resource. Here is the distinction:</p>
+
+<ul>
+<li>By default, expiry is <em>relative to when the client downloaded the resource</em>. For example, if <code>max-age</code> is <code>1 hour</code>, the resource expires 1 hour from when the client downloaded it. If a second client downloaded the same resource 15 minutes after the first client did, then their resource will expire 15 minutes later than the one downloaded by the first client.</li>
+<li>If you specify the expiry of the resource <em>relative to the last modified date of the resource</em>, then the resource will expire at the same time for every client, regardless of when the clients downloaded it. This feature gives you the ability to expire a resource at the same time for all users, irrespective of when they first downloaded it, such as when you know you are going to release a new version of a resource at predictable times.</li>
+</ul>
+
+<p>See <a href="#cache-control-examples">Cache-Control Examples</a>.</p>
+
+<h5>public</h5>
+
+<p>A Cache-Control directive stating that any cache may store the response, even if the response would normally be non-cacheable or cacheable only within a private cache.  See See <a href="#cache-control-examples">Cache-Control Examples</a>.</p>
+
+<p>Note that this does not guaranteed privacy. Only cryptographic mechanisms can provide true privacy. See <a href="../security/o_tls.html">Secure Network Traffic with the Gateway</a>.</p>
+
+<h5>no-store</h5>
+
+<p>A Cache-Control directive stating that a cache must not store any part of either the immediate request or response. This directive applies to both private and shared caches. See <a href="#cache-control-examples">Cache-Control Examples</a>.</p>
+
+
+<h4><a name="cache-control-examples"></a>Cache-Control Examples</h4>
+
+
+<h5>Directory Service Example</h5>
+
+<p>The following is an example of a <code>service</code> element of type <code>directory</code> that accepts connections on <strong>example.com</strong> by default:</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;service&gt;
+  &lt;accept&gt;http://www.example.com:80/&lt;/accept&gt;
+  &lt;accept&gt;https://www.example.com:443/&lt;/accept&gt;
+    &lt;type&gt;directory&lt;/type&gt;
+  &lt;properties&gt;
+    &lt;directory&gt;/&lt;/directory&gt;
+    &lt;welcome-file&gt;index.html&lt;/welcome-file&gt;
+    &lt;error-pages-directory&gt;/error-pages&lt;/error-pages-directory&gt;
+    &lt;location&gt;
+      &lt;patterns&gt;**/*&lt;/patterns&gt;
+      &lt;cache-control&gt;max-age=1 year&lt;/cache-control&gt;
+    &lt;/location&gt;
+&lt;/service&gt;
+</pre>
+
+<h5><a name="cache-control-examples"></a>Cache-Control Examples</h5>
+
+<p>You can use any valid Cache-Control directives, as specified by <a href="https://tools.ietf.org/html/rfc7234#section-5.2.2">RFC 7234</a>, <strong>section 5.2.2 Response Cache-Control Directives</strong>. In the following examples, only a few of the available directives are used.</p>
+
+<h5>Examples for <code>max-age</code>:</h5>
+
+<p>The resources expire immediately and the client MUST validate the resource with the Gateway before using it:</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;location&gt;
+  &lt;patterns&gt;**/*&lt;/patterns&gt;
+  &lt;cache-control&gt;max-age=0&lt;/cache-control&gt;
+&lt;/location&gt;
+</pre>
+
+<p>Do not cache the resource at all, but validate the response with the Gateway before processing it (see <a href="https://tools.ietf.org/html/rfc7234#section-5.2">RFC 7234</a>, <strong>section 5.2.2.2 no-cache</strong>):</p>
+
+<p><code>&lt;cache-control&gt;no-cache&lt;/cache-control&gt;</code></p>
+
+<p>The resources expire after one minute:</p>
+
+<p><code>&lt;cache-control&gt;max-age=60&lt;/cache-control&gt;</code></p>
+
+<p>or</p>
+
+<p><code>&lt;cache-control&gt;max-age=60 seconds&lt;/cache-control&gt;</code></p>
+
+<p>or</p>
+
+<p><code>&lt;cache-control&gt;max-age=1 minute&lt;/cache-control&gt;</code></p>
+
+<p>The resources expire after one hour:</p>
+
+<p><code>&lt;cache-control&gt;max-age=1 hour&lt;/cache-control&gt;</code></p>
+
+<p>or</p>
+
+<p><code>&lt;cache-control&gt;max-age=60 minutes&lt;/cache-control&gt;</code></p>
+
+<p>The following resources expire in one year:</p>
+
+<p><code>&lt;cache-control&gt;max-age=1 year&lt;/cache-control&gt;</code></p>
+
+<p>Expire two hours after the file was last modified (note that whitespace is allowed between <code>m+</code> and <code>N</code>, and also between the <code>m</code> and the <code>+</code> of <code>m+</code>. The <code>m</code> can be upper or lowercase):</p>
+
+<p><code>&lt;cache-control&gt;max-age=m+2 hours&lt;/cache-control&gt;</code></p>
+
+<p>or</p>
+
+<p><code>&lt;cache-control&gt;max-age=m+ 2 hours&lt;/cache-control&gt;</code></p>
+
+<p>or</p>
+
+<p><code>&lt;cache-control&gt;max-age=m + 2 hours&lt;/cache-control&gt;</code></p>
+
+<h5>Examples of pattern matching for Cache-Control</h5>
+
+<p>You can configure a file type pattern for the Gateway to use with cache control. Here are some examples.</p>
+
+<p>Files in specific folders should be cached for a year:</p>
+
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;properties&gt;
+  &lt;location&gt;
+    &lt;patterns&gt;
+      **/images/*
+      **/css/*
+      **/js/*
+    &lt;/patterns&gt;
+    &lt;cache-control&gt;max-age=1 year&lt;/cache-control&gt;
+  &lt;/location&gt;
+&lt;/properties&gt;
+</pre>
+
+<p>Images should be cached for a year and HTML files expire immediately:</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;properties&gt;
+  &lt;!-- Default all files to a far future expires --&gt;
+  &lt;location&gt;
+    &lt;patterns&gt;**/*.gif&lt;/patterns&gt;
+    &lt;cache-control&gt;max-age=1 year&lt;/cache-control&gt;
+  &lt;/location&gt;
+
+  &lt;!-- Always reload HTML files --&gt;
+  &lt;location&gt;
+    &lt;patterns&gt;**/*.html&lt;/patterns&gt;
+    &lt;cache-control&gt;max-age=0&lt;/cache-control&gt;
+  &lt;/location&gt;
+&lt;/properties&gt;
+</pre>
+
+<p>Here is an example of conflicting pattern matching, where the pattern for the first location appears to conflict with the pattern matching of the second location:</p>
+
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;properties&gt;
+  &lt;!-- Default all files to a far future expires --&gt;
+  &lt;location&gt;
+    &lt;patterns&gt;**/*&lt;/patterns&gt;
+    &lt;cache-control&gt;max-age=1 year&lt;/cache-control&gt;
+  &lt;/location&gt;
+
+  &lt;!-- Always reload HTML files --&gt;
+  &lt;location&gt;
+    &lt;patterns&gt;**/*.html&lt;/patterns&gt;
+    &lt;cache-control&gt;no-cache&lt;/cache-control&gt;
+  &lt;/location&gt;
+&lt;/properties&gt;
+</pre>
+
+<p>There is no validation of conflicting directives on the Gateway. Recipients of the HTTP response can handle the headers as required by RFC 7234, or as they choose.</p>
+
+<h4 id="examples-1">Directory Service Examples</h4>
+
+<ul>
+  <li>The following is an example of a <code>service</code> element of type <code>directory</code> that accepts connections on localhost by default:</li>
+</ul>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;service&gt;
+  &lt;accept&gt;http://localhost:8000/&lt;/accept&gt;
+  &lt;accept&gt;https://localhost:9000/&lt;/accept&gt;
+
+  &lt;type&gt;directory&lt;/type&gt;
+  &lt;properties&gt;
+    &lt;directory&gt;/&lt;/directory&gt;
+    &lt;welcome-file&gt;index.md&lt;/welcome-file&gt;
+    &lt;error-pages-directory&gt;/error-pages&lt;/error-pages-directory&gt;
+  &lt;/properties&gt;
+&lt;/service&gt;
+</code></pre>
+
+<h4 id="notes-4">Notes</h4>
+
+<ul>
+  <li>The path you specify for the <code>directory</code> service must be relative to the directory <code>GATEWAY_HOME\web</code> (where <code>GATEWAY_HOME</code> is the directory in which Kaazing Gateway is installed). For example, <code>C:\gateway\GATEWAY_HOME\web</code>. An absolute path cannot be specified.</li>
+  <li>Kaazing Gateway services are configured to accept connections on <code>localhost</code> by default. The cross-origin sites allowed to access those services are also configured for localhost-only by default. If you want to connect to host names other than localhost you must update your server configuration, and use the fully qualified host name of the host machine.</li>
+  <li>If you use the optional <code>error-pages-directory</code> property, you can test it by adding the property, saving the <code>gateway-config.xml</code> file, then starting the Gateway. Once the Gateway is running, point your browser to a page that does not exist, such as <code>http://localhost:8000/nonexistentpage.html</code>.</li>
+  <li>The directory service is <a href="https://tools.ietf.org/html/rfc7232">RFC 7232</a> compliant.</li>
+</ul>
+
+<h3 id="echo">echo</h3>
+
+<p>This type of service receives a string of characters through a WebSocket connection and returns, or <em>echoes</em> the same characters to the sender.</p>
+
+<h4 id="example-4">Example</h4>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;service&gt;
+  &lt;name&gt;Echo service&lt;/name&gt;
+  &lt;accept&gt;ws://localhost:8001/echo&lt;/accept&gt;
+  &lt;accept&gt;wss://localhost:9001/echo&lt;/accept&gt;
+
+  &lt;type&gt;echo&lt;/type&gt;
+
+  &lt;cross-site-constraint&gt;
+    &lt;allow-origin&gt;http://localhost:8000&lt;/allow-origin&gt;
+  &lt;/cross-site-constraint&gt;
+
+  &lt;cross-site-constraint&gt;
+    &lt;allow-origin&gt;https://localhost:9000&lt;/allow-origin&gt;
+  &lt;/cross-site-constraint&gt;
+&lt;/service&gt;
+</code></pre>
+
+<h4 id="notes-5">Notes</h4>
+
+<ul>
+  <li>The primary use for the <code>echo</code> service is to validate the basic gateway configuration.</li>
+  <li>The default <code>echo</code> service is configured to run on a separate port to verify cross-origin access.</li>
+</ul>
+
+<h3 id="httpredirect">http.redirect</h3>
+
+<p><strong>Required?</strong> Optional</p>
+
+<p>The <code>http.redirect</code> service enables you to redirect requests to a different URL. For example, if you have a service accepting connections on <code>https://example.com</code> but a user accidentally enters a nonsecure URL such as <code>http://example.com</code>, you can redirect it to the secure URL <code>https://example.com</code>.</p>
+
+<span class="note"><b>Note:</b> The Gateway must have a service accepting connections on the redirected URL.</span>
+
+<p>Here is how redirection occurs:</p>
+
+<ol>
+ <li>A Web browser sends an HTTP GET request to the URL <code>example.com</code>. </li>
+ <li>The <code>http.redirect</code> service sends a <a href="https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#3xx_Redirection">3XX status code</a> with the proper location using HTTPS with example.com (<code>https://example.com/</code>).</li>
+ <li>The Web browser follows the redirect to <code>https://example.com/</code>. </li>
+ <li>The service request succeeds with a success or other HTTP status code, such as <a href="https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#2xx_Success">200 OK</a>.</li>
+</ol>
+
+<p>The <code>http.redirect</code> service has the following properties:</p>
+
+<table border="0">
+  <tr>
+    <th width="15%" scope="col">Property</th>
+    <th width="15%" scope="col">Required or Optional?</th>
+    <th width="70%" scope="col">Description</th>
+  </tr>
+  <tr>
+    <td><code>accept</code></td>
+    <td>Required</td>
+    <td>The URL that will be redirected using the URL in <code>location</code>.</td>
+  </tr>
+  <tr>
+    <td><code>location</code></td>
+    <td>Required</td>
+    <td>The URL that the client is redirected to. The URL must have a HTTP or HTTPS scheme.</td>
+  </tr>
+  <tr>
+    <td><code>status-code</code></td>
+    <td>Optional</td>
+    <td>The status code returned when the redirection occurs. The status  must be a <a href="https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#3xx_Redirection">3xx</a> code. The default is 302.</td>
+  </tr>
+  <tr>
+    <td><code>cache-control</code></td>
+    <td>Optional</td>
+    <td>See the cache-control property for the <a href="#directory">directory</a> service. If this property is not set, the Gateway does not send the cache control response header. If you are using an HTTP 301 <code>status-code</code>, then you might wish to use <code>cache-control</code> because <a href="http://stackoverflow.com/questions/9130422/how-long-do-browsers-cache-http-301s" title="How long do browsers cache HTTP 301s? - Stack Overflow">some Web browsers cache HTTP 301 responses</a>.</td>
+  </tr>
+</table>
+
+<h4>Examples</h4>
+
+<p>Here is a typical example with <code>status-code</code> omitted because the default is HTTP 302:</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;service&gt;
+  &lt;type&gt;http.redirect&lt;/type&gt;
+  &lt;accept&gt;http://example.com&lt;/accept&gt;
+
+  &lt;properties&gt;
+    &lt;location&gt;https://example.com&lt;/location&gt;
+  &lt;/properties&gt;
+&lt;service&gt;
+</pre>
+
+<p>Here is an example of using HTTP 301 with <code>cache-control</code>:</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;service&gt;
+  &lt;type&gt;http.redirect&lt;/type&gt;
+  &lt;accept&gt;http://example.com&lt;/accept&gt;
+
+  &lt;properties&gt;
+    &lt;location&gt;https://example.com&lt;/location&gt;
+    &lt;cache-control&gt;max-age=0&lt;/cache-control&gt;
+    &lt;status-code&gt;301&lt;/status-code&gt;
+  &lt;/properties&gt;
+&lt;service&gt;
+</pre>
+
+<h4>Redirection Behavior and Limitations</h4>
+
+<p>The following examples assume a service with the <code>location</code> set as <code>https://example.com/new/redirect</code> to illustrate the behavior. Note that in cases where the Incoming Request URL contains a path, the path is appended to the redirected URL result.</p>
+
+<table border="0">
+  <tr>
+    <th scope="col">&lt;accept&gt; URL</th>
+    <th scope="col">Incoming Request URL</th>
+    <th scope="col">Result</th>
+  </tr>
+  <tr>
+    <td>http://example.com/</td>
+    <td>http://example.com/</td>
+    <td>Redirected to https://example.com/new/redirect</td>
+  </tr>
+  <tr>
+    <td>http://example.com/a</td>
+    <td>http://example.com/</td>
+    <td>Not handled by this service (i.e. the Gateway sends a 404 unless another service is accepting on this URL)</td>
+  </tr>
+  <tr>
+    <td>http://example.com/a/</td>
+    <td>http://example.com/a</td>
+    <td>Not handled by this service (i.e. the Gateway sends a 404 unless another service is accepting on this URL)</td>
+  </tr>
+  <tr>
+    <td>http://example.com/a</td>
+    <td>http://example.com/a</td>
+    <td>Redirected to https://example.com/new/redirect</td>
+  </tr>
+  <tr>
+    <td>http://example.com/</td>
+    <td>http://example.com/a/</td>
+    <td>Redirected to https://example.com/new/redirect/a/ *</td>
+  </tr>
+  <tr>
+    <td>http://example.com/</td>
+    <td>http://example.com/a/b/c</td>
+    <td>Redirected to https://example.com/new/redirect/a/b/c *</td>
+  </tr>
+</table>
+
+<p><sup>*</sup> Note: path of incoming request is appended.</p>
+
+<h3 id="kerberos5proxy">kerberos5.proxy </h3>
+
+<p>Use the <code>kerberos5.proxy</code> service to connect the Gateway to the Kerberos Key Distribution Center.</p>
+
+<h4 id="example-5">Example</h4>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;service&gt;
+  &lt;accept&gt;ws://localhost:8000/kerberos5&lt;/accept&gt;
+  &lt;connect&gt;tcp://kdc.example.com:88&lt;/connect&gt;
+
+  &lt;type&gt;kerberos5.proxy&lt;/type&gt;
+
+  &lt;cross-site-constraint&gt;
+    &lt;allow-origin&gt;*&lt;/allow-origin&gt;
+  &lt;/cross-site-constraint&gt;
+&lt;/service&gt;
+</code></pre>
+
+<h4 id="notes-6">Notes</h4>
+
+<ul>
+  <li>The <code>kerberos5.proxy</code> service is required when you configure the <code>Application Negotiate</code> <a href="../r_configure_gateway_security#authentication">authentication scheme</a>.</li>
+</ul>
+
+
+<h3 id="managementjmx">management.jmx</h3>
+
+<p>Use the <code>management.jmx</code> service type to track and monitor user sessions and configuration data using JMX Managed Beans.</p>
+
+<h4 id="example-6">Example</h4>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;service&gt;
+  &lt;name&gt;JMX Management&lt;/name&gt;
+  &lt;description&gt;JMX Management Service&lt;/description&gt;
+
+  &lt;type&gt;management.jmx&lt;/type&gt;
+
+  &lt;properties&gt;
+    &lt;connector.server.address&gt;jmx://${gateway.hostname}:2020/&lt;/connector.server.address&gt;
+  &lt;/properties&gt;
+
+  &lt;!-- secure monitoring using a security realm --&gt;
+ &lt;realm-name&gt;demo&lt;/realm-name&gt;
+
+  &lt;!-- configure the authorized user roles --&gt;
+  &lt;authorization-constraint&gt;
+    &lt;require-role&gt;ADMINISTRATOR&lt;/require-role&gt;
+ &lt;/authorization-constraint&gt;
+&lt;/service&gt;
+</code></pre>
+
+<h4 id="notes-7">Notes</h4>
+
+<ul>
+  <li>See <a href="../../management/o_monitor/index.html">Monitor the Gateway</a> for an introduction to monitoring the Gateway.</li>
+  <li>See <a href="../../management/p_monitor_jmx/index.html">Monitor with JMX</a> for more information and examples of monitoring with JMX.</li>
+  <li>The <code>management.jmx</code> service is not enabled by default in the Gateway configuration file.</li>
+  <li>Kaazing Gateway supports Java Management Extension (JMX) access through any JMX-compliant console that supports communication using the JMX protocol.</li>
+</ul>
+
+<!-- <h3 id="managementsnmp">management.snmp</h3>
+
+<p>Use the <code>management.snmp</code> service type to monitor a Gateway or a Gateway cluster through Command Center, which is a browser-based application. Using Command Center is the recommended method for monitoring the Gateway.</p>
+
+<h4 id="example-7">Example</h4>
+
+<p>The following example is a snippet from the default Gateway configuration file showing the SNMP Management section:</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;service&gt;
+  &lt;name&gt;SNMP Management&lt;/name&gt;
+  &lt;description&gt;SNMP Management Service&lt;/description&gt;
+  &lt;accept&gt;ws://${gateway.hostname}:${gateway.base.port}/snmp&lt;/accept&gt;
+
+  &lt;type&gt;management.snmp&lt;/type&gt;
+
+  &lt;!-- secure monitoring using a security realm --&gt;
+  &lt;realm-name&gt;commandcenter&lt;/realm-name&gt;
+
+  &lt;!-- configure the authorized user roles --&gt;
+  &lt;authorization-constraint&gt;
+    &lt;require-role&gt;ADMINISTRATOR&lt;/require-role&gt;
+ &lt;/authorization-constraint&gt;
+
+  &lt;cross-site-constraint&gt;
+    &lt;allow-origin&gt;*&lt;/allow-origin&gt;
+  &lt;/cross-site-constraint&gt;
+&lt;/service&gt;
+</code></pre>
+
+<h4 id="notes-8">Notes</h4>
+
+<ul>
+  <li>The <code>management.snmp</code> service is enabled by default in the Gateway configuration file. The <code>management.snmp</code> service is designed for use with Command Center.</li>
+  <li>See <a href="../../management/o_monitor/index.html">Monitor the Gateway</a> for an introduction to monitoring the Gateway.</li>
+  <li>See <a href="../../management/p_monitor_cc/index.html">Monitor with Command Center</a> for more information about monitoring with Command Center.</li>
+</ul> -->
+
+<h3 id="httpproxy">http.proxy </h3>
+
+<p>The <code>http.proxy</code> service includes properties and functionality for eliminating the public exposure of internal network and host information.</p>
+
+<p>Before reviewing the contents of this section, we recommend that you review <a href="https://code.tutsplus.com/tutorials/http-headers-for-dummies--net-8039">HTTP headers</a>.</p>
+
+<p>This section includes:</p>
+
+<ul>
+ <li><a href="#requestheaders">Replacing the Host in the Header</a></li>
+ <li><a href="#prependingpaths">Prepending Paths</a></li>
+ <li><a href="#redirectionproperties">Redirection Properties</a></li>
+ <li><a href="#forwardingproperties">Forwarding Properties</a></li>
+ <li><a href="#cookieproperties">Cookie Properties</a></li>
+</ul>
+
+<span class="note"><b>Note:</b> Both <code>accept</code> and <code>connect</code> URIs must end with a forward slash (<code>http://www.example.com/path/</code>) or an error will be thrown at startup. If the URI does not have a path (<code>http://www.example.com</code>), then <strong>both</strong> the <code>accept</code> and <code>connect</code> URIs can end without a forward slash (<code>/</code>). Web browsers will automatically append the forward slash to the URI (<code>http://www.example.com/</code>).</span>
+
+<h4 id="requestheaders">Replacing the Host in the Header</h4>
+
+<p>When proxying client requests to backend servers, the <code>http.proxy</code> service replaces the host name in the HTTP <code>Host</code> request header with the host name in the <code>connect</code> URI.</p>
+
+<p>For example, in the following <code>http.proxy</code> configuration, the <code>Host</code> name in the client HTTP request header will be replaced with <code>corp.example.com</code> before sending the request to the backend server.</p>
+
+<p>Client request Host header:</p>
+
+<pre>
+GET /example.html HTTP/1.1
+Host: example.com
+...
+</pre>
+
+<p>Gateway <code>http.proxy</code> service:</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;service&gt;
+ ...
+ &lt;accept&gt;http://example.com/example.html/&lt;/accept&gt;
+ &lt;connect&gt;http://corp.example.com/&lt;/connect&gt;
+ &lt;type&gt;http.proxy&lt;/type&gt;
+  ...
+&lt;/service&gt;
+</pre>
+
+<p>Request Host header sent to backend server by the Gateway:</p>
+
+<pre>
+GET /example.html HTTP/1.1
+Host: corp.example.com
+...
+</pre>
+
+<h4 id="prependingpaths">Prepending Paths</h4>
+<p>For the <code>http.proxy</code> service, the <a href="https://en.wikipedia.org/wiki/Uniform_Resource_Identifier#Syntax">URI path</a> from the <code>accept</code> element is prepended to the path in the <code>connect</code> element. For example, let's look at the following <code>http.proxy</code> service configuration:</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;service&gt;
+ ...
+ &lt;accept&gt;http://maven.example.com/&lt;/accept&gt;
+ &lt;connect&gt;http://artifactory.example.com/artifactory/public-repository/&lt;/connect&gt;
+ &lt;type&gt;http.proxy&lt;/type&gt;
+  ...
+&lt;/service&gt;
+</pre>
+
+<p>In this example, a client request for <code>http://maven.example.com/</code> is proxied to <code>http://artifactory.example.com/artifactory/public-repository/</code>. Also, a request for <code>http://maven.example.com/corp/index.html</code> is prepended to the <code>connect</code> path and proxied to <code>http://artifactory.example.com/artifactory/public-repository/corp/index.html</code>. To prevent attackers from accessing other URLs, any request that uses the parent directory symbol <code>../</code> in a way that would make the logical path be above the <code>connect</code> url path returns a 404 error. For example, the request <code>http://maven.example.com/../private-repository/corp/super-secret-key</code> returns a 404 error.</p>
+
+<span class="note"><b>Note:</b> If an <code>accept</code> URI ends with a forward slash (<code>http://maven.example.com/</code>), the <code>connect</code> URI must end with a forward slash (<code>http://artifactory.example.com/artifactory/public-repository/</code>) or an error will be thrown at startup. If an <code>accept</code> URI does not end with a forward slash, the <code>connect</code> URI must not end with a forward slash or an error will be thrown at startup.</span>
+
+<h4 id="redirectionproperties">Redirection Properties</h4>
+
+<p>The following properties enable you to control the internal information exposed as part of HTTP redirects.</p>
+
+<h5 id="httpmaximumredirects"><code>http.maximum.redirects</code></h5>
+
+<p><strong>Required?</strong> Optional</p>
+
+<p>If set, <code>http.maximum.redirects</code> configures the Gateway to follow HTTP 302 redirects when it is connecting to a server. The number specified for <code>http.maximum.redirects</code> is the maximum number of HTTP 302 redirects the Gateway will follow before returning the 302 directly to the client. This <code>connect-options</code> element is useful for any service where the Gateway is using HTTP on an outbound connection, such as <code>http.proxy</code> using HTTP or WS in a <code>connect</code>.</p>
+
+<p>Example</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;service&gt;
+ &lt;accept&gt;http://${gateway.hostname}:${gateway.base.port}/remoteService&lt;/accept&gt;
+ &lt;connect&gt;http://internal.example.com:1080&lt;/connect&gt;
+
+ &lt;type&gt;http.proxy&lt;/type&gt;
+
+ &lt;connect-options&gt;
+  &lt;http.maximum.redirects&gt;3&lt;/http.maximum.redirects&gt;
+  ...
+ &lt;/connect-options&gt;
+
+...
+&lt;/service&gt;
+</pre>
+
+<h5 id="rewritelocation"><code>rewrite-location</code></h5>
+
+<p><strong>Required?</strong> Optional</p>
+
+<p>Sets the <code>http.proxy</code> service to rewrite the <a href="https://en.wikipedia.org/wiki/HTTP_location">HTTP Location headers</a> of <a href="https://en.wikipedia.org/wiki/URL_redirection#HTTP_status_codes_3xx">redirect responses</a>. There are two values, <code>enabled</code> and <code>disabled</code>. The default is <code>enabled</code>. When enabled, <code>rewrite-location</code> uses the location mapping configured in <code>location-mapping</code>.</p>
+
+<h5 id="locationmapping"><code>location-mapping</code></h5>
+
+<p><strong>Required?</strong> Optional</p>
+
+<p>When <code><a href="#rewritelocation">rewrite-location</a></code> is set to <code>enabled</code>, <code>location-mapping</code> sets the proxy service mapping configuration for rewriting the HTTP Location headers. You can specify <code>location-mapping</code> multiple times. For example:</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;service&gt;
+   ...
+   &lt;type&gt;http.proxy&lt;/type&gt;
+   &lt;accept&gt;http://example.com:8000/foo/&lt;/accept&gt;
+   &lt;connect&gt;http://internal.example.com:7233/bar/&lt;/connect&gt;
+   
+   &lt;properties&gt;
+      &lt;rewrite-location&gt;enabled&lt;/rewrite-location&gt;
+      &lt;location-mapping&gt;
+          &lt;from&gt;http://localhost:8080/&lt;/from&gt;
+          &lt;to&gt;http://localhost:8110/&lt;/to&gt;
+      &lt;/location-mapping&gt;
+      &lt;location-mapping&gt;
+          &lt;from&gt;http://internal.example.com:7223/bar/&lt;/from&gt;
+          &lt;to&gt;http://example.com:8000/foo/&lt;/to&gt;
+      &lt;/location-mapping&gt;
+      ...
+   &lt;/properties&gt;
+...
+&lt;/service&gt;
+</pre>
+
+<p>In this example, if the response code is 301 or 302 and a server returned the Location <code>http://internal.example.com:7223/bar/index.html</code>, the Gateway will rewrite the Location as <code>http://example.com:8000/foo/index.html</code>.</p>
+
+<h4 id="forwardingproperties">Forwarding Properties</h4>
+
+<p>The following property enables you to control the internal information exposed as part of HTTP forwarding.</p>
+
+<h5 id="use-forwarded"><code>use-forwarded</code></h5>
+
+<p><strong>Required?</strong> Optional</p>
+
+<p>You can use <code>use-forwarded</code> in the <code>http.proxy</code> service to modify the <a href="https://en.wikipedia.org/wiki/List_of_HTTP_header_fields">Forwarded HTTP header fields</a> in a client request sent to the backend server. This is a security precaution. It prevents internal host information from being sent to external clients in the HTTP response.</p>
+
+<p>This setting accepts the following values:</p>
+
+<ul>
+ <li><code>inject</code> - If Forwarded fields are absent in the client request, this setting ensures new Forwarded fields containing the IP address(es) of the Gateway(s) are injected. If Forwarded fields are present, this setting appends new Forwarded fields containing the IP address(es) of the Gateway(s).</li>
+ <li><code>ignore</code> - No Forwarded fields are injected, and any existing Forwarded headers go through. This is the default setting.</li>
+ <li><code>exclude</code> - Removes all Forwarded fields from the client request.</li>
+</ul>
+
+
+<h4 id="cookieproperties">Cookie Properties</h4>
+
+<p>The following properties help you control the <a href="https://en.wikipedia.org/wiki/HTTP_cookie#Domain_and_Path">Domain attribute of the Set-Cookie header</a> in responses to clients.</p>
+
+<h5 id="rewritecookiedomain"><code>rewrite-cookie-domain</code></h5>
+
+<p><strong>Required?</strong> Optional</p>
+
+<p>Sets the proxy service to rewrite the Domain attribute of the Set-Cookie header in responses. There are two values, <code>enabled</code> and <code>disabled</code>. The default is disabled. When the value is <code>enabled</code>, the Domain attribute is rewritten using the mapping in <code><a href="#cookiedomainmapping">cookie-domain-mapping</a></code>.</p>
+
+
+<h5 id="cookiedomainmapping"><code>cookie-domain-mapping</code></h5>
+
+<p><strong>Required?</strong> Optional</p>
+
+<p>When <code><a href="#rewritecookiedomain">rewrite-cookie-domain</a></code> is set to <code>enabled</code>, <code>cookie-domain-mapping</code> sets the mapping configuration for rewriting the Domain attribute of the Set-Cookie header. <code>cookie-domain-mapping</code> can be specified multiple times. The proxy service uses the first matching mapping to rewrite the Domain attribute. For example:</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;service&gt;
+   ...
+   &lt;type&gt;http.proxy&lt;/type&gt;
+   &lt;accept&gt;http://example.com:8000/foo/&lt;/accept&gt;
+   &lt;connect&gt;http://internal.example.com:7233/bar/&lt;/connect&gt;
+   &lt;properties&gt;
+      &lt;rewrite-cookie-domain&gt;enabled&lt;/rewrite-cookie-domain&gt;
+      &lt;cookie-domain-mapping&gt;
+          &lt;from&gt;internal.example.com&lt;/from&gt;
+          &lt;to&gt;example.com&lt;/to&gt;
+      &lt;/cookie-domain-mapping&gt;
+      ...
+   &lt;/properties&gt;
+   ...
+&lt;/service&gt;
+</pre>
+
+<p>Using the example above, if the backend server returned <code>Domain=internal.example.com</code>, the Gateway will rewrite the Domain attribute in the Set-Cookie header as <code>Domain=example.com</code>.</p>
+
+<h4>Using http.proxy with Enterprise Shield</h4>
+
+<p>For information on using <code>http.proxy</code> with Enterprise Shield, see <a href="../../enterprise-shield/c_enterprise_shield_use_cases/index.html#http-proxy">Use Case 4: Using http.proxy with Enterprise Shield</a>.</p>
+
+
+<h3 id="proxy-amqpproxy-and-jmsproxy">proxy, amqp.proxy, and jms.proxy</h3>
+
+<p>Use the <code>proxy</code>, <code>amqp.proxy</code>, or <code>jms.proxy</code> service to enable a client to make a WebSocket connection to a back-end service or message broker that cannot natively accept WebSocket connections.</p>
+
+<p>The following descriptions will help you understand when and how to configure properties for the <code>proxy</code> service and  <code>amqp.proxy</code> service. See the <a href="../r_conf_jms">jms.proxy</a>  reference for details about that feature. </p>
+
+
+<h4 id="connectstrategy"><code>connect.strategy</code></h4>
+
+<p><strong>Required?</strong> Optional</p>
+
+<p>Creates either an <strong>immediate</strong>, <strong>prepared</strong>, or <strong>deferred</strong> connection with a backend service. By default, a <code>proxy</code> connection to the backend service is initiated when a new client connection request arrives. You can use <code>connect.strategy</code> to change this default behavior.</p>
+
+<p>There are three values allowed:</p>
+<ul>
+ <li><code>prepared</code> - Prepares an idle TCP connection between the Gateway and the backend server. If the prepared connection cannot be made, then the proxy service will not accept client connections. Once a client consumes the prepared connection, a new prepared connection is made. See also, <a href="../../admin-reference/r_configure_gateway_service/index.html#preparedconnectioncount">prepared.connection.count</a>.</li>
+ <li><code>immediate</code> - Connects to the backend server when a new client <strong>connection</strong> arrives. This is the default setting and is used if <code>connect.strategy</code> is not specified in the Gateway configuration file.</li>
+ <li><code>deferred</code> - Defers a connection to the backend server until the first client <strong>message</strong> arrives at the Gateway. Once the first client message arrives at the Gateway, the connection with the backend server is established.</li>
+</ul>
+
+<h4 id="section"><a name="maximumpendingbytes"></a><code>maximum.pending.bytes</code></h4>
+
+<p><strong>Required?</strong> Optional</p>
+
+<p>The size of data the service buffers for one client connection before slowing <strong>incoming and outgoing</strong> data. The value must be a positive integer with either no specified unit or appended with <em>kB</em> or <em>MB</em> (the unit is case insensitive) to indicate kilobytes or megabytes. If no unit is specified, the default unit is bytes. If you do not specify this property, its default value is <em>64kB</em>. For example:<br />
+<ul>
+<li>A value of <em>2048</em> sets the buffer to <strong>2048 bytes</strong>.<br /></li>
+<li>A value of <em>128kB</em> sets the buffer to <strong>128 kilobytes</strong>.<br /></li>
+<li>No instance of the <em>maximum.pending.bytes</em> property in the <em>gateway-config.xml</em> sets the buffer to <strong>64 kilobytes</strong>.</li>
+</ul>
+
+<p>The Gateway uses this buffer when the speed of the data coming into the service is faster than the speed of the data being consumed by the receiving end, which is either the client or the back-end service or message broker. The buffer stores the data up to the limit you specify in this property per client connection, then slows the incoming data, until either the client or the back-end service or message broker (whichever is consuming the data) has consumed more than 50% of the outgoing data flow.</p>
+
+<p>For example, suppose you set this property to <code>128kB</code>. If the back-end service or message broker sends 256kB of data to a client and the client has only consumed 128kB, the remaining 128kB (the limit you set in the property) is buffered. At this time, the Gateway suspends reading the data from the back-end service or message broker; as the client consumes the buffered data, the size of the buffered data decreases. When the buffered data falls below 64kB, the Gateway resumes reading the data from the back-end service or message broker.</p>
+
+<h4 id="section-1"><a name="maximumrecoveryinterval"></a><code>maximum.recovery.interval</code></h4>
+
+<p><strong>Required?</strong> Optional</p>
+
+<p>The maximum interval (in seconds) between attempts of the service to establish a connection to the back-end service or message broker specified by the <a href="#connect"><code>connect</code></a> element.</p>
+<ul>
+<li>If specified, the value must be a non-negative integer. You must enable this property to ensure the client can reconnect to another service that has a good connection to an available back-end service or message broker.<br /></li>
+<li>If unspecified or if the value is set to <code>0</code>, then the property is disabled but the Gateway will start and run successfully. However, when the property is not enabled, the load balancer does not detect when a service is disconnected from the back-end service or message broker or when the broker is unavailable.</li>
+</ul>
+
+<p>If the back-end service or message broker becomes unavailable or the Gateway cannot establish a connection to it, the Gateway triggers a recovery. The Gateway attempts to reestablish a connection to the back-end service or message broker. Initially, the interval between attempts is short, but grows until it reaches the specified value. From that point on, the Gateway attempts to reestablish a connection only at the interval specified.</p>
+
+<p>During this recovery phase, the Gateway unbinds the service, and clients attempting to connect to this service receive a “404 Not Found” error. Once the back-end service or message broker recovers and the Gateway establishes a connection, the Gateway binds the service and clients can connect to the service. See the “Examples” section below the table for a code snippet using this property.</p>
+
+<h4 id="section-2"><a name="preparedconnectioncount"></a><code>prepared.connection.count</code></h4>
+
+<p><strong>Required?</strong> Optional</p>
+
+<p>You may use this property in either of the following use cases:</p>
+<ul>
+<li>You may set this property when configuring your proxy service, which is the most common use case for <code>prepared.connection.count</code>. In this case, setting <code>prepared.connection.count</code> sets the number of connections the Gateway creates (or <em>prepares</em>) to the back-end service or message broker specified by the <a href="#connect"><code>connect</code></a> element in addition to the client connections. When the Gateway starts, it creates the specified number of connections to the back-end service or message broker, thus creating a <em>prepared connection</em>. When an incoming client connection uses a prepared connection, the Gateway creates another connection to the back-end service or message broker, thus maintaining the specified number of prepared connections to the back-end service or message broker.<br /></li>
+<li>You may set this property when configuring Enterprise Shield&trade;. If you do not set this property in a reverse proxy configuration, by default the Gateway will prepare one connection the other Gateway and when a client connection arrives, it can take the connection. See <a href="../../enterprise-shield/p_enterprise_shield_config/index.html">Configure Enterprise Shield&trade;</a> for detailed Enterprise Shield&trade; configuration information.</li>
+</ul>
+
+<h4 id="section-3"><a name="virtualhost"></a><code>virtual.host</code></h4>
+
+<p><strong>Required?</strong> Optional</p>
+
+<p>Specifies the AMQP virtual host to which the Gateway can proxy clients that are connected to this service.</p>
+
+<p>After the Gateway authenticates the client, the virtual host is injected into the AMQP protocol and messages can be exchanged. This ensures the target virtual host comes from a validated and trusted source such as the Gateway, rather than relying on what is set by the client, which can be manipulated.</p>
+
+<p>You may choose to configure a virtual host when you want to:</p>
+
+<ul>
+<li>Isolate exchanges, queues, and topics created under one virtual-host from those in the other virtual hosts residing in the same AMQP broker instance.</li>
+<li>Ensure each client can only see their data and not the data of other clients.</li>
+<li>Handle a configuration in which your AMQP broker is part of a multitenant application and you do not want clients from one tenant sharing data and exchanges with clients from another tenant.</li>
+</ul>
+
+<p>See the “Examples” section below this table for a code snippet using this property.</p>
+
+<h3 id="examples-2">proxy, amqp.proxy Service Examples</h3>
+
+<p>For <code>jms.proxy</code> examples, see <code><a href="../../admin-reference/r_conf_jms/index.html#jmsproxy">jms.proxy</a></code>.</p>
+
+<ul>
+  <li>The following example of the <code>proxy</code> service configures the <code>accept</code> element to signal the Gateway to accept incoming connections from clients using WebSocket (<code>ws</code>) and WebSocket Secure (<code>wss</code>), and it configures the <code>connect</code> element to connect to the back-end service or message broker using TCP. The example uses the <code>proxy</code> service, which is common, but not required. See the <a href="#type">type</a> element for a list of service types.<br />
+  The example also configures the following properties:</li>
+  <li><code>maximum.pending.bytes</code> property, which sets the buffer to <code>128kB</code>.</li>
+  <li><code>maximum.recovery.interval </code>property, which tells the Gateway to ping the service at <code>tcp://internal.example.com:port-number</code> every 30 seconds if the back-end service or message broker becomes unavailable.</li>
+  <li><code>prepared.connection.count</code> property, which tells the Gateway to prepare 10 connections to the back-end service or message broker specified by the <code>connect</code> element, then maintain 10 connections as clients consume each connection.</li>
+</ul>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;service&gt;
+  &lt;name&gt;proxy service&lt;/name&gt;
+  &lt;accept&gt;ws://${gateway.hostname}:${gateway.base.port}/remoteService&lt;/accept&gt;
+  &lt;accept&gt;wss://${gateway.hostname}:${gateway.base.port}/remoteService&lt;/accept&gt;
+  &lt;connect&gt;tcp://internal.example.com:port-number&lt;/connect&gt;
+
+  &lt;type&gt;proxy&lt;/type&gt;
+
+  &lt;properties&gt;
+    &lt;maximum.pending.bytes&gt;128kB&lt;/maximum.pending.bytes&gt;
+    &lt;maximum.recovery.interval&gt;30&lt;/maximum.recovery.interval&gt;
+    &lt;prepared.connection.count&gt;10&lt;/prepared.connection.count&gt;
+  &lt;/properties&gt;
+
+  &lt;cross-site-constraint&gt;
+    &lt;allow-origin&gt;http://${gateway.hostname}:${gateway.base.port}&lt;/allow-origin&gt;
+  &lt;/cross-site-constraint&gt;
+  &lt;cross-site-constraint&gt;
+    &lt;allow-origin&gt;https://${gateway.hostname}:${gateway.base.port}&lt;/allow-origin&gt;
+  &lt;/cross-site-constraint&gt;
+&lt;/service&gt;
+</code></pre>
+
+<ul>
+  <li>The following example shows a service configuration section that is used to accept connections for the <code>proxy</code> service at the URL <code>ws://www.example.com</code> on port <code>80</code>. (The port is included for the sake of example. You can omit the default ports 80 or 443.).</li>
+</ul>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;service&gt;
+  &lt;name&gt;proxy service&lt;/name&gt;
+  &lt;accept&gt;ws://www.example.com:80/service&lt;/accept&gt;
+  &lt;connect&gt;tcp://internal.example.com:port-number&lt;/connect&gt;
+
+  &lt;type&gt;proxy&lt;/type&gt;
+
+&lt;/service&gt;
+</code></pre>
+
+<ul>
+  <li>The following example configures two <code>amqp.proxy</code> services, <code>app1</code> and <code>app2</code>, and each service connects to a virtual host, <code>vhost1</code> and <code>vhost2</code>. Clients connecting via the <code>app1</code> service can access only <code>vhost1</code>, and clients on the <code>app2</code> service can access only <code>vhost2</code>.</li>
+</ul>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;!-- This service connects only to the AMQP virtual host vhost1. --&gt;
+&lt;service&gt;
+  &lt;name&gt;AMQP proxy service&lt;/name&gt;
+  &lt;accept&gt;ws://${gateway.hostname}:${gateway.port}/app1&lt;/accept&gt;
+  &lt;connect&gt;pipe://vhost1&lt;/connect&gt;
+
+  &lt;type&gt;amqp.proxy&lt;/type&gt;
+
+  &lt;properties&gt;
+    &lt;virtual.host&gt;/vhost1&lt;/virtual.host&gt;
+  &lt;/properties&gt;
+&lt;/service&gt;
+
+  &lt;!-- This service connects only to the AMQP virtual host vhost2.--&gt;
+&lt;service&gt;
+  &lt;accept&gt;ws://${gateway.hostname}:${gateway.port}/app2&lt;/accept&gt;
+  &lt;connect&gt;pipe://vhost2&lt;/connect&gt;
+
+  &lt;type&gt;amqp.proxy&lt;/type&gt;
+
+  &lt;properties&gt;
+    &lt;virtual.host&gt;/vhost2&lt;/virtual.host&gt;
+  &lt;/properties&gt;
+&lt;/service&gt;
+
+  &lt;!-- Proxy service accepts on named pipes to connect to the AMQP broker.--&gt;
+&lt;service&gt;
+  &lt;accept&gt;pipe://vhost1&lt;/accept&gt;
+  &lt;accept&gt;pipe://vhost2&lt;/accept&gt;
+  &lt;connect&gt;tcp://${gateway.hostname}:5672&lt;/connect&gt;
+
+  &lt;type&gt;proxy&lt;/type&gt;
+
+&lt;/service&gt;
+</code></pre>
+
+<h4 id="notes-9">Notes</h4>
+
+<ul>
+  <li>You must also configure the following elements:
+    <ul>
+      <li><a href="#accept"><code>accept</code></a>: the URL at which the service accepts connections</li>
+      <li><a href="#connect"><code>connect</code></a>: the URL of the service to which the Gateway connects</li>
+    </ul>
+  </li>
+  <li>The WebSocket protocol used by the client connection is converteded into a protocol that you specify (for example, TCP) to connect to the back-end service or message broker. Upon client connection, the Gateway establishes a full-duplex connection between itself and the client, and between itself and the back-end service or message broker. The result is a full-duplex connection between the client and the back-end service or message broker.</li>
+  <li>The Gateway services are configured to accept connections on <code>localhost</code> by default. The cross-origin sites allowed to access those services are also configured for localhost by default. If you want to connect to host names other than <code>localhost</code>, then you must update your server configuration and use the fully qualified host name of the host machine, as shown in the example.</li>
+  <li>When there are multiple <code>amqp.proxy</code> services in the Gateway configuration that are connecting to the same AMQP broker instance, all AMQP proxy services should <a href="#pipe">pipe</a> their <code>connect</code> elements to a common service as shown in the previous configuration example. This is recommended due to a current restriction with JMX monitoring.</li>
+  <li>See the <a href="../../security/p_auth_user_identity_promotion/index.html">Promote User Identity into the AMQP Protocol</a> topic for more information about injecting AMQP credentials into the protocol in a trusted manner.</li>
+</ul>
+
+
+<h3 id="turnproxy">turn.proxy</h3>
+
+<p>Use the <code>turn.proxy</code> service to connect WebRTC clients and peers with a TURN server while protecting the TURN server’s information from public exposure. </p>
+
+<p>The TURN server allows a host behind a NAT (the TURN client) to request that the TURN server act as a relay for connections to a peer in an WebRTC session. When a peer sends a packet to the relay address, the server relays the packet to the client. When the client sends a data packet to the server, the server relays it to the appropriate peer using the relayed transport address as the source.</p>
+
+<p>If desired, the <code>turn.proxy</code> service on the Gateway can mask the relay addresses and TURN server address to ensure that private addresses are not exposed.</p>
+
+<table width="789" border="0">
+  <tr>
+    <th scope="col">Property</th>
+    <th scope="col">Required?</th>
+    <th scope="col">Description</th>
+  </tr>
+  <tr>
+    <td><code>key.alias</code></td>
+    <td>Required</td>
+    <td>The alias in the certificate in the Gateway keystore containing the shared secret.</td>
+  </tr>
+  <tr>
+    <td><code>key.algorithm</code></td>
+    <td>Optional</td>
+    <td>The algorithm used for the HMAC computation of the password using the username and the shared secret. If this property is omitted the default value is <code>HmacSHA1</code>.</td>
+  </tr>
+  <tr>
+    <td><code>mapped.address</code></td>
+    <td>Optional</td>
+    <td>The IP address and port that overrides the STUN <a href="https://tools.ietf.org/html/rfc5389#section-15.1">MAPPED-ADDRESS</a> attribute and is xored with the magic cookie attribute <a href="https://tools.ietf.org/html/rfc5389#section-15.2">XOR-MAPPED-ADDRESS</a>. If this property is omitted, the STUN address value in the transport is used. Setting <code>mapped.address</code> to an invalid URI ensures that local network characteristics are not shared with connecting peers.</td>
+  </tr>
+  <tr>
+    <td><code>masking.key</code></td>
+    <td>Optional</td>
+    <td>This <a href="https://en.wikipedia.org/wiki/XOR_cipher">XOR cipher</a> key is used to mask the outgoing <code>XOR-RELAYED-ADDRESS</code> and unmask the <code>XOR-PEER-ADDRESS</code> in order to protect the TURN server's IP addresses from exposure. For addresses in the form <code>IPv4:<em>PORT</em></code>, the mask is performed by xoring each byte of the expression with each byte of the IPv4 address. For <code>IPv6:<em>PORT</em></code>, the mask will be repeated 4 times and each byte of the resulting expression will be xored with each byte of the address. The <code>masking.key</code> format is <code>0x%08X</code>, for example <code>01100011</code>.</td>
+  </tr>
+</table>
+
+<p>Example:</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;service&gt;
+  &lt;name&gt;turn.proxy&lt;/name&gt;
+  &lt;description&gt;TURN Proxy Service&lt;/description&gt;
+  &lt;!--
+  enter the hostname and port from the url property in turn.rest,
+  without the transport suffix
+  --&gt;
+  &lt;accept&gt;tcp://${gateway.hostname}:22000&lt;/accept&gt;    
+  &lt;!-- enter the URI for the TURN server --&gt;
+  &lt;connect&gt;tcp://coturn:3478&lt;/connect&gt;
+
+  &lt;type&gt;turn.proxy&lt;/type&gt;
+
+  &lt;properties&gt;
+    &lt;!-- the alias used when adding the shared key password to the keystore --&gt;
+    &lt;key.alias&gt;turnshared&lt;/key.alias&gt;
+    &lt;!-- the mapped.address used by STUN --&gt;
+    &lt;mapped.address&gt;192.0.2.15:3478&lt;/mapped.address&gt;
+  &lt;/properties&gt;
+&lt;/service&gt;
+</pre>
+
+<span class="note"><b>Notes:</b>
+ <ul>
+   <li>For information on configuring the <code>turn.proxy</code> service as part of a WebRTC deployment, see <a href="../../integration-webrtc/p_integrate_webrtc/index.html">Deploy WebRTC using the Gateway</a>.</li>
+   <li>For more information about the TURN protocol, see the <a href="https://tools.ietf.org/html/rfc5766">TURN RFC</a>.</li>
+ </ul>
+</span>
+
+
+<h3 id="turnrest">turn.rest</h3>
+
+<p>Use the <code>turn.rest</code> service to enable WebRTC clients and peers to locate a TURN server, and to ensure that the ephemeral TURN credentials required by the TURN server are shared between the Gateway and the TURN server.</p>
+
+<p>The <a href="https://tools.ietf.org/html/draft-uberti-rtcweb-turn-rest-00">REST API for TURN Services</a> is a standard API for obtaining access to TURN services via ephemeral (time-limited) credentials. The credentials are stored in the keystore of the Gateway, and then sent to the TURN server over TCP and checked by a TURN server using the standard TURN protocol.</p>
+
+<p>The usage of ephemeral credentials ensures that access to the TURN server can be controlled even if the credentials can be discovered by the user, or a man-in-the-middle, as is the case in WebRTC where TURN credentials must be specified in Javascript.</p>
+
+<span class="note"><b>Note:</b> While traditional TURN authentication requires double-encrypted transports (one for authentication and one for the end-to-end connection) the <code>turn.rest</code> service does not have this performance drawback.</span>
+
+<p>Also, the benefit of using the <code>turn.rest</code> service is that you can control security independently per connection, and enable a fail-fast when a user fails to authenticate correctly.</p>
+
+<table width="789" border="0">
+  <tr>
+    <th scope="col">Property</th>
+    <th scope="col">Required?</th>
+    <th scope="col">Description</th>
+  </tr>
+  <tr>
+    <td><code>key.alias</code></td>
+    <td>Required</td>
+    <td>The alias attached to the shared key from the TURN server. The alias is used by the <code>turn.proxy</code> and <code>turn.rest</code> services to obtain access to the key.</td>
+  </tr>
+  <tr>
+    <td><code>key.algorithm</code></td>
+    <td>Required</td>
+    <td>The algorithm used to encrypt shared key credentials. The default it is <code>hmacsha1</code>.</td>
+  </tr>
+  <tr>
+    <td><code>credentials.generator</code></td>
+    <td>Required</td>
+    <td>The credential generator class used to generate the credentials. You may implement and reference your own class. Kaazing includes a class that integrates with coTURN named <code>org.kaazing.gateway.service.turn.rest.DefaultCredentialsGenerator</code>.</td>
+  </tr>
+  <tr>
+    <td><code>credentials.ttl</code></td>
+    <td>Optional</td>
+    <td>The time for which the credentials are valid. For more information, see the Response section of the <a href="https://tools.ietf.org/html/draft-uberti-rtcweb-turn-rest-00#section-2.2">TURN REST API</a>. The default value is <code>86400</code> seconds. You can specify your TTL syntax in milliseconds, seconds, minutes, or hours (spelled out or abbreviated). For example, all of the following are valid: 1800s, 1800sec, 1800 secs, 1800 seconds, 1800seconds, 3m, 3min, or 3 minutes. If you do not specify a time unit then seconds are assumed.</td>
+  </tr>
+  <tr>
+    <td>username.separator</td>
+    <td>Required</td>
+    <td>The separator used in the one time use credentials, it defaults to <code>:</code>. When setting up coTURN, the separator is specific with the parameter <code>--rest-api-separator=:</code>.</td>
+  </tr>
+  <tr>
+    <td>url</td>
+    <td>Required</td>
+    <td>The URI used to contact the <code>turn.proxy</code> service. The URI entered here should correspond to the URI in the <code>turn.proxy</code> <code>accept</code> element, with the suffix <code>?transport=<em>scheme</em></code> where the scheme can be <code>tcp</code> or <code>udp</code>. For example, if the <code>turn.rest</code> <code>url</code> is <code>&lt;url&gt;turn:${gateway.hostname}:22000?transport=tcp&lt;/url&gt;</code>, then the <code>turn.proxy</code> accept is <code>&lt;accept&gt;tcp://${gateway.hostname}:22000&lt;/accept&gt;</code>. If the scheme is omitted, both TCP and UDP are tried. When you use the <code>turn.rest</code> service, the Gateway does attempt to use STUN before TURN per the ICE framework, but if you want to use an <a href="https://gist.github.com/zziuni/3741933">open source STUN server</a> instead of the Gateway <code>turn.rest</code> service, the value for <code>url</code> is (note the omitted scheme): <code>&lt;url&gt;stun:${gateway.hostname}:22000&lt;/url&gt;</code>.</td>
+  </tr>
+</table>
+
+<p>Example:</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;service&gt;
+  &lt;name&gt;turn.rest&lt;/name&gt;
+  &lt;description&gt;TURN Rest Service&lt;/description&gt;
+  &lt;!-- ensure that HTTPS and the turn.rest suffix are used --&gt;
+  &lt;accept&gt;https://${gateway.hostname}:18032/turn.rest&lt;/accept&gt;
+
+  &lt;type&gt;turn.rest&lt;/type&gt;
+
+  &lt;properties&gt;
+    &lt;!-- the alias used when adding the shared key password to the keystore  --&gt;
+    &lt;key.alias&gt;turnshared&lt;/key.alias&gt;
+    &lt;!-- enter the algorithm used to encrypt the credentials --&gt;
+    &lt;key.algorithm&gt;HmacSHA1&lt;/key.algorithm&gt;
+    &lt;!-- enter the credential generator class used to generate the credentials --&gt;
+    &lt;credentials.generator&gt;class:org.kaazing.gateway.service.turn.rest.DefaultCredentialsGenerator&lt;/credentials.generator&gt;
+    &lt;!-- enter the time the credentials are valid for --&gt;
+    &lt;credentials.ttl&gt;22400&lt;/credentials.ttl&gt;            
+    &lt;!-- enter the username separator used in the credentials --&gt;
+    &lt;username.separator&gt;:&lt;/username.separator&gt;
+    &lt;!-- 
+    enter the hostname and port from the turn.proxy service accept URI,
+    And include the transport suffix
+    --&gt;
+    &lt;url&gt;turn:${gateway.hostname}:22000?transport=tcp&lt;/url&gt;        
+  &lt;/properties&gt;
+
+  &lt;!-- specify a real name for the security realm used --&gt;
+  &lt;realm-name&gt;demo&lt;/realm-name&gt;    
+  &lt;!-- restrict cross site constraints before running in production --&gt;
+  &lt;authorization-constraint&gt;
+    &lt;require-role&gt;AUTHORIZED&lt;/require-role&gt;
+  &lt;/authorization-constraint&gt;
+
+  &lt;!-- for testing, allow any origin --&gt;
+  &lt;cross-site-constraint&gt;
+    &lt;allow-origin&gt;*&lt;/allow-origin&gt;
+  &lt;/cross-site-constraint&gt;
+&lt;/service&gt;
+</pre>
+
+<span class="note"><b>Note:</b> For information on configuring the <code>turn.rest</code> service as part of a WebRTC deployment, see <a href="../../integration-webrtc/p_integrate_webrtc/index.html">Deploy WebRTC using the Gateway</a>.</span>
+
+<h3 id="pipe">Pipe scheme</h3>
+
+<p>The <code>pipe://</code> scheme is a URI scheme internal to the Gateway and used to connect one service to another service running in the same Gateway instance. Essentially, the pipe scheme is a named, logical channel between two services on the local Gateway. </p>
+
+<p>The format of the <code>pipe://</code> scheme is <code>pipe://</code><em>string</em>, such as <code>pipe://jms-common</code>. The URI must conform to the standard URI syntax. Any values entered after the <code>pipe://</code> scheme and <em>string</em>, such as a path, are invalid. The URI <code>&lt;accept&gt;pipe://customera/app1&lt;/accept&gt;</code> is invalid. If a path is used, the Gateway will respond with an error message.</p>
+
+<p>The <code>pipe://</code> scheme is available to the <code>accept</code> and <code>connect</code> elements. It is often used with <a href="../../enterprise-shield/o_enterprise_shield_checklist/index.html">Enterprise Shield</a> and the <a href="../../admin-reference/r_configure_gateway_service/index.html#virtualhost">virtual.host</a> (to segregate applications using the same AMQP broker) and <a href="../../admin-reference/r_configure_gateway_service/index.html#protocoltransport">protocol.transport</a> (as pipe.transport).</p>
+
+<p>Let’s look at an example using tiered connection speeds.</p>
+
+<p>You could offer different connection speeds by defining a separate <a href="../../admin-reference/r_configure_gateway_service/index.html#proxy-amqpproxy-and-jmsproxy">jms.proxy</a> service for each tier and then pipe the client connections into a single <code>jms</code> service. Here’s an example of the configuration for the <code>jms.proxy</code> service for the bottom tier:</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;service&gt;
+  &lt;name&gt;JMS Minimum Level&lt;/name&gt; &lt;!-- the name of the service --&gt;
+  &lt;accept&gt;ws://example.com:8001/jms-slow&lt;/accept&gt; &lt;!-- clients in the bottom tier connect using this URI --&gt;
+  &lt;connect&gt;pipe://jms-common&lt;/connect&gt; &lt;!-- connections are piped to the JMS service with the accept pipe://jms-common --&gt;
+
+  &lt;type&gt;jms.proxy&lt;/type&gt; &lt;!-- this jms.proxy service is used for the bottom tier only --&gt;
+
+  &lt;accept-options&gt;
+    &lt;tcp.maximum.outbound.rate&gt;1kB/s&lt;/tcp.maximum.outbound.rate&gt; &lt;!-- this element sets the outbound speed for the bottom tier --&gt;
+  &lt;/accept-options&gt;
+
+  &lt;cross-site-constraint&gt;
+    &lt;allow-origin&gt;*&lt;/allow-origin&gt;
+  &lt;/cross-site-constraint&gt;
+&lt;/service&gt;
+</pre>
+
+<p>Here’s an example of the configuration for the <code>jms.proxy</code> service for the middle tier:</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;service&gt;
+  &lt;name&gt;JMS Medium Level&lt;/name&gt; &lt;!-- the name of the service --&gt;
+  &lt;accept&gt;ws://example.com:8001/jms-medium&lt;/accept&gt; &lt;!-- clients in the middle tier connect using this URI --&gt;
+  &lt;connect&gt;pipe://jms-common&lt;/connect&gt; &lt;!-- connections are piped to the JMS service with the accept pipe://jms-common --&gt;
+
+  &lt;type&gt;jms.proxy&lt;/type&gt; &lt;!-- this jms.proxy service is used for the middle tier only --&gt;
+
+  &lt;accept-options&gt;
+    &lt;tcp.maximum.outbound.rate&gt;20MB/s&lt;/tcp.maximum.outbound.rate&gt; &lt;!-- this element sets the outbound speed for the middle tier --&gt;
+  &lt;/accept-options&gt;
+
+  &lt;cross-site-constraint&gt;
+    &lt;allow-origin&gt;*&lt;/allow-origin&gt;
+  &lt;/cross-site-constraint&gt;
+&lt;/service&gt;
+</pre>
+
+<p>To accept the pipes from the JMS Minimum and Medium Level <code>jms.proxy</code> services, the JMS service has a <code>&lt;accept&gt;pipe://jms-common&lt;/accept&gt;</code> in its configuration:</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;service&gt;
+  &lt;name&gt;JMS Common&lt;/name&gt; &lt;!-- the name of the service --&gt;
+  &lt;accept&gt;pipe://jms-common&lt;/accept&gt; &lt;!-- matches the pipe URI in the connect elements of the jms.proxy services --&gt;
+  &lt;accept&gt;ws://example.com:8001/jms&lt;/accept&gt; &lt;!-- normal, non-tiered connections will connect here --&gt;
+
+  &lt;type&gt;jms&lt;/type&gt;
+
+  &lt;properties&gt;
+    &lt;connection.factory.name&gt;ConnectionFactory&lt;/connection.factory.name&gt;
+    &lt;context.lookup.topic.formatdynamic&gt;Topics/%s&lt;/context.lookup.topic.format&gt;
+    &lt;context.lookup.queue.format&gt;dynamicQueues/%s&lt;/context.lookup.queue.format&gt;
+
+    &lt;env.java.naming.factory.initial&gt;
+      org.apache.activemq.jndi.ActiveMQInitialContextFactory
+    &lt;/env.java.naming.factory.initial&gt;
+    &lt;env.java.naming.provider.url&gt;
+      tcp://localhost:61616
+    &lt;/env.java.naming.provider.url&gt;
+  &lt;/properties&gt;
+
+  &lt;cross-site-constraint&gt;
+    &lt;allow-origin&gt;*&lt;/allow-origin&gt;
+  &lt;/cross-site-constraint&gt;
+&lt;/service&gt;
+</pre>
+
+
+<h3 id="properties">properties</h3>
+
+<p>The service’s type-specific properties.</p>
+
+<h4 id="example-8">Example</h4>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;service&gt;
+  &lt;accept&gt;http://${gateway.hostname}:${gateway.extras.port}/&lt;/accept&gt;
+
+  &lt;type&gt;directory&lt;/type&gt;
+
+  &lt;properties&gt;
+    &lt;directory&gt;/&lt;/directory&gt;
+    &lt;welcome-file&gt;index.md&lt;/welcome-file&gt;
+  &lt;/properties&gt;
+    .
+    .
+    .
+&lt;/service&gt;
+</code></pre>
+
+<h4 id="notes-10">Notes</h4>
+
+<ul>
+  <li>The <code>properties</code> subelement to used to configure properties that are specific to each service.</li>
+  <li>See also the <code>property</code> subelement that you specify in the Property Defaults section of the Gateway configuration file to define property values once and that are then propagated throughout the configuration when the Gateway starts. See the <a href="../p_configure_gateway_files">Configure Kaazing Gateway</a> topic for more information about configuring the property defaults section of the Gateway configuration file.</li>
+</ul>
+
+<h3 id="accept-options-and-connect-options">accept-options and connect-options</h3>
+
+<p><strong>Required?</strong> Optional; <strong>Occurs:</strong> zero or one</p>
+
+<p>Use the <code>accept-options</code> element to add options to all accepts for the service (see also the <a href="#accept"><code>accept</code></a> element).</p>
+
+<p>You can configure <code>accept-options</code> on the <a href="#service">service</a> or the <a href="../r_configure_gateway_service_defaults">service-defaults</a> elements:</p>
+
+<ul>
+  <li>Setting <code>accept-options</code> on the <code>service</code> element only affects the specified service and overrides any defaults.</li>
+  <li>Setting <code>accept-options</code> on <code>service-defaults</code> affects all services that can use that option and is overridden by any <code>accept-options</code> applied at the service level.</li>
+</ul>
+
+<p>Use the <code>connect-options</code> element to add options to all connections for the service (see also the <code>connect</code> element).</p>
+
+<ul>
+  <li>Setting <code>connect-options</code> can only be done for the <em>service</em> element; You cannot configure <code>connect-options</code> at the <a href="../r_configure_gateway_service_defaults">service-defaults</a> level.</li>
+  <li>Setting <code>connect-options</code> affects only the specified service and override any defaults.</li>
+</ul>
+
+<table>
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th>accept-options</th>
+      <th>connect-options</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><em>protocol</em>.bind</td>
+      <td>yes</td>
+      <td>no</td>
+      <td>Binds the URL(s) on which the service accepts connections (defined by the accept element). Set <em>protocol</em> to one of the following: ws, wss, http, https, ssl, tcp, udp. See <a href="#protocolbind"><em>protocol</em>.bind</a>.</td>
+    </tr>
+    <tr>
+      <td><em>protocol</em>.transport</td>
+      <td>yes</td>
+      <td>yes</td>
+      <td>Specifies the URI for use as a transport layer (defined by the accept element). Set <em>protocol</em>.transport to any of the following: http.transport, ssl.transport, tcp.transport, pipe.transport. See <a href="#protocoltransport"><em>protocol</em>.transport</a>.</td>
+    </tr>
+    <tr>
+      <td>ws.maximum.message.size</td>
+      <td>yes</td>
+      <td>no</td>
+      <td>Specifies the maximum incoming WebSocket message size allowed by the Gateway. See <a href="#wsmaximummessagesize">ws.maximum.message.size</a>.</td>
+    </tr>
+    <tr>
+      <td>http.keepalive</td>
+      <td>no</td>
+      <td>yes</td>
+      <td>Enables or disables HTTP keep-alive (persistent) connections, allowing you to reuse the same TCP connection for multiple HTTP requests or responses. This improves HTTP performance especially for services like <a href="#httpproxy"><code>http proxy</code></a>. <code>http.keepalive</code> is enabled by default. See <a href="#httpkeepalive">http.keepalive</a>.</td>
+    </tr>
+    <tr>
+      <td>http.keepalive.connections</td>
+      <td>no</td>
+      <td>yes</td>
+      <td>Specifies the maximum number of idle keep-alive connections to upstream servers that can be cached. The connections time out based on the setting for the <code>http.keepalive.timeout</code> configuration option.  See <a href="#httpkeepaliveconnections">http.keepalive.connections</a>.</td>
+    </tr>
+    <tr>
+      <td>http.keepalive.timeout</td>
+      <td>yes</td>
+      <td>yes</td>
+      <td>Specifies how much time the Gateway waits after responding to an HTTP or HTTPS request and receiving a subsequent request. The value for <code>http.keepalive.timeout</code> should be greater-than or equal-to the value for <code>ws.inactivity.timeout</code> to prevent emulated connections from terminating prematurely. See <a href="#httpkeepalivetimeout">http.keepalive.timeout</a>.</td>
+    </tr>
+    <tr>
+      <td>http.maximum.redirects</td>
+      <td>yes</td>
+      <td>yes</td>
+      <td>Sets a limit on the number of redirects the Gateway will follow from a back-end origin server. Works with the <code>proxy</code> service. If the number of redirects is exceeded the <code>proxy</code> service  sends an error code to the Kaazing client. See <a href="#httpmaximumredirects">http.maximum.redirects</a>.</td>
+    </tr>
+    <tr>
+      <td>ssl.ciphers</td>
+      <td>yes</td>
+      <td>yes</td>
+      <td>Lists the cipher strings and cipher suite names used by the secure connection. See <a href="#sslciphers">ssl.ciphers</a>.</td>
+    </tr>
+    <tr>
+      <td>ssl.protocols</td>
+      <td>yes</td>
+      <td>yes</td>
+      <td>Lists the TLS/SSL protocol names on which the Gateway can accept connections. See <a href="#sslprotocols-and-sockssslprotocols">ssl.protocols and socks.ssl.protocols</a>.</td>
+    </tr>
+    <tr>
+      <td>ssl.encryption</td>
+      <td>yes</td>
+      <td>yes</td>
+      <td>Signals Kaazing Gateway to enable or disable encryption on incoming traffic.</td>
+    </tr>
+    <tr>
+      <td>ssl.verify-client</td>
+      <td>yes</td>
+      <td>no</td>
+      <td>Signals Kaazing Gateway to require a client to provide a digital certificate that the Gateway can use to verify the client’s identity.</td>
+    </tr>
+    <tr>
+      <td>socks.mode </td>
+      <td>yes</td>
+      <td>yes</td>
+      <td>The mode that you can optionally set to forward or reverse to tell the Gateway how to interpret SOCKS URIs to initiate the connection. See <a href="#socksmode">socks.mode</a>.</td>
+    </tr>
+    <tr>
+      <td>socks.timeout </td>
+      <td>no</td>
+      <td>yes</td>
+      <td>Specifies the length of time (in seconds) to wait for SOCKS connectionsto form. If the connection does not succeed within the specified time, then the connection fails and is closed and the client must reconnect. For more information, see <a href="#sockstimeout">socks.timeout</a>.</td>
+    </tr>
+    <tr>
+      <td>socks.ssl.ciphers </td>
+      <td>yes</td>
+      <td>yes</td>
+      <td>Lists the cipher strings and cipher suite names used by the secure SOCKS connection.</td>
+    </tr>
+    <tr>
+      <td>socks.ssl.protocols </td>
+      <td>yes</td>
+      <td>yes</td>
+      <td>Lists the TLS/SSL protocol names on which the Gateway can accept connections for Enterprise Shield™ configurations that are running the SOCKS protocol over SSL. See <a href="#sslprotocols-and-sockssslprotocols">ssl.protocols and socks.ssl.protocols</a>.</td>
+    </tr>
+    <tr>
+      <td>socks.ssl.verify-client </td>
+      <td>yes</td>
+      <td>yes</td>
+      <td>A connect mode you can set to required, optional, or none to verify how to secure the SOCKS proxy against unauthorized use by forcing the use of TLS/SSL connections with a particular certificate. When required,the DMZ Gateway expects the internal Gateway to prove its trustworthiness by presenting certificates during the TLS/SSL handshake.</td>
+    </tr>
+    <tr>
+      <td>socks.retry.maximum.interval </td>
+      <td>yes</td>
+      <td>no</td>
+      <td>The maximum interval the Gateway waits before retrying if an attempt toconnect to the SOCKS proxy fails. The Gateway initially retries afterwaiting for 500ms; the subsequent wait intervals are as follows: 1s, 2s, 4s, and so on up to the value of socks.retry.maximum.interval. After the maximum interval is reached, the Gateway continues to reconnect to the SOCKS proxy at the maximum interval.</td>
+    </tr>
+    <tr>
+      <td>tcp.maximum.outbound.rate </td>
+      <td>yes</td>
+      <td>no</td>
+      <td>Specifies the maximum bandwidth rate at which bytes can be written from the Gateway (outbound) to each client session. This option controls the rate of outbound traffic being sent per client connection for clients connecting to a service (see <a href="#tcpmaximumoutboundrate">tcp.maximum.outbound.rate</a>).</td>
+    </tr>
+    <tr>
+      <td>ws.inactivity.timeout</td>
+      <td>yes</td>
+      <td>yes</td>
+      <td>Specifies the maximum number of seconds that the network connection can be inactive (seconds is the default time interval syntax). The Gateway drops the connection if it cannot communicate with the client in the number of seconds specified (see <a href="#wsinactivitytimeout">ws.inactivity.timeout</a>). You can specify your preferred time interval syntax in milliseconds, seconds, minutes, or hours (spelled out or abbreviated). For example, all of the following are valid: 1800s, 1800sec, 1800 secs, 1800 seconds, 1800seconds, 3m, 3min, or 3 minutes. If you do not specify a time unit then seconds are assumed. The value for <code>http.keepalive.timeout</code> should be greater-than or equal-to the value for <code>ws.inactivity.timeout</code> to prevent emulated connections from terminating prematurely..</td>
+    </tr>
+    <tr>
+      <td>http.server.header</td>
+      <td>yes</td>
+      <td>no</td>
+      <td>Controls the inclusion of the HTTP Server header. By default, the Gateway writes a HTTP Server header. See <a href="#httpserverheader">http.server.header</a>.</td>
+    </tr>
+    <tr>
+     <td>http.max.authentication.attempts</td>
+     <td>no</td>
+     <td>yes</td>
+     <td>The <code>connect-options</code> property <code>http.max.authentication.attempts</code> must be set in order for the Gateway to respond to HTTP 401 codes. The <code>http.max.authentication.attempts</code> must be set with an integer value specifying how many times an HTTP connector will attempt to authenticate when it is challenged. The default value is <code>0</code>. For more information, see <a href="../../security/p_auth_configure_login_module/index.html#respond-to-challenges-on-http-401-status-code">Respond to Challenges on HTTP 401 Status Code</a>.</td>
+    </tr>
+    <tr>
+      <td>ws.version (deprecated)</td>
+      <td>no</td>
+      <td>yes</td>
+      <td>The <code>ws.version</code> element has been deprecated.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="protocolbind"><em>protocol</em>.bind</h4>
+
+<p><strong>Required?</strong> Optional; <strong>Occurs:</strong> zero or more; <strong>Where</strong> <code>protocol</code> can be ws, wss, http, https, socks, ssl, tcp, or udp</p>
+
+<p>Use the <code>protocol.bind</code> element to configure network protocol bindings for your Gateway services. Configure <code>protocol.bind</code> as an accept-option or a connect-option to bind a URI or URIs on which the Gateway can accept or make connections. The Gateway binds the URI or port or IP address specified in the <code>protocol.bind</code> element to bind the public URI in the <code>accept</code> or <code>connect</code> element to the URI or port or IP address</p>
+
+<p>Specify any of the following protocol schemes:</p>
+
+<ul>
+  <li><code>ws</code>: Specifies the WebSocket (WS) protocol.</li>
+  <li><code>wss</code>: Specifies the WebSocket Secure (WSS) protocol, which is the secure WS protocol.</li>
+  <li><code>http</code>: Specifies the Hypertext Transfer Protocol (HTTP).</li>
+  <li><code>https</code>: Specifies the HTTP Secure (HTTPS), which is the secure HTTP protocol.</li>
+  <li><code>socks</code>: Specifies the SOCKet Secure (SOCKS) protocol.</li>
+  <li><code>ssl</code>: Specifies the Transport Layer Security (TLS), previously known as Secure Sockets Layer (SSL).</li>
+  <li><code>tcp</code>: Specifies the Transmission Control Protocol (TCP).</li>
+  <li><code>udp</code>: Specifies the User Datagram Protocol (UDP).</li>
+</ul>
+
+<span class="note"><b>Note:</b> For TCP and UDP URLs in <code>accept</code>, <code>tcp.bind</code>, <code>udp.bind</code>, and <code>protocol.transport</code> elements, you can use the name of a network interface in place of a hostname or IP address. For example, <code>&lt;accept&gt;tcp://@eth0:8123&lt;/accept&gt;</code> (Linux/Mac) and <code>&lt;tcp.bind&gt;[@Local Area Connection]:8123&lt;/tcp.bind&gt;</code> (Windows). Use square brackets around a subinterface name or when the name contains spaces (<code>&lt;tcp.bind&gt;[@eth0:1]:8123&lt;/tcp.bind&gt;</code>). Binding to an interface binds to all IP addresses defined on that interface (IPv4, IPv6).
+
+<p>By using interface names instead of IP address, the Gateway configuration file, gateway-config.xml, can be copied between Gateway cluster members without the need to update each cluster member’s configuration with its IP address.</p>
+</span>
+
+<p>See the <a href="../../internal-network/p_protocol_binding/index.html">Configure the Gateway on an Internal Network</a> document for more information about configuring the <code>protocol.bind</code> element.</p>
+
+<h5 id="example-binding-to-specific-ports">Example: Binding to Specific Ports</h5>
+
+<p>The following example shows external addresses (that users will see) for the WebSocket (<code>ws</code>) and WebSocket Secure (<code>wss</code>) protocols on <code>localhost:8000</code> and <code>localhost:9000</code>. Internally, however, these addresses are bound to ports 8001 and 9001 respectively.</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;service&gt;
+  &lt;name&gt;Echo Config&lt;/name&gt;
+  &lt;accept&gt;ws://localhost:8000/echo&lt;/accept&gt;
+  &lt;accept&gt;wss://localhost:9000/echo&lt;/accept&gt;
+
+  &lt;type&gt;echo&lt;/type&gt;
+
+  &lt;accept-options&gt;
+    &lt;ws.bind&gt;8001&lt;/ws.bind&gt;
+    &lt;wss.bind&gt;9001&lt;/wss.bind&gt;
+  &lt;/accept-options&gt;
+&lt;/service&gt;
+</code></pre>
+
+<h5 id="example-binding-a-public-uri-to-ip-addresses-in-a-cluster-configuration">Example: Binding a Public URI to IP Addresses in a Cluster Configuration</h5>
+
+<p>In the following example, the <code>ws.bind</code> and <code>wss.bind</code>elements in accept-options are used to bind the public URI in the <code>accept</code> elements to the local IP address of the cluster member. This allows the accept URIs in the balancer service to be identical on every cluster member. Only the <code>ws.bind</code> element needs to be unique in each cluster member (contain the local IP address of that cluster member).</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;service&gt;
+  &lt;accept&gt;ws://balancer.example.com:8081/echo&lt;/accept&gt;
+  &lt;accept&gt;wss://balancer.example.com:9091/echo&lt;/accept&gt;
+
+  &lt;type&gt;balancer&lt;/type&gt;
+
+  &lt;accept-options&gt;
+    &lt;ws.bind&gt;192.168.2.10:8081&lt;/ws.bind&gt;
+    &lt;wss.bind&gt;192.168.2.10:9091&lt;/wss.bind&gt;
+  &lt;/accept-options&gt;
+&lt;/service&gt;
+</code></pre>
+
+<h4 id="protocoltransport"><em>protocol</em>.transport</h4>
+
+<p><strong>Required?</strong> Optional; <strong>Occurs:</strong> zero or more; <strong>Where</strong> <code>protocol</code> can be http, ssl, tcp, <a href="#pipe">pipe</a>, and socks.</p>
+
+<p>Use the <code>protocol.transport</code> accept-option or connect-option to replace the default transport with a new transport. This allows you to change the behavior of the connection without affecting the protocol stack above the transport. For example, a TCP transport normally connects to a remote IP address and port number. However, you could replace that, for instance, with an in-memory (<a href="#pipe">pipe</a>) transport that communicates with another service in the same Gateway.</p>
+
+<p>Specify any of the following transports:</p>
+
+<ul>
+  <li><code>http.transport</code>: Specifies a URI for use as a transport layer under the HTTP transport or WebSocket transport (because  WebSocket is always over HTTP). This is the most frequently used transport option.</li>
+  <li><code>ssl.transport</code>: Specifies a URI for use as a transport layer under the TLS/SSL transport.</li>
+  <li><code>tcp.transport</code>: Specifies a URI for use as a transport layer under the TCP/IP (tcp) transport.</li>
+  <li><code>pipe.transport</code>: Specifies a URI for use as a transport layer under the <a href="#pipe">pipe</a> transport.</li>
+  <li><code>socks.transport</code>: Specifies a URI for use as a transport layer under the SOCKS transport.</li>
+</ul>
+
+<h5 id="example-configuring-the-transport-in-accept-options">Example: Configuring the Transport in accept-options</h5>
+
+<p>In the following example, the HTTP transport is replaced with a new (<code>socks+ssl</code>) transport that is capable of doing a reverse connection using the SOCKS protocol over TLS/SSL.</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;service&gt;
+   &lt;accept&gt;wss://gateway.example.com:443/path&lt;/accept&gt;
+ &lt;connect&gt;tcp://internal.example.com:1080&lt;/connect&gt;
+    .
+    .
+    .
+  &lt;accept-options&gt;
+    &lt;http.transport&gt;socks+ssl://gateway.dmz.net:1080&lt;/http.transport&gt;
+    &lt;socks.mode&gt;reverse&lt;/socks.mode&gt;
+    &lt;socks.retry.maximum.interval&gt;1 second&lt;/socks.retry.maximum.interval&gt;
+  &lt;/accept-options&gt;
+&lt;/service&gt;
+</code></pre>
+
+<h5 id="example-configuring-the-transport-in-connect-options">Example: Configuring the Transport in connect-options</h5>
+
+<p>In the following example, the <code>socks+ssl</code> transport performs a reverse connection using the SOCKS protocol over TLS/SSL.</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;service&gt;
+  &lt;accept&gt;wss://gateway.example.com:443/path&lt;/accept&gt;
+  &lt;connect&gt;wss://gateway.example.com:443/path&lt;/connect&gt;
+     .
+     .
+     .
+  &lt;connect-options&gt;
+    &lt;http.transport&gt;socks+ssl://gateway.dmz.net:1080&lt;/http.transport&gt;
+    &lt;socks.mode&gt;reverse&lt;/socks.mode&gt;
+    &lt;socks.timeout&gt;2 seconds&lt;/socks.timeout&gt;
+    &lt;ssl.verify-client&gt;required&lt;/ssl.verify-client&gt;
+  &lt;/connect-options&gt;
+&lt;/service&gt;
+</code></pre>
+
+
+<h4 id="wsmaximummessagesize">ws.maximum.message.size</h4>
+
+<p><strong>Required?</strong> Optional; <strong>Occurs:</strong> zero or one</p>
+
+<p>Configures the maximum message size the service can accept from a WebSocket client connection.</p>
+
+<p>Although the <code>ws.maximum.message.size</code> is optional, you should configure this element to keep clients from accidentally or deliberately causing the Gateway to spend resources processing large messages. Setting this element is useful in preventing <em>denial of service</em> attacks because you can limit the size of the message (such as a particularly large message) incoming to the Gateway from a client.</p>
+
+<p>The actual maximum message size that the Gateway can handle is influenced by the JVM settings (such as maximum heap size), available memory on the system, network resources, available disk space and other operating system resources. The maximum message size is also influenced by the configuration and capabilities of back-end services to which the Gateway might be forwarding these messages. The best way to determine the true maximum message size for your environment and use case is to perform some testing.</p>
+
+<p>If you do not specify <code>ws.maximum.message.size</code> in the gateway-config.xml file, then the default maximum incoming message is limited to <code>128k</code>.</p>
+
+<p>If you specify <code>ws.maximum.message.size</code> in the gateway-config.xml file, then specify a positive integer. You can append a <code>k</code>, <code>K</code>, <code>m</code>, or <code>M</code> to indicate kilobytes or megabytes (the unit is case insensitive). If a unit is not included, then <code>ws.maximum.message.size</code> defaults to bytes. For example:</p>
+
+<ul>
+  <li>A value of <code>2048</code> sets the buffer to <strong>2048 bytes</strong></li>
+  <li>A value of <code>128K</code> sets the buffer to <strong>128 kilobytes</strong></li>
+  <li>A value of <code>128M</code> sets the buffer to <strong>128 megabytes</strong></li>
+</ul>
+
+<p>If an incoming message from a client exceeds the value of <code>ws.maximum.message.size</code>, then the Gateway terminates the connection with the client and disconnects the client, and records a message in the Gateway log.</p>
+
+<h5 id="example-9">Example</h5>
+
+<p>The following example sets a maximum incoming message limit of 64 kilobytes:</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;service&gt;
+  &lt;accept&gt;ws://localhost:8000/echo&lt;/accept&gt;
+  &lt;accept&gt;wss://localhost:9000/echo&lt;/accept&gt;
+  &lt;accept-options&gt;
+    &lt;ssl.encryption&gt;disabled&lt;/ssl.encryption&gt;
+    &lt;ws.bind&gt;8001&lt;/ws.bind&gt;
+    &lt;wss.bind&gt;9001&lt;/wss.bind&gt;
+    &lt;ws.maximum.message.size&gt;64k&lt;/ws.maximum.message.size&gt;
+  &lt;/accept-options&gt;
+&lt;/service&gt;
+</code></pre>
+
+<h4 id="httpkeepalive">http.keepalive</h4>
+
+<p><strong>Required?</strong> Optional; <strong>Occurs:</strong> zero or one</p>
+
+<p>Use the <code>http.keepalive</code> element in connect-options to enable or disable HTTP keep-alive (persistent) connections, allowing you to reuse the same TCP connection for multiple HTTP requests or responses. This improves HTTP performance especially for services like <a href="#httpproxy"><code>http proxy</code></a>. <code>http.keepalive</code> is enabled by default.  <!-- Consider configuring this element in conjunction with the <a href="#httpproxy">http.proxy</a> element. --></p>
+
+<!-- <h5 id="example-10">Example</h5>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;service&gt;
+   . . .
+  &lt;accept&gt;http://example.com:8000/&lt;/accept&gt;
+  &lt;connect&gt;http://internal.example.com:7233/&lt;/connect&gt;
+
+  &lt;type&gt;http.proxy&lt;/type&gt;
+
+  &lt;connect-options&gt;
+    &lt;http.keepalive&gt;disabled&lt;/http.keepalive&gt;
+  &lt;/connect-options&gt;
+   . . .
+&lt;/service&gt;
+</code></pre> -->
+
+<h4 id="httpkeepaliveconnections">http.keepalive.connections</h4>
+
+<p><strong>Required?</strong> Optional; <strong>Occurs:</strong> zero or one</p>
+
+<p>Use the <code>http.keepalive.connections</code> element in connect-options to specify the maximum number of idle keep-alive connections to upstream servers to upstream servers that can be cached. <!-- This element is often used in conjunction with the <a href="#httpproxy">http.proxy</a> element.  --></p>
+
+<p>The connection times out based on the setting for the <a href="#httpkeepalivetimeout"><code>http.keepalive.timeout</code></a> configuration option. The best practice is to specify a value small enough to allow upstream servers to process new incoming connections as well. The following example specifies one connection is cached in worker until it is reused or timed out.</p>
+
+<!-- <h5 id="example-11">Example</h5>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;service&gt;
+   . . .
+  &lt;accept&gt;http://example.com:8000/&lt;/accept&gt;
+  &lt;connect&gt;http://internal.example.com:7233/&lt;/connect&gt;
+
+  &lt;type&gt;http.proxy&lt;/type&gt;
+
+  &lt;connect-options&gt;
+    &lt;http.keepalive.connections&gt;1&lt;/http.keepalive.connections&gt;
+  &lt;/connect-options&gt;
+   . . .
+&lt;/service&gt;
+</code></pre> -->
+
+<h4 id="httpkeepalivetimeout">http.keepalive.timeout</h4>
+
+<p><strong>Required?</strong> Optional; <strong>Occurs:</strong> zero or one</p>
+
+<p>Use the <code>http.keepalive.timeout</code> element in either accept-options or connect-options to set the number of seconds the Gateway waits after responding to a request and receiving a subsequent request on an HTTP or HTTPS connection before closing the connection. The default value is <code>30</code> seconds.</p>
+
+<p>Typically, you specify the <code>http.keepalive.timeout</code> element to conserve resources because it avoids idle connections remaining open. You can specify your preferred time interval syntax in milliseconds, seconds, minutes, or hours (spelled out or abbreviated). For example, all of the following are valid: 1800s, 1800sec, 1800 secs, 1800 seconds, 1800seconds, 3m, 3min, or 3 minutes. If you do not specify a time unit then seconds are assumed.</p>
+
+<span class="note"><b>Important:</b> The value for <code>http.keepalive.timeout</code> should be greater-than or equal-to the value for <code>ws.inactivity.timeout</code> to prevent emulated connections from terminating prematurely.</span>
+
+<h5 id="example-12">Example</h5>
+
+<p>The following example shows a <code>service</code> element with an HTTP or HTTPS connection time limit of <code>120</code> seconds:</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;service&gt;
+  &lt;accept&gt;ws://localhost:8000/echo&lt;/accept&gt;
+  &lt;accept&gt;wss://localhost:9000/echo&lt;/accept&gt;
+  . . .
+  &lt;accept-options&gt;
+    &lt;http.keepalive.timeout&gt;120 seconds&lt;/http.keepalive.timeout&gt;
+  &lt;/accept-options&gt;
+&lt;/service&gt;
+</code></pre>
+
+<h4 id="sslciphers">ssl.ciphers</h4>
+
+<p><strong>Required?</strong> Optional; <strong>Occurs:</strong> zero or one; <strong>Values:</strong> cipher strings and cipher suite names for <a href="http://www.openssl.org/docs/man1.0.2/apps/ciphers.html">OPENSSL</a> and <a href="http://docs.oracle.com/javase/8/docs/technotes/guides/security/SunProviders.html#SunJSSEProvider">Java 8</a>.</p>
+
+<p>Use <code>ssl.ciphers</code> to list the encryption algorithms used by TLS/SSL on the secure connection (WSS, HTTPS or SSL). By default (or if you do not specify this element on a secure connection), the Gateway uses <code>HIGH,MEDIUM,!ADH,!KRB5</code>.</p>
+
+<h5 id="examples-4">Examples</h5>
+
+<ul>
+  <li>
+    <p>The following example shows a <code>proxy</code> service accepting a secure connection over WSS and connecting to the back-end service or message broker over TCP with the ciphers used by the encryption algorithm specified in <code>ssl.ciphers</code>. The example uses the <code>proxy</code> service, which is common, but not required. See the <a href="#type">type</a> element for a list of service types.</p>
+
+    <pre class="auto-links: false; brush: xml; toolbar: false;">&lt;service&gt;
+  &lt;accept&gt;wss://www.example.com:443/remoteService&lt;/accept&gt;
+  &lt;connect&gt;tcp://localhost:6163&lt;/connect&gt;
+
+  &lt;type&gt;proxy&lt;/type&gt;
+
+  &lt;accept-options&gt;
+    &lt;ssl.ciphers&gt;DEFAULT&lt;/ssl.ciphers&gt;
+  &lt;/accept-options&gt;
+
+  &lt;connect-options&gt;
+    &lt;ssl.ciphers&gt;LOW&lt;/ssl.ciphers&gt;
+  &lt;/connect-options&gt;
+&lt;/service&gt;
+</code></pre>
+
+    <p>By default (or if you do not specify <code>ssl.ciphers</code> on a secure connection), the Gateway uses the equivalent of the following ciphers:</p>
+
+    <pre class="auto-links: false; brush: xml; toolbar: false;">&lt;ssl.ciphers&gt;HIGH,MEDIUM,!ADH,!KRB5&lt;/ssl.ciphers&gt;
+</code></pre>
+
+    <ul>
+      <li><code>HIGH</code> and <code>MEDIUM</code> aliases are included because they do not contain any weak (LOW or EXPORT) cipher suites.</li>
+      <li>
+        <p><code>ADH</code> (Anonymous Diffie-Hellman) cipher suites are excluded because they are not secure against man-in-the-middle attacks.</p>
+
+        <p>To support DSA certificates, you must add <code>ADH</code> to the <code>ssl.ciphers</code> element as follows: <code>&lt;ssl.ciphers&gt;HIGH,MEDIUM,ADH&lt;/ssl.ciphers&gt;</code>. Do not use <code>ADH</code> with <code>DEFAULT</code>. DSA certificates are not recommended. See <a href="//en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange#Security">Diffie-Hellman key exchange</a> for more information. If you omit the <code>-keyalg</code> switch when you create a certificate using keytool, keytool generates a DSA certificate. You should always include <code>-keyalg RSA</code> when creating a certificate using keytool.</p>
+      </li>
+      <li><code>KRB5</code> (Kerberos) cipher suites are excluded because most sites do not have the related Kerberose libraries installed for supporting those cipher suites.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>NULL cipher suite</strong></p>
+
+    <p>Use the <code>NULL</code> cipher suite when you want the Gateway to accept connections from known authenticated TLS clients but you do not want those connections to be encrypted:</p>
+
+    <pre class="auto-links: false; brush: xml; toolbar: false;">&lt;ssl.ciphers&gt;NULL&lt;/ssl.ciphers&gt;
+</code></pre>
+
+    <p>This is analogous to configuring an HTTP service for authentication using <code>authorization-constraint</code>, only now you are doing it for a TLS/SSL service.</p>
+  </li>
+  <li>
+    <p><strong>ALL cipher suite</strong></p>
+
+    <p>Use the <code>ALL</code> cipher suite to enable all of the cipher suites (such as for testing purposes):</p>
+
+    <pre class="auto-links: false; brush: xml; toolbar: false;">&lt;ssl.ciphers&gt;ALL&lt;/ssl.ciphers&gt;
+</code></pre>
+
+    <p>Note that because NULL encryption cipher suites are so insecure they are not enabled even by using the <code>ALL</code> cipher suite. You must explicitly include NULL ciphers by configuring them, as follows:</p>
+
+    <pre class="auto-links: false; brush: xml; toolbar: false;">&lt;ssl.ciphers&gt;HIGH,MEDIUM,LOW,EXPORT,NULL&lt;/ssl.ciphers&gt;
+</code></pre>
+  </li>
+</ul>
+
+<h5 id="notes-11">Notes</h5>
+
+<ul>
+  <li>The <a href="//www.openssl.org/docs/apps/ciphers.html#CIPHERSTRINGS">OpenSSL Project documentation</a> lists all permitted OpenSSL cipher strings. The Gateway supports ciphers that are implemented by Java, as described in the <a href="//docs.oracle.com/javase/7/docs/technotes/guides/security/SunProviders.html#SunJSSEProvider">Java Secure Socket Extension (JSSE) documentation.</a></li>
+  <li>For configurations running Kaazing Gateway 4.0.5 or earlier releases, you can disable the SSLv3 protocol by configuring SSLv3 ciphers using <code>&lt;ssl.ciphers&gt;!SSLv3&lt;ssl.ciphers&gt;</code>.</li>
+  <li>Values for cipher strings are case-sensitive.</li>
+  <li>Typos or incorrect strings (or unsupported ciphers) in <code>ssl.ciphers</code> are noticed by the Gateway when a connection is made, not when the Gateway is started. These errors are only discoverable by looking at the Gateway log.</li>
+  <li>The <code>ssl.ciphers</code> property does not configure the ciphers used on a secure connection. It merely specified the ciphers used in the TLS/SSL certificate used to establish the secure connection.</li>
+  <li>For secure SOCKS connections, use <a href="#sockssslciphers">socks.ssl.ciphers</a>.</li>
+  <li>TLS/SSL is used to verify the Gateway to the client. To use TLS/SSL to verify the client using the connection, use <code>ssl.verify-client</code>.</li>
+  <li>Two or more services can have TLS/SSL <code>accept</code> elements with the same address and port (for example, one service might accept on <code>wss://example.com:9000/echo</code> and another service might accept on <code>https://example.com:9000/directory</code>). If <code>accept</code> elements listening on the same address and port number are also configured with the <code>ssl.ciphers</code> accept option, the values for <code>ssl.ciphers</code> must be identical.</li>
+</ul>
+
+<h4 id="sslprotocols-and-sockssslprotocols">ssl.protocols and socks.ssl.protocols</h4>
+
+<p><strong>Required?</strong> Optional; <strong>Occurs:</strong> zero or one; <strong>Values:</strong> SSLv2Hello, SSLv3, TLSv1, TLSv1.1, TLSv1.2</p>
+
+<p>Specify a comma-separated list of the TLS/SSL protocol names on which the Gateway can accept or make connections. The list of protocols you specify are negotiated during the TLS/SSL handshake when the connection is created. See <a href="../../security/u_tls_works/index.html">How TLS/SSL Works with the Gateway</a> to learn more about secure communication between clients and the Gateway. See the <a href="//docs.oracle.com/javase/8/docs/technotes/guides/security/StandardNames.html#SSLContext">Java Documentation</a> for a list of valid protocol names.</p>
+
+<p>The <code>ssl.protocols</code> and <code>socks.ssl.protocols</code> elements are optional, and in general, there is no need to configure either element except to prevent usage of specific TLS/SSL protocols for which a vulnerability has been discovered. A good example is the <a href="//en.wikipedia.org/wiki/POODLE">POODLE attack</a> that exploited a vulnerability in SSLv3.</p>
+
+<p>If you configure these elements, then you must explicitly name the TLS/SSL protocols you want to enable. If you do not configure the <code>ssl.protocols</code> or <code>socks.ssl.protocols</code> element, or you configure either element but do not specify any protocols, then the default value is taken from the underlying JVM. The protocol values are case-sensitive.</p>
+
+<p>Typically, you configure the <code>ssl.protocols</code> or <code>socks.ssl.protocols</code> in the <code>accept-options</code> for inbound requests from clients. You might also specify these elements in the <code>connect-options</code> for an Enterprise Shield™ configuration, although this is less common because Gateway-to-Gateway communication usually occurs in a controlled environment and the TLS/SSL protocol you use is controlled. The <code>ssl.protocols</code> and <code>socks.ssl.protocols</code> elements are more useful in the <code>accept-options</code> when accepting requests from clients that are not in your direct control.</p>
+
+<p><strong>Note:</strong> These elements were introduced in Kaazing Gateway release 4.0.6 and can be used for configurations running Kaazing Gateway 4.0.6 or later releases. For configurations running Kaazing Gateway 4.0.5 or earlier releases, you can disable the SSLv3 protocol by disabling SSLv3 ciphers with <code>&gt;&lt;ssl.ciphers&gt;!SSLv3&lt;/ssl.ciphers&gt;</code>. See <a href="#sslciphers">ssl.ciphers</a> for more information.</p>
+
+<p>If you configure the <code>ssl.protocols</code> or the <code>socks.ssl.protocols</code> element to enable SSLv3, but disable SSLv3 cipher suites with the <code>ssl.ciphers</code> or <code>socks.ssl.ciphers</code> elements, then the connection does not occur and the Gateway will not accept SSLv3 connections. Similarly, if you enable TLSv1 with the <code>ssl.protocols</code> or the <code>socks.ssl.protocols</code> element, but disable the TLSv1 ciphers, then the handshake will not succeed and the connection cannot go through.</p>
+
+<h5 id="example-simple-configuration-using-sslprotocols-to-accept-tlsv1-tlsv12-and-tlsv11-connections">Example: Simple Configuration Using ssl.protocols to Accept TLSv1, TLSv1.2, and TLSv1.1 Connections</h5>
+
+<p>The following example shows a <code>proxy</code> service. Because the <code>accept</code> URL the <code>wss://</code> scheme, we know that this is a secure connection. The <code>ssl.protocols</code> element in the following example indicates that we want the Gateway to accept only TLSv1, TLSv1.2, and TLSv1.1 protocols, say, from clients over this secure connection.</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;service&gt;
+  &lt;name&gt;DMZ Gateway&lt;/name&gt;
+  &lt;accept&gt;wss://example.com:443/myapp&lt;/accept&gt;
+    ...
+  &lt;type&gt;proxy&lt;/type&gt;
+
+  &lt;properties&gt;
+    ...
+  &lt;/properties&gt;
+
+  &lt;accept-options&gt;
+    &lt;ssl.protocols&gt;TLSv1,TLSv1.2,TLSv1.1&lt;/ssl.protocols&gt;
+    ...
+  &lt;/accept-options&gt;
+
+&lt;/service&gt;
+</code></pre>
+
+<h5 id="example-enterprise-shield-configuration-using-sockssslprotocols-to-accept-reverse-connections-on-tlsv12-">Example: Enterprise Shield™ Configuration Using socks.ssl.protocols to Accept Reverse Connections on TLSv1.2 </h5>
+
+<p>This example shows a <code>proxy</code> service in the DMZ configured for Enterprise Shield™, for which the <code>connect</code> behavior is reversed. Instead of connecting to another host, the Gateway accepts connections instead. Thus, the setting is configured as <code>connect-options</code> in this example. For more information about Enterprise Shield™ and forward and reverse connectivity, see <a href="../../enterprise-shield/o_enterprise_shield_checklist/index.html">Configure Enterprise Shield™ for Kaazing Gateway</a>.</p>
+
+<p>Because this configuration connects a Gateway to another Gateway in a controlled data center, the example only configures the TLSv1.2 protocol for secure connections. For this type of topology we don’t expect to make any other kinds of connections.</p>
+
+<p>The prefix for this example is <code>socks.ssl</code>, rather than just <code>ssl</code> to explicitly reference the SSL layer that is transporting the SOCKS protocol.</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;service&gt;
+  &lt;name&gt;DMZ Gateway&lt;/name&gt;
+  &lt;accept&gt;wss://example.com:443/myapp&lt;/accept&gt;
+  &lt;connect&gt;wss://example.com:443/myapp&lt;/connect&gt;
+    ...
+  &lt;type&gt;proxy&lt;/type&gt;
+
+  &lt;properties&gt;
+    ...
+  &lt;/properties&gt;
+
+  &lt;connect-options&gt;
+    &lt;http.transport&gt;socks://internal.example.com:1080&lt;/http.transport&gt;
+    &lt;socks.mode&gt;reverse&lt;/socks.mode&gt;
+    &lt;socks.transport&gt;ssl://internal.example.com:1080&lt;/socks.transport&gt;
+    &lt;socks.ssl.protocols&gt;TLSv1.2&lt;/socks.ssl.protocols&gt;
+  &lt;/connect-options&gt;
+     ...
+&lt;/service&gt;
+</code></pre>
+
+<h5 id="example-enterprise-shield-configuration-using-sslprotocols-and-sockssslprotocols-">Example: Enterprise Shield™ Configuration Using ssl.protocols and socks.ssl.protocols </h5>
+
+<p>This example combines the previous two examples to show an Enterprise Shield™ configuration in which <code>ssl.protocols</code> is specified in the accept-options, and <code>socks.ssl.protocols</code> is specified in the connect-options.</p>
+
+<p>On the frontplane, the Gateway accepts connections from clients only using the TLSv1, TLSv1.2, and TLSv1.1 protocols. On the backplane, the Gateway only accepts (reverse) connections using the protocol TLSv1.2 (from another Gateway).</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;service&gt;
+  &lt;name&gt;DMZ Gateway&lt;/name&gt;
+  &lt;accept&gt;wss://example.com:443/myapp&lt;/accept&gt;
+  &lt;connect&gt;wss://example.com:443/myapp&lt;/connect&gt;
+    ...
+  &lt;type&gt;proxy&lt;/type&gt;
+
+  &lt;properties&gt;
+    ...
+  &lt;/properties&gt;
+
+  &lt;accept-options&gt;
+    &lt;ssl.protocols&gt;TLSv1,TLSv1.2,TLSv1.1&lt;/ssl.protocols&gt;
+    ...
+  &lt;/accept-options&gt;
+
+  &lt;connect-options&gt;
+    &lt;http.transport&gt;socks://internal.example.com:1080&lt;/http.transport&gt;
+    &lt;socks.mode&gt;reverse&lt;/socks.mode&gt;
+    &lt;socks.transport&gt;ssl://internal.example.com:1080&lt;/socks.transport&gt;
+    &lt;socks.ssl.protocols&gt;TLSv1.2&lt;/socks.ssl.protocols&gt;
+  &lt;/connect-options&gt;
+     ...
+
+&lt;/service&gt;
+</code></pre>
+
+<h4 id="sslencryption">ssl.encryption</h4>
+
+<p><strong>Required?</strong> Optional; <strong>Occurs:</strong> zero or one; <strong>Values:</strong> enabled, disabled</p>
+
+<p>This element allows you to enable or disable TLS/SSL encryption on incoming traffic to the Gateway, turning off TLS/SSL certificate verification for an HTTPS or WSS accept. By default (or if you do not specify this element), encryption is enabled for HTTPS and WSS.</p>
+
+<p>For example, if the Gateway is deployed behind a TLS/SSL offloader (a network device designed specifically for handling a company’s TLS/SSL certificate traffic), where the incoming traffic to the TLS/SSL offloader is secured over HTTPS and the outgoing traffic from the TLS/SSL offloader to the Gateway is <em>not</em> secure, you can disable encryption so that the Gateway accepts the unsecured traffic on a connection that uses HTTPS/WSS. Basically, the Gateway trusts traffic from the TLS/SSL offloader and therefore the Gateway does not need to verify the connection itself.</p>
+
+<p>You can include the <a href="#accept-options-and-connect-options">accept-options</a> element on a service that accepts over HTTPS or WSS, then disable encryption by setting the <code>ssl.encryption</code> element to <code>disabled</code>. Even when encryption is disabled, the Gateway returns the response as HTTPS/WSS. If you do not include these elements or set the <code>ssl.encryption</code> element to <code>enabled</code>, the Gateway treats incoming traffic on HTTPS or WSS as secure and handles the TLS/SSL certificate verification itself.</p>
+
+<p>See <a href="../../security/o_tls/index.html">Secure Network Traffic with the Gateway</a> for more information about HTTPS/WSS.</p>
+
+<h5 id="example-using-sslencryption-in-accept-options">Example: Using ssl.encryption in accept-options</h5>
+
+<p>The following example shows a <code>service</code> element containing the <code>accept-options</code> and <code>ssl.encryption</code> elements, which signal the Gateway to listen on address <code>www.example.com</code>, with encryption disabled. The example uses the <code>proxy</code> service, which is common, but not required. See the <a href="#type">type</a> element for a list of service types.</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;service&gt;
+  &lt;accept&gt;wss://www.example.com/remoteService&lt;/accept&gt;
+  &lt;connect&gt;tcp://localhost:6163&lt;/connect&gt;
+
+  &lt;type&gt;proxy&lt;/type&gt;
+   .
+   .
+   .
+  &lt;accept-options&gt;
+    &lt;ssl.encryption&gt;disabled&lt;/ssl.encryption&gt;
+  &lt;/accept-options&gt;
+&lt;/service&gt;
+
+</code></pre>
+
+<p>Alternatively, the IP address can be used in the configuration parameters. You can also specify an IP address and port for the external address. Typically when you disable encryption on the incoming traffic, as the Gateway is behind a TLS/SSL offloader, you will also have a network mapping section mapping <code>www.example.com</code> to internal address <code>gateway.dmz.net:9000</code>.</p>
+
+<h5 id="example-using-sslencryption-in-connect-options">Example: Using ssl.encryption in connect-options</h5>
+
+<p>The following example for an Enterprise Shield™ topology shows a <code>service</code> element containing several <code>connect-options</code> including an <code>ssl.encryption</code> option that disables encryption.</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;service&gt;
+  &lt;accept&gt;wss://dmz.example.com:443/remoteService&lt;/accept&gt;
+  &lt;connect&gt;tcp://internal.example.com:8010&lt;/connect&gt;
+
+  &lt;type&gt;proxy&lt;/type&gt;
+
+  &lt;properties&gt;
+    &lt;prepared.connection.count&gt;1&lt;/prepared.connection.count&gt;
+  &lt;/properties&gt;
+
+  &lt;accept-options&gt;
+    &lt;ssl.ciphers&gt;DEFAULT&lt;/ssl.ciphers&gt;
+    &lt;ssl.verify-client&gt;none&lt;/ssl.verify-client&gt;
+  &lt;/accept-options&gt;
+
+  &lt;connect-options&gt;
+    &lt;tcp.transport&gt;socks+ssl://dmz.example.com:1443&lt;/tcp.transport&gt;
+    &lt;socks.mode&gt;reverse&lt;/socks.mode&gt;
+    &lt;socks.ssl.ciphers&gt;NULL&lt;/socks.ssl.ciphers&gt;
+    &lt;ssl.encryption&gt;disabled&lt;/ssl.encryption&gt;
+    &lt;socks.ssl.verify-client&gt;required&lt;/socks.ssl.verify-client&gt;
+  &lt;/connect-options&gt;
+&lt;/service&gt;
+</code></pre>
+
+<h5 id="notes-12">Notes</h5>
+
+<ul>
+  <li>If you have set up Kaazing Gateway behind a TLS/SSL offloader, where the front-end traffic is secure over HTTPS and the back-end traffic behind the TLS/SSL offloader to the Gateway is <em>not</em> secure, then you can disable encryption so that the connection can occur. You can include the <a href="#accept-options-and-connect-options">accept-options</a> element, then disable encryption by setting the <code>ssl.encryption</code> element to <code>disabled</code>. When encryption is disabled, the Gateway returns the response as HTTPS. If you do not include these elements or set the <code>ssl.encryption</code> element to <code>enabled</code>, the Gateway treats incoming traffic on <code>www.example.com:443</code> as secure and handles the TLS/SSL itself.</li>
+  <li>See <a href="../../security/o_tls/index.html">Secure Network Traffic with the Gateway</a> for more information about HTTPS.</li>
+</ul>
+
+<h4 id="sslverify-client">ssl.verify-client</h4>
+
+<p><strong>Required?</strong> Optional; <strong>Occurs:</strong> zero or one; <strong>Values:</strong> required, optional, none</p>
+
+<p>By default, when the Gateway accepts a secure URI (for example, WSS, HTTPS, SSL), the Gateway provides its digital certificate to connecting clients but does not require that the clients provide a certificate of their own — the Gateway trusts all clients. For added security, implement a mutual verification pattern where, in addition to the Gateway presenting a certificate to the client, the client also presents a certificate to the Gateway so that the Gateway can verify the client’s authenticity.</p>
+
+<p>To configure that, you can use the <code>ssl.verify-client</code> on an <code>accept</code> to specify that the Gateway requires a client to provide a digital certificate that the Gateway can use to verify the client’s identity. This configuration ensures that both the clients and the Gateway are verified via TLS/SSL before transmitting data, establishing a mutually-verified connection.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>If you configure the ssl.verify-client option with the value …</th>
+      <th>Then …</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>required</code></td>
+      <td>A client certificate is required. The Gateway requires that the client connecting to the Gateway over the secure URI in the <code>accept</code> must provide a digital certificate to verify the client’s identity. After the Gateway has verified the client certificate, then the client can connect to the Gateway service.</td>
+    </tr>
+    <tr>
+      <td><code>optional</code></td>
+      <td>The client certificate is not required, but if a client provides a certificate, the Gateway attempts to verify it. If the client provides a certificate and verification fails, then the client is not allowed to connect.</td>
+    </tr>
+    <tr>
+      <td><code>none</code></td>
+      <td>The client recognizes that a certificate is not required and it does not send a certificate. All clients can connect to the secure service on the Gateway.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h5 id="example-13">Example</h5>
+
+<p>In the following example, the Gateway accepts on a secure URI (<code>wss://</code>) and requires that all clients connecting to the Gateway on that URI provide a digital certificate verifying their identity.</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;service&gt;
+  &lt;accept&gt;wss://example.com:443&lt;/accept&gt;
+  &lt;connect&gt;tcp://server1.corp.example.com:5050&lt;/connect&gt;
+
+  &lt;type&gt;proxy&lt;/type&gt;
+
+  &lt;accept-options&gt;
+    &lt;ssl.verify-client&gt;required&lt;/ssl.verify-client&gt;
+  &lt;/accept-options&gt;
+&lt;/service&gt;
+</code></pre>
+
+<h5 id="notes-13">Notes</h5>
+
+<ul>
+  <li>To use <code>ssl.verify-client</code> as an accept-option on a service, the service must be accepting on a secure URI (<code>wss://</code>, <code>https://</code>, <code>ssl://</code>). You cannot use <code>ssl.verify-client</code> on a unsecured URI (<code>ws://</code>, <code>http://</code>, <code>tcp://</code>, <code>udp://</code>).</li>
+  <li>If you have set up Kaazing Gateway behind a TLS/SSL offloader, where the front-end traffic is secure over HTTPS and the back-end traffic behind the TLS/SSL offloader to the Gateway is <em>not</em> secure, then you can disable encryption so that the connection can occur. You can include the <a href="#accept-options-and-connect-options">accept-options</a> element, then disable encryption by setting the <code>ssl.encryption</code> element to <code>disabled</code>. When encryption is disabled, the Gateway returns the response as HTTPS. If you do not include these elements or set the <code>ssl.encryption</code> element to <code>enabled</code>, the Gateway treats incoming traffic on <code>www.example.com:443</code> as secure and handles the TLS/SSL itself.</li>
+  <li>See <a href="../../security/o_tls/index.html">Secure Network Traffic with the Gateway</a> for more information about HTTPS.</li>
+  <li>This configuration ensures that both the clients and the Gateway are verified via TLS/SSL before transmitting data, establishing mutual verification. A best practice is to use mutual verification between gateways that are located at different sites. Each gateway can require that the other gateway provide a certificate, thereby ensuring that the connection is secure.</li>
+  <li>This configuration ensures that both the clients and the Gateway are verified via TLS/SSL before transmitting data, establishing mutual verification. A best practice is to use mutual verification between gateways that are located at different sites. Each gateway can require that the other gateway provide a certificate, thereby ensuring that the connection is secure.</li>
+  <li>Two or more services can have TLS/SSL <code>accept</code> elements with the same address and port (for example, one service might accept on <code>wss://example.com:9000/echo</code> and another service might accept on <code>https://example.com:9000/directory</code>). If <code>accept</code> elements listening on the same address and port number are also configured with the <code>ssl.verify-client</code> accept option, the values for <code>ssl.verify-client</code> must be identical.</li>
+</ul>
+
+<h4 id="socksmode">socks.mode</h4>
+
+<p><strong>Required?</strong> Optional; <strong>Occurs:</strong> zero or one</p>
+
+<p>Use the <code>socks.mode</code> in accept-options or connect-options to initiate the Gateway connection using the SOCKet Secure (SOCKS) protocol in one of the following modes:</p>
+
+<ul>
+  <li><code>forward</code>: initiates forward connectivity from the DMZ Gateway to the internal Gateway on the trusted network. Once connected, a regular full-duplex connection is established. You typically use the <code>forward</code> mode to ensure the SOCKS settings are correctly configured before you attempt to reverse the connection.</li>
+  <li><code>reverse</code>: configures the connection mode in <em>reverse</em> so that the connection is initiated from the internal Gateway on the trusted network to the DMZ Gateway to allow a connection between the client and server that is otherwise blocked by the firewall. With the reverse mode, the Gateway interprets <code>accept</code> URIs as <code>connect</code> URIs.</li>
+</ul>
+
+<p>For more information about Enterprise Shield™ and forward and reverse connectivity, see <a href="../../enterprise-shield/o_enterprise_shield_checklist/index.html">Configure Enterprise Shield™ with the Gateway</a>.</p>
+
+<h5 id="example-14">Example</h5>
+
+<p>The following example shows a <code>service</code> element with the <code>socks.mode</code> set to <code>reverse</code>. This configuration causes the Gateway to interpret the SOCKS URI as a connect URI:</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;service&gt;
+  &lt;accept&gt;pipe://pipe-1&lt;/accept&gt;
+  &lt;connect&gt;tcp://broker.example.com:8010/&lt;/connect&gt;
+
+  &lt;type&gt;proxy&lt;/type&gt;
+
+  &lt;accept-options&gt;
+    &lt;pipe.transport&gt;socks+ssl://dmz.example.com:1443&lt;/pipe.transport&gt;
+    &lt;socks.mode&gt;reverse&lt;/socks.mode&gt;
+    &lt;socks.retry.maximum.interval&gt;45 seconds&lt;/socks.retry.maximum.interval&gt;
+  &lt;/accept-options&gt;
+&lt;/service&gt;
+</code></pre>
+
+<h5 id="example-15">Example</h5>
+
+<p>The following example shows a <code>connect-options</code> element with the <code>socks.mode</code> set to <code>reverse</code>.</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;service&gt;
+  &lt;accept&gt;tcp://dmz.example.com:8000/&lt;/accept&gt;
+  &lt;connect&gt;pipe://pipe-1&lt;/connect&gt;
+
+  &lt;type&gt;proxy&lt;/type&gt;
+
+  &lt;connect-options&gt;
+    &lt;pipe.transport&gt;socks+ssl://dmz.example.com:1443&lt;/pipe.transport&gt;
+    &lt;socks.mode&gt;reverse&lt;/socks.mode&gt;
+  &lt;/connect-options&gt;
+&lt;/service&gt;
+</code></pre>
+
+<h4 id="sockstimeout">socks.timeout</h4>
+
+<p><strong>Required?</strong> Optional; <strong>Occurs:</strong> zero or one</p>
+
+<p>Use the <code>socks.timeout</code> connect-option to specify the length of time (in seconds) to wait for a SOCKS connection to form before closing the connection. If you do not specify <code>socks.timeout</code> for your Gateway configuration, then a timeout is not enforced.</p>
+
+<p>Note the following behavior for reverse and forward SOCKS connections:</p>
+
+<ul>
+  <li>
+    <p>For <em>reverse</em> connections (<code>socks.mode</code> is set to <em>reverse</em>), the time you specify for <code>socks.timeout</code> determines how long pending connection requests on the DMZ Gateway wait for the internal Gateway to initiate a reverse connection.</p>
+
+    <p>Connect requests are queued until the internal Gateway pulls the requests from the queue and consumes them. If the connect requests are not consumed within the specified time, then the connection to the client times out and is closed.</p>
+  </li>
+  <li>
+    <p>For <em>forward</em> connections (<code>socks.mode</code> is set to <em>forward</em>), the time you specify for <code>socks.timeout</code> determines how long to wait for confirmation that the connection succeeded.</p>
+
+    <p>If the network connection or the SOCKS handshake does not succeed within the time specified by <code>socks.timeout</code>, then the connection to the client fails and the connection is closed.</p>
+  </li>
+</ul>
+
+<h5 id="example-16">Example</h5>
+
+<p>The following example shows a <code>socks.timeout</code> that is set to 10 seconds. If the forward connection is not formed within 10 seconds, then the connection is closed and the client must initiate another connection.</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;service&gt;
+  &lt;accept&gt;wss://www.example.com:443/remoteService&lt;/accept&gt;
+  &lt;connect&gt;tcp://localhost:6163&lt;/connect&gt;
+
+  &lt;type&gt;proxy&lt;/type&gt;
+
+  &lt;accept-options&gt;
+    &lt;ssl.ciphers&gt;DEFAULT&lt;/ssl.ciphers&gt;
+    &lt;ssl.verify-client&gt;none&lt;/ssl.verify-client&gt;
+  &lt;/accept-options&gt;
+
+  &lt;connect-options&gt;
+    &lt;pipe.transport&gt;socks+ssl://dmz.example.com:1443&lt;/pipe.transport&gt;
+    &lt;socks.mode&gt;reverse&lt;/socks.mode&gt;
+    &lt;socks.timeout&gt;10 sec&lt;/socks.timeout&gt;
+  &lt;/connect-options&gt;
+&lt;/service&gt;
+</code></pre>
+
+<h4 id="sockssslciphers">socks.ssl.ciphers</h4>
+
+<p><strong>Required?</strong> Optional; <strong>Occurs:</strong> zero or one; <strong>Values:</strong> cipher strings and cipher suite names for <a href="//www.openssl.org/docs/apps/ciphers.html#CIPHERSTRINGS">OPENSSL</a> and <a href="//docs.oracle.com/javase/8/docs/technotes/guides/security/SunProviders.html#SunJSSEProvider">Java 8</a>.</p>
+
+<p>Use <code>socks.ssl.ciphers</code> to list the encryption algorithms used by TLS/SSL on the secure connection (WSS, HTTPS or SSL). By default (or if you do not specify this element on a secure connection), the Gateway uses <code>HIGH,MEDIUM,!ADH,!KRB5</code>.</p>
+
+<h5 id="example-for-socks-ciphers">Example for SOCKS Ciphers</h5>
+
+<p>The following example shows a <code>proxy</code> service for the DMZ Gateway in an Enterprise Shield™ topology. The Gateway receives secure client connections (<code>wss://</code>) and specifies the ciphers used on the accept URI (<code>DEFAULT</code>), but does not require mutual verification from the clients (<code>ssl.verify-client</code>). In addition, the internal Gateway connects over SOCKS and TLS/SSL (<code>socks+ssl://</code>) to the DMZ Gateway, specifies the ciphers used (<code>NULL</code>), and requires mutual verification (<code>socks.ssl.verify-client</code>). For more information about forward and reverse connectivity, see <a href="../../enterprise-shield/o_enterprise_shield_checklist/index.html">Configure Enterprise Shield™ with the Gateway</a>.</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;service&gt;
+  &lt;accept&gt;wss://dmz.example.com:443/remoteService&lt;/accept&gt;
+  &lt;connect&gt;tcp://internal.example.com:8000&lt;/connect&gt;
+
+  &lt;type&gt;proxy&lt;/type&gt;
+
+  &lt;properties&gt;
+    &lt;prepared.connection.count&gt;1&lt;/prepared.connection.count&gt;
+  &lt;/properties&gt;
+
+  &lt;accept-options&gt;
+    &lt;ssl.ciphers&gt;DEFAULT&lt;/ssl.ciphers&gt;
+    &lt;ssl.verify-client&gt;none&lt;/ssl.verify-client&gt;
+  &lt;/accept-options&gt;
+
+  &lt;connect-options&gt;
+    &lt;tcp.transport&gt;socks+ssl://dmz.example.com:1443&lt;/tcp.transport&gt;
+    &lt;socks.mode&gt;reverse&lt;/socks.mode&gt;
+    &lt;socks.ssl.ciphers&gt;NULL&lt;/socks.ssl.ciphers&gt;
+    &lt;socks.ssl.verify-client&gt;required&lt;/socks.ssl.verify-client&gt;
+  &lt;/connect-options&gt;
+&lt;/service&gt;
+</code></pre>
+
+<h5 id="notes-14">Notes</h5>
+
+<ul>
+  <li>Values are case-sensitive.</li>
+  <li>The <code>socks.ssl.ciphers</code> property does not configure the ciphers used on a secure connection. It merely specified the ciphers used in the TLS/SSL certificate used to establish the secure connection.</li>
+  <li>OpenSSL aliases and names listed as <em>Not implemented</em> in the <a href="//www.openssl.org/docs/apps/ciphers.html#CIPHER_STRINGS" title="OpenSSL: Documents, ciphers(1)">OPENSSL</a> documentation are not supported by the Gateway.</li>
+  <li>Typos or incorrect strings (or unsupported ciphers) in <code>socks.ssl.ciphers</code> are noticed by the Gateway when a connection is made, not on startup. These errors are only discoverable by looking at the Gateway log.</li>
+  <li>TLS/SSL is used to verify the Gateway to the client. To use TLS/SSL to verify the client using the connection, use <code>ssl.verify-client</code>.</li>
+</ul>
+
+<h4 id="sockssslverify-client">socks.ssl.verify-client</h4>
+
+<p><strong>Required?</strong> Optional; <strong>Occurs:</strong> zero or one; <strong>Values:</strong> required, optional, none</p>
+
+<p>In an Enterprise Shield™ topology over <code>socks+ssl://</code>, the DMZ Gateway provides the internal Gateway with a digital certificate that the internal Gateway uses to verify the DMZ Gateway’s identity before establishing the secure connection. For added security, you can use the <code>socks.ssl.verify-client</code> option on the DMZ Gateway to require that the internal Gateway provide a digital certificate to establish a secure connection. This configuration ensures that both the DMZ Gateway and internal Gateway are verified via TLS/SSL before transmitting data, establishing mutual verification.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>If you configure the socks.ssl.verify-client option with the value …</th>
+      <th>Then …</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>required</code></td>
+      <td>A certificate is required. The DMZ Gateway requires that the client connecting from the internal Gateway over the SOCKS transport must provide a digital certificate to verify the client’s identity. After the DMZ Gateway has verified the client certificate, then the reverse connection can be formed.</td>
+    </tr>
+    <tr>
+      <td><code>optional</code></td>
+      <td>A certificate is not required, but if a client provides a certificate then the DMZ Gateway attempts to verify it. If the verification fails, then the client is not allowed to connect.</td>
+    </tr>
+    <tr>
+      <td><code>none</code></td>
+      <td>The client recognizes that a certificate is not required and it does not send a certificate. All clients can connect to the secure service on the DMZ Gateway.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>For more information, see <a href="../../enterprise-shield/o_enterprise_shield_checklist/index.html">Configure Enterprise Shield™ with the Gateway</a>.</p>
+
+<h5 id="example-17">Example</h5>
+
+<p>In the following example, the DMZ Gateway accepts on a WebSocket URI and connects over a named <a href="#pipe">pipe</a>. The DMZ Gateway also listens for connections on port 1443 as <code>pipe.transport</code> URI over SOCKS and TLS/SSL (<code>socks+ssl://</code>). To increase security, the <code>socks.ssl.verify-client</code> is set to <code>required</code>, which specifies that the internal Gateway URI must provide a digital certificate to the DMZ Gateway.</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;service&gt;
+  &lt;accept&gt;wss://dmz.example.com:443/remoteService&lt;/accept&gt;
+  &lt;connect&gt;pipe://pipe-1&lt;/connect&gt;
+
+  &lt;type&gt;proxy&lt;/type&gt;
+
+  &lt;properties&gt;
+    &lt;prepared.connection.count&gt;1&lt;/prepared.connection.count&gt;
+  &lt;/properties&gt;
+
+  &lt;accept-options&gt;
+    &lt;ssl.ciphers&gt;DEFAULT&lt;/ssl.ciphers&gt;
+    &lt;ssl.verify-client&gt;none&lt;/ssl.verify-client&gt;
+  &lt;/accept-options&gt;
+
+  &lt;connect-options&gt;
+    &lt;pipe.transport&gt;socks+ssl://dmz.example.com:1443&lt;/pipe.transport&gt;
+    &lt;socks.mode&gt;reverse&lt;/socks.mode&gt;
+    &lt;socks.ssl.ciphers&gt;NULL&lt;/socks.ssl.ciphers&gt;
+    &lt;socks.ssl.verify-client&gt;required&lt;/socks.ssl.verify-client&gt;
+  &lt;/connect-options&gt;
+&lt;/service&gt;
+</code></pre>
+
+<h5 id="notes-15">Notes</h5>
+
+<ul>
+  <li>If you have set up Kaazing Gateway behind a TLS/SSL offloader, where the front-end traffic is secure over HTTPS and the back-end traffic behind the TLS/SSL offloader to the Gateway is <em>not</em> secure, then you can disable encryption so that the connection can occur. You can include the <a href="#accept-options-and-connect-options">accept-options</a> element, then disable encryption by setting the <code>ssl.encryption</code> element to <code>disabled</code>. When encryption is disabled, the Gateway returns the response as HTTPS. If you do not include these elements or set the <code>ssl.encryption</code> element to <code>enabled</code>, the Gateway treats incoming traffic on <code>www.example.com:443</code> as secure and handles the TLS/SSL itself.</li>
+  <li>See <a href="../../security/o_tls/index.html">Secure Network Traffic with the Gateway</a> for more information about HTTPS.</li>
+  <li>See <a href="../../enterprise-shield/p_enterprise_shield_config/index.html">Configure Enterprise Shield™ with the Gateway</a> to learn how to require the internal Gateway to provide TLS/SSL certificates.&lt;/a&gt;</li>
+</ul>
+
+<h4 id="socksretrymaximuminterval">socks.retry.maximum.interval</h4>
+
+<p><strong>Required?</strong> Optional; <strong>Occurs:</strong> zero or one</p>
+
+<p>Use the <code>socks.retry.maximum.interval</code> accept-option in an Enterprise Shield™ topology to set the maximum interval of time that the internal Gateway waits to retry a reverse connection to the DMZ Gateway after a failed attempt. The internal Gateway initially retries after waiting for 500ms; the subsequent wait intervals are as follows: 1s, 2s, 4s, and so on up to the value of <code>socks.retry.maximum.interval</code>. Once the maximum interval is reached, the Gateway continues to reconnect to the SOCKS proxy at the maximum interval. If no maximum is specified, then the default retry interval is 30 seconds. For more information about configuring the SOCKS proxy, see <a href="../../enterprise-shield/o_enterprise_shield_checklist/index.html">Configure Enterprise Shield™ with the Gateway</a>.</p>
+
+<h5 id="example-18">Example</h5>
+
+<p>The following example shows a <code>service</code> element containing a SOCKS proxy connection retry interval time limit of 60 seconds:</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;service&gt;
+  &lt;accept&gt;pipe://pipe-1&lt;/accept&gt;
+  &lt;connect&gt;tcp://broker.example.com:8010/&lt;/connect&gt;
+
+  &lt;type&gt;proxy&lt;/type&gt;
+
+  &lt;accept-options&gt;
+    &lt;pipe.transport&gt;socks+ssl://dmz.example.com:1443&lt;/pipe.transport&gt;
+    &lt;socks.mode&gt;reverse&lt;/socks.mode&gt;
+    &lt;socks.retry.maximum.interval&gt;60 seconds&lt;/socks.retry.maximum.interval&gt;
+  &lt;/accept-options&gt;
+&lt;/service&gt;
+</code></pre>
+
+<h4 id="tcpmaximumoutboundrate">tcp.maximum.outbound.rate</h4>
+
+<p><strong>Required?</strong> Optional; <strong>Occurs:</strong> zero or one</p>
+
+<p>Use the <code>tcp.maximum.outbound.rate</code> accept option to specify the maximum bandwidth rate at which bytes can be written from the Gateway to a client session. This option delays outbound messages as a way to control the maximum rate, per client session, at which the Gateway can send data to clients connecting to a service.</p>
+
+<p>You must specify the value of <code>tcp.maximum.outbound.rate</code> as a positive integer with either no specified unit or appended with B/s (byte), kB/s (kilobyte), KiB/s (kibibyte), MB/s (megabyte), or MiB/s (Mebibytes) per second. (See the <a href="//physics.nist.gov/cuu/Units/binary.html">NIST Reference</a> for more information about these units.) Do not use spaces between the numeric portion and the units (for example, 40MB/s is supported but 40 MB/s is not supported).</p>
+
+<p>You must specify the value of <code>tcp.maximum.outbound.rate</code> as a positive integer with either no specified unit or appended with a unit of measurement from the following table. (See the <a href="//physics.nist.gov/cuu/Units/binary.html">NIST Reference</a> for more information about these units.) Do not use spaces between the numeric portion and the units (for example, 40MB/s is supported but 40 MB/s is not supported).</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Unit</th>
+      <th>Abbreviation</th>
+      <th>Bytes per Second per Unit</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Byte per second</td>
+      <td>B/s</td>
+      <td>1</td>
+      <td>Example: <code>512B/s</code></td>
+    </tr>
+    <tr>
+      <td>kilobyte per second</td>
+      <td>kB/s</td>
+      <td>1000 (10^3)</td>
+      <td>Decimal kilobytes per second. Example: <code>1000kB/s</code></td>
+    </tr>
+    <tr>
+      <td>kilobyte per second</td>
+      <td>KiB/s</td>
+      <td>1024 (2^10)</td>
+      <td>Kibibytes per second (kilobytes binary). Example: <code>1KiB/s</code></td>
+    </tr>
+    <tr>
+      <td>megabyte per second</td>
+      <td>MB/s</td>
+      <td>1,000,000 (10^6)</td>
+      <td>Decimal megabytes per second. Example: <code>1MB/s</code></td>
+    </tr>
+    <tr>
+      <td>megabyte per second</td>
+      <td>MiB/s</td>
+      <td>1,048,576 (2^20)</td>
+      <td>Mebibytes per second (megabytes binary) Example: <code>512MiB/s</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<h5 id="example-19">Example</h5>
+
+<p>The following example shows a portion of a Gateway configuration file containing three services, each with a different bandwidth constraint: VIP, premium, and freemium. The VIP service has the best bandwidth at 1 megabyte per second (line 5). The premium service is slower at 1 kibibyte per second (line 13), and the free service is the slowest at only 512 bytes per second (line 21). The example shows these variations configured for the <code>proxy</code> service, which is common, but not required. See the <a href="#type">type</a> element for a list of service types.</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;service&gt;
+  &lt;accept&gt;ws://service.example.com/vip&lt;/accept&gt;
+  &lt;type&gt;proxy&lt;/type&gt;
+  &lt;accept-options&gt;
+    &lt;tcp.maximum.outbound.rate&gt;1MB/s&lt;/tcp.maximum.outbound.rate&gt;
+  &lt;/accept-options&gt;
+&lt;/service&gt;
+
+&lt;service&gt;
+  &lt;accept&gt;ws://service.example.com/premium&lt;/accept&gt;
+  &lt;type&gt;proxy&lt;/type&gt;
+  &lt;accept-options&gt;
+    &lt;tcp.maximum.outbound.rate&gt;1KiB/s&lt;/tcp.maximum.outbound.rate&gt;
+  &lt;/accept-options&gt;
+&lt;/service&gt;
+
+&lt;service&gt;
+  &lt;accept&gt;ws://service.example.com/freemium&lt;/accept&gt;
+  &lt;type&gt;proxy&lt;/type&gt;
+  &lt;accept-options&gt;
+    &lt;tcp.maximum.outbound.rate&gt;512B/s&lt;/tcp.maximum.outbound.rate&gt;
+  &lt;/accept-options&gt;
+&lt;/service&gt;
+</code></pre>
+
+<h5 id="notes-16">Notes</h5>
+
+<ul>
+  <li>If no unit is specified, the default unit is in bytes per second (B/s).</li>
+  <li>If you do not specify <code>tcp.maximum.outbound.rate</code>, the bandwidth rate is unrestricted.</li>
+  <li>The Gateway follows the conventions for units defined in the Conversion formula table on the Wikipedia <a href="//en.wikipedia.org/wiki/Data_rate_units#Kilobytepersecond">Data rate units page</a>.</li>
+</ul>
+
+<h4 id="wsinactivitytimeout">ws.inactivity.timeout</h4>
+
+<p><strong>Required?</strong> Optional; <strong>Occurs:</strong> zero or one</p>
+
+<p>Specifies the maximum number of seconds that the network connection can be inactive (seconds is the default time interval syntax). The Gateway will drop the connection if it cannot communicate with the client in the number of seconds specified (see <a href="#wsinactivitytimeout">ws.inactivity.timeout</a>). You can specify your preferred time interval syntax in milliseconds, seconds, minutes, or hours (spelled out or abbreviated). For example, all of the following are valid: 1800s, 1800sec, 1800 secs, 1800 seconds, 1800seconds, 3m, 3min, or 3 minutes. If you do not specify a time unit then seconds are assumed. An inactive connection can result from a network failure (such as a lost cellular or Wi-Fi connection) that prevents network communication from being received on any established connection. Thus, when <code>ws.inactivity.timeout</code> is set to a nonzero time interval, the Gateway will drop the connection if it cannot communicate with the client in the number of seconds specified.</p>
+
+<span class="note"><b>Important:</b> The value for <code>http.keepalive.timeout</code> should be greater-than or equal-to the value for <code>ws.inactivity.timeout</code> to prevent emulated connections from terminating prematurely.</span>
+
+<p>Some use cases for the <code>ws.inactivity.timeout</code> property include:</p>
+
+<ul>
+  <li>Detect a lost cellular (or Mobile) connection or a lost Wi-Fi connection.</li>
+  <li>Detect a half-closed connection over WebSocket, such as a silent network failure over WebSocket between Gateways.</li>
+  <li>Detect a network failure between the DMZ and Internal Gateway over WebSocket, such as for an Enterprise Shield™ topology using forward and reverse connectivity.</li>
+</ul>
+
+<h5 id="example-20">Example</h5>
+
+<p>In the following example, the <code>ws.inactivity.timeout</code> property specifies that if the Gateway cannot communicate with a client over the past five-seconds, then the connection to that client will be dropped.</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;service&gt;
+  &lt;accept&gt;ws://gateway.example.com/echo&lt;/accept&gt;
+  &lt;connect&gt;ws://internal.example.com/echo&lt;/connect&gt;
+
+  &lt;type&gt;echo&lt;/type&gt;
+
+ &lt;accept-options&gt;
+   &lt;ws.inactivity.timeout&gt;5s&lt;/ws.inactivity.timeout&gt;
+ &lt;/accept-options&gt;
+   .
+   .
+   .
+&lt;/service&gt;
+</code></pre>
+
+<h5 id="notes-17">Notes</h5>
+
+<ul>
+  <li>You must set a value to enable the setting. If the value is omitted, the Gateway will not drop the connection or try to detect if the WebSocket client is not connected.</li>
+  <li>Set the time interval to a value that is at least double the expected maximum network round-trip time between the Gateway and any client. Otherwise, clients may be disconnected unexpectedly.</li>
+  <li>You can specify your preferred time interval syntax in milliseconds, seconds, minutes, or hours (spelled out or abbreviated). For example, all of the following are valid: 1800s, 1800sec, 1800 secs, 1800 seconds, 1800seconds, 3m, 3min, or 3 minutes. If you do not specify a time unit then seconds are assumed.</li>
+</ul>
+
+<h4 id="httpserverheader">http.server.header</h4>
+
+<p><strong>Required?</strong> Optional; <strong>Occurs:</strong> zero or more; <strong>Values</strong> <code>enabled</code>or <code>disabled</code></p>
+
+<p>Enables or disables the inclusion of the HTTP server header. By default, the Gateway writes a HTTP server header. In general, there is no need to configure this accept option unless you want to obscure server header information.</p>
+
+<p>This setting is ignored for services that do not accept HTTP or WebSocket connections.</p>
+
+<p><strong>Hint:</strong> Instead of specifying this setting on every service, consider adding it using the <a href="../r_configure_gateway_service_defaults">service-defaults</a> element to globally apply the setting across all services running on the Gateway.</p>
+
+<h5 id="example-21">Example</h5>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;service&gt;
+  ...
+  &lt;accept-options&gt;
+    &lt;http.server.header&gt;disabled&lt;/http.server.header&gt;
+  &lt;/accept-options&gt;
+    ...
+&lt;/service&gt;
+</code></pre>
+
+<h4 id="wsversion-deprecated">ws.version (deprecated)</h4>
+
+<p><strong>Required?</strong> Optional; <strong>Occurs:</strong> zero or more; <strong>Where</strong> <code>version</code> can be rfc6455 or draft-75</p>
+
+<p>The <code>ws.version</code> element has been deprecated. If you are using an existing configuration that includes the <code>ws.version</code> element, you can continue to use it. However, if the scheme of the URI inside the <code>connect</code> element is ws:// or wss://, then the WebSocket version defaults to rfc6455 and there is no need to explicitly set <code>ws.version</code>.</p>
+
+<p>The <code>ws.version</code> element was used to tell the Gateway which version of the WebSocket protocol to use for the service connections. You would specify this element only if the scheme of the URI inside the <code>connect</code> element is <code>ws:</code> or <code>wss:</code> (to indicate that the WebSocket protocol was being used). If you did not specify the <code>ws.version</code> in connect-options, then the WebSocket version defaults to <code>rfc6455</code>.</p>
+
+<h5 id="example-22">Example</h5>
+
+<p>The following example shows addresses for the WebSocket (<code>ws</code>) and WebSocket Secure (<code>wss</code>) protocols and uses WebSocket version <code>draft-75</code> to connect to a service running on release 3.2 of the Gateway. The example uses the <code>proxy</code> service, which is common, but not required. See the <a href="#type">type</a> element for a list of service types.</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;service&gt;
+  &lt;accept&gt;ws://${gateway.hostname}:8000/proxy&lt;/accept&gt;
+    &lt;connect&gt;wss://${gateway.hostname}:5566/data&lt;/connect&gt;
+  &lt;connect-options&gt;
+    &lt;ws.version&gt;draft-75&lt;/ws.version&gt;
+  &lt;/connect-options&gt;
+&lt;/service&gt;
+</code></pre>
+
+<h3 id="realm-name">realm-name</h3>
+
+<p>The name of the security realm used for authorization.</p>
+
+<h4 id="example-23">Example</h4>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;service&gt;
+  &lt;accept&gt;wss://localhost:9000/kerberos5&lt;/accept&gt;
+  &lt;connect&gt;tcp://kerberos.example.com:88&lt;/connect&gt;
+  &lt;type&gt;kerberos5.proxy&lt;/type&gt;
+  &lt;realm-name&gt;demo&lt;/realm-name&gt;
+    .
+    .
+    .
+&lt;/service&gt;
+</code></pre>
+
+<h4 id="notes-18">Notes</h4>
+
+<ul>
+  <li>If you do not configure <code>realm-name</code>, then authentication and authorization are not enforced for the service.</li>
+</ul>
+
+<h3 id="auth-constraint">auth-constraint</h3>
+
+<p>This element has been deprecated. Use the <a href="#authorization-constraint">authorization-constraint</a> element instead. </p>
+
+<h3 id="authorization-constraint">authorization-constraint</h3>
+
+<p><strong>Required?</strong> Optional; <strong>Occurs:</strong> zero or more</p>
+
+<p>Use the <code>authorization-constraint</code> element to configure the user roles that are authorized to access the service. <code>authorization-constraint</code> contains the following subordinate element:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Subordinate Element</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>require-role</td>
+      <td>The name of the user role to be included in the <code>authorization-constraint</code> or <code>*</code> to indicate any valid user</td>
+    </tr>
+    <tr>
+      <td>require-valid-user</td>
+      <td>Grants access any user whose credentials have been successfully authenticated.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="example-24">Example</h4>
+
+<p>The following example of a <code>proxy</code> service element is configured with an <code>authorization-constraint</code>. The example uses the <code>proxy</code> service, which is common, but not required. See the <a href="#type">type</a> element for a list of service types.</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;service&gt;
+  &lt;accept&gt;ws://localhost:8000/remoteService&lt;/accept&gt;
+  &lt;connect&gt;tcp://localhost:6163&lt;/connect&gt;
+
+  &lt;type&gt;proxy&lt;/type&gt;
+
+  &lt;authorization-constraint&gt;
+    &lt;require-role&gt;AUTHORIZED&lt;/require-role&gt;
+  &lt;/authorization-constraint&gt;
+&lt;/service&gt;
+</code></pre>
+
+<h3 id="mime-mapping">mime-mapping</h3>
+
+<p><strong>Required?</strong> Optional; <strong>Occurs:</strong> zero or more</p>
+
+<p>The <code>mime-mapping</code> element defines the way the Gateway maps a file extension to a MIME type. See the the main description for <a href="../r_configure_gateway_service_defaults">mime-mapping (service-defaults)</a>. You can override the default configuration or add a new MIME type mapping for a particular service by adding a <code>mime-mapping</code> element to the <code>service</code> entry. You can only add <code>mime-mapping</code> elements immediately <em>before</em> any cross-site constraints for a service.</p>
+
+<h4 id="example-25">Example</h4>
+
+<p>The following example shows a <code>directory</code> service that includes two mime-mapping elements for files with the <code>PNG</code> and and <code>HTML</code> extensions. The Gateway sets the content or MIME type for files with the <code>PNG</code> extension as a PNG image and files with the <code>HTML</code> extension as an HTML text file:</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;service&gt;
+  &lt;accept&gt;ws://localhost:8000&lt;/accept&gt;
+  &lt;accept&gt;wss://localhost:9000&lt;/accept&gt;
+
+  &lt;type&gt;directory&lt;/type&gt;
+
+  &lt;accept-options&gt;
+    &lt;ws.bind&gt;8001&lt;/ws.bind&gt;
+    &lt;wss.bind&gt;9001&lt;/wss.bind&gt;
+  &lt;/accept-options&gt;
+
+  &lt;mime-mapping&gt;
+    &lt;extension&gt;png&lt;/extension&gt;
+    &lt;mime-type&gt;image/png&lt;/mime-type&gt;
+  &lt;/mime-mapping&gt;
+  &lt;mime-mapping&gt;
+    &lt;extension&gt;html&lt;/extension&gt;
+    &lt;mime-type&gt;text/html&lt;/mime-type&gt;
+  &lt;/mime-mapping&gt;
+
+  &lt;cross-site-constraint&gt;
+    &lt;allow-origin&gt;http://localhost:8000&lt;/allow-origin&gt;
+  &lt;/cross-site-constraint&gt;
+  &lt;cross-site-constraint&gt;
+    &lt;allow-origin&gt;https://localhost:9000&lt;/allow-origin&gt;
+  &lt;/cross-site-constraint&gt;
+  &lt;/service&gt;
+</code></pre>
+
+<h4 id="notes-19">Notes</h4>
+
+<ul>
+  <li>If your client does not properly render a file type as expected, ensure that the MIME type is properly mapped and that you do not have multiple entries for the same extension type within the same section.</li>
+  <li>If two or more <code>mime-mapping</code> entries for the same extension are given in a single <code>service</code> or in <code>service-defaults</code>, then the Gateway applies the last <code>mime-mapping</code> entry. That is, within a given <code>service</code> or <code>service-defaults</code> section, the Gateway applies the <code>mime-mapping</code> entry closest to the end of the <code>service</code> (or <code>service-defaults</code>) section.</li>
+</ul>
+
+<h3 id="cross-site-constraint">cross-site-constraint</h3>
+
+<p><strong>Required?</strong> Optional; <strong>Occurs:</strong> zero or more</p>
+
+<p>Use cross-site-constraint to configure how a cross-origin site is allowed to access a service. <code>cross-site-constraint</code> contains the following subordinate elements:</p>
+
+<p><strong>Note:</strong> You must specify the properties for the cross-site-constraint element in the order shown in the table.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Subordinate Element</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>allow-origin</td>
+      <td>Specifies the cross-origin site or sites that are allowed to access this service: To allow access to a specific cross-site origin site, specify the protocol scheme, fully qualified host name, and port number of the cross-origin site in the format: <code>&lt;scheme&gt;://&lt;hostname&gt;:&lt;port&gt;</code>. For example: <code>&lt;allow-origin&gt;http://localhost:8000&lt;/allow-origin&gt;</code>. To allow access to all cross-site origin sites, including connections to gateway services from pages loaded from the file system rather than a web site, specify the value <code>*</code>. For example: <code>&lt;allow-origin&gt;*&lt;/allow-origin&gt;</code>. Specifying <code>*</code> may be appropriate for services that restrict HTTP methods or custom headers, but not the origin of the request.</td>
+    </tr>
+    <tr>
+      <td>allow-methods</td>
+      <td>A comma-separated list of methods that can be invoked by the cross-origin site. For example: <code>&lt;allow-methods&gt;POST,DELETE&lt;/allow-methods&gt;</code>.</td>
+    </tr>
+    <tr>
+      <td>allow-headers</td>
+      <td>A comma-separated list of custom header names that can be sent by the cross-origin site when it accesses the service. For example, <code>&lt;allow-headers&gt;X-Custom&lt;/allow-headers&gt;</code>.</td>
+    </tr>
+    <tr>
+      <td>maximum-age</td>
+      <td>Specifies the number of seconds that the results of a preflight request can be cached in a preflight result cache. See the W3C <a href="//www.w3.org/TR/cors/#access-control-max-age-response-header">Access-Control-Max-Age header</a> response header for more information. For example, <code>&lt;maximum-age&gt;1 second&lt;/maximum-age&gt;</code>.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="example-26">Example</h4>
+
+<p>The following example of a <code>proxy</code> service element includes a cross-site-constraint, allowing access to the back-end service or message broker by the site <code>http://localhost:8000</code> (note the different port number).</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;service&gt;
+  &lt;accept&gt;ws://localhost:8001/remoteService&lt;/accept&gt;
+  &lt;connect&gt;tcp://localhost:6163&lt;/connect&gt;
+
+  &lt;type&gt;proxy&lt;/type&gt;
+
+  &lt;authorization-constraint&gt;
+    &lt;require-role&gt;AUTHORIZED&lt;/require-role&gt;
+  &lt;/authorization-constraint&gt;
+
+  &lt;cross-site-constraint&gt;
+    &lt;allow-origin&gt;http://localhost:8000&lt;/allow-origin&gt;
+  &lt;/cross-site-constraint&gt;
+&lt;/service&gt;
+</code></pre>
+
+<h4 id="notes-20">Notes</h4>
+
+<ul>
+  <li>Cross-site access to the back-end is denied by default. However, by defining a cross-site constraint, you can override the default behavior and effectively “white-list” cross-origin sites.</li>
+</ul>
+
+<h2 id="summary">Summary</h2>
+
+<p>In this document, you learned about the Gateway service element and how to specify it in your Gateway configuration file. For more information about the location of the configuration files and starting the Gateway, see <a href="../../about/setup-guide/index.html">Setting Up the Gateway</a>. For more information about Kaazing Gateway administration, see the <a href="../..">documentation</a>.</p>
+
+
+</div>
+
+</div>
+
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

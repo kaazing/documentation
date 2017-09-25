@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+  
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+<h1>Secure Your WebSocket JavaScript Client</h1>
+<p>Before you add security to your clients, follow the steps in <a href="../../security/o_tls/index.html">Checklist: Secure Network Traffic with the Gateway</a> and <a href="../../security/o_auth_configure/index.html">Checklist: Configure Authentication and Authorization</a> to set up security on Kaazing Gateway for your client. The authentication and authorization methods configured on the Gateway influence your client security implementation. In this procedure, we provide an example of the most common implementation.</p>
+
+<h2>Before You Begin</h2><p>This procedure is part of <a href="o_dev_js.html">Checklist: Build JavaScript Clients Using Kaazing Gateway</a>:</p><ol><li><a href="p_dev_js_websocket.html">Interact with Kaazing Gateway Using the WebSocket API</a></li><li><a href="p_dev_js_eventsource.html">Interact with Kaazing Gateway Using the EventSource API</a></li><li><a href="p_dev_js_migrate.html">Migrate JavaScript Applications to Kaazing Gateway 4.x</a></li><li><strong>Secure Your JavaScript Client</strong></li><li><a href="p_clientlogging_js.html">Display Logs for the JavaScript Client</a></li></ol>
+
+<h2>To Secure Your WebSocket JavaScript Client</h2>
+<p>This procedure contains the following topics:</p>
+<ul>
+        <li><a href="#creating_basic">Creating a Basic Challenge Handler</a></li>
+        <li><a href="#creating_challenge">Creating a Custom Challenge Handler</a></li> 
+        <li><a href="#manage">Managing Log In Attempts</li> 
+        <li><a href="#registering_challenge">Registering Challenge Handlers at Locations</a></li> 
+        <li><a href="#wildcards">Using Wildcards to Match Sub-domains and Paths</a></li>
+        <li><a href="#negotiating_challenge">Negotiating a Challenge</a></li>
+</ul>
+
+<p>Authenticating your client involves implementing a challenge handler to respond to authentication challenges from the Gateway. If your challenge handler is responsible for obtaining user credentials, then you will also need to implement a login handler. </p>                                       
+
+                                <h3><a name="creating_basic"></a>Creating a Basic Challenge Handler</h3>
+                        <p>A challenge handler is a constructor used in an application to respond to authentication challenges from the Gateway when the application attempts to access a protected resource. Each of the resources protected by the Gateway is configured with a different authentication scheme (for example, Basic, Application Basic, Application Negotiate, or Application Token), and your application requires a challenge handler for each of the schemes that it will encounter or a single challenge handler that will respond to all challenges. Also, you can add a dispatch challenge handler to route challenges to specific challenge handlers according to the URI of the requested resource.</p>
+
+                <p>For information about each authentication scheme type, see <a href="../../security/p_authentication_config_http_challenge_scheme/index.html">Configure the HTTP Challenge Scheme</a>.</p>
+
+                                <p>Clients with a single challenge handling strategy for all 401 challenges can simply set a specific challenge handler as the default using <code>webSocketFactory.setChallengeHandler()</code>. The following is an example of how to implement a single challenge handler for all challenges:</p>
+
+<pre class="auto-links: false; brush: js; toolbar: false;">
+function setup(webSocketFactory) {
+        // Configure a Basic Challenge Handler
+        var basicHandler = new BasicChallengeHandler();
+
+        basicHandler.loginHandler = function(callback) { 
+                // Create static credentials for test
+                var credentials = new PasswordAuthentication("joe", "welcome");
+                callback(credentials); 
+        }
+
+        webSocketFactory.setChallengeHandler(basicHandler);
+}</pre>
+
+                <p>The preceding example uses static credentials, but you will want to create a login handler to obtain individual user credentials.  Here is an example using a popup login dialog to respond to login challenges and obtain user credentials:</p>
+
+<pre class="auto-links: false; brush: js; toolbar: false;">
+function setupSSO(webSocketFactory) {
+        /* Respond to authentication challenges with popup login dialog */
+        var basicHandler = new BasicChallengeHandler();
+        basicHandler.loginHandler = function(callback) {
+                popupLoginDialog(callback);
+        }
+        webSocketFactory.setChallengeHandler(basicHandler);
+}
+
+function popupLoginDialog(callback) {
+    //popup dialog to obtain credentials
+    var popup = document.getElementById("logindiv");
+    popup.style.display = "block";
+    var login = document.getElementById("login");
+    var cancel = document.getElementById("cancel");
+
+    //"OK" button was clicked, invoke callback function with credentials for login
+    login.onclick = function() {
+        var username = document.getElementById("username");
+        var password = document.getElementById("password");
+        var credentials = new PasswordAuthentication(username.value, password.value);
+        //clear user input
+        username.value = "";
+        password.value = "";
+        //hide popup
+        popup.style.display = "none";
+        callback(credentials);
+    }
+
+    //"Cancel" button has been clicked, invoke callback function with null argument to cancel login
+    cancel.onclick = function() {
+        var username = document.getElementById("username");
+        var password = document.getElementById("password");
+        //clear user input
+        username.value = "";
+        password.value = "";
+        //hide popup
+        popup.style.display = "none";
+        callback(null);
+    }
+}</pre>
+                        <p>This example is taken from the out of the box JavaScript WebSocket Demo at <span class="uri">http://localhost:8001/demo/</span>. The code for the demo can be viewed in <span class="uri"><i>GATEWAY_HOME</i>/demo/javascript/</span>. For more information on challenge handlers and how to configure location-specific challenge handling strategies, see the <a href="../apidoc/client/javascript/gateway/index.html">JavaScript Client API</a>.</p>
+
+<p>To have the out of the box JavaScript WebSocket demo prompt you for authentication, open the Gateway configuration file (<span class="uri"><em>GATEWAY_HOME</em>/conf/gateway-config.xml</span>), remove the HTML comments surrounding the <code>&lt;authorization-constraint&gt;</code> child of the <code>&lt;echo&gt;</code> service, restart the Gateway, and then try the demo. You will be prompted for user credentials.</p>
+
+                <p>This <code>BasicChallengeHandler</code> can be instantiated using a new <code>BasicChallengeHandler()</code>. After instantiating <code>BasicChallengeHandler</code>, the <code>loginHandler</code> function can be implemented to handle the authentication challenge. By default, <code>loginHandler</code> will send an empty <code>PasswordAuthentication</code>.</p>
+
+                <pre class="auto-links: false; brush: js; toolbar: false;">
+                var basicHandler = new BasicChallengeHandler(); 
+                basicHandler.loginHandler = function(callback) {
+                        callback(new PasswordAuthentication("global", "credentials"));
+                };
+                webSocketFactory.setChallengeHandler(basicHandler);
+                </pre>
+
+                <h3><a name="creating_challenge"></a>Creating a Custom Challenge Handler</h3>
+
+                <p>The <code>ChallengeHandler</code> object contains two methods, <span class="code_inline">canHandle()</span> and <span class="code_inline">handle()</span>. You create a custom challenge handler by using these methods to determine whether a challenge handler can handle the authentication scheme in the 401 response, and then passing the request to the <span class="code_inline">challengeRequest</span> object.</p>
+
+<pre class="auto-links: false; brush: js; toolbar: false;">
+var myChallengeHander = function() {
+
+  this.canHandle = function(challengeRequest) {
+    // Return true if challengeRequest.authenticationScheme matches your scheme.
+    return challengeRequest != null &amp;&amp; "token" == challengeRequest.authenticationScheme.trim().toLowerCase();
+  }
+  this.handle = function(challengeRequest, callback) {
+    var challengeResponse = null;
+    if (challengeRequest.location != null) {
+      var token = getToken();
+      if (token != null) {
+        // Set the token to challengeResponse
+        challengeResponse = new ChallengeResponse("Token "+token, null);
+      }
+    }
+    // Invoke callback function with challenge response
+    callback(challengeResponse);
+  }
+}</pre>
+                <p>The first time the user visits the web page containing your challenge handler, the user will not have the token. Your application can obtain the token using whatever method best suits your users and authentication process. For example, you could prompt the user for credentials or use a third-party token provider. Once the token is obtained, the token can be used for all subsequent visits to the page.</p>
+
+                <p>Once this function has determined that it can handle the challenge, it calls <span class="code_inline">ChallengeRequest</span> and a callback to handle the challenge. The <span class="code_inline">ChallengeRequest</span> is an immutable object representing the challenge presented by the server that contains a constructor from the protected URI location triggering the challenge, and an entire server-provided 'WWW-Authenticate:' string.</p>
+
+                <p>Once you have created a custom challenge handler, you can set it as the default challenge handler to be used for all HTTP requests.</p>
+
+<pre class="auto-links: false; brush: js; toolbar: false;">
+webSocketFactory.setChallengeHandler = function(challengeHandler) {
+  if (challengeHandler == null) {
+    throw new Error("challengeHandler not defined");
+  }
+  webSocketFactory.setChallengeHandler(new myChallengeHander());
+}</pre>
+
+<a id="manage"></a><h3>Managing Log In Attempts</h3>
+<p>When it is not possible for the Kaazing Gateway client to create a challenge response, the client must return <code>null</code> to the Gateway to stop the Gateway from continuing to issue authentication challenges.</p>
+
+<p>The following example is modified code taken from the JavaScript demo (<span class="uri"><em>GATEWAY_HOME</em>/demo/javascript/</span>) and demonstrates how to stop the Gateway from issuing further challenges.</p>
+
+<pre class="auto-links: false; brush: js; toolbar: false;">
+var maxRetries = 2;
+var retry = 0;
+function setupSSO(factory) {
+  /* Respond to authentication challenges with popup login dialog */
+  var basicHandler = new BasicChallengeHandler();
+  basicHandler.loginHandler = function(callback) {
+    if (retry++ >= maxRetries) {
+      callback(null);       // abort authentication process if reaches max retries
+    }
+    else {
+      popupLoginDialog(callback);
+    }
+  }
+  factory.setChallengeHandler(basicHandler);
+}
+...</pre>
+
+                <h3><a name="registering_challenge"></a>Registering Challenge Handlers at Locations</h3>
+                <p>Client applications with location-specific challenge handling strategies can register a <span class="code_inline">DispatchChallengeHandler</span> object, on which location-specific <span class="code_inline">ChallengeHandler</span> objects are then registered. The result is that whenever a request matching one of the specific locations encounters a 401 challenge from the server, the corresponding <span class="code_inline">ChallengeHandler</span> object is invoked to handle the challenge. For example:</p>
+<pre class="auto-links: false; brush: js; toolbar: false;">
+var basicHandler1 = new BasicChallengeHandler();
+basicHandler1.loginHandler = function(callback) {
+        popupLoginDialog(callback);
+};
+
+var basicHandler2 = new BasicChallengeHandler();
+basicHandler2.loginHandler = function(callback) {
+        callback(new PasswordAuthentication("username", "password"))
+};
+
+var dispatchHandler = new DispathChallengeHandler();
+dispatchHandler.register("ws://myserver.example.com", basicHandler1);
+dispatchHandler.register("ws://anotherserver.example.com", basicHandler2);
+
+webSocketFactory.setChallengeHandler(dispatchHandler);
+
+// Enable the ChallengeHandler by using this webSocketFactory to create a new WebSocket object
+var websocket = webSocketFactory.createWebSocket("ws://myserver.example.com");</pre>
+
+                <h3><a name="wildcards"></a>Using Wildcards to Match Sub-domains and Paths</h3>
+                <p>You can use wildcards (“*”) when registering locations using <span class="code_inline">DispatchChallengeHandler</span>. Some examples of <span class="code_inline">locationDescription</span> values with wildcards are:</p>
+                <ul>
+                    <li><span class="code_inline">*/</span> matches all requests to any host on port 80 (default port), with no user information or path specified.</li> 
+                        <li><span class="code_inline">*.hostname.com:8000</span> matches all requests to port 8000 on any sub-domain of hostname.com, but not hostname.com itself.</li> 
+                        <li><span class="code_inline">server.hostname.com:*/*</span> matches all requests to a particular server on any port on any path but not the empty path.</li>
+                 </ul>
+
+                <h3><a name="negotiating_challenge"></a>Negotiating a Challenge</h3>
+                <p>A Negotiate challenge handler handles initial empty "Negotiate" challenges from the
+                Gateway. It uses other candidate challenge handlers to assemble an initial context token to send to the Gateway, and is responsible for creating a challenge response that can delegate to the appropriate candidate.</p>
+
+                <p>In addition, you can register more specific <span class="code_inline">NegotiableChallengeHandler</span> objects with
+                this initial <span class="code_inline">NegotiateChallengeHandler</span> to handle initial Negotiate challenges and subsequent challenges associated with specific Negotiation <a href="//tools.ietf.org/html/rfc4178#section-4.1">mechanism types</a> and object identifiers.</p>
+
+                <p>Use <span class="code_inline">DispatchChallengeHandler</span> to register a  <span class="code_inline">NegotiateChallengeHandler</span> at a specific location.  The <span class="code_inline">NegotiateChallengeHandler</span> has a <span class="code_inline">NegotiableChallengeHandler</span> instance registered as one of the potential negotiable alternative challenge handlers.</p>
+
+<pre class="auto-links: false; brush: js; toolbar: false;">
+var negotiableHandler = new NegotiableChallengeHandler();
+var negotiableHandler.loginHandler  = function(callback) {...};
+var negotiateHandler = new NegotiateChallengeHandler();
+negotiateHandler.register(negotiableHandler);
+
+webSocketFactory.setChallengeHandler(negotiateHandler);</pre>
+
+                <h2>Next Step</h2>
+                <p>You have completed the JavaScript client examples.</p>
+
+                <h2>See Also</h2>
+                <p><a href="../apidoc/client/javascript/gateway/index.html">JavaScript Client API</a></p> 
+                
+                  </section>
+                </article>
+
+            </div> <!-- #main -->
+        </div> <!-- #main-container -->
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

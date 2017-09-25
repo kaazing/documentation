@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+  
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+
+ <h1 id="troubleshoot-kaazing-gateway-security">Troubleshoot Kaazing Gateway Security</h1>
+
+<p>When you configure security for Kaazing Gateway, you may encounter one of the following errors. To resolve an issue, follow the guidance provided for the associated error.</p>
+
+<h2 id="troubleshooting-kaazing-gateway">Troubleshooting Kaazing Gateway</h2>
+
+<p>This topic is part of <a href="../o_troubleshoot">Troubleshoot the Gateway</a> that groups troubleshooting topics into the categories shown in the following table:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>What Problem Are You Having?</th>
+      <th>Topic or Reference</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Configuration and startup</td>
+      <td><a href="../p_troubleshoot_gateway_configuration">Troubleshoot Kaazing Gateway Configuration and Startup</a></td>
+    </tr>
+    <tr>
+      <td>Clusters and load balancing</td>
+      <td><a href="../p_troubleshoot_high_availability">Troubleshoot Kaazing Gateway Cluster and Load Balancing</a></td>
+    </tr>
+    <tr>
+      <td><strong>Security</strong></td>
+      <td><strong>Troubleshoot Kaazing Gateway Security</strong></td>
+    </tr>
+    <tr>
+      <td>Clients</td>
+      <td><a href="../p_dev_troubleshoot">Troubleshoot Your Clients</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="what-problem-are-you-having">What Problem Are You Having?</h2>
+
+<ul>
+  <li><a href="#gateway-cannot-resolve-host-nameaddress">Gateway Cannot Resolve Host Name/Address</a></li>
+  <li><a href="#error-using-the-auth-constraint-element">Error Using the auth-constraint Element</a></li>
+  <li><a href="#websocket-stays-connected-too-long-when-it-should-fail-due-to-an-authorization-timeout">WebSocket Stays Connected Too Long When It Should Fail Due to an Authorization Timeout</a></li>
+  <li><a href="#error-host-is-configured-as-a-secure-port-in-a-service">Error: Host is Configured as a Secure Port in a Service</a></li>
+  <li><a href="#no-import-certificate-prompt-in-browser">No Import Certificate Prompt in Browser</a></li>
+  <li><a href="#missing-certificate-entry-in-keystore-when-starting-the-gateway">Missing Certificate Entry in Keystore When Starting the Gateway</a></li>
+  <li><a href="#keystore-password-or-truststore-files-not-found">Keystore, Password, or Truststore Files Not Found</a></li>
+  <li><a href="#invalid-keystore-format">Invalid Keystore Format</a></li>
+  <li><a href="#keystore-missing-certificate-for-host-name">Keystore Missing Certificate for Host Name</a></li>
+  <li><a href="#errors-when-importing-certificates">Errors When Importing Certificates</a></li>
+</ul>
+
+<h3 id="gateway-cannot-resolve-host-nameaddress">Gateway Cannot Resolve Host Name/Address</h3>
+
+<p><strong>Cause:</strong> If you use a host name in a secure URL (using HTTPS, WSS, SSL) in the Gateway configuration and the Gateway cannot resolve the host name, then it returns the following exception:</p>
+
+<p><code>java.lang.RuntimeException: Unable to resolve address *hostname*.com:9000</code></p>
+
+<p><strong>Solution:</strong> Update the host name resources so the Gateway can resolve a host name in a secure URL using its cache, host file, or DNS.</p>
+
+<h3 id="error-using-the-auth-constraint-element">Error Using the auth-constraint Element</h3>
+
+<p><strong>Cause:</strong> If the Gateway has detected the deprecated <code>auth-constraint</code> element in the configuration file then it returns the following error message:</p>
+
+<p>The preferred name for the auth-constraint configuration option has changed to authorization-constraint for clarity. Please update your configuration file accordingly.</p>
+
+<p><strong>Solution:</strong> Change your Gateway configuration to use the <code>authorization-constraint</code> element as described in the <a href="../../admin-reference/r_configure_gateway_service#authorization-constraint">authorization-constraint</a> element for Gateway services.</p>
+
+<h3 id="websocket-stays-connected-too-long-when-it-should-fail-due-to-an-authorization-timeout">WebSocket Stays Connected Too Long When It Should Fail Due to an Authorization Timeout</h3>
+
+<p><strong>Cause:</strong> WebSocket stays connected when you expected it to fail due to an authorization timeout.</p>
+
+<p><strong>Solution:</strong> Perform the following steps:</p>
+
+<ol>
+  <li>
+    <p>Specify the time interval before which the client must reauthenticate itself, lest the WebSocket be closed.</p>
+
+    <p>There are two ways to specify the time interval before which the client must reauthenticate itself:</p>
+
+    <ul>
+      <li>Configure an <a href="../../admin-reference/r_configure_gateway_security#authentication"><code>authorization-timeout</code></a> in your the Gateway configuration, as described in the <code>security</code> section of this document.</li>
+      <li>Specify the maximum age with the <code>LoginResult.setAuthorizationTimeout</code> method in your custom login module, as described in the Service Provider Interface in the <a href="../..">Server API Documentation</a>.</li>
+    </ul>
+
+    <p>You can use one or both of the preceding methods to specify an authorization timeout. If you use both methods, then the Gateway sets the authorization timeout to be the lesser of the two values.</p>
+  </li>
+  <li>
+    <p>Determine if reauthentication is active for a WebSocket connection:</p>
+    <ol>
+      <li>
+        <p>Enable the <code>session.revalidate</code> logger at the <code>info</code> warning level, as shown in the following example:</p>
+
+        <pre class="auto-links: false; brush: xml; toolbar: false;">      &lt;logger name="session.revalidate"&gt;
+          &lt;level value="info"/&gt;
+      &lt;/logger&gt;
+
+      &lt;root&gt;
+          &lt;priority value="info"/&gt;
+          &lt;appender-ref ref="STDOUT"/&gt;
+      &lt;/root&gt;
+</code></pre>
+      </li>
+      <li>
+        <p>Look for the following messages:</p>
+
+        <p>The following message indicates the revalidate system for WebSocket is enabled.</p>
+
+        <code class="language-bash">2012-02-29 10:03:56,305 INFO   session.revalidate - [wsx#8] REVALIDATE COMMAND ENABLED [period=2s; timeout=2s]
+</code>
+
+        <p>The following message indicates the Gateway sent a revalidate message to the client.</p>
+
+        <code class="language-bash">2012-02-29 10:03:58,309 INFO   session.revalidate - [wsx#8] REVALIDATE COMMAND SENT: VALI 
+/echoAuth/;a/f0tCswwNoLNfaKb4cOERYuTT56Ai6UAN?.kl=Y
+</code>
+      </li>
+    </ol>
+  </li>
+</ol>
+
+<h3 id="error-host-is-configured-as-a-secure-port-in-a-service">Error: Host is Configured as a Secure Port in a Service</h3>
+
+<p><strong>Cause:</strong> When the same host and port is configured as secure in one service and not secure in another service the following error may occur:</p>
+
+<code>example.com IP:443 is configured as a secure port in a service already and cannot be bound as an unsecure port in service wss://example.com:443/echo
+</code>
+
+<p>For example, the error could occur at runtime for the following configuration because there is more than one service in use and one or more of the services is behind an SSL offloader:</p>
+
+<p>Service 1 (where <code>wss:example.com:443</code> is configured as secure):</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">        &lt;service&gt;
+            &lt;accept&gt;wss:example.com:443/service1&lt;/accept&gt;
+        ...
+        &lt;/service&gt;
+</code></pre>
+
+<p>Service 2 (where <code>wss:example.com:443</code> is configured as not secure by disabling <code>ssl.encryption</code>):</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">      &lt;service&gt;
+          &lt;accept&gt;wss:example.com:443/service2&lt;/accept&gt;
+          &lt;accept-options&gt;
+              &lt;ssl.encryption&gt;disabled&lt;/ssl.encryption&gt;
+          &lt;/accept-options&gt;
+      &lt;/service&gt;
+</code></pre>
+
+<p><strong>Solution:</strong> Configure a service being offloaded as a separate service (that uses a different port number) and disable <a href="../../admin-reference/r_configure_gateway_service#sslencryption">ssl.encryption</a>.</p>
+
+<h3 id="no-import-certificate-prompt-in-browser">No Import Certificate Prompt in Browser</h3>
+
+<p><strong>Cause:</strong> When using a WebSocket Secure (<code>wss://</code>) connection, you navigate to your site that is using a self-signed certificate for testing purposes. When you access the URL, you are not prompted to import the self-signed certificate, as expected. The prompt to import the certificate displays when a web browser accesses an HTTPS address only.</p>
+
+<p><strong>Solution:</strong> Configure the Gateway with a <code>directory</code> service that accepts an HTTPS address (for example, <code>https://example.com:9000</code>), and navigate to that address using a web browser.</p>
+
+<p><strong>See Also:</strong> <a href="../../security/p_tls_selfsigned/index.html">Secure the Gateway Using Self-Signed Certificates</a> for information about how to import a self-signed certificate into your browser, and see the <a href="../../admin-reference/r_configure_gateway_service#directory">directory</a> service reference for information about configuring a directory service.</p>
+
+<h3 id="missing-certificate-entry-in-keystore-when-starting-the-gateway">Missing Certificate Entry in Keystore When Starting the Gateway</h3>
+
+<p><strong>Cause:</strong> When the <code>directory</code> service in the Gateway is configured to access a secure URL for which it does not have a corresponding certificate in the <code>keystore.db</code> file (located in <code>GATEWAY_HOME/conf</code>), the following error may be returned when starting the Gateway:</p>
+
+<p><code>Keystore does not have a certificate entry for *host:port*.</code></p>
+
+<p><strong>Solution:</strong> Ensure that you have imported the appropriate certificate into the keystore and that the <code>directory</code> service in the <code>gateway-config.xml</code> points to the same host and port as the certificate.</p>
+
+<p>To display the certificates in the keystore, use the following command:</p>
+
+<p><code>keytool -list -v -keystore filename -storepass password -storetype JCEKS/JKS</code></p>
+
+<p><strong>See Also:</strong> <a href="../../security/o_tls/index.html">Secure Network Traffic with the Gateway</a>.</p>
+
+<h3 id="keystore-password-or-truststore-files-not-found">Keystore, Password, or Truststore Files Not Found</h3>
+
+<p><strong>Cause:</strong> If the Gateway cannot locate the keystore database file, the keystore password file, or the truststore file, then any of the following exceptions can occur.</p>
+
+<ul>
+  <li>
+    <p>If the Gateway cannot locate the keystore database file during start up, then the following exception is thrown:</p>
+
+    <p><code>java.io.FileNotFoundException: GATEWAY_HOME/conf/keystore.db (No such file or directory)</code></p>
+  </li>
+  <li>
+    <p>If the Gateway cannot locate the keystore password file during start up, then the following exception is thrown:</p>
+
+    <p><code>java.io.FileNotFoundException: GATEWAY_HOME/conf/keystore.pw (No such file or directory)</code></p>
+  </li>
+  <li>
+    <p>If the Gateway cannot locate the truststore file during start up, then the following exception is thrown:</p>
+
+    <p><code>java.io.FileNotFoundException: GATEWAY_HOME/conf/truststore.db (No such file or directory)</code></p>
+  </li>
+</ul>
+
+<p><strong>Solution:</strong> For all exceptions, confirm that the Gateway configuration has the correct name and location for the keystore, password, and truststore files. The keystore database file is located in <code>GATEWAY_HOME/conf</code> and referenced in the <code>keystore</code> element in <code>gateway-config.xml</code>, for example:</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">        &lt;keystore&gt;
+            &lt;type&gt;JCEKS&lt;/type&gt;
+            &lt;file&gt;keystore.db&lt;/file&gt;
+            &lt;password-file&gt;keystore.pw&lt;/password-file&gt;
+        &lt;/keystore&gt;
+</code></pre>
+
+<h3 id="invalid-keystore-format">Invalid Keystore Format</h3>
+
+<p><strong>Cause:</strong> The <code>keystore</code> and <code>truststore</code> elements used in the Gateway configuration file must follow the correct format or the Gateway will throw the following exception:</p>
+
+<p><code>java.io.IOException: Invalid keystore format</code></p>
+
+<p>The error displays if you do not include the <code>type</code> parameter in the <code>keystore</code> element in <code>gateway-config.xml</code>. It might also appear if you include the incorrect <code>type</code> parameter.</p>
+
+<p><strong>Solution:</strong> Use the correct format for the <code>keystore</code> or <code>truststore</code> elements, as follows:</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">      &lt;keystore&gt;
+          &lt;type&gt;JCEKS&lt;/type&gt;
+          &lt;file&gt;keystore.db&lt;/file&gt;
+          &lt;password-file&gt;keystore.pw&lt;/password-file&gt;
+      &lt;/keystore&gt;
+              
+      &lt;truststore&gt;
+          &lt;file&gt;truststore.db&lt;/file&gt;
+      &lt;/truststore&gt;
+</code></pre>
+
+<h3 id="keystore-missing-certificate-for-host-name">Keystore Missing Certificate for Host Name</h3>
+
+<p><strong>Cause:</strong> The Gateway configuration file must be able to locate a certificate for the host name used in a secure URL.</p>
+
+<p>If there are any secure protocol schemes in <code>gateway-config.xml</code> (HTTPS, WSS, SSL, TLS), the Gateway looks in the keystore or truststore for a certificate that corresponds to the host name used in the URL. If the certificate does not exist, the Gateway throws the following exception:</p>
+
+<p><code>java.lang.RuntimeException: org.kaazing.gateway.server.transport.ssl.bridge.filter.CertificateNotFoundException: Keystore does not have a certificate entry for example.com</code></p>
+
+<p>Enter the following <code>keytool</code> command to see if there is a certificate for the host name in the keystore:</p>
+
+<p><code>keytool -list -v -alias example.com -keystore GATEWAY_HOME/conf/keystore.db -storepass password -storetype JCEKS</code></p>
+
+<p>You can omit the <code>-alias</code> parameter to see all certificates in the keystore or truststore.</p>
+
+<p>If there is no certificate for the alias you entered, keytool responds as follows:</p>
+
+<p><code>keytool error: java.lang.Exception: Alias &lt;alias.com&gt; does not exist</code></p>
+
+<p><strong>Solution:</strong> To solve this problem, create the certificate for the host name.</p>
+
+<p><strong>Note:</strong> When you generate a self-signed certificate, the <code>CN (Common Name)</code> and <code>alias</code> parameters must match or the Gateway will throw an exception stating that the certificate does not exist.</p>
+
+<h3 id="errors-when-importing-certificates">Errors When Importing Certificates</h3>
+
+<p><strong>Cause:</strong> Keytool reports errors if you omit required parameters when importing certificates.</p>
+
+<p><code>keytool error: java.io.IOException: Invalid keystore format</code></p>
+
+<p>This is the most common error when importing certificates into the keystore. The common cause of this error is the omission of the <code>-storetype JCEKS</code> parameter and value in the keytool import command.</p>
+
+<p><strong>Solution:</strong> Always include <code>-storetype JCEKS</code> when importing certificates into the keystore. This parameter is not required when importing certificates into the truststore.</p>
+
+<p><strong>Note:</strong> If you specify <code>JCEKS</code> (Java Cryptography Extension Key Store) when importing a certificate into the truststore, then you must add <code>&lt;type&gt;JCEKS&lt;/type&gt;</code> or the Gateway throws an exception.</p>
+
+
+</div>
+
+</div>
+
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

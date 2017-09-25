@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="img/favicon.ico">
+
+  <link href='https://fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="css/pygments.css">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/syntax.css">
+  <link rel="stylesheet" href="css/doc.css">
+  <link rel="stylesheet" href="css/mega-menu.css">
+
+
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com/"><img id="kaazing-logo-header" src="img/Kaazing.png" alt="Kaazing.com"></img></a>
+  </div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+ </div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+<div class="page-header">
+  <h1 class="text-center">Kaazing Gateway Docs Overview</h1>
+</div>
+
+<div class="row">
+  <div class="col-md-6">
+   <h3>Build Your Client</h3>
+   <dl class="dl-horizontal">
+     <dt>JMS Mobile</dt>
+     <dd><a href="jms_client_docs/dev-objc/o_dev_objc.html">iOS</a> &ndash; <a href="jms_client_docs/dev-android/o_dev_android.html">Android</a> &ndash; <a href="jms_client_docs/dev-js/hybrid_ios_walkthrough.html">Hybrid iOS</a> &ndash; <a href="jms_client_docs/dev-js/hybrid_android_walkthrough.html">Hybrid Android</a> &ndash; <a href="jms_client_docs/dev-dotnet/xamarin_dotnet_walkthrough.html">Xamarin</a></dd>
+     <dt>JMS Web</dt>
+     <dd><a href="jms_client_docs/dev-js/o_dev_js.html">JavaScript</a> &ndash; <a href="jms_client_docs/dev-dotnet/o_dev_dotnet.html">.NET</a> &ndash; <a href="jms_client_docs/dev-java/o_dev_java.html">Java</a></dd>
+     <dt>WebSocket Mobile</dt>
+     <dd><a href="websocket_client_docs/dev-objc/o_dev_objc.html">iOS</a> &ndash; <a href="websocket_client_docs/dev-android/o_dev_android.html">Android</a></dd>
+     <dt>WebSocket Web</dt>
+     <dd><a href="websocket_client_docs/dev-js/o_dev_js.html">JavaScript</a> &ndash; <a href="websocket_client_docs/dev-dotnet/o_dev_dotnet.html">.NET</a> &ndash; <a href="websocket_client_docs/dev-java/o_dev_java.html">Java</a> &ndash; <a href="dev-protocol/js/dev-protocol-js.html">Custom</a></dd>
+     <dt>AMQP Web</dt>
+     <dd><a href="amqp_client_docs/dev-js/o_dev_js.html">JavaScript</a> &ndash; <a href="amqp_client_docs/dev-dotnet/o_dev_dotnet.html">.NET</a> &ndash; <a href="amqp_client_docs/dev-java/o_dev_java.html">Java</a></dd>
+   </dl>
+  </div>
+  <div class="col-md-6">
+   <h3>Set Up Your Gateway</h3>
+   <dl class="dl-horizontal">
+     <dt>Setup</dt>
+     <dd><a href="about/setup-guide/index.html">Setting Up the Gateway and Clients</a></dd>
+     <dt>Docker</dt>
+     <dd><a href="https://github.com/kaazing/docker.tutorials">Deploy the Gateway using Docker</a></dd>
+     <dt>Deployments</dt>
+     <dd><a href="admin-reference/c_topologies/index.html">Common Gateway Topologies</a></dd>
+     <dt>Upgrade</dt>
+     <dd><a href="upgrade/o_upgrade/index.html">Upgrade the Gateway</a></dd>
+     <dt>AWS</dt>
+     <dd><a href="https://kaazing.com/doc/aws/marketplace/index.html">Deploy Amazon Web Services</a></dd>
+   </dl>
+  </div>
+</div>  
+<div class="row">
+  <div class="col-md-6">
+   <h3>Administer Your Gateway</h3>
+   <dl class="dl-horizontal">
+     <dt>Config Elements</dt>
+     <dd><a href="admin-reference/r_configure_gateway_element_index/index.html">All</a> &ndash; <a href="admin-reference/r_configure_gateway_service/index.html">services</a> &ndash; <a href="admin-reference/r_configure_gateway_security/index.html">security</a> &ndash; <a href="admin-reference/r_conf_jms/index.html">jms</a> (<a href="admin-reference/r_conf_jms/index.html#jms-service-required-elements">properties</a>) &ndash; <a href="admin-reference/r_configure_gateway_service/index.html#proxy-amqpproxy-and-jmsproxy">proxy</a> &ndash; <a href="admin-reference/r_configure_gateway_element_skeleton/index.html">more</a></dd>
+     <dt>Configure</dt>
+     <dd><a href="#configuration">Configuration options</a></dd>
+     <dt>Security</dt>
+     <dd><a href="#security">Secure the Gateway in multiple ways</a></dd>
+     <dt>Monitor/Troubleshoot</dt>
+     <dd><a href="#monitor-and-troubleshoot">Maintain QoS</a></dd>
+     <dt>High Availability</dt>
+     <dd><a href="#high-availability">Set up load balancing and clustering</a></dd>
+     <dt>Message Brokers</dt>
+     <dd><a href="#jms-compliant-message-brokers">JMS-compliant and AMQP-compliant message brokers</a></dd>
+     <dt>WebRTC</dt>
+     <dd><a href="integration-webrtc/p_integrate_webrtc/index.html">Deploy WebRTC using the Gateway</a></dd>
+     <dt>Notifications</dt>
+     <dd><a href="advanced-features/firebase/index.html">Configuring Mobile Client Notifications</a></dd>
+   </dl>
+  </div>
+  <div class="col-md-6">
+   <h3>Learn APIs and Specs</h3>
+   <dl class="dl-horizontal">
+     <dt>Client API</dt>
+     <dd><a href="#jms-client-api-documentation">JMS</a> &ndash; <a href="#websocket-client-api-documentation">WebSocket</a> &ndash; <a href="#amqp-client-api-documentation">AMQP</a></dd>
+     <dt>Server API</dt>
+     <dd><a href="#server-api-documentation">Gateway API docs</a></dd>
+     <dt>Specifications</dt>
+     <dd><a href="#specifications">WebSocket &ndash; JMS &ndash; AMQP &ndash; Stomp, etc</a></dd>
+   </dl>
+  </div>
+</div>
+
+<div class="page-header">
+  <h1 class="text-center">Full Doc Contents</h1>
+</div>
+
+<h2 id="essentials">Essentials</h2>
+
+<ul>
+  <li><a href="about/setup-guide/index.html">Setting Up the Gateway and Clients</a></li>
+  <li><a href="https://github.com/kaazing/docker.tutorials">Docker Deployment Options</a> <img src="images/docker.png"></li>
+  <li><a href="admin-reference/c_topologies/index.html">Common Kaazing Gateway Production Topologies</a></li>
+  <li><a href="upgrade/o_upgrade/index.html">Upgrade the Gateway</a></li>
+  <li><a href="about/about/index.html">Documentation Conventions</a></li>
+  <li><a href="kaazing-glossary.html">Kaazing Glossary</a></li>
+  <li><a href="faq.html">FAQ</a></li>
+</ul>
+
+<h2 id="for-developers">For Developers</h2>
+
+<ul>
+<li><a href="dev-general/c_general_client_information/index.html">Miscellaneous Client Information</a></li>
+</ul>
+
+<h3 id="mobile">Mobile</h3>
+
+<h4 id="jms-mobile-clients">JMS Mobile Clients</h4>
+
+<ul>
+  <li><a href="jms_client_docs/dev-objc/o_dev_objc.html">Build Objective-C (iOS) JMS Clients</a> </li>
+  <li><a href="jms_client_docs/dev-android/o_dev_android.html">Build Android JMS Clients</a> </li>
+  <li><a href="jms_client_docs/dev-js/hybrid_ios_walkthrough.html">Walkthrough: Deploy a JavaScript JMS App as a Hybrid iOS App</a> </li>
+  <li><a href="jms_client_docs/dev-js/hybrid_android_walkthrough.html">Walkthrough: Deploy a JavaScript JMS App as a Hybrid Android App</a> </li>
+  <li><a href="jms_client_docs/dev-dotnet/xamarin_dotnet_walkthrough.html">Walkthrough: Deploy Microsoft .NET JMS Clients to iOS or Android Using Xamarin</a> </li>
+</ul>
+
+<h4 id="websocket-mobile-clients">WebSocket Mobile Clients</h4>
+
+<ul>
+  <li><a href="websocket_client_docs/dev-objc/o_dev_objc.html">Build Objective-C (iOS) WebSocket Clients</a></li>
+  <li><a href="websocket_client_docs/dev-android/o_dev_android.html">Build Android WebSocket Clients</a></li>
+</ul>
+
+
+<h3 id="web-and-desktop">Web and Desktop</h3>
+
+<h4 id="jms-clients">JMS Clients</h4>
+
+<ul>
+  <li><a href="jms_client_docs/dev-js/o_dev_js.html">Build JavaScript JMS Clients</a> </li>
+  <li><a href="jms_client_docs/dev-dotnet/o_dev_dotnet.html">Build Microsoft .NET JMS Clients</a> </li>
+  <!-- <li><a href="jms_client_docs/dev-excel/excel_jms_walkthrough.html">Walkthrough: Integrate Excel with Kaazing Gateway</a> </li> -->
+  <li><a href="jms_client_docs/dev-java/o_dev_java.html">Build Java JMS Clients</a> </li>
+</ul>
+
+<h4 id="websocket-clients">WebSocket Clients</h4>
+
+<ul>
+  <li><a href="websocket_client_docs/dev-js/o_dev_js.html">Build JavaScript WebSocket Clients</a></li>
+  <li><a href="websocket_client_docs/dev-dotnet/o_dev_dotnet.html">Build Microsoft .NET WebSocket Clients</a> </li>
+  <li><a href="websocket_client_docs/dev-java/o_dev_java.html">Build Java WebSocket Clients</a> </li>
+  <li><a href="dev-protocol/js/dev-protocol-js.html">Implement a Custom WebSocket Protocol Client in JavaScript</a></li>
+</ul>
+
+<h4 id="amqp-clients">AMQP Clients</h4>
+
+<ul>
+  <li><a href="amqp_client_docs/dev-js/o_dev_js.html">Build JavaScript AMQP Clients</a></li>
+  <li><a href="amqp_client_docs/dev-dotnet/o_dev_dotnet.html">Build Microsoft .NET AMQP Clients</a> </li>
+  <li><a href="amqp_client_docs/dev-java/o_dev_java.html">Build Java AMQP Clients</a></li>
+  <!-- <li><a href="amqp_client_docs/dev-c/o_dev_c.html">Build C AMQP Clients</a> </li> -->
+</ul>
+
+
+<h3 id="embedded">Embedded</h3>
+
+<ul>
+  <li><a href="embedded-gateway/o_embedded_gateway/index.html">Embed the Gateway in Your Java Application</a></li>
+</ul>
+
+<h2 id="for-administrators">For Administrators</h2>
+
+<h3 id="configuration">Configuration</h3>
+
+<ul>
+  <li><a href="admin-reference/r_configure_gateway_element_index/index.html">Configuration Element Index</a>
+   <ul>
+    <li><a href="admin-reference/r_configure_gateway_service/index.html">Service Reference</a></li>
+    <li><a href="admin-reference/r_configure_gateway_security/index.html">Security Reference</a></li>
+    <li><a href="admin-reference/r_conf_jms/index.html">jms Service</a></li>
+    <li><a href="admin-reference/r_conf_jms/index.html#jms-service-required-elements">jms Service Properties</a></li>
+   </ul>
+  </li>
+  <li><a href="admin-reference/c_configure_gateway_concepts/index.html">About Gateway Configuration</a></li>
+  <li><a href="admin-reference/o_configure_gateway_checklist/index.html">Configure the Gateway</a></li>
+  <li><a href="internal-network/p_protocol_binding/index.html">Configure the Gateway on an Internal Network</a></li>
+  <li><a href="admin-reference/p_configure_multicast/index.html">Configure the Gateway to Use Multicast</a></li>
+</ul>
+
+<h3 id="security">Security</h3>
+
+<ul>
+  <li><a href="security/c_security_about/index.html">About Security with Kaazing Gateway</a></li>
+  <li><a href="security/o_auth_configure/index.html">Configure Authentication and Authorization</a></li>
+  <li><a href="security/p_kerberos_configure/index.html">Configure Kerberos V5 Network Authentication</a> </li>
+  <li><a href="security/o_tls/index.html">Configure Secure Network Traffic with the Gateway</a></li>
+  <li><a href="security/o_jms_secure/index.html">Configure a Secure JMS Configuration</a> </li>
+  <li><a href="enterprise-shield/o_enterprise_shield_checklist/index.html">Configure Enterprise Shield™ with the Gateway</a> </li>
+  <li><a href="security/p_geolocation_security/index.html">IP Filtering with the Gateway</a> </li>
+  <li><a href="security/p_tls_offloading/index.html">TLS/SSL Offloading with the Gateway</a></li>
+</ul>
+
+<h3 id="monitor-and-troubleshoot">Monitor and Troubleshoot</h3>
+
+<ul>
+  <li><a href="management/o_monitor/index.html">Monitor the Gateway</a></li>
+  <li><a href="troubleshooting/o_troubleshoot/index.html">Troubleshoot the Gateway</a></li>
+  <li><a href="troubleshooting/p_dev_troubleshoot/index.html">Troubleshoot Your Clients</a></li>
+  <li><a href="integration-jms/p_jms_integrate_tshoot/index.html">Troubleshoot JMS Integration</a> </li>
+  <li><a href="management/p_identity_logging/index.html">Identity Logging</a></li>
+</ul>
+
+<h3 id="high-availability">High Availability</h3>
+
+<ul>
+  <li><a href="high-availability/u_high_availability/index.html">Using the Gateway to Support High Availability</a></li>
+  <li><a href="high-availability/o_high_availability/index.html">Configure the Gateway for High Availability</a></li>
+  <li><a href="high-availability/f5_load_balancing/index.html">Configure F5 BIG-IP Load Balancing with the Gateway</a></li>
+</ul>
+
+<h3 id="jms-compliant-message-brokers">JMS-Compliant and AMQP-Compliant Message Brokers</h3>
+<ul>
+  <li><a href="integration-jms/o_jms_integrate/index.html">Integrate with JMS-Compliant Message Brokers</a> </li>
+  <li><a href="integration-jms/p_jms_integrate_tshoot/index.html">Troubleshoot JMS Integration</a> </li>
+  <li><a href="integration-amqp/p_amqp_integrate_rabbitmq/index.html">Integrate RabbitMQ Messaging</a></li>
+  <!-- <li><a href="brokers/p_integrate_redis/index.html">Using the Redis Service</a> </li> -->
+</ul>
+
+<h3>WebRTC</h3>
+<ul>
+ <li><a href="integration-webrtc/p_integrate_webrtc/index.html">Deploy WebRTC using the Gateway</a> </li>
+</ul>
+
+<h3>Mobile Client Notifications</h3>
+<ul>
+ <li><a href="advanced-features/firebase/index.html">Configuring Mobile Client Notifications</a> </li>
+</ul>
+
+<h2 id="client-api-documentation">Client API Documentation</h2>
+
+<h3 id="websocket-client-api-documentation">WebSocket Client API Documentation</h3>
+
+<ul>
+  <li><a href="//kaazing.com/doc/5.0/websocket_client_docs/apidoc/client/ios/gateway/index.html">Objective-C WebSocket Client API</a></li>
+  <li><a href="//kaazing.com/doc/5.0/websocket_client_docs/apidoc/client/android/gateway/index.html">Android WebSocket Client API</a></li>
+  <li><a href="//kaazing.com/doc/5.0/websocket_client_docs/apidoc/client/javascript/gateway/index.html">JavaScript WebSocket Client API</a></li>
+  <li>.NET WebSocket Client API   (<a href="//kaazing.com/doc/5.0/websocket_client_docs/apidoc/client/dotnet/gateway/html/N_Kaazing_HTML5.htm">Kaazing.HTML5</a>) (<a href="//kaazing.com/doc/5.0/websocket_client_docs/apidoc/client/dotnet/gateway/html/N_Kaazing_Security.htm">Kaazing.Security</a>)</li>
+  <li><a href="//kaazing.com/doc/5.0/websocket_client_docs/apidoc/client/java/gateway/index.html">Java WebSocket Client API</a></li>
+</ul>
+
+<h3 id="amqp-client-api-documentation">AMQP Client API Documentation</h3>
+
+<ul>
+  <li><a href="//kaazing.com/doc/5.0/amqp_client_docs/apidoc/client/javascript/amqp/index.html">JavaScript AMQP Client API</a></li>
+  <!-- <li><a href="https://kaazing.com/doc/amqp/4.0/apidoc/client/C/AMQP-0-9-1/index.html">C AMQP Client API</a></li> -->
+  <li>.NET AMQP Client API   <a href="//kaazing.com/doc/5.0/amqp_client_docs/apidoc/client/dotnet/html/N_Kaazing_AMQP.htm">(Kaazing AMQP)</a> <a href="//kaazing.com/doc/5.0/amqp_client_docs/apidoc/client/dotnet/gateway/html/N_Kaazing_Security.htm">(Kaazing.Security)</a></li>
+  <li><a href="//kaazing.com/doc/5.0/amqp_client_docs/apidoc/client/java/amqp/client/index.html">Java AMQP Client API</a></li>
+</ul>
+
+<h3 id="jms-client-api-documentation">JMS Client API Documentation</h3>
+
+<ul>
+  <li><a href="about/kaazing-jms-api/index.html">Kaazing Gateway JMS Client Libraries: Supported APIs</a> </li>
+  <li><a href="https://kaazing.com/doc/5.0/jms_client_docs/apidoc/client/javascript/jms/index.html?JmsConnectionFactory">JavaScript JMS Client API</a> </li>
+  <li><a href="https://kaazing.com/doc/5.0/jms_client_docs/apidoc/client/ios/jms/KMStompJMS/index.html">Objective-C JMS Client API</a> </li>
+  <li><a href="https://kaazing.com/doc/5.0/jms_client_docs/apidoc/client/android/jms/index.html">Android JMS Client API</a> </li>
+  <li>.NET Client API  (<a href="https://kaazing.com/doc/5.0/jms_client_docs/apidoc/client/dotnet/jms/html/N_Kaazing_JMS.htm">Kaazing.JMS</a>) (<a href="https://kaazing.com/doc/5.0/jms_client_docs/apidoc/client/dotnet/jms/html/N_Kaazing_JMS_Stomp.htm">Kaazing.JMS.Stomp</a>) (<a href="https://kaazing.com/doc/5.0/jms_client_docs/apidoc/client/dotnet/jms/html/N_Kaazing_JMS_Util.htm">Kaazing.JMS.Util</a>) (<a href="https://kaazing.com/doc/5.0/jms_client_docs/apidoc/client/dotnet/jms/html/N_Kaazing_Security.htm">Kaazing.Security</a>)</li>
+  <li><a href="https://kaazing.com/doc/5.0/jms_client_docs/apidoc/client/java/jms/index.html">Java JMS Client API</a> </li>
+</ul>
+
+<h2 id="server-api-documentation">Server API Documentation</h2>
+
+<ul>
+  <li><a href="https://kaazing.com/doc/5.0/apidoc/server/gateway/server/spi/index.html">Server Provider Interface</a></li>
+  <li><a href="https://kaazing.com/doc/5.0/apidoc/server/gateway/server/api/index.html">Kaazing WebSocket Gateway Server API</a></li>
+  <li><a href="https://kaazing.com/doc/5.0/apidoc/server/jms/server/spi/index.html">JMS Server Security</a> </li>
+  <li><a href="https://kaazing.com/doc/5.0/apidoc/server/amqp/server/spi/index.html">AMQP Server SPI</a> </li>
+</ul>
+
+<h3 id="aws-amazon-web-services">AWS (Amazon Web Services)</h3>
+<ul>
+  <li><a href="https://kaazing.com/doc/aws/marketplace/index.html">AWS (Amazon Web Services) documentation</a></li>
+</ul>
+
+<h2 id="specifications">Specifications</h2>
+
+<ul>
+  <li><a href="//www.w3.org/TR/html5/">HTML5 Specification</a></li>
+  <li><a href="//dev.w3.org/html5/websockets/">HTML5 WebSocket API Specification</a></li>
+  <li><a href="//tools.ietf.org/html/rfc6455">HTML5 WebSocket Protocol Specification</a></li>
+  <li><a href="//dev.w3.org/html5/eventsource/">HTML5 Server-Sent Events Specification</a></li>
+  <li><a href="//www.amqp.org/">AMQP Protocol Specification</a></li>
+  <li><a href="//www.oracle.com/technetwork/java/docs-136352.html">Java Message Service (JMS) API Specification</a></li>
+  <li><a href="//stomp.github.io/stomp-specification-1.0.html">Stomp Protocol Specification, Version 1.0</a></li>
+</ul>
+
+
+</div>
+
+</div>
+
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <!-- <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp; -->
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+
+</body>
+</html>

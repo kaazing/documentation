@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+  
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+
+ <h1 id="configure-a-chain-of-login-modules">Configure a Chain of Login Modules</h1>
+
+<p>You configure one or more login modules, called a <em>chain of login modules</em>, to instruct the Gateway on how to validate user credentials with a user database and to determine a set of authorized roles. The chain of login modules decode and verify the credentials, and (along with the challenge handler) handle the challenge/response authentication sequence of events.</p>
+
+<h2 id="before-you-begin">Before You Begin</h2>
+
+<p>This procedure is part of <a href="../o_auth_configure">Configure Authentication and Authorization</a>:</p>
+
+<ol>
+  <li><a href="../p_authentication_config_http_challenge_scheme">Configure the HTTP Challenge Scheme</a></li>
+  <li><strong>Configure a Chain of Login Modules</strong></li>
+  <li><a href="../p_auth_configure_challenge_handler">Configure a Challenge Handler on the Client</a></li>
+  <li><a href="../p_authorization_configure">Configure Authorization</a></li>
+</ol>
+
+<h2 id="to-configure-a-chain-of-login-modules">To Configure a Chain of Login Modules</h2>
+
+<ol>
+  <li>
+    <p>Determine the type of login modules you want to define.</p>
+
+    <p>A <code>login-module</code> evaluates the encoded login credentials that the Gateway passes to it. The Gateway supports the following types of login modules:</p>
+
+    <ul>
+      <li>
+        <p><strong>Built-in login module provided by Kaazing Gateway</strong></p>
+
+        <p>The Gateway provides the <code>file</code> login module for easy-to-implement security that is integrated with the Gateway.</p>
+      </li>
+      <li>
+        <p><strong>Standard (public) JDK-provided login modules</strong></p>
+
+        <p>The Gateway supports <code>ldap</code>, <code>kerberos5</code>, <code>gss</code>, <code>jndi</code>, and <code>keystore</code> login modules, which are some of the most commonly used login modules for authentication and authorization purposes. In these implementations, you do not need to write your own login module solution. For information about using the <code>kerberos5</code> and <code>gss</code> <code>login-module</code> elements, see <a href="../o_kerberos">Configuring Kerberos V5 Network Authentication</a>.</p>
+      </li>
+      <li>
+        <p><strong>Custom login modules</strong></p>
+
+        <p>If you use the <code>Application Token</code> authentication scheme, you must supply your own custom login module. See <a href="../p_auth_configure_custom_login_module">Create a Custom Login Module</a> and <a href="../p_auth_integrate_custom_login_module">Integrate an Existing Custom Login Module into the Gateway</a>.</p>
+      </li>
+    </ul>
+  </li>
+  <li>Add the <code>login-modules</code> element within the <code>authentication</code> element that you started in Step 1. The <code>login-modules</code> element is the container for one or more login modules and it defines the scope in which security policies are enforced.</li>
+  <li>
+    <p>Define one or more login modules to make a chain.</p>
+
+    <p>Each login module in the chain is responsible for doing a little piece of work and passing along information. For example, one login module might check a database, another login module might contact an LDAP directory, and so on.</p>
+
+    <p>In the following example, the chain of login modules includes the <code>file</code> type (to handle the <code>jaas-config.xml</code> that is part of Kaazing Gateway) and the <code>ldap</code> type. For a complete security example, see the <strong>Notes</strong> section below.</p>
+
+    <pre class="auto-links: false; brush: xml; toolbar: false;">      &lt;login-modules&gt;
+        &lt;login-module&gt;
+          &lt;type&gt;file&lt;/type&gt;
+          &lt;success&gt;requisite&lt;/success&gt;
+          &lt;options&gt;
+            &lt;filename&gt;jaas-config.xml&lt;/filename&gt;
+          &lt;/options&gt;
+        &lt;login-module&gt;
+
+        &lt;login-module&gt;
+          &lt;type&gt;ldap&lt;/type&gt;
+          &lt;success&gt;required&lt;/success&gt;
+          &lt;options&gt;
+            &lt;userProvider&gt;ldap://ldap-svr:389/ou=people,dc=example,dc=com&lt;/userProvider&gt;
+            &lt;userFilter&gt;
+              &lt;![CDATA[(&amp;amp;(userPrincipalName={USERNAME}@MYCOMPANY.NET)
+                (objectClass=inetOrgPerson))]]&gt;
+            &lt;/userFilter&gt;
+            &lt;authzIdentity&gt;{EMPLOYEENUMBER}&lt;/authzIdentity&gt;
+          &lt;/options&gt;
+        &lt;/login-module&gt;
+      &lt;/login-modules&gt;
+</code></pre>
+
+    <p>In the example:</p>
+
+    <ul>
+      <li>The <code>login-module</code> at the start of the chain often asks the Gateway for more information, via a <em>callback</em> into the Gateway (for example, using a token).
+        <ul>
+          <li>If the <code>file</code> login module fails, then authentication processing does not progress down the chain.</li>
+          <li>If the <code>file</code> login module succeeds, then processing continues to the next login module in the example, which is the <code>ldap</code> login module.</li>
+        </ul>
+      </li>
+      <li>The <code>login-module</code> at the end of the chain verifies the information against a database, such as the <code>jaas-config.xml</code> file or the LDAP server. Because the <code>ldap</code> login module is the last one in the chain, the user authenticates successfully and the Gateway establishes the client’s list of authorized roles and permits the WebSocket connection to proceed (<code>101 Protocol Upgrade</code>). Otherwise, it denies the WebSocket creation request.</li>
+    </ul>
+  </li>
+  <li>
+    <p>Configure a <code>success</code> element for each login module.</p>
+
+    <p>If there is more than one login-module configured in a realm, then configure the semantics and processing order for a chain of login modules using the <code>success</code> element. In the example shown in the previous step, setting the <code>requisite</code> property indicates that the <code>file</code> login module must succeed. See the table in the Notes section for more information about setting the <code>success</code> element.</p>
+  </li>
+  <li>
+    <p>Ensure the corresponding <code>service</code> element’s <code>http-challenge-scheme</code> type aligns with the set of login modules in the Gateway configuration.</p>
+
+    <p>For example, the <code>file</code> login module may require a username and password as part of its login needs. Thus, you should probably configure the <code>basic</code> authentication scheme that is expecting the user to login with a username and password. If you configure the chain of login modules to expect only tokens (such as with a <code>custom</code> login module), then configure the <code>http-challenge-scheme</code> element for <code>Negotiate</code>, <code>Application Negotiate</code>, or <code>Application Token</code>.</p>
+
+    <p><strong>Note:</strong> If you use the <code>Application Token</code> scheme, then you must write your own custom login module.</p>
+  </li>
+  <li>Save the Gateway configuration.</li>
+</ol>
+
+<h2 id="notes">Notes</h2>
+
+<p>The <code>success</code> element controls the behavior of the individual login modules, but the order of the login modules controls the overall behavior as the process of authentication walks down the stack. When there is more than one login-module configured in a <code>realm</code> you should carefully plan the order in which the login modules appear in the Gateway configuration because the login modules are invoked in sequence.</p>
+
+<p>The following table describes how the order of login modules and the setting of the <code>success</code> element controls authentication processing:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th><code>success</code> values</th>
+      <th>Description</th>
+      <th>On success or failure …</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>required</code></td>
+      <td>The <code>login-module</code> must succeed.</td>
+      <td>If it succeeds or fails, then authentication continues to proceed down the <code>login-module</code> list.</td>
+    </tr>
+    <tr>
+      <td><code>requisite</code></td>
+      <td>The <code>login-module</code> must succeed.</td>
+      <td>If it succeeds, then authentication continues down the <code>login-module</code> list. If it fails, then authentication stops its process down the <code>login-module</code> list and the Gateway denies the WebSocket creation request.</td>
+    </tr>
+    <tr>
+      <td><code>sufficient</code></td>
+      <td>The <code>login-module</code> is not required to succeed.</td>
+      <td>If it succeeds, then authentication stops its process down the <code>login-module</code> list and the Gateway opens the WebSocket connection. If it fails, authentication continues down the <code>login-module</code> list.</td>
+    </tr>
+    <tr>
+      <td><code>optional</code></td>
+      <td>The <code>login-module</code> is not required to succeed.</td>
+      <td>If it succeeds or fails, then authentication proceeds down the <code>login-module</code> list.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>In addition:</strong><br />
+-   If a <code>sufficient</code> login module is configured and succeeds, then only the <code>required</code> and <code>requisite</code> login modules prior to that <code>sufficient</code> login module need to have succeeded for the overall authentication to succeed.<br />
+-   If no <code>required</code> or <code>requisite</code> login modules are configured for an application, then at least one <code>sufficient</code> or <code>optional</code> login module must succeed.</p>
+
+<p>The following code shows a complete security example:</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;security&gt;
+  &lt;keystore&gt;
+   &lt;type&gt;JCEKS&lt;/type&gt;
+   &lt;file&gt;keystore.db&lt;/file&gt;
+   &lt;password-file&gt;keystore.pw&lt;/password-file&gt;
+  &lt;/keystore&gt;
+
+  &lt;truststore&gt;
+    &lt;file&gt;truststore.db&lt;/file&gt;
+  &lt;/truststore&gt;
+
+  &lt;realm&gt;
+    &lt;name&gt;demo&lt;/name&gt;
+    &lt;authentication&gt;
+      &lt;http-challenge-scheme&gt;Basic&lt;/http-challenge-scheme&gt;
+      &lt;http-header&gt;X-Custom-Authorization-Header&lt;/http-header&gt;
+      &lt;http-query-parameter&gt;myCustomAuthParam&lt;/http-query-parameter&gt;
+      &lt;http-cookie&gt;sampleCookie1&lt;/http-cookie&gt;
+
+      &lt;login-modules&gt;
+        &lt;login-module&gt;
+          &lt;type&gt;file&lt;/type&gt;
+          &lt;success&gt;required&lt;/success&gt;
+          &lt;options&gt;
+            &lt;filename&gt;jaas-config.xml&lt;/filename&gt;
+          &lt;/options&gt;
+        &lt;login-module&gt;
+
+        &lt;login-module&gt;
+          &lt;type&gt;ldap&lt;/type&gt;
+          &lt;success&gt;required&lt;/success&gt;
+          &lt;options&gt;
+            &lt;userProvider&gt;ldap://ldap-svr:389/ou=people,dc=example,dc=com&lt;/userProvider&gt;
+            &lt;userFilter&gt;
+              &lt;![CDATA[(&amp;amp;(userPrincipalName={USERNAME}@MYCOMPANY.NET)
+              (objectClass=inetOrgPerson))]]&gt;
+            &lt;/userFilter&gt;
+            &lt;authzIdentity&gt;{EMPLOYEENUMBER}&lt;/authzIdentity&gt;
+          &lt;/options&gt;
+        &lt;/login-module&gt;
+      &lt;/login-modules&gt;
+    &lt;/authentication&gt;  
+  &lt;/realm&gt;
+&lt;/security&gt;
+</code></pre>
+
+<h2 id="sharing-information-across-loginmodules">Sharing Information Among LoginModules in a Gateway and a Cluster <a href="../../admin-reference/p_configure_gateway_opts/index.html#enable-early-access-features"><img src="../../images/early-access-feature.png" title="This feature is available as an Early Access Feature."></a></h2>
+
+<p>You can share data among login modules in a login module chain using the <code>sharedState</code> object that is passed into the <code>initialize()</code> method. When you need to share data among login modules in a larger scope, such as among invocations of login module chains or even among different Gateway instances in a cluster, you can use an object accessible from within your login modules named <code>ExpiringState</code> (see <a href="//kaazing.com/doc/5.0/apidoc/server/gateway/server/api/index.html">org.kaazing.gateway.server.ExpiringState</a> in the Kaazing WebSocket Gateway Server API).</p>
+
+<p>The most typical use case for <code>ExpiringState</code> is to prevent authorization tokens from being reused. When reusing tokens is attempted by a malicious user, it is referred to as a <em>token replay attack</em>. The safest practice for tokens is to make them uniquely identifiable by including a nonce. This way, anything authorizing the token can reject it if the nonce has been used previously.</p>
+
+<p>While validating a token, your login module can check <code>ExpiringState</code> to see whether the token nonce has been used. If so, then the login module can deny authorization. If not, then the login module can add the token nonce to <code>ExpiringState</code> for future login module invocations to check. Since <code>ExpiringState</code> is shared among Gateways in the cluster, it won't matter if the token replay attack occurs against a different Gateway instance.</p>
+
+<p>Here is a sample from a LoginModule that uses <code>ExpiringState</code>:</p>
+
+<pre class="auto-links: false; brush: java; toolbar: false;">
+public class TokenLoginModule implements LoginModule {
+
+    private ExpiringState expiringState;
+
+    public void initialize(Subject subject, CallbackHandler callbackHandler, Map&lt;String, ?&gt; sharedState, Map&lt;String, ?&gt; options) {
+        ...
+        this.expiringState = LoginModuleOptions.EXPIRING_STATE.get(options);
+        // Use the following instead in versions prior to 5.7:
+        // expiringState = (ExpiringState) options.get(&quot;ExpiringState&quot;);
+        ...
+    }
+
+    public boolean login() throws LoginException {
+        ...
+        processToken(tokenData);
+        ...
+    }
+
+    private void processToken(String tokenData) throws FailedLoginException {
+
+        ...
+
+        // Extract the nonce from the token.
+        String nonce = ...;
+
+        // Extract when the token expires from the token.
+        String expires = ...;
+
+        // Validate that the token hasn&#x27;t expired
+        ZonedDateTime expiresDateTime = ZonedDateTime.parse(expires);
+        ZonedDateTime now = ZonedDateTime.now(expiresDateTime.getZone());
+        long expiresDuration = Duration.between(now, expiresDateTime).toMillis();
+
+        if ( expiresDuration &lt;= 0 ) {
+            throw new FailedLoginException(&quot;Token has expired&quot;);
+        }
+
+        // Validate that the token hasn&#x27;t been used already. If not, then store it until it expires
+        if ( expiringState.putIfAbsent(nonce, nonce, expiresDuration, TimeUnit.MILLISECONDS) != null ) {
+            throw new FailedLoginException(&quot;Token nonce has already been used&quot;);
+        }
+
+        ...
+</pre>
+
+<span class="note"><b>Notes:</b>
+ <ul>
+   <li>To enable this <a href="../../admin-reference/p_configure_gateway_opts/index.html#enable-early-access-features">Early Access</a> feature, use the variable <code>login.module.expiring.state</code>.</li>
+   <li>You can also share LoginModule state within a single LoginModule chain as described in the <a href="//docs.oracle.com/javase/8/docs/technotes/guides/security/jaas/JAASLMDevGuide.html#Step_3" title="Java Authentication and Authorization Service (JAAS): LoginModule Developer's Guide">Java Authentication and Authorization Service (JAAS): LoginModule Developer's Guide.</a></li>
+ </ul>
+</span>
+
+
+<h2 id="respond-to-challenges-on-http-401-status-code">Respond to Challenges on HTTP 401 Status Code <a href="../../admin-reference/p_configure_gateway_opts/index.html#enable-early-access-features"><img src="../../images/early-access-feature.png" title="This feature is available as an Early Access Feature."></a></h2>
+
+<p>In response to HTTP 401 codes, you can provide credentials via a call to the Java <a href="https://docs.oracle.com/javase/8/docs/api/java/net/Authenticator.html">Authenticator</a> set on the Java Virtual Machine (JVM). For example, you can use the <a href="../../apidoc/server/gateway/server/api/index.html">Kaazing Embedded Gateway API</a> to call <a href="https://docs.oracle.com/javase/8/docs/api/java/net/Authenticator.html#setDefault-java.net.Authenticator-">Authenticator.setDefault</a>.</p>
+
+<p>The new <code>connect-options</code> property <code>http.max.authentication.attempts</code> must be set in order for the Gateway to respond to 401 codes. The <code>http.max.authentication.attempts</code> must be set with an integer value specifying how many times an HTTP connector will attempt to authenticate when it is challenged. The default value is 0.</p>
+
+<p>To enable this <a href="../../admin-reference/p_configure_gateway_opts/index.html#enable-early-access-features">Early Access</a> feature, use the variable <code>http.authenticator</code>.</p>
+
+<h2 id="next-steps">Next Steps</h2>
+
+<p><a href="../p_auth_configure_challenge_handler">Configure a Challenge Handler on the Client</a></p>
+
+<h2 id="see-also">See Also</h2>
+
+<ul>
+  <li><a href="../../admin-reference/o_configure_gateway_checklist/index.html">Configure the Gateway</a></li>
+  <li><a href="../c_auth_about">About Authentication</a></li>
+  <li><a href="../u_authentication_gateway_client_interactions">What Happens During Authentication</a></li>
+  <li><a href="../u_auth_how_it_works_with_the_gateway">How Authentication and Authorization Work with the Gateway</a></li>
+  <li><a href="../..">Server API Documentation</a></li>
+</ul>
+
+
+</div>
+
+</div>
+
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

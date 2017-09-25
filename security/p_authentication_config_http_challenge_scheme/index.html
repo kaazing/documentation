@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+  
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+
+ <h1 id="configure-the-http-challenge-scheme">Configure the HTTP Challenge Scheme</h1>
+
+<p>In this procedure, you will learn how to configure authentication by defining the <code>security</code> element and specifying the HTTP challenge scheme that protects the service.</p>
+
+<h2 id="before-you-begin">Before You Begin</h2>
+
+<p>This procedure is part of <a href="../o_auth_configure">Configure Authentication and Authorization</a>:</p>
+
+<ol>
+  <li><strong>Configure the HTTP Challenge Scheme</strong></li>
+  <li><a href="../p_auth_configure_login_module">Configure a Chain of Login Modules</a></li>
+  <li><a href="../p_auth_configure_challenge_handler">Configure a Challenge Handler on the Client</a></li>
+  <li><a href="../p_authorization_configure">Configure Authorization</a></li>
+</ol>
+
+<h2 id="to-configure-the-http-challenge-scheme">To Configure the HTTP Challenge Scheme</h2>
+
+<ol>
+  <li>On the server, update the Gateway configuration (for example, by editing <code>GATEWAY_HOME/conf/gateway-config.xml</code> in a text editor).</li>
+  <li>
+    <p>Determine the type of HTTP challenge scheme you want to configure.</p>
+
+    <p>The following table summarizes the schemes you can configure and the affiliated authentication parameters with which the client or browser can respond to the Gateway’s challenge.</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>HTTP Challenge Scheme</th>
+          <th>Challenge is Handled By …</th>
+          <th>Gateway Challenges the Client to Authenticate Itself Using …</th>
+          <th>Client or Browser Responds to the Gateway Challenge Using …</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>Basic</code></td>
+          <td>Browser</td>
+          <td>Username and password</td>
+          <td><code>BasicChallengeHandler</code>, <code>ChallengeHandler</code></td>
+        </tr>
+        <tr>
+          <td><code>Application Basic</code></td>
+          <td>Client</td>
+          <td>Username and password</td>
+          <td><code>BasicChallengeHandler</code>, <code>ChallengeHandler</code>, <code>LoginHandler</code></td>
+        </tr>
+        <tr>
+          <td><code>Negotiate</code></td>
+          <td>Browser</td>
+          <td>A Negotiated scheme per RFC 4559*</td>
+          <td><code>NegotiateHandler</code>, <code>NegotiableHandler</code>, <code>LoginHandler</code></td>
+        </tr>
+        <tr>
+          <td><code>Application Negotiate</code></td>
+          <td>Client</td>
+          <td>A Negotiated scheme per RFC 4559*</td>
+          <td><code>NegotiateHandler</code>, <code>NegotiableHandler</code>, <code>LoginHandler</code></td>
+        </tr>
+        <tr>
+          <td><code>Application Token</code></td>
+          <td>Client</td>
+          <td>A custom token or HTTP cookies, usually expected by a custom login module.**</td>
+          <td>A custom-written challenge handler and/or login handler that can generate the expected token or cookie value.**</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>* The HTTP Negotiate scheme is based on using Object Identifiers (OIDs) per RFC 4559 to identify kinds of tokens. If you use or register your own OID, then you can use that OID with the <code>NegotiateHandler</code> and <code>NegotiableHandler</code> challenge handlers.</p>
+
+    <p>** If you are configuring a custom login module on the Gateway, then you must code the accompanying custom challenge handler in the client.</p>
+  </li>
+  <li>
+    <p>Locate the <code>security</code> section of the Gateway configuration and define a realm that includes the <code>http-challenge-scheme</code>.</p>
+
+    <p>The <code>realm</code> element is a part of the <code>security</code> element in the Gateway configuration, and its job is to provide authentication information that associates an authenticated user with a set of authorized roles. You can think of a realm as a logical grouping of users, groups (roles), and access.</p>
+
+    <p>For example, to configure a client to respond to a custom authentication challenge and require authentication with a third-party token for the demo realm, you would configure <code>Application Token</code> in the <code>http-challenge-scheme</code> element, as shown in the following example:</p>
+
+    <pre class="auto-links: false; brush: xml; toolbar: false;">&lt;security&gt;
+  &lt;keystore&gt;
+   &lt;type&gt;JCEKS&lt;/type&gt;
+   &lt;file&gt;keystore.db&lt;/file&gt;
+   &lt;password-file&gt;keystore.pw&lt;/password-file&gt;
+  &lt;/keystore&gt;
+
+  &lt;truststore&gt;
+    &lt;file&gt;truststore.db&lt;/file&gt;
+  &lt;/truststore&gt;
+
+  &lt;realm&gt;
+    &lt;name&gt;demo&lt;/name&gt;
+    &lt;description&gt;Demo&lt;/description&gt;
+    &lt;authentication&gt;
+      &lt;http-challenge-scheme&gt;Application Token&lt;/http-challenge-scheme&gt;
+      &lt;http-header&gt;X-Custom-Authorization-Header&lt;/http-header&gt;
+      &lt;http-query-parameter&gt;myCustomAuthParam&lt;/http-query-parameter&gt;
+      &lt;http-cookie&gt;sampleCookie1&lt;/http-cookie&gt;
+    &lt;/authentication&gt;  
+  &lt;/realm&gt;
+&lt;/security&gt;
+</code></pre>
+  </li>
+  <li>Save <code>gateway-config.xml</code>.</li>
+</ol>
+
+<p>The Gateway matches the <span class="brush: js; highlight: [6]; toolbar: false;"><em>gateway.hostname</em></span> for this domain to look up the authentication scheme. The Gateway uses the cookie name defined by <code>http-cookie</code> element as the authentication token to log in. The cookie value become accessible in the login module that reads the cookies using the <code>AuthenticationToken</code> class.</p>
+
+<h2 id="notes">Notes</h2>
+
+<ul>
+  <li>Use the <code>Basic</code> and <code>Application Basic</code> schemes to provide a quick and easy-to-implement method, requiring only a username and password for authentication. However, these are the least secure schemes and are subject to several threats, not least of which is the fact that the username/password can easily be sniffed in transit by an attacker.</li>
+  <li>Use the <code>Negotiate</code> or <code>Application Negotiate</code> schemes when using Kerberos Network Authentication. For more information, see <a href="../o_kerberos">Configuring Kerberos V5 Network Authentication</a>.</li>
+  <li>Use the <code>Application Token</code> scheme when you need a custom token to be presented to your custom login module. See <a href="../p_auth_configure_custom_login_module">Create a Custom Login Module</a> for configuration information. <code>Application Token</code> provides strong authentication because you can implement your own custom scheme that is cryptographically protected to challenge the client. When you configure custom authentication with the <code>Application Token</code> element, you must also:
+    <ul>
+      <li>Configure a custom login module in the Gateway that defines how to encode/decode the token challenge data, and code the matching challenge handler on the client. See <a href="../p_auth_configure_custom_login_module">Create a Custom Login Module</a> for more information.</li>
+      <li>Create a custom challenge handler on the client to support the custom login module. See <a href="../p_auth_configure_challenge_handler">Configure a Challenge Handler on the Client</a> for more information.</li>
+    </ul>
+  </li>
+  <li>In addition to securing networking with the Gateway as described in <a href="../o_tls">Secure Network Traffic with the Gateway</a>, using a cryptographic hash function such as <a href="//en.wikipedia.org/wiki/Bcrypt">bcrypt</a> or a key derivation function such as <a href="//en.wikipedia.org/wiki/PBKDF2">PBKDF2</a> to protect passwords is highly recommended.</li>
+</ul>
+
+<h2 id="next-steps">Next Steps</h2>
+
+<p><a href="../p_auth_configure_login_module">Configure a Chain of Login Modules</a></p>
+
+<h2 id="see-also">See Also</h2>
+
+<ul>
+  <li><a href="../../admin-reference/o_configure_gateway_checklist/index.html">Configure the Gateway</a></li>
+  <li><a href="../c_auth_about">About Authentication and Authorization</a></li>
+  <li><a href="../u_authentication_gateway_client_interactions">What Happens During Authentication</a></li>
+  <li><a href="../u_auth_how_it_works_with_the_gateway">How Authentication and Authorization Work with the Gateway</a></li>
+</ul>
+
+
+</div>
+
+</div>
+
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+<h1>Use the Kaazing JMS Client API for .NET </h1>
+<p>In this procedure, you will learn how to use the signed Kaazing Gateway JMS client libraries for .NET and the supported methods.</p>
+
+
+<p><span class="note"><strong>Note</strong>: For this how-to, you can use any JMS-compliant message broker. We will use the publicly available Kaazing WebSocket Gateway and Apache ActiveMQ broker at the URL <code>wss://sandbox.kaazing.net/jms</code>. If you are using a local Kaazing WebSocket Gateway, the Gateway is configured to connect to the server on <code>tcp://localhost:61616</code>. You can configure the <code>connect</code> URL in the file <span class="code_inline"><em>GATEWAY_HOME</em>/conf/gateway-config.xml</span>. See <a href="../../integration-jms/o_jms_integrate/index.html">About Integrating Kaazing Gateway and JMS-Compliant Message Brokers</a> for more information.</span></p>
+
+<p>The Kaazing Microsoft .NET JMS API supports the following deployment scenarios:</p>
+<ul>
+<li>.NET 4.0 Frameworks</li>
+<li>.NET 4.5 (4.5.1) Frameworks, including Windows Surface RT</li>
+<li>Windows 8 (8.1) desktop and Surface Pro applications</li>
+<li>Windows Phone 8.1 native apps</li>
+<li>Note: There is no support for Windows CE.</li>
+</ul>
+
+<h2>Before You Begin</h2>
+<p>This procedure is part of <a href="o_dev_dotnet.html">Checklist: How to Build Microsoft .NET JMS Clients</a>.</p>
+
+<p><span class="note"><b>Note:</b> Learn about supported browsers, operating systems, and platform versions in the <a href="//kaazing.com/download/#client-dotnet">Release Notes</a>.</span></p>
+
+<h2>Taking a Look at the Microsoft .NET Client Tutorial App</h2>
+
+<ol>
+ <li>Download or clone the Kaazing .NET Tutorials project from <a href="https://github.com/kaazing/dotnet.client.tutorials">https://github.com/kaazing/dotnet.client.tutorials</a>.</li>
+ <li>Navigate to the JMS app for Windows Desktop at <strong>dotnet.client.tutorials\jms\WindowsDesktop</strong>.</li>
+ <li>Double-click <strong>JmsDemo.sln</strong>. The solution opens in Visual Studio.</li>
+ <li>In Solution Explorer, right-click <strong>JmsDemo</strong> and click <strong>Build</strong>.</li>
+ <li><p>To run the app, click the <strong>Start</strong> arrow. The desktop app appears in a new window.</p>
+  <figure>
+   <img src="JMSWindowsDesktop.png" />
+  <figcaption><strong>Figure: Windows JMS Desktop Tutorial App</strong></figcaption> 
+  </figure>
+ </li>
+ <li>In the app, click <strong>Connect</strong> to connect to the publicly available Kaazing WebSocket Gateway and <code>jms</code> service at URL <code>wss://sandbox.kaazing.net/jms</code>.</li>
+ <li>Click <strong>Subscribe</strong> to subscribe to a destination and then click <strong>Send</strong> to send a message to the JMS broker via Kaazing WebSocket Gateway and receive the message as part of your subscription.</li>
+</ol>
+
+
+<h2>Supported Data Types</h2>
+
+<p>You can send and receive JMS messages using one of the following data types:</p>
+
+<ul>
+<li>String — A text WebSocket message (UTF-8).</li>
+<li>Binary (using the IBytesMessage class) — A compact byte array representation for sending, receiving and processing binary data.</li>
+</ul>
+
+
+<h2>To Use the Kaazing JMS .NET API</h2>
+
+<p>To demonstrate the Kaazing JMS .NET API, let's create a simple .NET desktop application that uses the Kaazing WebSocket Gateway and its <code>jms</code> service to send and receives messages to a JMS broker over WebSocket. This is the same .NET JMS desktop application that is available on Github as part of the Kaazing .NET tutorials here <a href="https://github.com/kaazing/dotnet.client.tutorials">https://github.com/kaazing/dotnet.client.tutorials</a>.</p>
+
+<ol>
+ <li>Install dependencies.
+  <ol type="a">
+   <li>Install <a href="https://www.microsoft.com/en-us/download/details.aspx?id=42642">.NET Framework 4.5.2</a>. To see if you have this version installed, see <a href="https://msdn.microsoft.com/en-us/library/hh925568%28v=vs.110%29.aspx?f=255&amp;MSPPError=-2147217396">How to: Determine Which .NET Framework Versions Are Installed</a>.</li>
+   <li>Install a .NET Integrated Development Environment (IDE). This procedure assumes that you are using Microsoft Visual Studio or the free <a href="https://www.visualstudio.com/en-us/products/visual-studio-community-vs.aspx">Visual Studio Community</a>.
+       <p><span class="note"><strong>Note</strong>: You can develop .NET Framework applications in any of the .NET programming languages. Microsoft Visual C# is used in the code examples in this document.</span></p>
+   </li>
+   <li>Download the Kaazing Microsoft .NET SDK NuGet package file (.nupkg) from <a href="//kaazing.com/download/#client-dotnet">kaazing.com/download</a>.</li>
+  </ol>
+ </li>
+ <li>Install the Kaazing Microsoft .NET SDK into your project.
+  <ol type="a">
+   <li>Open Visual Studio.</li>
+     <li>Create a new project. Click <strong>File</strong>, click <strong>New</strong>, and then click <strong>Project</strong>.</li>
+     <li>Click the <strong>Installed</strong> navigation heading, expand <strong>Templates</strong>, expand <strong>Visual C#</strong>, and click <strong>Windows Desktop</strong>.</li>
+     <li>Click <strong>Windows Forms Application</strong>.</li>
+     <li>At the top of the dialog, select <strong>.NET Framework 4.5.2</strong>.</li>
+     <li>In <strong>Name</strong>, enter <strong>JmsDemo</strong> and click <strong>OK</strong>. Visual Studio created the new JmsDemo project.</li>
+     <li>Install the Kaazing Microsoft .NET SDK. Click <strong>TOOLS</strong>, click <strong>NuGet Package Manager</strong>, and then click <strong>Package Manager Settings</strong>.</li>
+     <li>In the navigation, click <strong>Package Sources</strong>.</li>
+     <li>Click the plus icon to add a new source.</li>
+     <li>In <strong>Name</strong>, enter <strong>Kaazing</strong>.</li>
+     <li>In <strong>Source</strong>, click the browse button, <strong>...</strong>.</li>
+     <li>Locate the folder containing the .nupkg file for the Kaazing Microsoft .NET SDK and click <strong>Select</strong>.</li>
+     <li>Click <strong>OK</strong>.</li>
+     <li>Right-click the JMSDemo project, and click <strong>Manage NuGet Packages</strong>.</li>
+     <li>Click <strong>Online</strong>, click <strong>Kaazing</strong>, and then click <strong>Install</strong>.</li>
+     <li>Click <strong>Close</strong>.</li>
+     <li>In your project, expand the <strong>References</strong> element to see the Kaazing .NET SDK libraries.</li>
+  </ol>
+ </li>
+ <li>Create the UI for the application. In JmsDemo, rename the <strong>Form1.cs</strong> form to <strong>StompDemoForm.cs</strong> and let Visual Studio rename all related references.
+  <ol type="a">
+   <li>Expand <strong>StompDemoForm.cs</strong> and click <strong>StompDemoFormDesigner.cs</strong></li>
+   <li>Replace the existing code with the code below. You can also obtain the code on Github at <a href="https://github.com/kaazing/dotnet.client.tutorials/blob/develop/jms/WindowsDesktop/StompDemoForm.Designer.cs">https://github.com/kaazing/dotnet.client.tutorials/blob/develop/jms/WindowsDesktop/StompDemoForm.Designer.cs</a>. This code will define the User Interface for the application:
+   
+<pre class="auto-links: false; brush: java; toolbar: false;">
+namespace JmsDemo
+{
+  partial class StompDemoForm
+  {
+    /// &lt;summary&gt;
+    /// Required designer variable.
+    /// &lt;/summary&gt;
+    private System.ComponentModel.IContainer components = null;
+
+    /// &lt;summary&gt;
+    /// Clean up any resources being used.
+    /// &lt;/summary&gt;
+    /// &lt;param name=&quot;disposing&quot;&gt;true if managed resources should be disposed; otherwise, false.&lt;/param&gt;
+    protected override void Dispose(bool disposing)
+    {
+      if (disposing &amp;&amp; (components != null))
+      {
+        components.Dispose();
+      }
+      base.Dispose(disposing);
+    }
+
+    #region Windows Form Designer generated code
+
+    /// &lt;summary&gt;
+    /// Required method for Designer support - do not modify
+    /// the contents of this method with the code editor.
+    /// &lt;/summary&gt;
+    private void InitializeComponent()
+    {
+      System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StompDemoForm));
+      this.LocationLabel = new System.Windows.Forms.Label();
+      this.LocationText = new System.Windows.Forms.TextBox();
+      this.Output = new System.Windows.Forms.TextBox();
+      this.ClearLogButton = new System.Windows.Forms.Button();
+      this.ConnectButton = new System.Windows.Forms.Button();
+      this.DisconnectButton = new System.Windows.Forms.Button();
+      this.MessageLabel = new System.Windows.Forms.Label();
+      this.MessageText = new System.Windows.Forms.TextBox();
+      this.DestinationText = new System.Windows.Forms.TextBox();
+      this.label1 = new System.Windows.Forms.Label();
+      this.SubscribeButton = new System.Windows.Forms.Button();
+      this.SendButton = new System.Windows.Forms.Button();
+      this.UnsubscribeButton = new System.Windows.Forms.Button();
+      this.Title = new System.Windows.Forms.Label();
+      this.Subtitle = new System.Windows.Forms.Label();
+      this.label3 = new System.Windows.Forms.Label();
+      this.label4 = new System.Windows.Forms.Label();
+      this.BinaryCheckBox = new System.Windows.Forms.CheckBox();
+      // 
+      // LocationLabel
+      // 
+      this.LocationLabel.AutoSize = true;
+      this.LocationLabel.Font = new System.Drawing.Font(&quot;Microsoft Sans Serif&quot;, 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.LocationLabel.Location = new System.Drawing.Point(16, 88);
+      this.LocationLabel.Name = &quot;LocationLabel&quot;;
+      this.LocationLabel.Size = new System.Drawing.Size(75, 17);
+      this.LocationLabel.TabIndex = 0;
+      this.LocationLabel.Text = &quot;Location:&quot;;
+      // 
+      // LocationText
+      // 
+      this.LocationText.Location = new System.Drawing.Point(104, 88);
+      this.LocationText.Name = &quot;LocationText&quot;;
+      this.LocationText.Size = new System.Drawing.Size(197, 20);
+      this.LocationText.TabIndex = 1;
+      this.LocationText.TextChanged += new System.EventHandler(this.LocationText_TextChanged);
+      // 
+      // Output
+      // 
+      this.Output.Location = new System.Drawing.Point(19, 173);
+      this.Output.Multiline = true;
+      this.Output.Name = &quot;Output&quot;;
+      this.Output.Size = new System.Drawing.Size(625, 338);
+      this.Output.TabIndex = 6;
+      // 
+      // ClearLogButton
+      // 
+      this.ClearLogButton.Location = new System.Drawing.Point(545, 517);
+      this.ClearLogButton.Name = &quot;ClearLogButton&quot;;
+      this.ClearLogButton.Size = new System.Drawing.Size(99, 33);
+      this.ClearLogButton.TabIndex = 7;
+      this.ClearLogButton.Text = &quot;Clear Log&quot;;
+      this.ClearLogButton.UseVisualStyleBackColor = true;
+      this.ClearLogButton.Click += new System.EventHandler(this.ClearLogButton_Click);
+      // 
+      // ConnectButton
+      // 
+      this.ConnectButton.Location = new System.Drawing.Point(101, 139);
+      this.ConnectButton.Name = &quot;ConnectButton&quot;;
+      this.ConnectButton.Size = new System.Drawing.Size(85, 28);
+      this.ConnectButton.TabIndex = 8;
+      this.ConnectButton.Text = &quot;Connect&quot;;
+      this.ConnectButton.UseVisualStyleBackColor = true;
+      this.ConnectButton.Click += new System.EventHandler(this.ConnectButton_Click);
+      // 
+      // DisconnectButton
+      // 
+      this.DisconnectButton.Enabled = false;
+      this.DisconnectButton.Location = new System.Drawing.Point(192, 139);
+      this.DisconnectButton.Name = &quot;DisconnectButton&quot;;
+      this.DisconnectButton.Size = new System.Drawing.Size(85, 28);
+      this.DisconnectButton.TabIndex = 9;
+      this.DisconnectButton.Text = &quot;Disconnect&quot;;
+      this.DisconnectButton.UseVisualStyleBackColor = true;
+      this.DisconnectButton.Click += new System.EventHandler(this.CloseButton_Click);
+      // 
+      // MessageLabel
+      // 
+      this.MessageLabel.AutoSize = true;
+      this.MessageLabel.Font = new System.Drawing.Font(&quot;Microsoft Sans Serif&quot;, 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.MessageLabel.Location = new System.Drawing.Point(16, 116);
+      this.MessageLabel.Name = &quot;MessageLabel&quot;;
+      this.MessageLabel.Size = new System.Drawing.Size(77, 17);
+      this.MessageLabel.TabIndex = 10;
+      this.MessageLabel.Text = &quot;Message:&quot;;
+      // 
+      // MessageText
+      // 
+      this.MessageText.Location = new System.Drawing.Point(104, 113);
+      this.MessageText.Name = &quot;MessageText&quot;;
+      this.MessageText.Size = new System.Drawing.Size(454, 20);
+      this.MessageText.TabIndex = 11;
+      this.MessageText.Text = &quot;Hello, Message&quot;;
+      // 
+      // DestinationText
+      // 
+      this.DestinationText.Location = new System.Drawing.Point(447, 88);
+      this.DestinationText.Name = &quot;DestinationText&quot;;
+      this.DestinationText.Size = new System.Drawing.Size(197, 20);
+      this.DestinationText.TabIndex = 13;
+      this.DestinationText.Text = &quot;/topic/destination&quot;;
+      // 
+      // label1
+      // 
+      this.label1.AutoSize = true;
+      this.label1.Font = new System.Drawing.Font(&quot;Microsoft Sans Serif&quot;, 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.label1.Location = new System.Drawing.Point(338, 88);
+      this.label1.Name = &quot;label1&quot;;
+      this.label1.Size = new System.Drawing.Size(103, 17);
+      this.label1.TabIndex = 12;
+      this.label1.Text = &quot;Subscription:&quot;;
+      // 
+      // SubscribeButton
+      // 
+      this.SubscribeButton.Enabled = false;
+      this.SubscribeButton.Location = new System.Drawing.Point(353, 139);
+      this.SubscribeButton.Name = &quot;SubscribeButton&quot;;
+      this.SubscribeButton.Size = new System.Drawing.Size(85, 28);
+      this.SubscribeButton.TabIndex = 14;
+      this.SubscribeButton.Text = &quot;Subscribe&quot;;
+      this.SubscribeButton.UseVisualStyleBackColor = true;
+      this.SubscribeButton.Click += new System.EventHandler(this.SubscribeButton_Click);
+      // 
+      // SendButton
+      // 
+      this.SendButton.Enabled = false;
+      this.SendButton.Location = new System.Drawing.Point(444, 139);
+      this.SendButton.Name = &quot;SendButton&quot;;
+      this.SendButton.Size = new System.Drawing.Size(85, 28);
+      this.SendButton.TabIndex = 15;
+      this.SendButton.Text = &quot;Send&quot;;
+      this.SendButton.UseVisualStyleBackColor = true;
+      this.SendButton.Click += new System.EventHandler(this.SendButton_Click);
+      // 
+      // UnsubscribeButton
+      // 
+      this.UnsubscribeButton.Enabled = false;
+      this.UnsubscribeButton.Location = new System.Drawing.Point(535, 139);
+      this.UnsubscribeButton.Name = &quot;UnsubscribeButton&quot;;
+      this.UnsubscribeButton.Size = new System.Drawing.Size(85, 28);
+      this.UnsubscribeButton.TabIndex = 16;
+      this.UnsubscribeButton.Text = &quot;Unsubscribe&quot;;
+      this.UnsubscribeButton.UseVisualStyleBackColor = true;
+      this.UnsubscribeButton.Click += new System.EventHandler(this.UnsubscribeButton_Click);
+      // 
+      // Title
+      // 
+      this.Title.AutoSize = true;
+      this.Title.Font = new System.Drawing.Font(&quot;Microsoft Sans Serif&quot;, 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.Title.Location = new System.Drawing.Point(46, 8);
+      this.Title.Name = &quot;Title&quot;;
+      this.Title.Size = new System.Drawing.Size(367, 26);
+      this.Title.TabIndex = 18;
+      this.Title.Text = &quot;Kaazing .Net Framework JMS Demo&quot;;
+      // 
+      // Subtitle
+      // 
+      this.Subtitle.AutoSize = true;
+      this.Subtitle.Font = new System.Drawing.Font(&quot;Microsoft Sans Serif&quot;, 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.Subtitle.Location = new System.Drawing.Point(14, 35);
+      this.Subtitle.Name = &quot;Subtitle&quot;;
+      this.Subtitle.Size = new System.Drawing.Size(639, 17);
+      this.Subtitle.TabIndex = 19;
+      this.Subtitle.Text = &quot;This is a demo of a JMS .Net Framework client application that communicates with &quot; +
+        &quot;a message broker&quot;;
+      // 
+      // label3
+      // 
+      this.label3.AutoSize = true;
+      this.label3.Font = new System.Drawing.Font(&quot;Microsoft Sans Serif&quot;, 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.label3.Location = new System.Drawing.Point(14, 52);
+      this.label3.Name = &quot;label3&quot;;
+      this.label3.Size = new System.Drawing.Size(635, 17);
+      this.label3.TabIndex = 24;
+      this.label3.Text = &quot;via WebSocket to subscribe to destinations, send and receive messages, and proces&quot; +
+        &quot;s transactions.&quot;;
+      // 
+      // label4
+      // 
+      this.label4.AutoSize = true;
+      this.label4.Font = new System.Drawing.Font(&quot;Microsoft Sans Serif&quot;, 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.label4.Location = new System.Drawing.Point(564, 114);
+      this.label4.Name = &quot;label4&quot;;
+      this.label4.Size = new System.Drawing.Size(59, 17);
+      this.label4.TabIndex = 25;
+      this.label4.Text = &quot;Binary:&quot;;
+      // 
+      // BinaryCheckBox
+      // 
+      this.BinaryCheckBox.AutoSize = true;
+      this.BinaryCheckBox.Location = new System.Drawing.Point(629, 116);
+      this.BinaryCheckBox.Name = &quot;BinaryCheckBox&quot;;
+      this.BinaryCheckBox.Size = new System.Drawing.Size(15, 14);
+      this.BinaryCheckBox.TabIndex = 26;
+      this.BinaryCheckBox.UseVisualStyleBackColor = true;
+      // 
+      // StompDemoForm
+      // 
+      this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+      this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+      this.BackColor = System.Drawing.SystemColors.Window;
+      this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+      this.ClientSize = new System.Drawing.Size(666, 562);
+      this.Controls.Add(this.BinaryCheckBox);
+      this.Controls.Add(this.label4);
+      this.Controls.Add(this.label3);
+      this.Controls.Add(this.Subtitle);
+      this.Controls.Add(this.Title);
+      this.Controls.Add(this.UnsubscribeButton);
+      this.Controls.Add(this.SendButton);
+      this.Controls.Add(this.SubscribeButton);
+      this.Controls.Add(this.DestinationText);
+      this.Controls.Add(this.label1);
+      this.Controls.Add(this.MessageText);
+      this.Controls.Add(this.MessageLabel);
+      this.Controls.Add(this.DisconnectButton);
+      this.Controls.Add(this.ConnectButton);
+      this.Controls.Add(this.ClearLogButton);
+      this.Controls.Add(this.Output);
+      this.Controls.Add(this.LocationText);
+      this.Controls.Add(this.LocationLabel);
+      this.Name = &quot;StompDemoForm&quot;;
+      this.Text = &quot;JMS .Net Client Demo&quot;;
+      this.Load += new System.EventHandler(this.StompDemoForm_Load);
+      this.ResumeLayout(false);
+      this.PerformLayout();
+
+    }
+
+    #endregion
+
+    private System.Windows.Forms.Label LocationLabel;
+    private System.Windows.Forms.TextBox LocationText;
+    private System.Windows.Forms.TextBox Output;
+    private System.Windows.Forms.Button ClearLogButton;
+    private System.Windows.Forms.Button ConnectButton;
+    private System.Windows.Forms.Button DisconnectButton;
+    private System.Windows.Forms.Label MessageLabel;
+    private System.Windows.Forms.TextBox MessageText;
+    private System.Windows.Forms.TextBox DestinationText;
+    private System.Windows.Forms.Label label1;
+    private System.Windows.Forms.Button SubscribeButton;
+    private System.Windows.Forms.Button SendButton;
+    private System.Windows.Forms.Button UnsubscribeButton;
+    private System.Windows.Forms.Label Title;
+    private System.Windows.Forms.Label Subtitle;
+    private System.Windows.Forms.Label label3;
+    private System.Windows.Forms.Label label4;
+    private System.Windows.Forms.CheckBox BinaryCheckBox;
+  }
+}
+</pre>
+
+   <!-- <p>To see the User Interface for the application, right-click <strong>StompDemoForm.cs</strong> and click <strong>View Designer</strong>. The application form appears.</p>
+    <figure>
+      <img src="JMSWindowsDesktop.png" />
+    <figcaption><strong>Figure: Application Form</strong></figcaption>
+    </figure> -->
+   </li>
+  </ol>
+ </li>
+ <li>Create the main code for our project in <strong>StompDemoForm.cs</strong>. Right-click <strong>StompDemoForm.cs</strong> and click <strong>View Code</strong>.<br>
+  <span class="note"><b>Note:</b> The entire code for StompDemoForm.cs can be found on Github at <a href="https://github.com/kaazing/dotnet.client.tutorials/blob/develop/jms/WindowsDesktop/StompDemoForm.cs">https://github.com/kaazing/dotnet.client.tutorials/blob/develop/jms/WindowsDesktop/StompDemoForm.cs</a>.</span>
+  <ol type="a">
+   <li>In the StompDemoForm.cs code window, replace the default import statements with the following:
+<pre class="auto-links: false; brush: java; toolbar: false;">
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Resources;
+using System.Windows.Forms;
+using Kaazing.JMS;
+using Kaazing.JMS.Stomp;
+using Kaazing.Security;
+using System.Threading;
+using Kaazing.HTML5;
+using System.Threading.Tasks;
+</pre>
+   </li>
+   <li>In the <code>StompDemoForm</code> class, add the interfaces for connections, sessions, messages, and the dictionary for the key/value pairs that will be sent and received.
+<pre class="auto-links: false; brush: java; toolbar: false;">
+namespace JmsDemo
+{
+    /// &lt;summary&gt;
+    /// Top level JMS Client Demo
+    /// &lt;/summary&gt;
+    public partial class StompDemoForm : Form
+    {
+        private IConnection connection = null;
+        private ISession session = null;
+        private IMessageConsumer consumer = null;
+        private IDictionary&lt;String, List&lt;IMessageConsumer&gt;&gt; consumers = null;
+
+        private delegate void InvokeDelegate();
+        private delegate void InvokeDelegate1();
+        
+        /// The code for the subsequent steps goes here.
+        
+    }
+}
+</pre>
+    
+   </li>
+   <li>Next, add the <code>StompDemoForm()</code> function just below the <code>/// The code for the subsequent steps goes here</code> comment. It will set up the form, and set the default URL for the application to connect to. We will use the publicly available Kaazing WebSocket Gateway at <code>wss://sandbox.kaazing.net/jms</code>:
+
+<pre class="auto-links: false; brush: java; toolbar: false;">
+/// &lt;summary&gt;
+/// JMS Demo Form constructor
+/// &lt;/summary&gt;
+public StompDemoForm()
+{
+  InitializeComponent();
+
+  String defaultLocation = &quot;wss://sandbox.kaazing.net/jms&quot;;
+  LocationText.Text = defaultLocation;
+
+  ResourceManager resourceManager = new ResourceManager(&quot;JmsDemo.StompDemoForm&quot;, GetType().Assembly);
+    
+}
+
+private void StompDemoForm_Load(object sender, EventArgs e)
+{
+}
+
+private void HandleLog(String message)
+{
+  this.BeginInvoke((InvokeDelegate)(() =&gt;
+  {
+    Log(&quot;LOG: &quot; + message);
+  }));
+}
+</pre>
+
+   </li>
+   <li>Add functions to respond when the user clicks the <strong>Connect</strong> and <strong>Disconnect</strong> buttons. The <code>ConnectButton_Click()</code> function will respond to the <strong>Connect</strong> button by calling the second function, <code>JMS_Connect()</code>. <code>JMS_Connect()</code> creates a connection instance using the StompConnectionFactory factory, calls methods to update the UI (we will add these later), and connects to the URL specified earlier. Note the use of a <code>try...catch</code> statement for connecting and responding to exceptions. The <code>CloseButton_Click()</code> function responds to when a user clicks the <strong>Disconnect</strong> button by closing the connection and then calls <code>DisconnectedHandler()</code> to update the UI.
+   
+<pre class="auto-links: false; brush: java; toolbar: false; highlight:[6,17,26,27,64];">
+private void ConnectButton_Click(object sender, EventArgs e)
+{
+  try
+  {
+    // try to establish the JMS connection
+    this.JMS_Connect();                
+  }
+  catch (System.IO.FileLoadException)
+  {
+    MessageBox.Show(&quot;You need to upgrade your .NET Framework version. Check the Release Notes.&quot;);
+  }
+}
+
+/*
+* &quot;Delegate, invoked by the &quot;click handler&quot;, which actually establishes the JMS connection.
+*/
+private void JMS_Connect()
+{
+  // Immediately disable the connect button
+  ConnectButton.Enabled = false;
+  LocationText.Enabled = false;
+  Log(&quot;CONNECT:&quot; + LocationText.Text);
+
+  try
+  {
+    StompConnectionFactory connectionFactory = new StompConnectionFactory(new Uri(LocationText.Text));
+    connection = connectionFactory.CreateConnection(&quot;&quot;, &quot;&quot;);
+    Log(&quot;CONNECTED&quot;);
+    connection.ExceptionListener = new ExceptionHandler(this);
+    consumers = new Dictionary&lt;String, List&lt;IMessageConsumer&gt;&gt;();
+    session = connection.CreateSession(false, SessionConstants.AUTO_ACKNOWLEDGE);
+
+    connection.Start();
+
+    // Enable User Interface for Connected application
+    SubscribeButton.Enabled = true;
+    SendButton.Enabled = true;
+    UnsubscribeButton.Enabled = true;
+
+    DisconnectButton.Enabled = true;
+  }
+  catch (Exception exc)
+  {
+    if (connection != null)
+    {
+      connection.Close();
+    }
+
+    Log(&quot;CONNECTION FAILED: &quot; + exc.Message);
+    LocationText.Enabled = true;
+    ConnectButton.Enabled = true;
+        
+  }
+}
+
+private void CloseButton_Click(object sender, EventArgs e)
+{
+  Log(&quot;CLOSE&quot;);
+
+  if (connection != null)
+  {
+    try
+    {
+      connection.Close();
+    }
+    catch (Exception exc)
+    {
+      Log(&quot;EXCEPTION: &quot; + exc.Message);
+    }
+    finally
+    {
+      connection = null;
+    }
+  }
+
+  DisconnectedHandler();
+}
+
+private void DisconnectedHandler()
+{
+  this.BeginInvoke((InvokeDelegate)(() =&gt;
+  {
+    Log(&quot;DISCONNECTED&quot;);
+    LocationText.Enabled = true;
+    ConnectButton.Enabled = true;
+
+    SendButton.Enabled = false;
+    SubscribeButton.Enabled = false;
+    UnsubscribeButton.Enabled = false;
+
+    DisconnectButton.Enabled = false;
+  }));
+}
+</pre>
+   </li>
+   <li>Add a function to respond to when the user click the <strong>Subscribe</strong> or <strong>Unsubscribe</strong> buttons. The <code>SubscribeButton_Click</code> function creates the destination supplied by the user, creates a consumer of that destination, and add a MessageListener to listen for incoming messages. Then the function calls <code>MessageHandler()</code>, which we will create next. An <code>IMessageConsumer</code> object is used to get a list of consumers for the destination and add a consumer to it.
+   
+<pre class="auto-links: false; brush: java; toolbar: false; highlight:[5,20,21,48,60];">
+private void SubscribeButton_Click(object sender, EventArgs e)
+{
+    Log(&quot;SUBSCRIBE:&quot; + DestinationText.Text);
+
+    IDestination destination;
+    if (DestinationText.Text.StartsWith(&quot;/topic/&quot;))
+    {
+        destination = session.CreateTopic(DestinationText.Text);
+    }
+    else if (DestinationText.Text.StartsWith(&quot;/queue/&quot;))
+    {
+        destination = session.CreateQueue(DestinationText.Text);
+    }
+    else
+    {
+        Log(&quot;Destination must start with /topic/ or /queue/&quot;);
+        return;
+    }
+
+    consumer = session.CreateConsumer(destination);
+    consumer.MessageListener = new MessageHandler(this);
+
+    List&lt;IMessageConsumer&gt; consumerList = null;
+    try
+    {
+        consumerList = consumers[DestinationText.Text];
+    }
+    catch (KeyNotFoundException)
+    {
+        consumerList = new List&lt;IMessageConsumer&gt;();
+    }
+    consumerList.Add(consumer);
+
+    try
+    {
+        consumers.Add(DestinationText.Text, consumerList);
+    }
+    catch (ArgumentException)
+    {
+
+        List&lt;IMessageConsumer&gt; oldValue = consumers[DestinationText.Text];
+        consumers.Remove(DestinationText.Text);
+        consumers.Add(DestinationText.Text, consumerList);
+    }
+
+}
+
+private void UnsubscribeButton_Click(object sender, EventArgs e)
+{
+    Log(&quot;UNSUBSCRIBE:&quot; + DestinationText.Text);
+    List&lt;IMessageConsumer&gt; consumerList = consumers[DestinationText.Text];
+    int consumerlistSize = consumerList.Count;
+
+    if (consumerlistSize &gt; 0)
+    {
+        IMessageConsumer consumer = (IMessageConsumer)consumerList[consumerlistSize - 1];
+        consumerList.RemoveAt(consumerlistSize - 1);
+        if (consumer != null)
+        {
+            consumer.Close();
+        }
+        else
+        {
+            Log(&quot;ERROR: Destination not found: &quot; + DestinationText.Text);
+        }
+
+    }
+    else
+    {
+        Log(&quot;ERROR: Destination not found: &quot; + DestinationText.Text);
+    }
+}
+</pre>
+   </li>
+   <li>Add a function to handle incoming messages. The function will determine if the message is text or binary or a <code>mapMessage</code> (a set of name-value pairs) and display the message, message headers, and any properties in the log console.
+   
+<pre class="auto-links: false; brush: java; toolbar: false; highlight:[10,14,19,27];">
+class MessageHandler : IMessageListener
+{
+    StompDemoForm form;
+
+    internal MessageHandler(StompDemoForm form)
+    {
+        this.form = form;
+    }
+
+    public void OnMessage(IMessage message)
+    {
+        form.BeginInvoke((InvokeDelegate)(() =&gt;
+        {
+            if (message is ITextMessage)
+            {
+                ITextMessage textMessage = (ITextMessage)message;
+                form.Log(&quot;RECEIVED ITextMessage: &quot; + textMessage.Text);
+            }
+            else if (message is IBytesMessage)
+            {
+                IBytesMessage msg = (IBytesMessage)message;
+                byte[] actual = new byte[(int)msg.BodyLength];
+                msg.ReadBytes(actual);
+                form.Log(&quot;RECEIVED IBytesMessage: &quot; + BitConverter.ToString(actual));
+
+            }
+            else if (message is IMapMessage)
+            {
+                IMapMessage mapMessage = (IMapMessage)message;
+                IEnumerator&lt;String&gt; mapNames = mapMessage.MapNames;
+                while (mapNames.MoveNext())
+                {
+                    String name = mapNames.Current;
+                    Object obj = mapMessage.GetObject(name);
+                    if (obj == null)
+                    {
+                        form.Log(name + &quot;: null&quot;);
+                    }
+                    else if (obj.GetType().IsArray)
+                    {
+                        form.Log(name + &quot;: &quot; + BitConverter.ToString(obj as byte[]) + &quot; (byte[])&quot;);
+                    }
+                    else
+                    {
+                        String type = obj.GetType().ToString();
+                        form.Log(name + &quot;: &quot; + obj.ToString() + &quot; (&quot;+type+&quot;)&quot;);
+                    }
+                }
+                form.Log(&quot;RECEIVED IMapMessage:&quot;);
+            }
+            else
+            {
+                form.Log(&quot;UNKNOWN MESSAGE TYPE&quot;);
+            }
+        }));
+    }
+}
+</pre>
+   </li>
+   <li>Add an exception listener to handle any exceptions and write them to the console log.
+   
+<pre class="auto-links: false; brush: java; toolbar: false;">
+class ExceptionHandler : IExceptionListener
+{
+    StompDemoForm form;
+
+    internal ExceptionHandler(StompDemoForm form)
+    {
+        this.form = form;
+    }
+
+    public void OnException(JMSException exc)
+    {
+        form.BeginInvoke((InvokeDelegate)(() =&gt;
+        {
+            form.Log(exc.Message);
+        }));
+    }
+}
+</pre>
+   </li>
+   <li>Add the <code>SendButton_Click()</code> function to respond when a user clicks the <strong>Send</strong> button. The function checks to see if the message is text or binary (user checked the binary option), adds any properties, updates the log console, and sends the message using <code>IMessageProducer</code>.
+   
+<pre class="auto-links: false; brush: java; toolbar: false; highlight:[7,11,20,21,30,35];">
+private void SendButton_Click(object sender, EventArgs e)
+{
+    // Create a destination for the producer
+    IDestination destination;
+    if (DestinationText.Text.StartsWith(&quot;/topic/&quot;))
+    {
+        destination = session.CreateTopic(DestinationText.Text);
+    }
+    else if (DestinationText.Text.StartsWith(&quot;/queue/&quot;))
+    {
+        destination = session.CreateQueue(DestinationText.Text);
+    }
+    else
+    {
+        Log(&quot;Destination must start with /topic/ or /queue/&quot;);
+        return;
+    }
+
+    // Create the message to send
+    IMessage message;
+    if (BinaryCheckBox.Checked)
+    {
+        Log(&quot;SEND IBytesMessage:&quot; + BitConverter.ToString(Encoding.UTF8.GetBytes(MessageText.Text)) + &quot;: &quot; + DestinationText.Text);
+        message = session.CreateBytesMessage();
+        ((IBytesMessage)message).WriteUTF(MessageText.Text);              
+    }
+    else
+    {
+        Log(&quot;SEND ITextMessage: &quot; + MessageText.Text + &quot;: &quot; + DestinationText.Text);
+        message = session.CreateTextMessage(MessageText.Text);
+    }
+
+    // Create the producer, send, and close
+    IMessageProducer producer = session.CreateProducer(destination);
+    producer.Send(message);
+    producer.Close();
+}
+</pre>
+   </li>
+   <li>Add functions to define the console log limitations for the UI, the <strong>Clear Log</strong> button, and whether the <strong>Connect</strong> button is enabled.
+<pre class="auto-links: false; brush: java; toolbar: false; highlight:[6,20,26];">
+/*
+ * Console output 
+ */
+private const int LOG_LIMIT = 50;
+private Queue&lt;string&gt; logLines = new Queue&lt;string&gt;();
+private void Log(string arg)
+{
+    logLines.Enqueue(arg);
+    if (logLines.Count &gt; LOG_LIMIT)
+    {
+        logLines.Dequeue();
+    }
+    string[] o = logLines.ToArray&lt;string&gt;();
+
+    o = o.Reverse&lt;string&gt;().ToArray&lt;string&gt;();
+
+    Output.Text = string.Join(&quot;\r\n&quot;, o);
+}
+
+private void ClearLogButton_Click(object sender, EventArgs e)
+{
+    logLines.Clear();
+    Output.Text = &quot;&quot;;
+}
+
+private void LocationText_TextChanged(object sender, EventArgs e)
+{
+    if (LocationText.Text.Length == 0)
+    {
+        ConnectButton.Enabled = false;
+    }
+    else
+    {
+        ConnectButton.Enabled = true;
+    }
+}
+</pre>
+   </li>
+   <li>Ensure the closing braces for the program are there.
+<pre class="auto-links: false; brush: java; toolbar: false;">
+    }
+}
+</pre>
+   </li>
+  </ol>
+ </li>
+ <li>Build and test your WebSocket .NET application.
+  <ol type="a">
+   <li>From the <strong>Build</strong> menu, click <strong>Build</strong>. The Visual Studio output console records the successful build.</li>
+   <li>Click <strong>Start</strong>. The JMS .NET desktop application displays.</li>
+   <li>Ensure that the <strong>Location</strong> field contains <code>wss://sandbox.kaazing.net/jms</code>. Click <strong>Connect</strong>. The log console displays <strong>CONNECTED</strong>.</li>
+   <li>Click <strong>Subscribe</strong> and then <strong>Send</strong>. The text message is sent to the JMS broker via the <code>jms</code> service on the Gateway returns the message as part of the subscription.</li>
+  </ol>
+ </li>
+</ol>
+
+<a name="Durable"></a><h2>Durable Subscribers</h2>
+
+<span class="note"><b>Note:</b> Currently, the Gateway does not support durable subscribers with Apache ActiveMQ. You may use durable subscribers with <a href="../../integration-jms/p_jms_integrate_tibco/index.html">TIBCO EMS</a> or <a href="../../integration-jms/p_jms_integrate_informatica/index.html">Informatica UM</a>. For more information, see <a href="../../admin-reference/r_conf_jms/index.html#durable-subscribers">Durable Subscribers</a>.</span><br>
+
+
+<p>If your JMS client needs to receive all of the messages published on a topic, including the ones published while the subscriber is inactive because it is not being used or has lost connections (which is common when using mobile devices), create a durable ITopicSubscriber using the <a href="../apidoc/client/dotnet/jms/html/M_Kaazing_JMS_ISession_CreateDurableSubscriber_2_40abdaf4.htm">iSession.createDurableSubscriber()</a> method.</p>
+
+<p>To unsubscribe from a durable topic, use the <a href="../apidoc/client/dotnet/jms/html/M_Kaazing_JMS_ISession_Unsubscribe_1_bb3a7a4f.htm">ISession.Unsubscribe()</a> method.</p>
+
+<p>The JMS provider retains a separate record of each durable subscription and ensures that all messages from the topic's publishers are retained until they are acknowledged by each durable subscriber or they have expired. Whether messages have been acknowledged is tracked separately for each durable subscriber, and each durable subscriber is identified by the combination of its name and the clientID (if any) set on the Connection. Ensure your application confirms that the clientID (if used) is unique to the user or device, or, if it does not use clientID's, ensure that the durable name is unique to the user or device.</p>
+
+<p>One method you can use to ensure that the durable name is unique to the user or device without using a client ID is to create a variable that is a concatenation of the user name and durable name and use that variable when creating the durable subscription.</p>
+
+<h3>Example</h3>
+
+<p>The following example creates a durable subscriber with message selector, sends one matching and one mismatching message to the subscription message selector, and verifies that only the matching is received.</p>
+
+<pre class="auto-links: false; brush: vb; toolbar: false;">
+String DURABLE_NAME = &quot;durable_messageSelectorTest&quot; + KZSystem.CurrentTimeMillis();
+String CLIENT_ID = null;
+
+/// Create the clientID variable
+if (useClientID)
+{
+    CLIENT_ID = &quot;client1&quot;;
+}
+
+StompConnectionFactory connectionFactory =
+    new StompConnectionFactory(new Uri(GetStompProviderURL()));
+IConnection connection =
+    useClientID ? connectionFactory.CreateConnection(null, null, CLIENT_ID) :
+        connectionFactory.CreateConnection(null, null);
+ISession session = connection.CreateSession(false, SessionConstants.CLIENT_ACKNOWLEDGE);
+connection.Start();
+
+/// Create the durable subscriber with message selector
+String TOPIC_NAME = &quot;/topic/topic_offlineDeliveryTest&quot; + KZSystem.CurrentTimeMillis();
+const String MESSAGE_SELECTOR1 = &quot;prop=&#x27;val1&#x27;&quot;;
+ITopic topic = session.CreateTopic(TOPIC_NAME);
+ITopicSubscriber consumer =
+    session.CreateDurableSubscriber(topic, DURABLE_NAME, MESSAGE_SELECTOR1, false);
+
+IConnection sendConnection = connectionFactory.CreateConnection(null, null);
+ISession sendSession = sendConnection.CreateSession(false, SessionConstants.AUTO_ACKNOWLEDGE);
+IMessageProducer producer = sendSession.CreateProducer(topic);
+
+/// Sleep at the point to ensure the SUBSCRIBE went through for the createDurableSubscriber call
+/// Otherwise, if the send message goes through before SUBSCRIBE, the message is not received.
+Thread.Sleep(2000);
+
+/// Send one matching and one mismatching message to the subscription message selector
+producer.Send(sendSession.CreateTextMessage(&quot;1-MISMATCHING-MSG&quot;));
+ITextMessage message = sendSession.CreateTextMessage(&quot;2-MATCHING-MSG&quot;);
+message.SetStringProperty(&quot;prop&quot;, &quot;val1&quot;);
+producer.Send(message);
+
+/// Verify that only the matching message2 is received
+ITextMessage received = (ITextMessage)consumer.Receive(5000);
+Assert.IsNotNull(received, &quot;Message sent while subscriber still open should have been received&quot;);
+Assert.AreEqual(&quot;2-MATCHING-MSG&quot;, received.Text);
+received.Acknowledge();
+
+/// Close consumer (UNSUBSCRIBE)
+consumer.Close();
+connection.Close();</pre>
+
+
+<h2>Next Step</h2>
+<p><a href="p_dev_dotnet_secure.html">Secure Your Microsoft .NET Client</a></p>
+
+<h2>Notes</h2>
+<ul class="arrow-2">
+  <li>The Microsoft .NET 4.0 Framework has a maximum connection limit of two per domain, similar to the browser limitation. For any Microsoft .NET application that uses more than one WebSocket connection at a time, you must either ensure that any WebSocket connection is closed by using <code>WebSocket.Close()</code> before opening another WebSocket connection, or increase the connection limit on the application by updating the <code>maxconnection</code> attribute in the <code>app.config</code> file. For more information, see <strong>(KG-1851) Two Connection Limit in Kaazing Gateway JMS Clients for Microsoft .NET</strong> in <a href="//kaazing.com/releases/client-dotnet/">Release Notes</a>.</li>
+    <li>Clients built using Kaazing Gateway 3.x libraries will work against Kaazing Gateway 4.x. If you wish to upgrade your 3.x client to the 4.x libraries, please note that the 3.x clients used a single Stomp JMS library and 4.x clients include and use separate WebSocket and Stomp JMS libraries. Update your client library file and code references to include both the WebSocket and Stomp JMS libraries, as described in the 4.x documentation.</li>
+    <li>For more information on the Kaazing Gateway JMS client libraries for .NET, see <a href="../../about/kaazing-jms-api/index.html">Kaazing Gateway JMS Client Libraries: Supported APIs</a> and the .NET Client API (<a href="../apidoc/client/dotnet/jms/html/N_Kaazing_JMS.htm">Kaazing.JMS</a>, <a href="../apidoc/client/dotnet/jms/html/N_Kaazing_JMS_Stomp.htm">Kaazing.JMS.Stomp</a>, and <a href="../apidoc/client/dotnet/jms/html/N_Kaazing_JMS_Util.htm">Kaazing.JMS.Util</a>) documentation.</li>
+    <li><span class="code_inline">TemporaryTopic</span> and <span class="code_inline">TemporaryQueue</span> objects are destroyed when the client loses its connection to the Gateway, or when the JMS-compliant message broker loses its connection to the Gateway. To address this, monitor the client's exception listener to handle recovery for your application. Once the connection is re-established, recreate <span class="code_inline">TemporaryTopic</span> and <span class="code_inline">TemporaryQueue</span>. <span class="code_inline">ConnectionDroppedException</span> and <span class="code_inline">ConnectionInterruptedException</span> are delivered to the connection's exception listener via <span class="code_inline">onException</span>, indicating that messages in flight might be lost, depending on message delivery options. <span class="code_inline">ConnectionRestoredException</span> is delivered to indicate that the connection through to the JMS-compliant message broker has been re-established. <span class="code_inline">TemporaryTopic</span> and <span class="code_inline">TemporaryQueue</span> should be recreated at that time to resume operations.</li>
+   <li>You can verify that Kaazing Gateway has signed the relevant .NET DLL by selecting the DLL in the File Browser, then right-clicking and opening the <strong>Properties</strong> dialog. On the Digital Signatures tab, you can view the Name of Signer value and a timestamp of when the DLL was signed. The email address is "Not available." For more information, see <a href="//msdn.microsoft.com/en-us/library/aa382384%28VS.85%29.aspx"> an example C program</a> that shows how to use the Microsoft mechanism to verify a signature (a DLL is one example of a Portable Executable, or PE, file). You can also learn more about <a href="//support.microsoft.com/kb/2389418">preventing DLL pre-loading attacks</a>.</li>
+</ul>
+                  </section>
+                </article>
+
+            </div> <!-- #main -->
+        </div> <!-- #main-container -->
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

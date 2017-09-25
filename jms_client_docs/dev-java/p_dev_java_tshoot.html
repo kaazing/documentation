@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+  
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+<h1>Troubleshoot Java JMS Clients </h1>
+<p>This topic contains descriptions of common errors that can occur when using the Java client and provides steps on how to prevent these errors.</p>
+
+<h2>Before You Begin</h2>
+<p>This procedure is part of <a href="o_dev_java.html">Checklist: How to Build Java JMS Clients</a>.</p>
+
+<p><span class="note"><b>Note:</b> Learn about supported browsers, operating systems, and platform versions in the <a href="//kaazing.com/releases/client-java/">Release Notes</a>.</span></p>
+
+<h2>What Problem Are You Having?</h2>
+<ul class="arrow-2">
+    <li><a href="#kerberos">Kerberos challenge handler not working</li> 
+    <li><a href="#max-pend-ack">Expected messages are not being received for a queue or durable subscriber</a></li>
+</ul>
+
+<h2><a name="kerberos"></a>Kerberos challenge handler not working</h2>
+<p><strong>Cause:</strong> <a href="../dev-java/p_dev_java_secure.html#kerberos_challenge">Kerberos challenge handlers</a> might not work for one or more of the following reasons:</p>
+<ul class="arrow-2">
+    <li><p>The client cannot connect to the Kerberos Domain Controller (KDC).</p>
+    <p><strong>Solution:</strong> Ping the KDC from the computer running the client and the server hosting the Gateway. Also, ensure that you can Telnet to Kerberos port number 88 from both computers (<span class="code_inline">telnet> open <em>KDC-server-name</em> 88</span>).</p></li>
+    <li><p>The client cannot obtain a Kerberos ticket.</p>
+    <p><strong>Solution:</strong> Test ticket acquisition by executing the following commands to ensure that the KDC is accessible and able to issue service tickets:</p>
+    <p><strong>For Linux:</strong></p>
+    <p><span class="code_inline">$ kinit -t /etc/<em>keytab-name</em>.keytab -S <em>service-instance-name</em> <em>username</em>@<em>KDC-server-name</em></span></p>
+    <p><strong>For Windows:</strong></p>
+    <p><span class="code_inline">$ kinit <em>username</em>@<em>KDC-server-name</em></span></p>
+    <p>The output will be:</p>
+    <p><span class="code_inline">Please enter the password for <em>username</em>@<em>KDC-server-name</em>:</span></p>
+    <p>Enter the password, and then enter:</p>
+    <p><span class="code_inline">$ klist</span></p>
+    <p>The ticket cache is displayed along with each ticket's expiration date.</p>
+    
+</li>
+    <li><p>Service name is in the incorrect format in the Kerberos challenge handler code.</p>
+    <p><strong>Solution:</strong> The service name should be in the format: <span class="code_inline">HTTP/servergw.hostname.com</span>. See <a href="../dev-java/p_dev_java_secure.html#kerberos_challenge">Creating Kerberos Challenge Handlers</a> for examples.</p></li>
+    <li><p>The pop-up dialog in the client used to obtain user credentials does not ensure that the username format is correct.</p>
+    <p><strong>Solution:</strong> Ensure that the result of the pop-up dialog used to obtain user credentials is formatted as<br><span class="code_inline"><em>username</em>@<em>KDC-server-name</em></span>.</p></li>
+</ul>
+
+<h2><a name="max-pend-ack"></a>Expected messages are not being received for a queue or durable subscriber</h2>
+<p><strong>Cause:</strong> If expected messages are not being received for a queue or durable subscriber, then it could be because the application has received messages without acknowledging them. The Gateway will send a maximum of <a href="../../admin-reference/r_conf_jms/index.html#maximumpendingacknowledgments">maximum.pending.acknowledgments</a> messages until the client acknowledges. The <code>maximum.pending.acknowledgments</code> property is set to 1 for JMS providers that do not support individual message acknowledgement.</p>
+    <p><strong>Solution:</strong> If you are using a JMS provider other than Apache ActiveMQ or TIBCO Enterprise Message Service (TIBCO EMS), you must ensure your client applications acknowledge each message received from a queue or durable subscriber. </p>
+    
+<h2>Next Step</h2>
+<p><a href="p_dev_java_logging.html">Display Logs for the Java JMS Client</a></p>
+
+
+                  </section>
+                </article>
+
+            </div> <!-- #main -->
+        </div> <!-- #main-container -->
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

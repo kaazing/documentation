@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+  
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+
+ <h1 id="using-the-gateway-to-support-high-availability">Using the Gateway to Support High Availability</h1>
+
+<p>You can configure Kaazing Gateway to be highly available, something that is mission critical to the success of today’s enterprises. Configuring Kaazing Gateway for high availability protects applications from hardware and software failures.</p>
+
+<p>This document describes the various aspects of high availability configuration:</p>
+
+<ul>
+  <li><a href="#gateway-clustering">Gateway Clustering</a></li>
+  <li><a href="#load-balancing-services">Load Balancing Services</a></li>
+  <li><a href="#clustering-and-load-balancing-migration">Clustering and Load Balancing Migration</a></li>
+  <li><a href="#configure-a-two-member-local-demo-cluster">Configure a Two-Member Local Demo Cluster</a></li>
+</ul>
+
+<p>To resolve issues encountered when configuring high availability, see <a href="../../troubleshooting/p_troubleshoot_high_availability/index.html">Troubleshoot Kaazing Gateway Clusters and Load Balancing</a>.</p>
+
+<h2 id="gateway-clustering">Gateway Clustering</h2>
+
+<p>High availability for services is achieved by configuring multiple gateways to be part of a cluster. Combining two or more Gateways in a cluster creates a single entity from the client’s point of view. A clustered configuration is an essential part of hardware and software failover preparation.</p>
+
+<h3 id="overview-of-gateway-clustering">Overview of Gateway Clustering</h3>
+
+<p>You configure a cluster by adding the <code>cluster</code> configuration element to the <code>gateway-config.xml</code> file. In the <code>cluster</code> element, you add the address on which the Gateway instance is listening for other cluster members (typically, the local IP address of the Gateway) and the cluster group address used by all cluster members to discover other cluster members.</p>
+
+<p>There is no concept of cluster masters and slaves; each cluster member has its own connection to the back-end server. If a cluster member terminates unexpectedly, the Kaazing Gateway client will reconnect to the cluster.</p>
+
+<ol>
+  <li>
+    <p>The cluster members come online, discover the cluster members, and establish connections with the other cluster members. This is shown in the following figure (the back-end server is omitted):</p>
+
+    <p><img src="../../images/f-ha-cluster-start-web.jpg" alt="" /></p>
+
+    <p><strong>Figure: Cluster Member Connections During Steady State</strong></p>
+  </li>
+  <li>
+    <p>In the case when one of the cluster members terminates unexpectedly, then the Kaazing Gateway clients connected to that member will reconnect to the cluster and other members will no longer redirect to that cluster member. This is shown in the following figure:</p>
+
+    <p><img src="../../images/f-ha-cluster-fail-web.jpg" alt="This figure shows a cluster of three members but one member has failed. The two surviving cluster members and the clients reestablish connections to each other and no longer connect to the failed node." /></p>
+
+    <p><strong>Figure: Cluster Member Connections After a Failure</strong></p>
+  </li>
+  <li>
+    <p>When the cluster member is brought back online, it starts participating again in the cluster as usual. Clustering is used in conjunction with load balancing (via the load balancing features of the Gateway or a third-party load balancer), which is described in the <a href="#load-balancing-services">Load Balancing Services</a> section.</p>
+  </li>
+</ol>
+
+<h2 id="load-balancing-services">Load Balancing Services</h2>
+
+<p>Kaazing Gateway provides the <code>balancer</code> service, which allows you to balance load for requests from any Gateway service type. Services running on Kaazing Gateway support peer load balancer awareness with the <code>balance</code> element.</p>
+
+<p>All cluster members that wish to participate in load balancing are configured with a <code>balancer</code> service. Each member then acts as a <em>balancer Gateway</em> to the other members.</p>
+
+<p>The load balancing process occurs as follows:</p>
+
+<ol>
+  <li>An initial client request is sent to a Gateway configured with a <code>balancer</code> service (<code>ws://balancer.example.com:8081/echo</code>). The <code>balancer</code> service is aware of the services that have been configured for load balancing. The cluster members share information about which members are active and which services are balanced across the cluster.</li>
+  <li>
+    <p>The <code>balancer</code> service checks the cluster to see which members are available, selects a member, and then sends a redirect to the client to connect to that member directly. </p>
+
+    <p><strong>Note</strong>: The Gateway supports cookies. If the client has accessed a particular node before, the <code>balancer</code> service checks to see if that node is available; if the node is available, the <code>balancer</code> service chooses this node for the client connection. The <code>balancer</code> service follows the same process for terminated connections: if a connection terminates unexpectedly, the <code>balancer</code> service first checks to see if the node to which the client was originally connected is still available, and then tells the client to connect to that node.</p>
+  </li>
+  <li>The client establishes a connection with the node assigned by the <code>balancer</code> service (for example, <code>ws://node1.example.com:8081/echo</code>), bypassing the first Gateway after the initial connection is established.</li>
+  <li>If a connected Kaazing Gateway instance terminates unexpectedly, the client reconnects to the original Gateway URI (<code>ws://balancer.example.com:8081/echo</code>).</li>
+  <li>The <code>balancer</code> service checks the cluster again to see which nodes are still available and chooses a new one for the client to connect to directly.</li>
+  <li>
+    <p>The client establishes a connection with the new node assigned by the <code>balancer</code> service (for example, <code>ws://node2.example.com:8081/echo</code>), once again bypassing the first Gateway after the initial connection is established. </p>
+
+    <p><strong>Note</strong>: The Gateways (members) of a Kaazing Gateway cluster share information across the cluster. If a connection or one of the Gateways fails, then a client can connect to another member within the cluster.</p>
+  </li>
+</ol>
+
+<h2 id="clustering-and-load-balancing-migration">Clustering and Load Balancing Migration</h2>
+
+<p>The following checklists describe how to migrate a Kaazing Gateway 3.3-3.5 load-balanced cluster to Kaazing Gateway 4.x. The tasks in the checklists are a part of the overall Gateway configuration migration sequence described in the <a href="../../upgrade/p_migrate_gwconfig/index.html">Migrate the Gateway Configuration</a> topic. Before you migrate your existing cluster, review the procedures in <a href="../o_high_availability/index.html">Configure the Gateway for High Availability</a>.</p>
+
+<h3 id="cluster-migration-checklist">Cluster Migration Checklist</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Step</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>Modify the <code>name</code> element in <code>cluster</code>, if desired.</td>
+      <td>In Kaazing Gateway 3.3-3.5, the <code>name</code> element was required to be <code>kzha</code>. This is no longer a requirement. The <code>name</code> element can be any name. The name must be the same in the <code>cluster</code> service of every Gateway that wishes to join this cluster.</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Revise the <code>connect</code> element to contain a multicast address, if desired.</td>
+      <td>In Kaazing Gateway 3.3-3.5, at least one <code>connect</code> element containing the unicast address of another cluster member was required, but in Kaazing Gateway 4.x you can choose to use a multicast address in the <code>connect</code> element instead (for example, <code>udp://224.2.2.44:54327</code>). If you use a multicast address in the <code>connect</code> element, then the same <code>connect</code> element can be used in the <code>cluster</code> service on each cluster member.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="load-balancing-migration-checklist">Load Balancing Migration Checklist</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Step</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>In the <code>balancer</code> service(s), add an <code>accept-options</code> element containing a <code>ws.bind</code> child element. In the <code>ws.bind</code> element, enter the local IP address of the cluster member.</td>
+      <td>The <code>ws.bind</code> element in <code>accept-options</code> is used to bind the public URI in the <code>accept</code> element to the local IP address of this cluster member. This allows the <code>accept</code> URIs in the <code>balancer</code> service to be identical on every cluster member. Only the <code>ws.bind</code> element needs to be unique in each cluster member.</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>For each <code>service</code> participating in load balancing (each <code>service</code> element containing a <code>balance</code> element), ensure that the <code>balance</code> and <code>accept</code> element URIs in the <code>service</code> use the same port number and path.</td>
+      <td>The hostnames in the <code>balance</code> and <code>accept</code> element URIs may be different, but if the port number or path is different, an error will occur when the Gateway starts.</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>Copy the <code>balancer</code> service to each cluster member.</td>
+      <td>In Kaazing Gateway 3.3-3.5, there was the concept of a single Gateway running a <code>balancer</code> service on behalf of the other cluster members (a <em>balancer Gateway</em>). In Kaazing Gateway 4.x, every cluster member with a load-balanced service must include a <code>balancer</code> service.</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>Configure DNS to support the load-balanced cluster members.</td>
+      <td>The hostname in the <code>accept</code> element of each <code>balancer</code> service must resolve in DNS to the IP addresses of every cluster member. Multiple DNS A resource records should be registered for the hostname in the <code>accept</code> URI, with each A record mapping the hostname to the IP address of one cluster member. When a client resolves the hostname of the <code>accept</code> URI in DNS, the client will receive the IP address of a cluster member and connect. To register these DNS records, you will need access to the public DNS zone for the hostname, or the assistance of your network administrator or Internet Service Provider (ISP). All ISPs provide ways for their customers to update their DNS zones with new hostnames and IP addresses. <strong>Note:</strong> During development and testing, you might choose to alter the <a href="//en.wikipedia.org/wiki/Hosts_(file)">hosts</a> file of the cluster members instead of registering DNS records. This is not recommended for production as it can complicate troubleshooting.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="configure-a-two-member-local-demo-cluster">Configure a Two-Member Local Demo Cluster</h2>
+
+<p>The following steps walk you through setting up a two-member cluster with load-balanced services on your local server. The local cluster will help you learn about setting up, monitoring, and managing a cluster without having to use multiple servers.</p>
+
+<ol>
+  <li>Set up name resolution for the local cluster.
+    <ol>
+      <li>Open the hosts file on your computer. For information on the location of the hosts file on your operating system, see <a href="//en.wikipedia.org/wiki/Hosts_(file)#Location_in_the_file_system">hosts (file)</a> on Wikipedia.</li>
+      <li>
+        <p>Add the following entries to the hosts file:</p>
+
+        <pre class="auto-links: false; brush: xml; toolbar: false;">172.19.19.4   example.com
+172.19.19.5   example.com
+
+172.19.19.4   member1.example.com
+172.19.19.5   member2.example.com
+</code></pre>
+
+        <p>The entries for <code>example.com</code> are the balance URI domain name and IP addresses. The remaining entries are for the individual cluster members.</p>
+      </li>
+      <li>Save the hosts file.</li>
+    </ol>
+  </li>
+  <li>
+    <p>Set up the local virtual network. Run the following commands to set up the local virtual network.</p>
+
+    <p>The network interface syntax might need to change depending on the active interfaces on your server. For example, if you are on a Mac and have the interface <code>en1</code> active, you can use <code>en1 alias</code> in the commands below. To see the active interfaces, on Linux and Mac, use the command <code>ifconfig -a</code>. On Windows, use <code>netsh interface ipv4 show interfaces</code>.</p>
+
+    <ul>
+      <li>Determine which active interface to use for the virtual interface. On Linux and Mac, use the command <code>ifconfig -a</code>. On Windows, use <code>netsh interface ipv4 show interfaces</code>. Active interfaces will have <code>status: active</code> in their description. Choose an active interface, and substitute its name for <code>eth0</code> (Linux), <code>en1</code> (Mac) or <code>Local Area Connection</code> (Windows) in the commands below, if necessary.</li>
+      <li>
+        <p>For Linux, run each of the following commands:</p>
+
+        <p><code>sudo ifconfig eth0:1 172.19.19.4</code></p>
+
+        <p><code>sudo ifconfig eth0:2 172.19.19.5</code></p>
+
+        <p>Set the default gateway with <code>route add default gw 172.16.120.2</code>.</p>
+
+        <p>Your <code>ifconfig -a</code> output should now contain entries for each new subinterface:</p>
+
+<p><code>
+eth0 Link encap:Ethernet HWaddr 5c:26:0a:14:ef:49<br>
+ ...<br>
+ eth0:1 Link encap:Ethernet HWaddr 5c:26:0a:14:ef:49<br>
+ inet addr:172.19.19.4 Bcast:172.19.255.255 Mask:255.255.0.0<br>
+ ...<br>
+ eth0:2 Link encap:Ethernet HWaddr 5c:26:0a:14:ef:49<br>
+ inet addr:172.19.19.5 Bcast:172.19.255.255 Mask:255.255.0.0<br>
+ ...
+</code></p>
+
+        <p><strong>Note:</strong> To remove these temporary aliases, use the <code>down</code> command, for example: <code>sudo ifconfig eth0:1 down</code></p>
+      </li>
+      <li>
+        <p>For Mac, perform the following steps:</p>
+
+        <ol>
+          <li>Open <strong>System Preferences</strong>.</li>
+          <li>Click <strong>Network</strong>.</li>
+          <li>At the bottom of the list of interfaces, click <strong>+</strong>.</li>
+          <li>In <strong>Interface</strong>, select an active interface such as your Ethernet interface.</li>
+          <li>In <strong>Service Name</strong>, enter <strong>Ethernet 1.1</strong>.</li>
+          <li>Click <strong>Create</strong>.</li>
+          <li>Select the new interface and click <strong>Advanced</strong>.</li>
+          <li>Click the <strong>TCP/IP</strong> tab.</li>
+          <li>In <strong>Configure IPv4</strong>, select <strong>Manually</strong>.</li>
+          <li>In <strong>IPv4 Address</strong>, enter 172.19.19.4.</li>
+          <li>In <strong>Subnet Mask</strong>, enter 255.255.0.0.</li>
+          <li>In <strong>Router</strong>, enter your router’s address, such as 198.162.0.1. You can obtain this address from your main Ethernet interface settings.</li>
+          <li>Click <strong>OK</strong>.</li>
+          <li>Click <strong>Apply</strong>.</li>
+          <li>Repeat these steps for the second alias, using the <strong>Service Name</strong> <code>Ethernet 1.2</code> and the <strong>IPv4 Address</strong> <code>172.19.19.5</code>.</li>
+        </ol>
+
+        <p>Your <code>ifconfig -a</code> output should now contain entries for each new subinterface:</p>
+
+<p><code>
+en1: flags=8863&lt;up,broadcast,smart,running,simplex,multicast&gt; mtu 1500<br>
+ ether 68:a8:6d:1f:27:94<br>
+ inet6 fe80::6aa8:6dff:fe1f:2794%en1 prefixlen 64 scopeid 0x6<br>
+ inet 192.168.0.102 netmask 0xffffff00 broadcast 192.168.0.255<br>
+ inet 172.19.19.4 netmask 0xffff0000 broadcast 172.19.255.255<br>
+ inet 172.19.19.5 netmask 0xffff0000 broadcast 172.19.255.255<br>
+ media: autoselect<br>
+ status: active
+</code></p>
+      </li>
+      <li>
+        <p>For Windows, run each of the following commands (this configuration can also be performed using the <strong>Advanced TCP/IP Settings</strong> dialog in Windows):</p>
+
+        <p><code>netsh interface ipv4 set address name="Local Area Connection" source=static addr=172.19.19.4 mask=255.255.255.0 gateway=172.16.120.2</code></p>
+
+        <p><code>netsh interface ipv4 set address name="Local Area Connection" source=static addr=172.19.19.5 mask=255.255.255.0 gateway=172.16.120.2</code></p>
+
+        <p>Your <code>ipconfig /all</code> output should now contain entries for each new subinterface:</p>
+
+<p><code>
+Ethernet adapter Local Area Connection:<br>
+ Connection-specific DNS Suffix . :<br>
+ Description . . . . . . . . . . . : Intel(R) PRO/1000 MT Network Connection<br>
+ Physical Address. . . . . . . . . : 00-0C-29-5F-27-49<br>
+ DHCP Enabled. . . . . . . . . . . : No<br>
+ Autoconfiguration Enabled . . . . : Yes<br>
+ Link-local IPv6 Address . . . . . : fe80::a848:ad83:8d6e:a393%11(Preferred)<br>
+ IPv4 Address. . . . . . . . . . . : 172.16.120.128(Preferred)<br>
+ Subnet Mask . . . . . . . . . . . : 255.255.0.0<br>
+ IPv4 Address. . . . . . . . . . . : 172.19.19.4(Preferred)<br>
+ Subnet Mask . . . . . . . . . . . : 255.255.0.0<br>
+ IPv4 Address. . . . . . . . . . . : 172.19.19.5(Preferred)<br>
+ Subnet Mask . . . . . . . . . . . : 255.255.0.0<br>
+ Default Gateway . . . . . . . . . : 172.16.120.2<br>
+ DHCPv6 IAID . . . . . . . . . . . : 234884137<br>
+ DHCPv6 Client DUID. . . . . . . . : 00-01-00-01-17-B1-FC-61-00-0C-29-5F-27-49<br>
+ DNS Servers . . . . . . . . . . . : 172.16.120.2<br>
+ NetBIOS over Tcpip. . . . . . . . : Enabled
+</code></p>
+
+        <p><strong>Note:</strong> To remove these temporary aliases, use the <code>delete</code> command, for example: <code>netsh in ip delete address "Local Area Connection" 172.19.19.4</code></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>Configure the configuration files for the cluster members.</p>
+
+    <ol>
+      <li>
+        <p>Copy the following configuration files from the following Github repo: <a href="https://github.com/kaazing/gateway/tree/develop/samples/cluster">https://github.com/kaazing/gateway/tree/develop/samples/cluster</a></p>
+
+        <ul>
+          <li>cluster-member-1-config.xml</li>
+          <li>cluster-member-2-config.xml</li>
+        </ul>
+      </li>
+      <li>
+        <p>Paste the configuration files into <code>GATEWAY_HOME/conf</code> folder.</p>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <p>Navigate to <code>GATEWAY_HOME/bin</code>, and launch the first cluster member using the following command, where <code>GATEWAY_HOME</code> is the full path to the directory that contains Kaazing Gateway and its components (for more information, see <a href="../../about/setup-guide/index.html">Setting Up the Gateway</a>):</p>
+
+    <ul>
+      <li>
+        <p>For Mac and Linux:</p>
+
+        <p><code>./gateway.start --config *GATEWAY\_HOME*/conf/cluster-member-1-config.xml</code></p>
+      </li>
+      <li>
+        <p>For Windows:</p>
+
+        <p><code>gateway.start.bat --config *GATEWAY\_HOME*\\conf\\cluster-member-1-config.xml</code></p>
+      </li>
+    </ul>
+  </li>
+  <li>From <code>GATEWAY_HOME/bin</code>, launch the second cluster member using the following command:
+    <ul>
+      <li>
+        <p>For Mac and Linux:</p>
+
+        <p><code>./gateway.start –config <em>GATEWAY_HOME</em>/conf/cluster-member-2-config.xml</code></p>
+      </li>
+      <li>
+        <p>For Windows:</p>
+
+        <p><code>gateway.start.bat –config <em>GATEWAY_HOME</em>\conf\cluster-member-2-config.xml</code></p>
+
+        <p>Once the second cluster member is running, the output in the command line for the first cluster member will read:</p>
+
+        <p><code>
+Members [2] {
+ Member [172.19.19.4:5942] this
+ Member [172.19.19.5:5943]
+ }
+ INFO Cluster member tcp://172.19.19.5:5943 is now online
+</code></p>
+      </li>
+    </ul>
+  </li>
+  <!-- <li>
+    <p>Run Command Center to view the cluster. For information on running Command Center, see <a href="../../management/p_monitor_cc/index.html">Monitor with Command Center</a>.</p>
+
+    <ol>
+      <li>Open a Web browser and enter the following URL: <code>http://example.com:8000/commandcenter</code>.</li>
+      <li>In <strong>Management URL</strong>, enter <code>ws://member1.example.com:8000/snmp</code>.</li>
+      <li>Enter the username and password and click <strong>OK</strong>. The default passwords are stored in <code>GATEWAY_HOME/conf/jaas-config.xml</code></li>
+    </ol>
+
+    <p>The Command Center dashboard displays the message <strong>Connected to a cluster. Members: 2</strong>. You can use the Command Center to view details about the cluster.</p>
+  </li>
+  <li>In a new Web browser tab, enter the following URL: <code>http://example.com:8001/</code>.</li>
+  <li>Click the <strong>Demos</strong> link and run some of the demos against the cluster. Then return to Command Center to monitor how the cluster manages client connections.</li> -->
+</ol>
+
+<h2 id="see-also">See Also</h2>
+
+<ul>
+  <li><a href="../o_high_availability/index.html">Configure the Gateway for High Availability</a>
+    <ul>
+      <li><a href="../p_high_availability_cluster/index.html">Configure a Kaazing Gateway Cluster</a></li>
+      <li><a href="../p_high_availability_loadbalance/index.html">Set Up Kaazing Gateway as a Load Balancer</a></li>
+      <li><a href="../../troubleshooting/p_troubleshoot_high_availability/index.html">Troubleshoot Kaazing Gateway Clusters and Load Balancing</a></li>
+    </ul>
+  </li>
+</ul>
+
+
+</div>
+
+</div>
+
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

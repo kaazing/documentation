@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+  
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+
+ <h1 id="configuring-multiple-services-on-the-same-host-and-port">Configuring Multiple Services on the Same Host and Port</h1>
+
+<p>Typically, for a network connection, you configure an IP address or configure a DNS hostname that is resolved to an IP address, and a port. For example:</p>
+
+<p><strong>Note:</strong> This documentation uses a running example with the URI scheme: <code>ws://example.com:80/remoteService1</code> to demonstrate Gateway configurations.</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;service&gt;
+  &lt;accept&gt;ws://example.com:80/&lt;/accept&gt;
+  ...
+&lt;/service&gt;
+</code></pre>
+
+<p>In the example, the Gateway creates a socket for port 80 on the IP address resolved by the hostname <code>example.com</code> and listens for requests. Typically, the Gateway binds to (and listens on) only one socket for a given IP address and port. However, you can configure the Gateway for multiple services to the same host and port. For example, you can configure similar services to use the same IP address and port number to organize multiple connection requests on the same server as the Gateway and avoid conflicts.</p>
+
+<p>You configure multiple services by specifying a unique path in the URI of <a href="../r_configure_gateway_service#accept"><code>accept</code></a> or <a href="../r_configure_gateway_service#connect"><code>connect</code></a> elements. The Gateway, listening for all of these requests, can determine which service a request is targeting based on the combination of the scheme, host, port, and path.</p>
+
+<p>Our configuration example configures the following two services to specify that the Gateway binds to the same URL scheme, host, and port: <code>ws://example.com:80</code>. However, notice that each URL specifies a unique path: <code>remoteService1</code> and <code>remoteService2</code>.</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;service&gt;
+  &lt;accept&gt;ws://example.com:80/remoteService1&lt;/accept&gt;
+  ...
+  &lt;/service&gt;
+
+&lt;service&gt;
+  &lt;accept&gt;ws://example.com:80/remoteService2&lt;/accept&gt;
+  ...
+&lt;/service&gt;
+</code></pre>
+
+<p>All inbound requests can communicate with multiple services on a specific host and port, and collisions are avoided because the requests use different paths. The example uses <code>remoteService1</code> and <code>remoteService2</code>, but you can specify any name on the path so long as it conforms internet URL standards (<a href="//tools.ietf.org/html/rfc3986">RFC 3986</a>). In fact, you may chose to tailor the path to reflect the actual function of the service.</p>
+
+<p><strong>Note:</strong> Kaazing Gateway follows the generic syntax defined for all URI schemes as defined by <a href="//tools.ietf.org/html/rfc3986">RFC 3986</a>. See <a href="../../about/about/index.html">Documentation Conventions</a> for more information about URI schemes with the Gateway.</p>
+
+<p>The Gateway determines which of the two addresses to use when the client sends a request to connect with one of the pathnames. Thus, if a client makes a WebSocket connection to <code>ws://example.com:80/remoteService1</code>, then the Gateway reads the network headers and routes the request as configured by the <code>accept</code> in <code>&lt;accept&gt;ws://example.com:80/remoteService1&lt;/accept&gt;</code>.</p>
+
+<h2 id="notes">Notes</h2>
+
+<p>Note the following when configuring the Gateway to listen for multiple services on the same host and port:</p>
+
+<ul>
+  <li>
+    <p>You can only configure multiple services on the Gateway to use the same hostname and port if the URI scheme supports paths.</p>
+
+    <p>You cannot configure two services with the same URI scheme (for example: <code>&lt;accept&gt;ws://example.com:80/myService&lt;/accept&gt;</code> because the Gateway will be unable to determine which service is the target of the request. Thus, you must differentiate the services using different paths. This differentiation only applies to URI schemes that support paths such as HTTP, HTTPS, WebSocket, WebSocket Secure, SSE, and so on. Other protocols, such as TCP and UDP do not have the notion of paths and are only aware of the host and port. Thus, only one service can listen for TCP connections such as &lt;accept&gt;tcp://example.com:80&lt;/accept&gt;.</p>
+
+    <p><strong>Note:</strong> You can work around the limitations of schemes that do not support paths by using a bind in the <a href="../r_configure_gateway_service#accept-options-and-connect-options"><code>accept-options</code></a> element to bind an URL or URLs on which the service accepts connections. See the <a href="../r_configure_gateway_service#protocolbind"><code>protocol.bind</code></a> documentation for more information.</p>
+  </li>
+  <li>
+    <p>The path component of the URL is mandatory.</p>
+
+    <p>The Gateway strictly enforces URL semantics. Thus a path is mandatory in your URI scheme and the minimal path you can configure is <code>/</code>. If you configure multiple services for the same host and port without a unique path, then the Gateway returns an exception during startup.</p>
+  </li>
+  <li>
+    <p>Client requests must exactly match the URL specified in the Gateway configuration such that the scheme, host, port, and path all match.</p>
+
+    <p>The running example used in this discussion consistently specifies both the host and port in the URI (<code>ws://example.com:80/remoteService1</code>). However, there is one caveat to the rule and it is that client requests over standard ports can be defaulted. Thus, the client can actually request either <code>ws://example.com:80/remoteService1</code> or <code>ws://example.com/remoteService1</code>. In the latter case, the Gateway assumes the client intended to communicate over port 80. You can configure multiple services over standard ports.</p>
+  </li>
+  <li>
+    <p>Clients can connect using either the hostname or the IP address if you configure an <code>accept</code> element for each.</p>
+
+    <p>The following example configures two <code>accept</code> elements for the service: one with the host’s hostname and the other with its IP address:</p>
+
+    <pre class="auto-links: false; brush: xml; toolbar: false;">&lt;service&gt;
+  &lt;accept&gt;ws://example.com:80/remoteService1&lt;/accept&gt;
+  &lt;accept&gt;ws://26.194.83.29:80/remoteService1&lt;/accept&gt;
+  ...
+&lt;/service&gt;
+</code></pre>
+  </li>
+</ul>
+
+<h2 id="see-also">See Also</h2>
+
+<ul>
+  <li><a href="../r_configure_gateway_service">Service Reference</a>, especially the <a href="../r_configure_gateway_service#type"><code>types</code> element</a>, to learn about the many types of services you can configure</li>
+</ul>
+
+
+</div>
+
+</div>
+
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

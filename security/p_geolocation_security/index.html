@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+ <meta charset="UTF-8" >
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+ <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+ <link rel="icon" href="../../img/favicon.ico">
+
+ <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+ <link rel="stylesheet" href="../../css/bootstrap.min.css">
+ <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+ <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+ <link rel="stylesheet" href="../../css/main.css">
+ <link rel="stylesheet" href="../../css/syntax.css">
+ <link rel="stylesheet" href="../../css/doc.css">
+
+  
+
+
+ <!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+ <!-- Include required SyntaxHighlighter JS files -->
+ <script type="text/javascript" src="../../resources/xregexp.js"></script>
+ <script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+ <!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+ <script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+ <script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+ <script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+ <script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+ <script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+ <script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+ <script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+ <!-- Include SyntaxHighlighter core style and Kaazing theme -->
+ <link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+ <link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+ <!-- Finally, call SyntaxHighlighter -->
+ <script type="text/javascript">
+ SyntaxHighlighter.all()
+ </script>
+
+ <!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+ <!-- Fixed navbar -->
+ <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="container">
+   <div class="navbar-header">
+    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+     <span class="sr-only">Toggle navigation</span>
+     <span class="icon-bar"></span>
+     <span class="icon-bar"></span>
+     <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+   </div>
+   <div id="navbar" class="navbar-collapse collapse">
+    <ul class="nav navbar-nav navbar-right">
+     <li><a href="//kaazing.com/documentation/">Documentation</a></li>
+     <li><a href="//kaazing.com/download/">Download</a></li>
+     <li><a href="//developer.kaazing.com/product-demos/">Demos</a></li>
+     <li><a href="https://blog.kaazing.com/">Blog</a></li>
+     <li class="hidden-sm"><a href="https://kaazing.com/named-developer-program/">Developer Program</a></li>
+    </ul>
+   </div><!--/.nav-collapse -->
+  </div>
+ </nav>
+
+ <div id="diagnostic">
+ </div>
+
+
+  <div class="container page-content text-left">
+   <a href="../../index.html">&lt; Table of Contents</a>
+
+   <h1>IP Filtering with the Gateway </h1>
+
+   <p>You can configure a Gateway service to only accept connections from remote hosts based on their IP addresses. The list of allowed IP addresses is called a <a href="https://en.wikipedia.org/wiki/Whitelist">whitelist</a>. Basically, an IP whitelist puts a Gateway service in a default posture of denying remote connections, permitting only a specific list of remote hosts from connecting to the service.</p>
+
+   <p>To use IP filtering, you have two options:</p>
+   
+   <ol>
+    <li><a href="#filter-remote-ip-addresses-using-the-ip-filter-login-module-type">Filter Remote IP Addresses Using the <code>ip-filter</code> Login Module Type</a> - On the Gateway, configure a Gateway <a href="../../admin-reference/r_configure_gateway_service/index.html">service</a> with a login module of type ip-filter, set the login module’s success element’s value to required, and populate the whitelist element with at least one IP address or IP address range.</li>
+    <li><a href="#filter-remote-ip-addresses-using-a-custom-login-module">Filter Remote IP Addresses Using a Custom Login Module</a> - Create and use your own custom login module (LoginModule) and apply it to a Gateway service. From within the login module, remote IP addresses can be inspected and the login module can determine whether or not the connection should be allowed.</li>
+   </ol>
+   
+   
+   <p>For most use cases, option #1 is the easiest solution. Option #2 is available for more advanced filtering. For example, if you want to look up IP addresses by country and accept or reject the IP addresses according to different countries or regions.</p>
+   
+   <span class="note"><b>Important:</b> Never rely entirely on IP filtering to determine whether a request for a remote connection is safe. IP filtering should only be used as part of a comprehensive security configuration for your network resources. Other security tools, such as auditing, firewalls, DMZs (see <a href="../../admin-reference/c_topologies/index.html">Common Kaazing Gateway Production Topologies</a>), encryption (see <a href="../../security/o_tls/index.html">Secure Network Traffic with the Gateway</a>), Kerberos (see <a href="../../security/p_kerberos_configure/index.html">Configure Kerberos V5 Network Authentication</a>), <a href="../../enterprise-shield/o_enterprise_shield_checklist/index.html">Enterprise Shield</a>, used along with IP filtering will help to ensure safe remote connections. For more information, see <a href="../../security/c_security_about/index.html">About Security with Kaazing Gateway</a>.</span>
+   
+   <h2>Components and Tools</h2>
+   
+   <p>Before you get started, review the components and tools used to enable geolocation security in the Gateway.</p>
+   
+   <table>
+   <tr>
+   <th align="left" width="200px"><strong>Component or Tool</strong></th>
+   <th align="left"><strong>Description</strong></th>
+   </tr>
+   <tbody>
+   <tr>
+   <td align="left">Kaazing Gateway service</td>
+   <td align="left">Any <a href="../../admin-reference/r_configure_gateway_service/index.html">service</a> hosted on the Gateway can use IP filtering.</td>
+   </tr>
+   <tr>
+   <td align="left">Login module type, <code>ip-filter</code></td>
+   <td align="left">A <a href="../../admin-reference/r_configure_gateway_security/index.html#login-module">login module</a> communicates with a user database to authenticate user credentials and to determine a set of authorized roles. The ip-filter type is used to configure a whitelist within the Gateway configuration. For more information, see <a href="../../security/p_auth_configure_login_module/index.html">Configure a Chain of Login Modules</a>.</td>
+   </tr>
+   <tr>
+   <td align="left">Custom login module</td>
+   <td align="left">A custom <a href="//docs.oracle.com/javase/8/docs/api/javax/security/auth/spi/LoginModule.html">LoginModule</a> can be created and applied to security settings of any service hosted by the Gateway. The custom LoginModule manages the IP whitelist outside of the Gateway configuration. For more information, see <a href="../../security/p_auth_configure_custom_login_module/index.html">Create a Custom Login Module</a>.</td>
+   </tr>
+   <tr>
+   <td align="left">Whitelist</td>
+   <td align="left">The list and/or range of IP addresses that are accepted by the login module. For information on IP address notation, see <a href="https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing#CIDR_notation">CIDR notation</a>. There are many online CIDR calculation tools that can assist you in determining an IP address range.</td>
+   </tr>
+   <tr>
+   <td align="left">Remote host</td>
+   <td align="left">A remote host is any network host connecting to the Gateway.</td>
+   </tr>
+   <tr>
+   <td align="left">Remote host IP</td>
+   <td align="left">The IP address identified by the HTTP Forwarded header</td>
+   </tr>
+   </table>
+   
+   <h2>How the Gateway Performs IP Filtering</h2>
+   
+   <p>When the Gateway receives a remote connection it attempts to use the HTTP <code>Forwarded</code> header (<a href="//tools.ietf.org/html/rfc7239">RFC 7239</a>) from the connection to retrieve the remote host’s IP address and pass it into the login module chain. If the <code>Forwarded</code> header is not set (or is set to an invalid IP address), then the Gateway will obtain the remote IP address from the IP header in the TCP datagram, and send that IP address to the login module chain.</p>
+   
+   <p>Any <code>service</code> on the Gateway that is configured with a login module of type <code>ip-filter</code> and set to <code>required</code> compares the IP address obtained by the Gateway to those addresses or address ranges in the login module’s <code>whitelist</code>. If a match is found, the connection to the service is permitted. If no match is found, the Gateway refuses the connection and sends an authentication challenge to the remote host. The Gateway does not throw an exception.</p>
+   
+   <span class="note"><b>Notes:</b>
+    <ul>
+     <li>Intermediaries such as load balancers must propagate the remote host IP address to the Gateway using the HTTP <code>Forwarded</code> header.</li>
+     <li>The <a href="../../admin-reference/r_configure_gateway_security/index.html#login-module">login modules</a> on a Gateway service are organized as a chain, with the Gateway using each login module as the Gateway proceeds down the chain. You can place the IP filtering login module anywhere in the chain.</li>
+    </ul>
+   </span>
+   
+   <h2 id="filter-remote-ip-addresses-using-the-ip-filter-login-module-type">Filter Remote IP Addresses Using the ip-filter Login Module Type</h2>
+   
+   <p>The following procedure demonstrates the how to configure the <a href="../../admin-reference/r_configure_gateway_security/index.html#login-module">login module</a> element for a Gateway service and define the IP address whitelist for that service.</p>
+   
+   <ol>
+    <li>If the Gateway is running, stop the Gateway. For information on starting and stopping the Gateway, see <a href="../../about/setup-guide/index.html">Setting Up the Gateway and Clients</a>.</li>
+    <li>Open the Gateway configuration file (<code><em>GATEWAY_HOME</em>/conf/gateway-config.xml</code>).</li>
+    <li><p>Locate the <code>service</code> on which you want to apply IP filtering. For this example, the default <strong>echo</strong> service is used.</p>
+    
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+ &lt;service&gt;
+  &lt;name&gt;echo&lt;/name&gt;
+  &lt;description&gt;Simple echo service&lt;/description&gt;
+  &lt;accept&gt;ws://${gateway.hostname}:${gateway.base.port}/echo&lt;/accept&gt;
+
+  &lt;type&gt;echo&lt;/type&gt;
+  &lt;realm-name&gt;demo&lt;/realm-name&gt;
+
+  &lt;authorization-constraint&gt;
+  &lt;require-role&gt;AUTHORIZED&lt;/require-role&gt;
+ &lt;/authorization-constraint&gt;
+
+ &lt;cross-site-constraint&gt;
+ &lt;allow-origin&gt;*&lt;/allow-origin&gt;
+&lt;/cross-site-constraint&gt;
+&lt;/service&gt;        
+</pre>
+    
+    </li>
+    <li>Ensure that the <code>authorization-constraint</code> is enabled and <code>require-role</code> is set to <code>AUTHORIZED</code>.</li>
+    <li>Locate the <code>realm-name</code> element for the service. Note the value for <code>realm-name</code>, such as <strong>demo</strong>. If you do not configure <code>realm-name</code>, then authentication and authorization are not enforced for the service.</li>
+    <li>Navigate to the <strong>Security configuration</strong> section of the configuration file, where the security element is configured.</li>
+    <li>Locate the <code>realm</code> with the same name as the <code>realm-name</code> element for the <code>service</code>.</li>
+    <li><p>Under <code>login-modules</code>, enter a new login module, for example:</p>
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+ &lt;realm&gt;
+  &lt;name&gt;demo&lt;/name&gt;
+  &lt;description&gt;Demo Realm&lt;/description&gt;
+  &lt;authentication&gt;
+   &lt;http-challenge-scheme&gt;Application Basic&lt;/http-challenge-scheme&gt;
+   &lt;login-modules&gt;
+   &lt;login-module&gt;
+   ...
+   &lt;login-module&gt;
+   &lt;type&gt;file&lt;/type&gt;
+   &lt;success&gt;required&lt;/success&gt;
+   &lt;options&gt;
+    &lt;file&gt;jaas-config.xml&lt;/file&gt;
+   &lt;/options&gt;
+  &lt;/login-module&gt;
+ &lt;/login-modules&gt;
+&lt;/authentication&gt;
+&lt;/realm&gt;
+</pre>
+    </li>
+    <li>In the new login-module, enter the following:
+     <ul>
+      <li>A <code>type</code> element with the value <code>ip-filter</code>.</li>
+      <li>A <code>success</code> element with the value <code>required</code>.</li>
+      <li>An <code>options</code> element with a child element <code>whitelist</code>.</li>
+      <li>In the <code>whitelist</code> element, enter the IP addresses and/or range of IP addresses to allow. Be sure to verify that the IP addresses or ranges are entered correctly.</li>
+     </ul>
+     <p>Here is what a completed login-module looks like:</p>
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+ <realm>
+  <name>demo</name>
+  <description>Demo Realm</description>
+
+  <authentication>
+   <http-challenge-scheme>Application Basic</http-challenge-scheme>
+
+   <login-modules>
+   <login-module>
+   <type>ip-filter</type>
+   <success>required</success>
+   <options>
+    ....
+    <whitelist>
+     192.168.10.0/24
+     192.172.10.0/24
+     2001:db8::/40
+     2001:db9::/40
+     192.168.10.0
+     192.168.10.8
+     192.168.10.16
+     2001:db8:0:1:1:1:1:1
+     2001:db8:0:1:1:1:1:2
+    </whitelist>
+   </options>
+  </login-module>
+  <login-module>
+  <type>file</type>
+  <success>required</success>
+  <options>
+   <file>jaas-config.xml</file>
+  </options>
+ </login-module>
+</login-modules>
+</authentication>
+</realm>
+</pre>
+    <p>Note that IP addresses and ranges may be separated by whitespace or on separate lines. IP addresses and ranges must follow <a href="https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing#CIDR_notation">CIDR notation</a>.</p>
+    </li>
+    <li>Save the configuration file and start the Gateway.</li>
+    <li>Test the IP filter by connecting to the Gateway service using a remote host with an allowed IP address and a remote host with a forbidden IP address.</li>
+   </ol>
+   
+   <h2 id="filter-remote-ip-addresses-using-a-custom-login-module">Filter Remote IP Addresses Using a Custom Login Module</h2>
+   
+   <p>The following <a href="//docs.oracle.com/javase/8/docs/api/javax/security/auth/spi/LoginModule.html" title="LoginModule (Java Platform SE 8 )">LoginModule</a> methods demonstrate how to obtain the remote host IP address which you can then use to accept or reject remote host connection attempts.</p>
+
+<ol>
+ <li><p>Create the method to obtain the remote host IP address:</p>
+<pre class="auto-links: false; brush: java; toolbar: false;">
+private InetAddress getInetAddressFromCallback() {
+ InetAddressCallback inetAddrCallback = new InetAddressCallback();
+
+ try {
+  handler.handle(new Callback[] { inetAddrCallback });
+ }
+ catch (IOException ex) {
+  if (LOG.isTraceEnabled()) {
+   LOG.trace("Encountered IOxception handling InetAddressCallback", ex);
+  }
+ }
+ catch (UnsupportedCallbackException e) {
+  if (LOG.isTraceEnabled()) {
+   LOG.trace("Encountered UnsupportedCallbackException handling InetAddressCallback", e);
+  }
+ }
+
+ return inetAddrCallback.getInetAddress();
+}
+</pre>
+
+ <p>For more information on <code>getInetAddressFromCallback()</code>, see the documentation under the <strong>Server API Documentation</strong> heading on the <a href="../../index.html">Table of Contents</a>.</p>
+ </li>
+ <li>Use a <code>login()</code> method to invoke the <code>getInetAddressFromCallback()</code> method above:
+<pre class="auto-links: false; brush: java; toolbar: false;">
+private InetAddress remoteAddress = getInetAddressFromCallback();
+if (remoteAddress == null) {
+ throw new LoginException("Remote IP address is not available");
+}
+LOG.debug("Remote IP address: " + remoteAddress.getHostAddress());
+</pre>
+ </li>
+ <li>Integrate your custom login module into the Gateway. For more information, see <a href="../../security/p_auth_configure_custom_login_module/index.html">Create Custom Login Modules</a> and <a href="../../security/p_auth_integrate_custom_login_module/index.html">Integrate an Existing Custom Login Module into the Gateway</a>.</li>
+</ol>
+   
+<h2>See Also</h2>
+<ul>
+<li><a href="../../admin-reference/c_topologies/index.html">Common Kaazing Gateway Production Topologies</a></li>
+<li><a href="../../security/o_tls/index.html">Secure Network Traffic with the Gateway</a></li>
+<li><a href="../../security/o_kerberos/index.html">Configure Kerberos V5 Network Authentication</a></li>
+<li><a href="../../security/c_security_about/index.html">About Security with Kaazing Gateway</a></li>
+</ul>
+
+  </div>
+
+ </div>
+
+
+ <footer>
+  <div class="container">
+
+   <div class="row text-center social-media">
+    <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+    <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+    <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+    <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+    <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+    <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+   </div>
+
+   <div class="row copyright">
+    <div class="col-xs-12 col-sm-5 text-left">
+     &copy; 2007-2016 Kaazing Corporation
+    </div>
+    <div class="col-xs-12 col-sm-7 license">
+     This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+    </div>
+   </div>
+
+  </div>
+ </footer>
+
+ <!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+ <script>
+ (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+ })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ ga('create', 'UA-1771436-1', 'auto');
+ ga('send', 'pageview');
+ </script
+ <!-- end:javascript for this page -->
+
+
+ <script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+ </html>

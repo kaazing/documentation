@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+  
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+
+ <h1 id="configuring-kerberos-v5-network-authentication-overview-">Configuring Kerberos V5 Network Authentication Overview </h1>
+
+<p>Kaazing Gateway can be configured to accept a Kerberos service ticket (Ticket-Protected Gateway or TPG) from a browser client using a standard <code>Negotiate</code> challenge. Additionally, if you want to combine a TPG with a Ticket Granting Gateway (TGG) to proxy Kerberos protocol traffic from clients to a KDC, then you can configure the TPG to use the <code>Application Negotiate</code> challenge, which sends the Kerberos authentication protocol traffic over WebSocket to a TGG.</p>
+
+<h2 id="before-you-begin">Before You Begin</h2>
+
+<p>This procedure is part of <a href="../o_kerberos">Configure Kerberos V5 Network Authentication</a>.</p>
+
+<h2 id="how-does-the-negotiate-authentication-scheme-work">How Does the Negotiate Authentication Scheme Work?</h2>
+
+<p>In this configuration, access to a Kerberos ticket protected service is achieved as shown in the following figure:</p>
+
+<p><img src="../../images/f-authentication-web-challenge-web.jpg" alt="Negotiate authentication challenge to a Kerberos ticket protected service" /></p>
+
+<p><strong>Figure: Negotiate authentication challenge to a Kerberos ticket protected service</strong></p>
+
+<ol>
+  <li>A client running in the browser tries to access a ticket-protected service through a Ticket Protected Gateway (TPG).</li>
+  <li>TPG sends the <code>Negotiate</code> authentication challenge to the browser. <code>Negotiate</code> is a standard feature that programs such as the web browser can leverage to request an encrypted Kerberos ticket.</li>
+  <li>The browser requests the ticket directly from the KDC.</li>
+  <li>The KDC returns an encrypted ticket. This negotiation is done over TCP or UDP.</li>
+  <li>The browser responds to the challenge from the TPG with the encrypted ticket.</li>
+  <li>If the ticket is valid, the client is granted access the ticket-protected service through a TPG.</li>
+</ol>
+
+<h2 id="how-does-the-application-negotiate-authentication-scheme-work">How Does the Application Negotiate Authentication Scheme Work?</h2>
+
+<p>In this configuration, a TPG and a Ticket Granting Gateway (TGG) proxy Kerberos protocol traffic from clients to a KDC. (The TPG is configured with the <code>Application Negotiate</code> authentication scheme to challenge clients.) The configuration uses both a TPG and a TGG to send the Kerberos authentication protocol traffic over WebSocket to the Ticket-Protected Service, as shown in the following figure:</p>
+
+<p><img src="../../images/f-authentication-kaazing-2b-web.jpg" alt="Application Negotiate authentication using a TPG and a TGG to proxy Kerberos protocol traffic from clients to a KDC" /></p>
+
+<p><strong>Figure: Application Negotiate authentication using a TPG and a TGG to proxy Kerberos protocol traffic from clients to a KDC</strong></p>
+
+<ol>
+  <li>A Kaazing Gateway client running in the browser tries to access a ticket-protected service through a Ticket Protected Gateway (TPG).</li>
+  <li>The TPG sends the authentication challenge <code>Application Negotiate</code> to the browser. <code>Application Negotiate</code> is the Kaazing Gateway feature that allows a client to use the Kerberos authentication protocol over WebSocket.</li>
+  <li>The client requests a ticket from the Ticket Granting Gateway (TGG).</li>
+  <li>The TGG proxies the request to the KDC.</li>
+  <li>The KDC returns an encrypted ticket (session ticket) to the TGG.</li>
+  <li>The TGG returns the encrypted ticket to the browser.</li>
+  <li>The Kaazing Gateway client responds to the challenge with the ticket.</li>
+  <li>On successful validation of the ticket, access is granted and the client can access the ticket-protected service through Ticket-Protected Gateway (TPG).</li>
+</ol>
+
+<p>In this scenario, by configuring Kaazing Gateway to use Kerberos, you enable your browsers and Kaazing Gateway clients to take advantage of your Kerberos security to authenticate with Kaazing Gateway.</p>
+
+<p><strong>Note:</strong> You can configure one Gateway as a TPG and another Gateway as a TGG or you can configure a single Gateway as both the TPG and TGG.<br />
+The following example shows a sample <code>gateway-config.xml</code> entry for using Kerberos security. In this example, a service with type <code>kerberos5.proxy</code> is added, accepts connections on <code>wss://localhost:9000/kerberos5</code>, and connects over <code>tcp://kerberos.example.com:88</code> to the Kerberos Key Distribution Center. The authentication scheme is <code>Application Negotiate</code>, which tells the Gateway to challenge the Kaazing Gateway client for a Kerberos ticket. When the Gateway receives the ticket, it sends the ticket to the URI specified in the Kaazing Gateway client Kerberos challenge handler (see <a href="#notes">Notes</a> below). A <code>kerberos5</code> login-module includes sample configuration options, and is followed by the <code>gss</code> login-module that is required for SPNEGO-based Kerberos security.</p>
+
+<h5 id="ticket-granting-gateway-tgg">Ticket Granting Gateway (TGG)</h5>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;service&gt;
+    &lt;accept&gt;wss://example.com:9000/kerberos5&lt;/accept&gt;
+    &lt;connect&gt;tcp://kerberos.internal.example.com:88&lt;/connect&gt;
+    &lt;type&gt;kerberos5.proxy&lt;/type&gt;
+    &lt;cross-site-constraint&gt;
+        &lt;allow-origin&gt;*&lt;/allow-origin&gt;
+    &lt;/cross-site-constraint&gt;
+&lt;/service&gt;
+</code></pre>
+
+<h5 id="ticket-protected-gateway-tpg">Ticket Protected Gateway (TPG)</h5>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;security&gt;
+     &lt;realm&gt;
+        &lt;name&gt;demo&lt;/demo&gt;
+        &lt;authentication&gt;
+            &lt;http-challenge-scheme&gt;Application Negotiate&lt;/http-challenge-scheme&gt;
+          &lt;/authentication&gt;
+        &lt;login-module&gt;
+            &lt;type&gt;kerberos5&lt;/type&gt;
+            &lt;success&gt;required&lt;/success&gt;
+            &lt;options&gt;
+                &lt;useKeyTab&gt;true&lt;/useKeyTab&gt;
+                &lt;keyTab&gt;/etc/krb5.keytab&lt;/keyTab&gt;
+                &lt;principal&gt;HTTP/localhost@LOCAL.NETWORK&lt;/principal&gt;
+                &lt;isInitiator&gt;false&lt;/isInitiator&gt;
+                &lt;doNotPrompt&gt;true&lt;/doNotPrompt&gt;
+                &lt;storeKey&gt;true&lt;/storeKey&gt;
+            &lt;/options&gt;
+        &lt;/login-module&gt;
+
+        &lt;login-module&gt;
+            &lt;type&gt;gss&lt;/type&gt;
+            &lt;success&gt;required&lt;/success&gt;
+        &lt;/login-module&gt;
+    &lt;/realm&gt;
+&lt;/security&gt;
+</code></pre>
+
+<h2 id="next-steps">Next Steps</h2>
+
+<p><a href="../p_kerberos_configure_ticket_protected_gateway/index.html">Configure a Ticket Protected Gateway</a></p>
+
+<h2 id="notes">Notes</h2>
+
+<ul>
+  <li>For information on creating Kaazing Gateway client Kerberos challenge handlers, see the <a href="../../index.html">Howto</a> documentation for developers.</li>
+</ul>
+
+<h2 id="see-also">See Also</h2>
+
+<ul>
+  <li><a href="../../admin-reference/o_configure_gateway_checklist/index.html">Configure the Gateway</a> for more configuration information and examples</li>
+  <li><a href="../c_authentication_kerberos/index.html">About Kerberos V5 Network Authentication</a></li>
+  <li><a href="../u_kerberos_configure/index.html">Using Kerberos V5 Network Authentication with the Gateway</a></li>
+</ul>
+
+
+</div>
+
+</div>
+
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

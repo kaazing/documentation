@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+  
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+<h1>Interact with Kaazing Gateway Using the WebSocket API </h1>
+
+<p>If you are looking for Android development information, see the Kaazing Android SDK topics in the <a href="../../index.html">table of contents</a>.</p>
+
+        <p>This procedure describes how you can use the WebSocket API provided by the Kaazing Java WebSocket client library in Java. This API allows you to take advantage of the WebSocket standard as described in the <a href="//dev.w3.org/html5/spec/Overview.html#network">HTML5 specification</a>. For example, you can create a stand-alone Java application that uses the Java HTML5 Communications client library to interact directly with a back-end server. The support for WebSocket is provided by the WebSocket class and its supporting classes.        </p>
+<p>This topic covers the following information:</p>
+<ul class="arrow-2">
+<li><a href="#useAPI">To Use the WebSocket API in Java</a></li>
+<li><a href="#websocket">WebSocket and WsURLConnection</a></li>
+<li><a href="#URLFactory">URLFactory</a></li>
+<li><a href="#WebSocketFactory">Setting and Overriding Defaults on the WebSocketFactory</a></li>
+<li><a href="#Binary">Methods for Text and Binary Messages</a></li>
+<li><a href="#Walkthrough">Look at the Java WebSocket Client Tutorial App</a></li>
+</ul>
+
+<p>Refer to the <a href="../apidoc/client/java/gateway/index.html">Java API</a> documentation for a complete description of all the available methods.
+</p>
+
+<h2>Before You Begin</h2>
+<p>This procedure is part of <a href="o_dev_java.html">Checklist: Build Java WebSocket Clients</a>.</p>
+
+
+<p><span class="note"><b>Note:</b> Learn about supported browsers, operating systems, and platform versions in the <a href="//kaazing.com/releases/client-java/">Release Notes</a>.</span></p>
+
+<h2><a name="useAPI"></a>To Use the WebSocket API in Java</h2>
+<ol>
+    <li>Add the necessary import statements:
+<pre class="auto-links: false; brush: java; toolbar: false;">
+import com.kaazing.net.http.HttpRedirectPolicy;
+import com.kaazing.net.ws.WebSocket;
+import com.kaazing.net.ws.WebSocketFactory;
+import com.kaazing.net.ws.WebSocketMessageReader;
+import com.kaazing.net.ws.WebSocketMessageType;
+import com.kaazing.net.ws.WebSocketMessageWriter;
+</pre>
+    </li>
+    
+    <li>Create a WebSocket object and connect to a server:
+<pre class="auto-links: false; brush: java; toolbar: false;">
+wsFactory = WebSocketFactory.createWebSocketFactory();
+wsFactory.setDefaultRedirectPolicy(HttpRedirectPolicy.ALWAYS);
+webSocket = wsFactory.createWebSocket("wss://sandbox.kaazing.net/echo");
+webSocket.connect(); // This will block or throw an exception if failed.
+</pre>
+    </li>
+    
+    <li>To send messages, add a <span class="uri">WebSocketMessageWriter</span> object:
+<pre class="auto-links: false; brush: java; toolbar: false;">
+WebSocketMessageWriter messageWriter = webSocket.getMessageWriter();
+String text = "Hello WebSocket!";
+messageWriter.writeText(text);
+</pre>
+    </li>
+    
+    <li>To receive or consume messages, add <span class="uri">WebSocket</span> and <span class="uri">WebSocketMessageReader</span> objects:
+<pre class="auto-links: false; brush: java; toolbar: false;">
+wsFactory = WebSocketFactory.createWebSocketFactory();
+ws = wsFactory.createWebSocket(URI.create("wss://sandbox.kaazing.net/echo"));
+ws.connect(); // This will block or throw an exception if failed.
+
+WebSocketMessageReader reader = ws.getMessageReader();
+WebSocketMessageType type = null; // Block till a message arrives
+  // Loop till the connection goes away
+  while ((type =  reader.next()) != WebSocketMessageType.EOS) {
+    switch (type) { // Handle both text and binary messages
+      case TEXT:
+        CharSequence text = reader.getText();
+        log("RECEIVED TEXT MESSAGE: " + text.toString());
+        break;
+      case BINARY:
+        ByteBuffer buffer = reader.getBinary();
+        log("RECEIVED BINARY MESSAGE: " + getHexDump(buffer));
+        break;
+    }
+}
+</pre>
+<p><span class="note"><b>Note:</b> The WebSocket connection above is created for sending and receiving messages. These examples are used because most clients will either send <em>or</em> receive messages. If your client both sends <em>and</em> receives messages, you would only need to create a single WebSocket connection.</span></p>
+
+<p>Here is an example using a <code>for loop</code> to alternate between text and binary messages, and the code is placed within try catch blocks:</p>
+
+<pre class="auto-links: false; brush: java; toolbar: false;">
+try {
+    // Create a new WebSocket object
+    wsFactory = WebSocketFactory.createWebSocketFactory();
+    ws = wsFactory.createWebSocket(URI.create("wss://sandbox.kaazing.net/echo"));
+    ws.connect(); // This will block or throw an exception if failed.
+  
+     /* Use the WebSocketMessageWriter class method getMessageWriter() 
+     to send text and binary messages */ 
+     WebSocketMessageWriter writer = ws.getMessageWriter();
+
+     // Send messages using a for loop to alternate between text and binary messages
+     for (int i = 0; i &lt; 100; i++) {
+         String text = "Hello WebSocket - " + i;
+         // For even numbered loops, send text
+         if (( i %2) == 0) {
+             writer.writeText(text);   // Send text message
+         }
+         else {
+             // For odd numbered loops, send binary
+             ByteBuffer buffer = ByteBuffer.wrap(text.getBytes());
+             writer.writeBinary(buffer);   // Send binary message
+         }
+     }    
+     ws.close();
+ }
+catch (Exception ex) {
+    ex.printStackTrace();
+}
+</pre>
+
+<p>Here is how to receive messages on the consumer side using a while loop and switch statement:</p>
+
+<pre class="auto-links: false; brush: java; toolbar: false;">
+try {
+    // Create a new WebSocket object
+    wsFactory = WebSocketFactory.createWebSocketFactory();
+    ws = wsFactory.createWebSocket(URI.create("wss://sandbox.kaazing.net/echo"));
+    ws.connect(); // This will block or throw an exception if failed.
+
+     // Use the getMessageReader() method    
+     WebSocketMessageReader reader = ws.getMessageReader();
+
+     WebSocketMessageType type = null; // Block until a message arrives
+     while ((type =  reader.next()) != WebSocketMessageType.EOS) { // Loop until the connection is closed
+         switch (type) {
+             // Run if type is TEXT
+             case TEXT:
+                 CharSequence text = reader.getText();
+                  log("RECEIVED TEXT MESSAGE: " + text.toString());
+                  break;
+
+             // Run if type is BINARY
+             case BINARY:
+                 ByteBuffer buffer = reader.getBinary();
+                  log("RECEIVED BINARY MESSAGE: " + getHexDump(data)); // see getHexDump() below
+                  break;
+         }
+     }
+     ws.close();
+ }
+catch (Exception ex){
+   ex.printStackTrace();
+}
+
+private String getHexDump(ByteBuffer buf) {
+    if (buf.position() == buf.limit()) {
+        return "empty";
+    }
+
+    StringBuilder hexDump = new StringBuilder();
+    for (int i = buf.position(); i &lt; buf.limit(); i++) {
+        hexDump.append(Integer.toHexString(buf.get(i)&amp;0xFF)).append(&#x27; &#x27;);
+    }
+    return hexDump.toString();
+}
+
+</pre>
+    </li>
+</ol>
+
+<h2><a name="websocket"></a>WebSocket and WsURLConnection</h2>
+<p>The Kaazing Gateway Java WebSocket API offers two options for creating and using WebSocket connections to enable developers to leverage their java.net Socket or URL experience:</p>
+
+<ul class="arrow-2">
+<li><strong>WebSocket</strong> - this class and its methods are provided for developers familiar with the <a href="//docs.oracle.com/javase/7/docs/api/java/net/Socket.html">Socket</a> class in the java.net package. It implements a socket for stream-based interprocess communication over the Web.</li>
+<li><strong>WsURLConnection</strong> - this class is an extension of the <a href="//docs.oracle.com/javase/7/docs/api/java/net/URLConnection.html">URLConnection</a> class in the java.net package. It defines a network connection to an object specified by a URL. WsURLConnection adds WebSocket support to URLConnection, allowing you to create, connect and use WebSocket connections in addition to the default URLConnection subclasses HttpURLConnection and JarURLConnection. You can use all of the methods in URLConnection and the additional methods included in the WsURLConnection extension.</li>
+</ul>
+
+<h3>WebSocket Class</h3>
+<p>The WebSocket class is demonstrated in the <a href="#Walkthrough">Build the Java API Client Demo</a> example, but there are some additional elements to be aware of such as methods for text and/or binary WebSocket messages. These methods are described in <a href="#Binary">Methods for Text and Binary Messages</a>.</p>
+
+<h3>WsURLConnection</h3>
+<p>The WsURLConnection class is provided for developers accustomed to creating an URLConnection object and then using <a href="//docs.oracle.com/javase/7/docs/api/java/io/InputStream.html">java.io.InputStream</a> and <a href="//docs.oracle.com/javase/7/docs/api/java/io/OutputStream.html">java.io.OutputStream</a> classes from java.io to receive and send data. The WsURLConnection extends URLConnection to enable you to use WebSocket-specific features and provide bidirectional communication.</p>
+
+<p>The following example demonstrates how WsURLConnection enables you to create a URLConnection object for a WebSocket URL:</p>
+
+<pre class="auto-links: false; brush: java; toolbar: false;">
+URL location = URLFactory.createURL("wss://sandbox.kaazing.net/echo");
+URLConnection urlConn = location.openConnection();
+InputStream inStream = urlConn.getInputStream();
+</pre>
+
+<p>There are two important things to note in this example:</p>
+
+<ul class="arrow-2">
+    <li>This example uses the URLFactory class which enables you to instantiate URL objects that support custom protocols and schemes, such as the WebSocket protocol’s ws:// and wss://. <a href="//docs.oracle.com/javase/7/docs/api/java/net/URL.html">java.net.URL</a> has native support for http, https, ftp, file, and jar protocols only.</li> 
+    <li>The URLConnection object created in the example is an instance of the WsURLConnection class. Since <span class="uri">getInputStream()</span> and <span class="uri">getOutputStream()</span> methods are available on URLConnection, there was no need to downcast URLConnection to WsURLConnection. However, if you need to access methods that are not available on URLConnection, but are only available on WsURLConnection, you can <a href="//en.wikipedia.org/wiki/Downcasting">downcast</a> the <span class="uri">urlConn</span> object in the example and then invoke <span class="uri">getMessageReader()</span>:
+<pre class="auto-links: false; brush: java; toolbar: false;">
+URL location = URLFactory.createURL("wss://sandbox.kaazing.net/echo");
+URLConnection urlConn = location.openConnection();
+WsURLConnection  wsConn = (WsURLConnection) urlConn;   // Downcasting to WsURLConnection
+WebSocketMessageReader msgReader = wsConn.geMessageReader();
+</pre>
+    </li> 
+</ul>
+
+<p>With WsURLConnection and URLFactory, you can continue to create URLConnection objects as you have previously and simply use WebSocket to take advantage of additional methods provided by WsURLConnection.</p>
+
+<h2><a name="URLFactory"></a>URLFactory</h2>
+<p>The URLFactory class is included to support custom protocols and schemes not supported by java.net.URL. Namely, the WebSocket protocol’s ws:// and wss:// schemes. java.net.URL supports http, https, ftp, file, and jar protocols only and the java.net.URLStreamHandlerFactory class registration is not extensible. After importing the URLFactory class, one of the <span class="uri">createURL()</span> methods is used to create a WebSocket URL object from either:<br> 
+    <ul class="arrow-2">
+    <li>The String representation, by parsing the given specification within a specified context.</li>
+    <li>A specified protocol name, host name, and file name.</li>
+    <li>A specified protocol name, host name, port number, and file name.</li>
+    </ul>
+</p>
+
+<p>For more information about the URLFactory class, see the Kaazing Gateway <a href="../apidoc/client/java/gateway/index.html">Java WebSocket API</a>.</p>
+
+<h2><a name="WebSocketFactory"></a>Setting and Overriding Defaults on the WebSocketFactory</h2>
+
+<p>You can set a default redirect-policy on the WebSocketFactory. All the WebSockets created using that factory automatically inherit the default. You can then override the defaults on an individual WebSocket, if desired. Unlike the HttpURLConnection in the Java SDK that uses the boolean InstanceFollowRedirects method to specify whether the WebSocket follows redirects automatically, the Kaazing Gateway Java WebSocket API also provides the following options:</p>
+
+<table class="reference">
+  <tr>
+    <th scope="col">Option</th>
+    <th scope="col">Description</th>
+  </tr>
+  <tr>
+    <td>NEVER</td>
+    <td>Do not follow HTTP redirects.</td>
+  </tr>
+  <tr>
+    <td>ALWAYS</td>
+    <td>Follow the HTTP redirect requests always, regardless of the origin, domain, etc.</td>
+  </tr>
+  <tr>
+    <td>SAME_ORIGIN</td>
+    <td>Follow the HTTP redirect only if the origin of the redirect request matches. This implies that both the scheme/protocol and the authority between the current and the redirect URIs should match. The port number should also be the same between the two URIs.</td>
+  </tr>
+  <tr>
+    <td>SAME_DOMAIN</td>
+    <td>Follow HTTP redirect only if the domain of the redirect request matches the domain of the current request. For example, URIs with identical domains would be <span class="uri">ws://production.example.com:8001</span> and <span class="uri">ws://production.example.com:8002</span>.</td>
+  </tr>
+  <tr>
+    <td>PEER_DOMAIN</td>
+    <td>Follow the HTTP redirect only if the redirected request is for a peer-domain. For example, the domain in the URI ws://sales.example.com:8001 is a peer of the domain in the URI ws://marketing.example.com:8002.</td>
+  </tr>
+  <tr>
+    <td>SUB_DOMAIN</td>
+    <td>Follow the HTTP redirect only if the request is for sub-domain. For example, the domain in the URI ws://benefits.hr.example.com:8002 is a sub-domain of the domain in the URI ws://hr.example.com:8001.</td>
+  </tr>
+</table>
+
+<p>You can set the default redirect option on the WebSocket Factory using the <span class="uri">setDefaultRedirectPolicy()</span> method and then override it on a WebSocket connection using the <span class="uri">setRedirectPolicy()</span> method.</p>
+
+<pre class="auto-links: false; brush: java; toolbar: false; highlight: 6;">
+import com.kaazing.net.http.HttpRedirectPolicy;
+.
+.
+.
+WebSocket wsFactory = WebSocketFactory.createWebSocketFactory();
+wsFactory.setDefaultRedirectPolicy(HttpRedirectPolicy.SUB_DOMAIN);
+wsFactory.createWebSocket(location);
+</pre>
+
+<p>Here is an example of the SUB_DOMAIN option overridden on a WebSocket connection:</p>
+<pre class="auto-links: false; brush: java; toolbar: false; highlight: 3;">
+WebSocket ws;
+ws = wsFactory.createWebSocket(location);
+ws.setRedirectPolicy(HttpRedirectPolicy.ALWAYS);
+ws.connect();
+</pre>
+
+<h2><a name="Binary"></a>Methods for Text and Binary Messages</h2>
+<p>Both the WebSocket and WsURLConnection classes offer methods to suit the data types your client will handle.</p>
+
+<h3>Text and Binary Clients</h3>
+<p>Clients using both text and binary messages can use the <span class="uri">getMessageReader()</span> and <span class="uri">getMessageWriter()</span> methods, available in both the WebSocket and WsURLConnection classes. These methods receive binary and text messages based on the WebSocketMessageType class. The WebSocketMessageType class represents the types of messages that are received by <code>WebSocketMessageReader</code>. There are three types: TEXT, BINARY, and EOS for end&ndash;of&ndash;stream. For receiving messages,  you can use a switch block for the different message types:</p>
+
+<pre class="auto-links: false; brush: java; toolbar: false;">
+Thread messageReceivingThread = new Thread() {
+    public void run() {
+      WebSocketMessageType type = null;
+      try {
+          WebSocketMessageReader reader = webSocket.getMessageReader();
+          while ((type = reader.next()) != WebSocketMessageType.EOS) {
+              switch (type) {
+                  case BINARY:
+                      ByteBuffer data = reader.getBinary();
+                      log("RESPONSE:" + getHexDump(data));
+                      break;
+                  case TEXT:
+                      CharSequence text = reader.getText();
+                      log("RESPONSE:" + text.toString());
+                      break;
+              }                                        
+          }                                    
+      webSocket.close()
+        }
+      catch (Exception ex) {
+          log("Exception: " + ex.getMessage());
+      }
+    }
+};
+</pre>
+
+<span class="note"><b>Note:</b> In UI-based Java clients, receiving messages should be done on a separate thread to avoid blocking the java.awt <a href="//docs.oracle.com/javase/tutorial/uiswing/concurrency/dispatch.html">EventDispatchThread</a>. Review the example in <a href="//localhost:8001/documentation/dev-java/p_dev_java_websocket.html#Walkthrough">Build the Java API Client Demo</a> to see a demonstration.</span>
+
+<h3>Text-only Clients</h3>
+<p>Text-only clients can use the <span class="uri">getReader()</span> and <span class="uri">getWriter()</span> methods, available in both the WebSocket and WsURLConnection classes. If either method is used to receive binary messages, or the methods are invoked before a connection is made, then an IOException is thrown.</p>
+
+<h3>Binary-only Clients and I/O Streams</h3>
+<p>Both WebSocket and WsURLConnection classes support APIs that enable use the use of byte-based data streams as they define <span class="uri">getInputStream()</span> and <span class="uri">getOutputStream()</span> methods. <span class="uri">getInputStream()</span> is used for receiving binary streams and <span class="uri">getOutputStream()</span> is used to send binary streams. If either method is used to receive text messages, or the methods are invoked before a connection is made, then an IOException is thrown. Once the connection is closed, a new InputStream or OutputStream must be obtained using the <span class="uri">getInputStream()</span> and <span class="uri">OutputStream()</span> methods after the connection has been established. Using the old InputStream or OutputStream will result in IOException.</p>
+
+<h2><a name="Walkthrough"></a>Look at the Java WebSocket Client Tutorial App</h2>
+<p>The following procedure walks through the steps of building and running the Java WebSocket tutorial app that is available on Github at <a href="https://github.com/kaazing/java.client.tutorials/tree/develop/j2se/java-ws-demo">https://github.com/kaazing/java.client.tutorials/tree/develop/j2se/java-ws-demo</a>. The tutorial app code displays how to use the Java WebSocket API to create a client that creates a WebSocket connection with the Gateway, sends and receives messages, and includes a command-line interface.</p>
+
+<span class="note"><b>Note:</b> You will need Java 1.8 and Gradle 2.10 or higher to build and run the tutorial app.</span>
+
+<ol>
+ <li>Download or clone the Kaazing Java Tutorials repository at <a href="https://github.com/kaazing/java.client.tutorials">https://github.com/kaazing/java.client.tutorials</a>.</li>
+ <li>In Terminal or a command prompt, naviagte to the Java WebSocket Tutorial app folder, <strong>java.client.tutorials/j2se/java-ws-demo</strong>.</li>
+ <li>Build the app by entering the following:<br>
+ <code>gradle installDist</code>
+ </li>
+ <li>Navigate to the built app in <strong>java.client.tutorials/j2se/java-ws-demo/build/install/java-ws-demo/bin</strong>.</li>
+ <li>Run the app by entering the following:<br>
+ <p><code>./java-ws-demo</code> (Mac or Linux), <code>java-ws-demo.bat</code> (Windows)</p>
+ <p>The Java app automatically connects to <code>wss://sandbox.kaazing.net/echo</code>.</p>
+ </li>
+ <li>Type a message and click <strong>Enter</strong>. The message is sent to the Echo service on the Gateway and echoed back to the Java app, which then displays the message.<br>
+ <code>MESSAGE PUBLISHED: Hello WebSocket!</code><br>
+ <code>>>> RESPONSE:Hello WebSocket!</code>
+ </li>
+</ol>
+
+<p>You now have a working WebSocket client using the Kaazing Java API. Congratulations! Using what you’ve learned here, you can now build your own Java clients and leverage the power of WebSocket.</p>
+
+
+                  </section>
+                </article>
+
+            </div> <!-- #main -->
+        </div> <!-- #main-container -->
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

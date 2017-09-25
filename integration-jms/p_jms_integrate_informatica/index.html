@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+  
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+
+ <h1 id="integrate-informatica-ultra-messaging--">Integrate Informatica Ultra Messaging  </h1>
+
+<p>In this procedure, you will learn how to integrate Kaazing Gateway and Informatica Ultra Messaging, a family of next-generation low latency messaging software products.</p>
+
+<h2 id="to-integrate-informatica-ultra-messaging">To Integrate Informatica Ultra Messaging</h2>
+
+<ol>
+  <li>Download and install the Informatica Ultra Messaging bundle by following the instructions in the Ultra Messaging documentation. The directory that contains the Informatica Ultra Messaging installation (for example, <code>C:\Program Files\UMQ_2.0</code> on Windows) is referred to as <code>Informatica_UM_HOME</code>.</li>
+  <li>Locate the default directory (<code>*/jmsclient/bin</code>) created when you installed Ultra Messaging that contains the scripts for setting up environment variables, creating the <code>.bindings</code> files, and starting/stopping Ultra Messaging.</li>
+  <li>Edit the <code>env.sh</code> file (<code>env_check.sh</code> in later versions) and update the path to Java to that on your machine.</li>
+  <li>While still in the <code>env.sh</code> file, check the path to the license file (<strong>*.lic)</strong>. You will need this path when you export the license file in a later step.</li>
+  <li>Run the <code>config.sh</code> file to set up your environment variables and generate the necessary <code>.bindings</code> file. Take note of the location of the <code>.bindings</code> file, as you will need this to configure the Gateway with Ultra Messaging.</li>
+  <li>Start Ultra Messaging by running <code>startJMS.sh</code>.</li>
+  <li>Open a command prompt and navigate to <code>GATEWAY_HOME/bin</code>.</li>
+  <li>Export the license information for Ultra Messaging. Ensure that <code>LBM_LICENSE_FILENAME</code> points to the <strong>*.lic</strong> file path you noted in Step 4.</li>
+  <li>In a text editor, open the <code>gateway-config.xml</code> file (located in <code>GATEWAY_HOME/conf</code>) for your Kaazing Gateway installation.</li>
+  <li>
+    <p>Modify the <a href="../../admin-reference/r_conf_jms#jms-service-environment-properties"><code>jms service environment properties</code></a> with the following:</p>
+
+    <pre class="auto-links: false; brush: xml; toolbar: false;">&lt;properties&gt;
+    &lt;connection.factory.name&gt;uJMSConnectionFactory &lt;/connection.factory.name&gt;
+  &lt;!-- Set destinations --&gt;
+  &lt;context.lookup.topic.format&gt;%s&lt;/context.lookup.topic.format&gt;
+    &lt;context.lookup.queue.format&gt;%s&lt;/context.lookup.queue.format&gt;
+    &lt;env.java.naming.factory.initial&gt;
+        com.sun.jndi.fscontext.RefFSContextFactory
+    &lt;/env.java.naming.factory.initial&gt;
+    &lt;env.java.naming.provider.url&gt;
+        file:/bindings_file_location
+    &lt;/env.java.naming.provider.url&gt;
+  &lt;!-- Dynamic destinations support; omit for static destinations --&gt;
+  &lt;destination.strategy&gt;session&lt;/destination.strategy&gt;
+&lt;/properties&gt;
+</code></pre>
+
+    <p>Replace <code>bindings_file_location</code> in the <code>env.java.naming.provider.url</code> element with the file path to the JNDI .bindings file <strong>folder</strong> for the connection to the broker. Do not include the .bindings file name in the file path. For example, <code>file:/C:/JNDI-Directory</code> (Windows) or <code>file:/Users/johndoe/Desktop/JNDI-Directory</code> (Mac and Linux).</p>
+
+    <p><strong>Note</strong>: For brokers that do not use dynamic destination lookups through JNDI (such as Ultra Messaging), you can add another property to the jms section in the <code>gateway-config.xml</code> file called <code>destination.strategy</code>, and set its value to <code>session</code>.</p>
+  </li>
+  <li>Locate the directory (<code>*/jmsclient/lib</code>) where you installed Ultra Messaging that contains the library files required for using Ultra Messaging with the Gateway.</li>
+  <li>Copy the contents of this directory into the Gateway’s lib directory, located here: <code>GATEWAY_HOME/lib/ext</code>.</li>
+  <li>Start the Gateway as described in <a href="../../about/setup-guide/index.html">Setting Up the Gateway</a>.</li>
+  <li>In a browser, navigate to the out of the box demos at <code>http://localhost:8001/demo/</code>.</li>
+  <li>Click the <strong>JavaScript</strong> demo.</li>
+  <li>Change the value for <strong>Location</strong> to <code>ws://localhost:8001/jms</code>.</li>
+  <li>
+    <p>If you set the <code>destination.strategy</code> property to <code>session</code>, you can leave the value of all <strong>Destination</strong> fields as the default.</p>
+
+    <p>If you did not set this property or include it in your <code>gateway-config.xml</code> file, you must set the value of the Destination fields to a topic or queue name that exists in the Ultra Messaging JNDI <code>.bindings</code> file.</p>
+  </li>
+  <li>
+    <p>Click <strong>Connect</strong>.</p>
+
+    <p>The message “<code>CONNECT:  ws://localhost:8001/jms</code>” should appear in the log window followed by the message “<code>CONNECTED: ID:id_value.</code>”</p>
+  </li>
+  <li>Click <strong>Subscribe</strong>.</li>
+  <li>Click <strong>Send</strong>. You should see the message that you sent in the message log.</li>
+</ol>
+
+<h2 id="subscription-and-destination-support">Subscription and Destination Support</h2>
+
+<p>Kaazing Gateway integration with Informatica Ultra Messaging has the following subscription and destination support:</p>
+
+<ul>
+  <li>Durable subscriptions are supported. Ensure that you use the <a href="../../admin-reference/r_conf_jms#anonymousclientidpattern"><code>anonymous.clientid.pattern</code></a> <a href="../../admin-reference/r_conf_jms#jms">jms</a> service property. This property is required if the Informatica Ultra Messaging broker is configured to use a fixed client ID. For durable subscribers, set this property to the value of the fixed <code>clientID</code>.</li>
+  <li>Dynamic destinations are supported. Ensure that you configure the <a href="../../admin-reference/r_conf_jms#destinationstrategy"><code>destination.strategy</code></a> <a href="../../admin-reference/r_conf_jms#jms">jms</a> service property with the value <code>session</code>.</li>
+  <li>Static destinations are supported.</li>
+</ul>
+
+<h2 id="notes">Notes</h2>
+
+<ul>
+  <li>To learn how to secure your JMS configuration, see <a href="../../security/o_jms_secure/index.html">Secure Your JMS Configuration</a>.</li>
+  <li>Because you are using a JMS provider that does not support individual message acknowledgement, you must ensure your client applications acknowledge each message received from a queue or durable subscriber. Otherwise, the client will receive only one message from that queue or durable subscriber.</li>
+</ul>
+
+<h2 id="see-also">See Also</h2>
+
+<ul>
+  <li>For information on troubleshooting JMS integration, see <a href="../p_jms_integrate_tshoot">Troubleshoot JMS Integration</a>.</li>
+  <li>For information on troubleshooting JMS clients, see <a href="../../troubleshooting/p_dev_troubleshoot/index.html">Troubleshoot Your Clients</a>.</li>
+  <li>For general troubleshooting information, see <a href="../../troubleshooting/o_troubleshoot/index.html">Troubleshoot Kaazing Gateway</a>.</li>
+</ul>
+
+
+
+</div>
+
+</div>
+
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

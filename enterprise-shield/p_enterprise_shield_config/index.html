@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+  
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+
+ <h1 id="walkthrough-configure-enterprise-shield--">Walkthrough: Configure Enterprise Shield™  </h1>
+
+<p>In this walkthrough, you will learn how to deploy a maximum security Enterprise Shield™ configuration, which is a recommended configuration for Enterprise Shield because it provides end-to-end security. This architecture, referred to as Use Case 3 in <a href="../c_enterprise_shield_use_cases">Enterprise Shield Use Cases</a>, provides secure communication over the Web that uses TLS between the client and the DMZ Gateway (described in Use Case 2) and drastically reduces the attack vectors in the DMZ, creating an ultra-secure environment with which to deploy services over the public Web.</p>
+
+<p>This walkthrough is part of <a href="../o_enterprise_shield_checklist">Configure Enterprise Shield for Kaazing Gateway</a> that links to all Enterprise Shield topics, including those that describe the concepts behind Enterprise Shield and Gateway topologies.</p>
+
+<p>This walkthrough describes the following subjects:</p>
+
+<ol>
+  <li><a href="#step-1-what-you-will-accomplish">What You Will Accomplish</a></li>
+  <li><a href="#step-2-before-you-begin">Before You Begin</a></li>
+  <li><a href="#step-3-download-and-set-up-kaazing-gateway">Download and Set Up Kaazing Gateway</a></li>
+  <li><a href="#step-4-configure-the-internal-gateway">Configure the Internal Gateway</a></li>
+  <li><a href="#step-5-configure-the-dmz-gateway">Configure the DMZ Gateway</a></li>
+  <li><a href="#step-6-configure-security-between-the-dmz-and-internal-gateways">Configure Security Between the DMZ and Internal Gateways</a></li>
+  <li><a href="#step-7-verify-the-gateways-are-running">Verify the Gateways are Running</a></li>
+  <li><a href="#step-8-close-inbound-ports">Close Inbound ports</a></li>
+  <li><a href="#step-9-verify-the-end-to-end-configuration">Verify the End-to-End Configuration</a></li>
+</ol>
+
+<h2 id="step-1-what-you-will-accomplish">Step 1: What You Will Accomplish</h2>
+
+<p>At the end of this walkthrough, you will have configured a maximum security Enterprise Shield topology.</p>
+
+<p><img src="../../images/es_usecase3.png" alt="Use Case 3: Maximum (End-to-End) Transport Security" /></p>
+
+<p><strong>Figure: Maximum (End-to-End) Transport Security</strong></p>
+
+<p>In this topology, the Gateway on the internal trusted network and a DMZ Gateway collaborate so that inbound ports of the firewall can be closed. Doing so provides a barrier to unauthorized users but still allows full bidirectional access. It works because of the collaboration between the internal Gateway and DMZ Gateway. The internal Gateway is configured to be totally opaque and hides all internal DNS names, IP addresses, and so on. The internal Gateway completes the connection initiated through a client request by accessing the outbound ports on the DMZ Gateway. There are no changes to any application logic.</p>
+
+<h2 id="step-2-before-you-begin">Step 2: Before You Begin</h2>
+
+<p>This walkthrough covers Use Case 3: Maximum (End-to-End) Transport Security from the set of <a href="../c_enterprise_shield_use_cases#use-case-3-maximum-end-to-end-transport-security">Enterprise Shield Use Cases</a> because that is the most secure example of Enterprise Shield and it is a superset of all the other use cases. By the end of this walkthrough, you will have the foundational knowledge required to understand and configure any of the Enterprise Shield use cases.</p>
+
+<h2 id="step-3-download-and-set-up-kaazing-gateway">Step 3: Download and Set Up Kaazing Gateway</h2>
+
+<p>Download and set up two Kaazing Gateways, with one Gateway in the DMZ and one in the internal trusted network. This is described in <a href="../../about/setup-guide/index.html">Setting Up the Gateway</a>.</p>
+
+<h2 id="step-4-configure-the-internal-gateway">Step 4: Configure the Internal Gateway</h2>
+
+<p>This use case configures two Gateway services, called App1 and App2, to demonstrate the Enterprise Shield™ reverse connectivity behavior in a configuration with multiple services.</p>
+
+<p>Perform the following steps to set up the App1 and App2 services on the internal Gateway.</p>
+
+<p><strong>Notes:</strong><br />
+-   The examples in this walkthrough use the <code>.net</code> domain (such as <code>tcp://gateway.example.net:8080</code>) to indicate internal, nonpublic URLs, and use the <code>.com</code> domain to indicate public URLs. All domains and URLs are for example purposes only. Wherever a URI uses <code>example</code> in the domain name, you should replace that with your own company name or appropriate hostname.<br />
+-   Network security is improved by using separate NICs (Network Interface Cards) for the <a href="//kaazing.com/doc/kaazing-glossary.html#frontplane-and-backplane">frontplane</a> and <a href="//kaazing.com/doc/kaazing-glossary.html#frontplane-and-backplane">backplane</a>. Although it’s not necessary to have multiple NICs for Enterprise Shield to work, this walkthrough assumes separate frontplane and backplane NICs. The configuration defines default values for these interfaces once in the properties element using easily identifiable names and the values are propagated throughout the entire configuration when the Gateway starts. See <a href="../../about/about/index.html">Documentation Conventions</a> for more information about variables.</p>
+
+<p>The following snippet shows the App1 Service configuration in the <code>gateway-config.xml</code> file.</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;properties&gt;
+  &lt;name&gt;dmz.backplane.hostname&lt;/name&gt;
+  &lt;value&gt;gateway.example.dmz.net&lt;/value&gt;
+&lt;/properties&gt;
+
+&lt;service&gt;
+
+  &lt;name&gt;Internal App1&lt;/name&gt;
+  &lt;accept&gt;wss://gateway.example.com:8443/app1&lt;/accept&gt;
+  &lt;connect&gt;tcp://127.0.0.1:3101&lt;/connect&gt;
+
+  &lt;type&gt;proxy&lt;/type&gt;
+
+  &lt;accept-options&gt;
+    &lt;http.transport&gt;socks://${dmz.backplane.hostname}:1080&lt;/http.transport&gt;
+    &lt;socks.mode&gt;reverse&lt;/socks.mode&gt;
+    &lt;socks.retry.maximum.interval&gt;1 second&lt;/socks.retry.maximum.interval&gt;
+    &lt;socks.transport&gt;wsn+ssl://${dmz.backplane.hostname}:1080/shield&lt;/socks.transport&gt;  
+    &lt;ws.inactivity.timeout&gt;60 seconds&lt;/ws.inactivity.timeout&gt;
+    &lt;ssl.verify-client&gt;required&lt;/ssl.verify-client&gt;
+  &lt;/accept-options&gt;
+
+  &lt;cross-site-constraint&gt;
+    &lt;allow-origin&gt;*&lt;/allow-origin&gt;
+  &lt;/cross-site-constraint&gt;
+
+&lt;/service&gt;
+</code></pre>
+
+<p>The key configuration settings for the App1 service in the internal Gateway include the following elements:</p>
+
+<ol>
+  <li>
+    <p>Use a descriptive name in the <a href="../../admin-reference/r_configure_gateway_service#service">name</a> element for this service:</p>
+
+    <p><code>                &lt;name&gt;Internal App1&lt;/name&gt;          </code></p>
+
+    <p>Use names that make it easier to identify the configuration. The example uses “Internal” in its name to differentiate this service from its corresponding service (named DMZ App1) in the DMZ Gateway.</p>
+  </li>
+  <li>
+    <p>Configure a secure connection from the client using the <a href="../../admin-reference/r_configure_gateway_service#accept">accept</a> element:</p>
+
+    <p><code>                 &lt;accept&gt;wss://gateway.example.com:8443/app1&lt;/accept&gt;           </code></p>
+
+    <p>Use <code>wss:// scheme</code> for secure connections (and <code>ws:// scheme</code> for nonsecure connections) and replace the hostname and port with your hostname and port. Because all services typically use the same scheme, host, and port, you can differentiate between services by using a different path. The example uses <code>/app1</code> for its path. This is a logical path, and it is good practice to specify a path that is relevant to the service (such as <code>/stock</code>, <code>/prices</code>, <code>/traderApp</code>). See <a href="../../admin-reference/c_configure_gateway_multiple_services/index.html">Configuring Multiple Services on the Same Host and Port</a> for more information about using paths.</p>
+  </li>
+  <li>
+    <p>Connect the internal Gateway to the back-end service.</p>
+
+    <p>Most proxy services use the <a href="../../admin-reference/r_configure_gateway_service#connect">connect</a> element to connect to the back-end service. But others, such as the JMS service, use the <a href="../../admin-reference/r_conf_jms/index.html">properties</a> element instead.</p>
+
+    <p>The <a href="../../admin-reference/r_configure_gateway_service#connect">connect</a> element can specify either the hostname or the IP address, and port of the back-end service:</p>
+
+    <p><code>                &lt;connect&gt;tcp://127.0.0.1:3101&lt;/connect&gt;          </code></p>
+
+    <p>When using the JMS service, the properties element names the ConnectionFactory, queue and topic names, and the URI for the message broker. See the <a href="../../admin-reference/r_conf_jms#jms-service-environment-properties">properties</a> element for an example.</p>
+  </li>
+  <li>
+    <p>Add the <a href="../../admin-reference/r_configure_gateway_service#accept-options-and-connect-options">accept-options</a> element:</p>
+
+    <pre class="auto-links: false; brush: xml; toolbar: false;">&lt;accept-options&gt;
+  &lt;http.transport&gt;socks://${dmz.backplane.hostname}:1080&lt;/http.transport&gt;
+  &lt;socks.mode&gt;reverse&lt;/socks.mode&gt;
+  &lt;socks.retry.maximum.interval&gt;1 second&lt;/socks.retry.maximum.interval&gt;
+  &lt;socks.transport&gt;wsn+ssl://${dmz.backplane.hostname}:1080/shield&lt;/socks.transport&gt;
+  &lt;ws.inactivity.timeout&gt;60 seconds&lt;/ws.inactivity.timeout&gt;
+&lt;/accept-options&gt;
+</code></pre>
+
+    <p>The <a href="../../admin-reference/r_configure_gateway_service#accept-options-and-connect-options">accept-options</a> settings are the most interesting part of the configuration because these are the settings that change the nature of the service and affect the connections for the App1 service:</p>
+
+    <ul>
+      <li>
+        <p>Set <a href="../../admin-reference/r_configure_gateway_service#protocoltransport">http.transport</a> to use the SOCKS protocol:</p>
+
+        <p><code>                     &lt;http.transport&gt;${dmz.backplane.hostname}:1080&lt;/http.transport&gt;                 </code></p>
+
+        <p>Enterprise Shield uses the SOCKS protocol to establish connections in reverse, connecting from the internal Gateway to the DMZ Gateway. By default, the SOCKS connection is still a forward connection, from the DMZ Gateway to the internal Gateway. The next accept-options element, <code>socks.mode</code>, is the setting you use to make the connection go in reverse.</p>
+
+        <p>Port 1080 is the convention for SOCKS connections, but you can use any port.</p>
+
+        <p><strong>Note:</strong> The settings for <code>http.transport</code> and <code>socks.mode</code> must match on both the DMZ Gateway and the internal Gateway. This example uses a property (<code>${dmz.backplane.hostname}</code>) to specify the hostname, because the hostname is referenced more than once in the configuration.</p>
+      </li>
+      <li>
+        <p>Specify the <a href="../../admin-reference/r_configure_gateway_service#socksmode">socks.mode</a> option in reverse mode so the internal Gateway initiates a connection toward the DMZ Gateway:</p>
+
+        <p><code> &lt;socks.mode&gt;reverse&lt;/socks.mode&gt; </code></p>
+
+        <p>The reverse connection configures the internal Gateway service to send a remote bind request to the DMZ Gateway. That way, when client connection requests come to the DMZ Gateway, the DMZ Gateway matches the requests up with SOCKS bind requests from the internal Gateway. See <a href="../o_enterprise_shield_checklist#about-enterprise-shield">About Enterprise Shield</a> to learn more about how this works.</p>
+      </li>
+      <li>
+        <p>Set <a href="../../admin-reference/r_configure_gateway_service#socksretrymaximuminterval">socks.retry.maximum.interval</a> to the maximum interval of time that you want the internal Gateway to wait before retrying a reverse connection to the DMZ Gateway after a failed attempt:</p>
+
+        <p><code>             &lt;socks.retry.maximum.interval&gt;1 second&lt;/socks.retry.maximum.interval&gt;         </code></p>
+      </li>
+      <li>
+        <p>Configure <a href="../../admin-reference/r_configure_gateway_service#protocoltransport">socks.transport</a> to use <code>wsn+ssl</code> (recommended) protocol to establish the network connections from the DMZ Gateway to the internal Gateway.</p>
+
+        <p><code>&lt;socks.transport&gt;wsn+ssl://${dmz.backplane.hostname}:1080/shield&lt;/socks.transport&gt;</code></p>
+
+        <p>In most cases, using SOCKS is sufficient to establish reverse connections for Enterprise Shield. However, in some environments, intermediaries like firewalls between the internal Gateway and the DMZ Gateway can interfere with idle connections. Therefore, the best practice is to add a WebSocket transport under the SOCKS layer because you can configure the WebSocket transport to keep idle connections alive. In fact, the next step shows you how to configure this by setting the <code>ws.inactivity.timeout</code> element.</p>
+
+        <p>See <a href="../../admin-reference/r_configure_gateway_service#protocoltransport">socks.transport</a> for more information about using the scheme <code>wsn+ssl://</code> for the reverse connection between the internal Gateway and the DMZ Gateway.</p>
+      </li>
+      <li>
+        <p>Configure <a href="../../admin-reference/r_configure_gateway_service#wsinactivitytimeout">ws.inactivity.timeout</a> to detect network failures between the DMZ and internal Gateway:</p>
+      </li>
+    </ul>
+
+    <p><code>         &lt;ws.inactivity.timeout&gt;60 seconds&lt;/ws.inactivity.timeout&gt;  </code></p>
+
+    <p>Our example specifies that the network connection can be inactive for a maximum of 60 seconds. The internal Gateway drops the connection and retries if communication with the DMZ Gateway is not possible for a period of 60 seconds.</p>
+  </li>
+</ol>
+
+<p>The App1 service is set up on the internal Gateway. Now let’s set up the App2 service.</p>
+
+<h3 id="set-up-the-app2-service-on-the-internal-gateway">Set up the App2 service on the internal Gateway</h3>
+
+<p>The service configuration for the App2 service is exactly the same as for App1, except you need to provide a unique name for this service in the <code>name</code> and <code>accept</code> elements. The following example shows a complete service configuration for App2:</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;service&gt;
+
+  &lt;name&gt;Enterprise App2&lt;/name&gt;
+  &lt;accept&gt;wss://gateway.example.com:8443/app2&lt;/accept&gt;
+  &lt;connect&gt;tcp://127.0.0.1:3102&lt;/connect&gt;
+
+  &lt;type&gt;proxy&lt;/type&gt;
+
+  &lt;accept-options&gt;
+    &lt;http.transport&gt;socks://${dmz.backplane.hostname}:1080&lt;/http.transport&gt;
+    &lt;socks.mode&gt;reverse&lt;/socks.mode&gt;
+    &lt;socks.retry.maximum.interval&gt;1 second&lt;/socks.retry.maximum.interval&gt;
+    &lt;socks.transport&gt;wsn+ssl://${dmz.backplane.hostname}:1080/shield&lt;/socks.transport&gt;  
+    &lt;ws.inactivity.timeout&gt;60 seconds&lt;/ws.inactivity.timeout&gt;
+  &lt;/accept-options&gt;
+
+  &lt;cross-site-constraint&gt;
+    &lt;allow-origin&gt;*&lt;/allow-origin&gt;
+  &lt;/cross-site-constraint&gt;
+
+&lt;/service&gt;
+</code></pre>
+
+<p>As you can see, the accept-options are exactly the same for both the App1 and App2 services.</p>
+
+<p>You’ve completed configuring the internal Gateway! Now let’s configure the DMZ Gateway.</p>
+
+<h2 id="step-5-configure-the-dmz-gateway">Step 5: Configure the DMZ Gateway</h2>
+
+<p>Just like Step 4: Configure the Internal Gateway, this step configures two Gateway services, called App1 and App2, in the DMZ Gateway to demonstrate the Enterprise Shield reverse connectivity behavior in a configuration with multiple services.</p>
+
+<p>Perform the following steps to set up the App1 and App2 services in the DMZ Gateway.</p>
+
+<h3 id="set-up-the-app1-service-on-the-dmz-gateway">Set up the App1 service on the DMZ Gateway</h3>
+
+<p>The following snippet shows the App1 service configuration in the gateway-config.xml file for the DMZ Gateway. This configuration is very similar to the App1 service configuration for the internal Gateway.</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;properties&gt;
+  &lt;name&gt;dmz.backplane.hostname&lt;/name&gt;
+  &lt;value&gt;gateway.example.dmz.net&lt;/value&gt;
+&lt;/properties&gt;
+
+&lt;service&gt;
+
+  &lt;name&gt;DMZ App1&lt;/name&gt;
+  &lt;accept&gt;wss://gateway.example.com:8443/app1&lt;/accept&gt;
+  &lt;connect&gt;wss://gateway.example.com:8443/app1&lt;/connect&gt;
+
+  &lt;type&gt;proxy&lt;/type&gt;
+
+  &lt;connect-options&gt;
+    &lt;http.transport&gt;socks://${dmz.backplane.hostname}:1080&lt;/http.transport&gt;
+    &lt;socks.mode&gt;reverse&lt;/socks.mode&gt;
+    &lt;socks.timeout&gt;2 seconds&lt;/socks.timeout&gt;
+    &lt;socks.transport&gt;wsn+ssl://${dmz.backplane.hostname}:1080/shield&lt;/socks.transport&gt;
+    &lt;ssl.verify-client&gt;required&lt;/ssl.verify-client&gt;
+    &lt;ws.inactivity.timeout&gt;60 seconds&lt;/ws.inactivity.timeout&gt;
+  &lt;/connect-options&gt;
+
+  &lt;cross-site-constraint&gt;
+    &lt;allow-origin&gt;*&lt;/allow-origin&gt;
+  &lt;/cross-site-constraint&gt;
+
+&lt;/service&gt;
+</code></pre>
+
+<p>The key configuration settings for the App1 service on the DMZ Gateway include the following elements:</p>
+
+<ol>
+  <li>
+    <p>Use a descriptive name in the <a href="../../admin-reference/r_configure_gateway_service#service">name</a> element for this service:</p>
+
+    <p><code>    &lt;name&gt;DMZ App1&lt;/name&gt;    </code></p>
+
+    <p>Use names that make it easier to identify the configuration. The example uses “DMZ” in its name to differentiate this service from its corresponding service (named Internal App1) in the internal Gateway.</p>
+  </li>
+  <li>
+    <p>Set up a secure connection in the <a href="../../admin-reference/r_configure_gateway_service#accept">accept</a> and <a href="../../admin-reference/r_configure_gateway_service#connect">connect</a> elements by using WebSocket Secure and port 8443. For example:</p>
+    
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;accept&gt;wss://gateway.example.com:8443/app1&lt;/accept&gt;
+&lt;connect&gt;wss://gateway.example.com:8443/app1&lt;/connect&gt;
+</pre>
+
+<p>Use the <code>wss://</code> scheme for secure connections (and <code>ws://</code> scheme for nonsecure connections). In the example, the public URI of the connect element on the DMZ Gateway matches the URI of the accept element on the internal Gateway, creating a <strong>logical</strong> connection. In effect, this continues usage of the public WebSocket Secure URI--<code>wss://gateway.example.com:8443/app1</code>--as a logical connection from the client through the DMZ Gateway and to the internal Gateway.</p>
+    
+  </li>
+  <li>
+    <p>Add the <a href="../../admin-reference/r_configure_gateway_service#accept-options-and-connect-options">connect-options</a> element:</p>
+
+    <pre class="auto-links: false; brush: xml; toolbar: false;">&lt;connect-options&gt;
+  &lt;http.transport&gt;socks://${dmz.backplane.hostname}:1080&lt;/http.transport&gt;
+  &lt;socks.mode&gt;reverse&lt;/socks.mode&gt;
+  &lt;socks.timeout&gt;2 seconds&lt;/socks.timeout&gt;
+  &lt;socks.transport&gt;wsn+ssl://${dmz.backplane.hostname}:1080/shield&lt;/socks.transport&gt;
+  &lt;ssl.verify-client&gt;required&lt;/ssl.verify-client&gt;
+  &lt;ws.inactivity.timeout&gt;60 seconds&lt;/ws.inactivity.timeout&gt;
+&lt;/connect-options&gt;
+</code></pre>
+
+    <p>The <a href="../../admin-reference/r_configure_gateway_service#accept-options-and-connect-options">connect-options</a> settings are the most interesting part of the configuration because those are the settings that change the nature of the service and affect the connections for the App1 service:</p>
+
+    <ul>
+      <li>Set the <a href="../../admin-reference/r_configure_gateway_service#protocoltransport">http.transport</a> to use the SOCKS protocol:
+<p><code>&lt;http.transport&gt;socks://${dmz.backplane.hostname}:1080&lt;/http.transport&gt;</code></p>
+
+    <p>Enterprise Shield uses the SOCKS protocol to establish connections in reverse, connecting from the internal Gateway to the DMZ Gateway. By default, the SOCKS connection is still a forward connection, from the DMZ Gateway to the internal Gateway. The next connect-options element, <code>socks.mode</code>, is the element you use to make the connection go in reverse.</p>
+
+    <p>Port 1080 is the convention for SOCKS connections, but you can use any port.</p>
+
+    <span class="note"><b>Note:</b> The settings for <code>http.transport</code> and <code>socks.mode</code> must match on both the DMZ Gateway and the internal Gateway. This example uses a property (<code>${dmz.backplane.hostname}</code>) to specify the hostname, because the hostname is referenced more than once in the configuration.
+</span>
+  </li>
+  <li>
+        <p>Specify the <a href="../../admin-reference/r_configure_gateway_service#socksmode">socks.mode</a> option in reverse mode:</p>
+
+        <p><code>&lt;socks.mode&gt;reverse&lt;/socks.mode&gt;</code></p>
+
+        <p>The reverse connection configures the internal Gateway service to send a remote bind request to the DMZ Gateway. That way, when client connection requests come to the DMZ Gateway, it matches the requests up with SOCKS bind requests from the internal Gateway. See <a href="../o_enterprise_shield_checklist#about-enterprise-shield">About Enterprise Shield</a> to learn more about how this works.</p>
+      </li>
+      <li>
+        <p>Set the <a href="../../admin-reference/r_configure_gateway_service#sockstimeout">socks.timeout</a> property.</p>
+
+        <p>The recommended setting for <a href="../../admin-reference/r_configure_gateway_service#sockstimeout">socks.timeout</a> is 1 second more than the value you set for <code>socks.retry.maximum.interval</code> on the internal Gateway:</p>
+
+        <p><code>          &lt;socks.timeout&gt;2 seconds&lt;/socks.timeout&gt;     </code></p>
+      </li>
+      <li>
+        <p>Configure <a href="../../admin-reference/r_configure_gateway_service#protocoltransport">socks.transport</a> to use the <code>wsn+ssl</code> protocol (recommended) to establish the network connections from the DMZ Gateway to the internal Gateway:</p>
+        
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;socks.transport&gt;wsn+ssl://${dmz.backplane.hostname}:1080/shield&lt;/socks.transport&gt;
+</pre>
+
+<p>In most cases, using SOCKS is sufficient to establish reverse connections for Enterprise Shield. However, in some environments, intermediaries like firewalls between the internal Gateway and the DMZ Gateway can interfere with idle connections. Therefore, the best practice is to add a WebSocket transport under the SOCKS layer because you can configure the WebSocket transport to keep idle connections alive. In fact, the next step shows you how to configure this by setting the <code>ws.inactivity.timeout</code> element.</p>
+
+<p>See <a href="../../admin-reference/r_configure_gateway_service/index.html#protocoltransport">socks.transport</a> for more information about using the scheme <code>wsn+ssl://</code> for the reverse connection between the internal Gateway and the DMZ Gateway.</p>
+
+      </li>
+      <li>
+        <p>Set <a href="../../admin-reference/r_configure_gateway_service#sslverify-client">ssl.verify-client</a> to require that the internal Gateway provide a digital certificate to establish an authorized connection.</p>
+
+        <pre class="auto-links: false; brush: xml; toolbar: false;">&lt;ssl.verify-client&gt;required&lt;/ssl.verify-client&gt;
+</code></pre>
+
+        <p>For added security, you can use the <code>socks.ssl.verify-client</code> connect option to require the internal Gateway to provide a client digital certificate to establish a secure connection. This configuration establishes mutual authentication by ensuring that both the DMZ Gateway and internal Gateway are verified via TLS/SSL before transmitting data.</p>
+      </li>
+      <li>
+        <p>Configure <a href="../../admin-reference/r_configure_gateway_service#wsinactivitytimeout">ws.inactivity.timeout</a> to detect network failures between the DMZ and internal Gateways:</p>
+      </li>
+    </ul>
+
+    <p><code>xml
+    &lt;ws.inactivity.timeout&gt;60 seconds&lt;/ws.inactivity.timeout&gt;
+ </code><br />
+  Our example specifies that the network connection can be inactive for a maximum of 60 seconds. The internal Gateway drops the connection if communication with the DMZ Gateway is not possible for a period of 60 seconds.</p>
+  </li>
+</ol>
+
+<h3 id="set-up-the-app2-service-on-the-dmz-gateway">Set up the App2 service on the DMZ Gateway</h3>
+
+<p>The service configuration for the App2 service is exactly the same as for App1, except you need to provide a unique name for this service in the <code>name</code>, <code>accept</code>, and <code>connect</code> elements. The following example shows a complete service configuration for App2.</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">  &lt;service&gt;
+
+    &lt;name&gt;DMZ App2&lt;/name&gt;
+    &lt;accept&gt;wss://gateway.example.com:8443/app2&lt;/accept&gt;
+    &lt;connect&gt;wss://gateway.example.com:8443/app2&lt;/connect&gt;
+
+    &lt;type&gt;proxy&lt;/type&gt;
+
+    &lt;connect-options&gt;
+      &lt;http.transport&gt;socks://${dmz.backplane.hostname}:1080&lt;/http.transport&gt;
+      &lt;socks.mode&gt;reverse&lt;/socks.mode&gt;
+      &lt;socks.timeout&gt;2 seconds&lt;/socks.timeout&gt;
+      &lt;socks.transport&gt;wsn+ssl://${dmz.backplane.hostname}:1080/shield&lt;/socks.transport&gt;
+      &lt;ssl.verify-client&gt;required&lt;/ssl.verify-client&gt;
+      &lt;ws.inactivity.timeout&gt;60 seconds&lt;/ws.inactivity.timeout&gt;
+    &lt;/connect-options&gt;
+
+    &lt;cross-site-constraint&gt;
+      &lt;allow-origin&gt;*&lt;/allow-origin&gt;
+    &lt;/cross-site-constraint&gt;
+
+  &lt;/service&gt;
+</code></pre>
+
+<p>As you can see, the <code>connect-options</code> are exactly the same for both the App1 and App2 services.</p>
+
+<p>You’ve completed configuring the DMZ Gateway! Next we will configure security for the connection between the DMZ and internal Gateways.</p>
+
+<h2 id="step-6-configure-security-between-the-dmz-and-internal-gateways">Step 6: Configure Security Between the DMZ and Internal Gateways</h2>
+
+<p>Each Gateway maintains two stores for SSL connections: a keystore that stores SSL certificates to present to a client, and a truststore that stores keys from trusted sources. The following example shows the security block in the Gateway configuration file:</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">  &lt;security&gt;
+
+    &lt;keystore&gt;
+      &lt;type&gt;JCEKS&lt;/type&gt;
+      &lt;file&gt;dmz.keystore&lt;/file&gt;
+      &lt;password-file&gt;dmz.keystore.pw&lt;/password-file&gt;
+    &lt;/keystore&gt;
+
+    &lt;truststore&gt;
+      &lt;type&gt;JCEKS&lt;/type&gt;
+      &lt;file&gt;dmz.keystore&lt;/file&gt;
+      &lt;password-file&gt;dmz.truststore.pw&lt;/password-file&gt;
+    &lt;/truststore&gt;
+
+  &lt;/security&gt;
+</code></pre>
+
+<p><strong>Note:</strong> The one keystore file contains certificates for both the <a href="//kaazing.com/doc/5.0/kaazing-glossary.html#frontplane-and-backplane">frontplane</a> and <a href="//kaazing.com/doc/5.0/kaazing-glossary.html#frontplane-and-backplane">backplane</a> connections, which need a certificate to be presented. Similarly, the truststore contains keys for trusted sources for the frontplane and backplane connections. However, because Web-based clients typically are not configured to present client certificates, in practice, the truststore keys only apply to the backplane connections.</p>
+
+<p>These security concepts and configuration are described in detail in:</p>
+
+<ul>
+  <li><a href="../../security/p_tls_mutualauth/index.html">Require Clients to Provide Certificates to the Gateway</a></li>
+  <li><a href="../../security/p_tls_trusted/index.html">Secure the Gateway Using Trusted Certificates</a></li>
+</ul>
+
+<h2 id="step-7-verify-the-gateways-are-running">Step 7: Verify the Gateways are Running</h2>
+
+<p>Start each Gateway and open a browser on your client to test your application.</p>
+
+<h2 id="step-8-close-inbound-ports">Step 8: Close Inbound Ports</h2>
+
+<p>Close the inbound ports on your firewall using the instructions provided by your system.</p>
+
+<h2 id="step-9-verify-the-end-to-end-configuration">Step 9: Verify the End-to-End Configuration</h2>
+
+<p>Use a client within the DMZ to test out the internal Gateway before deploying Enterprise Shield in your production environment. You can repeat the instructions in <a href="#step-7-verify-the-gateways-are-running">Step 7: Verify the Gateways are Running</a> to confirm everything is working properly.</p>
+
+<p>Congratulations, you got Enterprise Shield working on a single pair of (DMZ and internal) Gateways!</p>
+
+<h1 id="next-step">Next Step</h1>
+
+<p>Now, Enterprise Shield is working and inbound ports on your firewall are closed so there is no access to the trusted network from the DMZ. No physical address information from the trusted network is exposed in the DMZ configuration. But there is an extra step to make Enterprise Shield highly available (recommended). See <a href="../p_enterprise_shield_cluster">Walkthrough: Configure Enterprise Shield for High Availability</a> to set up Enterprise Shield in a cluster configuration.</p>
+
+<h1 id="see-also">See Also</h1>
+
+<ul>
+  <li><a href="../../admin-reference/r_configure_gateway_service/index.html">Service Reference</a> for more information about the elements, properties, and options used in the configuration examples</li>
+  <li><a href="../../admin-reference/r_conf_jms#delta-messaging">Delta Messaging</a> to configure the Gateway to send delta messages through the <code>jms</code> service in the internal Gateway through a DMZ Gateway that is running the <code>jms.proxy</code> service.</li>
+</ul>
+
+
+</div>
+
+</div>
+
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+  
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+<h1>Use the Kaazing Android WebSocket Client API </h1>
+
+<p>This procedure describes how you can use the Android Client API to create an Android client that connects to and sends and receives message from the Echo service running on the public Kaazing WebSocket Gateway at <code>ws://echo.websocket.org</code>. This API allows you to take advantage of the WebSocket standard as described in the <a href="//www.w3.org/TR/websockets/">HTML5 specification</a>.</p>
+
+<p>To jump right to the procedure, see <a href="#build-android-demo">Build the Android Client API WebSocket Demo</a></p>
+
+<p>The primary functionality of the Android WebSocket Client API is described here:</p>
+<ul class="arrow-2">
+<li><a href="#useAPI">To Use the WebSocket API in Android or Java</a></li>
+<li><a href="#websocket">WebSocket and WsURLConnection</a></li>
+<li><a href="#URLFactory">URLFactory</a></li>
+<li><a href="#WebSocketFactory">Setting and Overriding Defaults on the WebSocketFactory</a></li>
+<li><a href="#Binary">Methods for Text and Binary Messages</a></li>
+</ul>
+
+
+<p>Refer to the <a href="../apidoc/client/android/gateway/index.html">Android Client API</a> documentation for a complete description of all of the available methods.</p>
+
+<h2>Before You Begin</h2>
+<p>This procedure is part of <a href="o_dev_android.html">Checklist: Build Android Clients Using Kaazing Gateway</a>:</p>
+<ol>
+    <li><strong>Use the Kaazing Gateway Android Client API</strong></li>
+    <li><a href="../dev-java/p_dev_java_secure.html">Secure Your Java and Android Clients</a></li>
+    <li><a href="p_dev_android_log.html">Display Logs for the Android Client</a></li>
+</ol>
+
+<p><span class="note"><b>Note:</b> Learn about supported browsers, operating systems, and platform versions in the <a href="//kaazing.com/releases/client-android/">Release Notes</a>.</span></p>
+
+
+<h2><a name="useAPI"></a>To Use the WebSocket API in Android or Java</h2>
+<ol>
+    <li>Add the necessary import statements:
+<pre class="auto-links: false; brush: java; toolbar: false;">
+import com.kaazing.net.auth.BasicChallengeHandler;
+import com.kaazing.net.auth.ChallengeHandler;
+import com.kaazing.net.auth.LoginHandler;
+import com.kaazing.net.ws.WebSocket;
+import com.kaazing.net.ws.WebSocketFactory;
+import com.kaazing.net.ws.WebSocketMessageReader;
+import com.kaazing.net.ws.WebSocketMessageType;
+import com.kaazing.net.ws.WebSocketMessageWriter;
+</pre>
+    </li>
+    
+    <li>Create a WebSocket object and connect to a server:
+<pre class="auto-links: false; brush: java; toolbar: false;">
+wsFactory = WebSocketFactory.createWebSocketFactory();
+ws = wsFactory.createWebSocket(URI.create("ws://example.com:8001/path"));
+ws.connect(); // This will block or throw an exception if failed.
+</pre>
+    </li>
+    
+    <li>To send messages, add a <span class="uri">WebSocketMessageWriter</span> object:
+<pre class="auto-links: false; brush: java; toolbar: false;">
+WebSocketMessageWriter writer = ws.getMessageWriter();
+String text = "Hello WebSocket!";
+writer.writeText(text);   // Send text message
+</pre>
+    </li>
+    
+    <li>To receive or consume messages, add <span class="uri">WebSocket</span> and <span class="uri">WebSocketMessageReader</span> objects:
+<pre class="auto-links: false; brush: java; toolbar: false;">
+wsFactory = WebSocketFactory.createWebSocketFactory();
+ws = wsFactory.createWebSocket(URI.create("ws://example.com:8001/path"));
+ws.connect(); // This will block or throw an exception if failed.
+
+WebSocketMessageReader reader = ws.getMessageReader();
+WebSocketMessageType type = null; // Block till a message arrives
+  // Loop till the connection goes away
+  while ((type =  reader.next()) != WebSocketMessageType.EOS) {
+    switch (type) { // Handle both text and binary messages
+      case TEXT:
+        CharSequence text = reader.getText();
+        log("RECEIVED TEXT MESSAGE: " + text.toString());
+        break;
+      case BINARY:
+        ByteBuffer buffer = reader.getBinary();
+        log("RECEIVED BINARY MESSAGE: " + getHexDump(buffer));
+        break;
+    }
+}
+</pre>
+<p><span class="note"><b>Note:</b> The WebSocket connection is created for both the send and receive functions (<span class="uri">ws.connect()</span>). These examples are used because most clients will either send <em>or</em> receive messages. If your client both sends <em>and</em> receives messages, you would only need to create a single WebSocket connection.</span></p>
+
+<p>Here is an example using a for loop to alternate between text and binary messages, and the code is placed within try catch blocks:</p>
+
+<pre class="auto-links: false; brush: java; toolbar: false;">
+try {
+    // Create a new WebSocket object
+    wsFactory = WebSocketFactory.createWebSocketFactory();
+    ws = wsFactory.createWebSocket(URI.create("ws://example.com:8001/path"));
+    ws.connect(); // This will block or throw an exception if failed.
+  
+     /* Use the WebSocketMessageWriter class method getMessageWriter() 
+     to send text and binary messages */ 
+     WebSocketMessageWriter writer = ws.getMessageWriter();
+
+     // Send messages using a for loop to alternate between text and binary messages
+     for (int i = 0; i &lt; 100; i++) {
+         String text = "Hello WebSocket - " + i;
+         // For even numbered loops, send text
+         if (( i %2) == 0) {
+             writer.writeText(text);   // Send text message
+         }
+         else {
+             // For odd numbered loops, send binary
+             ByteBuffer buffer = ByteBuffer.wrap(text.getBytes());
+             writer.writeBinary(buffer);   // Send binary message
+         }
+     }    
+     ws.close();
+ }
+catch (Exception ex) {
+    ex.printStackTrace();
+}
+</pre>
+
+<p>Here is how to receive messages on the consumer side using a while loop and switch statement:</p>
+
+<pre class="auto-links: false; brush: java; toolbar: false;">
+try {
+    // Create a new WebSocket object
+    wsFactory = WebSocketFactory.createWebSocketFactory();
+    ws = wsFactory.createWebSocket(URI.create("ws://example.com:8001/path"));
+    ws.connect(); // This will block or throw an exception if failed.
+
+     // Use the getMessageReader() method    
+     WebSocketMessageReader reader = ws.getMessageReader();
+
+     WebSocketMessageType type = null; // Block until a message arrives
+     while ((type =  reader.next()) != WebSocketMessageType.EOS) { // Loop until the connection is closed
+         switch (type) {
+             // Run if type is TEXT
+             case TEXT:
+                 CharSequence text = reader.getText();
+                  log("RECEIVED TEXT MESSAGE: " + text.toString());
+                  break;
+
+             // Run if type is BINARY
+             case BINARY:
+                 ByteBuffer buffer = reader.getBinary();
+                  log("RECEIVED BINARY MESSAGE: " + getHexDump(data)); // see getHexDump() below
+                  break;
+         }
+     }
+     ws.close();
+ }
+catch (Exception ex){
+   ex.printStackTrace();
+}
+
+private String getHexDump(ByteBuffer buf) {
+    if (buf.position() == buf.limit()) {
+        return "empty";
+    }
+
+    StringBuilder hexDump = new StringBuilder();
+    for (int i = buf.position(); i &lt; buf.limit(); i++) {
+        hexDump.append(Integer.toHexString(buf.get(i)&amp;0xFF)).append(&#x27; &#x27;);
+    }
+    return hexDump.toString();
+}
+
+</pre>
+    </li>
+</ol>
+
+<h2><a name="websocket"></a>WebSocket and WsURLConnection</h2>
+<p>The Kaazing Gateway Android WebSocket API offers two options for creating and using WebSocket connections to enable developers to leverage their java.net Socket or URL experience:</p>
+
+<ul class="arrow-2">
+<li><strong>WebSocket</strong> - this class and its methods are provided for developers familiar with the <a href="//docs.oracle.com/javase/7/docs/api/java/net/Socket.html">Socket</a> class in the java.net package. It implements a socket for stream-based interprocess communication over the Web.</li>
+<li><strong>WsURLConnection</strong> - this class is an extension of the <a href="//docs.oracle.com/javase/7/docs/api/java/net/URLConnection.html">URLConnection</a> class in the java.net package. It defines a network connection to an object specified by a URL. WsURLConnection adds WebSocket support to URLConnection, allowing you to create, connect and use WebSocket connections in addition to the default URLConnection subclasses HttpURLConnection and JarURLConnection. You can use all of the methods in URLConnection and the additional methods included in the WsURLConnection extension.</li>
+</ul>
+
+<h3>WebSocket Class</h3>
+<p>The WebSocket class is demonstrated in the <a href="#build-android-demo">Build the Android Client API WebSocket Demo</a> example, but there are some additional elements to be aware of such as methods for text and/or binary WebSocket messages. These methods are described in <a href="#Binary">Methods for Text and Binary Messages</a>.</p>
+
+<h3>WsURLConnection</h3>
+<p>The WsURLConnection class is provided for developers accustomed to creating an URLConnection object and then using <a href="//docs.oracle.com/javase/7/docs/api/java/io/InputStream.html">java.io.InputStream</a> and <a href="//docs.oracle.com/javase/7/docs/api/java/io/OutputStream.html">java.io.OutputStream</a> classes from java.io to receive and send data. The WsURLConnection extends URLConnection to enable you to use WebSocket-specific features and provide bidirectional communication.</p>
+
+<p>The following example demonstrates how WsURLConnection enables you to create a URLConnection object for a WebSocket URL:</p>
+
+<pre class="auto-links: false; brush: java; toolbar: false;">
+URL location = URLFactory.createURL("ws://localhost:8000/echo");
+URLConnection urlConn = location.openConnection();
+InputStream inStream = urlConn.getInputStream();
+</pre>
+
+<p>There are two important things to note in this example:</p>
+
+<ul class="arrow-2">
+    <li>This example uses the URLFactory class which enables you to instantiate URL objects that support custom protocols and schemes, such as the WebSocket protocol’s ws:// and wss://. <a href="//docs.oracle.com/javase/7/docs/api/java/net/URL.html">java.net.URL</a> has native support for http, https, ftp, file, and jar protocols only.</li> 
+    <li>The URLConnection object created in the example is an instance of the WsURLConnection class. Since <span class="uri">getInputStream()</span> and <span class="uri">getOutputStream()</span> methods are available on URLConnection, there was no need to downcast URLConnection to WsURLConnection. However, if you need to access methods that are not available on URLConnection, but are only available on WsURLConnection, you can <a href="//en.wikipedia.org/wiki/Downcasting">downcast</a> the <span class="uri">urlConn</span> object in the example and then invoke <span class="uri">getMessageReader()</span>:
+<pre class="auto-links: false; brush: java; toolbar: false;">
+URL location = URLFactory.createURL("ws://localhost:8000/echo");
+URLConnection urlConn = location.openConnection();
+WsURLConnection  wsConn = (WsURLConnection) urlConn;   // Downcasting to WsURLConnection
+WebSocketMessageReader msgReader = wsConn.geMessageReader();
+</pre>
+    </li> 
+</ul>
+
+<p>With WsURLConnection and URLFactory, you can continue to create URLConnection objects as you have previously and simply use WebSocket to take advantage of additional methods provided by WsURLConnection.</p>
+
+<h2><a name="URLFactory"></a>URLFactory</h2>
+<p>The URLFactory class is included to support custom protocols and schemes not supported by java.net.URL. Namely, the WebSocket protocol’s ws:// and wss:// schemes. java.net.URL supports http, https, ftp, file, and jar protocols only and the java.net.URLStreamHandlerFactory class registration is not extensible. After importing the URLFactory class, one of the <span class="uri">createURL()</span> methods is used to create a WebSocket URL object from either:<br> 
+    <ul class="arrow-2">
+    <li>The String representation, by parsing the given specification within a specified context.</li>
+    <li>A specified protocol name, host name, and file name.</li>
+    <li>A specified protocol name, host name, port number, and file name.</li>
+    </ul>
+</p>
+
+<p>For more information about the URLFactory class, see the Kaazing Gateway <a href="../apidoc/client/java/gateway/index.html">Java WebSocket API</a>.</p>
+
+<h2><a name="WebSocketFactory"></a>Setting and Overriding Defaults on the WebSocketFactory</h2>
+
+<p>You can set a default redirect-policy on the WebSocketFactory. All the WebSockets created using that factory automatically inherit the default. You can then override the defaults on an individual WebSocket, if desired. Unlike the HttpURLConnection in the Java SDK that uses the boolean InstanceFollowRedirects method to specify whether the WebSocket follows redirects automatically, the Kaazing Android WebSocket Client API also provides the following options:</p>
+
+<table class="reference">
+  <tr>
+    <th scope="col">Option</th>
+    <th scope="col">Description</th>
+  </tr>
+  <tr>
+    <td>NEVER</td>
+    <td>Do not follow HTTP redirects.</td>
+  </tr>
+  <tr>
+    <td>ALWAYS</td>
+    <td>Follow the HTTP redirect requests always, regardless of the origin, domain, etc.</td>
+  </tr>
+  <tr>
+    <td>SAME_ORIGIN</td>
+    <td>Follow the HTTP redirect only if the origin of the redirect request matches. This implies that both the scheme/protocol and the authority between the current and the redirect URIs should match. The port number should also be the same between the two URIs.</td>
+  </tr>
+  <tr>
+    <td>SAME_DOMAIN</td>
+    <td>Follow HTTP redirect only if the domain of the redirect request matches the domain of the current request. For example, URIs with identical domains would be <span class="uri">ws://production.example.com:8001</span> and <span class="uri">ws://production.example.com:8002</span>.</td>
+  </tr>
+  <tr>
+    <td>PEER_DOMAIN</td>
+    <td>Follow the HTTP redirect only if the redirected request is for a peer-domain. For example, the domain in the URI ws://sales.example.com:8001 is a peer of the domain in the URI ws://marketing.example.com:8002.</td>
+  </tr>
+  <tr>
+    <td>SUB_DOMAIN</td>
+    <td>Follow the HTTP redirect only if the request is for sub-domain. For example, the domain in the URI ws://benefits.hr.example.com:8002 is a sub-domain of the domain in the URI ws://hr.example.com:8001.</td>
+  </tr>
+</table>
+
+<p>You can set the default redirect option on the WebSocket Factory using the <span class="uri">setDefaultRedirectPolicy()</span> method and then override it on a WebSocket connection using the <span class="uri">setRedirectPolicy()</span> method.</p>
+
+<pre class="auto-links: false; brush: java; toolbar: false; highlight: 6;">
+import com.kaazing.net.http.HttpRedirectPolicy;
+.
+.
+.
+WebSocket wsFactory = WebSocketFactory.createWebSocketFactory();
+wsFactory.setDefaultRedirectPolicy(HttpRedirectPolicy.SUB_DOMAIN);
+wsFactory.createWebSocket(location);
+</pre>
+
+<p>Here is an example of the SUB_DOMAIN option overridden on a WebSocket connection:</p>
+<pre class="auto-links: false; brush: java; toolbar: false; highlight: 3;">
+WebSocket ws;
+ws = wsFactory.createWebSocket(location);
+ws.setRedirectPolicy(HttpRedirectPolicy.ALWAYS);
+ws.connect();
+</pre>
+
+<h2><a name="Binary"></a>Methods for Text and Binary Messages</h2>
+<p>Both the WebSocket and WsURLConnection classes offer methods to suit the data types your client will handle.</p>
+
+<h3>Text and Binary Clients</h3>
+<p>Clients using both text and binary messages can use the <span class="uri">getMessageReader()</span> and <span class="uri">getMessageWriter()</span> methods, available in both the WebSocket and WsURLConnection classes. These methods receive binary and text messages based on the WebSocketMessageType class. The WebSocketMessageType class represents the types of messages that are received by <code>WebSocketMessageReader</code>. There are three types: TEXT, BINARY, and EOS for end&ndash;of&ndash;stream. For receiving messages,  you can use a switch block for the different message types:</p>
+
+<pre class="auto-links: false; brush: java; toolbar: false;">
+Thread messageReceivingThread = new Thread() {
+    public void run() {
+      WebSocketMessageType type = null;
+      try {
+          WebSocketMessageReader reader = webSocket.getMessageReader();
+          while ((type = reader.next()) != WebSocketMessageType.EOS) {
+              switch (type) {
+                  case BINARY:
+                      ByteBuffer data = reader.getBinary();
+                      log("RESPONSE:" + getHexDump(data));
+                      break;
+                  case TEXT:
+                      CharSequence text = reader.getText();
+                      log("RESPONSE:" + text.toString());
+                      break;
+              }                                        
+          }                                    
+      webSocket.close()
+        }
+      catch (Exception ex) {
+          log("Exception: " + ex.getMessage());
+      }
+    }
+};
+</pre>
+
+<span class="note"><b>Note:</b> In UI-based Java clients, receiving messages should be done on a separate thread to avoid blocking the java.awt <a href="//docs.oracle.com/javase/tutorial/uiswing/concurrency/dispatch.html">EventDispatchThread</a>.</span>
+
+<h3>Text-only Clients</h3>
+<p>Text-only clients can use the <span class="uri">getReader()</span> and <span class="uri">getWriter()</span> methods, available in both the WebSocket and WsURLConnection classes. If either method is used to receive binary messages, or the methods are invoked before a connection is made, then an IOException is thrown.</p>
+
+<h3>Binary-only Clients and I/O Streams</h3>
+<p>Both WebSocket and WsURLConnection classes support APIs that enable use the use of byte-based data streams as they define <span class="uri">getInputStream()</span> and <span class="uri">getOutputStream()</span> methods. <span class="uri">getInputStream()</span> is used for receiving binary streams and <span class="uri">getOutputStream()</span> is used to send binary streams. If either method is used to receive text messages, or the methods are invoked before a connection is made, then an IOException is thrown. Once the connection is closed, a new InputStream or OutputStream must be obtained using the <span class="uri">getInputStream()</span> and <span class="uri">OutputStream()</span> methods after the connection has been established. Using the old InputStream or OutputStream will result in IOException.</p>
+
+
+<h2><a name="build-android-demo"></a>Build the Android Client API WebSocket Demo</h2>
+
+<p>The following procedure walks through the steps of creating the Kaazing Android WebSocket Tutorial app that can be downloaded here <a href="https://github.com/kaazing/java.client.tutorials/tree/develop/android/ws">https://github.com/kaazing/java.client.tutorials/tree/develop/android/ws</a>. The tutorial code displays how to use the Android Client API to create a client that creates a WebSocket connection with the Gateway and sends and receives text and binary messages.</p>
+
+<p>In this procedure you will build an Android WebSocket Client by doing the following:</p>
+<ol>
+    <li><a href="#Install">Install the Kaazing Enterprise Android Client SDK.</a></li>
+    <li><a href="#Set">Set up an Android project in Android Studio.</a></li>
+    <li><a href="#Import">Import the Kaazing Gateway Android libraries.</a></li>
+    <li><a href="#TUI">Create the Android client Touch User Interface (TUI).</a></li>
+    <li><a href="#dispatch">Add a dispatch queue class to the Android client.</a></li>
+    <li><a href="#common">Add the import statements for the common Java and Android classes.</a></li>
+    <li><a href="#classes">Add the import statements for the Kaazing Gateway Android API classes.</a></li>
+    <li><a href="#variables">Add the variables for the program.</a></li>
+    <li><a href="#onCreate">Add the <span class="uri">onCreate()</span> method with event listeners.</a></li>
+    <li><a href="#MessageReceiver">Add the MessageReceiver that uses the WebSocketMessageReader to receive binary and text messages.</a></li>
+    <li><a href="#connect">Add the <span class="uri">connect()</span> to connect to the Gateway and receive messages.</a></li>
+    <li><a href="#disconnect">Add the <span class="uri">disconnect()</span> method called when a user clicks the Disconnect button.</a></li>
+    <li><a href="#updating">Add the methods for updating buttons according to the state of the WebSocket connection.</a></li>
+    <li><a href="#logMessage">Add the <span class="uri">logMessage()</span> method for Log area displayed in the client.</a></li>
+    <li><a href="#Echo">Update the Echo service on the Gateway configuration file to accept on your local IP address.</a></li>
+    <li><a href="#Run">Run the Android client in the Android Emulator.</a></li>
+    <li><a href="#Test">Test the Android client in the Android Emulator.</a></li>
+</ol>
+
+
+<span class="note"><b>Note:</b> The following procedure uses Android Studio 2. If you are using a different version of Android Studio, some UI options might be different.</span>
+
+<ol>
+    <li>Download the Kaazing Enterprise Android Client SDK as described in <a href="../../about/setup-guide/index.html">Setting Up the Gateway and Clients</a>.</li>
+    <li>Download and install Android Studio and the Android SDK from <a href="https://developer.android.com/studio/index.html">https://developer.android.com/studio/index.html</a>.</li>
+    <li><a name="Set"></a>Set up an Android project in Android Studio.
+        <ol type="a">
+            <li>Launch Android Studio.</li>
+            <li>Click <strong>Start a New Android Studio Project</strong>.</li>
+            <li>In <strong>Configure your new project</strong>, in <strong>Application Name</strong>, name the project <strong>ws</strong>.</li>
+            <li>In <strong>Company Name</strong>, enter <strong>mycompany.example.com</strong>.</li>
+            <li>In <strong>Package Name</strong>, click <strong>Edit</strong>, enter <strong>com.kaazing.ws.client.demo</strong>, and click <strong>Done</strong>. </li>
+            <li>In <strong>Project location</strong>, enter or browse to a location for your project. The location path cannot contain spaces.</li>
+            <li>Click <strong>Next</strong>.</li>
+            <li>In <strong>Select the form factors your app will run on</strong>, enable <strong>Phone and Tablet</strong>.</li>
+            <li><p>In <strong>Minimum SDK</strong>, choose <strong>API 19: Android 4.4 (KitKat)</strong> and click <strong>Next</strong>. </p>
+                <p><span class="note"><b>Note:</b> To confirm or modify the SDK requirement on a project, right-click the project, and click <strong>Properties</strong>. Click <strong>Android</strong>, and then look at the <strong>Project Build Target</strong> settings. </span></p></li>
+             <li>On <strong>Add an Activity to Mobile</strong>, click <strong>Empty Activity</strong>, and click <strong>Next</strong>.</li>
+             <li>In <strong>Customize the Activity</strong>, in <strong>Activity Name</strong>, enter <strong>EchoActivity</strong>.</li>
+            <li>In <strong>Layout Name</strong> enter <strong>main</strong> (ensure that the Activity Name is still <strong>EchoActivity</strong>) and click <strong>Finish</strong>. If there are dependencies that you need to install, the <strong>Finish</strong> button is not available. The new project is generated.</li>
+        </ol>
+    </li>
+    <li><a name="Import"></a>Import the Kaazing Android WebSocket SDK libraries. You can import the libraries in a number ways, such as using a .zip or Maven, as described on <a href="//kaazing.com/download/#client-android" title="Kaazing - Download">kaazing.com/download</a>. Follow the steps for the method you want to use.
+    
+    <p>Here is an example <strong>app/build.gradle</strong> configuration:</p>
+    
+<pre class="auto-links: false; brush: java; toolbar: false;">
+apply plugin: &#x27;com.android.application&#x27;
+
+repositories {
+    mavenCentral()
+    maven {
+        url &quot;https://repository.kaazing.com/maven/&quot;
+    }
+}
+
+android {
+    compileSdkVersion 19
+    buildToolsVersion &quot;23.0.2&quot;
+
+    defaultConfig {
+        applicationId &quot;com.kaazing.gateway.jms.client.demo&quot;
+        minSdkVersion 19
+        targetSdkVersion 19
+        multiDexEnabled true
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile(&#x27;proguard-android.txt&#x27;), &#x27;proguard-rules.txt&#x27;
+        }
+    }
+}
+
+dependencies {
+    compile group: &#x27;com.kaazing&#x27;, name: &#x27;enterprise.android.client.all&#x27;, version: &#x27;4.1.0&#x27;
+    compile &#x27;com.google.android:support-v4:r7&#x27;
+}
+</pre>
+    
+    </li>
+      <li>Update the AndroidManifest.xml file. Open the AndroidManifest.xml file in <code>app/src/main/AndroidManifest.xml</code> and replace its contents with the following (the code is available <a href="https://github.com/kaazing/java.client.tutorials/blob/develop/android/ws/app/src/main/AndroidManifest.xml">here</a> also):
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;manifest xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+  package=&quot;com.kaazing.ws.client.demo&quot; android:versionCode=&quot;1&quot; android:versionName=&quot;4.0&quot;&gt;
+
+  &lt;application android:icon=&quot;@drawable/icon&quot; android:label=&quot;@string/app_name&quot;&gt;
+    &lt;activity android:name=&quot;com.kaazing.ws.client.demo.EchoActivity&quot; android:configChanges=&quot;orientation&quot; android:windowSoftInputMode=&quot;stateHidden&quot;&gt;
+      &lt;intent-filter&gt;
+        &lt;action android:name=&quot;android.intent.action.MAIN&quot; /&gt;
+        &lt;category android:name=&quot;android.intent.category.LAUNCHER&quot; /&gt;
+      &lt;/intent-filter&gt;
+    &lt;/activity&gt;
+  &lt;/application&gt;
+  &lt;uses-sdk android:minSdkVersion=&quot;19&quot; android:maxSdkVersion=&quot;23&quot;/&gt;
+  &lt;uses-permission android:name=&quot;android.permission.INTERNET&quot;/&gt;
+&lt;/manifest&gt;
+</pre>
+      </li>
+      <li>Add the icon for the app. This is the icon that appears on the home screen of the device. Drag the icon from the Android demo folder <code>java.client.tutorials/android/ws/res/drawable-hdpi/icon.png</code> to the <strong>drawable-hdpi</strong> folder in your project at <code>app/src/main/res/drawable-hdpi</code>.</li>
+      <li>Delete the automatically generated <strong>styles.xml</strong> file in your project at <code>app/src/main/res/values</code>. This file isn't needed in the project and can cause errors.</li>
+    <li><a name="TUI"></a>Create the Android client Touch User Interface (TUI). Next you will add the text strings and layout for the Android client TUI. When you are finished, the Android client will look like this:
+            <figure>
+                <img src="../images/f-html5-android-TUI-web.png" height="50%" width="50%">
+            <figcaption><strong>Figure: Android Client TUI</strong></figcaption>    
+            </figure>
+            <ol type="a">
+                <li>Open the <strong>strings.xml</strong> file located at <span class="uri">app/src/main/res/values/strings.xml</span> and replace its contents with the following:
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;resources&gt;
+    &lt;string name=&quot;app_name&quot;&gt;WebSocket Demo&lt;/string&gt;
+    &lt;string name=&quot;username_hint&quot;&gt;Username&lt;/string&gt;
+    &lt;string name=&quot;password_hint&quot;&gt;Password&lt;/string&gt;
+    &lt;string name=&quot;ok_label&quot;&gt;OK&lt;/string&gt;
+    &lt;string name=&quot;cancel_label&quot;&gt;Cancel&lt;/string&gt;
+    &lt;string name=&quot;location_default&quot;&gt;wss://echo.websocket.org/&lt;/string&gt;
+    &lt;string name=&quot;disconnect_label&quot;&gt;Disconnect&lt;/string&gt;
+    &lt;string name=&quot;connect_label&quot;&gt;Connect&lt;/string&gt;
+    &lt;string name=&quot;message_default&quot;&gt;Hello World!&lt;/string&gt;
+    &lt;string name=&quot;send_label&quot;&gt;Send&lt;/string&gt;
+    &lt;string name=&quot;clear_label&quot;&gt;Clear&lt;/string&gt;
+    &lt;string name=&quot;location_label&quot;&gt;Location&lt;/string&gt;
+    &lt;string name=&quot;message_label&quot;&gt;Message&lt;/string&gt;
+    &lt;string name=&quot;sendBinary_label&quot;&gt;Send Binary&lt;/string&gt;
+&lt;/resources&gt;
+</pre>
+                <p>You can see all of the buttons that will be displayed in the TUI.</p>
+                
+                <span class="note"><b>Important:</b> When pasting text into Android Studio, whitespace will likely be included and cause errors in your project. To avoid this problem, you can paste text into a text editor first, copy it from there, and paste it into Android Studio. Alternatively, you can copy the text from the files stored in Github here: <a href="https://github.com/kaazing/java.client.tutorials/tree/develop/android/ws">https://github.com/kaazing/java.client.tutorials/tree/develop/android/ws</a>.</span>
+                
+                </li>
+                <li>Open the <strong>dimens.xml</strong> file from <code>app/src/main/res/values/dimens.xml</code> and replace its contents with the following:
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+<?xml version="1.0" encoding="utf-8"?>
+&lt;resources&gt;
+    &lt;dimen name=&quot;edit_text_size&quot;&gt;12dp&lt;/dimen&gt;
+&lt;/resources&gt;
+</pre>
+                </li>
+                <li>Open the <strong>main.xml</strong> file located at <span class="uri">app/src/main/res/layout/main.xml</span>, click the <strong>Text</strong> tag to see the XML, and replace its contents with the following:
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;RelativeLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    android:layout_width=&quot;fill_parent&quot;
+    android:layout_height=&quot;fill_parent&quot;
+    android:background=&quot;#F27A31&quot;&gt;
+
+    &lt;TextView
+        android:id=&quot;@+id/locationText&quot;
+        android:layout_width=&quot;fill_parent&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:text=&quot;@string/location_label&quot;
+        android:textColor=&quot;#ffffff&quot;
+        android:textSize=&quot;@dimen/edit_text_size&quot; /&gt;
+
+    &lt;EditText
+        android:id=&quot;@+id/location&quot;
+        android:layout_width=&quot;fill_parent&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:layout_below=&quot;@id/locationText&quot;
+        android:background=&quot;@android:drawable/editbox_background&quot;
+        android:text=&quot;@string/location_default&quot;
+        android:textSize=&quot;@dimen/edit_text_size&quot; &gt;
+
+        &lt;requestFocus /&gt;
+    &lt;/EditText&gt;
+      
+    &lt;Button
+        android:id=&quot;@+id/connect&quot;
+        style=&quot;?android:attr/buttonStyleSmall&quot;
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:layout_alignParentRight=&quot;true&quot;
+        android:layout_below=&quot;@id/location&quot;
+        android:layout_marginLeft=&quot;10dip&quot;
+        android:text=&quot;@string/connect_label&quot;
+        android:textSize=&quot;@dimen/edit_text_size&quot; /&gt;
+
+    &lt;Button
+        android:id=&quot;@+id/disconnect&quot;
+        style=&quot;?android:attr/buttonStyleSmall&quot;
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:layout_below=&quot;@id/location&quot;
+        android:layout_marginLeft=&quot;10dip&quot;
+        android:layout_toLeftOf=&quot;@+id/connect&quot;
+        android:enabled=&quot;false&quot;
+        android:text=&quot;@string/disconnect_label&quot;
+        android:textSize=&quot;@dimen/edit_text_size&quot; /&gt;
+
+    &lt;TextView
+        android:id=&quot;@+id/label&quot;
+        android:layout_width=&quot;fill_parent&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:layout_below=&quot;@id/connect&quot;
+        android:text=&quot;@string/message_label&quot;
+        android:textColor=&quot;#ffffff&quot; /&gt;
+
+    &lt;EditText
+        android:id=&quot;@+id/message&quot;
+        android:layout_width=&quot;fill_parent&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:layout_below=&quot;@id/label&quot;
+        android:background=&quot;@android:drawable/editbox_background&quot;
+        android:text=&quot;@string/message_default&quot;
+        android:textSize=&quot;@dimen/edit_text_size&quot; /&gt;
+
+    &lt;CheckBox
+        android:id=&quot;@+id/sendBinaryCheckBox&quot;
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:layout_alignBottom=&quot;@+id/send&quot;
+        android:layout_alignParentLeft=&quot;true&quot;
+        android:layout_below=&quot;@id/message&quot;
+        android:text=&quot;@string/sendBinary_label&quot;
+        android:textSize=&quot;@dimen/edit_text_size&quot; /&gt;
+
+    &lt;Button
+        android:id=&quot;@+id/send&quot;
+        style=&quot;?android:attr/buttonStyleSmall&quot;
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:layout_below=&quot;@id/messageText&quot;
+        android:layout_marginStart=&quot;10dip&quot;
+        android:enabled=&quot;false&quot;
+        android:text=&quot;@string/send_label&quot;
+        android:textSize=&quot;@dimen/edit_text_size&quot;
+        android:layout_alignParentEnd=&quot;true&quot; /&gt;
+  
+    &lt;LinearLayout
+        android:id=&quot;@+id/logContainer&quot;
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;fill_parent&quot;
+        android:orientation=&quot;vertical&quot;
+        android:layout_below=&quot;@+id/send&quot;&gt;
+      
+         &lt;TextView
+            android:id=&quot;@+id/log&quot;
+            android:layout_width=&quot;fill_parent&quot;
+            android:layout_height=&quot;0dp&quot;
+            android:layout_weight=&quot;1&quot;
+            android:background=&quot;@android:drawable/editbox_background&quot;
+            android:maxLines=&quot;20&quot;
+            android:scrollbars=&quot;horizontal|vertical&quot;
+            android:textColor=&quot;#000000&quot;
+            android:textSize=&quot;@dimen/edit_text_size&quot; /&gt;
+       
+         &lt;Button
+             android:id=&quot;@+id/clear&quot;
+             style=&quot;?android:attr/buttonStyleSmall&quot;
+             android:layout_width=&quot;wrap_content&quot;
+             android:layout_height=&quot;wrap_content&quot;
+             android:layout_gravity=&quot;right&quot;
+             android:text=&quot;@string/clear_label&quot;
+             android:textSize=&quot;@dimen/edit_text_size&quot; /&gt;
+       
+    &lt;/LinearLayout&gt;
+&lt;/RelativeLayout&gt;
+</pre>
+<p>You will see some errors, but these will go away once more code is added to the project.</p>
+                </li>
+            </ol>
+    </li>
+    <li><p><a name="dispatch"></a>Add a dispatch queue class to the Android client.</p> 
+        <p>A dispatch queue class is used to run tasks in a separate thread from the main thread (to run some tasks asynchronously). The dispatch queue class is used to add <a href="//docs.oracle.com/javase/7/docs/api/java/lang/Runnable.html">Runnable</a> in a queue. Runnable will be run in a first-in first-out basis. This dispatch queue class is useful to run a series of tasks sequentially in a separate thread from the main thread of the Android client. All of the blocking calls of the Android client will be run in a background thread so that the TUI is not blocked and can remain responsive.</p> 
+        <ol type="a">
+            <li>In <code>app/src/main/java</code>, right-click the package <strong>com.kaazing.ws.client.demo</strong>, click <strong>New</strong>, and click <strong>Class</strong>.</li>
+            <li>In <strong>Name</strong> enter <span class="uri">DispatchQueue</span> and click <strong>Finish</strong>. The new <strong>DispatchQueue.java</strong> class is added to the <strong>src</strong> folder.</li>
+            <li>Double-click <strong>DispatchQueue.java</strong>.</li>
+            <li>Replace the contents with the following code:
+                
+<pre class="auto-links: false; brush: java; toolbar: false;">
+package com.kaazing.ws.client.demo;
+
+import android.os.Handler;
+import android.os.HandlerThread;
+
+public class DispatchQueue extends HandlerThread {
+
+    private Handler handler;
+
+    public DispatchQueue(String name) {
+        super(name);
+    }
+
+    // The message blocks until the thread is started. This should be called 
+    // after call to start() to ensure the thread is ready.    
+    public void waitUntilReady() {
+        handler = new Handler(getLooper());
+    }
+
+    // Adds the Runnable to the message queue which will be run on the thread.
+    // The runnable will be run in a first-in first-out basis.    
+    public void dispatchAsync(Runnable task) {
+        handler.post(task);
+    }
+
+    public void removePendingJobs() {
+        handler.removeCallbacksAndMessages(null);
+    }
+
+}
+</pre>
+            </li>
+        </ol>
+    </li>
+
+    <li>Modify the main class for the Android client. In the <code>app/src/main/java/com.kaazing.ws.client.demo</code> folder for the project, double-click <strong>EchoActivity.java</strong>. You will add the main Java code for the Android client in this file.</li>
+    
+    <li>Delete all of the contents except the package <strong>com.kaazing.ws.client.demo</strong> package declaration and the EchoActivity class declaration:
+<pre class="auto-links: false; brush: java; toolbar: false;">
+package com.kaazing.ws.client.demo;
+
+// Import statements will go here
+
+public class EchoActivity extends FragmentActivity {
+
+    // the remaining code will go here
+
+}
+</pre>
+</li>
+    
+    <li><a name="common"></a>Add the import statements for the common Java and Android classes directly after the package <strong>com.kaazing.ws.client.demo</strong> package declaration:
+
+<pre class="auto-links: false; brush: java; toolbar: false;">
+import java.io.IOException;
+import java.net.PasswordAuthentication;
+import java.net.URI;
+import java.nio.ByteBuffer;
+import java.util.concurrent.Semaphore;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.TextView;
+</pre>
+
+</li>
+    
+    <li><a name="classes"></a>Add the import statements for the Kaazing Gateway Android Client API classes that will be used in the client:
+        
+<pre class="auto-links: false; brush: java; toolbar: false;">
+// Include these statements with any client
+import com.kaazing.net.ws.WebSocket;
+import com.kaazing.net.ws.WebSocketFactory;
+import com.kaazing.net.ws.WebSocketMessageReader;
+import com.kaazing.net.ws.WebSocketMessageType;
+import com.kaazing.net.ws.WebSocketMessageWriter;
+
+// Include these statements when a client must authenticate with the Gateway
+import com.kaazing.net.auth.BasicChallengeHandler;
+import com.kaazing.net.auth.ChallengeHandler;
+import com.kaazing.net.auth.LoginHandler;
+</pre>
+    
+    </li>
+    
+    <li><a name="variables"></a>Under the <code>// the remaining code will go here</code> comment directly after the <span class="uri">EchoActivity</span> class declaration, add the variables for the program, and a method for hiding the keyboard since the app will be pre-loaded with a URL:
+
+<pre class="auto-links: false; brush: java; toolbar: false;">
+private TextView location;
+private TextView message;
+private TextView log;
+private Button sendBtn;
+private Button connectBtn;
+private Button disconnectBtn;
+private Button clearBtn;
+private CheckBox sendBinaryCheckBox;
+
+private WebSocket webSocket;
+private DispatchQueue dispatchQueue;
+private boolean wasConnectedBeforePaused = false;
+private boolean closedExplicitly = false;
+
+private void hideKeyboard() {
+ InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+ imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+}
+</pre>
+
+    </li>
+    
+    <li><a name="onCreate"></a>Add the <span class="uri">onCreate()</span> method with event listeners for the <strong>Connect</strong>, <strong>Send</strong>, <strong>Disconnect</strong>, and <strong>Clear</strong> buttons. This is a long method that includes event listeners for user interactions (clicks), and defines the program’s actions in response to when the user clicks the <strong>Connect</strong>, <strong>Send</strong>, <strong>Disconnect</strong>, and <strong>Clear</strong> buttons.
+    
+<pre class="auto-links: false; brush: java; toolbar: false;">
+// Called when the activity is first created.
+@Override
+public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+  
+    // Add values to the variables
+    location = (TextView)findViewById(R.id.locationText);
+    message = (TextView)findViewById(R.id.messageText);
+    log = (TextView)findViewById(R.id.log);
+    sendBtn = (Button)findViewById(R.id.send);
+    connectBtn = (Button)findViewById(R.id.connect);
+    disconnectBtn = (Button)findViewById(R.id.disconnect);
+    clearBtn = (Button)findViewById(R.id.clear);
+    sendBinaryCheckBox = (CheckBox)findViewById(R.id.sendBinaryCheckBox);
+
+    locationText.addTextChangedListener(new TextWatcher() {
+     @Override
+     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+     }
+
+     @Override
+     public void onTextChanged(CharSequence s, int start, int before, int count) {
+      String url= locationText.getText().toString();
+      if (url.length()>0){
+       connectBtn.setEnabled(true);
+      }
+      else{
+       connectBtn.setEnabled(false);
+      }
+     }
+
+     @Override
+     public void afterTextChanged(Editable s) {
+
+     }
+    });
+
+  
+    // Run when the Connect button is clicked
+    connectBtn.setOnClickListener(new OnClickListener() {
+        public void onClick(View v) {
+            connectBtn.setEnabled(false);
+            // call the connect() method in the MessageReceiver class
+            connect();
+        }
+    });
+  
+    // Run when the Send button is clicked
+    sendBtn.setOnClickListener(new OnClickListener() {
+        public void onClick(View v) {
+            final boolean sendBinary = sendBinaryCheckBox.isChecked();
+          
+            // Run as part of the dispatch queue in DispatchQueue.java
+            // Receive messages in a separate thread
+            dispatchQueue.dispatchAsync(new Runnable() {
+                public void run() {
+                    try {
+                        WebSocketMessageWriter messageWriter = webSocket.getMessageWriter();
+                        if (sendBinary) {
+                            String messageToSend = message.getText().toString();
+                            ByteBuffer payload = ByteBuffer.wrap(messageToSend.getBytes());
+                            logMessage("SEND BINARY:" + getHexDump(payload));
+                            messageWriter.writeBinary(payload);
+                        }
+                        else {
+                            logMessage("SEND: " + message.getText());
+                            messageWriter.writeText(message.getText());
+                        }
+                        } catch (Exception e) {
+                        e.printStackTrace();
+                        logMessage(e.getMessage());
+                    }
+                }
+            });
+        }
+    });
+  
+    // Run when the Disconnect button is clicked,
+    // and call the disconnect() method in the MessageReceiver class.
+    disconnectBtn.setOnClickListener(new OnClickListener() {
+        public void onClick(View v) {
+            disconnect();
+        }
+    });
+  
+    // Run when the Clear button is clicked, and clear the log.
+    clearBtn.setOnClickListener(new OnClickListener() {
+        public void onClick(View v) {
+            log.setText("");
+        }
+    });
+  
+}
+</pre>
+    
+    <p>This <span class="uri">sendBtn.setOnClickListener()</span> event listener gets the text submitted by the user using <span class="uri">message.getText()</span> and then uses the <a href="../apidoc/client/android/gateway/com/kaazing/net/ws/WebSocketMessageWriter.html"><span class="uri">WebSocketMessageWriter</span></a> class to send the text message to the Gateway using the <span class="uri">writeText()</span> method. An instance of the <span class="uri">WebSocketMessageWriter</span> class is obtained by invoking the <span class="uri"><a href="../apidoc/client/android/gateway/com/kaazing/net/ws/WebSocket.html#getMessageWriter%28%29">getMessageWriter</a>()</span> method on WebSocket. Once the WebSocket connection is closed, a new <span class="uri">WebSocketMessageReader</span> should be obtained after the connection has been established. Using the old reader will result in IOException.</p>
+    
+    </li>
+    
+    <li><a name="MessageReceiver"></a>Add the <span class="uri">MessageReceiver</span> that uses the <span class="uri">WebSocketMessageReader</span> to receive binary and text messages:
+    
+<pre class="auto-links: false; brush: java; toolbar: false;">
+private class MessageReceiver implements Runnable { // run this in the background thread
+  
+  // Use WebSocketMessageReader to receive binary
+  // and text messages
+  private WebSocketMessageReader messageReader;
+
+  private MessageReceiver(WebSocketMessageReader reader) {
+      this.messageReader = reader;
+  }
+
+  public void run() {
+      WebSocketMessageType type = null;
+      try {
+          // The next() method returns the type of the received message.
+          // Returns TEXT, BINARY, and EOS if the connection is closed.
+          while ((type = messageReader.next()) != WebSocketMessageType.EOS) {
+              switch (type) {
+                  case BINARY:
+                
+                  // getBinary() returns the payload as a CharSequence.
+                  // Place sequence in a byte buffer, and send it to
+                  // getHexDump() to be converted into hexadecimal and
+                  // then ASCII characters for output.
+                  // getHexDump() is defined later in this client.
+                  ByteBuffer data = messageReader.getBinary();
+                  logMessage("RECEIVED: " + getHexDump(data));
+                  break;
+                  case TEXT:
+                  // readText() returns the payload as a CharSequence
+                  CharSequence text = messageReader.getText();
+                  logMessage("RECEIVED: " + text.toString());
+                  break;
+              }
+          }
+          if (!closedExplicitly) {
+            
+              // Connection got closed due to either of the cases
+              // - Server closing the connection because of authentication timeout
+              // - network failure
+              webSocket = null;
+              logMessage("Connection Closed!!");
+              updateButtonsForDisconnected(); // disable Disconnect button
+          }
+      }
+      catch (Exception ex) {
+          ex.printStackTrace();
+          logMessage(ex.getMessage());
+      }
+  }
+  
+}
+</pre>
+    
+    </li>
+    
+    <li>Add the <span class="uri">getHexDump()</span> method used when receiving binary messages as defined in MessageReceiver:
+    
+<pre class="auto-links: false; brush: java; toolbar: false;">
+private String getHexDump(ByteBuffer buf) {
+    if (buf.position() == buf.limit()) {
+        return "empty";
+    }
+  
+    StringBuilder hexDump = new StringBuilder();
+    for (int i = buf.position(); i &lt; buf.limit(); i++) {
+        hexDump.append(Integer.toHexString(buf.get(i)&0xFF)).append(' ');
+    }
+    return hexDump.toString();
+}
+</pre>
+    
+    </li>
+
+    <li><a name="connect"></a>Add the <span class="uri">connect()</span> to connect to the Gateway and receive messages. This method defines the parameters of the WebSocket connection (lines 21-22), connects to the Gateway (line 29), and define how received messages are handled (lines 33). Note the use of a try catch block. A try catch block is the recommended method for connections in order to catch any exceptions (lines 42-44).
+    
+<pre class="auto-links: false; brush: java; toolbar: false; highlight:[21, 22, 29, 33, 34, 42, 43, 44];">
+private void connect() {
+    closedExplicitly = false;
+    logMessage("CONNECTING");
+
+    // Initialize dispatch queue that will be used to run
+    // Blocking calls asynchronously on a separate thread
+    dispatchQueue = new DispatchQueue("Async Dispatch Queue");
+    dispatchQueue.start();
+    dispatchQueue.waitUntilReady();
+
+    // Since WebSocket.connect() is a blocking method that will not return until
+    // the connection is established or connection fails, it is a good practice to
+    // establish the connection on a separate thread and prevent the TUI from being blocked.
+    dispatchQueue.dispatchAsync(new Runnable() {
+        public void run() {
+            try {
+                WebSocketFactory webSocketFactory = 
+                    WebSocketFactory.createWebSocketFactory();
+
+                // Create the WebSocket connection using the target location
+                webSocket = webSocketFactory.createWebSocket(
+                    URI.create(location.getText().toString()));
+
+                // Connect with the server using an endpoint.
+                // The thread invoking this method will be blocked until 
+                // a successful connection is established. If the connection
+                // cannot be established, then an IOException is thrown 
+                // and the thread is unblocked.
+                webSocket.connect();
+                logMessage("CONNECTED");
+
+                // Call the messageReceiver() method in the MessageReceiver class
+                WebSocketMessageReader messageReader = webSocket.getMessageReader();
+                MessageReceiver messageReceiver = new MessageReceiver(messageReader);
+
+                // Receive messages as a separate thread
+                new Thread(messageReceiver).start();
+
+                // Change button state to reflect connection status
+                updateButtonsForConnected();
+
+                } catch (Exception e) {
+                    updateButtonsForDisconnected();
+                    logMessage(e.getMessage());
+                    dispatchQueue.quit();
+            }
+        }
+    });
+}
+</pre>
+    
+    </li>
+    
+    <li><a name="disconnect"></a>Add the <span class="uri">disconnect()</span> method called when a user clicks the <strong>Disconnect</strong> button.
+
+<pre class="auto-links: false; brush: java; toolbar: false;">
+private void disconnect() {
+    closedExplicitly = true;
+    disconnectBtn.setEnabled(false);
+    logMessage("DISCONNECTING");
+
+    dispatchQueue.removePendingJobs();
+    dispatchQueue.quit();
+
+    // Run this as a new thread        
+    new Thread(new Runnable() {
+        public void run() {
+            try {
+                // Close the WebSocket connection
+                webSocket.close();
+                logMessage("DISCONNECTED");
+            } catch (IOException e) {
+                logMessage(e.getMessage());
+            }
+            finally {
+                webSocket = null;
+                // Update buttons with connection status
+                updateButtonsForDisconnected();
+            }
+        }
+    }).start();
+}
+</pre>
+
+    </li>
+    
+    <li>Add the methods for when the client is paused, resumes, and when an activity is finished. 
+        <ol type="a">
+        <li>Add <span class="uri">onPause()</span> method to disconnect the WebSocket connection when the client is paused on the device.
+<pre class="auto-links: false; brush: java; toolbar: false;">
+public void onPause() {
+    if (webSocket != null) {
+        wasConnectedBeforePaused = true;
+        disconnect();
+    }
+    super.onPause();
+}
+</pre>
+        </li>
+
+        <li>Add the <span class="uri">onResume()</span> method to connect the client when it is resumed from a paused state.
+<pre class="auto-links: false; brush: java; toolbar: false;">
+public void onResume() {
+    if (wasConnectedBeforePaused) {
+        wasConnectedBeforePaused = false;
+        connect();
+    }
+    super.onResume();
+} 
+</pre>
+        </li>
+        <li>Add the <span class="uri">onDestroy()</span> method to perform any final cleanup before an activity is finished.
+<pre class="auto-links: false; brush: java; toolbar: false;">
+public void onDestroy() {
+    if (webSocket != null) {
+        disconnect();
+    }
+    super.onDestroy();
+}
+</pre>
+         </li>
+     </ol>
+    </li>
+
+    <li><a name="updating"></a>Add the methods for updating buttons according to the state of the WebSocket connection. The <span class="uri">updateButtonsForConnected()</span> method updates buttons for an active WebSocket connection and the <span class="uri">updateButtonsForDisconnected()</span> method updates buttons for an inactive connection.
+    
+<pre class="auto-links: false; brush: java; toolbar: false;">
+private void updateButtonsForConnected() {
+    runOnUiThread(new Runnable() {
+        public void run() {
+            connectBtn.setEnabled(false);
+            sendBtn.setEnabled(true);
+            disconnectBtn.setEnabled(true);
+        }
+    });
+}
+
+private void updateButtonsForDisconnected() {
+    runOnUiThread(new Runnable() {
+        public void run() {
+            connectBtn.setEnabled(true);
+            disconnectBtn.setEnabled(false);
+            sendBtn.setEnabled(false);
+        }
+    });
+}</pre>
+    </li>
+    
+    <li><a name="logMessage"></a>Add the logMessage() method for the <strong>Log</strong> area displayed in the client.
+
+<pre class="auto-links: false; brush: java; toolbar: false;">
+private void logMessage(final String logMessage) {
+    runOnUiThread(new Runnable() {
+        public void run() {
+            log.setText(logMessage + "\n" + log.getText());
+        }
+    });
+}
+</pre>
+
+    </li>
+
+    <li><a name="Run"></a>Run the Android client in the Android Emulator. Click the <strong>Run</strong> arrow, select or create a Deployment Target (with a minimum API 19: Android 4.4), and click <strong>OK</strong>. 
+     
+      <p><span class="note"><b>Note:</b> The Android Emulator can be slow and resource intensive. Another option for running Android apps on your computer is <a href="https://www.genymotion.com/">Genymotion</a>.</span></p>
+                    <figure>
+                        <img src="../images/f-html5-android-TUI-web.png" height="50%" width="50%">
+                    <figcaption><strong>Figure: The Android Client in the Android Emulator</strong></figcaption>    
+                    </figure>
+    </li>
+    
+    <li><a name="Test"></a>Test the Android client in the Android Emulator.
+        <ol type="a">
+            <li>In the Android client running in the Android Emulator, in <strong>Location</strong>, enter <span class="uri">ws://echo.websocket.org</span>.</li>
+            <li>Click <strong>Connect</strong>. The messages <span class="uri">CONNECTING</span> and then <span class="uri">CONNECTED</span> appear. The WebSocket connection was successful.</li>
+            <li>Click <strong>Send</strong>. The message <span class="uri">Hello World!</span> is sent to the Echo service over WebSocket and the message is echoed back as <span class="uri">Hello World!</span>.</li>
+            <li>Click the <strong>Send Binary</strong> checkbox and click <strong>Send</strong> again. The message <span class="uri">Hello World!</span> is sent to the Echo service over WebSocket as binary and is echoed back as:<br>
+<span class="uri">RECEIVED: 48 65 6c 6c 6f 2c 20 57 65 62 53 6f 63 6b 65 74 21<br>
+SEND BINARY: 48 65 6c 6c 6f 2c 20 57 65 62 53 6f 63 6b 65 74 21</span></li>
+        </ol>
+    </li>
+    <li>To test the Android client on an Android device, see the Android Studio documentation, <a href="https://developer.android.com/studio/run/device.html">Run Apps on a Hardware Device</a>.</li>
+</ol>
+
+<h2>Next Step</h2>
+<p><a href="../dev-java/p_dev_java_secure.html">Secure Your Java and Android Clients</a></p>
+
+                  </section>
+                </article>
+
+            </div> <!-- #main -->
+        </div> <!-- #main-container -->
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

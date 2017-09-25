@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+  
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+
+ <h1 id="upgrade-the-gateway">Upgrade the Gateway</h1>
+
+<p>The upgrade procedure migrates a Kaazing WebSocket Gateway 4.x Edition (including any associated applications) into Kaazing WebSocket Gateway release 5.0. The following checklist provides the steps necessary to upgrade Kaazing Gateway to the next release.</p>
+
+<p><strong>Note</strong>: If you are using Kaazing Gateway 3.x, please first upgrade to 4.x by following <a href="//kaazing.com/doc/gateway/4.0/upgrade/o_upgrade.html">these instructions</a>.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Step</th>
+      <th>Topic or Reference</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Understand Gateway release number strategy and the upgrade process.</td>
+      <td><a href="../c_upgrade_gw">About Kaazing Gateway Releases and Upgrades</a></td>
+    </tr>
+    <tr>
+      <td>Upgrade to the new Gateway release by unpacking the .zip for Windows or .tar.gz for Linux, UNIX, or Mac) into any directory location.</td>
+      <td><a href="../../about/setup-guide/index.html">Setting Up the Gateway</a> See <a href="../c_upgrade_gw#upgrade-options">Upgrade Options</a> for help choosing an upgrade methodology.</td>
+    </tr>
+    <tr>
+      <td>Migrate your existing Gateway configuration file and other files to the new Gateway installation.</td>
+      <td><a href="../p_migrate_gwconfig">Migrate the Gateway Configuration</a></td>
+    </tr>
+    <tr>
+      <td>If you are using a Gateway in a cluster, then you need to perform additional steps to migrate the cluster members.</td>
+      <td><a href="../../high-availability/u_high_availability#clustering-and-load-balancing-migration">Clustering and Load Balancing Migration</a> <strong>Note:</strong> Upgrade all members of the Gateway cluster before you migrate any clients.</td>
+    </tr>
+    <tr>
+      <td>Verify the Gateway is upgraded.</td>
+      <td>View the release number via Command Center, the Gateway start-up output, or the log file.</td>
+    </tr>
+    <tr>
+      <td>If you are using 4.x SPIs, update the SPI package names.</td>
+      <td>Change <code>com.kaazing.gateway.server.spi.security</code> to <code>org.kaazing.gateway.server.spi.security</code>.</td>
+    </tr>
+    <tr>
+      <td>If you are using JMX MBeans to monitor the Gateway, update the MBean paths.</td>
+      <td>In 4.<em>x</em> and 5.<em>x</em>, the MBeans path is <code>org.kaazing.gateway.server.management &gt; gateways &gt; process_id@hostname &gt; services</code>. Note that some service names may have changed or been deprecated.</td>
+    </tr>
+    <tr>
+      <td>If you used AMQP identify promotion in your LoginModule, update the package names for 5.x</td>
+      <td><a href="../../security/p_auth_user_identity_promotion/index.html">Promote User Identity into the AMQP Protocol</a></td>
+    </tr>
+    <tr>
+      <td>Learn how clients built using Kaazing Gateway can take advantage of the Kaazing Gateway client libraries.</td>
+      <td><a href="../../dev-general/c_general_client_information/index.html">General Client Information</a></td>
+    </tr>
+    <tr>
+      <td>(Recommended) Migrate Kaazing JavaScript and Java clients that use the ByteSocket API on releases 3.3 (and later releases) to the WebSocket API in release 4.<em>x</em>.</td>
+      <td><a href="../../websocket_client_docs/dev-js/p_dev_js_migrate.html">Migrate JavaScript Applications to Kaazing Gateway 4.<em>x</em>.</a>; <a href="../../websocket_client_docs/dev-java/p_dev_java_migrate.html">Migrate WebSocket and ByteSocket Applications to Kaazing Gateway 5.0</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="see-also">See Also</h2>
+
+<ul>
+  <li>Kaazing Gateway <a href="../..">documentation</a>.</li>
+</ul>
+
+
+</div>
+
+</div>
+
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

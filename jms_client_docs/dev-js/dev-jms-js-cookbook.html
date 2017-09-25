@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+  
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+<h1>JavaScript JMS Cookbook for Kaazing Gateway </h1>
+
+<p>This document contains the following sections:</p>
+<ul class="arrow-2">
+    <li><a href="#intro">Introduction</a>
+        <ul class="arrow-2">
+        <li><a href="#audience">Who Should Read This Document?</a></li>
+        <li><a href="#usage">How To Use This Cookbook</a></li>
+        <li><a href="#components">Components Used In This Cookbook</a></li>
+        </ul>
+    </li>
+    <li><a href="#app">Beginning a New Client Application</a></li>
+    <li><a href="#connect">Establishing Connections to the Server</a></li>
+    <li><a href="#receiving">Receiving Messages from a Topic or Queue</a></li>
+    <li><a href="#sending">Sending Messages</a></li>
+    <li><a href="#bidirectional">Implementing Two-Way Communication</a></li>
+    <li><a href="#reference">Reference</a>
+        <ul class="arrow-2">
+        <li><a href="#jms-model">The JMS Programming Model</a></li>
+        <li><a href="#debugging">Debugging</a></li>
+        <li><a href="#related">Related Documentation</a></li>
+        </ul>
+        </li>
+        <li><a href="#summary">Summary</a></li>
+</ul>
+         <h2><a name="intro" id="intro"></a>Introduction</h2>
+        <p>Kaazing Gateway contains JavaScript JMS client libraries to communicate with any JMS-compliant message broker, such as Apache ActiveMQ. The libraries allow you to integrate web-based applications with standard, message-driven enterprise applications. This document provides examples of the typical steps in creating the web-based application.</p>
+        
+        <span class="note"><b>Note:</b> See the <a href="../apidoc/client/javascript/jms/index.html">JavaScript JMS Client API</a> for the client libraries needed for developing web-based applications.</span>
+
+<h3><a name="audience"></a>Who Should Read This Document?</h3>
+        <p>This document is written for:</p>
+        <ul class="arrow-2">
+            <li>System architects interested in understanding how easily Kaazing Gateway applications can be integrated into their existing messaging systems.</li>
+            <li>Javascript developers assigned the task of writing the client-side, web-based JMS applications.</li></ul>
+        <p>JavaScript developers should be familiar with the following Javascript techniques in order to understand the development best practices demonstrated in this topic:</p>
+            <ul class="arrow-2">
+            <li>Instantiating classes using the <a href="https://developer.mozilla.org/en/JavaScript/Reference/Operators/new"><span class="code_inline">new</span> operator</a>. When using the JavaScript JMS Client API, the <span class="code_inline">new</span> keyword is used to create an instance of one of the predefined constructors, such as <a href="../apidoc/client/javascript/jms/JmsConnectionFactory.html" title="JsDoc: JmsConnectionFactory">JmsConnectionFactory</a>.</li>
+            <li>Writing <a href="//helephant.com/2008/08/23/javascript-anonymous-functions/">anonymous functions</a> (unnamed functions that execute immediately upon definition) and using them as callbacks. A callback function is called when a condition is met, such as when an event occurs, as opposed to a function that is called immediately. For example, you might create a function that is called when the connection is ready to use and data is flowing.</li>
+            <li>Handling errors with <a href="https://developer.mozilla.org/en/JavaScript/Reference/Statements/try...catch"><b>try</b>…<b>catch</b></a> blocks.</li>
+            </ul></p>
+            <span class="note"><b>Notes:</b><br>
+             <ul class="arrow-2">
+               <li>We also recommend the server-side <a href="//docs.oracle.com/javaee/1.3/jms/tutorial/index.html">JMS Tutorial</a> for understanding server-side JMS development.</li>
+               <li>See <a href="../../../about/kaazing-websocket-jms">About Kaazing Gateway</a> to learm more about Kaazing Gateway.</li>
+             </ul>
+            </span>
+
+<h3><a name="usage"></a>How To Use This Cookbook</h3>
+<ol>
+<li>To create your new application, start with the first two sections, <a href="#app">Beginning a New Client Application</a> and <a href="#connect">Establishing Connections to the Server</a>.</li>
+<li>Determine which topics and queues are used by your server-side application. You need to know the names of the topics and queues created by the JMS provider in order to create identities using the built-in methods of the JavaScript JMS Client API.</li>
+<li>Use the sections on receiving and sending messages to add the appropriate code to your application:
+    <ul class="arrow-2">
+        <li>To configure your application to <strong>receive</strong> messages, use the code in <a href="#receiving">Receiving Messages from a Topic or Queue</a>.</li>
+        <li>To configure your application to <strong>send</strong> messages, use the code in <a href="#sending">Sending Messages</a>.</li>
+        <li>To configure your application to <strong>send commands</strong> to the server and <strong>receive individual responses</strong>, use the code in <a href="#bidirectional">Implementing Two-Way Communication</a>.</li>
+    </ul>
+</li>
+</ol>
+
+<h3><a name="components"></a>Components Used In This Cookbook</h3>
+<p>This cookbook uses the following components:</p>
+<ul class="arrow-2">
+    <li>This cookbook assumes that you have a JMS-compliant message broker that you can use to test the code you implement in your client application. The cookbook does not contain any JMS-compliant message broker configuration steps.</li> 
+    <li>A text editor or IDE for implementing the JavaScript and HTML examples.</li> 
+    <li>Kaazing Gateway. See <a href="../../about/setup-guide/index.html">Setting Up the Gateway and Clients</a> for information about configuring the Gateway.</li>
+</ul>
+
+<h2><a name="app"></a>Beginning a New Client Application</h2>
+<p>Every Kaazing Gateway installation has a <span class="code_inline">base</span> directory (for example, in Windows, <span class="code_inline">C:\<em>GATEWAY_HOME</em>\web\base</span>) where applications reside. Each application must have its own directory and copy of the JavaScript client libraries. This section walks you through creating a client application directory and populating it with the required libraries and starter code.</p>
+
+<h3>Create a Client Application Directory</h3>
+<ol>
+<li>Navigate to <span class="code_inline"><em>GATEWAY_HOME</em>/web/base</span> and create a new folder named after your application (for example, <em>myapp</em>). </li>
+<li>Copy the <span class="code_inline"><em>GATEWAY_HOME</em>/lib/client/javascript</span> folder into your new application folder and change its name from <strong>javascript</strong> to <strong>lib</strong> (for example, <span class="code_inline"><em>GATEWAY_HOME</em>/web/base/myapp/<b>lib</b></span>).</li>
+</ol>
+<h3>Create Your Starting Files</h3>
+<ol>
+<li>Create a file named <strong>index.html</strong> in your application folder and paste the following template into it:
+<pre class="auto-links: false; brush: js; toolbar: false; highlight:[5,30]; html-script: true;">
+&lt;!DOCTYPE html>
+&lt;html>
+&lt;head>
+  &lt;meta charset="utf-8">
+  &lt;title>My application&lt;/title>
+
+  &lt;!-- Optional: Enable Internet Explorer 6/7 cross-origin messaging -->
+  &lt;meta name="kaazing:postMessageBridgeURL" content="PostMessageBridge.html">
+
+  &lt;!-- Reference the WebSocket and JavaScript JMS libraries in the lib folder -->
+  &lt;script src="lib/WebSocket.js">&lt;/script>
+  &lt;script src="lib/jms/JmsClient.js">&lt;/script>
+
+  &lt;!-- Reference the JavaScript file you will create -->
+  &lt;script src="app.js">&lt;/script>
+
+  &lt;!--
+  Create a function to run when the page loads.
+  This function will be expanded later.
+  -->
+  &lt;script>
+    /* TODO: Change URL as needed */
+    var url = "ws://localhost:8000/jms";    
+    window.onload = function() {
+      beginConnection(url);
+    }
+  &lt;/script>
+&lt;/head>
+
+&lt;body>
+&lt;!-- TODO: Your page body goes here -->
+&lt;/body>
+&lt;/html>
+</pre></li>
+<li>Customize the title and body of the page. See lines 2 and 30 in the above code example.</li>
+<li>Create a JavaScript file named <strong>app.js</strong> in the same directory as <strong>index.html</strong>.</li>
+<li>Follow the directions in <a href="#connect">Establishing connections to the server</a> to prepare <strong>app.js</strong>.</li>
+</ol>
+         
+<h2><a name="connect"></a>Establishing Connections to the Server</h2>
+<p>This section shows you how to add standard boilerplate for creating a connection from your application to the Gateway and to your back-end JMS-compliant message broker. The code needed to create a JMS Connection via WebSocket from your application to the Gateway and the JMS-compliant message broker is standard, boilerplate code. Every application has a single <span class="code_inline">JmsConnectionFactory</span> and at least one <span class="code_inline">Connection</span> and <span class="code_inline">Session</span>. (The <a href="../apidoc/client/javascript/jms/Connection.html" title="JsDoc: Connection">Connection</a> object is a client's active connection to its JMS provider. The <a href="../apidoc/client/javascript/jms/Session.html" title="JsDoc: Session">Session</a> object is a single-threaded context for producing and consuming messages.) Once the connection is configured, you can modify the Connection and Session as needed.</p>
+<span class="note"><b>Note:</b> To help you understand the following example, review the following API components and the jms service: 
+    <ul class="arrow-2">
+        <li><a href="../../../admin-reference/r_conf_jms/index.html#stompjms">jms</a></li> 
+        <li><a href="../apidoc/client/javascript/jms/Session.html" target="_blank">Session</a></li> 
+        <li><a href="../apidoc/client/javascript/jms/Connection.html" target="_blank">Connection</a></li> 
+        <li><a href="../apidoc/client/javascript/jms/JmsConnectionFactory.html" target="_blank">JmsConnectionFactory</a></li>
+        <li><a href="../apidoc/client/javascript/jms/ConnectionFuture.html" target="_blank">ConnectionFuture</a></li>
+    </ul>
+</span><br>
+
+<ol>
+<li>Add this Javascript code to your <strong>app.js</strong> file:
+<pre class="auto-links: true; brush: js; toolbar: false;">
+// Create a variable to store the connection            
+var connection = null;
+
+/*
+Create a function for creating a session and setting up 
+Topics, Queues, Consumers, Providers, and Listeners.
+The following function is called when the connection has been created
+but before starting the flow of data. 
+*/
+function setUp() {
+    // Typical session options shown.
+    var session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+    // Add your code here to set up Topics, Queues, Consumers, Providers, and Listeners.
+}
+
+// The following function is called when the connection is ready to use and data is flowing.
+function connectionStarted() {
+    // Add code here when you need to do something after the connection starts.
+}
+
+// This function is called from the index.html page when the page loads
+function beginConnection(url) {
+    // If the connection already exists, call the function for handling running connections.
+    if (connection) {
+        connectionStarted();
+    } else {
+        /* 
+        Create a new object for the JMS connection to a JMS provider via WebSocket
+        using the built-in constructor JmsConnectionFactory.
+        */
+        var factory = new JmsConnectionFactory(url);
+        /*
+        Create the actual JMS Connection via WebSocket using the createConnection() method.
+        When the connection is created, the callback function with the try...catch is invoked.
+        */
+        var future = factory.createConnection(function() {
+            try {
+                /*
+                Once the callback is invoked, client applications should use
+                ConnectionFuture.getValue() to fetch the actual connection.
+                getValue() returns the value from an asynchronous operation.
+                */
+                connection = future.getValue();
+                /* 
+                With the connection established, but before starting the flow of data,
+                create the session.
+                */
+                setUp();
+                /*
+                Call the function to use when the connection
+                is ready to use and data is flowing.
+                */
+                connection.start(connectionStarted);
+            } catch(e) {
+                alert(e.message);
+            }
+        });
+    }
+}
+}
+</pre>
+    <p>The call to <span class="code_inline">factory.createConnection</span> deserves some explanation. Creating a connection takes time, and you do not want to block the browser while this is happening. The <span class="code_inline">factory.createConnection</span> method solves the problem in three steps:</p>
+
+    <ol style="list-style-type: lower-alpha;">
+        <li><span class="code_inline">createConnection</span> returns a <span class="code_inline">ConnectionFuture</span> object immediately. This is a placeholder object that will be filled in when the connection is ready.</li>
+        <li><span class="code_inline">createConnection</span> also takes a callback function that will be called when the connection is ready.</li>
+        <li>The callback should call <span class="code_inline">getValue()</span> on the <span class="code_inline">ConnectionFuture</span> to retrieve the actual Connection object.</li>
+    </ol>
+</li>
+<li>Customize the <span class="code_inline">setUp()</span> function to create topics, queues, listeners, and producers.</li>
+<li>Customize the <span class="code_inline">connectionStarted()</span> function if you need to do something right after the connection starts such as <a href="#sending">sending a message</a>.</li>
+<li>Call <span class="code_inline">beginConnection()</span> with a WebSocket URL (for example, <span class="code_inline">ws://example.com:8000/jms</span>) after the page has loaded.</li>
+</ol>
+
+<span class="note"><b>Notes:</b><br>
+ <ul class="arrow-2">
+    <li>The <span class="code_inline">connection</span> variable is defined as a global. If you want to avoid using globals, package this code into a Javascript class or use the <a href="//addyosmani.com/resources/essentialjsdesignpatterns/book/#modulepatternjavascript" target="_blank">module pattern</a>.</li>
+    <li>The error handling (<span class="code_inline">catch(e)</span>) is in the code as a placeholder. You will want to improve this error handling to suit your needs.</li>
+    <li>You might need to configure the Gateway to accept incoming connections on your selected port (such as port 8000):
+    </li>
+ </ul>
+<ol style="margin-left:25px;">
+    <li>Open the file <span class="code_inline"><em>GATEWAY_HOME</em>/conf/gateway-config.xml</span>.</li>
+    <li>Under the <span class="code_inline">jms</span> service entry, add a second <span class="code_inline">&lt;accept&gt;</span> statement:
+        <p class="code"> &lt;accept&gt;ws://build-macmini3.kaazing.test:8000/jms&lt;/accept&gt;</p>
+        <p>The section should now look like the following:</p>
+        <pre class="brush: xml; highlight: 3; toolbar: false;">
+        &lt;service&gt;
+            &lt;accept&gt;ws://build-macmini3.kaazing.test:${gateway.extras.port}/jms&lt;/accept&gt;
+            &lt;accept&gt;ws://build-macmini3.kaazing.test:8000/jms&lt;/accept&gt;
+            &lt;type&gt;jms&lt;/type&gt;
+        .
+        .
+        .
+        &lt;/service&gt;</pre>
+    </li>
+  <!-- Added the following as part of KG-8732 -->
+  <li>According to the JMS API, the <code>connection.start()</code> method is called when the application is ready to receive messages. It does not have any effect on sending the messages. You can create a producer from the session and send message without starting the connection. For more information, see <a href="//docs.oracle.com/javaee/1.4/api/javax/jms/Connection.html">Connection</a> in the JMS API.</li>
+</ol>
+</span>
+
+<h2><a name="receiving"></a>Receiving Messages from a Topic or Queue</h2>
+<p>Typically, an application listens for JMS Topics and Queues created by the server and might create <i>temporary</i> topics and queues client-side. A client-side <b>Listener</b> passes the incoming messages to a callback function.</p>
+<span class="note"><b>Note:</b> To help you understand the following example, review the following API components: 
+    <ul class="arrow-2">
+        <li><a href="../apidoc/client/javascript/jms/Session.html" target="_blank">Session</a></li> 
+        <li><a href="../apidoc/client/javascript/jms/MessageConsumer.html" target="_blank">MessageConsumer</a></li> 
+        <li><a href="../apidoc/client/javascript/jms/Message.html" target="_blank">Message</a></li>
+    </ul>
+</span><br>
+
+<!-- NOTE: Use /topic/topic.stock for TIBCO -->
+<pre class="auto-links: true; brush: js; toolbar: false;">
+// Creates a topic identity given a Topic name.
+var topic = session.createTopic("topic.stock");
+/*
+Creates a MessageConsumer object for the specified destination.
+A client uses a MessageConsumer object to receive messages 
+that have been published to a destination.
+*/
+var consumer = session.createConsumer(topic);
+// Sets the message consumer's MessageListener.
+consumer.setMessageListener(onMessage);
+</pre>
+<p>The message listener takes a JMS message as a parameter and can use the JMS API calls to read values:
+<pre class="auto-links: true; brush: js; toolbar: false;">
+/*
+The Message interface is the root interface of all JMS messages.
+It defines the message header and the acknowledge method used for all messages.
+*/
+function onMessage(message) {
+  // message.getStringProperty('status');
+}
+</pre>
+</p>
+<h3>Integrating Topics and Queues With Your Application</h3>
+<p>
+<ol><!-- TODO add links -->
+<li>Review the <a href="../apidoc/client/javascript/jms/Session.html" title="JsDoc: Session">Session</a> documentation for createTopic, createQueue, createTemporaryTopic, createTemporaryQueue, and createConsumer.</li>
+<li>Using the <a href="#connect">connection boilerplate code</a>, create the topics, queues, listeners, etc. inside the <span class="code_inline">setUp()</span> function:
+<pre class="auto-links: false; brush: js; toolbar: false; highlight:[5,6,7]">
+function setUp() {
+  // Typical session options shown.
+  var session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+  // Add your code here to set up Topics, Queues, Consumers, Providers, and Listeners
+  var topic = session.createTopic("topic.stock");
+  var consumer = session.createConsumer(topic);
+  consumer.setMessageListener(onMessage);
+}
+</pre></li>
+<li>Add the message listeners at the same level as the <span class="code_inline">setUp()</span> function in the <a href="#connect">connection boilerplate code</a>:
+<pre class="auto-links: false; brush: js; toolbar: false; first-line:7; highlight:[10,11]">
+  consumer.setMessageListener(onMessage);
+}
+
+function onMessage(message) {
+}
+</pre></li></ol>
+</p>
+
+
+<h2><a name="sending"></a>Sending Messages to JMS Topics and Queues</h2>
+<p>Clients send messages to JMS Topics and Queues established by the server.</p>
+<span class="note"><b>Note:</b> To help you understand the following example, review the following API components: 
+    <ul class="arrow-2">
+        <li><a href="../apidoc/client/javascript/jms/Session.html" target="_blank">Session</a></li> 
+        <li><a href="../apidoc/client/javascript/jms/Message.html" target="_blank">Message</a></li>
+    </ul>
+</span><br>
+
+<!-- NOTE: Use /queue/queue.command for TIBCO -->
+<pre class="auto-links: true; brush: js; toolbar: false;">
+var commandQueue = session.createQueue("/queue.command");
+var commandProducer = session.createProducer(commandQueue);
+var message = session.createTextMessage('do something');
+commandProducer.send(message);
+</pre>
+<p>The <span class="code_inline">send()</span> method accepts an optional function to call after sending the message:
+<pre class="auto-links: false; brush: js; toolbar: false; first-line:5">
+commandProducer.send(message, function() {
+  // e.g. send another message. You still have access to the session here.
+});</pre>
+</p>
+<p>Note that <span class="code_inline">createTextMessage</span> sets the message payload. You can also set individual properties on the message:
+<pre class="auto-links: false; brush: js; toolbar: false; first-line:5">
+message.setStringProperty('command', 'login');
+</pre></p>
+
+<h3>Integrating Messaging Sending With Your Application</h3>
+<p>
+<ol><!-- TODO add links -->
+<li>Review the <a href="../apidoc/client/javascript/jms/Session.html" title="JsDoc: Session">Session</a> documentation for createTopic, createQueue, and createProducer.</li>
+<li>Using the <a href="#connect">connection boilerplate code</a>, create the topics, queues, producers, etc. inside the <span class="code_inline">setUp()</span> function:
+<pre class="auto-links: false; brush: js; toolbar: false; highlight:[5,6]">
+function setUp () {
+  // Typical session options shown.
+  var session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+  // Add your code here to set up Topics, Queues, Consumers, Providers, and Listeners
+  var commandQueue = session.createQueue("/queue.command");
+  var commandProducer = session.createProducer(commandQueue);
+}
+</pre></li>
+<li>Create and produce your messages as needed. Note: You will need the <span class="code_inline">session</span> value.</li></ol>
+</p>
+
+<h2><a name="bidirectional"></a>Implementing Two-Way Communication</h2>
+<p>This section provides examples of how to add two-way communication between your client and your JMS-compliant message broker. Many clients will need to send requests to the broker and receive individual responses. The easiest way to do this is with a public command queue on the broker and a temporary queue on the client (for responses). In cases where JMS messages have a <br><span class="code_inline">reply-to</span> field, the client sets the reply address back to its temporary queue.</p>
+<span class="note"><b>Note:</b> To help you understand the following example, review the following API components: 
+    <ul class="arrow-2">
+        <li><a href="../apidoc/client/javascript/jms/Session.html" target="_blank">Session</a></li> 
+        <li><a href="../apidoc/client/javascript/jms/Message.html" target="_blank">Message</a></li>
+    </ul>
+</span><br>
+
+<pre class="auto-links: true; brush: js; toolbar: false;">
+var sendCount = 0;
+
+// Configure your application to receive responses
+var responseQueue = session.createTemporaryQueue();
+var responseConsumer = session.createConsumer(responseQueue);
+responseConsumer.setMessageListener(onCommandResponse);
+
+// Construct the message to send to the server
+var commandMessage = session.createTextMessage('');
+commandMessage.setStringProperty('command', command);
+
+// Send the message to the server
+commandMessage.setJMSReplyTo(responseQueue);
+commandMessage.setJMSCorrelationID('cmd-' + sendCount++);
+commandProducer.send(commandMessage); 
+
+// Handle the response from the server when it arrives
+function onCommandResponse(response) {
+    try {
+        // The following string properties must match 
+        // the strings that the server-side code supplies
+        var status = response.getStringProperty('status');
+        if (status != 'ok')
+            return;
+        var result = response.getStringProperty('result');
+        // Use the data for the purposes of your application
+    } catch (exception) {
+        window.alert(exception);
+    }
+}
+</pre>
+<h3>Integrating Two-Way Communication With Your Application</h3>
+<p>In this section, we'll create topics and queues to send to the JMS-compliant message broker, and then add a message listener for responses.</p>
+<p>
+<ol>
+<li>Create a global counter for the number of sent messages. This step is optional, but it is useful for debugging. The temporary queue is added here to simplify sending messages later.
+<pre class="auto-links: false; brush: js; toolbar: false; highlight:[2,3]">
+var connection;
+var sendCount = 0;
+var responseQueue;
+</pre>
+</li>
+<li>Using the <a href="#connect">connection boilerplate code</a>, edit the <span class="code_inline">setUp()</span> function to create the required topics and queues:
+<pre class="auto-links: false; brush: js; toolbar: false; highlight:[6,7,8]">
+function setUp () {
+  var session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+  var commandQueue = session.createQueue("/queue.command");
+  var commandProducer = session.createProducer(commandQueue);
+
+  responseQueue = session.createTemporaryQueue();
+  var responseConsumer = session.createConsumer(responseQueue);
+  responseConsumer.setMessageListener(onCommandResponse);
+}
+</pre></li>
+<li>Add the message listener for the command responses as a peer of <span class="code_inline">setUp()</span>:
+<pre class="auto-links: false; brush: js; toolbar: false; first-line:8; highlight:[11,12]">
+  responseConsumer.setMessageListener(onCommandResponse);
+}
+
+function onCommandResponse(response) {
+}
+</pre></li></ol>
+</p>
+<h3>Typical Server-Side Code</h3>
+<p>The server should extract the JmsReplyTo value (<a href="../apidoc/client/javascript/jms/Message.html#getJMSReplyTo">getJMSReplyTo</a>) and use it as the address for the return message (lines 2, 4, and 10.) Also copy the correlation ID (<a href="../apidoc/client/javascript/jms/Message.html#getJMSCorrelationID" title="JsDoc: Message">getJMSCorrelationID</a>) from the original message to the response when available (line 7).</p>
+<span class="note"><b>Note:</b> To help you understand the following example, review the following JMS client and server-side components:<br>
+    <ul class="arrow-2">
+        <li><a href="../apidoc/client/javascript/jms/Message.html">Message</a></li>
+        <li><em><a href="//docs.oracle.com/javaee/1.3/jms/tutorial/index.html" target="_blank">JMS Tutorial</a></em></li>
+    </ul>
+</span><br>
+    
+<pre class="auto-links: true; brush: java; toolbar: false; highlight:[2, 3, 4, 7, 10]">
+void sendResponse(Message commandMessage, String command, String status) throws JMSException {
+    Destination responseQueue = commandMessage.getJMSReplyTo();
+    if ( responseQueue != null ) {
+        MessageProducer producer = _commandSession.createProducer(responseQueue);
+        TextMessage response = _commandSession.createTextMessage();
+        response.setText("-");
+        response.setJMSCorrelationID(commandMessage.getJMSCorrelationID());
+        response.setStringProperty("command", command);
+        response.setStringProperty("status", status);
+        producer.send(response, DeliveryMode.NON_PERSISTENT, Message.DEFAULT_PRIORITY, 0L);
+    }
+}
+</pre>
+
+<h2><a name="reference"></a>Reference</h2>
+         <h3><a name="jms-model"></a>The JMS programming model</h3>
+         <p>The JMS client library is modeled on the <a href="//docs.oracle.com/javaee/1.3/jms/tutorial/index.html" target="_blank">Java Message Service</a> APIs:</p>
+         <table>
+         <thead>
+         <tr><th>Object</th><th>Role</th><th>Created by</th></tr>
+         </thead>
+         <tbody>
+         <tr><td>Connection Factory</td><td>Manages connections to the server</td><td>Call <code>new <a href="../apidoc/client/javascript/jms/JmsConnectionFactory.html">JmsConnectionFactory</a></td></tr>
+         <tr><td>Connection</td><td>Handles multiple message streams</td><td>Ask the factory: <code>factory.<a href="../apidoc/client/javascript/jms/Connection.html">createConnection</a></code></td></tr>
+         <tr><td>Session</td><td>Handles a group of topics and queues</td><td>Ask the connection: <code>connection.<a href="../apidoc/client/javascript/jms/Session.html">createSession</a></code></td></tr>
+         <tr><td>Consumer</td><td>Reads messages from a Topic or Queue</td><td>Ask the session: <code>session.<a href="../apidoc/client/javascript/jms/Session.html#createConsumer">createConsumer(topic)</a></code></td></tr>
+         <tr><td>Producer</td><td>Sends messages to a Topic or Queue</td><td>Ask the session: <code>session.<a href="../apidoc/client/javascript/jms/Session.html#createProducer">createProducer(topic)</a></code></td></tr>
+         <tr><td>Topic</td><td>Holds a reference to a JMS topic (on server)</td><td>Ask the session: <code>session.<a href="../apidoc/client/javascript/jms/Session.html#createTopic">createTopic</a></code></td></tr>
+         <tr><td>Temporary Topic</td><td>Holds a reference to a JMS topic (on client)</td><td>Ask the session: <code>session.<a href="../apidoc/client/javascript/jms/Session.html#createTemporaryTopic">createTemporaryTopic</a></code></td></tr>
+         <tr><td>Queue</td><td>Holds a reference to a JMS queue (on server)</td><td>Ask the session: <code>session.<a href="../apidoc/client/javascript/jms/Session.html#createQueue">createQueue</a></code></td></tr>
+         <tr><td>Temporary Queue</td><td>Holds a reference to a JMS queue (on client)</td><td>Ask the session: <code>session.<a href="../apidoc/client/javascript/jms/Session.html#createTemporaryQueue">createTemporaryQueue</a></code></td></tr>
+         </tbody>
+         </table>
+</p>
+
+ <h3><a name="debugging"></a>Debugging</h3>
+<p>If you have trouble getting your code to work, try these debugging strategies:
+<ol>
+<li>To check for potential Javascript language errors, open the browser&rsquo;s console and check for error messages.</li>
+<li>To check for problems with JMS subscriptions or messages, add the following code before you create the <code>JmsConnectionFactory</code>:
+<pre class="auto-links: false; brush: js; toolbar: false; first-line:20; highlight:23">
+  if (connection) {
+    connectionStarted();
+  } else {
+    Tracer.setTrace(true); // enable logging
+    var factory = new JmsConnectionFactory(url);
+</pre>
+Then open the browser&rsquo;s console to see the logged messages. (This only works on browsers that implement <code>console.log</code>.)</li>
+</ol>
+</p>
+
+<h3><a name="related"></a>Related documentation</h3>
+<p><a href="../apidoc/client/javascript/jms/index.html">JavaScript JMS Client API</a></p>
+        
+<h2>Notes</h2>
+<ul class="arrow-2">
+    <li>Clients built using Kaazing Gateway 3.x libraries will work against Kaazing Gateway 4.x. If you wish to upgrade your 3.x client to the 4.x libraries, please note that the 3.x clients used a single JMS library and 4.x clients include and use separate WebSocket and JMS libraries. Update your client library file and code references to include both the WebSocket and JMS libraries, as described in the 4.x documentation.</li>
+    <li><span class="code_inline">TemporaryTopic</span> and <span class="code_inline">TemporaryQueue</span> objects are destroyed when the client loses its connection to the Gateway, or when the JMS-compliant message broker loses its connection to the Gateway. To address this, monitor the client's exception listener to handle recovery for your application. Once the connection is re-established, recreate <span class="code_inline">TemporaryTopic</span> and <span class="code_inline">TemporaryQueue</span>. <span class="code_inline">ConnectionDroppedException</span> and <span class="code_inline">ConnectionInterruptedException</span> are delivered to the connection's exception listener via <span class="code_inline">onException</span>, indicating that messages in flight might be lost, depending on message delivery options. <span class="code_inline">ConnectionRestoredException</span> is delivered to indicate that the connection through to the JMS-compliant message broker has been re-established. <span class="code_inline">TemporaryTopic</span> and <span class="code_inline">TemporaryQueue</span> should be recreated at that time to resume operations.</li>
+</ul>
+
+
+<h2><a name="summary"></a>Summary</h2>
+<p>The Javascript JMS client libraries closely match the server-side JMS libraries. For more information about the  Kaazing Gateway JavaScript JMS Client API, see <a href="../../../about/kaazing-jms-api/index.html">Kaazing Gateway JMS Client Libraries: Supported APIs</a>. </p>
+
+
+
+                  </section>
+                </article>
+
+            </div> <!-- #main -->
+        </div> <!-- #main-container -->
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

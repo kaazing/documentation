@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+  
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+<h1>Migrate JavaScript Applications to Kaazing Gateway 4.x</h1>
+
+<p>This topic explains how to migrate Kaazing Gateway 3.3-3.5 JavaScript clients built using the ByteSocket API to the WebSocket API in Kaazing Gateway 4.x. Kaazing Gateway 4.x no longer includes the ByteSocket API because the WebSocket API in the Kaazing Gateway 4.x JavaScript library supports binary messaging.</p>
+
+<p>After the simple code changes described in this topic, updated ByteSocket implementations can continue to deliver binary messages using a ByteBuffer object in which you store the bytes that you want to send. The ByteBuffer interface is now included in the WebSocket library to support existing ByteBuffer implementations. To continue to use ByteBuffer, you must replace references to ByteSocket.js with WebSocket.js.</p>
+
+<span class="note"><b>Notes:</b><br>
+ <ul class="arrow-2">
+     <li>Developers of WebSocket-based clients built using previous versions of Kaazing Gateway should be aware connection state changes in Kaazing Gateway 4.x. Previous versions of the Gateway used numeric values for <span class="code_inline">readyState</span> that are different than those in the finalized WebSocket API standard. Kaazing Gateway 4.x uses the <span class="code_inline">readyState</span> values of the WebSocket API standard. For more information, see <a href="../dev-general/c_general_client_information.html">Reading WebSocket Connection State</a>.</li>
+   <li>When using ByteBuffer in Kaazing Gateway 4.x, the Gateway defaults to sending binary messages over the network.</li>
+   <li>The numeric value of the readyState attribute of a WebSocket connection has changed to align with the finalized WebSocket API standard. For more information, see <a href="../dev-general/c_general_client_information.html">Reading WebSocket Connection State</a>.</li>
+   <li>For binary data support details specific to the Gateway, see <a href="../dev-general/c_general_client_information.html">the Gateway Configuration Options</a>.</li>
+ </ul>
+</span>
+
+<h2>Before You Begin</h2>
+<p>This procedure is part of <a href="o_dev_js.html">Checklist: Build JavaScript WebSocket Clients</a>.</p>
+
+<p><span class="note"><b>Note:</b> Learn about supported browsers, operating systems, and platform versions in the <a href="//kaazing.com/download/">Release Notes</a>.</span></p>
+
+<h2>To Migrate ByteSocket Applications to Kaazing Gateway 4.x</h2>
+
+<ol>
+    <li>In your JavaScript client, replace the following <span class="code_inline">script</span> tag:
+<pre class="auto-links: false; brush: html; toolbar: false;">
+&lt;script src=&quot;/javascript/ByteSocket.js&quot;&gt;&lt;/script&gt;
+</pre>
+    <p>with <span class="code_inline">script</span> tags for the WebSocket library (that also contains the ByteBuffer code):</p>
+<pre class="auto-links: false; brush: html; toolbar: false;">
+&lt;script src=&quot;/javascript/WebSocket.js&quot;&gt;&lt;/script&gt;
+</pre>
+    </li>
+    
+    <li>Replace ByteSocket objects with WebSocket objects. For example, replace:
+<pre class="auto-links: false; brush: js; toolbar: false;">
+byteSocket = new ByteSocket(&quot;ws://example.com:8000/path&quot;);</pre>
+
+    <p>with:</p>
+
+<pre class="auto-links: false; brush: js; toolbar: false;">
+var factory = new WebSocketFactory();
+websocket = factory.createWebSocket(&quot;ws://example.com:8000/path&quot;);
+websocket.binaryType = "bytebuffer";
+</pre>
+<p>The <span class="code_inline">websocket.binaryType = "bytebuffer"</span> statement creates a <span class="code_inline">ByteBuffer</span> object with the data received from the WebSocket message event. This is similar to how ByteSocket data objects were managed in Kaazing Gateway 3.x.</p>
+    </li>
+    
+    <li><p>The remaining code from a ByteSocket object needs only a minor change (highlighted below). When you send messages, you send binary data using a ByteBuffer object as shown in the following example. Since you are sending binary data, you first have to create a ByteBuffer object in which you store the bytes that you want to send.</p>
+    <p>Here is an example of ByteSocket code from earlier versions of Kaazing Gateway. The function takes a text string entered by a user (<span class="code_inline">message.value</span>), puts the string into a buffer using the UTF-8 character set to encode the string as bytes (<span class="code_inline">putString()</span>), flips the buffer to put in read mode (<span class="code_inline">flip()</span>), and sends the buffer to the Gateway (<span class="code_inline">byteSocket.send(buf)</span>):</p>
+<pre class="auto-links: false; brush: js; toolbar: false;">
+send.onclick = function() {
+    var buf = new ByteBuffer();
+    buf.putString(message.value, Charset.UTF8);
+    buf.flip();
+    log("SENT: " + buf);
+    byteSocket.send(buf);
+}
+</pre>
+    <p>Here is the equivalent function in WebSocket code from Kaazing Gateway 4.x:</p>
+<pre class="auto-links: false; brush: js; toolbar: false;">
+send.onclick = function() {
+    var buf = new ByteBuffer();
+    buf.putString(message.value, Charset.UTF8);
+    buf.flip();
+    log("SENT: " + buf);
+    websocket.send(buf);
+}
+</pre>
+    <p>Note that the only different in these functions is that the ByteSocket object (<span class="code_inline">byteSocket</span>) is changed to a WebSocket object (<span class="code_inline">websocket</span>).</p>
+    </li>
+</ol>
+
+<p>For more information, see the ByteBuffer in the <a href="//kaazing.com/doc/gateway/4.0/apidoc/client/javascript/gateway/index.html" target="_blank">JavaScript API</a>.</p>
+
+<h2>Binary Support with Blob and Array Buffer</h2>
+<p>In addition to including binary support with ByteBuffer, Kaazing Gateway 4.x includes support for blob and array buffer.</p>
+
+<ul class="arrow-2">
+    <li><strong>Blob</strong> - A pointer to a single, raw binary object called a blob (binary large object). Blobs can be multimedia, images, or even executable code. Blob objects are considered safe to spool to disk because the entire data object is intact. You might use a Blob data type when you do not intend to manipulate the data, but simply write it to disk, or you might use a blob when you want to slice a file into byte ranges. The blob data type will work on any web browser that supports the <a href="//www.w3.org/TR/FileAPI/" title="File API">File API</a>. For a list of web browsers that support the File API, see <a href="//caniuse.com/#feat=fileapi">caniuse.com</a>.</li>
+    <li><strong>ArrayBuffer</strong> - A fixed-length binary data buffer used to store data temporarily. You use a ArrayBufferView mask, such as Uint8Array, to view, index and manipulate the raw binary of the ArrayBuffer. There are different ArrayBufferView masks for different integer and floating point values (for example, you use a Uint16Array view to manipulate a 16-bit array of unsigned integers).<br>Use an ArrayBuffer data type instead of a Blob when you intend to work with the data, such as perform a calculation on the data. The ArrayBuffer data type is supported by web browsers that support the <a href="https://www.khronos.org/registry/typedarray/specs/latest/#7">Typed Array Specification</a>. For a list of web browsers that support the Typed Array Specification, see <a href="//caniuse.com/#feat=typedarrays">caniuse.com</a>.</li> 
+</ul>
+
+<p>Here is an example of a function using blob:</p>
+
+<pre class="auto-links: false; brush: js; toolbar: false;">
+//  Run this function when the Send Blob button is clicked
+sendBlob.onclick = function() {
+    try {
+        /* Use BlobUtils to create a Blob from a string via UTF-8 encoding. 
+        Returns a blob instance*/
+        var blob = BlobUtils.fromString(message.value, "transparent");
+        // Log the blob
+        log("SEND BLOB: " + blob);
+        // Identify the data type of the WebSocket connection as blob
+        websocket.binaryType = "blob";
+        // Send the blob over WebSocket
+        websocket.send(blob);
+    } catch (e) {
+        log("EXCEPTION: "+e);
+    }
+}
+</pre>
+
+<p>Note the binaryType specified for the WebSocket message is <span class="code_inline">websocket.binaryType = "blob"</span>. Blob is the default binary type for a binary message, but you must specify a value for <span class="code_inline">binaryType</span>.
+</p>
+
+<p>Here is an example of a function using ByteBuffer and the browser’s support for ArrayBuffer to convert a string into binary and then send that binary as an array buffer:</p>
+
+<pre class="auto-links: false; brush: js; toolbar: false;">
+// Takes a string and returns an array of bytes decoded as UTF8
+var getBytes = function(str) {
+    // Create a new ByteBuffer container for the binary data
+    var buf = new ByteBuffer();
+    // Encode a string into a ByteBuffer
+    Charset.UTF8.encode(str, buf);
+    /* Flip the buffer so that it can be read starting at 0,
+    switching the buffer from writing mode to reading mode.
+    */
+    buf.flip();
+    // Return the byte array to the sendArrayBuffer function
+    return buf.array;
+}
+
+// Run this function when the Send Array Buffer button is clicked
+sendArrayBuffer.onclick = function() {
+    try {
+        /* Send the text message to the getBytes function,
+        and get a byte buffer array back
+        */
+        var bytes = getBytes(message.value);
+        // View the byte buffer as an array of 8-bit unsigned integers
+        var array = new Uint8Array(bytes);
+        // Identify the data type of the WebSocket connection as arraybuffer
+        websocket.binaryType = "arraybuffer";
+        // Send the array buffer over WebSocket
+        websocket.send(array.buffer);
+    } catch (e) {
+        // Log exceptions
+        log("EXCEPTION: "+e);
+    }
+}
+</pre>
+
+<p>Note the <span class="code_inline">binaryType</span> specified for the WebSocket message is <span class="code_inline">websocket.binaryType = "arraybuffer"</span>. Always specify the <span class="code_inline">binaryType</span> when sending a message as an Array Buffer.</p>
+
+<h2>Next Step</h2>
+<p><a href="p_dev_js_secure.html">Secure Your JavaScript Client</a></p>
+
+<h2>See Also</h2>
+<p><a href="../apidoc/client/javascript/gateway/WebSocket.html">JavaScript API</a> documentation</p>
+
+
+                  </section>
+                </article>
+
+            </div> <!-- #main -->
+        </div> <!-- #main-container -->
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

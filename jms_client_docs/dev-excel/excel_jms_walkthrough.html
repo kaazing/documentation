@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+  
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+<h1>Walkthrough: Integrate Excel with Kaazing Gateway </h1>
+
+<p>In this walkthrough, you will learn how to build a Microsoft Excel&trade; spreadsheet and Windows real-time data (RTD) server to communicate with a JMS-compliant message broker (Apache ActiveMQ) via the Kaazing Gateway. This topic has the following sections:</p>
+
+<ul>
+<li><a href="#Accomplish">What You Will Accomplish</a></li>
+<li><a href="#Before">Before You Begin</a></li>
+<li><a href="#Architecture">Architecture Overview</a></li>
+<li><a href="#Collocated">Co-located Excel and RTD Server</a></li>
+<li><a href="#Running">Running the Excel Demo</a></li>
+<li><a href="#Throttle">Configure the RTD Throttle Interval In Excel</a></li>
+<li><a href="#Syntax">Excel RTD Worksheet Function Syntax and JMS Messages</a></li>
+<li><a href="#Wrapper">VBA Wrapper Functions</a></li>
+<li><a href="#Reviewing">Reviewing the Visual Studio Project for the Demo</a></li>
+<li><a href="#Building">Building a Custom RTD server for Kaazing Gateway</a></li>
+<li><a href="#Troubleshooting">Troubleshooting</a></li>
+<li><a href="#Summary">Summary</a></li>
+<li><a href="#Resources">Resources</a></li>
+</ul>
+
+<p><span class="note"><b>Note:</b> Learn about supported browsers, operating systems, and platform versions in the <a href="//kaazing.com/download/">Release Notes</a>.</span></p>
+
+<h2><a name="Accomplish"></a>What You Will Accomplish</h2>
+
+<p>In this walkthrough, a .NET demo created using the Kaazing .NET client libraries will enable an end user to view topics and messages from a JMS-compliant message broker in an Excel spreadsheet. This walkthrough uses the publicly available Excel RTD server demo that is <a href="" title="">located on Github</a>, but you can follow the same steps to build your own RTD server that will allow an Excel spreadsheet to display real-time data from a JMS-compliant message broker.</p>
+
+<h2><a name="Before"></a>Before You Begin</h2>
+
+<p>Before starting this walkthrough, your system needs the following:</p>
+
+<ul>
+<li>Kaazing WebSocket Gateway. See <a href="../../about/setup-guide/index.html">Setting Up the Gateway and Clients</a>.</li>
+<li>JMS-compliant message broker. This walkthrough uses the Apache ActiveMQ included in the Kaazing WebSocket Gateway distribution.</li>
+<li>Microsoft Excel&trade; 2003 or higher (minimum requirement).</li>
+<li>Microsoft .NET Framework 4.5  (minimum requirement).</li>
+<li>Microsoft Visual Studio 2010  (minimum requirement).</li>
+<li>Windows Vista, Windows 7, or Windows 8  (minimum requirement).</li>
+</ul>
+
+<h2><a name="Architecture"></a>Architecture Overview</h2>
+
+<p>The following image describes the Kaazing WebSocket Gateway Excel RTD Server JMS solution architecture.</p>
+
+  <figure>
+    <img src="f-excel-jms-arch.png">
+  <figcaption><strong>Figure 1: Kaazing Gateway Excel RTD Server JMS Solution Architecture</strong></figcaption>  
+  </figure>
+
+<p>When Excel is integrated with the Gateway, the following components and data flow are at work:</p>
+
+<ul>
+  <li><p>Client computer</p>
+    <ul>
+      <li>The Excel spreadsheet is open and receiving data from the RTD server. The cells in the spreadsheet are updated by the RTD server data.</li>
+      <li>The RTD server is running locally, on the same computer as the Excel spreadsheet. The Excel spreadsheet loaded the RTD server DLL using the <code>ProgId</code> when it was opened by the user.</li>
+    </ul>
+  </li>
+  <li><p>Servers</p>
+    <ul>
+      <li>The Gateway is running and receiving the client connection from the RTD server using Kaazing .NET JMS client libraries. (In the out of the box demo described in this topic, a demo stock ticker service is running on the same server as the Gateway.) </li>
+      <li>A JMS-compliant message broker (Apache ActiveMQ) is running on a server and connected to the Gateway.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2><a name="Collocated"></a>Co-located Excel and RTD Server</h2>
+
+<p>In the Excel RTD demo available on <a href="http://example.com/">Github</a>, the Excel spreadsheet and the RTD server are running co-located on the same client computer. It is possible to run an RTD server and Excel on separate computers and communicate with each other using DCOM.</p>
+
+<p>The RTD server is simply a COM object that implements the <code>IRtdServer</code> interface. Excel includes an <code>IRTDUpdateEvent</code> interface. The RTD server and Excel communicate with each other by calling into these interfaces. This is done through COM when the RTD server is running on the local computer, and it is done through DCOM when the RTD server is on a separate computer. For more information, see <a href="//msdn.microsoft.com/en-us/library/aa140060%28v=office.10%29.aspx" title="Real-Time Data: Frequently Asked Questions">Real-Time Data: Frequently Asked Questions</a> from Microsoft.</p>
+
+<h2><a name="Running"></a>Running the Excel Demo</h2>
+
+<p>Kaazing provides a <a href="http://example.com/">publicly available demo</a> of Excel and RTD server integration with the Gateway. The following steps describe how to view and examine the demo.</p>
+
+<span class="note"><b>Note:</b> The demo uses Excel and RTD server for a generic example using JMS messages and message properties. If you want to deploy a solution using other elements or features of JMS messages such as MapMessage, etc, you must build your own RTD server and Excel spreadsheet.</span>
+
+<ol>
+  <li>Download and install the Kaazing WebSocket Gateway as described in <a href="../../about/setup-guide/index.html">Setting Up the Gateway and Clients</a>.</li>
+
+  <li>Download the zip file <strong>Kaazing.JMS.RealTimeStockTickerExcelDemo.zip</strong> from <a href="http://example.com/">Github</a>.</li>
+
+  <li><p>In the extracted folder, run <strong>setup.exe</strong>. For the setup wizard to install the Excel spreadsheet, the RTD server, and the Visual Studio project files.</p>
+  
+  <p>By default on a 64-bit system, the Excel spreadsheet and the Visual Studio project files are installed here: <span class="uri">C:\Program Files (x86)\Kaazing\Real-Time Excel JMS Demo</span>.</p>
+  
+  <span class="note"><b>Note:</b> When setup.exe is executed on a 64-bit machine that has both 32-bit and 64-bit Microsoft .NET installed, setup.exe registers the RTD Server DLL (Kaazing.JMS.RealTimeStockTickerExcelDemo.dll) as a COM assembly for both 32-bit and 64-bit environments. This dual registration enables both 32-bit and 64-bit versions of Excel to use the RTD server.</span>
+  
+  </li>
+
+  <li>Start the Gateway and Apache ActiveMQ as described in <a href="../../about/setup-guide/index.html">Setting Up the Gateway and Clients</a>. For example, <code>./bin/gateway.start.bat --broker amqp</code>.</li>
+
+  <li>Start the demo services by navigating to the <span class="uri"><em>GATEWAY_HOME</em>\bin</span> directory and running the <strong>demo-services.start.bat</strong> script.</li>
+
+  <li>Start the Gateway. In Windows Explorer, navigate to the <span class="uri"><em>GATEWAY_HOME</em>\bin</span> directory and double-click the <strong>gateway.start.bat</strong> script. If you installed the Gateway using the installer, the Gateway is currently running.</li>
+
+  <li><p>Open the Excel spreadsheet installed by <strong>setup.exe</strong>. By default for 64-bit systems, the Excel spreadsheet and the Visual Studio project files are installed here: <span class="uri">C:\Program Files (x86)\Kaazing\Real-Time Excel JMS Demo</span>.</p>
+  
+  
+    <figure>
+      <img src="f-excel-jms-spreadsheet.png">
+    <figcaption><strong>Figure 2: Excel Spreadsheet for RTD Server Connection</strong></figcaption>  
+    </figure>
+  
+  </li>
+
+  <li>When the spreadsheet is open, click the <strong>Configuration</strong> spreadsheet (second spreadsheet in the workbook). This sheet contains the Excel-to-RTD server connection configuration values that you can modify. Modify the URL value to point to the hostname of the server running the Gateway, if the Gateway is not running locally (<strong>localhost</strong> is the default).</li>
+
+  <li><p>On the <strong>Portfolio</strong> spreadsheet, click the <strong>Connect</strong> button. The cells of the spreadsheet are updated with new values from the JMS messages received by the RTD server.</p>
+  
+  <figure>
+    <img src="f-excel-jms-connected.png">
+  <figcaption><strong>Figure 3: Excel Spreadsheet Connected</strong></figcaption>  
+  </figure>
+
+  <p>If you do not see any data, go to the <strong>Configuration</strong> sheet and check that the <strong>URL</strong> is correct. As a test, open a browser on the URL <span class="uri">http://localhost:8001/demo/index.html</span>, and click the <strong>JavaScript Stock Demo</strong>. Paste the URL from the spreadsheet into the stock demo <strong>Location</strong> field and click <strong>Connect</strong>. If you do not see data, then there is something wrong with connectivity to the Gateway. If you do see data, then there is something wrong with the spreadsheet connection to the RTD server.</p>
+  
+  </li>
+
+  <li>Customize the interval of the updates to the spreadsheet by following the steps in <a href="#Throttle">Configure the RTD Throttle Interval In Excel</a>, and then learn how the spreadsheet formulas work in <a href="#Syntax">Excel RTD Worksheet Function Syntax and JMS Messages</a>.</li>
+
+</ol>
+
+<h2><a name="Throttle"></a>Configure the RTD Throttle Interval In Excel</h2>
+
+<p>If the stock prices (JMS messages) in a spreadsheet do not update rapidly, or they all appear to refresh simultaneously, the most likely cause is that the Excel <strong>Application.RTD.ThrottleInterval</strong> setting is too low. The throttle interval is how frequently Excel refreshes data from the RTD server. The default setting is 2000 milliseconds (2 seconds).</p>
+
+<p>To change the settings, follow these instructions:</p>
+
+<ol>
+  
+  <li>Press <strong>Alt+F11</strong> to open the Visual Basic Editor. You can also press the Visual Basic button on the <strong>Developer</strong> tab of the ribbon.</li>
+  
+  <li>Open the <strong>Immediate Window</strong>, if it is not already open. You can press <strong>Ctrl+G</strong> or select <strong>View > Immediate Window</strong> from the menu.</li>
+  
+  <li>In the <strong>Immediate Window</strong>, type <code>? Application.RTD.ThrottleInterval</code> and press <strong>Enter</strong>. This will query the current value of the setting.</li>
+  
+  <li>Still in the <strong>Immediate Window</strong>, type <code>Application.RTD.ThrottleInterval=100</code> and press <strong>Enter</strong>. This command sets the throttle interval to 100 milliseconds. You can set it to any value you like. If you set it to 0, then Excel will check for changes from the RTD as fast as possible. The setting is permanently saved in Excel. All spreadsheets will use the new setting.</li>
+  
+  <li><p>To check that your setting worked, repeat Step #3. For example:</p>
+  
+<pre>
+? Application.RTD.ThrottleInterval
+  2000 
+Application.RTD.ThrottleInterval=100
+? Application.RTD.ThrottleInterval
+  100
+</pre>
+  
+  </li>
+  
+  <li>Go back to the <strong>Portfolio</strong> spreadsheet and the stock prices should update rapidly.</li>
+  
+</ol>
+
+<p>For more information, see the <strong>Application.RTD.ThrottleInterval</strong> setting in the Excel RTD documentation: <a href="//msdn.microsoft.com/en-us/library/aa140060%28v=office.10%29.aspx#odc_xlrtdfaq_howconfigrtdthrottle">http://msdn.microsoft.com/en-us/library/aa140060%28v=office.10%29.aspx#odc_xlrtdfaq_howconfigrtdthrottle</a>.</p>
+
+<h2><a name="Syntax"></a>Excel RTD Worksheet Function Syntax and JMS Messages</h2>
+
+<p>The Excel spreadsheet uses the RTD function to retrieve real-time data from a program that supports COM automation (the RTD server). For details of the architecture, see <a href="//msdn.microsoft.com/en-us/library/aa140060%28v=office.10%29.aspx#odc_xlrtdfaq_whatmechanuse" title="Real-Time Data: Frequently Asked Questions">What Mechanism Does the New RTD Architecture Use?</a> from Microsoft.</p>
+
+<p>Before looking at the function, look at a JMS message sent from the JMS-compliant message broker:</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+Destination: /topic/ticker
+Property: price=5.7656646
+Property: symbol=AAPL
+Property: change=-0.08004072
+Property: company=Apple
+</pre>
+
+<p>The message is very simple, and uses a number of properties to pass values:</p>
+
+<table>
+  <tr>
+    <th scope="col" width="150px">Message Element</th>
+    <th scope="col">Description</th>
+    <th scope="col">Example Value</th>
+  </tr>
+  <tr>
+    <td>Destination</td>
+    <td>The prefix of the topics or queues to subscribe to. This will be appended by the symbol.</td>
+    <td><span class="uri">/topic/ticker</span></td>
+  </tr>
+  <tr>
+    <td>price</td>
+    <td>The property name on the messages that hold the price.</td>
+    <td><span class="uri">5.7656646</span></td>
+  </tr>
+  <tr>
+    <td>symbol</td>
+    <td>The property name used to discriminate messages. For example, in this case, messages have a property called <span class="uri">"symbol"</span> with a value that is a stock symbol. This is how the messages are matched to the cells in the spreadsheet.</td>
+    <td><span class="uri">AAPL</span></td>
+  </tr>
+  <tr>
+    <td>change</td>
+    <td>The property name on the message that holds the change in stock price value.</td>
+    <td><span class="uri">-0.08004072</span></td>
+  </tr>
+  <tr>
+    <td>company</td>
+    <td>The property name on the message that holds the company name.</td>
+    <td><span class="uri">Apple</span></td>
+  </tr>
+</table>
+<br>
+<p>Now let's look at the Excel RTD formula syntax to see what arguments are available to the JMS message:</p>
+
+<pre class="auto-links: false; brush: vbnet; toolbar: false;">
+RTD(ProgID, server, topic1, [topic2], ...)
+</pre>
+
+<p>The following table describes the formula arguments.</p>
+
+<table>
+  <tr>
+    <th scope="col" width="175px">RTD Formula Argument</th>
+    <th scope="col">Argument Description</th>
+  </tr>
+  <tr>
+    <td>ProgID</td>
+    <td>Required. The name of the ProgID of a registered COM automation add-in that has been installed on the local computer. The name must be enclosed in quotation marks. For the out of the box demo, the name used in the spreadsheet was specified when the DLL was registered by the installer.</td>
+  </tr>
+  <tr>
+    <td>server</td>
+    <td>Required, but may be blank. The name of the server where the add-in should be run. If there is no server, and the program is run locally, as with the Excel RTD Server JMS Demo, the argument is left blank. Otherwise, enter quotation marks ("") around the server name.</td>
+  </tr>
+  <tr>
+    <td>topic1</td>
+    <td>topic1 is required.</td>
+  </tr>
+  <tr>
+    <td>topic2</td>
+    <td>Subsequent topics are optional.</td>
+  </tr>
+  <tr>
+    <td>...</td>
+    <td>Subsequent topics are optional.</td>
+  </tr>
+</table>
+<br>
+<p>For a full description of the formula, see <a href="//office.microsoft.com/en-us/excel-help/rtd-function-HP010342864.aspx" title="RTD function - Excel - Office.com">RTD function</a> from Microsoft.</p>
+
+<p>Here is how the JMS message properties (see above) are used in the Kaazing Gateway version of the RTD formula syntax:</p>
+
+<pre class="auto-links: false; brush: vbnet; toolbar: false;">
+RTD(ProgID,,location, destination, discriminator, property_name)
+</pre>
+
+<span class="note"><b>Notes:</b>
+ <ul>
+  <li>All parameters are mandatory for the RTD server that is included with the Gateway.</li>
+  <li>The <code>destination</code> must be a URI (for example, <span class="uri">ws://localhost:80/jms</span>).</li>
+  <li>The format of the <code>discriminator</code> is <code>Property Name=Value</code> (for example, <code>symbol=AAPL</code>).</li>
+ </ul>
+</span>
+
+<p>This formula can be applied to any spreadsheet cell. When the values from a spreadsheet are included, the formula could be filled in as follows:</p>
+
+<pre class="auto-links: false; brush: vbnet; toolbar: false;">
+RTD(&quot;KaazingStockTickerExcelDemo.RtdServer&quot;,,&rdquo;ws://localhost:8001/jms&rdquo;, &ldquo;/topic/ticker.AAPL&rdquo;, &ldquo;symbol=AAPL&rdquo;, &ldquo;price&rdquo;)
+</pre>
+
+<p>The following table describes the values in this example:</p>
+
+<table>
+  <tr>
+    <th scope="col">Example Value</th>
+    <th scope="col">Description</th>
+  </tr>
+  <tr>
+    <td>&ldquo;KaazingStockTickerExcelDemo.RtdServer&rdquo;</td>
+    <td>This ProgID name is configured in the Visual Studio project when creating the RTD server.</td>
+  </tr>
+  <tr>
+    <td>blank</td>
+    <td>In our example, the RTD server is co-located with the Excel spreadsheet, and therefore no value is supplied to this argument. </td>
+  </tr>
+  <tr>
+    <td>&ldquo;ws://localhost:8001/jms&rdquo;</td>
+    <td>The WebSocket URI of the JMS service running on the Gateway, <span class="uri">ws://localhost:8001/jms</span>. The required topic1 argument is an ideal location for this value because the URI is also mandatory.</td>
+  </tr>
+  <tr>
+    <td>&ldquo;/topic/ticker.AAPL&rdquo;</td>
+    <td>The destination prefix of the JMS message subscription.</td>
+  </tr>
+  <tr>
+    <td>&ldquo;symbol=AAPL&rdquo;</td>
+    <td>The discriminator. This value is used to match JMS messages to the cells in the spreadsheet.</td>
+  </tr>
+  <tr>
+    <td>&ldquo;price&rdquo;</td>
+    <td>The property name on the messages that hold the price of the stock. If you review the JMS message above, other options are <span class="uri">change</span> and <span class="uri">company</span>.</td>
+  </tr>
+</table>
+
+<h2><a name="Wrapper"></a>VBA Wrapper Functions</h2>
+
+<p>Rather than use the entire RTD formula for every cell in the spreadsheet, you can create a Visual Basic for Applications (VBA) function that handles the connection to the RTD server. For example, if you wanted to display a stock price for a stock symbol, you could use the following formula:</p>
+
+<pre class="auto-links: false; brush: vbnet; toolbar: false;">
+=VALUE(TICK($B5, pricePropertyName))
+</pre>
+
+Where <code>$B5</code> references a cell containing the stock symbol <code>AAPL</code>, and <code>pricePropertyName</code> is a the name of the cell that displays the price. The formula passes the stock symbol from <code>$B5</code> and the price cell name (<code>pricePropertyName</code>) to the <code>TICK</code> function. The <code>TICK</code> VBA function is as follows:
+
+<pre class="auto-links: false; brush: vbnet; toolbar: false;">
+' Global variable so we know if we're connected or not.
+Dim isConnected As Boolean
+
+' Function called by cells that want to receive stock prices
+Function TICK(Security, Property)
+  
+  ' Only show data if we're connected.
+  If isConnected Then
+  
+    ' The URL of the gateway that the RTD server will connect to.
+    ' Example: ws://localhost:80/jms
+    Dim url As String
+    url = Range("url")
+    
+    ' The topic or queue that the RTD server will subscribe to.
+    ' Example: /topic/ticker.KZNG
+    Dim destination As String
+    destination = Range("destinationBase") & UCase(Security)
+    
+    ' The query to bind the destination to this cell.
+    ' Example: symbol=KZNG
+    Dim predicate As String
+    predicate = Range("discriminatorPropertyName") & "=" & UCase(Security)
+
+    Dim tickUpdate As String
+    tickUpdate = Excel.Application.WorksheetFunction.RTD("KaazingStockTickerExcelDemo.RtdServer", "", url, destination, predicate, Property)
+    
+    If tickUpdate = "#N/A Requesting ..." Then
+        ' The RTD server returns this when there is no data yet.
+        ' Show 0 until we have data.
+        tickUpdate = "0"
+    End If
+
+    TICK = tickUpdate
+  Else
+    TICK = "0"
+  End If
+  
+End Function
+
+' Called when the connect/disconnect button is clicked.
+Sub doConnectButton()
+  Dim connectBut As Button
+  Set connectBut = ActiveSheet.Buttons("connectBut")
+  
+  isConnected = Not isConnected
+  
+  If isConnected Then
+    connectBut.Caption = "Disconnect"
+    ' Trigger the spreadsheet formulae to start updating again.
+    Application.CalculateFull
+  Else
+    connectBut.Caption = "Connect"
+  End If
+End Sub
+</pre>
+
+
+<h2><a name="Reviewing"></a>Reviewing the Visual Studio Project for the Demo</h2>
+
+<p>When you install the Excel RTD Server JMS Demo, the Visual Studio project used to create the demo is also installed. You can review this project to learn how a simple implementation of the <code>IRtdServer</code> using the Kaazing Gateway JMS .NET Client Library can be created.</p>
+
+<ol>
+  
+  <li>Open the Visual Studio project. The default location for the Visual Studio project is: <span class="uri">C:\Program Files (x86)\Kaazing\Real-Time Excel JMS Demo\Kaazing.JMS.RealTimeStockTickerExcelDemo.csproj</span></li>
+  
+  <li>In <strong>Solution Explorer</strong>, expand the <strong>References</strong> folder to see the references required for an Excel RTD server solution built using the Kaazing Gateway .NET JMS client libraries. Note the following required references:
+  
+  <ul>
+    <li>Kaazing.Gateway</li>
+    <li>Kaazing.JMS</li>
+    <li>Microsoft.Office.Interop.Excel</li>
+  </ul>
+  
+  </li>
+  
+  <li>Click the <strong>Properties</strong> icon to view the properties of the project.</li>
+  
+  <li>Click the <strong>Application</strong> tab, and then click <strong>Assembly Information</strong>. Note that the <strong>Make assembly COM-Visible</strong> option is selected. This option specifies whether types in the assembly will be available to COM.</li>
+  
+  <li>Click the <strong>Build</strong> tab. Note that <strong>Platform target</strong> setting is <strong>Any CPU</strong>. This ensures that the RTD server can run on both x86 and x64 systems.</li>
+  
+  <li>In <strong>Solution Explorer</strong>, expand the <strong>src\main\csharp</strong> folders. The C# files for the RTD server are located here. Double-click <strong>RtdServer.cs</strong>.</li>
+  
+  <li><p>In <strong>RtdServer.cs</strong>, note the ProgId of the class:</p>
+  
+<pre class="auto-links: false; brush: vbnet; toolbar: false;">
+ProgId("KaazingStockTickerExcelDemo.RtdServer")
+</pre>
+  
+  <p>The string in the ProgId, <code>KaazingStockTickerExcelDemo.RtdServer</code>, is the same name used when connecting to the RTD server from Excel:</p>
+  
+<pre class="auto-links: false; brush: vbnet; toolbar: false;">
+RTD(&quot;KaazingStockTickerExcelDemo.RtdServer&quot;,,&rdquo;ws://localhost:8001/jms&rdquo;, &ldquo;/topic/ticker.AAPL&rdquo;, &ldquo;symbol=AAPL&rdquo;, &ldquo;price&rdquo;)
+</pre>
+
+<p>The ProgId value must always be used when connecting to the RTD server created from the Visual Studio project.</p>
+  
+  </li>
+</ol>
+
+<h2><a name="Building"></a>Building a Custom RTD server for Kaazing Gateway</h2>
+
+<p>The following procedure provides a high-level overview of the major steps involved in creating a custom RTD server for Kaazing Gateway using Visual Studio. The following project is a C# Class Library, but you can create the Class Library using another supported language.</p>
+
+<ol>
+  
+  <li><p>Ensure that you have the following requirements:</p>
+  
+    <ul>
+      <li>A .NET Integrated Development Environment (IDE), such as Visual Studio.</li>
+      <li>Microsoft .NET Framework 4 with Microsoft .NET Framework 4 Patch KB2468871 (download the patch from <a href="//www.microsoft.com/download/en/details.aspx?displaylang=en&amp;id=3556" title="Microsoft Download Center">http://www.microsoft.com/download/en/details.aspx?displaylang=en&id=3556</a>). This patch is required for building or running .NET clients using the Kaazing Gateway .NET JMS Client Library.</li>
+    </ul>
+  
+  </li>
+  
+  <li>Download and install the Gateway as described in <a href="../../about/setup-guide/index.html">Setting Up the Gateway and Clients</a>.</li>
+  
+  <li>Open Visual Studio as the system administrator (<strong>Run as administrator</strong>).</li>
+  
+  <li><p>Create and name a new C# class library project.</p>
+  
+    <ol type="a">
+      <li>Click <strong>File</strong>, and then click <strong>New Project</strong>.</li>
+      <li>In <strong>Installed Templates</strong>, expand <strong>Visual C#</strong>, click <strong>Windows</strong>, and click <strong>Class Library</strong>.</li>
+      <li>In <strong>Name</strong>, enter a name for the project and click <strong>OK</strong>.</li>
+    </ol>
+  
+  </li>
+  
+  <li><p>Configure the project properties.</p>
+  
+    <ol type="a">
+      <li>Click the <strong>Properties</strong> icon to view the properties of the project.</li>
+      <li>Click the <strong>Application</strong> tab, and then click <strong>Assembly Information</strong>. Select the <strong>Make assembly COM-Visible</strong> option. This option specifies whether types in the assembly will be available to COM.</li>
+      <li>Click the <strong>Build</strong> tab. In <strong>Platform target</strong>, select <strong>Any CPU</strong>. This ensures that the RTD server can run on both x86 and x64 systems.</li>
+    </ol>
+    
+  </li>
+  
+  <li><p>Add references to the required libraries.</p>
+  
+    <ol type="a">
+      <li>In <strong>Solution Explorer</strong>, right-click <strong>References</strong> and then click <strong>Add Reference</strong>.</li>
+      <li>In the <strong>Add Reference</strong> dialog, click the <strong>Browse</strong> tab.</li>
+      <li>Locate the Kaazing Gateway .NET JMS client libraries: <span class="uri"><em>GATEWAY_HOME</em>\lib\client\dotnet\Release</span>.</li>
+      <li>Select <strong>Kaazing.Gateway.dll</strong> and <strong>Kaazing.JMS.dll</strong> and click <strong>OK</strong>.</li>
+      <li>In <strong>Solution Explorer</strong>, right-click <strong>References</strong> and then click <strong>Add Reference</strong>.</li>
+      <li>In the <strong>Add Reference</strong> dialog, click the <strong>.NET</strong> tab.</li>
+      <li>Locate and click <strong>Microsoft.Office.Interop.Excel</strong>, and then click <strong>OK</strong>.</li>
+    </ol>
+  
+  </li>
+  
+  <li><p>Add the RTD server class.</p>
+  
+    <ol type="a">
+      <li>Review the RTD server class in the Visual Studio project included with the Gateway. Follow the steps in <a href="#Reviewing">Reviewing the Visual Studio Project for the Demo</a> to install the Visual Studio project, open the project, and then review the code and comments in the <strong>RtdServer.cs</strong> file (<strong>src/main/csharp/RtdServer.cs</strong>).</li>
+      <li><p>Ensure that you include the required classes:</p>
+<pre class="auto-links: false; brush: vbnet; toolbar: false;">
+using Kaazing.JMS;
+using Kaazing.JMS.Stomp;
+using Kaazing.JMS.Util;
+using Microsoft.Office.Interop.Excel;
+</pre>
+      
+      </li>
+      <li>Do not hardcode the Gateway JMS service URI (for example, <span class="uri">ws://gateway.example.com:80/jms</span>) in the class. This precaution will prevent the need to recompile the project when the URI changes from development to test and production environments. Instead, have the location passed from Excel to the RTD server via the RTD function.</li>
+      <li><p>Note the name of the ProgId in your main RTD server class, for example:</p>
+      
+<pre class="auto-links: false; brush: vbnet; toolbar: false;">
+ProgId(&quot;KaazingStockTickerExcelDemo.RtdServer&quot;)
+</pre>
+
+<p>The string in the ProgId must be used when connecting to the RTD server from Excel, for example:</p>
+
+<pre class="auto-links: false; brush: vbnet; toolbar: false;">
+RTD(&quot;KaazingStockTickerExcelDemo.RtdServer&quot;,,&rdquo;ws://localhost:8001/jms&rdquo;, &ldquo;/topic/ticker.AAPL&rdquo;, &ldquo;symbol=AAPL&rdquo;, &ldquo;price&rdquo;)
+</pre>
+      
+      </li>
+    </ol>
+  
+  </li>
+  
+  <li><p>Add the Message Listener and Exception Listener classes.</p>
+  
+  <ol type="a">
+    <li>As with the RTD server class, review the Message Listener and Exception Listener classes in the Visual Studio project included with the Gateway.</li>
+    <li><p>Ensure that you include the Kaazing Gateway JMS class:</p>
+<pre class="auto-links: false; brush: vbnet; toolbar: false;">
+using Kaazing.JMS;
+</pre>
+    </li>
+  </ol>
+  
+  </li>
+  
+  <li><p>Build the DLL for the RTD server. In <strong>Solution Explorer</strong>, right-click your project and click <strong>Build</strong>.</p></li>
+  
+  <li><p>Register the DLL using the <strong>Regasm</strong> assembly registration tool. The DLL you built must be registered as a COM assembly with the operating system before it can be used by Excel. If your RTD server will be running on a 64-bit machine that has both 32-bit and 64-bit Microsoft .NET installed, register the RTD server DLL as a COM assembly for both 32-bit and 64-bit environments. This will allow both 32-bit and 64-bit versions of Excel to use the RTD server.</p>
+  
+  <ol type="a">
+    <li>Use the following steps to open Visual Studio Command Prompt: <a href="//msdn.microsoft.com/en-us/library/ms229859(v=vs.110).aspx" title="Visual Studio Command Prompt">http://msdn.microsoft.com/en-us/library/ms229859(v=vs.110).aspx</a></li>
+    <li><p>Register using <strong>regasm</strong>. For example:</p>
+<pre>
+c:\Windows\Microsoft.NET\Framework\v4.0.30319\RegAsm.exe /codebase C:\development\RtdServer.dll
+</pre>
+    
+    <p>Note: There are different <strong>regasm</strong> programs for the different operating systems:</p>
+    
+    <ul>
+      <li>32-bit &mdash; <span class="uri">c:\Windows\Microsoft.NET\Framework\v4.0.30319\RegAsm.exe</span></li>
+      <li>64-bit &mdash; <span class="uri">c:\Windows\Microsoft.NET\Framework64\v4.0.30319\RegAsm.exe</span></li>
+    </ul>
+    
+    </li>
+  </ol>
+  
+  </li>
+  
+</ol>
+
+<h2><a name="Troubleshooting"></a>Troubleshooting</h2>
+
+<p>If the spreadsheet is updated slowly, consider changing the Throttle Interval setting in Excel. For more information, see <a href="#Throttle">Configure the RTD Throttle Interval In Excel</a>.</p>
+
+<p>Excel Trust Center settings can influence how a spreadsheet reacts to application Add-ins and External Content. If you experience trust errors in Excel, try disabling Trust Center settings for Add-ins and External Content.</p>
+
+<h2><a name="Summary"></a>Summary</h2>
+
+<p>In this walkthrough, you learned how to install and run the out of the box Kaazing Gateway Excel RTD JMS demo, how the RTD formula works with the RTD server and the Gateway to receive JMS messages, and you were given a high-level overview of how to build your own RTD server using Kaazing Gateway .NET JMS client libraries.</p>
+
+<h2><a name="Resources"></a>Resources</h2>
+<ul>
+  <li>Real-Time Data FAQ from Microsoft, which includes information on the Excel throttling property (<a href="//msdn.microsoft.com/en-us/library/aa140060%28v=office.10%29.aspx#odc_xlrtdfaq_howconfigrtdthrottle" title="Real-Time Data: Frequently Asked Questions">http://msdn.microsoft.com/en-us/library/aa140060%28v=office.10%29.aspx#odc_xlrtdfaq_howconfigrtdthrottle</a>).</li>
+  <li>How to set up and use the RTD function in Excel (<a href="//support.microsoft.com/kb/289150" title="How to set up and use the RTD function in Excel">http://support.microsoft.com/kb/289150</a>).</li>
+  <li>How to create a RTD server for Excel (<a href="//support.microsoft.com/kb/285339" title="How to create a RealTimeData server for Excel">http://support.microsoft.com/kb/285339</a>).</li>
+  <li>RTD function (<a href="//office.microsoft.com/en-us/excel-help/rtd-function-HP010342864.aspx" title="RTD function - Excel - Office.com">http://office.microsoft.com/en-us/excel-help/rtd-function-HP010342864.aspx</a>).</li>
+</ul>
+
+                  </section>
+                </article>
+
+            </div> <!-- #main -->
+        </div> <!-- #main-container -->
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,181 @@
+Gateway:
+  productVersion: '4.0'
+  component: server
+  operatingSystem:
+    - Linux
+    - Mac
+    - 'Windows (JRE 7)'
+    - 'Windows (JRE 8)'
+JMS:
+  - broker: ActiveMQ
+    productVersion: '3.5'
+    component: server
+    operatingSystem:
+      - Mac
+      - Windows
+    jdk: 6
+    clientPlatform: '-'
+  - broker: EMS
+    productVersion: '3.5'
+    component: server
+    operatingSystem:
+      - Mac
+      - Windows
+    jdk: 6
+    clientPlatform: '-'
+  - broker: JBoss
+    productVersion: '3.5'
+    component: server
+    operatingSystem: '-'
+    jdk: 6
+    clientPlatform: '-'
+  - broker: UMQ
+    productVersion: '3.5'
+    component: server
+    operatingSystem: '-'
+    jdk: 6
+    clientPlatform: '-'
+  - broker: WebLogic
+    productVersion: '3.5'
+    component: server
+    operatingSystem: '-'
+    jdk: 6
+    clientPlatform: '-'
+  - broker: WebSphere
+    productVersion: '3.5'
+    component: server
+    operatingSystem: '-'
+    jdk: 6
+    clientPlatform: '-'
+  - broker: 'ActiveMQ 5.8.0'
+    productVersion: '4.0'
+    component: server
+    operatingSystem: 
+      - Linux
+      - Mac
+      - Windows
+      - 'Windows Server 2012'
+    jdk: 7
+    clientPlatform: '-'
+  - broker: 'ActiveMQ 5.9.1'
+    productVersion: '4.0'
+    component: server
+    operatingSystem: 
+      - Linux
+      - Mac
+      - Windows
+      - 'Windows Server 2012'
+    jdk: 7
+    clientPlatform: '-'
+  - broker: 'ActiveMQ 5.10.0'
+    productVersion: '4.0'
+    component: server
+    operatingSystem: 
+      - Linux
+      - Mac
+      - Windows
+      - 'Windows (JRE 8)'
+      - 'Windows Server 2012'
+    jdk: 7
+    clientPlatform: '-'
+  - broker: 'EMS 6.3'
+    productVersion: '4.0'
+    component: server
+    operatingSystem: 
+      - Mac
+      - Windows
+      - 'Windows (JRE 8)'
+      - 'Windows Server 2012'
+    jdk: 7
+    clientPlatform: '-'
+  - broker: 'EMS 7.0.1'
+    productVersion: '4.0'
+    component: server
+    operatingSystem:
+      - Linux
+      - Mac
+      - Windows
+      - 'Windows Server 2012'
+    jdk: 7
+    clientPlatform: '-'
+  - broker: 'EMS 8.0'
+    productVersion: '4.0'
+    component: server
+    operatingSystem:
+      - Linux
+      - Mac
+      - Windows
+      - 'Windows Server 2012'
+    jdk: 7
+    clientPlatform: '-'
+  - broker: JBoss
+    productVersion: '4.0'
+    component: server
+    operatingSystem: '-'
+    jdk: 7
+    clientPlatform: '-'
+  - broker: RabbitMQ
+    productVersion: '4.0'
+    component: server
+    operatingSystem: '-'
+    jdk: 7
+    clientPlatform: '-'
+  - broker: UMQ
+    productVersion: '4.0'
+    component: server
+    operatingSystem: '-'
+    jdk: 7
+    clientPlatform: '-'
+  - broker: WebLogic
+    productVersion: '4.0'
+    component: server
+    operatingSystem: '-'
+    jdk: 7
+    clientPlatform: '-'
+  - broker: 'WebSphere 7.5.0.2'
+    productVersion: '4.0'
+    component: server
+    operatingSystem: '-'
+    jdk: 7
+    clientPlatform: '-'
+  - broker: 'WebSphere 7.5.0.4'
+    productVersion: '4.0'
+    component: server
+    operatingSystem: '-'
+    jdk: 7
+    clientPlatform: '-'
+AMQP:
+  - productVersion: '3.3'
+    component: server
+  - productVersion: '3.4'
+    component: server
+  - productVersion: '3.5'
+    component: server
+  - productVersion: '4.0'
+    component: server
+AMQP SPI:
+  - productVersion: '3.5'
+    component: server
+  - productVersion: '4.0'
+    component: server
+  - productVersion: '5.0'
+    component: server
+EMS:
+  - productVersion: '3.5'
+    component: server
+  - productVersion: '4.0'
+    component: server
+XMPP:
+  - productVersion: '3.5'
+    component: server
+  - productVersion: '4.0'
+    component: server
+HTML5:
+  productVersion: '3.5'
+  component: server
+  operatingSystem:
+    - Mac
+    - Linux
+    - Windows
+  jdk: 7
+

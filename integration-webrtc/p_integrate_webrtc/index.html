@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+  
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+ <div class="container page-content text-left">
+
+
+  <h1 id="deploy-webrtc-using-the-gateway">Deploy WebRTC using the Gateway </h1>
+
+<span class="note"><b>Note:</b> This document is for network administrators that are familiar with WebRTC and related protocols. For an introduction to WebRTC, see <a href="//webrtc-security.github.io/" title="A Study of WebRTC Security &middot; A Study of WebRTC Security">A Study of WebRTC Security</a> and <a href="//www.html5rocks.com/en/tutorials/webrtc/infrastructure/" title="WebRTC in the real world: STUN, TURN and signaling - HTML5 Rocks">WebRTC in the real world: STUN, TURN and signaling</a>. The Gateway is a very flexible and secure intermediary server for WebRTC that supports the techniques and protocols on top of which the WebRTC API rests (<a href="https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API/Protocols">ICE, STUN, NAT, TURN, and SDP</a>).</span>
+
+<p>WebRTC (Web Real-Time Communication) is an open framework, real-time communication standard that uses a collection of protocols and APIs to share audio/video and data without requiring the peers to use plug-ins. While the WebRTC standard defines APIs for browsers, network communication is not defined in the WebRTC standard and may be implemented in whatever way best suits the deployment. Kaazing WebSocket Gateway provides a secure, robust networking infrastructure that enables WebRTC communication between peers in all common WebRTC scenarios.</p>
+
+<p>This document has the following sections:</p>
+
+<ul>
+ <li><a href="#whats-unique-about-webrtc-with-the-gateway">What’s Unique About WebRTC with the Gateway?</a></li>
+ <li><a href="#Webrtc-gateway-topology-and-components">WebRTC Gateway Topology and Components</a>
+  <ul>
+   <li><a href="#common-enterprise-topology">Common Enterprise Topology</a></li>
+   <li><a href="#topology-components">Topology Components</a></li>
+  </ul>
+ </li>
+ <li><a href="#turn-relay-address-masking">TURN Relay Address Masking</a></li>
+ <li><a href="#security-in-the-webrtc-session">Security in the WebRTC Session</a></li>
+ <li><a href="#deployment-and-testing-process">Deployment and Testing Process</a>
+  <ul>
+   <li><a href="#develop-the-client-and-peer-apps">Develop the Client and Peer Apps</a></li>
+   <li><a href="#configure-a-message-broker-gateway">Configure a Message Broker Gateway</a></li>
+   <li><a href="#configure-the-turn-server">Configure the TURN Server</a></li>
+   <li><a href="#configure-a-gateway-for-turn-and-rest">Configure a Gateway for TURN and REST</a></li>
+   <li><a href="#test-the-webrtc-deployment">Test the WebRTC Deployment</a></li>
+  </ul>
+ </li>
+ <li><a href="#how-webrtc-works-in-the-gateway-deployment">How WebRTC Works in the Gateway Deployment</a></li>
+ <li><a href="#Webrtc=client-demo-app">WebRTC Client Demo App</a>
+  <ul>
+   <li><a href="#html">HTML</a></li>
+   <li><a href="#javascript">JavaScript</a></li>
+  </ul>
+ </li>
+</ul>
+
+<span class="note"><b>Note:</b> For details about the properties in the <code>turn.rest</code> and <code>turn.proxy</code> services, see <a href="../../admin-reference/r_configure_gateway_service/index.html#turnrest">turn.rest</a> and <a href="../../admin-reference/r_configure_gateway_service/index.html#turnproxy">turn.proxy</a>.</span>
+
+
+<h2 id="whats-unique-about-webrtc-with-the-gateway">What’s Unique About WebRTC with the Gateway?</h2>
+
+<p>Deploying WebRTC using the Gateway has the following benefits:</p>
+
+<ul>
+ <li>The Gateway <code>turn.rest</code> service is a REST-based SSO authentication service that ensures clients and peers have provided credentials before they are provided with the TURN server address. The same authentication credentials may be used for both the WebSocket and JMS connections.</li>
+ <li>The Gateway hosting the STUN/TURN proxy service <code>turn.proxy</code> provides firewall-level security by masking the TURN server address, eliminating internal network exposure.</li>
+ <li>Signalling is performed using WebSocket. Why us WebSocket for Signaling? A message service for signaling needs to be bidirectional and WebSocket is a perfect solution. All browsers that support WebRTC also support WebSocket, both on desktop and mobile. And WebSocket supports encryption via TLS/SSL known as WebSocket Secure (WSS).</li>
+</ul>
+
+<h2 id="Webrtc-gateway-topology-and-components">WebRTC Gateway Topology and Components</h2>
+
+<p>You can deploy WebRTC in a number of ways, with clients on the same network or on different networks. For the purposes of this document, we will document an enterprise topology where client-to-peer connections are complicated by having a peer behind a corporate firewall and NAT. In this topology, the Kaazing client libraries and Gateway provide the following:</p>
+
+<ul>
+ <li>Signaling is provided via a Gateway configured with a <code>jms</code> service and peers and clients built using the Kaazing WebSocket JMS client libraries. WebRTC peers and clients use JMS queues and messages to exchange network interface and port information over WebSocket Secure.</li>
+ <li>A Gateway hosts a REST service for TURN discovery named <code>turn.rest</code>.</li>
+ <li>A Gateway hosts a TURN server proxy service named <code>turn.proxy</code>. This service proxies communication with the TURN server and mask TURN server and client/peer addresses.</li>
+</ul>
+
+<h2 id="common-enterprise-topology">Common Enterprise Topology</h2>
+
+<p>The following diagram shows an enterprise WebRTC topology using the Gateway for signaling via a JMS proxy, TURN discovery, and TURN proxying.</p>
+
+ <figure>
+  <img src="../../images/webrtc-enterprise-topology.jpg">
+ <figcaption><strong>Figure: Enterprise WebRTC Deployment using the Gateway</strong></figcaption> 
+ </figure>
+
+<p>In this topology, two Gateways are used: </p>
+<ul>
+ <li>A Gateway connecting clients to the JMS message broker for signaling. </li>
+ <li>A Gateway hosting the <code>turn.rest</code> service for TURN discovery and the <code>turn.proxy</code> service for relaying data between client endpoints.</li>
+</ul>
+
+<span class="note"><b>Note:</b> In testing and low security enterprise deployments, the STUN protocol is sufficient for a client and peer to exchange IP addresses and ports and establish WebRTC. In secure enterprise deployments, STUN is rejected in favor of TURN because TURN ensures a peer located behind a strict NAT/firewall can communicate directly and dependably with other hosts. In addition, by using TURN, the internal network topology cannot be exposed as with STUN. The <code>turn.proxy</code> service hides the internal network information. </span>
+
+<h2 id="topology-components">Topology Components</h2>
+
+<p>The following table lists the components involved in an enterprise WebRTC deployment.</p>
+
+<span class="note"><b>Note:</b> Wherever possible, the terminology from the <a href="https://tools.ietf.org/html/rfc5766#section-3">TURN RFC</a> and <a href="https://tools.ietf.org/html/rfc5389#section-5">STUN RFC</a> is used.</span>
+
+<table width="100%" border="0">
+  <tr>
+    <th scope="col" width="20%">Component</th>
+    <th scope="col" width="80%">Description</th>
+  </tr>
+  <tr>
+    <td>Client (Web app)</td>
+    <td>The Web customer app is a browser app that uses the Kaazing WebSocket and JMS client libraries and can be hosted by any Web server. The app uses the WebRTC standard API and JMS for signaling and media sharing.</td>
+  </tr>
+  <tr>
+    <td>Peer (Trusted network client app)</td>
+    <td>The Trusted network agent app is a browser app hosted by an internal Web server, such as the directory service on the Gateway. Programmatically, It is the same client app as the Web customer app: browser-based, and using the Kaazing WebSocket and JMS client libraries.</td>
+  </tr>
+  <tr>
+    <td>Gateway connecting to message broker</td>
+    <td>The clients apps use JMS queues, topics and messages for the signaling phase of setting up WebRTC, and so a Gateway hosting a <code>jms</code> service is used to enable the clients to communicate with the JMS server easily.</td>
+  </tr>
+  <tr>
+    <td>Message Broker</td>
+    <td>The JMS message broker is used by the agent and customer apps during the signaling phase of the WebRTC communication setup, where both clients exchange session control messages, media metadata, and key data for secure connections.</td>
+  </tr>
+  <tr>
+    <td>Gateway hosting <code>turn.rest</code> and <code>turn.proxy</code> service</td>
+    <td>A Gateway is used to host a <code>turn.rest</code> service that is used by both agent and client apps for TURN discovery. The apps then use the <code>turn.proxy</code> service on the Gateway to connect to the TURN server.</td>
+  </tr>
+  <tr>
+    <td>TURN server</td>
+    <td>The TURN server is used to relay audio/video/data streaming between peers. For this document, we are using the popular open source TURN server, coTURN. Information on installing and running <a href="https://github.com/coturn/coturn">coTURN</a> is located at <a href="https://github.com/coturn/coturn/wiki/README">https://github.com/coturn/coturn/wiki/README</a>. TURN is intended to be used only when a direct communication path between a client and peer cannot be found. As we are concerned with an enterprise deployment involving NAT and firewalls, TURN will be used.</td>
+  </tr>
+  <tr>
+    <td>Mapped Address (Reflexive Transport Address)</td>
+    <td>When there is a NAT between the client and the peer, the reflexive transport address represents the mapped address allocated to the client on the public side of the NAT. Reflexive transport addresses are learned from the mapped address attribute (MAPPED-ADDRESS or XOR-MAPPED-ADDRESS) in STUN responses. For more information, see <a href="https://tools.ietf.org/html/rfc5389#section-5">RFC-5389</a>.</td>
+  </tr>
+  <tr>
+    <td>Relay Address</td>
+    <td>The IP and port addresses provided by the TURN server to the client and peer for WebRTC communication. When a peer sends a packet to the relayed address, the TURN server relays the packet to the client. When the client sends a data packet to the TURN server, the server relays it to the appropriate peer using the relayed address as the source.</td>
+  </tr>
+  <tr>
+    <td>Masked Relay Address</td>
+    <td>The IP and port addresses provided by the <code>turn.proxy</code> service on the Gateway to the clients and peers involved in WebRTC. The Gateway masks the Relay Addresses provided by the TURN server to prevent exposure of private addresses.</td>
+  </tr>
+  <tr>
+    <td>Audio/visual and data media</td>
+    <td>Once a WebRTC connection is established, the agent and customer apps send audio/visual and data media.</td>
+  </tr>
+</table>
+
+<h2 id="turn-relay-address-masking">TURN Relay Address Masking</h2>
+
+<p>Once the client and peer have completed the signaling and TURN discovery phases, they contact the TURN server via the <code>turn.proxy</code> service hosted by the Gateway in order to receive a relay address. To prevent any exposure of an internal addresses outside of the network, the relay address is masked by the <code>turn.proxy</code> service.</p>
+
+<p>To preserve the address mapping performed on the TURN server, on inbound connections the <code>turn.proxy</code> service reverses the relay address and masked relay address.</p>
+
+<p>Here’s how the TURN server and <code>turn.proxy</code> service addressing works:</p>
+
+<ol>
+ <li>The TURN server will attempt to establish the WebRTC connection between the client and peer by mapping client and peer addresses.</li>
+ <li>Outbound connections:
+  <ol type="a">
+   <li>The TURN server sends the client the peer address as <code>192.169.1.7:9000</code>.</li>
+   <li>The Gateway <code>turn.proxy</code> service sends the client the peer address masked as <code>200.240.1.5:5000</code>.</li>
+   <li>The TURN server sends the peer the client address as <code>192.169.1.5:5000</code>.</li>
+   <li>The Gateway <code>turn.proxy</code> service sends the peer the client address masked as <code>200.240.1.7:9000</code>.</li>
+  </ol>
+ </li>
+ <li>Inbound connections:
+  <ol type="a">
+   <li>When the client and peer contact the TURN server with the masked addresses, the Gateway <code>turn.proxy</code> service reverses the masked addresses back into the relay addresses the TURN server issued and the TURN server’s mapping is preserved.</li>
+  </ol>
+ </li>
+</ol>
+
+<h2 id="security-in-the-webrtc-session">Security in the WebRTC Session</h2>
+
+<p>Security and authentication takes place at a number of points in the WebRTC deployment:</p>
+
+<ul>
+ <li><strong>Signaling, WSS, and JMS:</strong>
+  <ul>
+   <li>When a client or peer initiates the signaling phase of WebRTC, it will contact the Gateway hosting the JMS service over WSS (WebSocket Secure).  WSS is WebSocket over TLS and requires the use of certificates for encryption. The JMS service should be configured with a security realm and related login module to authenticate client connections. The Gateway will issue an authentication challenge to the client and the client app must provide credentials (third-party token, username and password, etc) to access the service.</li>
+  </ul>
+ </li>
+ <li><strong>REST and TURN:</strong>
+  <ul>
+   <li>The client attempts to connect to the <code>turn.rest</code> service hosted on a Gateway over HTTPS (HTTP+TLS). Certificates are used for secure network connection.</li>
+   <li>The <code>turn.rest</code> service hosted on the Gateway is secured by a login module and the client is prompted to provide credentials in order to authenticate with the Gateway. Credentials may be a third-party token, username and password, or the same credentials used for the login module of the JMS service.</li>
+   <li>The connection from the <code>turn.rest</code> service to the TURN server uses one-time credentials (ephemeral credentials) as defined by the <a href="https://tools.ietf.org/html/draft-uberti-rtcweb-turn-rest-00">TURN REST API</a>. These credentials are vended by turn.rest service  over HTTP, and then supplied to and checked by the TURN server using the standard TURN protocol.  The usage of these credentials ensures that access to the TURN server is controlled even if the credentials can be discovered by the user, as is the case in WebRTC where TURN credentials must be specified in Javascript.</li>
+  </ul>
+ </li>
+</ul>
+
+<p>For a detailed description of security in WebRTC communication, see <a href="//webrtc-security.github.io/" title="A Study of WebRTC Security &middot; A Study of WebRTC Security">webrtc-security.github.io</a>.</p>
+
+<h2 id="deployment-and-testing-process">Deployment and Testing Process</h2>
+
+<p>Deploying WebRTC using the Gateway involves developing client apps (Web or mobile) to handle WebRTC signaling, configuring a Gateway to manage the JMS messaging used for signaling, and configuring a Gateway to manage the <a href="https://en.wikipedia.org/wiki/Interactive_Connectivity_Establishment">ICE (Interactive Connectivity Establishment) framework</a> followed for WebRTC peer connection setup.</p>
+
+<p><strong>Remember ICE:</strong> It is a good idea to keep the ICE framework in mind when performing the WebRTC setup. The ICE framework attempts all WebRTC connection methods in parallel to choose the most efficient and successful option.</p>
+
+<ol>
+ <li>ICE first tries to make a connection using the host address obtained from a device's operating system and network card.</li>
+ <li>If that method fails because the devices are behind NATs, ICE then obtains an external address using a STUN server.</li>
+ <li>If that also fails because a STUN connection is not 100% successful, traffic falls back to routing via a TURN relay server.</li>
+</ol>
+
+<p>To deploy WebRTC using the Gateway, follow this checklist:</p>
+
+<table width="789" border="0">
+  <tr>
+    <th scope="col">#</th>
+    <th scope="col">Step</th>
+    <th scope="col">Section</th>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>Develop your WebRTC client apps.</td>
+    <td><a href="#develop-the-client-and-peer-apps">Develop the Client and Peer Apps</a></td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td>Set up a Gateway to manage the JMS traffic for signaling.</td>
+    <td><a href="#configure-a-message-broker-gateway">Configure a Message Broker Gateway</a></td>
+  </tr>
+  <tr>
+    <td>3</td>
+    <td>Set up your TURN server.</td>
+    <td><a href="#configure-the-turn-server">Configure the TURN Server</a></td>
+  </tr>
+  <tr>
+    <td>4</td>
+    <td>Set up a Gateway to host the <code>turn.rest</code> and <code>turn.proxy</code> services.</td>
+    <td><a href="#configure-a-gateway-for-turn-and-rest">Configure a Gateway for TURN and REST</a></td>
+  </tr>
+  <tr>
+    <td>5</td>
+    <td>Test your WebRTC deployment.</td>
+    <td><a href="#test-the-webrtc-deployment">Test the WebRTC Deployment</a></td>
+  </tr>
+</table>
+
+<h2 id="develop-the-client-and-peer-apps">Develop the Client and Peer Apps</h2>
+
+<p>WebRTC is intended to enable mobile and Web applications from communicating in real-time without plug-ins. The client examples in this document are Web page apps built using HTML, JavaScript, and the Kaazing WebSocket and JMS client libraries.</p>
+
+To see the code for a full, working WebRTC client demo, go to <a href="#Webrtc=client-demo-app">WebRTC Client Demo App</a>.
+
+<span class="note"><b>Notes:</b>
+ <ul>
+   <li>Before you build your WebRTC clients, review the steps involved in developing Kaazing JMS clients using the Kaazing JavaScript JMS SDK in <a href="//kaazing.com/doc/5.0/jms_client_docs/dev-js/o_dev_js.html">Checklist: Build JavaScript JMS Clients</a>.</li>
+   <li>The Kaazing WebSocket and JMS client libraries are used during the signaling phase of WebRTC setup. You may choose to perform signaling without using Kaazing libraries, but you will need to perform client authentication with the Gateway using <a href="//docs.oracle.com/javase/7/docs/technotes/guides/security/jaas/JAASRefGuide.html" title="JAAS Reference Guide">Java Authentication and Authorization Service (JAAS)</a>. The Kaazing WebSocket and JMS client libraries simplify authentication by enabling you to add Challenge Handlers to your client with only a few lines of code.</li>
+ </ul>
+</span>
+
+<p>To configure clients for WebRTC with the Gateway, perform the following high-level steps:</p>
+
+<ol>
+ <li>Determine if the Web browser or mobile client you are using for WebRTC supports the standard. To see what browsers support WebRTC, see <a href="//caniuse.com/#search=webrtc" title="Can I use... Support tables for HTML5, CSS3, etc">http://caniuse.com/#search=webrtc</a>.</li>
+ <li>Download the <a href="//kaazing.com/download/#client-javascript">Kaazing JavaScript Client SDK</a>. For information on how to use the Kaazing JavaScript JMS client API, see <a href="//kaazing.com/doc/5.0/jms_client_docs/dev-js/o_dev_js.html">Build JavaScript JMS Clients</a>.</li>
+ <li>Review the <a href="https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API">WebRTC API</a>, specifically <a href="https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection">RTCPeerConnection</a>.</li>
+ <li>Develop your client app to perform the following functions. The following list omits steps for accessing the client app’s local audio/visual media or data. You can simply follow the standard WebRTC API for that functionality.
+  <ol type="a">
+   <li>Log into the Gateway hosting the JMS service and subscribe to the correct JMS queue. This functionality connects the app to the JMS message server via the JMS service hosted on the Gateway. You can choose to perform this operation when the client is loaded or when the user clicks a button. Here’s an example of a JavaScript function that connects to the JMS service acting as the signaling server:
+   
+<pre class="auto-links: false; brush: js; toolbar: false;">
+function connectToSignallingJMS() {
+    console.log("CONNECT: " + jmsServerURL);
+
+    var jmsConnectionFactory = new JmsConnectionFactory(jmsServerURL);
+    // setup challenge handler
+    // setupSSO(jmsConnectionFactory.getWebSocketFactory());
+    try {
+        var connectionFuture =
+            //jmsConnectionFactory.createConnection(username.value, password.value, function () {
+            jmsConnectionFactory.createConnection('', '', function() {
+                if (!connectionFuture.exception) {
+                    try {
+                        conn = connectionFuture.getValue();
+                        conn.setExceptionListener(handleException);
+
+                        console.log("CONNECTED");
+
+                        session = conn.createSession(false, Session.AUTO_ACKNOWLEDGE);
+                        transactedSession = conn.createSession(true, Session.AUTO_ACKNOWLEDGE);
+
+                        conn.start(function() {});
+                    } catch (e) {
+                        handleException(e);
+                    }
+                } else {
+                    handleException(connectionFuture.exception);
+                }
+            });
+    } catch (e) {
+        handleException(e);
+    }
+}
+</pre>
+   </li>
+   <li>Respond to the authentication challenge from the JMS service. How to develop a Challenge Handler for your client is document in <a href="//kaazing.com/doc/5.0/jms_client_docs/dev-js/p_dev_js_secure.html">Secure Your JavaScript Client</a>.</li>
+   <li>To begin the WebRTC offer, create a function that will send a JMS message containing the name of the current client as the message sender and place the name of the remote peer as the message receiver. This function will be used when sending an offer to the remote peer.
+   
+<pre class="auto-links: false; brush: js; toolbar: false; highlight:[10,12];">
+var name; // local username 
+var connectedUser; // the remote username
+...
+function send(message) {
+
+  var dest = session.createTopic("/topic/" + connectedUser);;
+  var producer = session.createProducer(dest);
+
+  var textMsg = session.createTextMessage(message.type);
+  message.sender = name;
+  if (connectedUser) {
+    message.receiver = connectedUser;
+  }
+  for (var key in message) {
+    if (message.hasOwnProperty(key)) {
+      console.log(key + " -> " + message[key]);
+      if (key === "type") {
+        continue
+      } else {
+        var property;
+        if (message[key].toJSON !== undefined) {
+          property = message[key].toJSON();
+        } else {
+          property = message[key];
+        }
+        textMsg.setStringProperty(key, JSON.stringify(property));
+        console.log("Setting " + key + " to value " + message[key]);
+      }
+    }
+  }
+
+  try {
+    var future = producer.send(textMsg, function() {
+      if (future.exception) {
+        handleException(future.exception);
+      }
+    });
+  } catch (e) {
+    handleException(e);
+  }
+
+  console.log("SEND TextMessage: \n\tDestination: " + dest + "\n\tMessage:" + JSON.stringify(message));
+  producer.close();
+
+}
+</pre>
+   </li>
+   <li>Include a text input where a user can enter the name or ID of the remote peer with which the user wants to establish a WebRTC session. Put that name of ID into a variable to be used in the signaling phase.</li>
+   <li>Collect the remote user name from a form and then initiate a call (and make an offer) by sending a JMS message containing the WebRTC offer using the <code>RTCPeerConnection.createOffer()</code> method of the WebRTC API.
+   
+<pre class="auto-links: false; brush: js; toolbar: false; highlight:[4,6,10,11,12,13,14]">
+var callToUsernameInput = document.querySelector('#callToUsernameInput');
+...
+callBtn.addEventListener("click", function() {
+  var callToUsername = callToUsernameInput.value; // put remote peer name into variable
+  if (callToUsername.length > 0) {
+    connectedUser = callToUsername; // set remote peer as message receiver
+    // create an offer 
+    yourConn.createOffer(function(offer) {
+      console.log("Creating offer : ", offer);
+      // send an offer to remote peer
+      send({
+        type: "offer",
+        offer: offer
+      });
+      yourConn.setLocalDescription(offer);
+    }, function(error) {
+      console.log("Error when creating an offer", error);
+    });
+  }
+});
+</pre>
+<p>The RTCPeerConnection object creates an SDP offer that includes information about any <a href="https://developer.mozilla.org/en-US/docs/Web/API/MediaStreamTrack">MediaStreamTracks</a> already attached to the WebRTC session, codec and options supported by the browser, and any candidates already gathered by the ICE agent.</p>
+   </li>
+   <li>Create a function to handle incoming JMS messages and route them to the appropriate method depending on what part of the signaling process they are for.
+   
+<pre class="auto-links: false; brush: js; toolbar: false;">
+function handleMessage(message) {
+  var data = {};
+  data.type = message.getText();
+  var props = message.getPropertyNames();
+  while (props.hasMoreElements()) {
+    var propName = props.nextElement();
+    var propValue = message.getStringProperty(propName);
+
+    data[propName] = JSON.parse(propValue);
+  }
+  console.log("RECEIVED data", data);
+
+  switch (data.type) {
+  case "login":
+    handleLogin(data.success);
+    break;
+    //when somebody wants to call us 
+  case "offer":
+    handleOffer(data.offer, data.sender);
+    break;
+  case "answer":
+    handleAnswer(data.answer);
+    break;
+    //when a remote peer sends an ice candidate to us 
+  case "candidate":
+    handleCandidate(data.candidate);
+    break;
+  case "leave":
+    handleLeave();
+    break;
+  default:
+    break;
+  }
+};
+</pre>
+   </li>
+   <li>Create functions to handle incoming messages for each of the signaling steps. Here are some examples.</li>
+   <li>In response to a WebRTC offer:
+<pre class="auto-links: false; brush: js; toolbar: false;">
+function handleOffer(offer, sender) {
+  connectedUser = sender;
+  remoteVideo.src = null;
+  startChat();
+  // Add the remote description associated with the connection
+  yourConn.setRemoteDescription(new RTCSessionDescription(offer));
+  //create an answer to an offer 
+  yourConn.createAnswer(function(answer) {
+    yourConn.setLocalDescription(answer);
+    send({
+      type: "answer",
+      answer: answer
+    });
+  }, function(error) {
+    console.log("Error when creating an answer", error);
+  });
+};
+</pre>
+<p>The message is sent when the app receives an offer message on the <code>queue queue/local_user_name</code>. This queue is created upon login. The message will be placed in the queue <code>/queue/caller_user_name</code>. The <code>caller_user_name</code> is received in the offer message.</p>
+     </li>
+     <li>Handle an answer from a remote user and set the answer as the the remote description associated with the connection:
+<pre class="auto-links: false; brush: js; toolbar: false;">
+function handleAnswer(answer) {
+  console.log("Entering handleAnswwer");
+  yourConn.setRemoteDescription(new RTCSessionDescription(answer));
+  console.log("Exiting handleAnswer");
+};
+</pre>
+     </li>
+     <li>Add a new ICE candidate from the remote peer and deliver it to the browser's ICE agent by calling <a href="https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/addIceCandidate">RTCPeerConnection.addIceCandidate()</a>.
+<pre class="auto-links: false; brush: js; toolbar: false;">
+function handleCandidate(candidate) {
+    console.log("Entering handleCandidate", candidate);
+    yourConn.addIceCandidate(new RTCIceCandidate(candidate));
+    console.log("Exiting handleCandidate");
+};
+</pre>
+     </li>
+     <li>The app should include a function for leaving the WebRTC session.
+<pre class="auto-links: false; brush: js; toolbar: false;">
+// hang up 
+hangUpBtn.addEventListener("click", function() {
+  send({
+    type: "leave"
+  });
+  handleLeave();
+});
+
+function handleLeave() {
+  connectedUser = null;
+  remoteVideo.src = null;
+
+  yourConn.close();
+  yourConn.onicecandidate = null;
+  yourConn.onaddstream = null;
+  startChat();
+};
+</pre>
+   </li>
+  </ol>
+ </li>
+ <li>Once signaling has been taken care of, you can add code to handle the audio/video or data stream and to start the WebRTC chat.
+  <ol type="a">
+   <li>The chat function is called when the user clicks a login button that creates a JMS topic with their username and subscribes to that topic, or in response to an offer from a peer. The function creates an Ajax object for the Web page. The Ajax object calls the <code>turn.rest</code> service on the Gateway, authenticates with it, and requests the list of ICE servers (TURN servers). It then takes the response from the <code>turn.rest</code> service and populates the <code>handleVideo.iceConfig</code> variable with the list. The list will be used by the <code>handleVideo()</code> function to configure the <a href="https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/RTCPeerConnection">RTCPeerConnection</a>.
+<pre class="auto-links: false; brush: js; toolbar: false; highlight:[10,13,14,15,16,18,19,20]">
+function startChat() {
+
+  // get the username and password entered by the user
+  username = usernameInput.value;
+  password = passwordInput.value;
+
+  // request the list of ICE servers from the turn.rest service
+  $.ajax({
+    type: "GET",
+    url: "https://gateway.auth.test:18032/turn.rest?service=turn",
+    dataType: 'json',
+    async: true,
+    headers: {
+      // Authenticate with the turn.rest service
+      "Authorization": "Basic " + btoa(username + ":" + password)
+    },
+    success: function(response) {
+      // get the list of ICE servers from the response from turn.rest
+      // and put it in a variable for the handleVideo() function
+      handleVideo.iceConfig = response;
+
+      loginPage.style.display = "none";
+
+      errMessage.style.display = "none";
+      callPage.style.display = "block";
+
+      //********************** 
+      //Starting a peer connection 
+      //********************** 
+
+      //getting local video stream 
+      if (navigator.mediaDevices.getUserMedia) {
+        navigator.mediaDevices.getUserMedia({
+          video: true,
+          audio: true
+        }, handleVideo, function(error) {
+          console.log("1", error);
+        });
+      } else {
+        navigator.kaazGetUserMedia({
+          video: true,
+          audio: true
+        }, handleVideo, function(error) {
+          console.log("1", error);
+        });
+      }
+    },
+    error: function() {
+      errMessage.style.display = "block";
+    }
+  });
+};
+</pre>
+   </li>
+   <li>Write the function to handle the video stream. Also, the function provides the ICE information required by RTCPeerConnection. The <code>iceTransportPolicy</code> is set to relay, one of the three options defined by the <code>RTCIceTransportPolicy</code> enum. The relay setting tells the browser that only ICE candidates whose IP addresses are being relayed, such as those being passed through a TURN server, will be considered. The <code>iceServers</code> configuration object is also set using the list received from the turn.rest service in <code>startChat()</code>. At the end of the function, the <code>onicecandidate</code> EventHandler is set with a function to send the ICE candidate to the peer. The function also handles the display of the streaming audio/visual media. The <code>peercon</code> variable definition is included to identify where the <code>RTCPeerConnection</code> constructor is used.
+<pre class="auto-links: false; brush: js; toolbar: false; highlight:[21,22,23,24,25,26,27,30,31,47,48,49,50,51,52,53,54,55]">
+var peercon; // browser-specific variable for RTCPeerConnection
+if (window.mozRTCPeerConnection) {
+  peercon = mozRTCPeerConnection;
+} else if (window.webkitRTCPeerConnection) {
+  peercon = webkitRTCPeerConnection;
+} else if (window.msRTCPeerConnection) {
+  peercon = msRTCPeerConnection;
+}
+...
+function handleVideo(myStream) {
+  stream = myStream;
+
+  console.log("debug : 1");
+
+  //displaying local video stream on the page 
+  if (window.URL) {
+    localVideo.src = window.URL.createObjectURL(stream);
+  } else {
+    localVideo.src = stream;
+  }
+  // Define the ICE configuration
+  var configuration = {
+    // set the ICE policy to a TURN server
+    "iceTransportPolicy": "relay", 
+    // use the ICE servers list defined in startChat()
+    "iceServers": handleVideo.iceConfig 
+  };
+
+  console.log("debug : 2");
+  // use configuration for RTCPeerConnection
+  yourConn = new peercon(configuration); 
+  console.log("debug : 3");
+
+  // setup stream listening 
+  yourConn.addStream(stream);
+
+  //when a remote user adds stream to the peer connection, we display it 
+  yourConn.onaddstream = function(e) {
+    console.log("Adding stream ");
+    if (window.URL) {
+      remoteVideo.src = window.URL.createObjectURL(e.stream);
+    } else {
+      remoteVideo.src = e.stream;
+    }
+  };
+
+  // Send the ICE candidate to the peer 
+  yourConn.onicecandidate = function(event) {
+    if (event.candidate) {
+      if (event.candidate.candidate.indexOf("relay") > 0) {
+        send({
+          type: "candidate",
+          candidate: new RTCIceCandidate(event.candidate)
+        });
+      }
+    }
+  };
+}
+</pre>
+   </li>
+  </ol>
+ </li>
+</ol>
+
+<p>The remainder of the WebRTC activity is managed by the Web browser.</p>
+
+<p>If you want to host your WebRTC app using the directory service of the Gateway, do the following:</p>
+
+<ol>
+ <li>Download and install the <a href="//kaazing.com/download/#ee-kwg">Kaazing WebSocket Gateway</a> on the server.</li>
+ <li>Open the <code>gateway-config.xml</code> file located in <code><em>GATEWAY_HOME</em>/conf/</code>.</li>
+ <li>Add a directory service that points to the folder where your HTML page is located, for example:
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;service&gt;
+  &lt;name&gt;webrtc&lt;/name&gt;
+  &lt;description&gt;Directory service for WebRTC&lt;/description&gt;
+  &lt;accept&gt;https://${gateway.hostname}:${gateway.port}&lt;/accept&gt;
+  &lt;type&gt;directory&lt;/type&gt;
+
+  &lt;properties&gt;
+    &lt;directory&gt;/webrtc&lt;/directory&gt;
+    &lt;welcome-file&gt;index.html&lt;/welcome-file&gt;
+    &lt;error-pages-directory&gt;/error-pages&lt;/error-pages-directory&gt;
+    &lt;options&gt;indexes&lt;/options&gt;
+    &lt;location&gt;
+      &lt;patterns&gt;**/*&lt;/patterns&gt;
+      &lt;cache-control&gt;max-age=0&lt;/cache-control&gt;
+    &lt;/location&gt;
+  &lt;/properties&gt;
+  
+  &lt;cross-site-constraint&gt;
+    &lt;allow-origin&gt;*&lt;/allow-origin&gt;
+  &lt;/cross-site-constraint&gt;
+&lt;/service&gt;
+</pre>
+ </li>
+ <li>Save the config file and start the Gateway as described in <a href="//kaazing.com/doc/5.0/about/setup-guide/index.html">Setting Up the Gateway and Clients</a>.</li>
+</ol>
+
+<h2 id="configure-a-message-broker-gateway">Configure a Message Broker Gateway</h2>
+
+<p>The Gateway hosting the JMS service must perform the following:</p>
+
+<ul>
+ <li>Proxy JMS traffic to the JMS message broker. In the enterprise scenario discussed in this document, traffic will be coming from both inside and outside of the corporate network.</li>
+ <li>Authenticate clients connecting to the JMS message broker via a login module.</li>
+</ul>
+
+<p>To configure the JMS service on the Gateway, do the following:</p>
+
+<ol>
+ <li>Download and install the <a href="//kaazing.com/download/#ee-kwg">Kaazing WebSocket Gateway</a> on the server.</li>
+ <li>Open the <code>gateway-config.xml</code> file located in <code><em>GATEWAY_HOME</em>/conf/</code>.</li>
+ <li>Revise the JMS service in the config file for the client connections and JMS proxying:
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;service&gt;
+  &lt;name&gt;JMS Service&lt;/name&gt;
+  &lt;accept&gt;wss://${gateway.hostname}:${gateway.port}/jms&lt;/accept&gt;
+
+  &lt;type&gt;jms&lt;/type&gt;
+
+  &lt;properties&gt;
+    &lt;connection.factory.name&gt;ConnectionFactory&lt;/connection.factory.name&gt;
+    &lt;context.lookup.topic.format&gt;dynamicTopics/%s&lt;/context.lookup.topic.format&gt;
+    &lt;context.lookup.queue.format&gt;dynamicQueues/%s&lt;/context.lookup.queue.format&gt;
+    &lt;env.java.naming.factory.initial&gt;org.apache.activemq.jndi.ActiveMQInitialContextFactory&lt;/env.java.naming.factory.initial&gt;
+    &lt;env.java.naming.provider.url&gt;tcp://broker:61616&lt;/env.java.naming.provider.url&gt;
+  &lt;/properties&gt;
+
+  &lt;realm-name&gt;demo&lt;/realm-name&gt;
+
+  &lt;cross-site-constraint&gt;
+    &lt;allow-origin&gt;*&lt;/allow-origin&gt;
+  &lt;/cross-site-constraint&gt;
+&lt;/service&gt;
+</pre>
+ </li>
+ <li>Prepare the Gateway to establish WebSocket Secure by following the steps in <a href="//kaazing.com/doc/5.0/security/o_tls/index.html">Secure Network Traffic with the Gateway</a>. For testing, you can follow the steps in <a href="//kaazing.com/doc/5.0/security/p_tls_selfsigned/index.html">Secure the Gateway Using Self-Signed Certificates</a>, but for production, you should use trusted certificates as described in <a href="//kaazing.com/doc/5.0/security/p_tls_trusted/">Secure the Gateway Using Trusted Certificates</a>.</li>
+ <li>Ensure a <code>realm-name</code> is configured in the JMS service. In the example above, the <code>realm-name</code> is <code>demo</code>.</li>
+ <li>In the security section of the configuration file, create a <code>realm</code> with the same name as <code>realm-name</code>. The <code>login-module</code> in your realm can use a number of different authentication methods. For testing, a file-based method is adequate:
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;security&gt;
+  &lt;keystore&gt;
+    &lt;type&gt;JCEKS&lt;/type&gt;
+    &lt;file&gt;keystore.db&lt;/file&gt;
+    &lt;password-file&gt;keystore.pw&lt;/password-file&gt;
+  &lt;/keystore&gt;
+
+  &lt;truststore&gt;
+    &lt;file&gt;truststore.db&lt;/file&gt;
+  &lt;/truststore&gt;
+
+  &lt;realm&gt;
+    &lt;name&gt;demo&lt;/name&gt;
+    &lt;description&gt;Sample realm for file-based authentication&lt;/description&gt;
+
+    &lt;authentication&gt;
+      &lt;http-challenge-scheme&gt;Application Basic&lt;/http-challenge-scheme&gt;
+      &lt;login-modules&gt;
+        &lt;login-module&gt;
+          &lt;type&gt;file&lt;/type&gt;
+          &lt;success&gt;required&lt;/success&gt;
+          &lt;options&gt;
+            &lt;file&gt;jaas-config.xml&lt;/file&gt;
+          &lt;/options&gt;
+        &lt;/login-module&gt;
+      &lt;/login-modules&gt;
+    &lt;/authentication&gt;
+  &lt;/realm&gt;
+&lt;/security&gt;
+</pre>
+ </li>
+ <li>Save the config file and start the Gateway and pre-packaged JMS message broker:
+ <p><code>./bin/gateway.start --broker jms</code> (Linux/Mac), or <code>./bin/gateway.start.bat --broker jms</code> (Windows)</p>
+ </li>
+</ol>
+
+<h2 id="configure-the-turn-server">Configure the TURN Server</h2>
+
+<p>The TURN server used in this document is <a href="https://github.com/coturn/coturn/wiki/turnserver">coTURN</a>. The Gateway WebRTC deployment only requires a few coTURN parameters be configured. Here is an example of a script used to configure the coTURN parameters required for the Gateway WebRTC deployment:</p>
+
+<p><code>"/usr/bin/turnserver", "-n", "-a", "--use-auth-secret", "--realm=real_name", "--static-auth-secret=shared_key", "--rest-api-separator=:"</code></p>
+
+<p>For information about each parameter, see the <a href="https://github.com/coturn/coturn/wiki/turnserver">coTURN</a> documentation.</p>
+
+<h2 id="configure-a-gateway-for-turn-and-rest">Configure a Gateway for TURN and REST</h2>
+
+<p>The Gateway hosting the turn.rest and turn.proxy services must perform the following:</p>
+
+<ul>
+ <li>Respond to client requests for ICE candidates via REST.</li>
+ <li>Authenticate clients connecting to the turn.rest service using a login module.</li>
+ <li>Proxy TURN traffic for a TURN server.</li>
+ <li>Mask TURN relay addresses.</li>
+</ul>
+
+<p>To configure the <code>turn.rest</code> and <code>turn.proxy</code> services on the Gateway, do the following:</p>
+
+<ol>
+ <li>Download and install the <a href="//kaazing.com/download/#ee-kwg">Kaazing WebSocket Gateway</a> on the server.</li>
+ <li>Configure the Gateway with a certificate for HTTPS using the <strong>keytool</strong> command-line tool. Prepare the Gateway to establish HTTPS by following the steps in <a href="//kaazing.com/doc/5.0/security/o_tls/index.html">Secure Network Traffic with the Gateway</a>. For testing, you can follow the steps in <a href="//kaazing.com/doc/5.0/security/p_tls_selfsigned/index.html">Secure the Gateway Using Self-Signed Certificates</a>, but for production, you should use trusted certificates as described in <a href="//kaazing.com/doc/5.0/security/p_tls_trusted/">Secure the Gateway Using Trusted Certificates</a>.</li>
+ <li>Configure the Gateway with an alias and password for the TURN server using the <strong>keytool</strong> command-line tool. The <code>turn.rest</code> service needs a shared key with the TURN server to generate credentials. When you set up coTURN, the shared key is specified with the <code>--static-auth-secret <em>secret</em></code> command. This process is documented in the <a href="https://tools.ietf.org/html/draft-uberti-rtcweb-turn-rest-00">TURN REST API</a>. The password for the shared key is kept in the keystore used by the Gateway.
+  <ol type="">
+   <li>You can add the alias and password by running the <code>keystore -importpassword</code> command in the <code><em>GATEWAY_HOME</em>/conf</code> folder, for example:
+   
+   <p><code>keytool -importpassword -storetype JCEKS -alias <em>turn_shared_secret</em> -keystore <em>GATEWAY_HOME</em>\conf\keystore.db -keypass <em>password</em></code></p>
+   
+   <p>The keytool app will prompt you for the password to store for the alias you entered.</p>
+   </li>
+   <li>Enter the password and press <strong>Enter</strong>.</li>
+   <li>Next, you are prompted for an additional password to store the password. Do not enter any password, just press <strong>Enter</strong>.</li>
+  </ol>
+ </li>
+ <li>Open the <strong>gateway-config.xml</strong> file located in <code><em>GATEWAY_HOME</em>/conf</code>.</li>
+ <li>Add a <code>turn.rest</code> service. Here is a sample <code>turn.rest</code> service configuration with comments:
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;service&gt;
+  &lt;name&gt;turn.rest&lt;/name&gt;
+  &lt;description&gt;TURN Rest Service&lt;/description&gt;
+  &lt;!-- ensure that HTTPS and the turn.rest suffix are used --&gt;
+  &lt;accept&gt;https://${gateway.hostname}:18032/turn.rest&lt;/accept&gt;
+
+  &lt;type&gt;turn.rest&lt;/type&gt;
+
+  &lt;properties&gt;
+    &lt;!-- the alias used when adding the shared key password to the keystore  --&gt;
+    &lt;key.alias&gt;turnshared&lt;/key.alias&gt;
+    &lt;!-- enter the algorithm used to encrypt the credentials --&gt;
+    &lt;key.algorithm&gt;HmacSHA1&lt;/key.algorithm&gt;
+    &lt;!-- enter the credential generator class used to generate the credentials --&gt;
+    &lt;credentials.generator&gt;class:org.kaazing.gateway.service.turn.rest.DefaultCredentialsGenerator&lt;/credentials.generator&gt;
+    &lt;!-- enter the time the credentials are valid for --&gt;
+    &lt;credentials.ttl&gt;22400&lt;/credentials.ttl&gt;            
+    &lt;!-- enter the username separator used in the credentials --&gt;
+    &lt;username.separator&gt;:&lt;/username.separator&gt;
+    &lt;!-- 
+    enter the hostname and port from the turn.proxy service accept URI,
+    And specify the transport suffix as tcp or udp.
+    If you omit the transport suffix, the Gateway will try both protocols
+    --&gt;
+    &lt;url&gt;turn:${gateway.hostname}:22000?transport=tcp&lt;/url&gt;        
+  &lt;/properties&gt;
+
+  &lt;!-- specify a real name for the security realm used --&gt;
+  &lt;realm-name&gt;demo&lt;/realm-name&gt;    
+  &lt;!-- restrict cross site constraints before running in production --&gt;
+  &lt;authorization-constraint&gt;
+    &lt;require-role&gt;AUTHORIZED&lt;/require-role&gt;
+  &lt;/authorization-constraint&gt;
+
+  &lt;!-- for testing, allow any origin --&gt;
+  &lt;cross-site-constraint&gt;
+    &lt;allow-origin&gt;*&lt;/allow-origin&gt;
+  &lt;/cross-site-constraint&gt;
+&lt;/service&gt;
+</pre> 
+ </li>
+ <li>Ensure the <code>turn.rest</code> service meets the following requirements:
+  <ol type="a">
+   <li>The <code>turn.rest</code> service accepts client connections over HTTPS and therefore the <code>accept</code> URI must use <code>https://</code>.</li>
+   <li>The accept URI must include the <code>turn.rest</code> suffix, for example <code>https://${gateway.hostname}:18032/turn.rest</code>.</li>
+  </ol>
+ </li>
+ <li>Configure the required properties as described in <a href="../../admin-reference/r_configure_gateway_service/index.html#turnrest">turn.rest</a>.</li>
+ <li>Ensure a <code>realm-name</code> is configured in the <code>turn.rest</code> service. In the example above, the <code>realm-name</code> is <code>demo</code>.</li>
+ <li>In the security section of the configuration file, create a <code>realm</code> with the same name as <code>realm-name</code>. The <code>login-module</code> in your <code>realm</code> can use a number of different authentication methods. For testing, a file-based method is adequate:
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;security&gt;
+  &lt;keystore&gt;
+    &lt;type&gt;JCEKS&lt;/type&gt;
+    &lt;file&gt;keystore.db&lt;/file&gt;
+    &lt;password-file&gt;keystore.pw&lt;/password-file&gt;
+  &lt;/keystore&gt;
+  &lt;truststore&gt;
+    &lt;file&gt;truststore.db&lt;/file&gt;
+  &lt;/truststore&gt;
+  &lt;realm&gt;
+    &lt;name&gt;demo&lt;/name&gt;
+    &lt;description&gt;Sample realm for file-based authentication&lt;/description&gt;
+    &lt;authentication&gt;
+      &lt;http-challenge-scheme&gt;Basic&lt;/http-challenge-scheme&gt;
+      &lt;login-modules&gt;
+        &lt;login-module&gt;
+          &lt;type&gt;file&lt;/type&gt;
+          &lt;success&gt;required&lt;/success&gt;
+          &lt;options&gt;
+            &lt;file&gt;jaas-config.xml&lt;/file&gt;
+          &lt;/options&gt;
+        &lt;/login-module&gt;
+      &lt;/login-modules&gt;
+    &lt;/authentication&gt;
+  &lt;/realm&gt;
+&lt;/security&gt;
+</pre>
+ </li>
+ <li>Add a <code>turn.proxy</code> service. Here is a sample <code>turn.proxy</code> service configuration with comments:
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;service&gt;
+  &lt;name&gt;turn.proxy&lt;/name&gt;
+  &lt;description&gt;TURN Proxy Service&lt;/description&gt;
+  &lt;!--
+  enter the hostname and port from the url property in turn.rest,
+  without the transport suffix
+  --&gt;
+  &lt;accept&gt;tcp://${gateway.hostname}:22000&lt;/accept&gt;    
+  &lt;!-- enter the URI for the TURN server --&gt;
+  &lt;connect&gt;tcp://coturn:3478&lt;/connect&gt;
+
+  &lt;type&gt;turn.proxy&lt;/type&gt;
+
+  &lt;properties&gt;
+    &lt;!-- the alias used when adding the shared key password to the keystore --&gt;
+    &lt;key.alias&gt;turnshared&lt;/key.alias&gt;
+    &lt;!-- the mapped.address used by STUN --&gt;
+    &lt;mapped.address&gt;192.0.2.15:3478&lt;/mapped.address&gt;
+  &lt;/properties&gt;
+&lt;/service&gt;
+</pre>
+ </li>
+ <li>Save the gateway-config.xml file.</li>
+ <li>Start the Gateway as described in <a href="../../about/setup-guide/index.html">Setting Up the Gateway and Clients</a>.</li>
+</ol>
+
+<h2 id="test-the-webrtc-deployment">Test the WebRTC Deployment</h2>
+
+<p>When testing your WebRTC deployment, there are a number of tools to help you view WebRTC session statistics:</p>
+
+<ul>
+ <li>Chrome: chrome://webrtc-internals </li>
+ <li>Opera: opera://webrtc-internals</li>
+ <li>Firefox: about:webrtc</li>
+</ul>
+
+<h2 id="how-webrtc-works-in-the-gateway-deployment">How WebRTC Works in the Gateway Deployment</h2>
+
+<p>The following procedure describes how a WebRTC Gateway production set up establishes communication:</p>
+
+<ol>
+ <li>Signaling, SSO, and REST.
+  <ol type="a">
+   <li>The client initiates the WebRTC connection by beginning the signaling phase. </li>
+   <li>The client attempts to connect to the JMS service hosted by the Gateway over the WebSocket Secure protocol <code>wss://</code>. A secure network connection is established.</li>
+   <li>The JMS service hosted on the Gateway also uses a login module to authenticate the client. It challenges the client for credentials, the client provides the credentials, and the JMS connection is established.</li>
+   <li>The client posts a JMS message on a JMS queue/topic subscribed to by the peer. The message contains the WebRTC <em>offer</em> needed by the peer to begin the communication. The peer responds with an WebRTC <em>answer</em> by posting a JMS message on a JMS queue/topic subscribed to by the client. The message indicates that the peer accepts the client’s offer to establish a WebRTC session.</li>
+   <li>The client attempts to connect to URI of the <code>turn.rest</code> service hosted by the Gateway. The URI of the <code>turn.rest</code> service hosted by the Gateway is hardcoded in both apps.</li>
+   <li>The client attempts to connect to the <code>turn.rest</code> service hosted on the REST Gateway over HTTPS (HTTP+TLS). A secure network connection is established.</li>
+   <li>The turn.rest service hosted on the REST Gateway is secured by a login module and the client is prompted to provide credentials in order to authenticate with the REST Gateway. Credentials may be a third-party token, username and password, or the same credentials used for the login module of the JMS service.</li>
+   <li>The client authenticates with the <code>turn.rest</code> service successfully.</li>
+  </ol>
+ </li>
+ <li>TURN Discovery. Once authenticated, the client connected to the <code>turn.rest</code> service receives a JSON object with the TURN proxy URI and one time credentials for the TURN server. The client no longer uses REST. This process is part of <a href="https://developer.mozilla.org/en-US/docs/Web/API/RTCConfiguration">RTCConfiguration</a> and the JSON object may also include STUN URLs.</li>
+ <li>STUN and TURN Relay.
+  <ol type="a">
+   <li>The client connects to the <code>turn.proxy</code> service on the Gateway over TCP. The <code>turn.proxy</code> service proxies the connections to the TURN server, for example, coTURN.</li>
+   <li>coTURN requires authentication, so the client submits the credentials provided by the <code>turn.rest</code> service to the TURN server via the Gateway and authenticates with the TURN server.</li>
+   <li>Once the client is authenticated, the TURN server issues a STUN response via the Gateway. The <code>turn.proxy</code> service corrects the Relay Address (external client IP) in the STUN response (alternatively, the <code>turn.proxy</code> will hide the STUN address), and provides the TURN Masked Address which the client will use.</li>
+   <li>The Gateway sends the client a TURN Masked Address for communication.</li>
+  </ol>
+ </li>
+ <li>The peer follows the same process as the client to receive a Masked Relay Address for communication with the client.</li>
+ <li>WebRTC Media and Data Communication.
+  <ol type="a">
+   <li>The client and peer browsers follow the WebRTC API establish a secure connection with each other, ensuring that their communication is encrypted and cannot be viewed by the TURN server.</li>
+   <li>Now that client and peer are proxied to TURN server via the <code>turn.proxy</code> service on the Gateway, and secured according to the WebRTC API, they share their conversation ID and begin their WebRTC session.</li>
+  </ol>
+ </li>
+</ol>
+
+<h2 id="Webrtc=client-demo-app">WebRTC Client Demo App</h2>
+
+<p>The following WebRTC demo application shows you how to create a simple WebRTC client/peer interface with the typical controls for connecting to the JMS server, and turn.rest and turn.proxy services hosted by the Gateway.</p>
+
+<p>The JavaScript code shows how to use the Kaazing WebSocket and JMS JavaScript API for the signaling phase of WebRTC. It also demonstrates the necessary event handlers and WebRTC, ICE, REST API and TURN protocol steps for the WebRTC client/peer app.</p>
+
+<p>In this example, the HTML file, named index.html, and the JavaScript file, named client.js, are located in the same folder. The Kaazing JavaScript SDK is loaded using a content delivery network.</p>
+
+<span class="note"><b>Note:</b> The demo application uses jQuery and Bootstrap for interface and programming components.</span>
+
+<h3 id="html">HTML</h3>
+
+<p>The HTML code is available online at: <a href="https://github.com/kaazing/webrtc/blob/develop/gateway/webrtc/index.html">https://github.com/kaazing/webrtc/blob/develop/gateway/webrtc/index.html</a></p>
+
+<h3 id="javascript">JavaScript</h3>
+
+<p>The JavaScript code is available online at: <a href="https://github.com/kaazing/webrtc/blob/develop/gateway/webrtc/client.js">https://github.com/kaazing/webrtc/blob/develop/gateway/webrtc/client.js</a></p>
+
+ </div>
+
+</div>
+
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

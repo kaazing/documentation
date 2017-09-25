@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+  
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+<h1>Checklist: Build Java WebSocket Clients </h1>
+
+        <p>The following checklist provides the steps necessary to build Java WebSocket clients to communicate with Kaazing Gateway:</p>
+
+ <table class="checklist">
+  <tr>
+   <th scope="col">#</th>
+   <th scope="col" width="400">Step</th>
+   <th scope="col">Topic or Reference</th>
+  </tr>
+  <tr>
+   <td>1</td>
+   <td>Learn about supported browsers, operating systems, and platform versions.</td>
+   <td><a href="//kaazing.com/releases/client-java/">Release Notes</a></td>
+  </tr>
+  <tr>
+   <td>2</td>
+   <td>Use the WebSocket API provided by the Kaazing Java client library to transmit data (both text and binary) over WebSocket.</td>
+   <td><a href="p_dev_java_websocket.html">Interact with Kaazing Gateway Using the WebSocket API</a></td>
+  </tr>
+  <tr>
+   <td>3</td>
+   <td>Migrate your legacy Kaazing Gateway WebSocket or ByteSocket-based client to the WebSocket API-compliant libraries in Kaazing Gateway 4.x.</td>
+   <td><a href="p_dev_java_migrate.html">Migrate WebSocket and ByteSocket Applications to Kaazing Java SDK 4.x</a></td>
+  </tr>
+  <tr>
+   <td>4</td>
+   <td>Learn how to authenticate your Java or Android client with the Gateway.</td>
+   <td><a href="p_dev_java_secure.html">Secure Your Java and Android Clients</a></td>
+  </tr>
+  <tr>
+   <td>5</td>
+   <td>Set up logging for your client.</td>
+   <td><a href="p_dev_java_logging.html">Display Logs for the Java Client</a></td>
+  </tr>
+  <tr>
+   <td>6</td>
+   <td>Troubleshoot the most common issues that occurs when using Java clients.</td>
+   <td><a href="p_dev_java_tshoot.html">Troubleshoot Your Java WebSocket Client</a></td>
+  </tr>
+ </table>     
+
+<p><span class="note"><b>Note:</b> Java Developer Kit (JDK) or Java Runtime Environment (JRE) Java 8 (version 1.8.0_77) or higher are required.</span>
+</p>        
+<h2><a name="overview" id="overview"></a>Overview of Java</h2>
+<p> Java applications are platform&ndash;independent because they are compiled to <a href="//en.wikipedia.org/wiki/Bytecode">bytecode</a> that can then be run on a Java virtual machine (JVM) on any certified operating system.</p>
+
+            <h2><a name="websocket_java" id="websocket_java"></a>WebSocket and Java</h2>
+            <p>Kaazing WebSocket Gateway provides support for its HTML5 Communication protocol libraries in Java. Using the Java WebSocket client library, you can enable the HTML5 Communication protocols (for example, WebSocket in new or existing Java applications. For example, you can create a Java client to get streaming financial data from a back-end server using WebSocket. The following figure shows a high-level overview of the architecture:</p>
+    <figure>
+        <img src="../images/f-html5-java-client2-web.jpg" width="761" height="207" alt="Java client architecture overview">
+    <figcaption><strong>Figure: Java client architecture overview</strong></figcaption>    
+    </figure>
+
+          <!-- <h2><a name="demo" id="demo"></a>Taking a Look at the Java Client Demo</h2>
+                <p>Before you start, take a look at an out of the box demo built using the Java client library: the Java applet that is part of the Kaazing Gateway bundle. To see this Java applet in action, perform the following steps:</p>
+        <ol>
+          <li>Start the Gateway as described in <a href="../../about/setup-guide/index.html">Setting Up the Gateway and Clients</a>.</li>
+          <li>In a browser, navigate to the out of the box demos at <span class="uri">http://localhost:8001/demo/</span>. </li>
+        <li>Click <strong>Java</strong> and follow the instructions.</li>
+              </ol>
+          <p>The out of the box Java demo shows WebSocket being used in a Java environment.</p>
+
+<h2>Taking a Look at the Java Client Demo Using Eclipse</h2>
+<p>Running the out of the box Java demo in Eclipse enables you to see the code and a working Java client. The Kaazing Gateway download (the full download, not the “base” download) includes the demo files, and these can be easily added to an Eclipse project using the following steps (for download information, see <strong>What are my download options?</strong> in <a href="../../about/setup-guide/index.html">Setting Up the Gateway and Clients</a>):</p>
+<ol>
+    <li>Open Eclipse. If you do have Eclipse, you can <a href="//www.eclipse.org/downloads/" title="Eclipse Downloads">download it</a> and install it.</li>
+    <li>In Eclipse, in the <strong>File</strong> menu, click <strong>New</strong>, and then click <strong>Java Project</strong>.</li>
+    <li>Enter a name for the project, such as <strong>WebSocket</strong>, and click <strong>Next</strong>.</li>
+    <li>In <strong>Java Settings</strong>, click the <strong>Libraries</strong> tab, and then click <strong>Add External JARs</strong>.</li>
+    <li>Navigate to the Kaazing Gateway Java libraries here: <span class="uri"><em>GATEWAY_HOME</em>/lib/client/java</span>, and double-click the library <strong>com.kaazing.gateway.client.jar</strong>.</li>
+    <li>Click <strong>Finish</strong>.</li>
+    <li>In your new project folder in Eclipse, right-click the <strong>src</strong> folder under your new project, click <strong>New</strong>, and then click <strong>Package</strong>.</li>
+    <li>In <strong>Java Package</strong>, enter the name <strong>com.kaazing.net.ws.demo</strong> and click <strong>Finish</strong>.</li>
+    <li>In your system's file manager, navigate to the demo source files that are included with the Kaazing Gateway download:<br> <span class="uri"><em>GATEWAY_HOME</em>/demo/java/src/gateway/com/kaazing/net/ws/demo</span>.</li>
+    <li>Copy the files named <strong>LoginDialog.java</strong> and <strong>WebSocketFrame.java</strong>.</li>
+    <li>In Eclipse, right-click the <strong>com.kaazing.net.ws.demo</strong> package under the <strong>src</strong> folder in your new project, and click <strong>Paste</strong>. The demo source files are added to the package.</li>
+    <li>Start the Gateway as described in <strong>How do I start and stop the Gateway?</strong> in <a href="../../about/setup-guide/index.html">Setting Up the Gateway and Clients</a>.</li>
+    <li><p>In Eclipse, from the <strong>Run</strong> menu, click <strong>Run As</strong> and then <strong>Java Application</strong>. (By default, Eclipse should be configured to build the project automatically. If you receive a build error, from the <strong>Project</strong> menu, click <strong>Build Project</strong>.)</p>
+    <p>The Java client launches in a new window titled <strong>WebSocket Echo Demo</strong>.</p>
+    </li>
+    <li>Click <strong>Connect</strong>. The Log displays:<br>
+    <span class="uri">
+        CONNECTED<br>
+        CONNECT: ws://localhost:8001/echo
+    </span>
+    </li>
+
+    <li>Click <strong>Send Text</strong>. The Log displays the sent text message and the Echo response from the Gateway:<br>
+    <span class="uri">
+        RESPONSE:Hello, WebSocket!<br>
+        SENT:Hello, WebSocket!
+    </span>
+    </li>
+
+    <li>Click <strong>Send Binary</strong>. The Log displays the sent binary message in hexadecimal and the Echo response from the Gateway:<br>
+    <span class="uri">
+        RESPONSE: 48 65 6c 6c 6f 2c 20 57 65 62 53 6f 63 6b 65 74 21<br>
+        SEND BINARY: 48 65 6c 6c 6f 2c 20 57 65 62 53 6f 63 6b 65 74 21
+    </span>
+    </li>
+
+    <li>Click <strong>Close</strong> to close the WebSocket connection.</li>
+</ol> -->
+        
+<h2>See Also</h2>
+<p><a href="../apidoc/client/java/gateway/index.html">Java Client API</a></p>
+
+    
+                  </section>
+                </article>
+
+            </div> <!-- #main -->
+        </div> <!-- #main-container -->
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

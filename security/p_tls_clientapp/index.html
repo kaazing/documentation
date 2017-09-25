@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+  
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+
+ <h1 id="secure-clients-and-web-browsers-with-a-self-signed-certificate">Secure Clients and Web Browsers with a Self-Signed Certificate</h1>
+
+<p><strong>Warning:</strong> Using self-signed certificates can result in unpredictable behavior because various browsers, plug-ins, operating systems, and related run-time systems handle self-signed certificates differently. Resulting issues may include connectivity failures and other security issues which can be difficult to diagnose. Instead, use <a href="../p_tls_trusted">trusted certificates</a> issued from a trusted certificate authority (CA) for real-world development, test, and production environments.</p>
+
+<p>In these procedures, you will learn how to configure secure networking between Kaazing Gateway and clients and web browsers using self-signed certificates. Typically, a self-signed certificate is intended for limited development and testing environments.</p>
+
+<p>In this procedure, you will configure applications for TLS/SSL connections with the Gateway in the following ways:</p>
+
+<ul>
+  <li><a href="#to-use-self-signed-certificates-with-ios-devices-and-ios-simulator">To Use Self-Signed Certificates With iOS Devices and iOS Simulator</a></li>
+  <li><a href="#to-use-self-signed-certificates-with-android-devices">To Use Self-Signed Certificates With Android Devices</a></li>
+  <li><a href="#to-use-self-signed-certificates-with-net-clients">To Use Self-Signed Certificates With .Net Clients</a></li>
+  <li><a href="#to-use-self-signed-certificates-with-java-clients">To Use Self-Signed Certificates with Java Clients</a></li>
+  <li><a href="#to-import-self-signed-certificates-into-a-web-browser">To Import Self-Signed Certificates into a Web Browser</a></li>
+</ul>
+
+<p><strong>Note:</strong> Using self-signed certificates with clients involves importing and exporting certificates from the truststore and keystore storage locations. For more information, see the <a href="../../admin-reference/r_configure_gateway_security#truststore">truststore</a> and <a href="../../admin-reference/r_configure_gateway_security#keystore">keystore</a> elements in the <a href="../../admin-reference/r_configure_gateway_security/index.html">Security Reference</a> documentation.<br />
+
+<h2>Before You Begin</h2>
+
+<p>This procedure is part of <a href="../o_tls">Secure Network Traffic with the Gateway</a>:</p>
+
+<ul>
+  <li><a href="../p_tls_trusted">Secure the Gateway Using Trusted Certificates</a></li>
+  <li><a href="../p_tls_selfsigned">Secure the Gateway Using Self-Signed Certificates</a></li>
+  <li><strong>Secure Clients and Web Browsers with a Self-Signed Certificate</strong></li>
+  <li><a href="../p_tls_mutualauth">Require Clients to Provide Certificates to the Gateway</a></li>
+</ul>
+
+<h2 id="to-use-self-signed-certificates-with-ios-devices-and-ios-simulator">To Use Self-Signed Certificates With iOS Devices and iOS Simulator</h2>
+
+<p>The following steps describe how to import a self-signed certificate into an iOS device and the iOS Simulator included with Xcode.</p>
+
+<h3 id="ios-devices">iOS Devices</h3>
+
+<p>To import the self-signed certificate into the iOS device, do the following:</p>
+
+<ol>
+  <li>
+    <p>On the Gateway, enter the following command to export the certificate from the default keystore on the Gateway, substituting your own information for <em>hostname</em>, <em>GATEWAY_HOME</em>, and <em>password</em>:</p>
+
+    <pre><code>keytool -exportcert -alias hostname -keystore GATEWAY_HOME\conf\keystore.db -storetype JCEKS -file
+GATEWAY_HOME\web\base\hostname.cer -storepass password
+</code></pre>
+
+    <p>The exported certificate is located in <code>GATEWAY_HOME\web\base</code>.</p>
+  </li>
+  <li>Email the certificate as an email attachment to an account that can be reached using the iOS device.</li>
+  <li>On the iOS device, open the email message, select the certificate attachment, and then select <strong>Install</strong>. Now the certificate can be used without warnings in Safari or other iOS apps that use the iOS device’s keychain. You can access the certificate in <strong>Settings &gt; General &gt; Profiles</strong> and remove it if required.</li>
+</ol>
+
+<h3 id="ios-simulator">iOS Simulator</h3>
+
+<p>Importing self-signed certificates is not directly supported in the iOS Simulator. To add a self-signed certificate to the iOS Simulator, do the following:</p>
+
+<ol>
+  <li>Download the management script <a href="https://github.com/ADVTOOLS/ADVTrustStore">ADVTrustStore</a> from GitHub. ADVTrustStore is a simple management script to import, list, and remove self-signed certificates in the iOS Simulator. You might find it convenient to download the ADVTrustStore script into the <code>GATEWAY_HOME/conf/</code> folder, as that is where the keystore.db file is located.</li>
+  <li>
+    <p>On the Gateway, enter the following command to export the certificate from the default keystore on the Gateway, substituting your own information for <em>hostname</em>, <em>GATEWAY_HOME</em>, and <em>password</em>:</p>
+
+    <pre><code>keytool -exportcert -alias hostname -keystore GATEWAY_HOME\conf\keystore.db -storetype JCEKS -file
+GATEWAY_HOME\conf\hostname.cer -storepass password -rfc
+</code></pre>
+
+    <p>The exported certificate is located in <code>GATEWAY_HOME\conf\</code>. Note the use of the <code>-rfc</code> parameter. The <code>-rfc</code> parameter exports the certificate in PEM format.</p>
+  </li>
+  <li>
+    <p>Use the ADVTrustStore script to add the <em>hostname</em>.cer certificate into the iOS Simulator. The ADVTrustStore script will prompt you to install the self-signed certificate for each available iOS Simulator version.</p>
+
+    <p>For Windows: <code>iosCertTrustManager.py -a example.cer</code></p>
+
+    <p>For Mac/Linux: <code>./iosCertTrustManager.py -a example.cer</code></p>
+
+    <p>For each iOS Simulator version, the output will look similar to this:</p>
+
+    <p><code>Import certificate to iPhone/iPad simulator v5.1 [y/N] y Importing to /Users/johnsmith/Library/Application Support/iPhone Simulator/5.1/Library/Keychains/TrustStore.sqlite3 Existing certificate replaced</code></p>
+  </li>
+</ol>
+
+<p>The self-signed certificate is added to the iOS Simulator.</p>
+
+<h2 id="to-use-self-signed-certificates-with-android-devices">To Use Self-Signed Certificates With Android Devices</h2>
+
+<p>There are many different Android devices, but the following instructions for Android 4.3 and the Nexus 10 device should apply to most Android devices.</p>
+
+<p>To import the self-signed certificate into the Android device, do the following:</p>
+
+<ol>
+  <li>
+    <p>On the Gateway, enter the following command to export the certificate from the default keystore on the Gateway, substituting your own information for <em>hostname</em>, <em>GATEWAY_HOME</em>, and <em>password</em>:</p>
+
+    <pre><code>keytool -exportcert -alias hostname -keystore GATEWAY_HOME\conf\keystore.db -storetype JCEKS -file
+GATEWAY_HOME\conf\hostname.cer -storepass password
+</code></pre>
+
+    <p>The exported certificate is located in <code>GATEWAY_HOME\conf\</code>.</p>
+  </li>
+  <li>
+    <p>Follow the steps in <a href="https://support.google.com/nexus/10/answer/2844832?hl=en">Work with certificates</a> from Google to import the certificate into your Android 4.3 device. For other Android versions and devices, see <a href="https://support.google.com/android/answer/3094742">Manufacturer support</a>.</p>
+  </li>
+</ol>
+
+<h2 id="to-use-self-signed-certificates-with-net-clients">To Use Self-Signed Certificates with .NET Clients</h2>
+
+<p>Place self-signed certificates in the Windows Trusted Root Certification Authorities store. You can do this with Certificate Creation Tool (MakeCert.exe), as described on Microsoft’s support site: <a href="//msdn.microsoft.com/en-us/library/ms733813.aspx">http://msdn.microsoft.com/en-us/library/ms733813.aspx</a>.</p>
+
+<h2 id="to-use-self-signed-certificates-with-java-clients">To Use Self-Signed Certificates with Java Clients</h2>
+
+<p>After you have created or imported the self-signed certificate into the keystore.db file for the Gateway, you can enable your Java clients to use that self-signed certificate in one of two ways:</p>
+
+<ul>
+  <li><a href="#import-the-self-signed-certificate-into-the-java-clients-jvm-truststore">Import the self-signed certificate into the Java client’s JVM truststore</a>, or</li>
+  <li><a href="#add-the-self-signed-certificate-to-a-truststore-and-reference-it-when-launching-the-java-client">Add the self-signed certificate to a truststore and reference it when Launching the Java Client</a>.</li>
+</ul>
+
+<h3 id="import-the-self-signed-certificate-into-the-java-clients-jvm-truststore">Import the Self-Signed Certificate into the Java Client’s JVM Truststore</h3>
+
+<p>To import the certificate into the Java client’s truststore, export the self-signed certificate located on the Gateway in a format that can be imported into the Java client. Substitute your own information for <em>hostname</em>, <em>GATEWAY_HOME</em>, <em>JAVA_HOME</em>,and <em>password</em> in the following steps.</p>
+
+<ol>
+  <li>
+    <p>On the Gateway, enter the following command to exports the certificate from the default keystore on the Gateway:</p>
+
+    <pre><code>keytool -exportcert -alias hostname -keystore GATEWAY_HOME\conf\keystore.db -storetype JCEKS -file
+GATEWAY_HOME\conf\hostname*.cer -storepass password
+</code></pre>
+  </li>
+  <li>Copy the <code>hostname.cer</code> file to the client.</li>
+  <li>
+    <p>Ensure that <code>JAVA_HOME/jre/lib/security/cacert</code> exists on the client and import the <code>hostname.cer</code> file into the JVM-wide truststore using keytool. The following example command uses the default Java Certificate Authority certificates password <code>changeit</code> and assumes the <code>hostname.cer</code> file is in the current directory. Be sure to change <code>hostname</code> to your hostname.</p>
+
+    <pre><code>keytool -importcert -keystore JAVA_HOME\jre\lib\security\cacerts -storepass changeit -alias hostname -file
+hostname.cer
+</code></pre>
+
+    <p>The Java client should now be able to find your certificate in the JVM’s truststore and implicitly trust it.</p>
+  </li>
+</ol>
+
+<h3 id="add-the-self-signed-certificate-to-a-truststore-and-reference-it-when-launching-the-java-client">Add the self-signed certificate to a truststore and reference it when Launching the Java Client</h3>
+
+<p>To add the self-signed certificate to the default truststore used by the JVM, import the certificate into a truststore and then reference it when launching the Java client. Substitute your own information for <em>hostname</em>, <em>GATEWAY_HOME</em>, <em>JAVA_HOME</em>,and <em>password</em> in the following steps.</p>
+
+<ol>
+  <li>
+    <p>On the Gateway, enter the following command to exports the certificate from the default keystore on the Gateway:</p>
+
+    <pre><code>keytool -exportcert -alias hostname -keystore GATEWAY_HOME\conf\keystore.db -storetype JCEKS -file
+GATEWAY_HOME\conf\hostname.cer -storepass password
+</code></pre>
+  </li>
+  <li>
+    <p>Create a new truststore on the client that has as its sole content the certificate you exported on the server. The following example command uses <code>testing.db</code> as the new truststore, assumes the file is in the current directory, and uses the default password <code>changeit</code>:</p>
+
+    <pre><code>keytool -importcert -keystore testing.db -storepass changeit -storetype JCEKS -alias hostname -file
+hostname.cer
+</code></pre>
+  </li>
+  <li>
+    <p>When you launch the Java client, use the <code>"java.net.ssl.trustStore" -D</code> parameter to provide the location of trusted certificates to the client application. The following example references <code>testing.db</code> as the location of the truststore and <code>EnabledJavaClient</code> as the name of your client application:</p>
+
+    <pre><code>java -cp . -Djavax.net.ssl.trustStore=testing.db EnabledJavaClient
+</code></pre>
+
+    <p>You can also use a system property to set the location of the truststore by adding the following code to your Java client, including the location of the certificate, substituting your information for <em>path to truststore</em>.</p>
+
+    <p><code>System.setProperty("javax.net.ssl.trustStore", "path to truststore");</code></p>
+
+    <p>If you are running the client on the same computer as the Gateway, you can use the following code in your Java client to set the location of the truststore and certificate:</p>
+
+    <pre class="auto-links: false; brush: java; toolbar: false;">    final String trustStore = new File(new File(GatewayLauncher.getGatewayHomeDir(), "conf/"),
+        "truststore.db").getAbsoluteFile().toString();
+
+    System.setProperty("javax.net.ssl.trustStore", trustStore);
+
+    final String trustStorePassword = new String(loadKeyStorePassword(new File
+        (new File(GatewayLauncher.getGatewayHomeDir(), "conf/"), "keystore.pw")));
+
+    System.setProperty("javax.net.ssl.trustStorePassword", trustStorePassword);
+
+    System.setProperty("javax.net.ssl.trustStoreType", "JCEKS");
+</code></pre>
+  </li>
+</ol>
+
+<h2 id="to-import-self-signed-certificates-into-a-web-browser">To Import Self-Signed Certificates into a Web Browser</h2>
+
+<p>When using self-signed certificates with web browsers, you can import the self-signed certificate into the web browser using the browser’s built-in functionality. The following table includes general steps for importing self-signed certificates into web browsers. For information specific to web browsers and operating systems, see their documentation on importing certificates.</p>
+
+<p><strong>Note:</strong> In general, you will only be using self-signed certificates for testing purposes. When using a WebSocket Secure (WSS) connection, you are not prompted to import a certificate. The prompt displays if you navigate to an HTTPS page. Follow the steps in <a href="../p_tls_selfsigned">Secure the Gateway Using Self-Signed Certificates</a> to accept the self-signed certificate in a web browser. When you surf to the secure directory service on the Gateway (<code>https://</code>), the browser will display a warning stating that the certificate is not trusted. Accept the untrusted certificate and proceed to the web page.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Browser</th>
+      <th>Resources for Importing Self-Signed Certificates</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Apple Safari</td>
+      <td>You might want to export the certificate from the keystore of the Gateway and import it into your Mac Keychain. Mac Keychain only recognizes the PKCS12 and PKCS7 certificate types. When you export the certificate from the keystore of the Gateway using <a href="//docs.oracle.com/javase/7/docs/technotes/tools/windows/keytool.html">keytool</a> and the <code>-exportcert</code> command, use <code>-storetype PKCS7</code>. You can also use the <a href="//www.lazgosoftware.com/kse/">KeyStore Explorer</a> tool. For more information, see <a href="//support.apple.com/kb/PH10968">OS X Mountain Lion</a>: If your certificate isn’t being accepted from Apple.</td>
+    </tr>
+    <tr>
+      <td>Google Chrome</td>
+      <td>See <a href="https://support.google.com/chrome/answer/95572?hl=en&amp;ref_topic=14666">Advanced security settings</a> from Google.</td>
+    </tr>
+    <tr>
+      <td>Mozilla Firefox</td>
+      <td>See <a href="https://support.mozilla.org/en-US/kb/connection-untrusted-error-message?esab=a&amp;s=self+signed+certificate&amp;r=3&amp;as=s">“This Connection is Untrusted” error message appears - What to do from Mozilla.</a></td>
+    </tr>
+    <tr>
+      <td>Opera</td>
+      <td>See <a href="//help.opera.com/Mac/12.10/en/certificates.html">Security certificates</a> from Opera.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="microsoft-internet-explorer">Microsoft Internet Explorer</h4>
+<p>See <a href="//windows.microsoft.com/en-US/windows-vista/Import-or-export-certificates-and-private-keys">Import or export certificates and private keys</a> and <a href="//windows.microsoft.com/en-us/internet-explorer/certificate-errors-faq#ie=ie-10">Certificate errors: FAQ</a> from Microsoft.</p>
+
+<p><strong>For Internet Explorer 8 and 9</strong></p>
+
+<ol>
+  <li>Navigate to the Gateway home using an HTTPS URL.</li>
+  <li>At the prompt <strong>There is a problem with this website’s security certificate</strong>, click <strong>Continue to this website (not recommended)</strong>.</li>
+  <li>Click <strong>Internet Options</strong> on the <strong>Tools</strong> menu.</li>
+  <li>On the <strong>Security</strong> tab, click <strong>Trusted sites</strong> and then click <strong>Sites</strong>.</li>
+  <li>Confirm that the URL matches the URL you entered and click <strong>Add</strong>, and then click <strong>Close</strong>.</li>
+  <li>Close <strong>Internet Options</strong>.</li>
+  <li>Refresh the web page.</li>
+  <li>At the prompt <strong>There is a problem with this website’s security certificate</strong>, choose <strong>Continue to this website (not recommended)</strong>.</li>
+  <li>Click <strong>Certificate Error</strong> in the address bar and click <strong>View certificates</strong>.</li>
+  <li>Click <strong>Install Certificate</strong>, and then click <strong>Next</strong> in the <strong>Certificate Import Wizard</strong>.</li>
+  <li>Select <strong>Place all certificates in the following store</strong>.</li>
+  <li>Click <strong>Browse</strong>, click <strong>Trusted Root Certification Authorities</strong>, and click <strong>OK</strong>.</li>
+  <li>Click <strong>Next</strong> in the wizard until you reach the last screen, and then click <strong>Finish</strong>. If you get a <strong>Security Warning</strong> message box, click <strong>Yes</strong>.</li>
+  <li>Click <strong>OK</strong>.</li>
+  <li>On the <strong>Tools</strong> menu, click <strong>Internet Options</strong>.</li>
+  <li>On the <strong>Security</strong> tab, click <strong>Trusted sites</strong> and then click <strong>Sites</strong>.</li>
+  <li>Select the URL you added and click <strong>Remove</strong>, and then click <strong>Close</strong>.</li>
+  <li>Restart Internet Explorer. The web site’s certificate as well as any WebSocket URL will now work in Internet Explorer.</li>
+</ol>
+
+<h2 id="next-steps">Next Steps</h2>
+
+<p>To troubleshoot TLS/SSL errors and exceptions, see <a href="../../troubleshooting/p_troubleshoot_security/index.html">Troubleshooting Kaazing Gateway Security</a>.</p>
+
+<h2 id="see-also">See Also</h2>
+
+<ul>
+  <li><a href="../c_tls">Transport Layer Security (TLS/SSL) Concepts</a></li>
+  <li><a href="../u_tls_works">How TLS/SSL Works with the Gateway</a></li>
+</ul>
+
+
+</div>
+
+</div>
+
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

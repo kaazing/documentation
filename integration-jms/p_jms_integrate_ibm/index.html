@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+  
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+
+ <h1 id="integrate-ibm-websphere-mq--">Integrate IBM&reg; MQ Service</h1>
+
+<p>In this procedure, you will learn how to integrate Kaazing Gateway and IBM WebSphere MQ, an IBM standard for program-to-program messaging across multiple platforms, using the <code>ibmmq</code> (see <a href="../../admin-reference/r_conf_mq/index.html">IBM&reg; MQ Services for Kaazing Gateway</a>) and <code>jms</code> (see <a href="../../admin-reference/r_conf_jms/index.html">JMS Services for Kaazing Gateway</a>) services.</p>
+
+<span class="note"><b>Notes:</b>
+ <ul>
+   <li>You can use either the <code>jms</code> or <code>ibmmq</code> Gateway services for integrating IBM&reg; MQ Service with the Gateway. The <code>ibmmq</code> service is recommended.</li>
+   <li>For information on setting up a secure (TLS) connection between the Gateway and IBM&reg; MQ, see <a href="#IBMMQ-TLS">To Configure an Encrypted (TLS) Connection Between the Gateway and IBM&reg; MQ</a>.</li>
+ </ul>
+</span>
+
+<h2 id="to-integrate-ibm-mq">To Integrate IBM&reg; MQ 8.0 using the <code>ibmmq</code> Service</h2>
+
+<ol>
+ <li>Download and install IBM&reg; MQ 8.0 following the instructions in the IBM&reg; MQ documentation. The directory that contains the IBM&reg; MQ installation (for example, <code>C:\Program Files\IBM\WebSphere MQ</code> on Windows) is referred to as <code>MQ_HOME</code>. Use of the MQ 8.0 client jars is required for the <code>ibmmq</code> service, but the service can be used to connect to prior versions of IBM&reg; MQ if needed (for example, WebSphere MQ 7.1 or 7.5).</li>
+ <li>Copy the following JAR files from <code>MQ_HOME/java/lib to GATEWAY_HOME/lib</code>.
+  <ul type="a">
+   <li>com.ibm.mq.allclient.jar</li>
+   <li>fscontext.jar</li>
+   <li>jms.jar</li>
+   <li>providerutil.jar</li>
+  </ul>
+ </li>
+ <li>Open the file <code>GATEWAY_HOME/conf/gateway-config.xml</code> in a text editor and add the <code>ibmmq</code> service element.
+  <ul type="a">
+   <li>Here is an example with no JNDI initialContext:
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;service&gt;
+ &lt;name&gt;IBM MQ JMS Service&lt;/name&gt;
+ &lt;description&gt;Optimized JMS Service for IBM MQ&lt;/description&gt;
+ &lt;accept&gt;ws://localhost:8001/jms&lt;/accept&gt;
+
+ &lt;type&gt;ibmmq&lt;/type&gt;
+
+ &lt;properties&gt;
+  &lt;queue.manager&gt;QM1&lt;/queue.manager&gt;
+  &lt;server.channel&gt;SYSTEM.DEF.SVRCONN&lt;/server.channel&gt;
+  &lt;host&gt;mq.acme.com&lt;/host&gt;
+  &lt;port&gt;1414&lt;/port&gt;
+  &lt;!-- other properties, as on the jms service, for example: --&gt;
+  &lt;queue.maximum.pending.acknowledgments&gt;10&lt;/queue.maximum.pending.acknowledgments&gt;
+  &lt;/properties&gt;
+&lt;/service&gt;
+</pre>
+   </li>
+   <li>Here is an example using an <code>initialContext</code> for finer-grained control over MQ options (in this case, <code>ibmmq</code> is configured in much the same way as the <code>jms</code> service):
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;service&gt;
+ &lt;name&gt;IBM MQ JMS Service&lt;/name&gt;
+ &lt;description&gt;Optimized JMS Service for IBM MQ with initial context&lt;/description&gt;
+ &lt;accept&gt;ws://localhost:8001/jms&lt;/accept&gt;
+
+ &lt;type&gt;ibmmq&lt;/type&gt;
+
+ &lt;properties&gt;
+  &lt;connection.factory.name&gt;ConnectionFactory&lt;/connection.factory.name&gt;
+  &lt;context.lookup.topic.format&gt;%s&lt;/context.lookup.topic.format&gt;
+  &lt;context.lookup.queue.format&gt;%s&lt;/context.lookup.queue.format&gt;
+  &lt;env.java.naming.factory.initial&gt;com.sun.jndi.fscontext.RefFSContextFactory&lt;/env.java.naming.factory.initial&gt;
+
+  &lt;!-- The location of the .bindings file --&gt;
+  &lt;env.java.naming.provider.url&gt;file:/bindings_file_location&lt;/env.java.naming.provider.url&gt;
+  &lt;destination.strategy&gt;context&lt;/destination.strategy&gt;
+ &lt;/properties&gt;
+&lt;/service&gt;
+</pre>
+   </li>
+  </ul>
+ </li>
+ <li>If using an initial context, do the following:
+  <ol type="a">
+   <li>Ensure that you have the <strong>.bindings</strong> file, which contains the initial context objects (connection factory, queue manager, topics, queues, etc).</li>
+   <li>Replace <code>bindings_file_location</code> in the <code>env.java.naming.provider.url</code> element with the file path to the JNDI <strong>.bindings</strong> file folder for the connection to the broker. Do not include the <strong>.bindings</strong> file name in the file path. For example, <code>file:/C:/JNDI-Directory</code> (Windows) or <code>file:/Users/johndoe/Desktop/JNDI-Directory</code> (Mac and Linux).</li>
+  </ol>
+ </li>
+ <li>Save the configuration file. To test the configuration, see <a href="#verifying-ibm-mq-integration">Verifying IBM&reg; MQ Integration</a>.</li>
+</ol>
+
+
+<h2 id="to-integrate-ibm-mq--using-the-jms-service">To Integrate IBM&reg; MQ 8 using the jms Service</h2>
+
+<ol>
+ <li>Download and install IBM&reg; MQ following the instructions in the IBM&reg; MQ documentation. The directory that contains the IBM&reg; MQ installation (for example, <code>C:\Program Files\IBM\WebSphere MQ</code> on Windows) is referred to as <code><em>MQ_HOME</em></code>.</li>
+ <li>Depending on which version of IBM&reg; MQ you are using, do one of the following:
+  <ul>
+   <li>If you are using IBM&reg; MQ 8.0, copy the following JAR files from <code><em>MQ_HOME</em>/java/lib</code> to <code><em>GATEWAY_HOME</em>/lib</code>.
+     <ul>
+      <li>com.ibm.mq.allclient.jar</li>
+      <li>fscontext.jar</li>
+      <li>jms.jar</li>
+      <li>jndi.jar</li>
+      <li>providerutil.jar</li>
+     </ul>
+   </li>
+   <li>If you are using IBM&reg; MQ 7.1 or 7.5, copy the following JAR files from <code><em>MQ_HOME</em>/java/lib</code> to <code><em>GATEWAY_HOME</em>/lib</code>.
+     <ul>
+      <li>com.ibm.mq.jar</li>
+      <li>com.ibm.mq.jmqi.jar</li>
+      <li>com.ibm.mqjms.jar</li>
+      <li>com.ibm.mq.headers.jar (required for WebSphere client library version 7.5.0.0)</li>
+      <li>connector.jar</li>
+      <li>dhbcore.jar</li>
+      <li>fscontext.jar</li>
+      <li>jms.jar</li>
+      <li>jndi.jar</li>
+      <li>jta.jar</li>
+      <li>providerutil.jar</li>
+     </ul>
+   </li>
+  </ul>
+ </li>
+ <li>Open the file <code><em>GATEWAY_HOME</em>/conf/gateway-config.xml</code> in a text editor and locate the <code>jms</code> service element (search for &quot;jms&quot;).</li>
+ <li>Ensure that you have the <strong>.bindings</strong> file, which contains the queue manager, initial context, topic name, and queue name. You will need the location of this <strong>.bindings</strong> file for the next step.</li>
+ <li>Modify the <code>properties</code> element of the <code>jms</code> service with the following:
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;properties&gt;
+  &lt;connection.factory.name&gt;ConnectionFactory&lt;/connection.factory.name&gt;
+  &lt;context.lookup.topic.format&gt;%s&lt;/context.lookup.topic.format&gt;
+  &lt;context.lookup.queue.format&gt;%s&lt;/context.lookup.queue.format&gt;
+  &lt;env.java.naming.factory.initial&gt;
+    com.sun.jndi.fscontext.RefFSContextFactory
+  &lt;/env.java.naming.factory.initial&gt;
+ 
+  &lt;!-- The location of the .bindings file --&gt;
+  &lt;env.java.naming.provider.url&gt;
+    file:/bindings_file_location
+  &lt;/env.java.naming.provider.url&gt;
+  &lt;!-- Dynamic destinations support; omit for static destinations --&gt;
+  &lt;destination.strategy&gt;context&lt;/destination.strategy&gt;
+&lt;/properties&gt;
+</pre>
+ </li>
+ <li>Replace <code>bindings_file_location</code> in the <code>env.java.naming.provider.url</code> element with the file path to the JNDI <strong>.bindings</strong> file folder for the connection to the broker. Do not include the <strong>.bindings</strong> file name in the file path. For example, <code>file:/C:/JNDI-Directory</code> (Windows) or <code>file:/Users/johndoe/Desktop/JNDI-Directory</code> (Mac and Linux).</li>
+ <li>Save the configuration file. To test the configuration, see <a href="#verifying-ibm-mq-integration">Verifying IBM&reg; MQ Integration</a>.</li>
+</ol>
+
+<span class="note"><b>Notes:</b>
+ <ul>
+  <li>You can also connect to your IBM&reg; MQ server using SSL and the <code>env.java.naming.provider.url</code> element. For more information, see <a href="//publib.boulder.ibm.com/infocenter/wmqv6/v6r0/index.jsp?topic=%2Fcom.ibm.mq.csqzas.doc%2Fsy10920_.htm" title="IBM Knowledge Center">IBM&reg; MQ documentation</a>.</li>
+  <li>When the Gateway detects this is a connection to IBM&reg; MQ, the Gateway dynamically sets the following wildcard properties that are required by IBM&reg; MQ:
+   <ul>  
+     <li>wildcard.any.descendent=#</li>
+     <li>wildcard.separator=/</li>
+     <li>wildcard.any.child=+</li>
+   </ul>
+  </li>
+ <li>See <a href="../../admin-reference/r_conf_jms/index.html#using-wildcards-with-last-value-cache-or-delta-messaging">Using Wildcards with Last Value Cache or Delta Messaging</a> for more information about using wildcards in the Gateway configuration.</li>
+ </ul>
+</span>
+
+<h2 id="verifying-ibm-mq-integration">Verifying IBM&reg; MQ Integration</h2>
+
+<p>To verify that the IBM® MQ integration is working, perform the following steps:</p>
+
+<ol>
+ <li>Start IBM&reg; MQ.</li>
+ <li>Start the Gateway as described in <a href="../../about/setup-guide/index.html">Setting Up the Gateway and Clients</a>.</li>
+ <li>Download or fork the Kaazing JavaScript JMS tutorial application from Github at <a href="https://github.com/kaazing/javascript.client.tutorials">https://github.com/kaazing/javascript.client.tutorials</a>.</li>
+ <li>Follow the steps for building the JMS tutorial: <a href="https://github.com/kaazing/javascript.client.tutorials/blob/develop/README.md">https://github.com/kaazing/javascript.client.tutorials/blob/develop/README.md</a>.</li>
+ <li>In a browser, navigate to the Node.js server you started at <code>http://localhost:3000/</code>.</li>
+ <li>Enter the value for <strong>Location</strong> as <code>ws://localhost:8001/jms</code>.</li>
+ <li>Change the value of all Destination fields to <code>/topic/testTopic</code>.</li>
+ <li>Click <strong>Connect</strong>.</li>
+ <li>The message <code>&quot;CONNECT: ws://localhost:8001/jms&quot;</code> should appear in the log window followed by the message <code>&quot;CONNECTED: ID:id_value&quot;</code>.</li>
+ <li>Click <strong>Subscribe</strong>.</li>
+ <li>Click <strong>Send</strong>. You should see the message that you sent in the message log.</li>
+</ol>
+
+<p><span class="note"><b>Note:</b> Because you are using a JMS provider that does not support individual message acknowledgement, you must ensure your client applications acknowledge each message received from a queue or durable subscriber. Otherwise, the client will receive only one message from that queue or durable subscriber.</span></p>
+
+<h2 id="IBMMQ-TLS">To Configure an Encrypted (TLS) Connection Between the Gateway and IBM&reg; MQ</h2>
+
+<p>You can encrypt network communication between the Gateway hosting the <code>ibmmq</code> service, and IBM&reg; MQ using the <code>ibmmq</code> service property <code>cipher.suite</code> or by configuring properties in the initial context using MQ Explorer or the <a href="http://www.ibm.com/support/knowledgecenter/en//SSFKSJ_8.0.0/com.ibm.mq.dev.doc/q032740_.htm" title="IBM Knowledge Center">JMS administration command-line tool</a>.</p>
+
+
+<h3>One-Way or Two-Way Encryption</h3>
+<p>You can configure one-way or two-way TLS encryption between the Gateway and IBM&reg; MQ. You can have one-way trust where the Gateway trusts the IBM&reg; MQ server, and you can add two-way trust where the IBM&reg; MQ also trusts the Gateway. For the Gateway to trust IBM&reg; MQ, the Gateway must contain a public certificate for the IBM&reg; MQ server in the <strong>truststore</strong> of the Gateway. For IBM&reg; MQ to trust the Gateway, the Gateway must contain its own private identity certificate in its <strong>keystore</strong>, and present that certificate to the IBM&reg; MQ server when requested.</p>
+
+<h3>TLS Configuration Procedure</h3>
+
+<p>The following steps describe how to implement two-way TLS encryption between the Gateway and IBM&reg; MQ. If you only want to implement one-way encryption, simply skip the other encryption method.</p>
+
+<ol>
+ <li>Do one of the following:
+  <ol type="a">
+   <li>Encrypt the connection using <code>cipher.suite</code>:
+    <ol>
+     <li>Add the <code>cipher.suite</code> property to the <code>properties</code> section of the <code>ibmmq</code> service. There is no default value for <code>cipher.suite</code>. If this property is not specified then the connection to MQ will not be encrypted.</li>
+     <li><p>Add the cipher suite to use as the value of <code>cipher.suite</code>. You can use any cipher suite supported by IBM&reg; MQ. For a list, see <a href="http://www.ibm.com/support/knowledgecenter/en/SSFKSJ_8.0.0/com.ibm.mq.dev.doc/q113220_.htm" title="IBM Knowledge Center">SSL/TLS CipherSpecs and CipherSuites in IBM MQ classes for JMS</a>.</p>
+     <p>Here is an <code>ibmmq</code> example configuration using <code>cipher.suite</code>:</p>
+<pre class="auto-links: false; brush: xml; toolbar: false; highlight:[13];">
+&lt;service&gt;
+  &lt;name&gt;IBM MQ JMS Service&lt;/name&gt;
+  &lt;description&gt;Optimized JMS Service for IBM MQ&lt;/description&gt;
+  &lt;accept&gt;ws://${gateway.hostname}:${gateway.extras.port}/jms&lt;/accept&gt;
+
+  &lt;type&gt;ibmmq&lt;/type&gt;
+
+  &lt;properties&gt;
+    &lt;queue.manager&gt;QM1&lt;/queue.manager&gt;
+    &lt;server.channel&gt;SSL.SVRCONN&lt;/server.channel&gt;
+    &lt;host&gt;mq-server&lt;/host&gt;
+    &lt;port&gt;1414&lt;/port&gt;
+    &lt;ssl.cipher.suite&gt;SSL_RSA_WITH_AES_128_CBC_SHA256&lt;/ssl.cipher.suite&gt;
+    &lt;!-- other (optional) ibmmq service properties --&gt;
+    &lt;queue.session.worker.count&gt;10&lt;/queue.session.worker.count&gt;
+    &lt;!-- other properties in common with the jms service, for example: --&gt;
+    &lt;queue.session.count&gt;2&lt;/queue.session.count&gt;
+    &lt;queue.maximum.pending.acknowledgments&gt;10&lt;/queue.maximum.pending.acknowledgments&gt;
+  &lt;/properties&gt;
+&lt;/service&gt;
+</pre>
+     </li>
+    </ol>
+   </li>
+   <li>Encrypt the connection using initial context:
+    <ol>
+     <li><p>The <code>ibmmq</code> service supports the use of the following properties set on the initial context. You can set these using MQ Explorer or the <a href="http://www.ibm.com/support/knowledgecenter/en//SSFKSJ_8.0.0/com.ibm.mq.dev.doc/q032740_.htm" title="IBM Knowledge Center">JMS administration command-line tool</a>.</p>
+     <table border="0">
+       <tr>
+         <th width="200px" scope="col">Property label in MQ Explorer<sup>1</sup></th>
+         <th scope="col">Property name for JMSAdmin<sup>2</sup></th>
+         <th scope="col">Description</th>
+         <th scope="col">Default Value</th>
+       </tr>
+       <tr>
+         <td>CipherSuite</td>
+         <td><a href="http://www.ibm.com/support/knowledgecenter/en/SSFKSJ_8.0.0/com.ibm.mq.ref.dev.doc/q112530_.htm?view=kc" title="IBM Knowledge Center">SSLCIPHERSUITE</a></td>
+         <td>Name of the cipher suite to use.</td>
+         <td>None. If you do not use a cipher suite, the connection to MQ is not encrypted and all other SSL related properties are ignored.</td>
+       </tr>
+       <tr>
+         <td>Peer name</td>
+         <td><a href="http://www.ibm.com/support/knowledgecenter/en/SSFKSJ_8.0.0/com.ibm.mq.ref.dev.doc/q112560_.htm?view=kc" title="IBM Knowledge Center">SSLPEERNAME</a></td>
+         <td>If this property is set, the identifying certificate presented by the server at connect-time must match this distinguished name.</td>
+         <td>None. No checking of the certificate name is performed.</td>
+       </tr>
+       <tr>
+         <td>Certificate revocation list</td>
+         <td><a href="http://www.ibm.com/support/knowledgecenter/en/SSFKSJ_8.0.0/com.ibm.mq.ref.dev.doc/q112540_.htm?view=kc" title="IBM Knowledge Center">SSLCRL</a></td>
+         <td>Specifies 0 or more CRL (Certificate Revocation List) servers.</td>
+         <td>None. No checking of certificate revocation is performed.</td>
+       </tr>
+       <tr>
+         <td>FIPS required</td>
+         <td><a href="http://www.ibm.com/support/knowledgecenter/en/SSFKSJ_8.0.0/com.ibm.mq.ref.dev.doc/q112550_.htm?view=kc" title="IBM Knowledge Center">SSLFIPSREQUIRED</a></td>
+         <td>Specifies whether an SSL connection must use a CipherSuite that is supported by the IBM Java JSSE FIPS provider (IBMJSSEFIPS).</td>
+         <td><code>NO</code> (false).</td>
+       </tr>
+       <tr>
+         <td>Reset count</td>
+         <td><a href="http://www.ibm.com/support/knowledgecenter/en/SSFKSJ_8.0.0/com.ibm.mq.ref.dev.doc/q112570_.htm?view=kc" title="IBM Knowledge Center">SSLRESETCOUNT</a></td>
+         <td>Specifies the total number of bytes sent and received by a connection before the secret key for encryption is renegotiated.</td>
+         <td><code>0</code> (the secret key is never renegotiated).</td>
+       </tr>
+     </table>
+     <p><sup>1</sup>ConnectionFactory properties under SSL<br><sup>2</sup>See IBM MQ documentation: <a href="http://www.ibm.com/support/knowledgecenter/SSFKSJ_8.0.0/com.ibm.mq.ref.dev.doc/q111800_.htm" title="IBM Knowledge Center">Properties of IBM MQ classes for JMS objects</a></p>
+     </li>
+    </ol>
+   </li>
+  </ol>
+ </li>
+ <li>Configure the Gateway <strong>truststore</strong> with the public IBM&reg; MQ certificate. The following example shows how to import the certificate into the truststore, called <strong>truststore.db</strong>, located in <code><em>GATEWAY_HOME</em>/conf/</code>:<br>
+  
+  <code>keytool -importcert -keystore GATEWAY_HOME\conf\truststore.db -storepass changeit -trustcacerts -alias host.corp.example.com -file certificate.cer
+</code>
+  
+ <p>For local development and testing, you can use a self-signed certificate. See step 9 in <a href="../../security/p_tls_selfsigned/index.html">Secure the Gateway Using Self-Signed Certificates</a>. For production, use a certificate from a trusted Certificate Authority. Follow the steps in <a href="../../security/p_tls_trusted/index.html#secure-gateway-to-server-connections">Secure Gateway-to-Server Connections</a>. For more information, see the <a href="http://docs.oracle.com/javase/8/docs/technotes/tools/windows/keytool.html" title="keytool">keytool documentation</a></p>
+ </li>
+ <li>Configure the Gateway <strong>keystore</strong> with the private identity certificate that the Gateway will present to IBM&reg; MQ. The following example shows how to import the certificate into the default keystore, called <strong>keystore.db</strong>, located in <code><em>GATEWAY_HOME</em>/conf/</code>:<br>
+
+  <code>keytool -importcert -keystore GATEWAY_HOME\conf\keystore.db -storetype JCEKS -storepass password
+-alias hostname -file example.cer</code>
+
+  <p>For local development and testing, you can use a self-signed certificate. For information on creating the Certificate Signing Request (CSR) and importing the trusted certificate into the keystore, see the <a href="http://docs.oracle.com/javase/8/docs/technotes/tools/windows/keytool.html" title="keytool">keytool documentation</a>.</p>
+  
+ </li>
+ <li>Verify the secure connection. Run IBM&reg; MQ. Run the Gateway hosting the <code>ibmmq</code> service and verify that there are no startup errors. If there are errors, ensure that the certificate that you put in the truststore of the Gateway contains the host name of the IBM&reg; MQ server, and the certificate you put in the keystore of the Gateway contains the host name of the Gateway server.</li>
+</ol>
+
+<p>For more information on using certificates, see <a href="../../security/o_tls/index.html">Secure Network Traffic with the Gateway</a>.</p>
+
+<h2 id="see-also">See Also</h2>
+
+<ul>
+  <li>For information on using property based routing with MQ, see <a href="../../admin-reference/r_conf_mq/index.html#property-based-routing-with-mq">Property Based Routing (PBR) with MQ</a>.</li>
+  <li>To learn how to secure your JMS configuration, see <a href="../../security/o_jms_secure/index.html">Secure Your JMS Configuration</a>.</li>
+  <li>For information on troubleshooting JMS integration, see <a href="../p_jms_integrate_tshoot">Troubleshoot JMS Integration</a>.</li>
+  <li>For information on troubleshooting JMS clients, see <a href="../../troubleshooting/p_dev_troubleshoot/index.html">Troubleshoot Your Clients</a>.</li>
+  <li>For general troubleshooting information, see <a href="../../troubleshooting/o_troubleshoot/index.html">Troubleshoot Kaazing Gateway</a>.</li>
+</ul>
+
+
+
+</div>
+
+</div>
+
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

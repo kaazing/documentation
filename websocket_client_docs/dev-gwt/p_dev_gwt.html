@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+  
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+<h1>How to Build Clients with Google Web Toolkit Using Kaazing Gateway</h1>
+                <p>Google Web Toolkit (GWT) is a toolkit for building complex browser-based applications, which allows developers to code in Java and cross-compile Java source into JavaScript. The following figure shows a high-level overview of the architecture:</p>
+        <p><img src="../images/f-html5-gwt-client2-web.jpg" width="783" height="207" alt="GWT client overview" style="padding-top:10px;"></p>
+        <p>&nbsp;</p>
+        <p>The Kaazing Gateway GWT Client Code Library provides a starting point for building real-time web applications with GWT. The out of the box GWT demo application described in this document illustrates how you can create a simple GWT application that connects to Kaazing Gateway using WebSocket and ByteSocket.</p>
+        <p>For more information about Google Web Toolkit, visit <a href="//code.google.com/webtoolkit/overview.html"><span class="uri">http://code.google.com/webtoolkit/overview.html</span></a>.</p>
+
+        <p>This document contains the following sections:</p>
+        <ul class="arrow-2 top">
+          <li><a href="#software_prerequisites">Software Prerequisites</a></li>
+          <li><a href="#client_code_library">How to Use the Kaazing GWT Client Code Library and Running the Demos</a></li>
+          <li><a href="#troubleshooting">Troubleshooting</a></li>
+        </ul>
+
+<h2><a name="software_prerequisites" id="software_prerequisites"></a>Software Prerequisites</h2>
+        <p>Follow these steps to install and set up the required software for this how-to:</p>
+        <ol>
+          <li>Install Kaazing Gateway as described in <a href="../../about/setup-guide/index.html">Setting Up the Gateway and Clients</a>.</li>
+<li>Ensure you have installed the Eclipse IDE, which can be downloaded from <a href="//www.eclipse.org/downloads/" class="uri">http://www.eclipse.org/downloads/</a>. </li>
+<li>Download and install the GWT plugin for Eclipse from <a href="//code.google.com/webtoolkit/download.html" class="uri">http://code.google.com/webtoolkit/download.html</a>, which includes the GWT SDK. You must have GWT SDK 2.0.3 or higher installed.</li>
+        </ol>
+<h2><a name="client_code_library" id="websocket_java2"></a>How to Use the Kaazing GWT Client Code Library and Running the Demos</h2>
+<p>The following steps show you how to install and use the Kaazing Gateway GWT Client Code Library to run the out of the box WebSocket and ByteSocket demos from the Eclipse IDE.</p>
+<ol>
+  <li>Open the file <span class="uri"><em>GATEWAY_HOME</em>/conf/gateway-config.xml</span> in a text editor.</li>
+  <li>
+Search for &quot;<span class="uri">&lt;type&gt;echo&lt;/type&gt;</span>&quot; and add a cross-site constraint for the possible localhost origins for the content that is served up by the development web server within Eclipse. By default, cross-site access to backend services is denied, so adding this cross-site-constraint allows you to &quot;white-list&quot; cross-origin sites.  The following example shows the new constraints in lines 6-11.
+    <pre class="auto-links: false; brush: xml; highlight: [6,7,8,9,10,11]; toolbar: false;">
+&lt;service&gt;
+  &lt;accept&gt;ws://localhost:8001/echo&lt;/accept&gt;
+
+    &lt;type&gt;echo&lt;/type&gt;
+    &lt;realm-name&gt;demo&lt;/realm-name&gt;
+    &lt;cross-site-constraint&gt;
+      &lt;allow-origin&gt;http://127.0.0.1:8888&lt;/allow-origin&gt;
+    &lt;/cross-site-constraint&gt;
+    &lt;cross-site-constraint&gt;
+      &lt;allow-origin&gt;http://localhost:8000&lt;/allow-origin&gt;
+    &lt;/cross-site-constraint&gt;
+&lt;/service&gt;
+    </pre>
+    <p class="note-para"><strong>Note</strong>: The development web server within Eclipse serves up pages at the IP address <span class="uri">127.0.0.1</span> (<span class="uri">localhost</span>) on port <span class="uri">8888</span> by default. If you changed this, you must change the origin specified in the cross-site constraint and add the IP address and the port number you are using.</p>
+  </li>
+  <li>Save the file.</li>
+  <li>Follow the instructions in  <a href="../../about/setup-guide/index.html">Setting Up the Gateway and Clients</a> to start Kaazing Gateway. Or, if you've already started the Gateway, restart it.</li>
+<li>Verify that the Gateway is running by opening a browser and visiting <span class="uri">http://localhost:8000</span>. You should see the welcome page to Kaazing Gateway.</li>
+<li>In the Eclipse IDE, choose <strong>File &gt; Import</strong>.</li>
+<li>In the Import dialog, choose <strong>General</strong> &gt; <strong>Existing Projects into Workspace</strong> and click <strong>Next</strong>, as shown in the following figure.<br>&nbsp;
+<p><img src="../images/gwt-import.gif" width="470" height="550" alt="Importing a File"></p></li>
+
+  <li>Click <strong>Select archive file</strong> and browse to  <span class="uri"><em>GATEWAY_HOME</em>/demo/gwt/src/gateway/GWTClient.jar</span> file, then click <strong>Open</strong>. This creates a project called <span class="uri">GWTClient</span>.</li>
+  <li>In the Import dialog, click <strong>Finish</strong>.</li>
+  <li>Compile the <span class="uri">GWTClient</span> project. To do so, right-click the <strong>GWTClient</strong> project, select <strong>Google</strong> > <strong>GWT Compile</strong>.</li>
+  <li>In the <strong>GWT Compile</strong> dialog, in <strong>Entry Point Modules</strong>, click <strong>Add</strong>.</li>
+  <li>In the <strong>GWT Module Selection</strong> dialog, click <strong>WebSocketDemo</strong> and then click <strong>OK</strong>.</li>
+  <li>In the <strong>GWT Compile dialog</strong>, click <strong>Compile</strong>. The Eclipse console will report the status of the compilation. </li>
+  <li>When the compilation is complete, right-click the <strong>GWTClient</strong> project, click <strong>Run As</strong>, and then click <strong>Web Application</strong>. The <strong>Development Mode</strong> view displays at the bottom of Eclipse.</li>
+  <li>In the <strong>Development Mode</strong> console, right-click the URL and click <strong>Copy</strong>.</li>
+  <li>Paste the URL into the Google Chrome browser and press <strong>Enter</strong>.</li>
+  <li>If prompted, follow the steps to download and install the GWT Developer Plugin, as shown in the following figure, then restart your browser.
+      <figure>
+        <img src="../images/gwt-dev-plugin.gif" width="595" height="185" alt="Installing the GWT Plugin">
+      <figcaption><strong>Figure: GWT Developer Plugin prompt</strong></figcaption>  
+      </figure>
+      <p>In your browser, you should now see the Kaazing WebSocket-based GWT client in action.</p>
+  </li>
+  <li><p>Click <strong>Connect</strong>, then <strong>Send Text</strong>, and then <strong>Send Binary</strong>.</p>
+  <p>This simple out of the box demo shows a GWT-based Echo server client using WebSocket to send text and binary messages to the Gateway Echo service, which in turn echoes back the messages.</p>
+  </li>
+  </ol>
+<p>For more information about using the Kaazing GWT client libraries, see the <a href="../apidoc/client/gwt/gateway/index.html"> <em>GWT Client API</em></a> documentation</p>
+<h2><a name="troubleshooting" id="troubleshooting"></a>Troubleshooting</h2>
+<p>This section lists a few common errors and actions you can perform to resolve them.</p>
+<h3>Error: Demo does not connect</h3>
+<p>The browser demo page has the following output:</p>
+ <blockquote>
+    <p class="code">
+    Demo Log<br>
+    WebSocket Demo<br>
+    CONNECTING<br>
+    CLOSE<br>
+    </p>
+    </blockquote>
+<p><strong>Cause</strong></p>
+<p>This error is usually caused by a missing cross-site constraint. A cross-site constraint for the origin of the URL at which you are accessing the demo must be defined in the file <span class="uri"><em>GATEWAY_HOME</em>/conf/gateway-config.xml</span>.</p>
+<p><strong>Action</strong></p>
+<p>Check the URL at which you are accessing the demo. For example, if you are accessing the demo at <span class="uri">http://<strong>127.0.0.1:8888</strong>/GWTClient.html?gwt.codesvr=127.0.0.1:9997</span>, you must define a cross-site constraint in the service element of the service you are trying to access, as shown in the following example. For more information, refer to <a href="#client_code_library">How to Use the Kaazing GWT Client Code Library and Running the Demos</a>.</p>
+      <pre class="auto-links: false; brush: xml; toolbar: false;">
+        &lt;cross-site-constraint&gt;
+          &lt;allow-origin&gt;http://127.0.0.1:8888&lt;/allow-origin&gt;
+        &lt;/cross-site-constraint&gt;
+      </pre>
+<blockquote>
+    <p class="note-para"><span class="note"><strong>Note</strong>: For the out of the box WebSocket demo, you must add the Cross Site Constraint entry to the Echo service configuration element.</span></p>
+    </blockquote>
+  <h3>Error: Port 127.0.0.1:8888 is already in use</h3>
+<p>When running the project, the console displays errors similar to the ones shown in the following example:</p>
+<blockquote>
+  <p class="code">at com.google.gwt.dev.DevModeBase.startUp(DevModeBase.java:1035)<br>
+at com.google.gwt.dev.DevModeBase.run(DevModeBase.java:783)<br>
+at com.google.gwt.dev.DevMode.main(DevMode.java:275)<br>
+Port 127.0.0.1:8888 is already in use; you probably still have another session active
+
+      </p>
+
+    </blockquote>
+
+    <p><strong>Cause</strong></p>
+    <p>This error usually means you already have another process running on the built-in development server.</p>
+    <p><strong>Action</strong></p>
+    <p>Before you run the project, always click <strong>Terminate Selected Launch</strong> (the red button) in the Development Mode console.</p>
+
+<span class="note"><b>Note:</b> By default, the URL of <span class="uri">WebSocket.js</span> specified in <span class="uri"><em>GATEWAY_HOME</em>/demo/gwt/src/gateway/com/kaazing/gateway/client/gateway/WebSocketDemo.gwt.xml</span> is <span class="uri">/demo/gateway/javascript/WebSocket.js</span>. If you are not using a default configuration of the Gateway, ensure that the URL of <span class="uri">WebSocket.js</span> points to the correct location of <span class="uri">WebSocket.js</span> in <span class="uri">WebSocketDemo.gwt.xml</span>.</span>
+
+<h2><a name="seealso"></a>See Also</h2>
+<ul class="arrow-2">
+    <li><em><a href="https://developers.google.com/web-toolkit/overview">Google Web Toolkit Overview</a></em></li>
+    <li><a href="../apidoc/client/gwt/gateway/index.html">GWT Client API</a></li> 
+</ul>
+
+    
+                  </section>
+                </article>
+
+            </div> <!-- #main -->
+        </div> <!-- #main-container -->
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

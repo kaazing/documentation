@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+  
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+
+ <h1 id="about-gateway-configuration">About Gateway Configuration</h1>
+
+<p>After you install the Gateway, you can configure it by modifying the settings in the configuration file <code>GATEWAY_HOME/conf/gateway-config.xml</code> file. The actual location of the <code>GATEWAY_HOME</code> directory depends on your operating system and the method (standalone or installer) used to install the Gateway. You can find more information about <code>GATEWAY_HOME</code> and the directory structure that is set up during installation in <a href="../../about/setup-guide/index.html">Setting Up the Gateway</a>. This document describes the types of configuration files and <a href="../r_configure_gateway_element_index">Configuration Element Index</a> provides a list of the individual configuration elements.</p>
+
+<p>By default, the Gateway uses the values in the Gateway configuration file when you start the Gateway. Optionally, you can override one or more Gateway configuration settings by specifying the <code>GATEWAY_OPTS</code> environment variable before you start the Gateway. This method is described in <a href="../p_configure_gateway_opts">Configure Kaazing Gateway Using the GATEWAY_OPTS Environment Variable</a>.</p>
+
+<p>This topic covers the following information:</p>
+
+<ul>
+  <li><a href="#about-kaazing-gateway-configuration-files">About Kaazing Gateway Configuration Files</a></li>
+  <li><a href="#about-kaazing-gateway-configuration-file-elements-and-properties">About Kaazing Gateway Configuration File Elements and Properties</a></li>
+  <li><a href="#about-kaazing-gateway-namespace-declarations">About Kaazing Gateway Namespace Declarations</a></li>
+</ul>
+
+<h2 id="about-kaazing-gateway-configuration-files">About Kaazing Gateway Configuration Files</h2>
+
+<p>The Gateway provides the following configuration file:</p>
+
+<ul>
+  <li>
+    <p><code>gateway-config.xml</code> contains a complete set of gateway properties, including the properties and services needed to run the Gateway.</p>
+  </li>
+</ul>
+
+<h2 id="notes">Notes</h2>
+
+<ul>
+  <li>By default, the Gateway configuration accepts connections on localhost, and the cross-origin sites allowed to access those services are also configured for localhost by default. The default configuration is convenient for quickly trying the Gateway out of the box, but the default configuration is not production ready nor is it secure. You should customize the Gateway configuration for your needs by modifying settings in the <code>GATEWAY_HOME/conf/gateway-config.xml</code> file. For example, you might customize the Gateway to accept connections on a non-localhost host name or IP address and add authorization constraints for services. After you modify the <code>gateway-config.xml</code> file, you must restart the Gateway for the changes to take effect.</li>
+  <li>Consider using the <code>gateway-config.xml</code> file during your development and testing phase. Then, when you are ready to deploy the Gateway to your production environment, create a copy, and remove any unnecessary elements from the file. To ensure that the full <code>gateway-config.xml</code> file is not used in production, rename the file (for example: <code>test-gateway-config.xml</code>).</li>
+  <li>For more information about setting up additional, and more advanced configurations, see the descriptions and examples of services for the Gateway configuration in the <a href="../r_configure_gateway_service">Service Reference</a>.</li>
+  <li>For additional information about the location of your <code>GATEWAY_HOME</code>, the configuration files and starting the Gateway, see <a href="../../about/setup-guide/index.html">Setting Up the Gateway</a>.</li>
+</ul>
+
+<h2 id="about-kaazing-gateway-configuration-file-elements-and-properties">About Kaazing Gateway Configuration File Elements and Properties</h2>
+
+<p>Kaazing Gateway configuration file (<code>gateway-config.xml</code> or <code>gateway-config.xml</code>) can include a number of configuration elements and properties contained within the top-level <code>gateway-config</code> element.</p>
+
+<p>At a minimum, the Gateway configuration file must contain the following components (which are included in the default configuration files):</p>
+
+<ul>
+  <li>The Gateway namespace declaration, as described in <a href="#about-kaazing-gateway-namespace-declarations">About Kaazing Gateway Namespace Declarations</a></li>
+  <li>The Gateway <a href="../r_configure_gateway_service#service"><code>name</code></a> element.</li>
+  <li>The <a href="../r_configure_gateway_service"><code>service</code></a> element with the <a href="../r_configure_gateway_service#directory"><code>directory</code></a> type to specify the path of your static files relative to <code>GATEWAY_HOME/web</code>, where <em>GATEWAY_HOME</em> is the directory where you installed Kaazing Gateway.</li>
+</ul>
+
+<p>For example, the following is an example of a minimally configured Gateway configuration file:</p>
+
+<pre class="auto-links: false; brush: xml;">
+&lt;?xml version="1.0" encoding="UTF-8" ?&gt;
+
+&lt;gateway-config
+    xmlns="http://xmlns.kaazing.org/2016/06/gateway"&gt;
+    ...
+    &lt;properties&gt;
+        &lt;property&gt;
+            &lt;name&gt;gateway.hostname&lt;/name&gt;
+            &lt;value&gt;localhost&lt;/value&gt;
+        &lt;/property&gt;
+        &lt;property&gt;
+            &lt;name&gt;gateway.base.port&lt;/name&gt;
+            &lt;value&gt;8000&lt;/value&gt;
+        &lt;/property&gt;
+    &lt;/properties&gt;
+    ...
+    &lt;service&gt;
+        &lt;name&gt;Base Directory Service&lt;/name&gt;
+        &lt;accept&gt;http://${gateway.hostname}:${gateway.base.port}/&lt;/accept&gt;
+
+        &lt;type&gt;directory&lt;/type&gt;
+        &lt;properties&gt;
+            &lt;directory&gt;/base&lt;/directory&gt;
+            &lt;welcome-file&gt;index.md&lt;/welcome-file&gt;
+            &lt;error-pages-directory&gt;/error-pages&lt;/error-pages-directory&gt;
+            &lt;options&gt;indexes&lt;/options&gt;
+        &lt;/properties&gt;
+    &lt;/service&gt;
+    ...
+&lt;/gateway-config&gt;
+</pre>
+
+<p>To customize your configuration, see the <a href="../p_configure_gateway_files">Configure Kaazing Gateway</a> topic for a step-by-step procedure to configure the Gateway. Also, you can find a complete list of elements in the <a href="../r_configure_gateway_element_index">Configuration Element Index.</a></p>
+
+<h2 id="about-kaazing-gateway-namespace-declarations">About Kaazing Gateway Namespace Declarations</h2>
+
+<p>Your Kaazing Gateway configuration file must contain a namespace declaration. Each release of the Gateway has a unique namespace declaration. The namespace is defined by the <code>xmlns</code> attribute in the <a href="../r_configure_gateway_gwconfig">gateway-config</a> element and has the syntax: <code>xmlns=**"URI"**</code> as shown in the following examples.</p>
+
+<h4 id="example-gateway-configxml-file">Example: gateway-config.xml file</h4>
+
+<p>The namespace for <code>gateway-config.xml</code> is shown in line 1:</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;gateway-config xmlns="http://xmlns.kaazing.org/2016/06/gateway"&gt;
+  ...
+&lt;/gateway-config&gt;
+</pre>
+
+<h4 id="example-jaas-configxml-file">Example: jaas-config.xml file</h4>
+
+<p>The namespace for <code>jaas-config.xml</code> is shown in line 1:</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;jaas-config xmlns="http://xmlns.kaazing.com/jaas-config/centurion"&gt;
+  ...
+&lt;/jaas-config&gt;
+</pre>
+
+<p>When the Gateway starts, it uses the namespace declaration (which corresponds to a particular XML schema definition) to determine how to parse the XML file. Thus, when you start the Gateway:</p>
+
+<ul>
+  <li>When you use the default <code>gateway-config.xml</code> configuration file, and the <code>jaas-config.xml</code> configuration file that are installed in <code>GATEWAY_HOME/conf/</code>, then you can start the Gateway without making any changes to the namespace declaration. This is because the default configuration files that are installed with the Gateway explicitly set the namespace declaration to the most current namespace.</li>
+  <li>If you create your own configuration files, then you must ensure that the files contain a namespace declaration that is appropriate for your Gateway release before you start the Gateway. See <a href="#about-kaazing-gateway-namespace-declarations">About Kaazing Gateway Namespace Declarations</a> to ensure the elements used in your configuration file match what is supported by the namespace specified in the configuration file.</li>
+</ul>
+
+<p><strong>Notes:</strong><br />
+Configuration files that contain a wrong or an out-of-date namespace declaration can result in one of the following scenarios when the Gateway starts:</p>
+
+<ul>
+  <li>
+    <p>If the Gateway configuration file contains an out-of-date namespace declaration, then the Gateway automatically upgrades the configuration in memory and writes the modified configuration file to disk and appends a ‘.new’ extension (for example, <code>gateway-config.xml.new</code>). The Gateway starts using the up-to-date set of in-memory configuration objects.</p>
+
+    <p>If you run the Gateway again with the same out-of-date namespace, then the translation of the configuration file occurs again (the modified configuration <code>.new</code> file is written again, and so on). You can avoid going through the translation process again if, once a <code>.new</code> file is created, you delete the current (old) configuration file and rename the <code>.new</code> configuration file (for example, rename <code>gateway-config.xml.new</code> to be <code>gateway-config.xml</code>) so that the Gateway uses the up-to-date configuration the next time it starts.</p>
+  </li>
+  <li>If the Gateway configuration file contains a completely wrong namespace declaration, then the Gateway returns an error and stops. For example: <code>ERROR Error upgrading XML: Unknown/unsupported XML namespace URI 'http://xmlns.kaazing.com/2011/zzz/gateway'</code>.</li>
+  <li>If the Gateway configuration file contains a very old namespace declaration, then the Gateway returns an error and stops. For example: <code>ERROR Gateway config file 'gateway-config.xml' from prior release in use</code>. The Gateway writes the configuration file to disk and appends a “.migrated” extension (for example, <code>gateway-config.xml.migrated</code>.</li>
+</ul>
+
+<h2 id="see-also">See Also</h2>
+
+<ul>
+  <li><a href="../r_configure_gateway_element_skeleton">Configuration Skeleton</a></li>
+  <li><a href="../r_configure_gateway_service#service">Service Reference</a>, and in particular, see the service <a href="../r_configure_gateway_service#type"><code>type</code></a> element</li>
+</ul>
+
+
+</div>
+
+</div>
+
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

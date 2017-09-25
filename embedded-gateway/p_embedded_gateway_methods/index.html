@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+  
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- +++++++++++++++END OF Syntax Highlighter Calls++++++++++++++++ -->
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+
+ <h1 id="use-the-embedded-gateway-methods">Use the Embedded Gateway Methods</h1>
+
+<p>This procedure describes how to use the methods available to the Gateway objects in your Java program.</p>
+
+<h2 id="before-you-begin">Before You Begin</h2>
+
+<p>This procedure is part of <a href="../o_embedded_gateway">Embed Kaazing Gateway in Your Java Application</a>:</p>
+
+<ol>
+  <li><a href="../p_embedded_gateway_setup">Set Up Your Development Environment</a></li>
+  <li><a href="../p_embedded_gateway_object">Create the Embedded Gateway Object</a></li>
+  <li><strong>Use the Embedded Gateway Methods</strong></li>
+  <li><a href="../p_embedded_gateway_logging">Configure Logging for an Embedded Gateway</a></li>
+  <li><a href="../p_embedded_gateway_monitor">Monitor and Manage an Embedded Gateway</a></li>
+  <li><a href="../p_embedded_gateway_troubleshoot">Troubleshoot Your Embedded Gateway</a></li>
+</ol>
+
+<h2 id="embedded-gateway-methods">Embedded Gateway Methods</h2>
+
+<p>An embedded Gateway interface exposes the following methods:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Method</th>
+      <th>Description</th>
+      <th>Returns</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><a href="#setproperties-method">setProperties()</a></td>
+      <td>Configures the properties of an embedded Gateway.</td>
+      <td>Nothing.</td>
+    </tr>
+    <tr>
+      <td><a href="#getproperties-method">getProperties()</a></td>
+      <td>Obtains the current set of properties on an embedded Gateway.</td>
+      <td>Name/value pairs for properties configured on the embedded Gateway.</td>
+    </tr>
+    <tr>
+      <td><a href="#launch-method">launch()</a></td>
+      <td>Starts an embedded Gateway.</td>
+      <td>Nothing. Any exceptions are thrown when the Gateway starts.</td>
+    </tr>
+    <tr>
+      <td><a href="#destroy-method">destroy()</a></td>
+      <td>Stops an embedded Gateway.</td>
+      <td>Nothing. Any exceptions are thrown when the Gateway stops.</td>
+    </tr>
+    <tr>
+      <td>setMBeanServer()</td>
+      <td>Set an MBeanServer on an embedded Gateway.</td>
+      <td>Nothing. For more information, see <a href="../p_embedded_gateway_monitor">Monitor and Manage an Embedded Gateway</a>.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="example">Example</h3>
+
+<p>Here is an example of how to create, configure, and launch the embedded Gateway:</p>
+
+<pre class="auto-links: false; brush: java; toolbar: false;">
+Properties props = new Properties();
+// specify configuration properties
+props.setProperty(Gateway.GATEWAY_HOME_PROPERTY, "/kaazing/");
+props.setProperty(Gateway.GATEWAY_CONFIG_PROPERTY, "/kaazing/config/");
+
+// or as hard-coded keys:
+// props.setProperty("GATEWAY_HOME", "/kaazing/");
+// props.setProperty("GATEWAY_CONFIG", "/kaazing/config/");
+
+// create the Gateway
+Gateway gateway = GatewayFactory.createGateway();
+
+// implement configuration properties
+gateway.setProperties(props);
+
+// launch the Gateway
+gateway.launch();
+</pre>
+
+<p><strong>Important:</strong> You must restart the Gateway to apply configuration changes. A good practice is to configure the Gateway settings using the setProperties() method before using the launch() method to run the Gateway.</p>
+
+<h2 id="setproperties-method">setProperties() Method</h2>
+
+<p>By default, the embedded Gateway uses the properties set in the <code>GATEWAY_HOME/conf/gateway-config.xml</code> configuration file. The <code>setProperties()</code> method configures property names and values for the embedded Gateway that override the settings in the default configuration file. The method is optional and you do not need to change any default settings to use the embedded Gateway.</p>
+
+<p><strong>Note:</strong> For information on the default properties of the Gateway configuration file, see <a href="../../admin-reference/c_configure_gateway_concepts#about-kaazing-gateway-configuration-file-elements-and-properties">About Kaazing Gateway Configuration File Elements and Properties</a>.<br />
+### Syntax and Example</p>
+
+<p><code>void setProperties(java.util.Properties properties);</code></p>
+
+<ul>
+  <li><strong>properties:</strong> The properties argument contains the name/value pairs used to configure the embedded Gateway. For example, you can set the location of GATEWAY_HOME, and GATEWAY_CONFIG.</li>
+</ul>
+
+<p>For a list of the properties that you can modify, see the <a href="//kaazing.com/doc/5.0/apidoc/server/gateway/server/api/index.html">API Documentation</a>.</p>
+
+<p>Here is an example of how to configure the GATEWAY_HOME and GATEWAY_CONFIG properties before running the Gateway:</p>
+
+<pre class="auto-links: false; brush: java; toolbar: false;">
+Properties props = new Properties();
+
+props.setProperty("GATEWAY_HOME_PROPERTY", "/kaazing/");
+props.setProperty("GATEWAY_CONFIG_PROPERTY", "/kaazing/configs/3.3");
+
+Gateway gateway = GatewayFactory.createGateway();
+
+gateway.setProperties(props);
+</pre>
+
+<h2 id="getproperties-method">getProperties() Method</h2>
+
+<p>The <code>getProperties()</code> method returns the current set of properties (name/value pairs) used to configure the embedded Gateway, including the names of properties in the <code>GATEWAY_HOME/conf/gateway-config.xml</code> and their values.</p>
+
+<h3 id="syntax-and-example">Syntax and Example</h3>
+
+<p><code>java.util.Properties getProperties()</code></p>
+
+<p>The following example code writes out the Gateway configuration properties:</p>
+
+<pre class="auto-links: false; brush: java; toolbar: false;">
+Properties props = new Properties();
+
+props = gateway.getProperties();
+System.out.println(props);
+</pre>
+
+<h2 id="launch-method">launch() Method</h2>
+
+<p>The <code>launch()</code> method starts the embedded Gateway and initializes and starts up all the services configured in <code>GATEWAY_HOME/conf/gateway-config.xml</code> (such as JMX services), including binding to the hosts and ports specified in the <code>&lt;accept&gt;</code> child of a <code>&lt;service&gt;</code> element. If the Gateway is running and <code>launch()</code> is called, an exception is thrown. After calling <code>destroy()</code>, the Gateway can be launched again.</p>
+
+<p>This method throws any exceptions when the embedded Gateway starts. For example, if the embedded Gateway is unable to read the configuration file, unable to bind to a network port specified in a <code>&lt;service&gt;</code> configuration, or if the value of a <code>&lt;directory&gt;</code> child of a &lt;property&gt; element does not contain a valid directory.</p>
+
+<h3 id="syntax-and-example-1">Syntax and Example</h3>
+
+<p><code>void launch() throws java.lang.Exception</code></p>
+
+<p>Here is an example of how to launch the embedded Gateway:</p>
+
+<pre class="auto-links: false; brush: java; toolbar: false;">
+Gateway gateway = GatewayFactory.createGateway();
+gateway.launch();
+</pre>
+
+<h2 id="destroy-method">destroy() Method</h2>
+
+<p>The <code>destroy()</code> method stops the embedded Gateway object that was launched using launch(). If the embedded Gateway has been stopped, this method has no effect. The <code>destroy()</code> does not <a href="//docs.oracle.com/javase/7/docs/api/java/lang/Object.html#finalize()">finalize</a> the Gateway object and it does not modify configuration files.</p>
+
+<p>This method throws exceptions when the embedded Gateway service stops (also called “destroy time”). An example of an exception would be if the embedded Gateway is unable to clean up management information from the MBeanServer, which might happen if the MBeanServer is stopped unexpectedly.</p>
+
+<h3 id="syntax-and-example-2">Syntax and Example</h3>
+
+<p><code>void destroy(); throws Exception</code></p>
+
+<p>Here is an example of how to stop the embedded Gateway:</p>
+
+<pre class="auto-links: false; brush: java; toolbar: false;">
+Gateway gateway = GatewayFactory.createGateway();
+gateway.launch();
+gateway.destroy();
+</pre>
+
+<h2 id="next-steps">Next Steps</h2>
+
+<p><a href="../p_embedded_gateway_logging">Configure Logging for an Embedded Gateway</a></p>
+
+
+</div>
+
+</div>
+
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+  
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+
+ <h1 id="transport-layer-security-tlsssl-concepts">Transport Layer Security (TLS/SSL) Concepts</h1>
+
+<p>This section is a high-level introduction to the technologies used to configure secure networking with Kaazing Gateway. Secure networking with the Gateway uses two networking protocols: Transport Layer Security (TLS/SSL) and its predecessor Secure Sockets Layer (SSL). For the purposes of this guide, we use TLS/SSL when discussing secure protocols because SSL, while still popular, has not been updated since SSL version 3.0 in 1996 and TLS/SSL continues to be developed into new versions.</p>
+
+<p>The goal of TLS/SSL is to establish a secure session between two hosts on a network. The mechanism used to accomplish this goal is cryptography, which changes readable data into codes that are unreadable unless you know how the code was created. The process of encoding data is called encryption and the process of decoding that data is called decryption. The information used to perform encryption and decryption is called the <em>key</em>.</p>
+
+<p>Cryptography always involved a symmetrical exchange of the key in order for two individuals to encrypt and decrypt shared information until the innovation of public key cryptography. Public key cryptography uses two keys, a public key used for encryption that is shared and a private key used for decryption that is not shared. These keys may only be used in conjunction with each other and are not related to any other keys. The public key is shared so that others can use it to encrypt data intended for its owner. The owner then uses the corresponding private key to decrypt that information.</p>
+
+<p>A public key certificate, commonly called a <em>digital certificate</em> or just <em>certificate</em>, is a digitally-signed statement binding a public key to the identity of the host that owns the corresponding private key. Certificates ensure that the shared public keys used to encrypt private data come from whom they claim to come from. (Most certificates use the X.509v3 certificate standard.) A Public Key Infrastructure (PKI) is a trusted method of issuing and revoking certificates and the public keys they contain.</p>
+
+<p>There is a public PKI used over the Internet but a PKI can be created within a corporate network as well. A PKI begins with a root Certification Authority (CA) that issues a certificate in response to a request from an individual that has already generated a private/public key pair. The certificate request is really a request to join the PKI and the certificate is only issued once the CA has verified the identity of the individual offline. The PKI can be extended to include many more subordinate Certificate Authorities in order to handle a large volume of requests. Whenever the certificate is used to send the public key, the certificate recipient verifies that the certificate was issued from a CA it trusts and can be traced back to the root CA for the PKI. Using this method, all members of the PKI can establish trust. It is important to note that only the owner of the certificate is verified, and anyone that uses the public key is not verified in any way.</p>
+
+<p>TLS/SSL uses certificates to establish trust between two network hosts over TCP using the HTTPS and WSS (WebSocket Secure) protocols. Technically, HTTPS is not a separate protocol, but it is HTTP running on top of a TLS/SSL connection. Commonly, HTTPS uses a different port (HTTPS’s default port is 443 and HTTP’s default port is 80). HTTP runs directly on top of TCP and HTTPS runs on top of TLS/SSL, which, in turn, runs on top of TCP. The same is true for WSS connectivity. The WebSocket protocol runs on top of TCP (like HTTP), and the WSS protocol runs on top of TLS/SSL, which runs on TCP. WebSocket’s default port is 80 and WSS uses port 443 by default.</p>
+
+<p>Here’s how a TLS/SSL session between a client and web server is established.</p>
+
+<p><img src="../../images/f-TLS-client-server.jpg" alt="A TLS session between a client and web server" /></p>
+
+<p><strong>Figure: A TLS/SSL session between a client and web server</strong></p>
+
+<p>The following figure shows how the Gateway uses TLS/SSL to secure network traffic with clients and back-end servers. See <a href="../u_tls_works">How TLS/SSL Works with the Gateway</a> for an in-depth discussion and examples of common TLS/SSL configurations with the Gateway.</p>
+
+<p><img src="../../images/f-TLS-client-gateway-server.jpg" alt="the Gateway uses TLS to secure network traffic with clients and back-end servers" /></p>
+
+<p><strong>Figure: The Gateway Uses one TLS/SSL Certificate to Secure Network Traffic With Clients and a Separate TLS/SSL Certificate to Secure Network Traffic With Back-end Servers</strong></p>
+
+<p><strong>Note:</strong> The back-end server might be a back-end service or message broker or another Gateway. In most cases, a back-end service or message broker can be configured to ensure a connection uses TLS/SSL.</p>
+
+<h4 id="see-also">See Also</h4>
+
+<ul>
+  <li><a href="../o_tls">Secure Network Traffic with the Gateway</a></li>
+  <li><a href="../u_tls_works">How TLS/SSL Works with the Gateway</a></li>
+</ul>
+
+
+</div>
+
+</div>
+
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

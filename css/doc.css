@@ -1,0 +1,103 @@
+.TOC-table {
+  margin-left:auto; 
+  margin-right:auto;
+  border: 2px solid black;
+  text-align:center;
+}
+
+.btnm {
+    display: inline-block;
+    padding: 9px 15px;
+    margin-bottom: 0;
+    font-size: 13px;
+    color: #fff;
+    min-width: 180px;
+    background-color: #F47C31;
+    line-height: 1.62857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    text-transform: uppercase;
+    background-image: none;
+    border: 1px solid rgba(0, 0, 0, 0);
+}
+
+.btnm:hover, .btnm:focus {
+  color: #FFF; 
+  text-decoration: none;
+  background-color: #f49c31;
+}
+
+body {
+  line-height: 2;
+  padding-top: 0px;
+}
+
+.navbar-fixed-top{
+  top:0;
+  border-width:0 0 1px;
+  position: relative;
+}
+
+.page-content{
+  padding-top: 0px;
+}
+
+h1 { margin-top: 0.67em; margin-bottom: 0.67em; font-size: 36px; color: #4988b3; }
+
+h2 { margin-top: 0.83em; margin-bottom: 0.83em; font-size: 30px; color: #4988b3; }
+h3 { margin-top: 1.00em; margin-bottom: 1.00em; font-size: 24px; color: #4988b3; }
+h4 { margin-top: 1.33em; margin-bottom: 1.33em; font-size: 18px; color: #4988b3; }
+h5 { margin-top: 1.67em; margin-bottom: 1.67em; font-size: 14px; color: #4988b3; }
+h6 { margin-top: 2.33em; margin-bottom: 2.33em; font-size: 12px; color: #4988b3; }
+*/
+
+.dl-horizontal dt {
+    line-height: 2.5;
+}
+
+dt, dd {
+  line-height: 2.5;
+}
+
+*/
+/* #f67c21 */
+table {
+  border: 1px solid #dddddd; 
+  margin-bottom: 10px;
+}
+
+td, th {
+  padding: 5px;
+  border: 1px solid #dddddd;
+}
+
+/*table > thead > tr > th {
+  padding: 4px 4px;
+  border: 1px solid #dddddd; }
+
+table > tbody > tr > td {
+  padding: 4px 4px;
+  border: 1px solid #dddddd;
+  vertical-align: top;
+}*/
+
+table > tbody > tr:nth-child(2n) {
+  background-color: #f5f5f5; }
+
+span.code_inline {
+  padding: 2px 4px;
+  color: #c7254e;
+  background-color: #f9f2f4;
+  border-radius: 4px;
+}
+
+span.uri {
+  padding: 2px 4px;
+  color: #c7254e;
+  background-color: #f9f2f4;
+  border-radius: 4px;
+}
+
+/* Medium devices (desktops, 992px and up) */
+/* Large devices (large desktops, 1200px and up) */

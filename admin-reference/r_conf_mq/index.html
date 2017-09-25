@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+  
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+  <h1 id="jms-services-for-kaazing-gateway">IBM&reg; MQ Services for Kaazing Gateway</h1>
+
+  <p>This document describes the new IBM&reg; MQ Service for the Gateway, named <code>ibmmq</code>, that enables Kaazing JMS clients to integrate with <a href="//www-03.ibm.com/software/products/en/ibm-mq" title="IBM MQ">IBM&reg; MQ messaging middleware</a>.</p>
+
+  <p>The <code>ibmmq</code> service is a special variant of the standard <code>jms</code> service designed to be used with IBM&reg; MQ. The general functionality of <code>ibmmq</code> is described in this document, but to understand all of the features and configuration options available to <code>ibmmq</code> as a variant of <code>jms</code>, you should read the documentation for the <code>jms</code> service, in <a href="../../admin-reference/r_conf_jms/index.html">JMS Services for Kaazing Gateway</a>.</p>
+
+  <p><span class="note"><b>Note:</b> For configuration information, see <a href="../../integration-jms/p_jms_integrate_ibm/index.html">Integrate IBM&reg; MQ Service</a>.</span></p>
+
+  <ul>
+   <li><a href="#overview">Overview</a></li>
+   <li><a href="#ibm-mq-service-specific-properties">IBM&reg; MQ Service Specific Properties</a></li>
+   <li><a href="#individual-message-acknowledgment">Individual Message Acknowledgment</a></li>
+   <li><a href="#queue-message-distribution-to-all-consumers">Queue Message Distribution to All Consumers</a></li>
+   <li><a href="#jndi-context">JNDI Context</a></li>
+   <li><a href="#property-based-routing-with-mq">Property Based Routing (PBR) with MQ</a></li>
+  </ul>
+
+<h2 id="overview">Overview</h2>
+
+<p>Kaazing WebSocket Gateway provides features and performance optimizations for IBM&reg; MQ by using a new variant of the <code>jms</code> service with service type <code>ibmmq</code>. The <code>ibmmq</code> service is configured like the <code>jms</code> service, but <code>ibmmq</code> also provides a simpler option which does not require use of an initial context to connect to IBM&reg; MQ. Here is an example:</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;service&gt;
+  &lt;name&gt;IBM MQ JMS Service&lt;/name&gt;
+  &lt;description&gt;Optimized JMS Service for IBM MQ&lt;/description&gt;
+  &lt;accept&gt;wss://example.com:443/jms&lt;/accept&gt;
+
+  &lt;type&gt;ibmmq&lt;/type&gt;
+
+  &lt;properties&gt;
+    &lt;queue.manager&gt;QM1&lt;/queue.manager&gt;
+    &lt;server.channel&gt;SYSTEM.DEF.SVRCONN&lt;/server.channel&gt;
+    &lt;host&gt;mq.acme.com&lt;/host&gt;
+    &lt;port&gt;1414&lt;/port&gt;
+    &lt;!-- other properties, as on the jms service, for example: --&gt;
+    &lt;queue.maximum.pending.acknowledgments&gt;10&lt;/queue.maximum.pending.acknowledgments&gt;
+  &lt;/properties&gt;
+&lt;/service&gt;
+</pre>
+
+<p>You can directly specify the minimum parameters needed by the connection factory. <code>ibmmq</code> supports property-based routing (optimized for IBM&reg; MQ), individual message acknowledgment for queues, and enhanced scalability for queue receivers.</p>
+
+<h2 id="ibm-mq-service-specific-properties">IBM&reg; MQ Service Specific Properties</h2>
+
+<p>This section describes the new configuration property elements that are used by the <code>ibmmq</code> service only. These elements are not used by the <code>jms</code> service.</p>
+
+<p><span class="note"><b>Note:</b> The routing properties listed below (the properties that begin with <code>routing.</code>) are relevant for queues with property-based routing only (queues that have the property <code>system.routing.property</code> specified). See <a href="#property-based-routing-with-mq">Property Based Routing (PBR) with MQ</a>.</span></p>
+
+<table width="100%" border="0">
+  <tr>
+    <th scope="col">Property</th>
+    <th scope="col" width="200px">Required?</th>
+    <th scope="col">Description</th>
+  </tr>
+  <tr>
+   <td><code>queue.manager</code></td>
+   <td>Optional<sup>1</sup></td>
+   <td>The name of the IBM® MQ queue manager that will receives calls.</td>
+  </tr>
+  <tr>
+   <td><code>server.channel</code></td>
+   <td>Optional<sup>1</sup></td>
+   <td>The server channel for client-to-server connections and client communications with the queue manager. Defaults to <code>&quot;SYSTEM.DEF.SVRCONN&quot;</code>.</td>
+  </tr>
+  <tr>
+   <td><code>host</code></td>
+   <td>Required when <code>queue.manager</code> is used</td>
+   <td>Host name of the IBM&reg; MQ server.</td>
+  </tr>
+  <tr>
+   <td><code>port</code></td>
+   <td>Required when <code>queue.manager</code> is used</td>
+   <td>The port number that the IBM&reg; MQ service is listening on for client connections. Defaults to <code>&quot;1414&quot;</code>.</td>
+  </tr>
+  <tr>
+   <td><code>queue.read.interval</code></td>
+   <td>Optional. Default value is <code>100ms</code> (100 milliseconds).</td>
+   <td>Allows you to specify the maximum time the <code>ibmmq</code> service waits between get calls (<a href="//www.ibm.com/support/knowledgecenter/SSFKSJ_9.0.0/com.ibm.mq.ref.dev.doc/q101830_.htm" title="IBM Knowledge Center">MQGET</a>) to poll queues with active subscribers for new messages. You can specify the time interval syntax in milliseconds, seconds, minutes, or hours (spelled out or abbreviated). For example, all of the following are valid and represent typical values for this setting: 300ms, 300 milliseconds, 5s, 5sec, 5 secs, 5 seconds or 5seconds.</td>
+  </tr>
+  <tr>
+   <td><code>queue.session.worker.count</code></td>
+   <td>Optional</td>
+   <td>Used for high latency network scenarios. Use <code>queue.session.worker.count</code> to specify the number of worker threads for message acknowledgment and historical message gets. This number is per Queue Session (the number of queue sessions, used for reading messages from queues, is controlled by service property 
+<code><a href="../../admin-reference/r_conf_jms/index.html#queue.session.count">queue.session.count</a></code>). Increasing the value of <code>queue.session.worker.count</code> can improve message throughput, especially in systems where there is significant latency on the network between the Gateway and the MQ Queue Manager. For high latency scenarios, suitable values for <code>queue.session.worker.count</code> might be <code>5</code> or <code>10</code>.</td>
+  </tr>
+  <tr>
+   <td><code>routing.cache.size</code></td>
+   <td>Optional. Default value is <code>1000000</code> (1 million).</td>
+   <td>The maximum number of the message IDs stored in cache before the Gateway falls back to using message selectors to route messages. Cache refresh is performed when 80% of the size limit is reached, or whenever the value set in <code>routing.cache.check.percentage</code> is reached. <strong>Important:</strong> Cache refresh is only performed when refreshing would gain some cache space. If there are 800,000 messageIDs in the cache and there are 800,000 messages in the MQ Manager queue, then refreshing the cache will not gain space and is not performed. For more information, see <a href="#property-based-routing-with-mq">Property Based Routing (PBR) with MQ</a>.</td>
+  </tr>
+  <tr>
+   <td><code>routing.cache.check.interval</code></td>
+   <td>Optional. Default is <code>1 hour</code>.</td>
+   <td>Controls the interval between routing cache checks. A routing cache check compares the current number of entries in the historical message ID cache with the current depth of the queue in IBM MQ&reg;. The cache is refreshed by rereading all messages from the queue if that would result in a reduction in cache size. The cache size reduction is performed if the new cache size is the value of the property <code>routing.cache.check.percentage</code> of the current cache size or smaller. If <code>routing.cache.check.interval</code> is set to <code>0</code> then no cache refresh is done.</td>
+  </tr>
+  <tr>
+   <td><code>routing.cache.check.percentage</code></td>
+   <td>Optional. Default value is <code>80</code>.</td>
+   <td>Specifies the percentage of the configured <code>routing.cache.size</code> that, when reached, initiates a routing cache check. If a new message ID is added to the cache and the cache size now exceeds this percentage, a routing cache check is initiated. <code>routing.cache.check.percentage</code> also determines the threshold percentage for the historical message ID cache to be refreshed (see <code>routing.cache.check.interval</code>). If <code>routing.cache.check.percentage</code> is set to <code>100</code> then only a time-based cache refresh is done.</td>
+  </tr>
+</table><br>
+
+<p><sup>1</sup>Required if there is no initial context: property <code>env.java.naming.factory.initial</code> is not set.</p>
+
+<h2 id="individual-message-acknowledgment">Individual Message Acknowledgment</h2>
+
+<p>The new <code>ibmmq</code> service acknowledges queue messages individually. Individual message acknowledgement improves message throughput by allowing multiple messages to be sent to a client before receiving acknowledgments. The maximum pending acknowledgments setting for queues is controlled by service property <code>queue.maximum.pending.acknowledgments</code>, or, if that property is not set, <code>maximum.pending.acknowledgments</code>, and defaults to <code>100</code>.</p>
+
+<p><code>maximum.pending.acknowledgments</code> can also be configured on a per queue basis within queue elements in the Gateway configuration file. For <code>queue</code> elements, see <a href="../../admin-reference/r_conf_jms/index.html#properties-for-the-queue-element">Properties for the <code>queue</code> Element</a>.</p>
+
+<h2 id="queue-message-distribution-to-all-consumers">Queue Message Distribution to All Consumers</h2>
+
+<p>The JMS 1.1 specification mandates that if a provider supports multiple message consumers on a queue, each message must be the delivered to one and only one consumer. The <code>ibmmq</code> service introduces an extra feature: the ability to deliver each message to all consumers. This addition is useful in situations where, in conjunction with user-based message routing, the same user is logged into the application on multiple devices. In this case, the user will see the same messages on each device.</p>
+
+<p>This new feature is controlled by the service property, <code>queue.message.consumers</code>, with permitted values <code>one</code> and <code>all</code>. To provide greater control and override the settings for individual queues, <code>message.consumers</code> can be set within <code>queue</code> elements inside the service's <code>properties</code>.</p> 
+
+<p>For compatibility with normal JMS behavior, the default setting is one for regular queues. For queues using <a href="../../admin-reference/r_conf_jms/index.html#property-based-routing-and-virtual-queues">property based routing (PBR)</a>, <code>message.consumers</code> may only be set with all (the default value).</p>
+
+<h2 id="jndi-context">JNDI Context</h2>
+
+<p>The IBM&reg; MQ JMS client libraries allow extensive control over the native MQ calls that the library makes by configuring the <a href="https://docs.oracle.com/javase/7/docs/api/javax/naming/InitialContext.html">initialContext</a>. If such control is desired, an initialContext can be defined using for example MQ Explorer. Once configured, the initialContext can be used with the <code>ibmmq</code> service by making the generated <strong>.bindings</strong> file or ldap repository for the context available via the <code>env.java.naming.provider.url</code> service property.</p> 
+
+<p>Currently, the <code>ibmmq</code> service does not honor all of the settings in the InitialContext for queues, but support for these will be added in the future. When using topics, all of the settings are used.</p>
+
+<h2 id="property-based-routing-with-mq">Property Based Routing (PBR) with MQ</h2>
+
+<p><span class="note"><b>Note:</b> For a detailed explanation of PBR, see <a href="../../admin-reference/r_conf_jms/index.html#property-based-routing-and-virtual-queues">Property-Based Routing (PBR) and Virtual Queues</a>.</span></p>
+
+<p>The <code>ibmmq</code> service implements PBR with a special optimization to use a single shared queue subscription (per configured connection) for all subscribers to the various virtual queues. This optimization uses a cache of message IDs. The cache size is controlled by service property <code>routing.cache.size</code> which is set as part of the queue configuration, as in the following example configuration:</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;queue&gt;
+  &lt;name&gt;chat&lt;/name&gt;
+  &lt;virtual.name.format&gt;chat_%s&lt;/virtual.name.format&gt;
+  &lt;virtual.name.resolver&gt;com.acme.messaging.UserIdResolver&lt;/virtual.name.resolver&gt;
+  &lt;system.name&gt;chatsys&lt;/system.name&gt;
+  &lt;system.routing.property&gt;to&lt;/system.routing.property&gt;
+  &lt;routing.cache.size&gt;10000000&lt;/routing.cache.size&gt;
+&lt;/queue&gt;
+</pre>
+
+<p>The <code>routing.cache.size</code> property specifies an upper limit on the number of message IDs to store in the cache. The default value is <code>1 million</code>. This value can be increased if needed without impacting memory dramatically. The value should be set to the maximum expected queue depth (maximum expected number of messages in the queue) for the underlying system queue (<code>chatsys</code> in the above example). If the cache size is too small, new clients connecting and subscribing to a virtual queue might cause the <code>ibmmq</code> service to issue queries to MQ using message selectors, which might impact performance.</p>
+
+
+<h3>Tuning IBM&reg; MQ for Property Based Routing (PBR)</h3>
+
+<p>Follow these recommendations to tune IBM&reg; MQ for PBR:</p>
+
+<ul>
+ <li><strong>Running IBM MQ&reg; Queue Manager on <a href="http://www-03.ibm.com/systems/z/os/zos/" title="IBM z Systems – z/OS Operating Systems">z/OS</a>?</strong> Turn on indexing by message ID (<a href="http://www.ibm.com/support/knowledgecenter/en/SSFKSJ_8.0.0/com.ibm.mq.dev.doc/q026350_.htm" title="IBM Knowledge Center">MSGID</a>) on the physical queue(s) that have PBR enabled. This configuration improves performance, especially in cases where there are many messages (tens or hundreds of thousands) on the physical queue at a given time.</li>
+
+<li><strong>Running IBM MQ&reg; Queue Manager on another OS?</strong> If the number of messages on the queue at any given time becomes large (tens or hundreds of thousands), consider splitting virtual queues across multiple physical queues. Alternatively, when delivering historical messages to a new subscriber (historical messages are messages the Gateway <code>ibmmq</code> service has already fetched from the physical queue), you can force the use of message selectors rather than performing a get by <a href="http://www.ibm.com/support/knowledgecenter/SSFKSJ_7.5.0/com.ibm.mq.dev.doc/q034750_.htm" title="IBM Knowledge Center">messageID</a>. To do this, set the routing cache size to <code>0</code> (using <code>queue</code> property <a href="../../admin-reference/r_conf_jms/index.html#properties-for-the-queue-element"><code>routing.cache.size</code></a> in the Gateway configuration file).</li>
+</ul>
+
+<h2>Notes</h2>
+
+<p>When clients subscribe to a queue without property-based routing enabled, and the default distribution option to deliver each message to just one consumer (<code>message.consumers = one</code>) is used, it is recommended to increase the Queue Manager <code>MsgMarkBrowseInterval</code> to <code>NOLIMIT</code>, using an MQSC command such as <code>ALTER QMGR MARKINT(NOLIMIT)</code>. Without this increase, a message that is received but not acknowledged for more time than the Queue Manager's <code>MsgMarkBrowseInterval</code> might be redelivered, even if it is acknowledged after that time. For more information, see <a href="//www.ibm.com/support/knowledgecenter/SSFKSJ_8.0.0/com.ibm.mq.ref.dev.doc/q102570_.htm" title="IBM Knowledge Center">MsgMarkBrowseInterval (MQLONG)</a> and <a href="//www.ibm.com/support/knowledgecenter/SSFKSJ_9.0.0/com.ibm.mq.ref.adm.doc/q085320_.htm" title="IBM Knowledge Center">ALTER QMGR</a> in the IBMMQ documentation.</p>
+
+<h2>See Also</h2>
+
+<p><a href="../../integration-jms/p_jms_integrate_ibm/index.html">Integrate IBM&reg; MQ Service</a></p>
+
+ </div>
+
+</div>
+
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

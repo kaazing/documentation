@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+  
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+<h1>Use the Kaazing Enterprise JavaScript JMS Client API </h1>
+<p>In this procedure, you will learn how to use the Kaazing Gateway JavaScript JMS Client API and the supported APIs. The steps in this procedure show you how to develop a JavaScript JMS messaging client. For the backend, you'll use the publicly available Kaazing WebSocket Gateway and JMS broker via the URL <code>wss://sandbox.kaazing.net/jms</code>.</p>
+ 
+<p>Alternatively, you can use a local copy of the Gateway and your own JMS-compliant message broker (see <a href="../../about/setup-guide/index.html">Setting Up the Gateway and Clients</a>). By default, the Gateway is configured to connect to the server on <code>tcp://localhost:61616</code>. You can configure the connect URL in the file <span class="code_inline"><em>GATEWAY_HOME</em>/conf/gateway-config.xml</span>. See <a href="../../integration-jms/o_jms_integrate/index.html">About Integrating Kaazing Gateway and JMS-Compliant Message Brokers</a> for more information.</span></p>
+
+<span class="note"><b>Notes:</b>
+ <ul>
+   <li>To find out more specific information about the supported APIs or to learn which APIs are not supported, refer to <a href="../../about/kaazing-jms-api/index.html">Kaazing Gateway JMS Client Libraries: Supported APIs</a>.</li>
+   <li>Learn about supported browsers, operating systems, and platform versions in the <a href="//kaazing.com/releases/client-javascript/">Release Notes</a>.</li>
+ </ul>
+</span>
+
+<h2>Before You Begin</h2>
+<p>This procedure is part of <a href="o_dev_js.html">Checklist: Build JavaScript JMS Clients Using Kaazing Gateway</a>.</p>
+
+
+<h2><a name="use"></a>To use the Kaazing Enterprise JavaScript JMS client libraries to create a JMS messaging client:</h2>
+
+<ol>
+ <li>Clone or download the JavaScript JMS tutorial from <a href="https://github.com/kaazing/javascript.client.tutorials">https://github.com/kaazing/javascript.client.tutorials</a>.</li>
+ <li>In the tutorial project, navigate to the folder <code>javascript.client.tutorials/jms</code>.</li>
+ <li>Create a new HTML files named <strong>jmsClient.html</strong> and save it in the <code>javascript.client.tutorials/jms</code> folder.</li>
+ <li><p>Copy and paste the following text and HTML form into the new <strong>jmsClient.html</strong> file:</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;html&gt;
+&lt;head&gt;
+
+&lt;/head&gt;
+&lt;body&gt;
+ &lt;div class=&quot;main-container &quot;&gt;
+  &lt;div class=&quot;main wrapper clearfix&quot;&gt;
+   &lt;div class=&quot;powered-wrapper&quot;&gt;
+    &lt;div class=&quot;powered-header&quot;&gt;&lt;/div&gt;
+   &lt;/div&gt;
+   &lt;article&gt;
+    &lt;section&gt;
+     &lt;!--  Kaazing scripts --&gt;
+
+     &lt;!-- JavaScript JMS Client Code --&gt;
+     &lt;script&gt;
+
+    
+     &lt;/script&gt;
+
+     &lt;h1&gt;JavaScript JMS Messaging Demo&lt;/h1&gt;
+     &lt;br/&gt;
+     &lt;div id=&quot;jms-javascript&quot;&gt;
+      &lt;div id=&quot;middle&quot;&gt;
+       &lt;div class=&quot;leftPanels&quot;&gt;
+        &lt;div id=&quot;login_div&quot; class=&quot;panel&quot;&gt;
+         &lt;span class=&quot;info&quot;&gt;User name and password values are optional&lt;/span&gt;
+         &lt;label for=&quot;url&quot;&gt;Location&lt;/label&gt;&lt;input id=&quot;url&quot;/&gt;&lt;br/&gt;
+         &lt;label for=&quot;username&quot;&gt;Username&lt;/label&gt;&lt;input id=&quot;username&quot;&gt;&lt;br/&gt;
+         &lt;label for=&quot;password&quot;&gt;Password&lt;/label&gt;&lt;input type=&quot;password&quot; id=&quot;password&quot;&gt;&lt;br/&gt;
+         &lt;label&gt;&lt;/label&gt;
+         &lt;div id=&quot;sso_logindiv&quot;
+         style=&quot;margin-left: 2px; position: absolute; border: 1px solid black; border-radius:10px; display: none; height: 190px; width: 318px; background-color:#d0e7fd; z-index: 999;&quot;&gt;
+         &lt;div style=&quot;margin-left: 20px; height: 35px; margin-top: 20px; font-weight: bold;&quot;&gt;
+          Login
+         &lt;/div&gt;
+         &lt;div
+         style=&quot;height: 124px; width: 296px; border: 1px solid black; border-radius:10px; background-color:white; margin-left: 10px;&quot;&gt;
+         &lt;div style=&quot;margin-left:10px; margin-top: 10px;&quot;&gt;
+          &lt;span style=&quot;width: 60px; font-size:11pt;&quot;&gt;Username:&lt;/span&gt;&lt;input
+          id=&quot;sso_username&quot; size=&quot;12&quot; style=&quot;width: 180px&quot; value=&quot;&quot;/&gt;
+         &lt;/div&gt;
+         &lt;div style=&quot;margin-left:10px&quot;&gt;
+          &lt;span style=&quot;width: 60px;  font-size:11pt;&quot;&gt;Password:&lt;/span&gt;&lt;input
+          id=&quot;sso_password&quot; type=&quot;password&quot; size=&quot;12&quot; style=&quot;width: 180px&quot; value=&quot;&quot;/&gt;
+         &lt;/div&gt;
+         &lt;div style=&quot;margin-left:45px&quot;&gt;
+          &lt;button id=&quot;sso_login&quot; style=&quot;margin-left:25px; width: 60px;&quot;&gt;OK&lt;/button&gt;
+          &lt;button id=&quot;sso_cancel&quot; style=&quot;margin-left:25px; width: 60px;&quot;&gt;Cancel
+          &lt;/button&gt;
+         &lt;/div&gt;
+        &lt;/div&gt;
+       &lt;/div&gt;
+       &lt;button id=&quot;connect&quot;&gt;Connect&lt;/button&gt;
+       &lt;button id=&quot;disconnect&quot;&gt;Close&lt;/button&gt;
+      &lt;/div&gt;
+      &lt;div id=&quot;subscribe_div&quot; class=&quot;panel&quot;&gt;
+       &lt;span class=&quot;info&quot;&gt;Subscribe, set message selectors, send messages, and add message properties&lt;/span&gt;&lt;br/&gt;
+
+       &lt;label for=&quot;destination&quot;&gt;Destination&lt;/label&gt;&lt;input id=&quot;destination&quot;
+       value=&quot;/topic/destination&quot;&gt;&lt;br/&gt;
+       &lt;label for=&quot;messageSelector&quot;&gt;Message Selector&lt;/label&gt;&lt;input id=&quot;messageSelector&quot;
+       value=&quot;&quot;
+       placeholder=&quot;Example: symbol=&#x27;KZNG&#x27;&quot;&gt;&lt;br/&gt;
+       &lt;label&gt;&lt;/label&gt;
+       &lt;button id=&quot;subscribe&quot;&gt;Subscribe&lt;/button&gt;
+       &lt;br/&gt;&lt;br/&gt;
+
+       &lt;label for=&quot;message&quot;&gt;Message&lt;/label&gt;&lt;input id=&quot;message&quot; value=&quot;Hello, message&quot;&gt;&lt;br/&gt;
+       &lt;label&gt;Custom Property&lt;/label&gt;&lt;input id=&quot;propName1&quot; value=&quot;&quot;
+       placeholder=&quot;Property name&quot;
+       class=&quot;halfWidth&quot;/&gt;&lt;input id=&quot;propValue1&quot;
+       value=&quot;&quot;
+       placeholder=&quot;Property value&quot;
+       class=&quot;halfWidth propValue&quot;/&gt;
+       &lt;label&gt;Custom Property&lt;/label&gt;&lt;input id=&quot;propName2&quot; value=&quot;&quot;
+       placeholder=&quot;Property name&quot;
+       class=&quot;halfWidth&quot;/&gt;&lt;input id=&quot;propValue2&quot;
+       value=&quot;&quot;
+       placeholder=&quot;Property value&quot;
+       class=&quot;halfWidth propValue&quot;/&gt;
+       &lt;label&gt;Custom Property&lt;/label&gt;&lt;input id=&quot;propName3&quot; value=&quot;&quot;
+       placeholder=&quot;Property name&quot;
+       class=&quot;halfWidth&quot;/&gt;&lt;input id=&quot;propValue3&quot;
+       value=&quot;&quot;
+       placeholder=&quot;Property value&quot;
+       class=&quot;halfWidth propValue&quot;/&gt;
+       &lt;label for=&quot;binary&quot;&gt;Binary &lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;binary&quot; class=&quot;cb&quot;&gt;&lt;br/&gt;
+       &lt;label&gt;&lt;/label&gt;
+       &lt;button id=&quot;send&quot;&gt;Send&lt;/button&gt;
+      &lt;/div&gt;
+
+     &lt;/div&gt;
+
+     &lt;div class=&quot;rightPanels&quot;&gt;
+
+      &lt;div id=&quot;console_div&quot; class=&quot;panel&quot;&gt;
+       &lt;div class=&quot;info&quot;&gt;
+        &lt;div style=&quot;float: left;&quot;&gt;
+         Log messages
+        &lt;/div&gt;
+        &lt;div style=&quot;float: right; margin-right: 5px;&quot;&gt;
+         Messages received : &lt;span id=&quot;receivedMessageCount&quot;&gt;0&lt;/span&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;clearfix&quot;&gt;&lt;/div&gt;
+       &lt;/div&gt;
+       &lt;div id=&quot;console&quot;&gt;&lt;/div&gt;
+       &lt;button id=&quot;clear&quot;&gt;Clear Log&lt;/button&gt;
+       &lt;input type=&quot;checkbox&quot; id=&quot;toggleJmsHeadersCb&quot; class=&quot;cb&quot; checked=&quot;checked&quot;
+       style=&quot;margin-left: 20px;&quot;&gt;&lt;label for=&quot;toggleJmsHeadersCb&quot;&gt;Show JMS
+        headers&lt;/label&gt;
+       &lt;/div&gt;
+
+      &lt;/div&gt;
+
+      &lt;div class=&quot;clearfix&quot;&gt;&lt;/div&gt;
+      &lt;div id=&quot;bottomPanelRow&quot;&gt;
+       &lt;div class=&quot;leftPanels&quot;&gt;
+        &lt;div id=&quot;transaction_div&quot; class=&quot;panel&quot;&gt;
+         &lt;span class=&quot;info&quot;&gt;Send messages as a single transaction&lt;/span&gt;&lt;br/&gt;
+
+         &lt;label for=&quot;txDestination&quot;&gt;Destination&lt;/label&gt;&lt;input id=&quot;txDestination&quot;
+         value=&quot;/topic/destination&quot;&gt;&lt;br/&gt;
+         &lt;label for=&quot;txMessage&quot;&gt;Message&lt;/label&gt;&lt;input id=&quot;txMessage&quot;
+         value=&quot;Hello, transaction&quot;&gt;&lt;br/&gt;
+         &lt;label for=&quot;binaryTransaction&quot;&gt;Binary &lt;/label&gt;&lt;input type=&quot;checkbox&quot;
+         id=&quot;binaryTransaction&quot;
+         class=&quot;cb&quot;&gt;&lt;br/&gt;
+
+         &lt;label&gt;&lt;/label&gt;
+         &lt;button id=&quot;txSend&quot;&gt;Send&lt;/button&gt;
+         &lt;button id=&quot;commit&quot;&gt;Commit&lt;/button&gt;
+         &lt;button id=&quot;rollback&quot;&gt;Rollback&lt;/button&gt;
+        &lt;/div&gt;
+       &lt;/div&gt;
+
+       &lt;div class=&quot;rightPanels&quot;&gt;
+
+        &lt;div id=&quot;subscriptions_div&quot; class=&quot;panel&quot;&gt;
+         &lt;span class=&quot;info&quot;&gt;Active subscriptions&lt;/span&gt;
+         &lt;table id=&quot;subscriptions&quot;&gt;
+          &lt;thead&gt;
+           &lt;tr&gt;
+            &lt;th class=&quot;destination&quot;&gt;Destination&lt;/th&gt;
+            &lt;th class=&quot;selector&quot;&gt;Message Selector&lt;/th&gt;
+            &lt;th&gt;&lt;/th&gt;
+           &lt;/tr&gt;
+          &lt;/thead&gt;
+          &lt;tbody&gt;
+          &lt;/tbody&gt;
+         &lt;/table&gt;
+        &lt;/div&gt;
+       &lt;/div&gt;
+       &lt;div class=&quot;clearfix&quot;&gt;&lt;/div&gt;
+      &lt;/div&gt;
+     &lt;/div&gt;&lt;!-- middle --&gt;
+    &lt;/div&gt;&lt;!-- jms-javascript --&gt;
+   &lt;/section&gt;
+  &lt;/article&gt;
+ &lt;/div&gt; &lt;!-- #main --&gt;
+&lt;/div&gt; &lt;!-- #main-container --&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre> 
+
+<p>Note the <code>id</code> in each <code>form</code> element. These ids will be used in your JavaScript code to reference user input and events.</p>
+ </li>
+ <li><p>In the <code>head</code> section, add the following <code>link</code> tags for the CSS stylesheets:</p>
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;link rel=&quot;stylesheet&quot; href=&quot;css/normalize.css&quot;&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;css/dev.css&quot;&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;css/demo.css&quot;&gt;
+
+&lt;script src=&quot;https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js&quot;&gt;&lt;/script&gt;
+</pre>
+ </li>
+ <li>Save the HTML page.</li>
+ <li>To see how the page looks, drag the echo.html file into a browser.</li>
+ <li><p>In your HTML page named <strong>jmsClient.html</strong>, add a <code>script</code> tag in the <code>head</code> section that points to the Kaazing JavaScript WebSocket and JMS libraries available on a content delivery network:</p>
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;script src=&quot;http://cdn.kaazing.com/releases/enterprise.javascript.client/4.1.0/WebSocket.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;http://cdn.kaazing.com/releases/enterprise.javascript.client/4.1.0/JmsClient.js&quot;&gt;&lt;/script&gt;
+</pre>
+<p>For more information about where you can get the Kaazing JavaScript WebSocket and JMS libraries, see <a href="//kaazing.com/download">kaazing/download</a>.</p>
+ </li>
+ <li>In the <code>script</code> tag below the <code>JavaScript JMS Client Code</code> comment, declare variables for the connection, session and UI elements:
+<pre class="auto-links: false; brush: js; toolbar: false;">
+var connection;
+var session;
+
+/* UI Elements */
+var logConsole, url, username, password, connect, disconnect;
+var destination, message, messageSelector, subscribe, send;
+var txSend, txDestination, txMessage, commit, rollback, clear, binary, binaryTransaction;
+var receivedMessageCount, receivedMessageCounter = 0;
+var subscriptionsTable;
+var destinationCounter = 1;
+var toggleJmsHeadersCb;
+</pre>
+ </li>
+ <li>Add the code for the Log Message UI console feature:
+<pre class="auto-links: false; brush: js; toolbar: false;">
+     function clearLog() {
+      while (logConsole.childNodes.length &gt; 0) {
+       logConsole.removeChild(logConsole.lastChild);
+      }
+     }
+
+     // Log a string message
+     function log(message) {
+      var div = document.createElement(&quot;div&quot;);
+      div.className = &quot;logMessage&quot;
+      div.innerHTML = message;
+      logDiv(div);
+     }
+
+     function logDiv(div) {
+      logConsole.appendChild(div);
+      toggleJmsHeaders(); // Hide the headers if that&#x27;s what the user specified
+      // Make sure the last line is visible.
+      logConsole.scrollTop = logConsole.scrollHeight;
+      while (logConsole.childNodes.length &gt; 20) {
+       // Delete two rows to preserved the alternate background colors.
+       logConsole.removeChild(logConsole.firstChild);
+       logConsole.removeChild(logConsole.firstChild);
+      }
+     }
+</pre>
+ </li>
+ <li>Add a function for updating the Connect and Disconnect buttons in the UI:
+<pre class="auto-links: false; brush: js; toolbar: false;">
+function updateConnectionButtons(connected) {
+ connect.disabled = connected;
+ disconnect.disabled = !connected;
+ subscribe.disabled = !connected;
+ send.disabled = !connected;
+ txSend.disabled = commit.disabled = rollback.disabled = !connected;
+}
+</pre>
+ </li>
+ <li>Add a function for creating the destination provided by the user (not the requirement specified in the error message):
+<pre class="auto-links: false; brush: js; toolbar: false;">
+function createDestination(name, session) {
+ if (name.indexOf(&quot;/topic/&quot;) == 0) {
+  return session.createTopic(name);
+ }
+ else if (name.indexOf(&quot;/queue/&quot;) == 0) {
+  return session.createQueue(name);
+ }
+ else {
+  throw new Error(&quot;Destination must start with /topic/ or /queue/&quot;);
+ }
+}
+</pre>
+ </li>
+ <li>Add a function to respond to a Connect event. This function creates the WebSocket connection with the Gateway. Note that it uses a <code>try...catch</code> statement. A function for handling connection exceptions is also added.
+<pre class="auto-links: false; brush: js; toolbar: false;">
+function handleConnect() {
+ log(&quot;CONNECT: &quot; + url.value + &quot; &quot; + username.value);
+
+ var jmsConnectionFactory = new JmsConnectionFactory(url.value);
+ connect.disabled=true;
+ try {
+  var connectionFuture =
+  jmsConnectionFactory.createConnection(username.value, password.value, function () {
+   if (!connectionFuture.exception) {
+    try {
+     connection = connectionFuture.getValue();
+     connection.setExceptionListener(handleException);
+
+     log(&quot;CONNECTED&quot;);
+
+     session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+     transactedSession = connection.createSession(true, Session.AUTO_ACKNOWLEDGE);
+
+     connection.start(function () {
+      updateConnectionButtons(true);
+     });
+    }
+    catch (e) {
+     connect.disabled=false;
+     handleException(e);
+    }
+   }
+   else {
+    connect.disabled=false;
+    handleException(connectionFuture.exception);
+   }
+  });
+ }
+ catch (e) {
+  handleException(e);
+ }
+}
+
+</pre>
+ </li>
+ <li>Add a function to handle exceptions and log them for the user in the log console.
+<pre class="auto-links: false; brush: js; toolbar: false;">
+function handleException(e) {
+ log(&quot;&lt;span class=&#x27;error&#x27;&gt;EXCEPTION: &quot; + e + &quot;&lt;/span&gt;&quot;);
+
+ if (e.type == &quot;ConnectionDisconnectedException&quot;) {
+  updateConnectionButtons(false);
+ }
+}
+</pre>
+ </li>
+ <li>Add a function for handling when a user disconnects from the Gateway. The function will close the connection, clear subscriptions, and update the UI.
+<pre class="auto-links: false; brush: js; toolbar: false;">
+function handleDisconnect() {
+	disconnect.disabled = &quot;disabled&quot;;
+
+	// Clear any subscriptions.
+	if (document.getElementsByClassName) {
+		var subscriptions = document.getElementsByClassName(&quot;unsubscribeButton&quot;);
+		while (subscriptions[0]) {
+			subscriptions[0].click();
+		}
+	} else {
+		// The IE way.
+		var unsubscribeButtons = subscriptionsTable.getElementsByTagName(&quot;button&quot;);
+		while (unsubscribeButtons.length &gt; 0) {
+			var b = unsubscribeButtons[0];
+			if (b.className == &quot;unsubscribeButton&quot;) {
+				b.click();
+			}
+		}
+	}
+
+	log(&quot;CLOSE&quot;);
+	try {
+		connection.close(function () {
+			log(&quot;CONNECTION CLOSED&quot;);
+			updateConnectionButtons(false);
+		});
+	}
+	catch (e) {
+		handleException(e);
+	}
+}
+</pre>
+ 
+ </li>
+ <li>Add a function for when a user subscribes to a destination, creating the destination and a consumer with a message listener using the destination supplied by the user. A lot of this function changes the UI to enable fields for message selector, custom properties, and adds an <strong>Unsubscribe</strong> button.
+<pre class="auto-links: false; brush: js; toolbar: false;">
+function handleSubscribe() {
+ var name = destination.value;
+
+ var destinationId = destinationCounter++;
+
+ log(&quot;SUBSCRIBE: &quot; + name + &quot; &lt;span class=\&quot;subscriptionTag\&quot;&gt;[#&quot; + destinationId + &quot;]&lt;/span&gt;&quot;);
+
+ var dest = createDestination(name, session);
+
+ var consumer;
+
+ if (messageSelector.value.length &gt; 0) {
+  consumer = session.createConsumer(dest, messageSelector.value);
+ } else {
+  consumer = session.createConsumer(dest);
+ }
+
+ consumer.setMessageListener(function (message) {
+  handleMessage(name, destinationId, message);
+ });
+
+ // Add a row to the subscriptions table.
+ var tBody = subscriptionsTable.tBodies[0];
+
+ var rowCount = tBody.rows.length;
+ var row = tBody.insertRow(rowCount);
+
+ var destinationCell = row.insertCell(0);
+ destinationCell.className = &quot;destination&quot;;
+ destinationCell.appendChild(document.createTextNode(name + &quot; &quot;));
+ var destNode = document.createElement(&quot;span&quot;);
+ destNode.className = &quot;subscriptionTag&quot;;
+ destNode.innerHTML = &quot;[#&quot; + destinationId + &quot;]&quot;;
+ destinationCell.appendChild(destNode);
+
+ var messageSelectorCell = row.insertCell(1);
+ messageSelectorCell.className = &quot;selector&quot;;
+ messageSelectorCell.appendChild(document.createTextNode(messageSelector.value));
+
+ var unsubscribeCell = row.insertCell(2);
+ var unsubscribeButton = document.createElement(&quot;button&quot;);
+ unsubscribeButton.className = &quot;unsubscribeButton&quot;;
+ unsubscribeButton.innerHTML = &quot;Unsubscribe&quot;;
+ unsubscribeButton.addEventListener(&#x27;click&#x27;, function (event) {
+  var targ;
+  if (event.target) {
+   targ = event.target;
+  } else {
+   targ = event.srcElement; // The wonders of IE
+  }
+  log(&quot;UNSUBSCRIBE: &quot; + name + &quot; &lt;span class=\&quot;subscriptionTag\&quot;&gt;[#&quot; + destinationId + &quot;]&lt;/span&gt;&quot;);
+  if (consumer) {
+   consumer.close(null);
+  }
+  var rowIndex = targ.parentElement.parentElement.rowIndex
+  subscriptionsTable.deleteRow(rowIndex);
+ }, false);
+ unsubscribeCell.appendChild(unsubscribeButton);
+}
+</pre>
+ </li>
+ <li>Add a function to handle the message the user sends. The function is called by the previous function you created, <code>handleSubscribe()</code>. The function will determine if the message is text or binary or a mapmessage and display the message, message headers, and any properties in the log console.
+<pre class="auto-links: false; brush: js; toolbar: false;">
+function handleMessage(destination, destinationId, message) {
+ var content = &quot;&quot;;
+
+ if (message instanceof TextMessage) {
+  content = &quot;RECEIVED TextMessage: &quot; + message.getText();
+ }
+ else if (message instanceof BytesMessage) {
+  var body = [];
+  message.readBytes(body);
+  content = &quot;RECEIVED BytesMessage: &quot; + body;
+ }
+ else if (message instanceof MapMessage) {
+  var keys = message.getMapNames();
+  content = &quot;RECEIVED MapMessage: &lt;br/&gt;&quot;;
+
+  for (var i = 0; i &lt; keys.length; i++) {
+   var key = keys[i];
+   var value = message.getObject(key);
+   var type;
+   if (value == null) {
+    type = &quot;&quot;;
+   }
+   else if (value instanceof String) {
+    type = &quot;String&quot;;
+   }
+   else if (value instanceof Number) {
+    type = &quot;Number&quot;;
+   }
+   else if (value instanceof Boolean) {
+    type = &quot;Boolean&quot;;
+   }
+   else if (value instanceof Array) {
+    type = &quot;Array&quot;;
+   }
+   content += key + &quot;: &quot; + value;
+   if (type != &quot;&quot;) {
+    content += &quot; (&quot; + type + &quot;)&quot;
+   }
+   content += &quot;&lt;br /&gt;&quot;;
+  }
+ }
+ else {
+  content = &quot;RECEIVED UNKNOWN MESSAGE&quot;;
+ }
+
+ var div = document.createElement(&quot;div&quot;);
+ div.className = &quot;logMessage receiveMessage&quot;
+ div.innerHTML = content;
+
+ div.appendChild(buildDestinationDiv(&quot;Subscription&quot;, destination));
+
+ div.appendChild(buildPropertiesDiv(message));
+
+ div.appendChild(buildJMSHeadersDiv(message, true));
+
+ logDiv(div);
+
+ receivedMessageCount.innerHTML = ++receivedMessageCounter;
+}
+
+var logMessageSend = function (classname, prefix, destination, messageStr, message) {
+ var div = document.createElement(&quot;div&quot;);
+ div.className = &quot;logMessage &quot; + classname
+ div.innerHTML = prefix + messageStr;
+
+ div.appendChild(buildPropertiesDiv(message));
+
+ div.appendChild(buildJMSHeadersDiv(message, false));
+
+ logDiv(div);
+}
+
+var buildDestinationDiv = function (label, destName, destId) {
+ var destinationDiv = document.createElement(&quot;div&quot;);
+ destinationDiv.className = &quot;destination&quot;;
+ var destIdStr = &quot;&quot;;
+ if (destId != undefined) {
+  destIdStr = &quot; [#&quot; + destId + &quot;]&quot;;
+ }
+ destinationDiv.innerHTML += label + &quot;: &quot; + destName + destIdStr;
+ return destinationDiv;
+}
+
+var buildPropertiesDiv = function (message) {
+ var propsDiv = document.createElement(&quot;div&quot;);
+ propsDiv.className = &quot;properties&quot;;
+ var props = message.getPropertyNames();
+ while (props.hasMoreElements()) {
+  var propName = props.nextElement();
+  var propValue = message.getStringProperty(propName);
+  propsDiv.innerHTML += &quot;Property: &quot; + propName + &quot;=&quot; + propValue + &quot;&lt;br&gt;&quot;;
+ }
+ return propsDiv;
+}
+
+var buildJMSHeadersDiv = function (message, receive) {
+ var headersDiv = document.createElement(&quot;div&quot;);
+ headersDiv.className = &quot;headers&quot;;
+ var deliveryModeStr;
+ switch (message.getJMSDeliveryMode()) {
+ case DeliveryMode.NON_PERSISTENT:
+  deliveryModeStr = &quot;NON_PERSISTENT&quot;;
+  break;
+ case DeliveryMode.PERSISTENT:
+  deliveryModeStr = &quot;PERSISTENT&quot;;
+  break;
+ default:
+  deliveryModeStr = &quot;UNKNOWN&quot;;
+ }
+
+ var jmsDestination = message.getJMSDestination();
+ var destinationName = (jmsDestination instanceof Queue) ? jmsDestination.getQueueName()
+ : jmsDestination.getTopicName();
+ headersDiv.innerHTML += &quot;JMSDestination: &quot; + destinationName + &quot;&lt;br&gt;&quot;;
+
+ if (receive) {
+  headersDiv.innerHTML += &quot;JMSRedelivered: &quot; + message.getJMSRedelivered() + &quot;&lt;br&gt;&quot;;
+ }
+
+ headersDiv.innerHTML += &quot;JMSDeliveryMode: &quot; + message.getJMSDeliveryMode() + &quot; (&quot; + deliveryModeStr + &quot;)&lt;br&gt;&quot;;
+ headersDiv.innerHTML += &quot;JMSPriority: &quot; + message.getJMSPriority() + &quot;&lt;br&gt;&quot;;
+ headersDiv.innerHTML += &quot;JMSMessageID: &quot; + message.getJMSMessageID() + &quot;&lt;br&gt;&quot;;
+ headersDiv.innerHTML += &quot;JMSTimestamp: &quot; + message.getJMSTimestamp() + &quot;&lt;br&gt;&quot;;
+ headersDiv.innerHTML += &quot;JMSCorrelationID: &quot; + message.getJMSCorrelationID() + &quot;&lt;br&gt;&quot;;
+ headersDiv.innerHTML += &quot;JMSType: &quot; + message.getJMSType() + &quot;&lt;br&gt;&quot;;
+ headersDiv.innerHTML += &quot;JMSReplyTo: &quot; + message.getJMSReplyTo() + &quot;&lt;br&gt;&quot;;
+ return headersDiv;
+}
+
+var addProperties = function (message) {
+ var i = 1;
+ var propName;
+ while (propName = document.getElementById(&quot;propName&quot; + i)) {
+  if (propName.value.length &gt; 0) {
+   var propValue = document.getElementById(&quot;propValue&quot; + i);
+   message.setStringProperty(propName.value, propValue.value);
+  }
+  i++;
+ }
+}
+</pre>
+ </li>
+ <li>Add a function for when a user clicks <strong>Send</strong>. The function checks to see if the message is text or binary (user checked the <strong>binary</strong> option), adds any properties, and updates the log console.
+<pre class="auto-links: false; brush: js; toolbar: false;">
+function handleSend() {
+ var name = destination.value;
+ var dest = createDestination(name, session);
+ var producer = session.createProducer(dest);
+
+ if (!binary.checked) {
+  var textMsg = session.createTextMessage(message.value);
+
+  addProperties(textMsg);
+
+  try {
+   var future = producer.send(textMsg, function () {
+    if (future.exception) {
+     handleException(future.exception);
+    }
+   });
+  } catch (e) {
+   handleException(e);
+  }
+
+  logMessageSend(&quot;sendMessage&quot;, &quot;SEND TextMessage: &quot;, destination.value, message.value, textMsg);
+ }
+ else {
+  var bytesMsg = session.createBytesMessage();
+  bytesMsg.writeUTF(message.value);
+
+  addProperties(bytesMsg);
+
+  try {
+   var future = producer.send(bytesMsg, function () {
+    if (future.exception) {
+     handleException(future.exception);
+    }
+   });
+  } catch (e) {
+   handleException(e);
+  }
+
+  logMessageSend(&quot;sendMessage&quot;, &quot;SEND BytesMessage: &quot;, destination.value, message.value, bytesMsg);
+ }
+
+ producer.close();
+}
+</pre>
+ </li>
+ <li>Next add the functions for messages sent as <a href="https://docs.oracle.com/cd/E19798-01/821-1841/bncgh/index.html">transactions</a>. The function also handles the commit and rollback methods of the transaction.
+<pre class="auto-links: false; brush: js; toolbar: false;">
+function handleTxSend() {
+ var name = txDestination.value;
+ var dest = createDestination(name, transactedSession);
+ var producer = transactedSession.createProducer(dest);
+
+ if (!binaryTransaction.checked) {
+  var textMsg = transactedSession.createTextMessage(txMessage.value);
+
+  try {
+   var future = producer.send(textMsg, function () {
+    if (future.exception) {
+     handleException(future.exception);
+    }
+   });
+  } catch (e) {
+   handleException(e);
+  }
+
+  logMessageSend(&quot;txSendMessage&quot;, &quot;SEND TextMessage: &quot;, name, txMessage.value, textMsg);
+ }
+ else {
+  var bytesMsg = transactedSession.createBytesMessage();
+  bytesMsg.writeUTF(txMessage.value);
+
+  try {
+   var future = producer.send(bytesMsg, function () {
+    if (future.exception) {
+     handleException(future.exception);
+    }
+   });
+  } catch (e) {
+   handleException(e);
+  }
+
+  logMessageSend(&quot;txSendMessage&quot;, &quot;SEND BytesMessage: &quot;, name, txMessage.value, bytesMsg);
+ }
+
+ producer.close();
+}
+
+function handleCommit() {
+ log(&quot;COMMIT&quot;);
+
+ try {
+  var future = transactedSession.commit(function () {
+   if (!future.exception) {
+    log(&quot;TRANSACTION COMMITTED&quot;);
+   }
+   else {
+    handleException(future.exception);
+   }
+  });
+ } catch (e) {
+  handleException(e);
+ }
+}
+
+function handleRollback() {
+ log(&quot;ROLLBACK&quot;);
+ transactedSession.rollback(function () {
+  log(&quot;TRANSACTION ROLLED BACK&quot;);
+ });
+}
+</pre>
+ </li>
+ <li>Add a variable containing a function for displaying or hiding message headers in the log console, depending on whether or not the user has click the <strong>Show JMS headers</strong> option. This variable is used in many other functions.
+<pre class="auto-links: false; brush: js; toolbar: false;">
+var toggleJmsHeaders = function (event) {
+ $('div.headers').toggleClass('hidden', !toggleJmsHeadersCb.checked);
+}
+</pre>
+ </li>
+ <li>Lastly, add a jquery function to load when the HTML page is loaded in the browser. The jquert function will initialize variables for the UI elements that will be used by the other program functions.
+<pre class="auto-links: false; brush: js; toolbar: false;">
+$(document).ready(function () {
+
+ // Initialize UI elements
+ url = document.getElementById(&quot;url&quot;);
+
+ username = document.getElementById(&quot;username&quot;);
+ password = document.getElementById(&quot;password&quot;);
+ connect = document.getElementById(&quot;connect&quot;);
+ disconnect = document.getElementById(&quot;disconnect&quot;);
+
+ logConsole = document.getElementById(&quot;console&quot;)
+ receivedMessageCount = document.getElementById(&quot;receivedMessageCount&quot;);
+ toggleJmsHeadersCb = document.getElementById(&quot;toggleJmsHeadersCb&quot;);
+
+ destination = document.getElementById(&quot;destination&quot;);
+ messageSelector = document.getElementById(&quot;messageSelector&quot;);
+ message = document.getElementById(&quot;message&quot;);
+ subscribe = document.getElementById(&quot;subscribe&quot;);
+ send = document.getElementById(&quot;send&quot;);
+
+ txSend = document.getElementById(&quot;txSend&quot;);
+ txDestination = document.getElementById(&quot;txDestination&quot;);
+ txMessage = document.getElementById(&quot;txMessage&quot;);
+
+ commit = document.getElementById(&quot;commit&quot;);
+ rollback = document.getElementById(&quot;rollback&quot;);
+
+ clear = document.getElementById(&quot;clear&quot;);
+ binary = document.getElementById(&quot;binary&quot;);
+ binaryTransaction = document.getElementById(&quot;binaryTransaction&quot;);
+
+ subscriptionsTable = document.getElementById(&quot;subscriptions&quot;);
+
+ // construct the WebSocket location
+ var locationURI = new URI(&quot;wss://sandbox.kaazing.net/jms&quot;);
+ // default the location
+ url.value = locationURI.toString();
+
+ updateConnectionButtons(false);
+
+ connect.onclick = handleConnect;
+ disconnect.onclick = handleDisconnect;
+ subscribe.onclick = handleSubscribe;
+ send.onclick = handleSend;
+
+ txSend.onclick = handleTxSend;
+ commit.onclick = handleCommit;
+ rollback.onclick = handleRollback;
+
+ clear.onclick = clearLog;
+ toggleJmsHeadersCb.onclick = toggleJmsHeaders;
+
+ // initialize the disabled states
+ connect.disabled = null;
+ disconnect.disabled = &quot;disabled&quot;;
+});
+</pre>
+ </li>
+ <li>Save the <strong>jmsClient.html</strong> file.</li>
+ <li>Test the JavaScript JMS client. Drag the jmsClient.html file into a web browser. The URL <code>wss://sandbox.kaazing.net/jms</code> is displayed in the <strong>Location</strong> field.</li>
+ <li>Click <strong>Connect</strong>. The Log displays a successful connection to the Gateway. If there is an exception, review your code for possible errors.</li>
+ <li>Subscribe to a destination and then send a message to the destination and receive the message response.</li>
+</ol>
+
+
+<h2><a name="migrate"></a>Migrate JavaScript Applications to Kaazing Gateway 4.x</h2>
+<p>If you wish to migrate your Kaazing Gateway 3.3-3.5 JavaScript clients to Kaazing Enterpise JavaScript SDK 4.x and use its new library, do the following:</p>
+  <ol>
+  <li>Add the new WebSocket.js library to your client, as described in this procedure.</li>
+  <li>Use the new JmsClient.js library in Kaazing Enterpise JavaScript SDK 4.x. This has replaced the StompJms.js library from 3.3-3.5.</li>
+  <li>Change any StompJms.js references to JmsClient.js.</li>
+  <li>Change any instances of <code>StompConnectionFactory</code> to <code>JmsConnectionFactory</code>.</li>
+  <li><p>Modify challenge handlers. In Kaazing Enterpise JavaScript SDK 4.x, <code>ChallengeHandlers</code> from 3.3-3.5 was replaced with by the <code>ChallengeHandler</code> method of <code>WebSocketFactory</code>. The <code>ChallengeHandler</code> method is used during authentication for connections and subsequent revalidation that occurs at regular intervals.</p>
+    
+    <p>Kaazing Gateway 3.3-3.5:</p>
+
+<pre class="auto-links: false; brush: js; toolbar: false;">
+function setupSSO() {
+    /* Respond to authentication challenges with popup login dialog */
+    var basicHandler = new BasicChallengeHandler();
+    basicHandler.loginHandler = function(callback) {
+        popupLoginDialog(callback);
+    }
+    ChallengeHandlers.setDefault(basicHandler);
+}
+</pre>
+    
+    <p>Kaazing Enterpise JavaScript SDK 4.x:</p>
+<pre class="auto-links: false; brush: js; toolbar: false;">
+function setupSSO(webSocketFactory) {
+    /* Respond to authentication challenges with popup login dialog */
+    var basicHandler = new BasicChallengeHandler();
+    basicHandler.loginHandler = function(callback) {
+        popupLoginDialog(callback);
+    }
+    webSocketFactory.setChallengeHandler(basicHandler);
+}
+</pre>
+  </li>
+  <li>Review the <a href="../apidoc/client/javascript/jms/index.html">JavaScript JMS Client API</a>.</li>
+</ol>
+
+<h2><a name="Durable"></a>Durable Subscribers</h2>
+
+<span class="note"><b>Note:</b> Currently, the Gateway does not support durable subscribers with Apache ActiveMQ. You may use durable subscribers with <a href="../../integration-jms/p_jms_integrate_tibco/index.html">TIBCO EMS</a> or <a href="../../integration-jms/p_jms_integrate_informatica/index.html">Informatica UM</a>. For more information, see <a href="../../admin-reference/r_conf_jms/index.html#durable-subscribers">Durable Subscribers</a>.</span><br>
+
+
+<p>If your JMS client needs to receive all of the messages published on a topic, including the ones published while the subscriber is inactive because it is not being used or has lost connections (which is common when using mobile devices), create a durable <a href="../apidoc/client/javascript/jms/TopicSubscriber.html">TopicSubscriber</a> using the <a href="../apidoc/client/javascript/jms/Session.html#createDurableSubscriber">Session.createDurableSubscriber()</a> method.</p>
+
+<p>To unsubscribe from a durable subscription that has been created by a client and delete the state being maintained on behalf of the subscriber by the broker, use the <code><a href="../apidoc/client/javascript/jms/Session.html#unsubscribe">unsubscribe()</a></code> method available in the <code>Session</code> object.</p>
+
+<p>The JMS provider retains a separate record of each durable subscription and ensures that all messages from the topic's publishers are retained until they are acknowledged by each durable subscriber or they have expired. Whether messages have been acknowledged is tracked separately for each durable subscriber, and each durable subscriber is identified by the combination of its name and the clientID (if any) set on the Connection. Ensure your application confirms that the clientID (if used) is unique to the user or device, or, if it does not use clientID's, ensure that the durable name is unique to the user or device.</p>
+
+<h4>Example</h4>
+<p>In the following example, a web application enables users to connect to a JMS broker via the Gateway and specify both a username and durable name to create a durable subscriber. First, we'll look at the HTML content of the web application, and then look at the JavaScript functions that use the <a href="../apidoc/client/javascript/jms/index.html">JavaScript JMS API</a>.</p>
+
+<p>In the connection section of the web application, a username field is included.</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false; highlight:[4,5];">
+&lt;div id=&quot;login_div&quot; class=&quot;panel&quot;&gt;
+&lt;label for=&quot;url&quot;&gt;Location&lt;/label&gt;
+&lt;input id=&quot;url&quot; /&gt;&lt;br/&gt;
+&lt;label for=&quot;username&quot;&gt;Username&lt;/label&gt;
+&lt;input id=&quot;username&quot;&gt;&lt;br/&gt;
+&lt;label for=&quot;password&quot;&gt;Password&lt;/label&gt;
+&lt;input type=&quot;password&quot; id=&quot;password&quot;&gt;&lt;br/&gt;
+&lt;button id=&quot;connect&quot; &gt;Connect&lt;/button&gt;
+&lt;button id=&quot;disconnect&quot; &gt;Close&lt;/button&gt;
+</pre>
+
+<p>The following section of the web app shows a web form that enables users to subscribe, send messages, and unsubscribe to a particular destination and durable name.</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false; highlight:[4,5,8,9];">
+&lt;div id=&quot;subscribe_div&quot; class=&quot;panel&quot;&gt;
+    &lt;span class=&quot;info&quot;&gt;Subscribe, set message selectors, send messages, 
+        and add message properties&lt;/span&gt;
+    &lt;label for=&quot;destination&quot;&gt;Destination&lt;/label&gt;
+    &lt;input id=&quot;destination&quot; value=&quot;/topic/destination&quot;&gt;&lt;br/&gt;
+    &lt;label for=&quot;messageSelector&quot;&gt;Message Selector&lt;/label&gt;
+    &lt;input id=&quot;messageSelector&quot; placeholder=&quot;Example: symbol=&#x27;KZNG&#x27;&quot;&gt;&lt;br /&gt;
+    &lt;label for=&quot;durableName&quot;&gt;Durable Name&lt;/label&gt;
+    &lt;input id=&quot;durableName&quot; value=&quot;&quot;&gt;&lt;br /&gt;
+    &lt;button id=&quot;subscribe&quot; &gt;Subscribe&lt;/button&gt;
+&lt;/div&gt;</pre>
+
+
+<p>Next, variable names are assigned to each form element (note the variable that is a concatenation of the username and the durable name to ensure that the durable subscription is unique):</p>
+<pre class="auto-links: false; brush: js; toolbar: false; highlight:[3,4,5,6,20,21,22,23];">
+// Declare variables
+var url, username, password, connect, close, disconnect, message, messageSelector, subscribe;
+var destination;
+var durName;
+var durableName;
+var UniqueDurName;
+
+// Assign UI elements to variables
+url = document.getElementById("url");
+username = document.getElementById("username");
+password = document.getElementById("password");
+connect = document.getElementById("connect");
+close = document.getElementById("close");
+disconnect = document.getElementById("disconnect");
+message = document.getElementById("message");
+messageSelector = document.getElementById("messageSelector");
+subscribe = document.getElementById("subscribe");
+send = document.getElementById("send");
+
+destination = document.getElementById("destination");
+durableName = document.getElementById("durableName");
+// Create a unique durable name using a concatenation of user name and durable name
+UniqueDurName = username + "@" + durableName; 
+</pre>
+
+<p>To create a connection, the user enters the location of the jms service (<span class="code_inline">ws://example.com:8001/jms</span>), a username, and then clicks <strong>Connect</strong> (password is optional). The following code creates the connection using the location and username:</p>
+
+<pre class="auto-links: false; brush: js; toolbar: false; highlight:[5,10,11];">
+function handleConnect() {
+  // log the location and username values to the log text area in the UI
+  log("CONNECT: " + url.value + " " + username.value);
+  // Create a new connection to the JMS provider at the location entered by the user
+  var jmsConnectionFactory = new JmsConnectionFactory(url.value);
+  try {
+    /*Create the actual JMS Connection via WebSocket.
+    Username and password are options used to authenticate with the Gateway.*/
+    var connectionFuture =
+    jmsConnectionFactory.createConnection(
+    username.value, password.value, function () {
+      if (!connectionFuture.exception) {
+        try {
+          connection = connectionFuture.getValue();
+          connection.setExceptionListener(handleException);
+
+          log("CONNECTED");
+
+          session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+          transactedSession = connection.createSession(true, Session.AUTO_ACKNOWLEDGE);
+
+          connection.start(function () {
+            updateConnectionButtons(true);
+          });
+        }
+        catch (e) {
+          handleException(e);
+        }
+      }
+      else {
+        handleException(connectionFuture.exception);
+      }
+    });
+  }
+  catch (e) {
+    handleException(e);
+  }
+}
+</pre>
+
+<p>To create a durable subscriber for a topic when a user clicks the <strong>Subscribe</strong> button, the web application calls the <a href="../apidoc/client/javascript/jms/Session.html#createDurableSubscriber">createDurableSubscriber()</a> method of a Session object. Note the use of <span class="code_inline">UniqueDurName</span>, the variable created using a concatenation of username and durable name in order to create a unique durable subscription.</p> 
+
+<p>There are two instances of <span class="code_inline">createDurableSubscriber()</span>: the first instance is used if a message selector is entered by the user (lines 14-15), and the second is used if no message selector is entered (line 19).</p>
+
+<pre class="auto-links: false; brush: js; toolbar: false; highlight:[14,15,19];">
+function handleSubscribe() {
+  // Assign the destination entered by the user to a variable
+  var name = destination.value;
+  // Create the destination and assign it to a variable
+  var dest = createDestination(name, session);
+  // Create a variable to hold the durable topic
+  var consumer;
+  // If a durable name is entered by the user, do the following
+  if (durableName.value.length > 0) {
+    // If a message selector was entered, use it when creating the durable topic
+    if (messageSelector.value.length > 0) {
+      /*Create the durable topic using the destination, name,
+      and message selector entered by the user*/
+      consumer = session.createDurableSubscriber(
+      dest, UniqueDurName, messageSelector.value, false);
+    }
+    else {
+      // Or create the durable topic without the message selector
+      consumer = session.createDurableSubscriber(dest, UniqueDurName);
+    }
+  }
+  else if (messageSelector.value.length > 0) {
+    consumer = session.createConsumer(dest, messageSelector.value);
+  }
+  else {
+    consumer = session.createConsumer(dest);
+  }
+
+  consumer.setMessageListener(function(message) {
+    handleMessage(name, destinationId, message);
+  });
+}
+</pre>
+  
+<span class="note"><b>Notes:</b><br>
+ <ul class="arrow-2">
+     <li>Clients built using Kaazing Gateway 3.x libraries will work against Kaazing WebSocket Gateway 5.x. If you wish to upgrade your 3.x client to the Kaazing Enterpise JavaScript SDK 4.x libraries, please note that the 3.x clients used a single JMS library and Kaazing Enterpise JavaScript SDK 4.x clients include and use separate WebSocket and JMS libraries. Update your client library file and code references to include both the WebSocket and JMS libraries, as described in the 4.x documentation.</li>
+   <li>Sessions with durable subscribers may be created using a unique client ID or with no client ID specified. For more information, see the <a href="../../admin-reference/r_conf_jms/index.html#stompjms">jms</a> service.</li>
+   <li>A client can change an existing durable subscription by creating a durable TopicSubscriber with the same name and a new topic and/or message selector. Changing a durable subscriber is equivalent to unsubscribing (deleting) the old one and creating a new one.</li>
+     <li><span class="code_inline">TemporaryTopic</span> and <span class="code_inline">TemporaryQueue</span> objects are destroyed when the client loses its connection to the Gateway, or when the JMS-compliant message broker loses its connection to the Gateway. To address this, monitor the client's exception listener to handle recovery for your application. Once the connection is re-established, recreate <span class="code_inline">TemporaryTopic</span> and <span class="code_inline">TemporaryQueue</span>. <span class="code_inline">ConnectionDroppedException</span> and <span class="code_inline">ConnectionInterruptedException</span> are delivered to the connection's exception listener via <span class="code_inline">onException</span>, indicating that messages in flight might be lost, depending on message delivery options. <span class="code_inline">ConnectionRestoredException</span> is delivered to indicate that the connection through to the JMS-compliant message broker has been re-established. <span class="code_inline">TemporaryTopic</span> and <span class="code_inline">TemporaryQueue</span> should be recreated at that time to resume operations.</li>
+ </ul>
+</span>
+
+<h2>Next Step</h2>
+<p><a href="p_dev_js_secure.html">Secure Your JavaScript Client</a></p>
+
+
+
+                  </section>
+                </article>
+
+            </div> <!-- #main -->
+        </div> <!-- #main-container -->
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

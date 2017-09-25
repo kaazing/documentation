@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+
+ <h1 id="configure-a-kaazing-gateway-cluster">Configure a Kaazing Gateway Cluster</h1>
+
+<p>To create a cluster, you must configure multiple gateways to communicate with each other. This is accomplished by adding a <code>cluster</code> service to each Gateway. Once a <code>cluster</code> service is configured on each Gateway cluster member and the members are started, the clustered instances will handle connection-switching when another cluster member unexpectedly terminates. Cluster members share information about activity and which of their services are load balanced.</p>
+
+<p>In the following procedure, two Gateway members are clustered. Additional members can be added or removed using the same steps.</p>
+
+<h2 id="before-you-begin">Before You Begin</h2>
+
+<p>This procedure is part of <a href="../o_high_availability">Configure the Gateway for High Availability</a>:</p>
+
+<ol>
+  <li><a href="../u_high_availability">Using the Gateway to Support High Availability</a></li>
+  <li><strong>Configure a Kaazing Gateway Cluster</strong></li>
+  <li><a href="../p_high_availability_loadbalance">Set Up Kaazing Gateway as a Load Balancer</a></li>
+  <li><a href="../../troubleshooting/p_troubleshoot_high_availability/index.html">Troubleshoot Kaazing Gateway Clusters and Load Balancing</a></li>
+</ol>
+
+<h2 id="to-create-a-cluster-with-the-gateway">To Create a Cluster with the Gateway</h2>
+
+<p>In this example, there are two Gateways. Each Gateway is listening on its IP address for incoming connections (<code>192.168.2.10</code> for the first Gateway and <code>192.168.2.11</code> for the second Gateway), and both are connecting to the cluster group address <code>udp://224.2.2.44:54327</code>.</p>
+
+<ol>
+  <li>
+    <p>On the first Gateway (<code>192.168.2.10</code>), add the following <code>cluster</code> configuration element in the Gateway configuration file (<code>GATEWAY_HOME/conf/gateway-config.xml</code>).</p>
+
+    <pre class="auto-links: false; brush: xml; toolbar: false;">      &lt;cluster&gt;
+        &lt;name&gt;MyCluster&lt;/name&gt;
+        &lt;accept&gt;tcp://192.168.2.10:5942&lt;/accept&gt;
+        &lt;connect&gt;udp://224.2.2.44:54327&lt;/connect&gt;
+      &lt;/cluster&gt;
+</code></pre>
+
+    <p>The <code>cluster</code> element requires <code>name</code>, <code>accept</code>, and <code>connect</code> elements:</p>
+
+    <ul>
+      <li>The <code>name</code> element can be any name. The name must be the same in the <code>cluster</code> service of every Gateway that wishes to join this cluster.</li>
+      <li>The <code>accept</code> element contains the URI on which the cluster member listens for other cluster members. The URI contains the local IP address of the member. If the Gateway cannot match the IP address in the <code>accept</code> URI to one of the host’s network interfaces, then the cluster startup process will fail.<br />
+ The URI in the <code>accept</code> uses a TCP scheme followed by the IP address of the network interface for the connection, and a port number (the port number in this example is arbitrary).</li>
+      <li>The <code>connect</code> element contains the URI used to discover other cluster members. The <code>cluster</code> element can contain a single <code>connect</code> that uses a multicast address (such as <code>udp://224.2.2.44:54327</code>) or multiple <code>connect</code> elements that use unicast addresses (such as <code>tcp://192.168.4.50:5942</code>).
+        <ul>
+          <li>For multicast addressing, the <code>connect</code> element URI is known as the <em>group address</em>. This URI must be the same in the <code>cluster</code> service of every Gateway that wishes to join this cluster. The <code>connect</code> element URI uses a multicast address and port number (the port number in this example is a common multicast port number). Each cluster member sends multicast datagrams to the multicast address. The <code>connect</code> element may use a hostname instead of a multicast address, such as <code>udp://cluster.example.com:9999</code>, if the hostname resolves in DNS to the IP addresses of all of the cluster members.</li>
+          <li>For unicast addressing, there can be many <code>connect</code> elements, each pointing to a different cluster member. The <code>cluster</code> service does not require a <code>connect</code> URI for every other cluster member. The minimum requirement is that a <code>cluster</code> service have a <code>connect</code> for one other cluster member in order to join the cluster.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>On the second Gateway (<code>192.168.2.11</code>), add the following <code>cluster</code> service element (note that its <code>name</code> and <code>connect</code> elements are identical to those in the <code>cluster</code> service on the first Gateway).</p>
+
+    <pre class="auto-links: false; brush: xml; toolbar: false;">          &lt;cluster&gt;
+            &lt;name&gt;MyCluster&lt;/name&gt;
+            &lt;accept&gt;tcp://192.168.2.11:5942&lt;/accept&gt;
+            &lt;connect&gt;udp://224.2.2.44:54327&lt;/connect&gt;
+          &lt;/cluster&gt;
+</code></pre>
+
+    <p>Notice that this <code>accept</code> element in the second Gateway uses the same port number as the <code>accept</code> element in the first Gateway. These are different hosts and can therefore use the same port number. This also simplifies administration.</p>
+  </li>
+  <li>Start both cluster members.</li>
+  <!-- <li>Monitor the cluster using the steps in <a href="../../management/p_monitor_cc/index.html">Monitor with Command Center</a>. To monitor a cluster, the default URL is: <code>http://localhost:8080/commandcenter</code>.</li> -->
+  <li>
+    <p>When you shut down one of the instances, you should see the following message in the terminal that was used to start the remaining gateway instance:</p>
+
+    <pre><code>INFO Cluster member /192.168.2.10:5942 is down
+</code></pre>
+  </li>
+</ol>
+
+<span class="note"><b>Note:</b> For TCP and UDP URLs in <code>accept</code>, <code>tcp.bind</code>, <code>udp.bind</code>, and <code>protocol.transport</code> elements, you can use the name of a network interface in place of a hostname or IP address. For example, <code>&lt;accept&gt;tcp://@eth0:8123&lt;/accept&gt;</code> (Linux/Mac) and <code>&lt;tcp.bind&gt;[@Local Area Connection]:8123&lt;/tcp.bind&gt;</code> (Windows). Use square brackets around a subinterface name or when the name contains spaces (<code>&lt;tcp.bind&gt;[@eth0:1]:8123&lt;/tcp.bind&gt;</code>). Binding to an interface binds to all IP addresses defined on that interface (IPv4, IPv6).
+
+<p>By using interface names instead of IP address, the Gateway configuration file, gateway-config.xml, can be copied between Gateway cluster members without the need to update each cluster member’s configuration with its IP address.</p>
+</span>
+
+<h2 id="next-step">Next Step</h2>
+
+<p><a href="../p_high_availability_loadbalance">Set Up Kaazing Gateway as a Load Balancer</a></p>
+
+<h2 id="notes">Notes</h2>
+
+<ul>
+  <li>To set up a cluster locally for testing purposes, see <a href="../u_high_availability#configure-a-two-member-local-demo-cluster">Configure a Two-Member Local Demo Cluster</a>.</li>
+  <li>To configure clustering in an Enterprise Shield™ topology, see <a href="../../enterprise-shield/p_enterprise_shield_cluster/index.html">Configure Enterprise Shield™ in a Cluster</a>.</li>
+</ul>
+
+<h2 id="summary">Summary</h2>
+
+<p>In this document, you learned about configuring the Gateway for clustering. For more information about Gateway administration, see the <a href="../..">documentation</a>.</p>
+
+
+</div>
+
+</div>
+
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

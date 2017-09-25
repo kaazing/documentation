@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+  
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+<h1>Add APNs Support to Your Objective-C JMS Client</h1>
+<p>In this procedure, you will learn how to configure the Objective-C client you have built using the Kaazing Gateway Objective-C library to use the Apple Push Notification Service (APNs) with the Gateway. APNs enables iOS clients that are not running or are on an iOS device that is disconnected to receive notifications that a message is waiting for them.</p>
+
+<p>For information about the Kaazing Gateway Objective-C JMS client library, see <a href="../apidoc/client/ios/jms/KMStompJMS/index.html">Objective-C JMS Client API</a>.</p>
+
+<p>For more information about APNs, see <a href="//developer.apple.com/library/mac/#documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/ApplePushService/ApplePushService.html">Apple Push Notification Service</a> (from Apple).</p>
+
+<span class="note"><b>Important:</b>
+ <ul class="arrow-2">
+   <li>Once APNs support is added to your Objective-C client, you will want to ensure that APNs support is configured on the Gateway. See <a href="../apns/o_apns.html">Checklist: Deploy APNs with Kaazing Gateway</a> for deployment steps.</li>
+   <li>You can see the APNs functionality in the out of the box iOS demo included in the Gateway bundle, located here: <span class="code_inline"><em>GATEWAY_HOME</em>/demo/ios/src/jms</span>. The APNs code is commented out in the out of the box demo.</li>
+   <li>Although APNs has similar semantics to durable subscribers, APNs notifications are supported for non-durable topics only. APNs notifications are not supported for queues and durable topics.</li>
+ </ul>
+</span>
+
+<h2>Before You Begin</h2>
+<p>This procedure is part of <a href="../dev-objc/o_dev_objc.html">Checklist: Build Objective-C (iOS) JMS Clients Using Kaazing Gateway</a>, that includes the following steps:</p>
+<p>
+    <ol>
+    <li><a href="p_dev_objc_client.html">Use the Objective-C JMS Client API</a></li>
+    <li><a href="p_dev_objc_secure.html">Secure Your Objective-C Client</a></li>
+    <li><a href="p_dev_objc_tshoot.html">Troubleshoot Your Objective-C JMS Client</a></li>
+    <li><strong>Add APNs Support to Your Objective-C JMS Client</strong></li>
+    <li><a href="p_dev_objc_log.html">Display Logs for the Objective-C JMS Client</a></li>
+    </ol>
+</p>
+
+<p><span class="note"><b>Note:</b> Learn about supported browsers, operating systems, and platform versions in the <a href="//kaazing.com/download/">Release Notes</a>.</span></p>
+
+<h2><a name="addAPNs"></a>To Add APNs Support to Your Objective-C JMS Client</h2>
+<p>
+<ol>
+    <li><p>Obtain Security Credentials for Push Notifications.</p>
+    <p>To develop and deploy your Objective-C client for push notifications, you must get TLS/SSL certificates from the appropriate iOS Dev Center. Each certificate is limited to a single application, identified by its bundle ID; it is also limited to one of two environments, sandbox (for development and testing) and production. These environments have their own assigned IP addresses and require their own certificates. You must also obtain provisioning profiles for each of these environments.</p>
+    <p>Security credentials are obtained from Apple. Please see <a href="https://developer.apple.com/library/mac/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/ProvisioningDevelopment.html#//apple_ref/doc/uid/TP40008194-CH104-SW3">Provisioning Procedures</a> in the <a href="//developer.apple.com/library/mac/#documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Introduction/Introduction.html#//apple_ref/doc/uid/TP40008194-CH1-SW1">Local and Push Notification Programming Guide</a> for the most up-to-date steps on obtaining these credentials.</p>
+    <span class="note"><b>Note:</b> The following steps add APNs support to the Xcode project developed in <a href="../dev-objc/p_dev_objc_client.html">Use the Objective-C JMS Client API</a>. If you are unfamiliar with <a href="../dev-objc/p_dev_objc_client.html">Use the Objective-C JMS Client API</a>, review it before continuing with this procedure. The APNs support in the Kaazing Gateway Objective-C JMS client library is demonstrated clearly in these steps and can be applied to another iOS client easily.</span>
+    
+    </li>
+    
+  <li><p>In the Xcode project, add a new header file named <strong>JMSAppDelegate.h</strong>, and define the function to retrieve device-token:</p>
+  
+<pre class="auto-links: false; brush: java; toolbar: false;">
+#import &lt;UIKit/UIKit.h&gt;
+@interface JMSAppDelegate : UIResponder &lt;UIApplicationDelegate&gt;
+@property (strong, nonatomic) UIWindow *window;
+- (NSData *) deviceToken;
+@end
+</pre>
+  
+  </li>
+  
+  <li><p>In the Xcode project, add a new implementation file named <strong>JMSAppDelegate.m</strong>, and add the <span class="code_inline">JMSAppDelegate</span> implementation to include the device token, a method to register for remote notification types (<code>didFinishLaunchingWithOptions</code>), methods for managing state, shared resources, and how the application behaves when it enters the foreground of the device or terminates, and remote notification methods.</p>
+<pre class="auto-links: false; brush: java; toolbar: false;">
+#import &quot;JMSAppDelegate.h&quot;
+#import &lt;KMStompJMS/KMStompJMS.h&gt;
+
+@implementation JMSAppDelegate {
+    NSData  *_devToken;
+}
+
+
+@synthesize window = _window;
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+    // Override point for customization after application launch.
+
+//    Uncomment the following lines to register for Pre-iOS8 Notifications.
+//    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeAlert |
+//    UIRemoteNotificationTypeSound)];
+
+//    Uncomment the following lines to register for iOS8 Notifications.
+//    [application registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:(UIUserNotificationTypeSound | 
+//    UIUserNotificationTypeAlert | 
+//    UIUserNotificationTypeBadge) 
+//    categories:nil]];
+//    [application registerForRemoteNotifications];
+
+    return YES;
+}
+
+- (void)applicationWillResignActive:(UIApplication *)application
+{
+    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
+    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+}
+
+- (void)applicationDidEnterBackground:(UIApplication *)application
+{
+    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
+    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+    [dict setObject:@&quot;suspend&quot; forKey:@&quot;CONNECTION_STATE&quot;];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@&quot;suspendOrResume&quot;
+        object:self
+        userInfo:dict];
+}
+
+- (void)applicationWillEnterForeground:(UIApplication *)application
+{
+    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+    [dict setObject:@&quot;resume&quot; forKey:@&quot;CONNECTION_STATE&quot;];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@&quot;suspendOrResume&quot;
+        object:self
+        userInfo:dict];
+}
+
+- (void)applicationDidBecomeActive:(UIApplication *)application
+{
+    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+}
+
+- (void)applicationWillTerminate:(UIApplication *)application
+{
+    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+/* Method for when the client registers for remote notifications
+ with a device token */
+- (void)application:(UIApplication *)app
+didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)devToken
+{
+    NSLog(@&quot;Successful registration: devToken = &#x27;%@&#x27;&quot;, [devToken description]);
+    _devToken = devToken;
+}
+
+/* Method for when the client fails to register for remote notifications.
+ Outputs an error */
+- (void)application:(UIApplication *)app
+didFailToRegisterForRemoteNotificationsWithError:(NSError *)err
+{
+    NSLog(@&quot;Error in registration. Error: %@&quot;, err);
+}
+
+/* Method for when the client receives a remote notification.
+ Outputs a message indicating receipt. */
+- (void)application:(UIApplication *)application
+didReceiveRemoteNotification:(NSDictionary *)userInfo
+{
+    NSLog(@&quot;Received Notification&quot;);
+}
+
+// Get the iOS device token to return to the notification provider.
+- (NSData *) deviceToken {
+    return _devToken;
+}
+
+@end
+</pre>
+    </li>
+    <li>In Xcode, click <strong>JMSViewController.m</strong>. You are going to modify the <strong>JMSViewController Implementation</strong> section of this file to manage remote notifications as part of the JMS session that you create to the Apache ActiveMQ via the Gateway.</li>
+    <li>Replace the code of <strong>JMSViewController.m</strong> with the following code. Search for <strong>APNs</strong> in the comments to find APNs-specific code. The APNs-specific code is commented, but the overall steps are:<br>
+    <ol type="a">
+      <li>Create a variable for the notifying session (line 33). Look through the code to see how this variable is used to create and close the notifying session.</li>
+      <li><p>Retrieve <code>KGWebSocketFactory</code> from <code>KMStompConnectionFactory</code>, add <code>KGApnsExtension</code> as an enabled extension to the <code>KGWebSocketFactory</code>, and set the device token and bundle id as an extension parameter (starts at line 114).</p>
+      <span class="note"><b>Note:</b> The durable name used to create the notifiable/notifying subscriber should be unique for each iOS client.</span>
+      </li>
+      <li>Modify the <code>subscribe</code> action to create a notifiable/notifying subscription with the notification payload (190-195).</li>
+      <li>Define the notification payload at the end of the <strong>JMSViewController Implementation</strong> section (starts at line 219).</li>
+      <li><p>Add the new function <code>suspendOrResume</code> to manage the APNs functionality when the app is suspended or resumed (starts at line 230):</p>
+        <ol type="i">
+          <li>Modify <code>viewDidLoad</code> by adding a <code>NSNotificationCenter</code> instance.</li>
+          <li>Add the new <code>suspendOrResume</code> function at the end of <strong>JMSViewController.m</strong>. As noted earlier, when the app is suspended, the WebSocket connection should be closed instead of just stopped. Closing the WebSocket connection ensures that APNs notification will occur. Simply stopping the connection will not enable APNs. When the app resumes, the connection and any subscriptions must be recreated.</li>
+        </ol>
+      </li>
+    </ol>
+    
+<pre class="auto-links: false; brush: java; toolbar: false; tab-size: 2; smart-tabs: true; highlight: [33, 114, 190, 219, 230]">
+#import &quot;JMSViewController.h&quot;
+#import &quot;JMSAppDelegate.h&quot;
+#import &lt;KMStompJMS/KMStompJMS.h&gt;
+#import &lt;KGWebSocket/WebSocket.h&gt;
+
+.
+.
+.
+// -------------------- JMSViewController Implementation ---------------
+
+@interface JMSViewController ()
+-(KMDestination*) createDestination:(NSString*)destinationName;
+@end
+
+@implementation JMSViewController
+
+@synthesize connectDisconnectButton;
+@synthesize sendButton;
+@synthesize subscribeButton;
+@synthesize clearButton;
+
+@synthesize locationField;
+@synthesize destinationField;
+@synthesize messageField;
+@synthesize logView;
+
+bool                      connected = NO;
+KMStompConnectionFactory *factory = nil;
+KMConnection             *conn = nil;
+KMSession                *session = nil;
+KMMessageProducer        *producer = nil;
+KMMessageConsumer        *consumer = nil;
+KMNotifyingSession       *notifyingSession = nil;
+KMMessageConsumer        *notifyingConsumer = nil;
+
+
+- (void) viewDidLoad {
+  subscribeButton.enabled = NO;
+  subscribeButton.alpha = 0.5f;
+  sendButton.enabled = NO;
+  sendButton.alpha = 0.5f;
+  
+  [[NSNotificationCenter defaultCenter] addObserver:self
+  selector:@selector(suspendOrResume:)
+  name:@&quot;suspendOrResume&quot;
+  object:nil];
+  [super viewDidLoad];
+}
+
+- (void) viewDidUnload {
+  [self setLocationField:nil];
+  [self setDestinationField:nil];
+  [self setMessageField:nil];
+  [self setLogView:nil];
+  [self setConnectDisconnectButton:nil];
+  [self setSendButton:nil];
+  [self setSubscribeButton:nil];
+  [self setClearButton:nil];
+  
+  subscribeButton.enabled = NO;
+  subscribeButton.alpha = 0.5f;
+  sendButton.enabled = NO;
+  sendButton.alpha = 0.5f;
+  
+  [super viewDidUnload];
+  // Release any retained subviews of the main view.
+}
+
+#pragma mark &lt;UIViewController Methods&gt;
+
+- (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+  if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
+  } else {
+    return YES;
+  }
+}
+
+#pragma mark &lt;UITextFieldDelegate Method&gt;
+
+- (BOOL) textFieldShouldReturn:(UITextField *)theTextField {
+  if ((theTextField == self.locationField)    || 
+  (theTextField == self.destinationField) ||
+  (theTextField == self.messageField)) {
+    [theTextField resignFirstResponder];
+  }
+  return YES;
+}
+
+#pragma mark &lt;JMSViewController Methods&gt;
+
+- (IBAction) connectOrDisconnect:(id)sender {
+  // Cache values from the UI widgets in the main thread itself to avoid warnings/errors
+  // related to UIKit invoked from secodary thread.
+  NSString *location = [locationField text];
+
+  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    if (!connected) {
+      NSURL                       *url = [[NSURL alloc] initWithString:location];
+      KMStompConnectionProperties *props = [[KMStompConnectionProperties alloc] init];
+          
+      props-&gt;_connectionTimeout = 5000;
+          
+      @try {
+        factory = [[KMStompConnectionFactory alloc] initWithUrl:url properties:props];
+              
+        KGWebSocketFactory   *webSocketFactory = [factory webSocketFactory];
+        KGChallengeHandler   *challengeHandler = [self createBasicChallengeHandler];
+        JMSAppDelegate       *delegate = [[UIApplication sharedApplication] delegate];
+        NSData               *devToken = [delegate deviceToken];
+              
+        [webSocketFactory setDefaultChallengeHandler:challengeHandler];
+
+        if (devToken != nil) {
+          // App is configured to receive push notifications via APNS.
+          NSString *apnsExtensionName = [[KGApnsExtension apnsExtension] name];
+          NSArray  *enabledExtensions = [NSArray arrayWithObjects:apnsExtensionName, nil];
+          NSString *bundleId = [[NSBundle mainBundle] bundleIdentifier];
+
+          [webSocketFactory setDefaultEnabledExtensions:enabledExtensions];
+          [webSocketFactory setDefaultParameter:[KGApnsExtension deviceToken] value:devToken];
+          [webSocketFactory setDefaultParameter:[KGApnsExtension bundleId] value:bundleId];
+        }
+
+        [self log:@&quot;CONNECTING&quot;];
+        id&lt;KMStompConnectionListener&gt; listener = [[JMSConnectionListener alloc] initWithController:self];
+        conn = [factory createConnectionWithListener:listener];
+        [conn setExceptionListener:[[JMSExceptionListener alloc] initWithController:self]];
+        [conn start];
+        session = (KMSession *)[conn createSession:KMSessionAutoAcknowledge transacted:NO];
+
+        if (devToken != nil) {
+          // Create a notifying-session for APNS.
+          notifyingSession = (KMNotifyingSession *) [conn createSession:KMSessionNotifyAcknowledge transacted:NO];
+        }
+      }
+      @catch (NSException *ex) {
+        [self log:[NSString stringWithFormat:@&quot;EXCEPTION: %@&quot;, [ex reason]]];
+        NSLog(@&quot;Exception: %@&quot;, [ex reason]);
+              
+        if (notifyingSession != nil) {
+          [notifyingSession close];
+        }
+              
+        if (session != nil) {
+          [session close];
+        }
+              
+        if (conn != nil) {
+          [conn close];
+        }
+              
+        notifyingSession = nil;
+        session = nil;
+        conn = nil;
+        factory = nil;
+      }
+    } else {
+      connected = NO;
+      [self log:@&quot;CLOSING&quot;];
+          
+      if (notifyingSession != nil) {
+        [notifyingSession close];
+      }
+      [session close];
+      [conn close];
+    }
+  });
+}
+
+- (IBAction) subscribe:(id)sender {
+  // Cache values from the UI widgets in the main thread itself to avoid warnings/errors
+  // related to UIKit invoked from secondary thread.
+  NSString      *destinationName = [destinationField text];
+  
+  // Subscribing can be a blocking operation, so perform it in the background.
+  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    @try {
+      // Create a destination.
+      KMDestination *dest = [self createDestination:destinationName];
+      if (dest == nil) {
+        return;
+      }
+          
+      // Create a consumer and attach a listener.
+      consumer = [session createConsumer:dest];
+      [consumer setMessageListener:[[JMSMessageListener alloc] initWithController:self]];
+
+      if (notifyingSession != nil) {
+        // Create a notifying-consumer for APNS.
+        notifyingConsumer = [notifyingSession createDurableNotification:(KMTopic *)dest
+        durableName:@&quot;notifyingDurableSubscriber&quot;
+        notificationPayload:[self payload]];
+      }
+
+      // Update the UI. These calls will schedule themselves in the main queue.
+      [self log:[NSString stringWithFormat:@&quot;SUBSCRIBED TO: %@&quot;, destinationName]];
+      [self disableSubscribeButton];
+    }
+    @catch (NSException *exception) {
+      NSString *msg = [exception reason];
+      [self log:[NSString stringWithFormat:@&quot;EXCEPTION: %@&quot;, msg]];
+          
+      if (consumer != nil) {
+        [consumer close];
+      }
+          
+      if (notifyingConsumer != nil) {
+        [notifyingConsumer close];
+      }
+          
+      consumer = nil;
+      notifyingConsumer = nil;
+    }
+  });
+}
+
+- (KGNotificationPayload *)payload {
+  KGSimpleAlertNotification  *alert = [[KGSimpleAlertNotification alloc]
+  initWithBody:@&quot;Hello from APNs&quot;];
+  KGNotificationPayload *payload = [[KGNotificationPayload alloc]
+  initWithAlert:alert];
+  return payload;
+}
+.
+.
+.
+
+- (void) suspendOrResume:(NSNotification *)notification {
+  NSDictionary      *dict = [notification userInfo];
+  NSString          *str = (NSString *) [dict valueForKey:@&quot;CONNECTION_STATE&quot;];
+  JMSAppDelegate    *delegate = [[UIApplication sharedApplication] delegate];
+  NSData            *devToken = [delegate deviceToken];
+  
+  if ([str isEqualToString:@&quot;resume&quot;]) {
+    @try {
+      if (devToken == nil) {
+        // Application switched from background to foreground. Start the connection
+        // if it was earlier connected.
+        if (conn != nil) {
+          [conn start];
+        }
+        return;
+      }
+      // App is configured to receive push notifications via APNS.
+          
+      // ### TODO: We can cache some of these as member-variables when
+      //           they were created in createOrDisconnect method/selector
+      //           and reuse them here. For time-being, let&#x27;s just recreate
+      //           them.
+      NSString                 *location = [locationField text];
+      NSURL                    *url = [[NSURL alloc] initWithString:location];
+      KMStompConnectionFactory *factory = [[KMStompConnectionFactory alloc] initWithUrl:url];
+      KGWebSocketFactory       *webSocketFactory = [factory webSocketFactory];
+      KGChallengeHandler       *challengeHandler = [self createBasicChallengeHandler];
+          
+      [webSocketFactory setDefaultChallengeHandler:challengeHandler];
+      NSString *apnsExtensionName = [[KGApnsExtension apnsExtension] name];
+      NSArray  *enabledExtensions = [NSArray arrayWithObjects:apnsExtensionName, nil];
+      NSString *bundleId = [[NSBundle mainBundle] bundleIdentifier];
+              
+      [webSocketFactory setDefaultEnabledExtensions:enabledExtensions];
+      [webSocketFactory setDefaultParameter:[KGApnsExtension deviceToken] value:devToken];
+      [webSocketFactory setDefaultParameter:[KGApnsExtension bundleId] value:bundleId];
+          
+      [self log:@&quot;CONNECTING&quot;];
+      id&lt;KMStompConnectionListener&gt; listener = [[JMSConnectionListener alloc] initWithController:self];
+      conn = [factory createConnectionWithListener:listener];
+      [conn setExceptionListener:[[JMSExceptionListener alloc] initWithController:self]];
+      [conn start];
+      session = (KMSession *)[conn createSession:KMSessionAutoAcknowledge transacted:NO];
+
+      // Create a notifying-session for APNS.
+      notifyingSession = (KMNotifyingSession *) [conn createSession:KMSessionNotifyAcknowledge transacted:NO];
+          
+      // Create a destination.
+      NSString      *destinationName = [destinationField text];
+      KMDestination *dest = [self createDestination:destinationName];
+      if (dest == nil) {
+        return;
+      }
+          
+      // Create a consumer and attach a listener.
+      consumer = [session createConsumer:dest];
+      [consumer setMessageListener:[[JMSMessageListener alloc] initWithController:self]];
+          
+      if (notifyingSession != nil) {
+        // Create a notifying-consumer for APNS. Notifications are ONLY
+        // supported for non-durable topics.
+        notifyingConsumer = [notifyingSession createDurableNotification:(KMTopic *)dest
+        durableName:@&quot;notifyingDurableSubscriber&quot;
+        notificationPayload:[self payload]];
+      }
+          
+      // Update the UI. These calls will schedule themselves in the main queue.
+      [self log:[NSString stringWithFormat:@&quot;SUBSCRIBED TO: %@&quot;, destinationName]];
+      connected = YES;
+      [self updateUI:YES];
+      [self disableSubscribeButton];
+    }
+    @catch (NSException *ex) {
+      [self log:[NSString stringWithFormat:@&quot;EXCEPTION: %@&quot;, [ex reason]]];
+      NSLog(@&quot;Exception: %@&quot;, [ex reason]);
+          
+      if (consumer != nil) {
+        [consumer close];
+      }
+          
+      if (notifyingConsumer != nil) {
+        [notifyingConsumer close];
+      }
+          
+      if (notifyingSession != nil) {
+        [notifyingSession close];
+      }
+          
+      if (session != nil) {
+        [session close];
+      }
+          
+      if (conn != nil) {
+        [conn close];
+      }
+          
+      consumer = nil;
+      notifyingConsumer = nil;
+      notifyingSession = nil;
+      session = nil;
+      conn = nil;
+    }
+  }
+  else { // suspend
+    @try {
+      if (devToken == nil) {
+        // Application switched from foreground to background. Stop the connection
+        // if it was connected.
+        if (conn != nil) {
+          [conn stop];
+        }
+        return;
+      }
+          
+      // APNS is being used. So, we should close the connection explicitly to
+      // receive notifications.
+      connected = NO;
+      [self log:@&quot;CLOSING&quot;];
+      [conn close];
+      // conn = nil;
+      [self updateUI:NO];
+    }
+    @catch (NSException *ex) {
+      [self log:[NSString stringWithFormat:@&quot;EXCEPTION: %@&quot;, [ex reason]]];
+      NSLog(@&quot;Exception: %@&quot;, [ex reason]);
+    }
+  }
+}
+...
+@end
+</pre>
+  </li>
+  <li><p>Ensure that your Xcode project has the correct bundle ID for APNs.</p>
+    <ol type="a">
+      <li>In the Xcode project explorer, click your Xcode project (<strong>JMSDemo</strong> in our example).</li>
+      <li>In <strong>TARGETS</strong>, click the project name, <strong>JMSDemo</strong>.</li>
+      <li>Click the <strong>Info</strong> tab.</li>
+      <li>In <strong>Custom iOS Target Properties</strong>, locate the <strong>Bundle identifier</strong> key.</li>
+      <li>Replace the value for the <strong>Bundle identifier</strong> key with your bundle ID, such as <strong>com.kaazing.gateway.jms.apns</strong>.</li>
+    </ol>
+  </li>
+  <li>Save the Xcode project.</li>
+  <li>Configure the Gateway configuration file (<span class="uri"><em>GATEWAY_HOME</em>/conf/gateway-config.xml</span>) for a development or production environment. For information and APNs examples, see the <a href="../admin-reference/r_conf_service.html#notifyele"><code>notify</code></a> element.</li>
+  <li>Deploy APNs by following the steps in <a href="../apns/o_apns.html">Checklist: Deploy APNs with Kaazing Gateway</a>.</li>
+</ol>
+
+<h2>Localizing and Customizing the Notification Payload</h2>
+<p>The Kaazing Gateway Objective-C Client Library includes the <a href="../apidoc/client/ios/jms/KMStompJMS/Classes/KGLocalizedAlertNotification.html">KGLocalizedAlertNotification</a> class for creating sophisticated payloads involving resource keys that are agnostic of the device locale. When an iOS device with a Objective-C client using KGLocalizedAlertNotification receives a notification, iOS will automatically resolve the resource key to a specific string from the appropriate resource-bundle based on the device locale and format of the parameters.</p>
+
+<p>For detailed information on localizing notifications, see <a href="https://developer.apple.com/library/mac/#documentation/MacOSX/Conceptual/BPInternational/Articles/StringsFiles.html">Localizing String Resources</a> in the <a href="https://developer.apple.com/library/mac/#documentation/MacOSX/Conceptual/BPInternational/BPInternational.html">Internationalization Programming Topics</a> guide from Apple.</p>
+
+<p>In addition to localization, the notification payload sent from the Gateway to APNs can be customized using the string files in iOS. The resource files that contain localizable strings are referred to as strings files and consist of one or more key-value pairs, or a property list format where a top-level node is a dictionary and each key-value pair of that dictionary is a string entry.</p>
+
+<p>The custom notification payload process is as follows:</p> 
+
+<ol>
+    <li>The Objective-C client is configured with a Localizable.strings file that contains key-value pairs, such as <span class="code_inline">"GATE_CHANGED" = "Your gate has changed to Gate %@ at %@";</span>. The format specifiers (<span class="code_inline">%@</span>) in the localized string will be replaced by the values of the custom properties specified in the payload. The names of the custom properties are passed in a string object array as part of the notification payload. For example, <span class="code_inline">@"GATE_NUMBER", @"AIRPORT_NAME"</span>.</li>
+
+    <li>When the Objective-C client creates a notifying subscriber using a notifying session with the Gateway, it includes the names of the custom properties as part of the payload. Payload customization is subscription-specific, and therefore you can have a single JMS session with multiple notifying subscriptions and each notifying subscription can use a different custom payload.</li>
+
+    <li>The message producer must be made aware of these properties in order to send a message with the values for these properties. This can be as simple as having text fields for these properties in the client used by the publisher. When the message producer publishes the message with custom property values, the JMS-compliant message broker sends a message to the Gateway for relay to the Objective-C client. For example, property <span class="code_inline">"GATE_NUMBER"</span> with value <span class="code_inline">"12"</span>, and property <span class="code_inline">"AIRPORT_NAME"</span> with value <span class="code_inline">"San Jose Airport"</span>.</li>
+
+    <li>Because the Objective-C client has subscribed with both a standard and a notifying subscription, when the Gateway receives the message from the JMS-compliant message broker, the Gateway determines whether to send the message or send a notification via APNs. If the Objective-C client is connected, the message is sent to the client as a message. If the Objective-C client is not connected, the Gateway patches the notification payload with the property values before sending the notification to APNs.</li>
+
+    <li><p>APNs then sends the patched notification to the iOS device. When the iOS device receives the notification which contains the resource key <span class="code_inline">"GATE_CHANGED"</span>, iOS retrieves the corresponding string from the Localizable.strings file and then substitutes the type specifiers (<span class="code_inline">%@</span>) with the values of the custom properties, and the patched notification is displayed:</p>
+    <p><span class="code_inline">Your gate has changed to Gate 12 at San Jose Airport</span></p></li> 
+</ol>
+
+<p>As an example, we will modify the notification payload we placed at the end of the JMSViewController implementation section (see step 9 in <a href="#addAPNs">To Add APNs Support to Your Objective-C JMS Client</a>).</p> 
+
+<p>In this example, the <strong>Localizable.strings</strong> file for this Objective-C client contains the following key-value pair:<br><span class="code_inline">"GATE_CHANGED" = "Your gate has changed to Gate %@ at %@";</span>.</p> 
+
+<p>In addition, it includes a string array containing the names of the properties that the Gateway will use to patch the payload before sending the payload to APNs.</p>
+
+<pre class="auto-links: false; brush: js; toolbar: false; highlight:[6,7,8];">
+- (KGNotificationPayload *)payload {
+    /*
+    KGSimpleAlertNotification  *alert = [[KGSimpleAlertNotification alloc] 
+        initWithBody:@"Hello from APNs"];
+    */
+    NSArray *locArgs = [NSArray arrayWithObjects:@"GATE_NUMBER", @"AIRPORT_NAME", nil];
+    KGLocalizedAlertNotification *alert = [[KGLocalizedAlertNotification alloc] 
+        initWithLocalizationKey:@"GATE_CHANGED" localizationArgs:locArgs];
+    KGNotificationPayload *payload = [[KGNotificationPayload alloc] initWithAlert:alert];
+return payload;
+}</pre>
+
+<h2>Notes</h2>
+<ul class="arrow-2">
+    <li>Your Objective-C client may notify users using alert and sound notifications.</li> 
+    <li>Notifying sessions are separate from standard sessions in that the Gateway identifies that these sessions are candidates for APNs notifications.</li> 
+</ul>
+</p>
+
+<h2>See Also</h2>
+<ul class="arrow-2">
+    <li><a href="../apns/o_apns.html">Checklist: Deploy APNs with Kaazing Gateway</a></li> 
+</ul>
+
+
+                  </section>
+                </article>
+
+            </div> <!-- #main -->
+        </div> <!-- #main-container -->
+
+<footer>
+<div class="container">
+
+<div class="row text-center social-media">
+<a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+<a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+<a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+<!-- <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp; -->
+<a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+<a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+</div>
+
+<div class="row copyright">
+<div class="col-xs-12 col-sm-5 text-left">
+&copy; 2007-2016 Kaazing Corporation
+</div>
+<div class="col-xs-12 col-sm-7 license">
+This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+</div>
+</div>
+
+</div>
+</footer>
+</div><!-- end page_wrapper -->
+
+	
+
+    <a href="#" id="totop">TOP</a> 
+
+
+<script type='text/javascript' src='http://developer.kaazing.com/wordpress/wp-content/plugins/contact-form-7/includes/js/jquery.form.min.js'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var _wpcf7 = {"loaderUrl":"\http:\/\/developer.kaazing.com/wordpress\/wp-content\/plugins\/contact-form-7\/images\/ajax-loader.gif","sending":"Sending ..."};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://developer.kaazing.com/wordpress/wp-content/plugins/contact-form-7/includes/js/scripts.js'></script>
+<script type='text/javascript' src='http://developer.kaazing.com/wordpress/wp-content/themes/kallyas/addons/paralax/parallax.js'></script>
+<script type='text/javascript' src='http://developer.kaazing.com/wordpress/wp-content/themes/kallyas/sliders/caroufredsel/jquery.carouFredSel-6.0.4-packed.js'></script>
+<script type='text/javascript' src='http://developer.kaazing.com/wordpress/wp-content/themes/kallyas/js/bootstrap.min.js'></script>
+<script type='text/javascript' src='http://developer.kaazing.com/wordpress/wp-content/themes/kallyas/js/plugins.js'></script>
+<script type='text/javascript' src='http://developer.kaazing.com/wordpress/wp-content/themes/kallyas/addons/superfish_responsive/superfish_menu.js'></script>
+<script type='text/javascript' src='http://developer.kaazing.com/wordpress/wp-content/themes/kallyas/addons/prettyphoto/jquery.prettyPhoto.js'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var zn_do_login = {"ajaxurl":"http:\/\/developer.kaazing.com\/wordpress\/wp-admin\/admin-ajax.php"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://developer.kaazing.com/wordpress/wp-content/themes/kallyas/js/znscript.js'></script>
+<script type="text/javascript">	
+								var parallax = new Parallax({
+									container: '#slideshow',
+									layers: [
+										{ selector: '.para1', ratio: .020 },
+										{ selector: '.para2', ratio: .010 },
+										{ selector: '.para3', ratio: .008 },
+										{ selector: '.para4', ratio: .005 },
+										{ selector: '.para5', ratio: .005 }
+									]
+								});
+
+							
+						(function($){ 
+							$(window).load(function(){
+								var doc = $(document), 
+									win = $(window), chaser, forch,
+									forchBottom, visible;
+								function shown() { visible = true; }
+								function hidden() { visible = false; }
+								chaser = $('#main_menu ul.sf-menu').clone().hide()
+									.appendTo(document.body)
+									.wrap("<div class='chaser'><div class='container'><div class='row'><div class='span12'></div></div></div></div>");
+								if ( $('#content').length > 0 ) {	
+									forch = $('#content').first();
+									forchBottom = forch.offset().top + 2;
+									hidden();
+									win.on('scroll', function () {
+
+										var top = doc.scrollTop();
+										if (!visible && top > forchBottom) {
+											//chaser.slideDown(300, shown);
+											chaser.fadeIn(300, shown);
+										} else if (visible && top < forchBottom) {
+											//chaser.slideUp(200, hidden);
+											chaser.fadeOut(200, hidden);
+										}
+									});
+								}
+								/* Activate Superfish Menu for Chaser */
+								$('.chaser ul.sf-menu').supersubs({ minWidth: 12, maxWidth: 27, extraWidth: 1}).superfish({delay:250, dropShadows:false, autoArrows:true, speed:300});
+							});
+						})(jQuery);
+						
+						(function($){ 
+							$(document).ready(function(){
+								/* Activate Superfish Menu */
+								var sfDelay = 600;
+								if($('html').hasClass('isie'))
+									sfDelay = 300;
+								$('#main_menu > ul')
+								.supersubs({ 
+									minWidth:    12,   // minimum width of sub-menus in em units 
+									maxWidth:    27,   // maximum width of sub-menus in em units 
+									extraWidth:  1     // extra width can ensure lines don't sometimes turn over 
+								}).superfish({
+									delay:sfDelay,
+									dropShadows:false,
+									autoArrows:true,
+									speed:300
+								});
+								$('#top_menu > ul')
+								.supersubs({ 
+									minWidth:    12,   // minimum width of sub-menus in em units 
+									maxWidth:    27,   // maximum width of sub-menus in em units 
+									extraWidth:  1     // extra width can ensure lines don't sometimes turn over 
+								}).superfish({
+									delay:sfDelay,
+									dropShadows:false,
+									autoArrows:true,
+									speed:300
+								});
+							});
+							
+							
+							$(window).resize(function() {
+								$('#main_menu > ul')
+								.supersubs({ 
+									minWidth:    12,   // minimum width of sub-menus in em units 
+									maxWidth:    27,   // maximum width of sub-menus in em units 
+									extraWidth:  1     // extra width can ensure lines don't sometimes turn over 
+								});
+								$('#top_menu > ul')
+								.supersubs({ 
+									minWidth:    12,   // minimum width of sub-menus in em units 
+									maxWidth:    27,   // maximum width of sub-menus in em units 
+									extraWidth:  1     // extra width can ensure lines don't sometimes turn over 
+								});
+							});
+							
+						})(jQuery);
+						</script>
+
+
+		<script src="../../resources/js/jquery.details.js"></script>
+        <script>
+			$(function() {
+				// Enable jquery.details
+				//
+				
+				// Add conditional classname based on support
+				$('html').addClass($.fn.details.support ? 'details' : 'no-details');
+
+				// Emulate <details> where necessary and enable open/close event handlers
+				$('details').details();
+
+			});
+        </script>
+
+		<script type="text/javascript">
+		    var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+		    document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+
+		<script type="text/javascript">
+		    try {
+		    var pageTracker = _gat._getTracker("UA-1771436-1");
+		    pageTracker._trackPageview();
+		    } catch(err) {}
+		</script>
+                        
+                        <script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+
+
+</html>
+
+

@@ -1,0 +1,688 @@
+Gateway:
+  - clientPlatform: ios
+    productVersion: '4.0'
+    component: client
+    operatingSystem: '-'
+  - clientPlatform: ios
+    productVersion: '5.0'
+    component: client
+    operatingSystem: '-'
+  - clientPlatform: android
+    productVersion: '4.0'
+    component: client
+    operatingSystem: '-'
+  - clientPlatform: javascript
+    productVersion: '4.0'
+    component: client
+    operatingSystem: 
+      - 'Windows 7 (Chrome)'
+      - 'Windows 7 (ChromeDev)'
+      - 'Windows 7 (Firefox)'
+      - 'Windows 7 (IE 8)'
+      - 'Windows 7 (IE 9)'
+      - 'Windows 7 (IE 11)'
+      - 'Windows 8 (IE 10)'
+      - 'Mac (Safari)'
+  - clientPlatform: javascript mobile
+    productVersion: '4.0'
+    component: client
+    operatingSystem:
+      - 'Android 2.3.6'
+      - 'Android 4.2.2'
+      - 'MetroWindows 8 (IE 10)'
+      - 'IPad2 8.1.2'
+      - 'IPad4 7.1.2'
+  - clientPlatform: javascript cluster
+    productVersion: '4.0'
+    component: client
+    operatingSystem:
+      - 'Windows 7 (Chrome)'
+      - 'Windows 7 (ChromeDev)'
+      - 'Windows 7 (Firefox)'
+      - 'Windows 7 (IE8)'
+      - 'Windows 7 (IE9)'
+  - clientPlatform: javascript w3c
+    productVersion: '4.0'
+    component: client
+    operatingSystem:
+      - 'Windows 7 (Chrome)'
+      - 'Windows 7 (ChromeDev)'
+      - 'Windows 7 (Firefox)'
+      - 'Windows 7 (IE8)'
+      - 'Windows 7 (IE9)'
+      - 'Windows 7 (IE10)'
+      - 'Windows 7 (IE11)'
+      - 'Windows 8 (IE10)'
+      - 'Mac (Safari)'
+  - clientPlatform: dotnet
+    productVersion: '4.0'
+    component: client
+    operatingSystem: '-'
+  - clientPlatform: dotnet cluster
+    productVersion: '4.0'
+    component: client
+    operatingSystem: '-'
+  - clientPlatform: java
+    productVersion: '4.0'
+    component: client
+    operatingSystem:
+      - Linux
+      - Mac
+      - 'Windows (JRE 6)'
+      - 'Windows (JRE 7)'
+      - 'Windows (JRE 8)'
+  - clientPlatform: java cluster
+    productVersion: '4.0'
+    component: client
+    operatingSystem:
+      - 'Windows (JRE 6)'
+      - 'Windows (JRE 7)'
+      - 'Windows (JRE 8)'
+  - clientPlatform: silverlight
+    productVersion: '4.0'
+    component: client
+    operatingSystem: '-'
+  - clientPlatform: silverlight cluster
+    productVersion: '4.0'
+    component: client
+    operatingSystem: '-'
+  - clientPlatform: gwt
+    productVersion: '4.0'
+    component: client
+    operatingSystem: '-'
+  - clientPlatform: c 
+    productVersion: '4.0'
+    component: client
+    operatingSystem:
+      - 'CentOs6'
+      - 'Ubuntu 14.04'
+  - clientPlatform: flash
+    productVersion: '4.0'
+    component: client
+    operatingSystem:
+      - 'Windows 7 (Chrome)'
+      - 'Windows 7 (ChromeDev)'
+      - 'Windows 7 (Firefox)'
+      - 'Windows 7 (IE8)'
+      - 'Windows 7 (IE9)'
+      - 'Windows 7 (IE10)'
+      - 'Windows 7 (IE11)'
+      - 'Windows 8 (IE10)'
+      - 'Mac (Safari)'
+JMS:
+  - clientPlatform: flash
+    broker: ActiveMQ
+    productVersion: '3.5'
+    component: client
+    operatingSystem:
+      - 'Windows 7 (Chrome)'
+      - 'Windows 7 (ChromeDev)'
+      - 'Windows 7 (Firefox)'
+      - 'Windows 7 (IE8)'
+      - 'Windows 7 (IE9)'
+      - 'Windows 7 (IE10)'
+      - 'Windows 7 (IE11)'
+      - 'Windows 8 (IE10)'
+      - 'Mac (Safari)'
+  - clientPlatform: flash
+    broker: EMS
+    productVersion: '3.5'
+    component: client
+    operatingSystem:
+      - 'Windows 7 (Chrome)'
+      - 'Windows 7 (ChromeDev)'
+      - 'Windows 7 (Firefox)'
+      - 'Windows 7 (IE8)'
+      - 'Windows 7 (IE9)'
+      - 'Windows 7 (IE10)'
+      - 'Windows 7 (IE11)'
+      - 'Windows 8 (IE10)'
+      - 'Mac (Safari)'
+  - clientPlatform: flash
+    broker: UMQ
+    productVersion: '3.5'
+    component: client
+    operatingSystem:
+      - 'Windows 7 (Chrome)'
+      - 'Windows 7 (ChromeDev)'
+      - 'Windows 7 (Firefox)'
+      - 'Windows 7 (IE8)'
+      - 'Windows 7 (IE9)'
+      - 'Windows 7 (IE10)'
+      - 'Windows 7 (IE11)'
+      - 'Windows 8 (IE10)'
+  - clientPlatform: flash
+    broker: ActiveMQ
+    productVersion: '4.0'
+    component: client
+    operatingSystem:
+      - 'Windows 7 (Chrome)'
+      - 'Windows 7 (ChromeDev)'
+      - 'Windows 7 (Firefox)'
+      - 'Windows 7 (IE8)'
+      - 'Windows 7 (IE9)'
+      - 'Windows 7 (IE10)'
+      - 'Windows 7 (IE11)'
+      - 'Mac (Safari)'
+  - clientPlatform: flash
+    broker: EMS
+    productVersion: '4.0'
+    component: client
+    operatingSystem:
+      - 'Windows 7 (Chrome)'
+      - 'Windows 7 (ChromeDev)'
+      - 'Windows 7 (Firefox)'
+      - 'Windows 7 (IE8)'
+      - 'Windows 7 (IE9)'
+      - 'Windows 7 (IE10)'
+      - 'Windows 7 (IE11)'
+      - 'Windows 8 (IE10)'
+  - clientPlatform: ios
+    broker: ActiveMQ
+    productVersion: '3.5'
+    component: client
+    operatingSystem: '-'
+  - clientPlatform: ios
+    broker: EMS
+    productVersion: '3.5'
+    component: client
+    operatingSystem: '-'
+  - clientPlatform: ios
+    broker: ActiveMQ
+    productVersion: '4.0'
+    component: client
+    operatingSystem: '-'
+  - clientPlatform: ios
+    broker: EMS
+    productVersion: '4.0'
+    component: client
+    operatingSystem: '-'
+  - clientPlatform: dotnet
+    broker: ActiveMQ
+    productVersion: '3.5'
+    component: client
+    operatingSystem:
+      - 'Windows 7'
+      - 'Windows Server 2008'
+  - clientPlatform: dotnet
+    broker: EMS
+    productVersion: '3.5'
+    component: client
+    operatingSystem: '-'
+  - clientPlatform: dotnet
+    broker: UMQ
+    productVersion: '3.5'
+    component: client
+    operatingSystem: '-'
+  - clientPlatform: dotnet
+    broker: ActiveMQ
+    productVersion: '4.0'
+    component: client
+    operatingSystem: '-'
+  - clientPlatform: dotnet
+    broker: EMS
+    productVersion: '4.0'
+    component: client
+    operatingSystem: '-'
+  - clientPlatform: javascript
+    broker: ActiveMQ
+    productVersion: '3.5'
+    component: client
+    operatingSystem:
+      - 'Windows 7 (Chrome)'
+      - 'Windows 7 (ChromeDev)'
+      - 'Windows 7 (Firefox)'
+      - 'Windows 7 (IE8)'
+      - 'Windows 7 (IE9)'
+      - 'Windows 7 (IE10)'
+      - 'Windows 7 (IE11)'
+      - 'Windows 8 (IE10)'
+      - 'Mac (Safari)'
+  - clientPlatform: javascript
+    broker: ActiveMQ Mobile
+    productVersion: '3.5'
+    component: client
+    operatingSystem:
+      - 'Android 2.3.6'
+      - 'Android 4.1.1'
+      - 'Metro Windows 8 (IE10)'
+      - 'IPad2 8.1.2'
+      - 'IPad4 7.1.2'
+  - clientPlatform: javascript
+    broker: EMS
+    productVersion: '3.5'
+    component: client
+    operatingSystem: 
+      - 'Windows 7 (Chrome)'
+      - 'Windows 7 (ChromeDev)'
+      - 'Windows 7 (Firefox)'
+      - 'Windows 7 (IE8)'
+      - 'Windows 7 (IE9)'
+      - 'Windows 7 (IE10)'
+      - 'Windows 7 (IE11)'
+      - 'Windows 8 (IE 10)'
+      - 'Metro Windows 8 (IE 10)'
+      - 'Mac (Safari)'
+      - 'Android 2.3.6'
+      - 'Android 4.2.2'
+      - 'IPad2 (Safari)'
+      - 'IPad4 7.0.4'
+  - clientPlatform: javascript
+    broker: UMQ
+    productVersion: '3.5'
+    component: client
+    operatingSystem: 
+      - 'Windows 7 (Chrome)'
+      - 'Windows 7 (ChromeDev)'
+      - 'Windows 7 (Firefox)'
+      - 'Windows 7 (IE8)'
+      - 'Windows 7 (IE9)'
+      - 'Windows 7 (IE10)'
+      - 'Windows 7 (IE11)'
+      - 'Windows 8 (IE10)'
+      - 'Metro Windows 8 (IE10)'
+      - 'Mac (Safari)'
+      - 'Android 2.3.6'
+      - 'IPad2 Mobile'
+  - clientPlatform: javascript
+    broker: ActiveMQ
+    productVersion: '4.0'
+    component: client
+    operatingSystem:
+      - 'Windows 7 (Chrome)'
+      - 'Windows 7 (ChromeDev)'
+      - 'Windows 7 (Firefox)'
+      - 'Windows 7 (IE8)'
+      - 'Windows 7 (IE9)'
+      - 'Windows 7 (IE10)'
+      - 'Windows 7 (IE11)'
+      - 'Windows 8 (IE10)'
+      - 'Mac (Safari)'
+  - clientPlatform: javascript
+    broker: ActiveMQ Mobile
+    productVersion: '4.0'
+    component: client
+    operatingSystem:
+      - 'Android 2.3.6'
+      - 'Android 4.2.2'
+      - 'Metro Windows 8 (IE10)'
+      - 'IPad2 8.1.2'
+      - 'IPad4 7.1.2'
+  - clientPlatform: javascript
+    broker: EMS
+    productVersion: '4.0'
+    component: client
+    operatingSystem:
+      - 'Windows 7 (Chrome)'
+      - 'Windows 7 (ChromeDev)'
+      - 'Windows 7 (Firefox)'
+      - 'Windows 7 (IE8)'
+      - 'Windows 7 (IE9)'
+      - 'Windows 7 (IE10)'
+      - 'Windows 7 (IE11)'
+      - 'Windows 8 (IE10)'
+      - 'Mac (Safari)'
+  - clientPlatform: silverlight
+    broker: ActiveMQ
+    productVersion: '3.5'
+    component: client
+    operatingSystem:
+      - 'Windows 7 (Chrome)'
+      - 'Windows 7 (ChromeDev)'
+      - 'Windows 7 (Firefox)'
+      - 'Windows 7 (IE8)'
+      - 'Windows 7 (IE9)'
+      - 'Windows 7 (IE10)'
+      - 'Windows 7 (IE11)'
+      - 'Windows 8 (IE10)'
+  - clientPlatform: silverlight
+    broker: EMS
+    productVersion: '3.5'
+    component: client
+    operatingSystem:
+      - 'Windows 7 (Chrome)'
+      - 'Windows 7 (ChromeDev)'
+      - 'Windows 7 (Firefox)'
+      - 'Windows 7 (IE8)'
+      - 'Windows 7 (IE9)'
+      - 'Windows 7 (IE10)'
+      - 'Windows 7 (IE11)'
+      - 'Windows 8 (IE10)'
+      - 'Mac (Safari)'
+  - clientPlatform: silverlight
+    broker: UMQ
+    productVersion: '3.5'
+    component: client
+    operatingSystem:
+      - 'Windows 7 (Chrome)'
+      - 'Windows 7 (ChromeDev)'
+      - 'Windows XP (Chrome)'
+      - 'Windows 7 (Firefox)'
+      - 'Windows 7 (IE8)'
+      - 'Windows 7 (IE9)'
+      - 'Windows 7 (IE10)'
+      - 'Windows 7 (IE11)'
+      - 'Windows 8 (IE10)'
+      - 'Mac (Safari)'
+  - clientPlatform: silverlight
+    broker: ActiveMQ
+    productVersion: '4.0'
+    component: client
+    operatingSystem:
+      - 'Windows 7 (Chrome)'
+      - 'Windows 7 (Firefox)'
+      - 'Windows 7 (IE8)'
+      - 'Windows 7 (IE9)'
+      - 'Windows 7 (IE10)'
+      - 'Windows 7 (IE11)'
+      - 'Windows 8 (IE10)'
+  - clientPlatform: silverlight
+    broker: EMS
+    productVersion: '4.0'
+    component: client
+    operatingSystem:
+      - 'Windows 7 (Chrome)'
+      - 'Windows 7 (Firefox)'
+      - 'Windows 7 (IE8)'
+      - 'Windows 7 (IE9)'
+      - 'Windows 7 (IE10)'
+      - 'Windows 7 (IE11)'
+      - 'Windows 8 (IE10)'
+  - clientPlatform: java
+    broker: ActiveMQ
+    productVersion: '4.0'
+    component: client
+    operatingSystem:
+      - 'Windows'
+      - 'Windows Server 2012'
+      - 'Mac'
+  - clientPlatform: java
+    broker: EMS
+    productVersion: '3.5'
+    component: client
+    operatingSystem: 
+      - 'Windows'
+      - 'Windows Server 2012'
+      - 'Mac'
+  - clientPlatform: java
+    broker: JBoss
+    productVersion: '3.5'
+    component: client
+    operatingSystem: '-'
+  - clientPlatform: java
+    broker: UMQ
+    productVersion: '3.5'
+    component: client
+    operatingSystem: '-'
+  - clientPlatform: java
+    broker: WebLogic
+    productVersion: '3.5'
+    component: client
+    operatingSystem: '-'
+  - clientPlatform: java
+    broker: WebSphere
+    productVersion: '3.5'
+    component: client
+    operatingSystem: '-'
+  - clientPlatform: java
+    broker: 'ActiveMQ 5.8.0'
+    productVersion: '4.0'
+    component: client
+    operatingSystem:
+      - 'Windows'
+      - 'Windows Server 2012'
+      - 'Mac'
+  - clientPlatform: java
+    broker: 'ActiveMQ 5.9.1'
+    productVersion: '4.0'
+    component: client
+    operatingSystem: 
+      - 'Windows'
+      - 'Windows Server 2012'
+      - 'Mac'
+  - clientPlatform: java
+    broker: 'EMS 6.3'
+    productVersion: '4.0'
+    component: client
+    operatingSystem:
+      - 'Windows'
+      - 'Windows (JRE 8)'
+      - 'Windows Server 2012'
+      - 'Mac'
+  - clientPlatform: java
+    broker: 'EMS 7.0'
+    productVersion: '4.0'
+    component: client
+    operatingSystem:
+      - 'Windows'
+      - 'Windows Server 2012'
+      - 'Mac'
+  - clientPlatform: java
+    broker: 'EMS 8.0'
+    productVersion: '4.0'
+    component: client
+    operatingSystem:
+      - 'Windows'
+      - 'Windows Server 2012'
+      - 'Mac'
+  - clientPlatform: java
+    broker: Redis
+    productVersion: '4.0'
+    component: client
+    operatingSystem: '-'
+  - clientPlatform: java
+    broker: JBoss
+    productVersion: '4.0'
+    component: client
+    operatingSystem: '-'
+  - clientPlatform: java
+    broker: RabbitMQ
+    productVersion: '4.0'
+    component: client
+    operatingSystem: '-'
+  - clientPlatform: java
+    broker: UMQ
+    productVersion: '4.0'
+    component: client
+    operatingSystem: '-'
+  - clientPlatform: java
+    broker: WebLogic
+    productVersion: '4.0'
+    component: client
+    operatingSystem: '-'
+  - clientPlatform: java
+    broker: WebSphere
+    productVersion: '4.0'
+    component: client
+    operatingSystem: '-'
+  - clientPlatform: gwt
+    broker: '-'
+    productVersion: '3.5'
+    component: client
+    operatingSystem: '-'
+  - clientPlatform: gwt
+    broker: '-'
+    productVersion: '4.0'
+    component: client
+    operatingSystem: '-'
+  - clientPlatform: android
+    broker: ActiveMQ
+    productVersion: '4.0'
+    component: client
+    operatingSystem: '-'
+AMQP:
+  - clientPlatform: flash
+    productVersion: '3.5'
+    component: client
+    operatingSystem:
+      - 'Windows 7 (Chrome)'
+      - 'Windows 7 (ChromeDev)'
+      - 'Windows 7 (Firefox)'
+      - 'Windows 7 (IE8)'
+      - 'Windows 7 (IE9)'
+      - 'Windows 7 (IE10)'
+      - 'Windows 7 (IE11)'
+      - 'Windows 7 (Safari)'
+      - 'Mac (Safari)'
+  - clientPlatform: flash
+    productVersion: '4.0'
+    component: client
+    operatingSystem:
+      - 'Windows 7 (Chrome)'
+      - 'Windows 7 (ChromeDev)'
+      - 'Windows 7 (Firefox)'
+      - 'Windows 7 (IE8)'
+      - 'Windows 7 (IE9)'
+      - 'Windows 7 (IE10)'
+      - 'Windows 7 (IE11)'
+      - 'Windows 7 (Safari)'
+      - 'Mac (Safari)'
+  - clientPlatform: java
+    productVersion: '3.5'
+    component: client
+    operatingSystem: '-'
+  - clientPlatform: java
+    productVersion: '4.0'
+    component: client
+    operatingSystem: '-'
+  - clientPlatform: dotnet
+    productVersion: '3.5'
+    component: client
+    operatingSystem: '-'
+  - clientPlatform: dotnet
+    productVersion: '4.0'
+    component: client
+    operatingSystem: '-'
+  - clientPlatform: c
+    productVersion: '4.0'
+    component: client
+    operatingSystem: 
+      - 'CentOs6'
+      - 'Ubuntu 14.04'
+  - clientPlatform: silverlight
+    productVersion: '3.5'
+    component: client
+    operatingSystem: 
+      - 'Windows 7 (Chrome)'
+      - 'Windows 7 (ChromeDev)'
+      - 'Windows 7 (Firefox)'
+      - 'Windows 7 (IE8)'
+      - 'Windows 7 (IE9)'
+      - 'Windows 7 (IE10)'
+      - 'Windows 7 (IE11)'
+      - 'Windows 8 (IE10)'
+  - clientPlatform: silverlight
+    productVersion: '4.0'
+    component: client
+    operatingSystem: 
+      - 'Windows 7 (Chrome)'
+      - 'Windows 7 (Firefox)'
+      - 'Windows 7 (IE9)'
+      - 'Windows 7 (IE10)'
+      - 'Windows 7 (IE11)'
+      - 'Windows 8 (IE10)'
+  - clientPlatform: javascript
+    productVersion: '3.5'
+    component: client
+    operatingSystem: 
+      - 'Windows 7 (Chrome)'
+      - 'Windows 7 (ChromeDev)'
+      - 'Windows 7 (Firefox)'
+      - 'Windows 7 (IE8)'
+      - 'Windows 7 (IE9)'
+      - 'Windows 7 (IE10)'
+      - 'Windows 7 (IE11)'
+      - 'Windows 8 (IE10)'
+      - 'Mac (Safari)'
+  - clientPlatform: javascript mobile
+    productVersion: '3.5'
+    component: client
+    operatingSystem:
+      - 'Android 2.3.6'
+      - 'Android 4.2.2'
+      - 'IPad2 8.1.2'
+      - 'IPad4 7.1.2'
+      - 'Metro Windows 8 (IE10)'
+  - clientPlatform: javascript
+    productVersion: '4.0'
+    component: client
+    operatingSystem: 
+      - 'Windows 7 (Chrome)'
+      - 'Windows 7 (ChromeDev)'
+      - 'Windows 7 (Firefox)'
+      - 'Windows 7 (IE8)'
+      - 'Windows 7 (IE9)'
+      - 'Windows 7 (IE10)'
+      - 'Windows 7 (IE11)'
+      - 'Windows 8 (IE10)'
+      - 'Mac (Safari)'
+  - clientPlatform: javascript mobile
+    productVersion: '3.5'
+    component: client
+    operatingSystem:
+      - 'Android 2.3.6'
+      - 'Android 4.2.2'
+      - 'IPad2 8.1.2'
+      - 'IPad4 7.1.2'
+      - 'Metro Windows 8 (IE10)'
+HTML5:
+  clientPlatform: dotnet
+  productVersion: '3.5'
+  component: client
+  operatingSystem: '-'
+XMPP:
+  - clientPlatform: silverlight
+    productVersion: '3.5'
+    component: client
+    operatingSystem:
+      - 'Windows XP (Chrome)'
+      - 'Windows 7 (Chrome)'
+      - 'Windows 7 (ChromeDev)'
+      - 'Windows 7 (Firefox)'
+      - 'Windows 7 (IE8)'
+      - 'Windows 7 (IE9)'
+      - 'Windows 7 (IE10)'
+      - 'Windows 7 (Safari)'
+      - 'Windows 8 (IE10)'
+  - clientPlatform: dotnet
+    productVersion: '3.5'
+    component: client
+    operatingSystem: '-'
+  - clientPlatform: javascript
+    productVersion: '3.5'
+    component: client
+    operatingSystem:
+      - 'Windows XP (Chrome)'
+      - 'Windows 7 (Chrome)'
+      - 'Windows 7 (ChromeDev)'
+      - 'Windows 7 (Firefox)'
+      - 'Windows 7 (IE8)'
+      - 'Windows 7 (IE9)'
+      - 'Windows 7 (IE10)'
+      - 'Windows 7 (Safari)'
+      - 'Windows 8 (IE10)'
+      - 'Metro Windows 8 (IE10)'
+      - 'Android 2.3.6'
+      - 'Android 4.1.1'
+      - 'IPad2 Mobile'
+      - 'IPad4 7.0.4'
+      - 'Mac (Safari)'
+  - clientPlatform: java
+    productVersion: '3.5'
+    component: client
+    operatingSystem: '-'
+  - clientPlatform: flash
+    productVersion: '3.5'
+    component: client
+    operatingSystem:
+      - 'Windows XP (Chrome)'
+      - 'Windows 7 (Chrome)'
+      - 'Windows 7 (ChromeDev)'
+      - 'Windows 7 (Firefox)'
+      - 'Windows 7 (IE8)'
+      - 'Windows 7 (IE9)'
+      - 'Windows 7 (IE10)'
+      - 'Windows 7 (Safari)'
+      - 'Windows 8 (IE10)'
+      - 'Mac (Safari)'
+    

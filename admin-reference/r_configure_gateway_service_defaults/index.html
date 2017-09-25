@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+
+ <h1 id="service-defaults-reference">Service-Defaults Reference</h1>
+
+<p>The <code>service-defaults</code> section of the Gateway configuration file allows you to configure default values that apply to all services running on the Gateway. </p>
+
+<h2 id="overview">Overview</h2>
+
+<p>Use the optional <code>service-defaults</code> element to configure certain default options across all services running on the Gateway. However, note that any elements you specify in individual services (that you configure in the <a href="../r_configure_gateway_service"><code>service</code></a> section of the Gateway configuration file) override the defaults you specify in the <code>service-defaults</code> section of the Gateway configuration file. For example, if there are no explicit <code>accept-options</code> configured for a particular service, then the Gateway uses the values configured in <code>service-defaults</code>.</p>
+
+<h2 id="structure">Structure</h2>
+
+<p>The Gateway configuration file (<code>gateway-config.xml</code>) defines the <code>service-defaults</code> configuration element contained in the top-level <code>gateway-config</code> element:</p>
+
+<ul>
+  <li><a href="../r_configure_gateway_gwconfig">gateway-config</a>
+    <ul>
+      <li><a href="#service-defaults">service-defaults</a>
+        <ul>
+          <li>accept-options
+            <ul>
+              <li>. . . (Listed in the <a href="../r_configure_gateway_service#accept-options-and-connect-options">Service Reference</a>)</li>
+            </ul>
+          </li>
+          <li>connect-options
+            <ul>
+              <li>. . . (Listed in the <a href="../r_configure_gateway_service#accept-options-and-connect-options">Service Reference</a>)</li>
+            </ul>
+          </li>
+          <li>mime-mapping
+            <ul>
+              <li>. . . (Listed in the <a href="../r_configure_gateway_service#accept-options-and-connect-options">Service Reference</a>)</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="service-defaults">service-defaults</h2>
+
+<p>Each <code>service-defaults</code> element can contain any of the following subordinate elements:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Subordinate Element</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>accept-options</td>
+      <td>Use the <code>accept-options</code> element to add options that apply to all services on the Gateway. The complete list of <code>accept-options</code> are fully documented in the <a href="../r_configure_gateway_service#accept-options-and-connect-options">Service Reference</a>.</td>
+    </tr>
+    <tr>
+      <td>connect-options</td>
+      <td>Use the <code>connect-options</code> element to add options that apply to all services on the Gateway. The complete list of  <code>connect-options</code> are fully documented in the <a href="../r_configure_gateway_service#accept-options-and-connect-options">Service Reference</a>.</td>
+    </tr>
+    <tr>
+      <td>mime-mapping</td>
+      <td>Use the <code>mime-mappings</code> element to define the way the Gateway maps a file extension to a MIME type. Each <code>mime-mapping</code> entry defines the HTTP Content-Type header value to be returned when a client or browser requests a file that ends with the specified extension. The <code>service-defaults</code> section in the default Gateway configuration file contains default MIME type mappings that apply to all services on the Gateway. The complete list of <code>mime-mapping</code> extensions and <code>mime-type</code>’s are documented in the <a href="../r_configure_gateway_service#mime-mapping">Service Reference</a>.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="example-of-setting-default-accept-options">Example of setting default accept-options</h4>
+
+<p>The following example shows <code>ssl.encryption</code> disabled, sample network protocol bindings, <code>ws.maximum.message.size</code> set to <code>256k</code>, and <code>http.keepalive.timeout</code> set to <code>90</code> seconds, just above the default <code>mime-mapping</code> entries. Note that wss and https can both be bound to the same port (8055) because they are compatible protocols. However, if you try to bind incompatible protocols to the same port, you will receive a port conflict error when the Gateway starts up. For instance, you cannot bind ws and https to the same port.</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;service-defaults&gt;
+  &lt;accept-options&gt;
+    &lt;ssl.encryption&gt;disabled&lt;/ssl.encryption&gt;
+    &lt;ws.bind&gt;8050&lt;/ws.bind&gt;
+    &lt;wss.bind&gt;192.168.10.25:8055&lt;/wss.bind&gt;
+    &lt;http.bind&gt;192.168.10.25:8060&lt;/http.bind&gt;
+    &lt;https.bind&gt;192.168.10.25:8055&lt;/https.bind&gt;
+    &lt;ws.maximum.message.size&gt;256k&lt;/ws.maximum.message.size&gt;
+    &lt;http.keepalive.timeout&gt;90 seconds&lt;/http.keepalive.timeout&gt;
+  &lt;/accept-options&gt;
+
+  &lt;mime-mapping&gt;
+    &lt;extension&gt;html&lt;/extension&gt;
+    &lt;mime-type&gt;text/html&lt;/mime-type&gt;
+  &lt;/mime-mapping&gt;
+  ...
+  &lt;/service-defaults&gt;
+</code></pre>
+
+<h4 id="example-of-mime-mapping">Example of Mime Mapping</h4>
+
+<p>A service can return files of various types to a client.  Generally, HTTP mandates that a response containing a file also specify a Content-Type header describing the file contents.  You may use a <mime-mapping> tag to specify the Content-Type value to be returned for files with a particular name extension. </mime-mapping></p>
+
+<p>The following example shows two entries for the same file extension; in this case, when the Gateway receives a request for a file with an <code>HTML</code> extension, the Gateway will respond with a Content-Type header value of <code>text/html</code> (not <code>image/png</code>). This example indicates that for files with names ending in ‘.png’, the header ‘Content-Type: image/png’ should be returned by the Gateway, and ‘Content-Type: text/html’ should be returned for .html files. You can specify mappings in the both the <code>service-defaults</code> block and in any <code>service</code> blocks.  If a mapping for a given extension is specified in both the <code>service-defaults</code> block and a <code>service</code> block, the <code>service</code>-level mapping will be used when providing files from that service.</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">  &lt;mime-mapping&gt;
+    &lt;extension&gt;html&lt;/extension&gt;
+    &lt;mime-type&gt;image/png&lt;/mime-type&gt;
+  &lt;/mime-mapping&gt;
+  &lt;mime-mapping&gt;
+    &lt;extension&gt;js&lt;/extension&gt;
+    &lt;mime-type&gt;text/javascript&lt;/mime-type&gt;
+  &lt;/mime-mapping&gt;
+  &lt;mime-mapping&gt;
+    &lt;extension&gt;html&lt;/extension&gt;
+    &lt;mime-type&gt;text/html&lt;/mime-type&gt;
+  &lt;/mime-mapping&gt;
+</code></pre>
+
+<h2 id="notes">Notes</h2>
+
+<ul>
+  <li>When the Gateway responds to a file request, such as from the <code>directory</code> service, the response includes a Content-Type header based on the filename extension of the requested file. The Content-Type header value is the specified MIME type for that extension. If the file extension is not mapped to a MIME type by a <code>mime-mapping</code> element, the Gateway does not include a Content-Type header in its response.</li>
+  <li>You can specify MIME types for file extensions either in the <code>service-defaults</code> section or in a <code>service</code>. Specifying MIME types for file extensions in a <code>service</code> overrides any existing corresponding <code>mime-mapping</code> entries in the <code>service-defaults</code> section. See <a href="#service-defaults">service</a> for more information.</li>
+  <li>If you specify two or more <code>mime-mapping</code> entries for the same extension in a single <code>service</code> or in <code>service-defaults</code>, the Gateway only applies the last <code>mime-mapping</code> entry for that extension.</li>
+  <li>
+    <p>The <code>service-defaults</code> section in the default Gateway configuration includes the following standard mappings. You can modify these entries, but keep in mind that all <code>mime-mapping</code> entries must come after any <a href="#service-defaults">accept-options</a> you add to this section.</p>
+
+    <p><strong>Note:</strong> The Gateway has hard-coded internal MIME mappings that are equivalent to those provided in the <code>service-defaults</code> section of the <code>gateway-config.xml</code>, for backward compatibility with earlier releases of Kaazing Gateway. You can edit these mappings, as needed (to override them with new MIME-type values), but you cannot remove the initial internal set of mappings.</p>
+
+    <p>The default Gateway <code>mime-mapping</code> entries are:</p>
+
+    <pre class="auto-links: false; brush: xml; toolbar: false;">&lt;service-defaults&gt;
+  &lt;mime-mapping&gt;
+    &lt;extension&gt;html&lt;/extension&gt;
+    &lt;mime-type&gt;text/html&lt;/mime-type&gt;
+  &lt;/mime-mapping&gt;
+  &lt;mime-mapping&gt;
+    &lt;extension&gt;htm&lt;/extension&gt;
+    &lt;mime-type&gt;text/html&lt;/mime-type&gt;
+  &lt;/mime-mapping&gt;
+  &lt;mime-mapping&gt;
+    &lt;extension&gt;js&lt;/extension&gt;
+    &lt;mime-type&gt;text/javascript&lt;/mime-type&gt;
+  &lt;/mime-mapping&gt;
+  &lt;mime-mapping&gt;
+    &lt;extension&gt;png&lt;/extension&gt;
+    &lt;mime-type&gt;image/png&lt;/mime-type&gt;
+  &lt;/mime-mapping&gt;
+  &lt;mime-mapping&gt;
+    &lt;extension&gt;gif&lt;/extension&gt;
+    &lt;mime-type&gt;image/gif&lt;/mime-type&gt;
+  &lt;/mime-mapping&gt;
+  &lt;mime-mapping&gt;
+    &lt;extension&gt;jpg&lt;/extension&gt;
+    &lt;mime-type&gt;image/jpeg&lt;/mime-type&gt;
+  &lt;/mime-mapping&gt;
+  &lt;mime-mapping&gt;
+    &lt;extension&gt;jpeg&lt;/extension&gt;
+    &lt;mime-type&gt;image/jpeg&lt;/mime-type&gt;
+  &lt;/mime-mapping&gt;
+  &lt;mime-mapping&gt;
+    &lt;extension&gt;svg&lt;/extension&gt;
+    &lt;mime-type&gt;image/svg+xml&lt;/mime-type&gt;
+  &lt;/mime-mapping&gt;
+  &lt;mime-mapping&gt;
+    &lt;extension&gt;css&lt;/extension&gt;
+    &lt;mime-type&gt;text/css&lt;/mime-type&gt;
+  &lt;/mime-mapping&gt;
+  &lt;mime-mapping&gt;
+    &lt;extension&gt;htc&lt;/extension&gt;
+    &lt;mime-type&gt;text/x-component&lt;/mime-type&gt;
+  &lt;/mime-mapping&gt;
+  &lt;mime-mapping&gt;
+    &lt;extension&gt;jnlp&lt;/extension&gt;
+    &lt;mime-type&gt;application/x-java-jnlp-file&lt;/mime-type&gt;
+  &lt;/mime-mapping&gt;
+  &lt;mime-mapping&gt;
+    &lt;extension&gt;manifest&lt;/extension&gt;
+    &lt;mime-type&gt;text/cache-manifest&lt;/mime-type&gt;
+  &lt;/mime-mapping&gt;
+  &lt;mime-mapping&gt;
+    &lt;extension&gt;appcache&lt;/extension&gt;
+    &lt;mime-type&gt;text/cache-manifest&lt;/mime-type&gt;
+  &lt;/mime-mapping&gt;
+  &lt;mime-mapping&gt;
+    &lt;extension&gt;vtt&lt;/extension&gt;
+    &lt;mime-type&gt;text/vtt&lt;/mime-type&gt;
+  &lt;/mime-mapping&gt;
+  &lt;mime-mapping&gt;
+    &lt;extension&gt;aspx&lt;/extension&gt;
+    &lt;mime-type&gt;text/html&lt;/mime-type&gt;
+  &lt;/mime-mapping&gt;
+  &lt;/service-defaults&gt;
+</code></pre>
+  </li>
+</ul>
+
+<h2 id="summary">Summary</h2>
+
+<p>In this document, you learned about the Gateway service-defaults configuration element and how to specify it in your Gateway configuration file. For more information about the location of the configuration files and starting the Gateway, see <a href="../../about/setup-guide/index.html">Setting Up the Gateway</a>. For more information about Kaazing Gateway administration, see the <a href="../..">documentation</a>.</p>
+
+
+</div>
+
+</div>
+
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,511 @@
+<!--
+
+test
+
+    Copyright (c) 2007-2013, Kaazing Corporation. All rights reserved.
+
+-->
+
+<!DOCTYPE html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="img/favicon.ico">
+
+  <link href='https://fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="css/pygments.css">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/syntax.css">
+  <link rel="stylesheet" href="css/doc.css">
+  <link rel="stylesheet" href="css/mega-menu.css">
+
+
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com/"><img id="kaazing-logo-header" src="img/Kaazing.png" alt="Kaazing.com"></img></a>
+  </div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+ </div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+<div class="container page-content text-left">
+
+				  <!-- CONTENT GOES HERE -->
+<h1>Kaazing and Kaazing WebSocket Gateway<br>
+ Frequently Asked Questions</h1>
+ <p>This document attempts to answer your frequently asked questions about Kaazing and Kaazing WebSocket Gateway. It contains the following sections: </p>
+ <ul>
+  <li><a href="#general">General Questions</a> (WebSocket, Gateway features, business applications, etc)</li>
+  <li><a href="#dev">Developer's Questions</a> (languages, protocols, code, data formats, etc)</li>
+  <li><a href="#html5">HTML5 Questions</a> (standards, comparing protocols, etc)</li>
+  <li><a href="#admin">Administrator's Questions</a> (security, networking, setup, etc)</li>
+  <li><a href="#license">Licensing Questions</a> (sales, etc)</li>
+ </ul>
+ <p>If you have additional questions after reading this FAQ, then please don't hesitate to <a href="https://kaazing.com/contact/">contact us</a>.</p>
+
+ <h2><a name="general" id="general"></a>General Questions</h2>
+ <ul>
+  <li><a href="#whatis">What is Kaazing WebSocket Gateway?</a></li>
+  <li><a href="#primaryfeatures">What are the primary features of Kaazing WebSocket Gateway?</a></li>
+  <li><a href="#port80tunnel">Is it necessary to use Kaazing if my Java application already tunnels through port 80?</a></li>
+  <li><a href="#webstart">Can I continue to use Java Web Start to deploy Java applications?</a></li>
+  <li><a href="#howsecure">How secure is Kaazing WebSocket Gateway?</a></li>
+  <li><a href="#isitmessaging">Is Kaazing WebSocket Gateway a messaging system?</a></li>
+  <li><a href="#cometrealtime">Doesn't Comet already  handle real-time communication over the Web?</a></li>
+  <li><a href="#bayeux">Does Kaazing use the Bayeux protocol?</a></li>
+  <li><a href="#chatrealtime">Don't chat protocols like XMPP and Jabber already handle real-time communication over the Web?</a></li>
+  <li><a href="#financerealtime">How does Kaazing compare with the real-time updates I already get in Google Finance, Yahoo Finance, Twitter, and Facebook?</a></li>
+  <li><a href="#movie1999">Is Kaazing a Web &quot;push&quot; vendor?  Didn't we see this movie before in 1999?</a></li>
+  <li><a href="#vpn">Why use Kaazing when I already have a secure Virtual Private Network for my customers?</a></li>
+  <li><a href="#securexsitescripting">How secure is cross-site scripting with Kaazing?</a></li>
+  <li><a href="#cloud">As a cloud services provider, can I use Kaazing WebSocket Gateway to provide real-time services to my customers?</a></li>
+  <li><a href="#valuewhenbrowsersareupdated">How does Kaazing help me move towards HTML5 browser standards?</a></li>
+  <li><a href="#valuewhenwsservers">How is Kaazing's WebSocket Gateway different from other servers that support WebSocket?</a></li>
+  <li><a href="#webrtc">Does Kaazing WebSocket Gateway support WebRTC?</a></li>
+  <li><a href="#mobilenotifications">Does Kaazing WebSocket Gateway support mobile client notifications?</a></li>
+ </ul>
+
+ <h2><a name="dev" id="general2"></a>Developer's Questions</h2>
+ <ul>
+  <li><a href="#programlangsupport">What programming languages are supported by Kaazing WebSocket Gateway?</a></li>
+  <li> <a href="#nativejava">Can native Java applications use Kaazing?</a></li>
+  <li><a href="#nativec">Can C# applications use Kaazing?</a></li>
+  <li><a href="#embedjava">Can I embed Kaazing WebSocket Gateway in my Java program?</a></li>
+  <li><a href="#supportjms">Do you support JMS?</a></li>
+  <li><a href="#browsersupport">Which browsers are compatible with Kaazing client libraries?</a></li>
+  <li><a href="#bytesocket">How can I send compressed or encrypted binary data using WebSocket?</a></li>
+  <li><a href="#examplecode">Where can I see some example code?</a></li>
+  <li><a href="#dataformatsupport">What data formats does Kaazing WebSocket Gateway support?</a></li>
+  <li><a href="#bestpracticestructure">What are the best practices to build applications that send structured data such as CSV, JSON and XML to and from browsers?</a></li>
+  <li><a href="#customprotocol">How can I get Kaazing WebSocket Gateway to understand my TCP-based protocol so I can use it over the Web?</a></li>
+  <li><a href="#directincoming">How do you direct an incoming message in Javascript to a specific HTML component (a tab or a frame, for example)?</a></li>
+  <li><a href="#howmanysockets">How many sockets are opened between the browser and Kaazing WebSocket Gateway? And how many if cross-origin messaging is used?</a></li>
+  <li><a href="#amqp_version_support">Which version of AMQP do you support?</a></li>
+  <li><a href="#previous_release_names">What happened to the Centurion, Dragonfire (and so on) releases?</a></li>
+ </ul>
+ 
+ 
+ <h2><a name="admin" id="general3"></a>Administrator Questions</h2>
+ <ul>
+  <li><a href="#systemrequirements">What are the hardware and software requirements for Kaazing WebSocket Gateway?</a></li>
+  <li><a href="#install">How do I install Kaazing WebSocket Gateway?</a></li>
+  <li><a href="#plugins">Do you require browser plug-ins?</a></li>
+  <li><a href="#networkimpact">What is the impact on my networking infrastructure if I use Kaazing and do I need additional firewalls and proxies?</a></li>
+  <li><a href="#javaversion">Which version of Java is required to run Kaazing WebSocket Gateway?</a></li>
+  <li><a href="#willnotstart">Kaazing WebSocket Gateway will not start when I try to run it.  What am I doing wrong?</a></li>
+  <li><a href="#cannotaccesslocalhost">Why can't I access Kaazing WebSocket Gateway at the default URL, <span class="code_inline">http://localhost:8000</span></a><span class="code_inline"></span></li>
+  <li><a href="#localhostnotfound">Why do I receive &quot;localhost is not found&quot; when I try to access http://localhost:8000?</a></li>
+  <li><a href="#optimalsecurity">How do I configure Kaazing WebSocket Gateway for optimal security?</a></li>
+  <li><a href="#webserverintegration">Can I integrate Kaazing WebSocket Gateway with an existing Web application server (for example, Apache)?</a></li>
+  <li><a href="#jmsauthentication">What are the best practices to fully authenticate users and have a secure conversation using JMS?</a><br>
+  </li>
+  <li><a href="#levelsencryption">What level of encryption is supported by Kaazing WebSocket Gateway?</a></li>
+  <li><a href="#managementtools">What management tools are available with Kaazing WebSocket Gateway?</a></li>
+  <li><a href="#tlssupport">Do you support Transport Layer Security?</a></li>
+  <li><a href="#newports">Do I need to open new ports on my firewall to enable Kaazing WebSocket Gateway?</a></li>
+  <li><a href="#global">How do I architect my Kaazing WebSocket Gateway topology for global deployment?</a></li>
+  <li><a href="#ha">How do I setup Kaazing WebSocket Gateway for high-availability?  Does Kaazing WebSocket Gateway work with load-balancing appliances?</a></li>
+  <li> <a href="#remotepubsub">How do I use multiple Kaazing WebSocket Gateways to setup a remote publish/subscribe architecture?</a><br>
+  </li>
+  <li><a href="#forwardreverse">How would DNS find the endpoints on the &quot;other&quot; side of our Gateway in a  forward and reverse gateway setup?</a><br>
+  </li>
+  <li><a href="#remotepubsub">How can the remote publish/subscribe use case work?  Aren't JMS implementations incompatible?</a></li>
+  <li><a href="#taxmore">Is my network infrastructure taxed more heavily when I deploy Kaazing WebSocket Gateway as opposed to Comet and AJAX?</a></li>
+  <li><a href="#firewallimpact">What's the impact on the corporate firewall/proxy infrastructure when Kaazing WebSocket Gateway is employed?</a></li>
+ </ul>
+
+ <h2><a name="license"></a>Licensing Questions            </h2>
+ <ul>
+  <li><a href="#wheretoget">Where can I get the software and how do I get an evaluation copy of the enterprise edition?</a></li>
+  <li><a href="#howmuch">How much does Kaazing WebSocket Gateway cost?</a></li>
+ </ul>
+ <h2> <a name="html5" id="html5"></a>HTML5  Questions            </h2>
+ <ul>
+  <li><a href="#included_spec"></a><a href="#whatishtml5">What is HTML5 and why does it matter?</a></li>
+  <li><a href="#whatisws">What is a WebSocket?</a></li>
+  <li><a href="#included_spec">Is  the WebSockets  specification included in HTML5?</a></li>
+  <li><a href="#iswsfast">Is a WebSocket fast?</a></li>
+  <li><a href="#whatissse">What is Server-Sent Events?</a></li>
+  <li><a href="#xoriginiframe">Why should I care about Cross-Origin Resource Sharing and Inter-Document (iFrame) messaging?</a></li>
+  <li><a href="#googlewave">How does Google Wave address real-time collaboration?</a></li>
+  <li><a href="#html5tutorials">Where can I find a good tutorial on writing applications that use HTML5 Communications?</a></li>
+  <li><a href="#comparechat">How do you compare Jabber, XMPP, RSS, and SMS to WebSocket?</a></li>
+ </ul>
+</ul>
+
+<h1>Answers</h1>
+
+<h2>General Questions</h2>
+
+<h5><a name="whatis"></a>What is Kaazing WebSocket Gateway?</h5>
+<p>Kaazing WebSocket Gateway is a high-performance, full-duplex  WebSocket Server.  It is the world's first enterprise-ready
+ implementation of the HTML5 Communications specification, which is a 
+ standards-based alternative to Comet and Reverse Ajax for real-time communication over the Web. In addition to the server, there is a client-side component that allows browsers and non-browsers to communicate with Kaazing WebSocket Gateway.</p>
+ <h5><a name="primaryfeatures"></a>What are the primary features of Kaazing WebSocket Gateway?</h5>
+ <p>Kaazing WebSocket Gateway provides a high-performance WebSocket server that 
+  enables direct TCP connectivity over the Web.  Kaazing WebSocket Gateway also 
+  provides a set of client libraries for HTML5 Communications 
+  and a set of protocol-specific libraries for various client technologies (for example, AMQP).  Kaazing WebSocket Gateway includes additional enterprise-ready server extensions such as enhanced security
+  and protocol validation.</p>
+  <h5><a name="port80tunnel"></a>Is it necessary to use Kaazing if my Java application already tunnels through port 80? </h5>
+  <p> Most enterprises deploy several applications to their users.  From a management perspective, keeping the network stack consistent across all the applications and all the programming technologies is a big win. Consistency reduces complexity and the associated management costs. Using Kaazing for all the applications guarantees that all your applications will get through any firewalls or proxies between your users and the back-end services through a logical set of pipes.</p>
+
+   <h5><a name="webstart"></a>Can I continue to use Java Web Start  to deploy  Java applications?</h5>
+   <p>Certainly Java Web Start has been a useful deployment tool for Java programmers, but it is an independent tool from WebSocket and Server-Sent Events (SSE).  If a Java program needs to access a service over the Web using WebSocket, it needs a Java package that implements that protocol (just like normal sockets).</p>
+   <h5><a name="howsecure"></a>How secure is Kaazing WebSocket Gateway?</h5>
+   <p> Kaazing takes security very seriously.  Kaazing WebSocket Gateway provides several mechanisms for secure connectivity from end to end.  This includes secure WebSocket (WebSocket + TLS/SSL), 
+    W3C Cross-Origin Resource Sharing, single sign-on, credentials injection, SSO, Kerberos, and other security features. Also Kaazing WebSocket Gateway integrates with JAAS, supporting pluggable authentication modules. For more information, refer to the <em>Security</em> topics in the <a href="index.html">documentation</a> for your Kaazing WebSocket Gateway.</p>
+    
+    <h5><a name="isitmessaging"></a>Is Kaazing WebSocket Gateway a messaging system?</h5>
+    <p>Kaazing WebSocket Gateway is not a messaging broker, but it works in conjunction with existing messaging systems. For example, Kaazing WebSocket Gateway can be deployed in an existing JMS project without disrupting the existing messaging topology. Kaazing WebSocket Gateway can also be used with other TCP services, not just JMS.</p>
+
+     <h5><a name="cometrealtime"></a>Doesn't Comet already handle real-time communication over the Web?</h5>
+     <p>Comet is a loose collection of techniques to asynchronously <strong>push</strong> &quot;real-time&quot; data over the Web. It includes mechanisms and protocols on the server and client side.  There are no formal standards for Comet implementations. Comet implementations typically employ a second HTTP connection for bidirectional communication between client and server. The HTML5 Communications standard, and specifically WebSocket, addresses the shortcomings of Comet for developers and users who have a need for true bidirectional, real-time communication over the Web.</p>
+
+      <h5><a name="bayeux"></a>Does Kaazing use the Bayeux protocol?</h5>
+      <p>No. Most Comet implementations rely on the Bayeux protocol, which requires messages from the origin to be transformed to conform to the Bayeux protocol. This transformation introduces unnecessary complexity in your system, requiring developers to manipulate one message format on the server (for example, JMS, IMAP, and XMPP) and a second message format (for example, Bayeux or JSON) on the client. Bayeux also introduces an unnecessary performance overhead to your system by forcing a message to be interpreted and processed prior to being sent over the wire. With WebSocket, the message sent by the server is the same message that is delivered to the browser, eliminating the complexity and performance concerns introduced by transformation code.</p>
+      
+      <h5><a name="chatrealtime"></a>Don't chat protocols like XMPP and Jabber already handle real-time communication over the Web?</h5>
+
+      <p>Typically, Web-based chat systems are implemented through <strong>client-side polling</strong>. Polling is inefficient in computing resources both on the client and on the server, particularly when no data is available on the server. While it seems real-time to the user, there are many additional (and unnecessary) computing resources working <em>under the hood</em> to make this happen.</p>
+      
+      <h5><a name="financerealtime"></a>How does Kaazing compare with the real-time updates I already get in Google Finance, Yahoo Finance, Twitter, and Facebook?</h5>
+      <p>Most Web sites that offer &quot;real-time&quot; data typically leverage high-frequency client-side polling, server-side long-polling, or some sort of HTTP streaming. Many of these sites either use computational expensive Comet solutions or have implemented proprietary solutions for real-time Web communication. Kaazing WebSocket Gateway is a very scalable and high-performance implementation of HTML5 WebSockets which offers the same real-time updates while using a standards-based technology instead.</p>
+
+      <h5><a name="movie1999"></a>Is Kaazing a Web &quot;push&quot; vendor?  Didn't we see this movie before in 1999?</h5>
+      <p>Kaazing supplies an implementation of the HTML5 Communications standard, which in addition to WebSocket includes Server-Sent Events (SSE), an efficient non-polling mechanism to deliver downstream data. Kaazing WebSocket Gateway provides many other features beyond simple push such as bidirectional support, secure cross-origin access, inter-document messaging and other enterprise features.</p> 
+      
+      <p>During the dot-com era, there were several &quot;real-time Web&quot; vendors. Most of them either leveraged HTTP headers to send the payload or they required mini HTTP-servers to be installed at Web endpoints, which resulted in efficiency or enterprise constraints.</p>
+      
+      <h5><a name="vpn"></a>Why use Kaazing when I already have a secure Virtual Private Network for my customers?</h5>
+      <p>You might have real-time requirements to or from browsers in your Virtual Private Network (VPN). You might also want to extend certain TCP-based services to new customers or partners without involving the complexity of a secure VPN. </p>
+      
+      <h5><a name="securexsitescripting"></a>How secure is cross-site scripting with Kaazing?</h5>
+      <p>Before HTML5, browsers enforced a &quot;same-origin&quot; access policy to avoid cross-site scripting attacks.	By implementing cross-origin resource sharing, Web applications that use Kaazing WebSocket Gateway can now access content that could theoretically have a different domain, scheme, host, or port. Rest assured, however, Kaazing is as paranoid about security as you are. </p>
+      
+      <p>Kaazing WebSocket Gateway aggressively secures content. The server component is secured using a &quot;white list,&quot; which means that each Gateway service is by default denied access to cross-origin content. In addition, Kaazing WebSocket Gateway's cross-site JavaScript bridge component implements the new W3C Cross-Origin Resource Sharing specification.</p>
+      
+      <h5> <a name="cloud"></a>As a cloud services provider, can I use Kaazing WebSocket Gateway to provide real-time services to my customers?</h5>
+      <p>Certainly. Kaazing WebSocket Gateway is a very useful tool for cloud service providers, particularly SaaS and PaaS vendors. By leveraging two Gateways, one converting TCP to WebSocket and the other converting WebSocket to TCP, a private network can be implemented using standard Web technologies.</p>
+
+      <h5><a name="valuewhenbrowsersareupdated"></a><strong>How does Kaazing help me move towards HTML5 browser standards?</strong></h5>
+      <p>The HTML5 standard represents a huge and exciting change for the Web and web applications. A key component of this new generation of applications is the network stack that includes WebSocket, Cross-Origin Resource Sharing, Server-Sent Events, and Cross-Document Messaging. These are powerful HTML5 features with game-changing functionality for both browser and desktop applications.  </p>
+      
+      <p>While many enterprises can control the versions of browsers on their internal desktops, and perhaps even their clients' desktops, there is no guarantee that all end-users are using a WebSocket-compliant browser. Kaazing's client-side technology allows older installed browsers (including Internet Explorer versions 6, 7, and 8 and Firefox versions 2 and 3) to completely participate in a standard WebSocket conversation both at the API level and the wire protocol level, which makes your web applications interoperable with other WebSocket-compliant servers. By using Kaazing WebSocket Gateway, your applications will work (and work efficiently) with practically all web browsers that your customers use. By using an industry standard API and wire protocol, your investment is preserved and your application is future-proofed.</p>
+      
+      <h5><a name="valuewhenwsservers"></a><strong>How is Kaazing's WebSocket Gateway different from other servers that support WebSocket?</strong></h5>
+      <p>In scale and depth. Kaazing WebSocket Gateway is an enterprise-class product and is designed for commercial-grade applications. Kaazing makes every effort to create a very high-performance and highly reliable product that scales to extreme numbers of users and connections. In addition, Kaazing WebSocket Gateway provides protocol validation and security, single-sign on across domains, connection-offloading for enhanced scalability, a plugin architecture for enterprise entitlements, proxies to other TCP-based protocols and more. Besides our rock-solid product line, we offer enterprise-grade support that is used by our global financial services customers.</p>
+      <p>This is only the beginning of the real-time Web, we have much more planned!</p>
+      
+      <h5><a name="webrtc"></a>Does Kaazing WebSocket Gateway support WebRTC?</h5>
+      
+      <p>Yes. For more information, see <a href="https://kaazing.com/doc/5.0/integration-webrtc/p_integrate_webrtc/index.html">Deploy WebRTC using the Gateway</a>.</p>
+      
+      <h5><a name="mobilenotifications"></a>Does Kaazing WebSocket Gateway support mobile client notifications?</h5>
+      
+      <p>Yes. For more information, see <a href="https://kaazing.com/doc/5.0/advanced-features/firebase/index.html">Configuring Mobile Client Notifications</a>.</p>
+      
+      <h2>Developer's Questions</h2>
+      
+      <h5><a name="programlangsupport"></a>What programming languages are supported by Kaazing WebSocket Gateway?</h5>
+      <p>Kaazing WebSocket Gateway's client-side APIs are implemented in accordance with the  HTML5  Communications standard.  Kaazing WebSocket Gateway provides libraries for the following client technologies:</p>
+      <ul>
+       <li>Javascript</li>
+       <li>Java/JavaFX</li>
+       <li>iOS</li>
+       <li>Android</li>
+       <li>Microsoft .NET</li>
+       <li>Cordova</li>
+       <li>Xamarin</li>
+      </ul>
+      <p>In addition, Kaazing provides publish and subscribe APIs for these client technologies that allow them to communicate with standard back-end message brokers such as JMS, TIBCO EMS, and IBM MQ (MQSeries).</p>
+      
+      <h5><a name="nativejava"></a>Can native Java applications use Kaazing?</h5>
+      
+      <p>Yes. Java applications accessing cloud services over the Web is a common use case.</p>
+      
+      <h5><a name="embedjava"></a>Can I embed Kaazing WebSocket Gateway in my Java program?</h5>
+      <p>Yes. You can embed Kaazing WebSocket Gateway in a Java program as a server-side process. See <a href="https://kaazing.com/doc/5.0/index.html">Embed the Gateway in Your Java Application</a> to learn how.  For developers interested in an OEM relationship with Kaazing, please contact our sales office at <a href="mailto:sales@kaazing.com" target="_blank">sales@kaazing.com</a> for more information.</p>
+
+      <h5><a name="supportjms"></a>Do you support JMS?</h5>
+      <p>Both the current client libraries and Kaazing WebSocket Gateway itself support JMS. For example, you can use the Javascript JMS API to talk to Kaazing WebSocket Gateway, which in turn will talk to any JMS-compliant message broker such as Apache ActiveMQ or TIBCO EMS.</p>
+
+      <h5><a name="browsersupport"></a>Which browsers are compatible with Kaazing client libraries?</h5>
+      <p>Any browser that supports WebSocket, such as Safari, Chrome, Firefox, Opera, and most browsers that do not. Including Microsoft Internet Explorer 7.0+, 8.0+, 9.0+, 10.0+, and 11.0+. Mobile browser support includes Android 2.2 and greater, iOS 7.0 and greater, and Windows RT.</p>
+
+      <h5><a name="bytesocket"></a>How can I send compressed or encrypted binary data using WebSocket?</h5>
+      <p>Kaazing offers binary support in its WebSocket libraries.</p>
+      
+      <h5><a name="examplecode"></a>Where can I see some example code?</h5>
+      <p>Kaazing WebSocket Gateway comes with <a href="https://kaazing.com/doc/5.0/index.html">documentation</a> that includes tutorials complete with example code.</p>
+
+      <h5><a name="dataformatsupport"></a>What data formats does Kaazing WebSocket Gateway support?</h5>
+      <p> Kaazing is data format agnostic. Our client libraries deliver the same bytes that are sent by the server. No additional processing is performed on the data, so you are free to use any libraries or utilities to convert or parse the data.</p>
+
+      <h5><a name="bestpracticestructure"></a>What are the best practices to build applications that send structured data such as CSV, JSON and XML to and from browsers?</h5>
+
+      <p>Our recommendation for performance reasons is use the most minimal data framing available, so something like CSV would be effective. A simple browser-provided Javascript method can parse the data into a structured form.</p>
+
+      <h5><a name="customprotocol"></a>How can I get Kaazing WebSocket Gateway to understand my TCP-based protocol so I can use it over the Web?</h5>
+      <p>The Kaazing documentation contains a tutorial about writing your own <a href="https://kaazing.com/doc/legacy/4.0/dev-protocol/p_protocol_client.html">protocol client library</a>.</p>
+
+      <h5><a name="directincoming"></a>How do you direct an incoming message in Javascript to a specific HTML component (a tab or a frame, for example)?</h5>
+      <p>Kaazing provides the data from the JavaScript client to the application via a JavaScript function callback. The implementation of that callback function is part of the application and can leverage any toolkit or DHTML technique to update the HTML components on the page that represent the user interface of the application.</p>
+      <h5><a name="howmanysockets"></a>How many sockets are opened between the browser and Kaazing WebSocket Gateway? And how many if cross-origin messaging is used?</h5>
+      <p>Same-origin and cross-origin connection profiles are identical. One persistent connection is required from browser to Gateway. This will either be a full-duplex, bidirectional WebSocket connection, or a (possibly encrypted) HTTP downstream. In the second case, upstream traffic is sent on-demand over a second HTTP connection. Kaazing uses SSE on this second connection, so no polling is used at all. With cross-origin facilities,  Kaazing software allows many sockets to be opened within the browser, each socket connecting to a different domain.</p>
+      <h5><a name="amqp_version_support"></a>Which version of AMQP do you support?</h5>
+      <p>The Kaazing AMQP client libraries are compatible with AMQP version 0-9-1.</p>
+      <h5><a name="previous_release_names"></a>What happened to the Centurion, Dragonfire (and so on) releases?</h5>
+      <p>The following table maps previously-used Kaazing product names with the current release numbers used throughout the product and documentation.</p>
+      <table width="390" height="284" border="1">
+       <tr>
+        <td width="151"><strong>Previously Used Product Name</strong></td>
+        <td width="223"><strong> Kaazing WebSocket Gateway Release Number</strong></td>
+       </tr>
+       <tr>
+        <td>Atlantis</td>
+        <td>8.09_<em>x</em></td>
+       </tr>
+       <tr>
+        <td>Battlestar</td>
+        <td>8.12_<em>x</em></td>
+       </tr>
+       <tr>
+        <td>Centurion</td>
+        <td>9.03_<em>x</em></td>
+       </tr>
+       <tr>
+        <td>Dragonfire</td>
+        <td>9.06_<em>x</em></td>
+       </tr>
+       <tr>
+        <td>Excalibur</td>
+        <td>2010.05_<em>x</em></td>
+       </tr>
+      </table>
+      <p>&nbsp;</p>
+
+          <h2>HTML5 Questions</h2>
+
+          <h5><a name="whatishtml5"></a>What is HTML5 and why does it matter?</h5>
+          <p>HTML5 is the next set of W3C HTML standards.  It offers new and enhanced features to address new HTML primitives, multimedia, offline use, communication, and so on.  All browser vendors have implemented several if not all of these features.</p>
+
+          <h5><a name="whatisws"></a>What is a WebSocket?</h5>
+          <p>The HTML5 Communications specification describes a WebSocket as a full-duplex communications channel that operates over a single socket. WebSockets traverse firewalls and routers seamlessly and allow authorized cross-domain communication. A WebSocket connection is established by the client requesting an HTTP Upgrade during the initial negotiation, between the client and server.  Once that handshake is successful, the connection is upgraded to bidirectionally stream 0xFF-separated UTF-8 messages.</p>
+
+          <h5><a name="included_spec"></a>Is the WebSockets specification included in HTML5?</h5>
+          <p>Yes. WebSockets—like other pieces of the HTML5 effort such as Local Storage and Geolocation were originally part of the HTML5 specification, but were moved to a separate standards document to keep the specification focused. WebSockets has been submitted to the Internet Engineering Task Force (IETF) by its creators, the Web Hypertext Application Technology Working Group (WHATWG). Authors, evangelists, and  companies involved in the standardization still refer to the original set of features, including WebSockets, as &quot;HTML5.&quot;</p>
+
+          <h5><a name="iswsfast"></a>Is a WebSocket fast?</h5>
+          <p>WebSocket is basically a thin abstraction over normal TCP sockets (plus source domain information for security purposes). They are just as fast as regular sockets.</p>
+
+          <h5><a name="whatissse"></a>What is Server-Sent Events?</h5>
+          <p>Server-Sent Events (SSE) standardizes and formalizes how a continuous stream of data can be sent from a server to a browser. Server-sent events is designed to enhance native, cross-browser streaming. Server-sent events introduces EventSource, a new JavaScript API that connects to a server URL to receive an event stream.</p>
+          
+           <h5><a name="xoriginiframe"></a>Why should I care about Cross-Origin Resource Sharing and Inter-Document (iFrame) messaging?</h5>
+           <p>W3C Cross-Origin Resource Sharing reduces the need for portals. Previously, portals were invented because of the single-origin security constraint of the Web: applications could only connect to servers that served up the application, for example, their origin. Web servers had to connect and aggregate information from a variety of Web sources in order to present them to the user on one Web page.  This was primarily for security reasons (for example, to avoid cross-site attacks).  HTML5 has addressed this issue.  Aggregation can now occur on the browser without the need for portals and portal farms.</p>
+           <p>Inter-Document messaging allows Web developers to easily create Web application integration known as &quot;a mashup&quot; on the browser. For example, one user can click on a particular company in a list of stocks in a portfolio application. The click could trigger a message to another document (iFrame) to retrieve and present the most up-to-date research report about that company.</p>
+
+           <h5><a name="html5tutorials"></a>Where can I find a good tutorial on writing applications that use HTML5 Communications?</h5>
+           <p>Kaazing WebSocket Gateway's <a href="https://kaazing.com/doc/5.0/index.html">documentation</a> contains a set of tutorials and how-tos to get you started.</p>
+           
+           <h5><a name="comparechat"></a>How do you compare Jabber, XMPP, RSS, and SMS to WebSocket?</h5>
+           <p>XMPP (eXtensible Messaging and Presence Protocol) is a high-level XML-based IM protocol implemented by servers such as Jabber. RSS (Really Simple Syndication) is another popular XML-based protocol.  Both of these protocols can be &quot;pushed&quot; over the Web using client-side or server-side polling. They can also be <em>pushed</em> using Kaazing's implementation of Server-Sent Events (or WebSocket for that matter).</p>
+           
+      <h2>Administrator Questions</h2>
+      <h5><a name="systemrequirements"></a>What are the hardware and software requirements for Kaazing WebSocket Gateway?</h5>
+      
+      <p>For a list of the system requirements, refer to the <em>Setting Up Kaazing WebSocket Gateway</em> topic in the <a href="https://kaazing.com/doc/5.0/index.html" target="_blank">documentation</a> for your edition.</p>
+      
+      <h5><a name="install"></a>How do I install Kaazing WebSocket Gateway?</h5>
+      <p>For more information about the installation process, refer to <a href="https://kaazing.com/doc/5.0/about/setup-guide/index.html">Setting Up the Gateway and Clients</a>. Installing and running Kaazing WebSocket Gateway is quick and easy. You can have it up-and-running in less that 10 minutes.</p>
+
+      <h5><a name="plugins"></a>Do you require browser plug-ins?</h5>
+      <p>No. Our client libraries for browser technologies use a cascading algorithm to find the best networking stack to connect to the server.  If your browser already supports WebSocket, our libraries will merely be a thin abstraction over that native implementation.	If you have an older browser with the Flash plug-in, our libraries will use that networking stack.  If you have a JVM installed in your browser, our libraries will use the java.net stack.  If none of these are available, a small (75k) Javascript library is uploaded to emulate WebSocket using two connections so all your Kaazing-based applications will still work.  But even in this worst case, the upstream connection will use our Server Sent Events (SSE) implementation which is essentially Comet without polling.</p>
+      
+      <h5><a name="networkimpact"></a>What is the impact on my networking infrastructure if I use Kaazing and do I need additional firewalls and proxies?</h5>
+      <p>Kaazing is extremely efficient at handling real-time communication using a Web infrastructure. If your firewall/proxy hardware is from a reputable vendor, there should not be a need to modify your hardware.  Of course, once users are accustomed to real-time data in their Web applications, your user community will soon be clamoring for more real-time applications.</p>
+      
+      <h5><a name="javaversion"></a>Which version of Java is required to run Kaazing WebSocket Gateway?</h5>
+      <p>For more information about system requirements, refer the <a href="https://kaazing.com/releases/kwg/">Release Notes</a> for Kaazing WebSocket Gateway.</p>
+
+      <h5><a name="willnotstart"></a>Kaazing WebSocket Gateway will not start when I try to run it.  What am I doing wrong?</h5>
+      <p>Make certain that the <span class="code_inline">JAVA_HOME</span> variable is set in your environment.  Also, verify that you meet all the system requirements outlined in the <em>Setting Up Kaazing WebSocket Gateway</em> topic in the <a href="index.html" target="_blank">documentation</a> for your edition.</p>
+
+      <h5><a name="cannotaccesslocalhost"></a>Why can't I access Kaazing WebSocket Gateway at the default URL, <span class="code_inline">http://localhost:8000</span></h5>
+      <p>The most common problem occurs when another Web server or process is already using the default port <span class="code_inline">8000</span>. This is the default HTTP port to which Kaazing WebSocket Gateway attempts to bind at startup. To change this, perform the steps outlined in the <strong>Troubleshooting</strong> topics in the <a href="index.html" target="_blank">documentation</a> for your edition. To determine which service is using a port in Microsoft Windows, the easiest method is to use NETSTAT.EXE like this: <code>netstat.exe –a –n –o</code>. In Linux/Mac, you can use <code>netstat -p TCP | grep 8000</code>.</p>
+      
+      <h5><a name="localhostnotfound"></a>Why do I receive &quot;localhost is not found&quot; when I try to access http://localhost:8000?</h5>
+      <p> It can happen that <span class="code_inline">localhost</span> is not found when you try to access Kaazing WebSocket Gateway. This can happen if your browser is configured to use a proxy server. If this is the case, make sure your proxy configuration bypasses the proxy to access <span class="code_inline">localhost</span>.</p>
+      
+      <h5><a name="optimalsecurity"></a>How do I configure Kaazing WebSocket Gateway for optimal security?</h5>
+      <p>For details on security, refer to the <em>Security with Kaazing WebSocket Gateway</em> topics in the <a href="https://kaazing.com/doc/5.0/index.html">documentation</a> for Kaazing WebSocket Gateway.</p>
+
+      <h5><a name="webserverintegration"></a>Can I integrate Kaazing WebSocket Gateway with an existing Web application server (for example, Apache)?</h5>
+      <p>Yes. This is described in detail in the <a href="https://kaazing.com/doc/5.0/index.html" target="_blank">documentation</a> for your edition.</p>
+
+      <h5><a name="jmsauthentication"></a>What are the best practices to fully authenticate users and have a secure conversation using JMS?</h5>
+      <p>In addition to WebSocket, Kaazing WebSocket Gateway offers WebSockets
+       over TLS/SSL, which is similar to the HTTP-HTTPS relationship. The transport layer can be secured using the WSS facilities as documented in the <em>Security with Kaazing WebSocket Gateway</em> topics. There is also SSO (Single Sign-On), Kerberos, IP Filtering, Two-Factor Authentication, and Enterprise Shield&trade;. Refer to the <a href="https://kaazing.com/doc/5.0/index.html" target="_blank">documentation</a> for more information about how to configure security.</p>
+       <p>Kaazing provides built-in login modules for file-based security and LDAP, but you can also plug in any module which conforms to the Java LoginModule API by including a section in the <span class="code_inline">gateway-config.xml</span> file.</p>
+
+        <h5><a name="levelsencryption"></a>What level of encryption is supported by Kaazing WebSocket Gateway?</h5>
+        <p>Kaazing WebSocket Gateway uses Java 8, which supports providers for many of the most commonly used cryptographic algorithms.</p>
+        
+        <h5><a name="managementtools"></a>What management tools are available with Kaazing WebSocket Gateway?</h5>
+        <p>Kaazing WebSocket Gateway leverages Java Management eXtensions (JMX) to monitor its behavior. Refer to the  <a href="https://kaazing.com/doc/5.0/index.html">documentation</a><em> </em>for more information about monitoring.</p>
+        
+        <h5><a name="tlssupport"></a>Do you support Transport Layer Security?</h5>
+        <p>Our Gateway supports Transport Layer Security (TLS/SSL) by providing Secure WebSocket (wss).  WS/WSS is similar to the HTTP-HTTPS relationship.  By default, WebSockets use port 80 and Secure WebSockets use port 443. You can specify <span class="code_inline">wss</span> instead of <span class="code_inline">ws</span> in the URI of your target service in the configuration file <span class="code_inline">gateway-config.xml</span>.</p>
+
+        <h5><a name="newports"></a>Do I need to open new ports on my firewall to enable Kaazing WebSocket Gateway?</h5>
+        <p> This is not necessary. Kaazing WebSocket Gateway provides a full-duplex communications channel that operates over a single socket and traverses firewalls and routers seamlessly. However you can configure Kaazing WebSocket Gateway to use other ports for WebSocket and Secure WebSocket.</p>
+
+        <h5><a name="global"></a>How do I architect my Kaazing WebSocket Gateway topology for global deployment?</h5>
+        <p>Kaazing WebSocket Gateway is fully compatible with any deployment topology of a given global architecture. It can be deployed at global nodes along with distributed messaging brokers or any other TCP service. Gateways can be connected to each other to minimize the number of connections needed between the service and the client application.</p>
+        
+        <h5><a name="ha"></a>How do I setup Kaazing WebSocket Gateway for high availability?  Does Kaazing WebSocket Gateway work with load-balancing appliances?</h5>
+        <p>Kaazing WebSocket Gateway works perfectly well with conventional HTTP load balancers, for example, F5, HydraWeb, and Coyote Point. For more information, see the <a href="https://kaazing.com/doc/5.0/index.html">documentation</a> for your Kaazing WebSocket Gateway edition.</p>
+
+        <h5> <a name="remotepubsub"></a>How do I use multiple Kaazing WebSocket Gateways to setup a remote publish/subscribe architecture?</h5>
+        <p>Kaazing WebSocket Gateways are architected to be used in a TCP-WebSocket mode or a WebSocket-TCP mode. You can also connect one Gateway in one mode to another Gateway in the opposite mode (forward and reverse gateways), essentially setting up a TCP-TCP connection over the Web.  For TCP-based protocols that Kaazing WebSocket Gateway is aware of, this feature allows a high-performance, virtual private socket connection across the Web. This powerful feature allows cloud SaaS/PaaS providers, financial services companies and other enterprises to extend their functionality directly to their customers and partners using a cost-effective Web infrastructure.</p>
+        
+        <h5><a name="forwardreverse"></a>How would DNS find the endpoints on the &quot;other&quot; side of our Gateway in a forward and reverse gateway setup?</h5>
+        <p>The quick answer is there is no DNS involved. There are mappings in Kaazing WebSocket Gateway configuration that specify the actual servers and services. In a remote pub/sub use case, both the service provider (for example, a prime brokerage or a cloud SaaS/PaaS provider) and the customer (for example, a hedge fund, supply chain, B2B) need to cooperatively configure each of their Gateways to allow remote pub/sub. </p>
+        <p>The provider side publishes via their message broker through Kaazing WebSocket Gateway, over the Web, to the other Gateway and to the remote broker.  The provider's configuration indicates the remote Gateway.  The remote Gateway's configuration (the customer side) specifies the incoming connection and its ultimate service endpoint (the customer's message broker).  After that, the customer's responsibility is the same as usual in a non-Kaazing setup; they need to configure their message broker's user access (for example, who can sub).  A similar (and symmetric) configuration is needed for a bidirectional relationship. For example, if the customer wants to publish to the provider. These relationships can be expressed  in a few lines in the gateways' configuration files.</p>
+        
+        <h5><a name="remotepubsub"></a>How can the remote publish/subscribe use case work?  Aren't JMS implementations incompatible?</h5>
+        <p>One issue that usually comes up with connecting different JMS implementations (even without Kaazing WebSocket Gateway) is the lack of a JMS wire protocol.  Clearly this results in incompatibilities with JMS vendor products. For example, the publisher uses Apache ActiveMQ and the remote subscribers use TIBCO EMS.  You can address this issue with our JMS service.</p>
+        
+        <h5><a name="taxmore"></a>Is my network infrastructure taxed more heavily when I deploy Kaazing WebSocket Gateway as opposed to Comet and AJAX?</h5>
+        <p>Kaazing WebSocket Gateway minimizes the overhead of getting raw data from Gateway to browser, with significantly less traffic than traditional Ajax and Comet solutions.</p>
+        
+        <h5><a name="firewallimpact"></a>What's the impact on the corporate firewall/proxy infrastructure when Kaazing WebSocket Gateway is employed?</h5>
+        <p>If a customer has 100,000 or greater socket connections open thru the firewall/proxy, how much of a burden does this put on the FW/PX infrastructure? Firewalls (unlike proxies) typically work at the IP layer, not the TCP layer, so the scalability of the firewall is largely unaffected by the specific usage of IP traffic.  In other words, firewalls are mostly about the number of IP packets per second and don't particularly care whether those IP packets are shared by a small or large number of TCP connections because that IP-usage information is opaque to the firewall. Even when the TCP port number becomes relevant to the firewall for finer-grained access policies, the scalability of the firewall still comes down to the number of IP packets per second.</p>
+         <p>Proxies, whether they be SOCKS or HTTP proxies, are typically used to holding on to lots of concurrent TCP connections, across many different end-users in the organization.  By its very nature, SOCKS proxies must bridge individual TCP connections, while HTTP proxies support persistent connections created by the browser to send multiple HTTP requests over the same TCP connection.  When HTTPS requests pass through an HTTP proxy, they are TLS/SSL-encrypted so the proxy behaves as bytes-in, bytes-out with zero touch on the payload, making their behavioral and scalability characteristics more closely resemble the SOCKS proxy. Kaazing WebSocket Gateway automatically uses an SSL-encrypted downstream when an intermediate HTTP proxy is detected.</p>
+          <p>Naturally, the precise capabilities of the FW/PX device will be vendor specific.  However, Kaazing is more efficient on the wire for the same number of end users with the same requirements for frequency of update.  If this concern does turn out to be a practical limitation of their hardware, then you can configure Kaazing WebSocket Gateway to use unencrypted long-polling through the proxy instead of encrypted streaming.  This is done by removing the <span class="code_inline">&lt;accept&gt;wss://...&lt;/accept&gt;</span> from the corresponding service entry in Kaazing WebSocket Gateway configuration, leaving the <span class="code_inline">&lt;accept&gt;ws://...&lt;/accept&gt;</span> in place.</p>
+
+          <h2>Licensing Questions</h2>
+          <h5><a name="wheretoget"></a>Where can I get the software and how do I get an evaluation copy of the enterprise edition?</h5>
+          <p>You can download the Gateway from <a href="//kaazing.org/download">http://kaazing.org/download</a>. All of the products there are available for evaluation, testing, and development. </p>
+
+          <h5><a name="howmuch"></a>How much does Kaazing WebSocket Gateway cost?</h5>
+          <p>Kaazing WebSocket Gateway is available under a conventional enterprise license and also as a cloud-service license.  Please contact <a href="mailto:sales@kaazing.com">sales@kaazing.com</a> or <a href="https://kaazing.com/contact/">https://kaazing.com/contact/</a> for more information.</p>
+
+
+              <!--CONTENT END -->
+              <!--BOTTOM SECTION START -->
+        <!--CONTENT END -->
+
+                 </section>
+                </article>
+
+ 
+                    </div> <!-- #main -->
+                </div> <!-- #main-container -->
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <!-- <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp; -->
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+
+</body>
+</html>

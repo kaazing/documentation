@@ -1,0 +1,1683 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+  
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+<h1>Implement a Custom WebSocket Protocol Client in JavaScript </h1>
+
+<p>This document contains the following sections:</p>
+<ul class="arrow-2">
+    <li><a href="#introduction">Introduction</a></li>
+    <li><a href="#boundaries">WebSocket and Protocol Frame Boundaries in Stream-Based Data</a></li>
+    <li><a href="#overview">Implementing a STOMP Protocol Client Overview</a>
+        <ul class="arrow-2">
+            <li><a href="#keglibs">Overview of Kaazing WebSocket Gateway Client Libraries</a></li>
+            <li><a href="#STOMP">Overview of STOMP</a></li>
+        </ul>
+    </li>
+    <li><a href="#create_protocolclient">Implementing a STOMP Protocol Client in JavaScript</a>
+        <ul class="arrow-2">
+            <li><a href="#consider">Before You Start</a>
+             <ul>
+              <li><a href="#study-the-protocol">Study the Protocol</a></li>
+              <li><a href="#binary-versus-text">Binary versus Text</a></li>
+             </ul>
+            </li>
+            <li><a href="#setup-dev-env">Setting Up Your Development Environment</a></li>
+            <li><a href="#user-interface">Creating the User Interface for the STOMP Protocol Client</a></li>
+            <li><a href="#develop">Develop the STOMP Protocol Client in JavaScript</a></li>
+            <li><a href="#testclient">Testing the STOMP Protocol Client</a></li>
+        </ul>
+    </li>
+</ul>
+
+<span class="note"><b>Notes:</b>
+ <ul>
+   <li>Developers looking to jump straight to a code example of how to read and write WebSocket data fragments can jump to <a href="#writeFrame">Review the writeFrame() function</a> and <a href="#readFragment">Review the readFragment() function</a>.</li>
+   <li>In most cases, the proxy service on the Gateway will support a custom protocol client connection to a backend service. For an example of a Gateway proxy service, see <a href="../../admin-reference/r_configure_gateway_element_index/index.html">proxy, amqp.proxy, and jms.proxy</a>.</li>
+ </ul>
+</span>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>The goal of this tutorial is to explain how to handle WebSocket frame boundaries in a client for any framed protocol, and how to ensure your client can handle WebSocket frame boundaries in stream-based data correctly. To describe how to create a protocol client that can handle WebSocket frame boundaries, this tutorial describes the code required in a STOMP protocol client that communicates with the Gateway to access a back-end STOMP-compliant server.</p>
+
+<p>The steps in this tutorial show you how to use the KAAZING Gateway client libraries to create a JavaScript client, and how to build a STOMP protocol client library to communicate with a back-end STOMP-compliant server, that serves as a message broker.</p>
+
+<h2 id="boundaries">WebSocket and Protocol Frame Boundaries in Stream-Based Data</h2>
+
+<p>The Gateway frames the TCP-based protocol data frames it receives from the back-end server in WebSocket frames and sends these to protocol client applications. The TCP-based protocol data is therefore split across multiple WebSocket frames when it arrives at the protocol client. Protocol client applications must then assemble the WebSocket frames to obtain the TCP-based protocol data within each WebSocket frame (in the WebSocket frame payload) and reconstitute that data. If the protocol data is raw bytes, then the application must be able to handle raw bytes.</p>
+
+<p>One common example of a protocol client that can manage WebSocket frames is a web browser. When the Gateway proxies TCP-based protocol traffic to web browsers over WebSocket it frames the TCP frames from the back-end server in WebSocket frames. These WebSocket frames are sent to the web browser that must then parse the WebSocket frames to obtain the payload of those frames (the TCP-based protocol data stored in each frame) and reconstitute the TCP-based protocol data.</p>
+
+<p>If a protocol client application does not anticipate frame boundaries and protocol parsing, then when it receives partial TCP data messages across WebSocket frames it will be unable to reconstitute these messages correctly. This type of error can occur in the following scenario:</p>
+
+<ol>
+ <li><strong>Back-end server.</strong> The back-end server sends and receives data with the Gateway using a TCP-based protocol. The TCP traffic is sent to the Gateway in TCP data frames and fragmented as needed.</li>
+ <li><strong>The Gateway.</strong> The Gateway acts as a proxy between the TCP back-end server and clients, and uses the WebSocket protocol to communicate with clients. The Gateway frames the TCP-based protocol data frames in WebSocket frames and sends these to the client application.</li>
+ <li><strong>Protocol client application.</strong> The protocol client application communicating with the Gateway assumes that it is receiving complete messages and that no fragmentation of the TCP-based protocol has occurred.</li>
+</ol>
+
+<p>As a result, the protocol client application does not attempt to identify WebSocket frame boundaries and reconstitute frame payloads and communication fails. This error can occur in situations where the Gateway is deployed to extend a specific TCP-based protocol over the Web using WebSocket. In some cases, developers might not notice framing issues during development because they are only streaming single messages locally in their development environment.</p>
+
+<p>The protocol client application example provided in this tutorial is intended to help developers understand how to write protocol clients that manage protocol frame boundaries when communicating with the Gateway. For example, in the code samples provided in this tutorial, you will create a function (<code>readFragment()</code>) that reads data fragments sent from the server to the client. <code>readFragment()</code> tries to process a complete frame from the fragments and retains incomplete frames in a read buffer until enough fragments arrive to form a complete frame. You will also create a function (<code>writeFrame()</code>) that writes the frames in the way the protocol expects them.</p>
+
+<span class="note"><b>Notes:</b>
+ <ul>
+   <li>For detailed information about frames and fragmentation with WebSocket, see RFC 6455, <a href="//tools.ietf.org/html/rfc6455#section-5">Section 5</a>.</li>
+   <li>Clients using WebSocket must support receiving both fragmented and unfragmented messages.</li>
+ </ul>
+</span>
+
+
+<h2 id="overview">Implementing a STOMP Protocol Client Overview</h2>
+
+<p>In this tutorial you will learn how to write your own protocol client implementation using the KAAZING Gateway client libraries and what you must consider before writing your own protocol implementation. The tutorial then steps you through creating a protocol implementation in JavaScript. In this tutorial you implement the STOMP protocol, but you can take the same approach to implement any other protocol.</p>
+
+<p>Before you start, review the technologies that you are going to be working with: client libraries, STOMP, and JavaScript.</p>
+
+<h3 id="keglibs">Overview of KAAZING Gateway Client Libraries</h3>
+
+<p>The Gateway offers set of protocol-specific client libraries available for many languages, such as Objective-C, JavaScript, Java, and .NET. Currently, the following client APIs are available in each language:</p>
+
+<ul>
+ <li><strong>ServerSentEvents.</strong> Allows clients to connect to any standards-compliant Server-sent events stream.</li>
+ <li><strong>WebSocket.</strong> Allows clients to open a WebSocket connection to communicate directly with a back-end service using text-based protocols (Jabber, IMAP, and so on). A connection is established by specifying a target server URL. In the case of some client libraries, such as JavaScript, the WebSocket API in the KAAZING Gateway supports binary messaging via <code><a href="../../websocket_client_docs/apidoc/client/javascript/gateway/index.html">ByteBuffer</a></code>. For more information, see <a href="../../dev-js/p_dev_js_migrate.html">Migrate JavaScript Applications to KAAZING Gateway 5.0</a>.</li>
+ <li><strong>ByteSocket.</strong> Allows clients to open a WebSocket connection to communicate directly with a back-end service using binary protocols, such as AMQP. The ByteSocket client library is layered on top of WebSocket. </li>
+</ul>
+
+<p>The client libraries are implemented using a layered architecture. For example, the ByteSocket client library is layered on top of the WebSocket client library. The WebSocket client library enables direct communication using text-based protocols, and the ByteSocket client library goes a step further to enable client-server communication using raw TCP.</p>
+
+<p>The three client libraries—ServerSentEvents, WebSocket, and ByteSocket—can be thought of as foundational libraries that are used to implement all other protocols.</p>
+
+<h2 id="STOMP">Overview of STOMP</h2>
+
+<p>STOMP (Simple Text Orientated Messaging Protocol) is a simple, yet effective protocol that provides an interoperable wire format that allows STOMP clients to communicate with almost every available message broker. Examples of message brokers that provide built-in support for STOMP are Apache ActiveMQ and RabbitMQ with the <a href="//www.rabbitmq.com/stomp.html" title="RabbitMQ - RabbitMQ STOMP Adapter">RabbitMQ STOMP Adapter</a>. The example code in this tutorial accounts for the differences in how ActiveMQ and RabbitMQ identify content types. STOMP is language-agnostic, meaning clients and brokers developed in different languages can send and receive messages.</p>
+
+<p>STOMP offers the following client commands:</p>
+
+<ul>
+ <li>ABORT</li>
+ <li>ACK</li>
+ <li>BEGIN</li>
+ <li>COMMIT</li>
+ <li>CONNECT</li>
+ <li>DISCONNECT</li>
+ <li>SEND</li>
+ <li>SUBSCRIBE</li>
+ <li>UNSUBSCRIBE</li>
+</ul>
+
+<p>STOMP offers the following server frames:</p>
+<ul>
+ <li>ERROR</li>
+ <li>MESSAGE</li>
+ <li>RECEIPT</li>
+</ul>
+
+<p>One important STOMP concept—the STOMP frame—deserves a little bit more explanation. A STOMP frame encapsulates the unit of communication between a client and a server. The following is an example of a STOMP <code>CONNECT</code> frame, which is used by the client to establish a connection to a back-end system (In this example, <code>\n</code> represents the newline character and <code>^@</code> represents the null character):</p>
+
+<pre>
+CONNECT\n
+login: <username>\n
+passcode:<passcode>\n
+\n
+^@
+</pre>
+
+<p>As shown in the example, the frame starts with a STOMP command (CONNECT, in this case), followed by a newline character. Next are the headers in <key>:<value> pairs followed by newline characters. A blank line indicates the end of the headers and the beginning of the message body. The null character indicates the end of the frame. Refer to the <a href="//stomp.github.com/stomp-specification-1.0.html" title="">STOMP Protocol Specification</a> for more information about STOMP and the STOMP commands.</p>
+
+<h2 id="create_protocolclient">Implementing a STOMP Protocol Client in JavaScript</h2>
+
+<p>In this tutorial you are going to build a JavaScript library that can be consumed in a Web browser via an HTML webpage.</p>
+
+<h3 id="#consider">Before You Start</h3>
+
+<p>Before you start writing a single line of code, you have to study the protocol for which you want to implement your client and consider some of the choices you have to make.</p>
+
+<h4 id="#study-the-protocol">Study the Protocol</h4>
+
+<p>Before you get started, study the specification of the protocol you want to implement. You must fully understand the format of the client and server data frames. For example, are all client and server commands implemented using the same wire format in your protocol as with STOMP, or do different commands use different formats?</p>
+
+<h4 id="#binary-versus-text">Binary versus Text</h4>
+
+<p>The <a href="../../websocket_client_docs/apidoc/client/javascript/gateway/index.html">WebSocket JavaScript API</a> supports binary via ByteBuffer. STOMP can contain binary data in the message payload, so a protocol implementation for STOMP in JavaScript may be based on the WebSocket client library. Text-based protocols, like Jabber, can be based on the WebSocket protocol also.</p>
+
+<h2 id="#setup-dev-env">Setting Up Your Development Environment</h2>
+
+<p>The project uses an HTML webpage, the custom JavaScript library you create, the Kaazing WebSocket Gateway and its JavaScript WebSocket.js library file.</p>
+
+<p>Let’s set up the files and folders:</p>
+
+<ol>
+ <li>Create a new folder named <strong>stomp</strong>.</li>
+ <li>Download and extract Kaazing WebSocket Gateway as described in <a href="../../about/setup-guide/index.html">Setting Up the Gateway and Clients</a>.</li>
+ <li>Download the Kaazing WebSocket Gateway JavaScript WebSocket library (WebSocket.js) as described in <a href="../../about/setup-guide/index.html">Setting Up the Gateway and Clients</a>.</li>
+ <li>Copy the Kaazing WebSocket Gateway JavaScript WebSocket library (WebSocket.js) from the Kaazing WebSocket Gateway package at <code><em>CLIENT_HOME</em>/.../WebSocket.js</code> into your new <strong>stomp</strong> folder.</li>
+ <li>Add a new HTML file named <strong>stomp.html</strong>.</li>
+ <li>Add a new JavaScript file named <strong>mystomp.js</strong>.</li>
+</ol>
+
+<p>Now that you have your development environment setup, you can develop the user interface webpage for your JavaScript STOMP client.</p>
+
+<h2 id="#user-interface">Creating the User Interface for the STOMP Protocol Client</h2>
+
+<p>The user interface for the STOMP client is an HTML page that looks like this:</p>
+
+ <figure>
+  <img src="../../images/protocol-client-interface.png">
+ <figcaption><strong>Figure:</strong> STOMP client interface</figcaption> 
+ </figure>
+
+<p> Use the following steps to create the HTML page for the STOMP Protocol Client:
+</p>
+
+<ol>
+ <li>In a text editor, open the HTML file you created named stomp.html.</li>
+ <li>Paste the following HTML into the file:
+ 
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;!DOCTYPE html&gt;
+&lt;title&gt;Stomp implementation syntax checker&lt;/title&gt;
+&lt;h1&gt;Stomp implementation syntax checker&lt;/h1&gt;
+
+&lt;div class=&quot;panel&quot;&gt;
+	&lt;label for=&quot;url&quot;&gt;Proxy URL:&lt;/label&gt;
+	&lt;input type=&quot;text&quot; id=&quot;url&quot; placeholder=&quot;ws://localhost:8001/stompproxy&quot;&gt;
+	&lt;button id=&quot;connectButton&quot;&gt;Connect&lt;/button&gt;
+	&lt;button id=&quot;disconnectButton&quot;&gt;Disconnect&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;panel&quot;&gt;
+	&lt;label for=&quot;destination&quot;&gt;Subscription destination:&lt;/label&gt;
+	&lt;input type=&quot;text&quot; id=&quot;destination&quot; placeholder=&quot;/queue/stompq&quot;&gt;
+	&lt;label for=&quot;subscriptionID&quot;&gt;Subscription ID:&lt;/label&gt;
+	&lt;input type=&quot;text&quot; id=&quot;subscriptionID&quot; placeholder=&quot;0&quot;&gt;
+	&lt;button id=&quot;subscribeButton&quot;&gt;Subscribe&lt;/button&gt;
+	&lt;button id=&quot;unsubscribeButton&quot;&gt;Unsubscribe&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;panel&quot;&gt;
+	&lt;label for=&quot;sendDestination&quot;&gt;Send destination:&lt;/label&gt;
+	&lt;input type=&quot;text&quot; id=&quot;sendDestination&quot; placeholder=&quot;/queue/stompq&quot;&gt;
+	&lt;label for=&quot;message&quot;&gt;Message:&lt;/label&gt;
+	&lt;input type=&quot;text&quot; id=&quot;message&quot; placeholder=&quot;Hello from STOMP client.&quot;&gt;
+	&lt;label for=&quot;txn&quot;&gt;Transaction ID:&lt;/label&gt;
+	&lt;input type=&quot;text&quot; id=&quot;txn&quot;&gt;
+	&lt;button id=&quot;sendButton&quot;&gt;Send Message&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;panel&quot;&gt;
+	&lt;button id=&quot;beginTxn&quot;&gt;Begin Txn&lt;/button&gt;
+	&lt;button id=&quot;commitTxn&quot;&gt;Commit Txn&lt;/button&gt;
+	&lt;button id=&quot;abortTxn&quot;&gt;Abort Txn&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;panel&quot;&gt;
+	&lt;button id=&quot;clearButton&quot;&gt;Clear Log&lt;/button&gt;
+&lt;/div&gt;
+
+
+&lt;div id=&quot;output&quot;&gt;&lt;/div&gt;
+
+&lt;script type=&quot;text/javascript&quot; src=&quot;WebSocket.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;mystomp.js&quot;&gt;&lt;/script&gt;
+</pre>
+
+<p>Note the values for <code>id</code> and <code>for</code>. These values are referenced by the JavaScript code that you will add later in order to produce user events (such as buttons) or catch and process user events or response events from the broker (handler functions). Also, note the values for <code>placeholder</code>. Those are default values provided for the user.</p>
+
+<p><strong>Important:</strong> Note the two script tags at the bottom of the HTML. The Kaazing WebSocket Gateway JavaScript WebSocket library is added before your JavaScript STOMP client file. Always add the Kaazing WebSocket Gateway JavaScript WebSocket library before any additional libraries.</p>
+ </li>
+ <li>Next, at the bottom of the file, add the following JavaScript to update the user interface in response to user events and log messages and exceptions:
+ 
+<pre class="auto-links: false; brush: js; toolbar: false;">
+&lt;script&gt;
+setup();
+
+var unsubscribeButton = document.getElementById(&quot;unsubscribeButton&quot;);
+unsubscribeButton.disabled = true;
+
+var subscribeButton = document.getElementById(&quot;subscribeButton&quot;);
+subscribeButton.disabled = false;
+
+subscribeButton.onclick = function() 
+{
+    var destination = document.getElementById(&quot;destination&quot;);
+	var destinationStr = destination.value || destination.placeholder;
+	var subscriptionID = document.getElementById(&quot;subscriptionID&quot;);
+	var subscriptionStr = subscriptionID.value || subscriptionID.placeholder;
+	
+	try
+	{
+		unsubscribeButton.disabled = false;
+		subscribeButton.disabled = true;
+		// We will acknowledge each received msg to avoid replays
+		subscribe(destinationStr, &quot;client-individual&quot;, subscriptionStr, null);
+	}
+	catch(e)
+	{
+		log(e);
+		unsubscribeButton.disabled = true;
+		subscribeButton.disabled = false;
+	}
+}
+
+unsubscribeButton.onclick = function() 
+{
+	var subscriptionID = document.getElementById(&quot;subscriptionID&quot;);
+	var subscriptionStr = subscriptionID.value || subscriptionID.placeholder;
+	
+	try
+	{
+		unsubscribeButton.disabled = true;
+		subscribeButton.disabled = false;
+		// We will acknowledge each received msg to avoid replays
+		unsubscribe(subscriptionStr, null);
+	}
+	catch(e)
+	{
+		log(e);
+		unsubscribeButton.disabled = false;
+		subscribeButton.disabled = true;
+	}
+}
+
+var disconnectButton = document.getElementById(&quot;disconnectButton&quot;);
+disconnect.disabled = true;
+
+var connectButton = document.getElementById(&quot;connectButton&quot;);
+connectButton.onclick = function() 
+{
+    var urlField = document.getElementById(&quot;url&quot;);
+	var urlString = urlField.value || urlField.placeholder;
+	
+	
+	try
+	{
+		disconnectButton.disabled = false;
+		connectButton.disabled = true;
+		connect(urlString, null);
+	}
+	catch(e)
+	{
+		log(e);
+		disconnectButton.disabled = true;
+		connectButton.disabled = false;
+	}
+}
+
+disconnectButton.onclick = function() 
+{
+	try
+	{
+		disconnectButton.disabled = true;
+		connectButton.disabled = false;
+		disconnect();
+	}
+	catch(e)
+	{
+		log(e);
+		disconnectButton.disabled = false;
+		connectButton.disabled = true;
+	}
+}
+
+var sendButton = document.getElementById(&quot;sendButton&quot;);
+sendButton.onclick = function() 
+{
+	try
+	{
+		var destination = document.getElementById(&quot;sendDestination&quot;);
+		var destinationStr = destination.value || destination.placeholder;
+		var msgBody = document.getElementById(&quot;message&quot;);
+		var msgBodyStr = msgBody.value || msgBody.placeholder;
+		var txn = document.getElementById(&quot;txn&quot;);
+		var txnStr = txn.value;
+		sendToDestination(msgBodyStr, destinationStr, txnStr);
+	}
+	catch(e)
+	{
+		log(e);
+	}
+}
+
+var beginTxnButton = document.getElementById(&quot;beginTxn&quot;);
+beginTxnButton.onclick = function() 
+{
+	try
+	{
+		var txn = document.getElementById(&quot;txn&quot;);
+		var txnStr = txn.value;
+		begin(txnStr, null);
+	}
+	catch(e)
+	{
+		log(e);
+	}
+}
+
+var commitTxnButton = document.getElementById(&quot;commitTxn&quot;);
+commitTxnButton.onclick = function() 
+{
+	try
+	{
+		var txn = document.getElementById(&quot;txn&quot;);
+		var txnStr = txn.value;
+		commit(txnStr, null);
+	}
+	catch(e)
+	{
+		log(e);
+	}
+}
+
+var abortTxnButton = document.getElementById(&quot;abortTxn&quot;);
+abortTxnButton.onclick = function() 
+{
+	try
+	{
+		var txn = document.getElementById(&quot;txn&quot;);
+		var txnStr = txn.value;
+		abort(txnStr, null);
+	}
+	catch(e)
+	{
+		log(e);
+	}
+}
+
+var clearButton = document.getElementById(&quot;clearButton&quot;);
+clearButton.onclick = function() 
+{
+	try
+	{
+		clearLog();
+	}
+	catch(e)
+	{
+		log(e);
+	}
+}
+&lt;/script&gt;
+</pre>
+
+<p>Carefully review how the user interface is updated in response to user events, messages, and exceptions. The nested functions <code>subscribe()</code>, <code>unsubscribe()</code>, <code>begin()</code>, <code>commit()</code>, <code>abort()</code>, and so on call JavaScript functions in the JavaScript STOMP client library <strong>mystomp.js</strong> that you will create later. How these functions interact is described later in this document.</p>
+
+<p>Now that you have developed the user interface webpage you can code your JavaScript STOMP client.</p>
+ </li>
+</ol>
+
+<h2 id="#develop">Develop the STOMP Protocol Client in JavaScript</h2>
+
+<p>The following steps will take you through developing the custom JavaScript STOMP library. First, we’ll look at the entire JavaScript code for the client, and then we’ll carefully examine the three functions that deal with writing (<code>writeFrame()</code>), reading (<code>readFragment()</code>), and processing (<code>processData()</code>) data fragments and frames.</p>
+
+<ol>
+ <li>In a text editor, open the JavaScript file you created named <strong>mystomp.js</strong>.</li>
+ <li>Paste the following JavaScript code into the file.
+ 
+<pre class="auto-links: false; brush: js; toolbar: false;">
+/**
+* mystomp.js - Javascript STOMP client
+*/
+
+var socket;
+var output;
+ 
+var NULL_BYTE = 0x00;
+var LINEFEED_BYTE = 0x0a;
+var COLON_BYTE = 0x3a;
+var SPACE_BYTE = 0x20;
+
+/**
+* Confirm log output when the webpage loads.
+*/
+
+function setup ()
+{
+	output = document.getElementById(&quot;output&quot;);
+	log(&quot;Hello, World!&quot;);
+};
+
+/**
+* The onclose handler is called when the connection is terminated
+* by the user clicking the Disconnect button.
+*/
+
+function onclose(event)
+{
+	log(&quot;Closing WebSocket connection. Code: &quot; + event.code + &quot; Reason: &quot; + event.reason);
+	e = event;
+};
+
+/**
+* The connect function is called when the user clicks the Connect button.
+* The function sets up the event handlers for connection and message
+* management.
+*/
+
+function connect(location, credentials)
+{
+	// We are not using any credentials.
+	var username = &quot;&quot;;
+	var password = &quot;&quot;;
+	// create an instance of WebSocket by specifying the end-point.
+	var wsf = new Kaazing.Gateway.WebSocketFactory();
+	// creates a WebSocket to establish a full-duplex connection to the target location.
+	socket = wsf.createWebSocket(location);
+
+	socket.onopen = function() 
+	{
+    // call the writeFrame function and pass it credentials
+    writeFrame(&quot;CONNECT&quot;, {&quot;login&quot;: username, &quot;password&quot;: password});
+		log(&quot;Connected to &quot; + location + &quot; with u/p &quot; + username + &quot;,&quot; + password);
+	};	
+
+  // Event handler listening for incoming messages.
+  socket.onmessage = function(event) 
+	{ 
+		readFragment(event); 
+	};
+	
+  // Event handler for close events.
+  socket.onclose = function(event) 
+	{ 
+		onclose(event); 
+	};
+};
+
+/**
+* The writeFrame function is called when the connection is opened,
+* and when the user clicks the Send button via the send() function.
+* The writeFrame function creates the WebSocket frame and before
+* writing the frame content in the buffer to the socket, 
+* the buffer is flipped so that it can be read.
+*/
+
+function writeFrame(command, headers, body)
+{
+	// create a new frame buffer
+	var frame = new ByteBuffer();
+ 
+	log(&quot;Sending frame. Command: &quot; + command + &quot; headers: &quot; + headerToString(headers) + &quot; body: &quot; + (body || &quot;&quot;));
+	// build the command line
+	
+	frame.putString(command, Charset.UTF8);
+	frame.put(LINEFEED_BYTE);
+ 
+	// build the headers lines
+	for (var key in headers) 
+	{
+		var value = headers[key];
+		
+		if (typeof(value) == &quot;string&quot;) 
+		{
+			var header = String(value);
+			frame.putString(key, Charset.UTF8);
+			frame.put(COLON_BYTE);
+			frame.put(SPACE_BYTE);
+			frame.putString(header, Charset.UTF8);
+			frame.put(LINEFEED_BYTE);
+		}
+	  }
+	 
+	  // add &quot;content-length&quot; header for binary content
+	  if (body instanceof ByteBuffer) 
+	  {
+			frame.putString(&quot;content-length&quot;, Charset.UTF8);
+			frame.put(COLON_BYTE);
+			frame.put(SPACE_BYTE);
+			frame.putString(String(body.remaining()), Charset.UTF8);
+			frame.put(LINEFEED_BYTE);
+	  }
+	 
+		// empty line at end of headers
+		frame.put(LINEFEED_BYTE);
+	 
+		// add the body (if specified)
+		switch (typeof(body)) 
+		{
+			case &quot;string&quot;:
+				// add as text content
+				frame.putString(body, Charset.UTF8);
+				break;
+			case &quot;object&quot;:
+				// add as binary content
+				frame.putBuffer(body);
+				break;
+		}
+	 
+	  // null terminator byte
+	  frame.put(NULL_BYTE);
+	 
+	  // flip the frame buffer
+	  frame.flip();
+	 
+	  // send the frame buffer
+	  socket.send(frame);
+}	
+
+/*
+* The readFragment function is called by the connect() function.
+* readFragment reads data fragments of the ByteBuffer that is sent
+* from the server to the client.
+*/
+
+function readFragment(event)
+{
+	// initialize read buffer
+	buffer = new ByteBuffer();
+	var limit;
+	 
+	// skip to the end of the buffer
+	buffer.skip(buffer.remaining());
+	 
+	// append new data to the buffer
+	var data = event.data;
+	var size = data.size;
+	// var str = BlobUtils.asBinaryString(function() {}, data);
+	// var str = BlobUtils.asString(data, 0, size);
+	var cb = function(result) 
+	{
+		var buf = new ByteBuffer(result);
+		buffer.putBuffer(buf);
+		// prepare the buffer for reading
+		buffer.flip();
+		 
+		outer: 
+		while (buffer.hasRemaining()) 
+		{
+			// initialize frame we will build from data
+			var frame = { headers : {} };
+			 
+			// Note: skip over empty line at start of frame
+			// scenario can occur due to fragmentation
+			// if Apache ActiveMQ STOMP end-of-frame newline
+			// spills into the start of the next frame
+			if (buffer.getAt(buffer.position) == LINEFEED_BYTE) 
+			{
+				buffer.skip(1); // linefeed
+			}
+	 
+			// mark read progress
+			buffer.mark();
+			 
+			// search for command
+			var endOfCommandAt = buffer.indexOf(LINEFEED_BYTE);
+			
+			if (endOfCommandAt == -1) 
+			{
+				// There is no command, so break out of the outer while.
+				buffer.reset();
+				break;
+			}
+			 
+			// read command
+			// Make sure we won&#x27;t read beyond the command
+			limit = buffer.limit;
+			buffer.limit = endOfCommandAt;
+			frame.command = buffer.getString(Charset.UTF8);
+			buffer.limit = limit;
+			 
+			// skip linefeed byte
+			buffer.skip(1);
+			 
+			while(true) 
+			{
+				var result = processData(buffer, frame);
+				if (!result)
+					break outer;
+				// Else, just continue.
+			} // end inner while(true)
+		} // end while(buffer.hasRemaining())
+	 
+		// compact the buffer
+		buffer.compact();
+    };
+	
+	var arr = BlobUtils.asNumberArray(cb, data);
+}
+
+/*
+* processData() is called by the readFragment() function to
+* process the incoming data frames and their headers and
+* then pass the frame to the corresponding handler such as
+* onmessage(). 
+*/
+
+function processData(buffer, frame)
+{
+	var endOfHeaderAt = buffer.indexOf(LINEFEED_BYTE);
+
+	// detect incomplete frame
+	if (endOfHeaderAt == -1) 
+	{
+		// There are no headers; we&#x27;re outta here.
+		buffer.reset();
+		return false;
+	}
+
+	// detect header or end-of-headers
+	if (endOfHeaderAt &gt; buffer.position) 
+	{
+		// non-empty line: header
+		// Otherwise, the position would have been equal.
+		limit = buffer.limit;
+		buffer.limit = endOfHeaderAt;
+		var header = buffer.getString(Charset.UTF8);
+		buffer.limit = limit;
+
+		// process header line
+		var endOfName = header.search(&quot;:&quot;);
+		
+		// Javascript: for a Map, a[&quot;b&quot;] = &quot;c&quot; is equivalent to a = { &quot;b&quot; : &quot;c&quot; }
+		// So this sets { header : value } in headers Map
+		frame.headers[header.slice(0, endOfName)] = header.slice(endOfName + 1);
+
+		// skip linefeed byte
+		buffer.skip(1);
+	}
+	else 
+	{
+		// skip linefeed byte
+		buffer.skip(1);
+
+		// empty line: end-of-headers
+		var length = Number(frame.headers[&#x27;content-length&#x27;]);
+		var pattern = /;\scharset=/;
+		var contentType = String(frame.headers[&#x27;content-type&#x27;] || &quot;&quot;);
+		var contentTypeAndCharset = contentType.split(pattern);
+
+		// RabbitMQ always sends content-length header, even for text payloads
+		// but then also includes content-type header with value &quot;text/plain&quot;
+		
+		// ActiveMQ only sends content-length for binary payloads
+		// Payload is binary if content-length header is sent, and content-type
+		// header is not &quot;text/plain&quot; (may be undefined)
+		
+		// Added additional check to look for &quot;text/plain&quot; instead of the exact
+		// match, as the content-type value can be like &quot;text/plain; charset=UTF-8&quot;
+		
+		// RabbitMQ sends content-length but no content-type for ERROR messages
+		// so assume text content for ERROR messages
+		
+		// Therefore, 
+		// if command is not ERROR, and 
+		// length is a Number (i.e. was given), and 
+		// the first part of the content type is NOT &quot;text/plain&quot;
+		if (frame.command != &quot;ERROR&quot; &amp;&amp; !isNaN(length) &amp;&amp; contentTypeAndCharset[0] != &quot;text/plain&quot;) 
+		{
+			// content-length specified, binary content
+
+			// detect incomplete frame
+			if (buffer.remaining() &lt; length + 1) 
+			{
+				// The indicated length is greater than the data we have.
+				// Plus, an additional char for the terminating null(?).
+				buffer.reset();
+				return false;
+			}
+
+			// extract the frame body as byte buffer
+			limit = buffer.limit;
+			// This sets the max we can read up to the end of our content length
+			buffer.limit = buffer.position + length;
+			frame.body = buffer.slice();
+			// Reset this
+			buffer.limit = limit;
+			// Since we have our content, skip over those
+			buffer.skip(length);
+
+			// skip null terminator, unless buffer already consumed
+			if (buffer.hasRemaining()) 
+			{
+				buffer.skip(1);
+			}
+		}
+		else 
+		{
+			// content-length not specified, text content
+
+			// detect incomplete frame
+			var endOfFrameAt = buffer.indexOf(NULL_BYTE);
+			
+			if (endOfFrameAt == -1) 
+			{
+				// We didn&#x27;t get a complete frame.
+				buffer.reset();
+				return false;
+			}
+
+			// verify that UTF-8 charset is appropriate
+			var charset = ((contentTypeAndCharset[1]) || &quot;utf-8&quot;).toLowerCase();
+
+			if (charset != &quot;utf-8&quot; &amp;&amp; charset != &quot;us-ascii&quot;) 
+			{
+				throw new Error(&quot;Unsupported character set: &quot; + charset);
+			}
+
+			// extract the frame body as null-terminated string
+			frame.body = buffer.getString(Charset.UTF8);
+		}
+
+		// invoke the corresponding handler
+		switch (frame.command) 
+		{
+			case &quot;CONNECTED&quot;:
+				onopen(frame);
+				break;
+			case &quot;MESSAGE&quot;:
+				onmessage(frame);
+				break;
+			case &quot;RECEIPT&quot;:
+				onreceipt(frame);
+				break;
+			case &quot;ERROR&quot;:
+				onerror(frame);
+				break;	 
+			default:
+				throw new Error(&quot;Unrecognized STOMP command &#x27;&quot; + frame.command + &quot;&#x27;&quot;);
+		}
+
+		// No longer needed?
+		// break;
+	}
+	
+	return true;
+}
+/**
+ * Disconnects from the remote STOMP server.
+ */
+function disconnect() 
+{
+	if (socket.readyState === 1) 
+	{
+		writeFrame(&quot;DISCONNECT&quot;, {});
+	}
+	
+	return true;
+}
+
+/**
+ * Sends a message to a specific destination at the remote STOMP Server.
+ *
+ * @param body the message body
+ * @param destination the message destination
+ * @param txnID the transaction ID (optional)
+ */
+function sendToDestination(body, destination, txnID)
+{
+	var headers = {};
+	headers[&quot;content-type&quot;] = &quot;text/plain&quot;;
+	var body = body || &quot;This is a message for stompq&quot;;
+	headers[&quot;content-length&quot;] = body.length;
+	send(body, destination, txnID, null,  headers);
+}
+
+/**
+ * Sends a message to a specific destination at the remote STOMP Server.
+ *
+ * @param body the message body
+ * @param destination the message destination
+ * @param transactionId the transaction identifier
+ * @param receiptId the message receipt identifier
+ * @param headers the message headers
+ */
+function send(body, destination, transactionId, receiptId, headers)
+{
+	transactionId = transactionId || &quot;&quot;;
+	receiptId = receiptId || &quot;&quot;;
+	header = headers || {};
+	headers[&quot;destination&quot;] = destination;
+	if (transactionId.length)
+		headers[&quot;transaction&quot;] = transactionId;
+	if (receiptId.length)
+		headers[&quot;receipt&quot;] = receiptId;
+	writeFrame(&quot;SEND&quot;, headers, body);
+}
+
+/**
+ * Subscribes to receive messages delivered to a specific destination.
+ *
+ * @param destination the message destination
+ * @param acknowledge the acknowledgment strategy
+ * @param id the subscription ID
+ * @param headers the subscribe headers
+ */
+function subscribe(destination, acknowledgement, id, headers) 
+{
+	acknowledgement = acknowledgement || &quot;&quot;;
+	id = id || &quot;0&quot;;
+	headers = headers || {};
+	headers[&quot;destination&quot;] = destination;
+	headers[&quot;ack&quot;] = acknowledgement;
+	headers[&quot;id&quot;] = id;
+	writeFrame(&quot;SUBSCRIBE&quot;, headers);
+}
+
+/**
+ * Unsubscribes from receiving messages for a specific destination.
+ *
+ * @param id the subscription ID
+ * @param headers the unsubscribe headers
+ */
+function unsubscribe(id, headers)
+{
+	id = id || &quot;0&quot;;
+	headers = headers || {};
+	headers[&quot;id&quot;] = id;
+	writeFrame(&quot;UNSUBSCRIBE&quot;, headers);
+}
+
+/**
+ * Begins a new transaction.
+ *
+ * @param id the transaction identifier
+ * @param headers the begin headers
+ */
+function begin(id, headers)
+{
+	headers = headers || {};
+	headers[&quot;transaction&quot;] = id;
+	writeFrame(&quot;BEGIN&quot;, headers);
+}
+
+/**
+ * Commits a new transaction.
+ *
+ * @param id the transaction identifier
+ * @param headers the begin headers
+ */
+function commit(id, headers)
+{
+	headers = headers || {};
+	headers[&quot;transaction&quot;] = id;
+	writeFrame(&quot;COMMIT&quot;, headers);
+}
+
+/**
+ * Aborts a new transaction.
+ *
+ * @param id the transaction identifier
+ * @param headers the begin headers
+ */
+function abort(id, headers)
+{
+	headers = headers || {};
+	headers[&quot;transaction&quot;] = id;
+	writeFrame(&quot;ABORT&quot;, headers);
+}
+ 
+/**
+ * Acknowledges a received message.
+ *
+ * @param messageId the message identifier
+ * @param transactionId the transaction identifier
+ * @param subscription the message subscriber identifier
+ * @param headers the acknowledgment headers
+ */
+function ack(messageId, transactionId, subscription, headers)
+{
+	transactionId = transactionId || &quot;&quot;;
+	headers = headers || {};
+	headers[&quot;message-id&quot;] = messageId;
+	if (transactionId.length)
+		headers[&quot;transaction&quot;] = transactionId;
+	headers[&quot;subscription&quot;] = subscription;
+	writeFrame(&quot;ACK&quot;, headers);
+}
+
+/**
+* The onopen handler is called when the connect handshake is completed.
+*
+* @param headers the connected message headers
+*/
+function onopen(frame) 
+{
+	logFrame(frame);
+};
+
+/**
+ * The onmessage handler is called when a message is delivered to a subscribed
+ * destination.
+ *
+ * @param headers the message headers
+ * @param body the message body
+ */
+var onmessage = function(frame)
+{
+	logFrame(frame);
+	// Acknowledge it.
+	var msgId = frame.headers[&quot;message-id&quot;];
+	var subscription = frame.headers[&quot;subscription&quot;];
+	ack(msgId, null, subscription, null);
+};
+ 
+/**
+ * The onreceipt handler is called when a message receipt is received.
+ *
+ * @param headers the receipt message headers
+ */
+var onreceipt = function(frame)
+{
+	logFrame(frame);
+};
+ 
+/**
+ * The onerror handler is called when an error message is received.
+ * @param headers the error message headers
+ * @param body the error message body
+ */
+var onerror = function(frame)
+{
+	logFrame(frame);
+};
+
+var logFrame = function(frame)
+{
+	log(&quot;Received: &quot; + frame.command);
+	
+	var headers = frame.headers || {};
+	if (!headers)
+		return;
+	
+	log(&quot;Headers:&quot;)
+	
+	log(headerToString(headers));
+	
+	log(&quot;Body: &quot; + frame.body);
+}	
+
+/**
+* Converts the header to string and returns it to the writeFrame()
+* function.
+*/
+
+var headerToString = function(headers)
+{
+	str = null;
+	
+	for (var hdr in headers)
+	{
+		if (!str)
+			str = &quot;&quot;;
+		else 
+			str = str + &quot;, &quot;;
+		
+		str = str + hdr + &quot; : &quot; + (headers[hdr] || &quot;&lt;BLANK&gt;&quot;);
+	}
+	
+	return str;
+}
+
+/**
+* Create the log in the user interface webpage.
+*/
+
+function log(s)
+{
+	var p = document.createElement(&quot;p&quot;);
+	p.style.wordwrap = &quot;break-word&quot;;
+	p.textContent = s;
+	output.appendChild(p);
+	
+	var children = output.childNodes;
+	while (children &amp;&amp; children.length &gt; 100)
+		output.removeChild(children[0]);
+}
+
+function clearLog()
+{
+	var children = output.childNodes;
+	while (children &amp;&amp; children.length &gt; 0)
+		output.removeChild(children[0]);
+}
+</pre>
+ 
+ </li>
+ <li>Save the file. Next, let’s review the functions that manage data frames and messages.</li>
+ <li>First, let’s look at how the JavaScript in the HTML page <strong>stomp.html</strong> calls the JavaScript in the <strong>mystomp.js</strong> client. For example, let’s look at what happens when the user clicks the <strong>Send</strong> button and the <code>sendButton()</code> function in <strong>stomp.html</strong> is called:
+ 
+<pre class="auto-links: false; brush: js; toolbar: false;">
+var sendButton = document.getElementById(&quot;sendButton&quot;);
+sendButton.onclick = function() 
+{
+	try
+	{
+		var destination = document.getElementById(&quot;sendDestination&quot;);
+		var destinationStr = destination.value || destination.placeholder;
+		var msgBody = document.getElementById(&quot;message&quot;);
+		var msgBodyStr = msgBody.value || msgBody.placeholder;
+		var txn = document.getElementById(&quot;txn&quot;);
+		var txnStr = txn.value;
+		sendToDestination(msgBodyStr, destinationStr, txnStr);
+	}
+	catch(e)
+	{
+		log(e);
+	}
+}
+</pre>
+
+<p>At the end of <code>sendButton()</code> the <code>sendToDestination()</code> function is called and the message body, destination and transaction ID are passed to it. The <code>sendToDestination()</code> function is in the <strong>mystomp.js</strong> client:</p>
+ 
+<pre class="auto-links: false; brush: js; toolbar: false;">
+function sendToDestination(body, destination, txnID)
+{
+	var headers = {};
+	headers[&quot;content-type&quot;] = &quot;text/plain&quot;;
+	var body = body || &quot;This is a message for stompq&quot;;
+	headers[&quot;content-length&quot;] = body.length;
+	send(body, destination, txnID, null,  headers);
+}
+</pre>
+
+<p>At the end of <code>sendToDestination()</code> the <code>send()</code> function is called and the message body, destination, transaction ID, and headers are passed to it:</p>
+
+<pre class="auto-links: false; brush: js; toolbar: false;">
+function send(body, destination, transactionId, receiptId, headers)
+{
+	transactionId = transactionId || &quot;&quot;;
+	receiptId = receiptId || &quot;&quot;;
+	header = headers || {};
+	headers[&quot;destination&quot;] = destination;
+	if (transactionId.length)
+		headers[&quot;transaction&quot;] = transactionId;
+	if (receiptId.length)
+		headers[&quot;receipt&quot;] = receiptId;
+	writeFrame(&quot;SEND&quot;, headers, body);
+}
+</pre>
+
+<p>Finally, the <code>send()</code> function calls the <code>writeFrame()</code> function and passes it the STOMP command, headers and body. The <code>writeFrame()</code> function will send the WebSocket frame and write the frame content in the buffer to the socket. The <code>writeFrame()</code> function is described later.</p>
+ </li>
+ <li><p>Review the <code>connect()</code> function.</p>
+ 
+<p>The <code>connect()</code> function is used to initialize the communication with the back-end server. The <code>connect()</code> function takes two parameters: location, and a credentials object that contains the username and password. The location parameter is a string that contains the URL of the connection to the Gateway (for example, <code>ws://example.com:8001/stompproxy</code>). </p>
+
+<p>In the <code>connect()</code> function you can see the following three callback handlers: <code>onopen()</code>, <code>onmessage()</code>, and <code>onclose()</code>. When the socket establishes a connection with the server, it triggers the <code>onopen()</code> callback function. This function starts the connect handshake by sending the CONNECT frame, using the <code>writeFrame()</code> function, which is discussed in more detail in the next step. Any time the server sends data to the client it triggers the <code>onmessage()</code> callback function, which reads the data fragment using the <code>readFragment()</code> function, which is discussed in more detail later. When the socket connection terminates (either gracefully or abruptly) then the socket triggers the <code>onclose()</code> callback function which calls the STOMP client's <code>onclose()</code> callback function. The following example shows how you can add a <code>connect()</code> function:</p>
+
+<pre class="auto-links: false; brush: js; toolbar: false;">
+function connect(location, credentials)
+{
+	// We are not using any credentials.
+	var username = &quot;&quot;;
+	var password = &quot;&quot;;
+	var wsf = new WebSocketFactory();
+	socket = wsf.createWebSocket(location);
+
+	socket.onopen = function() 
+	{
+    // call the writeFrame function and pass it credentials
+    writeFrame(&quot;CONNECT&quot;, {&quot;login&quot;: username, &quot;password&quot;: password});
+		log(&quot;Connected to &quot; + location + &quot; with u/p &quot; + username + &quot;,&quot; + password);
+	};	
+
+  // Event handler listening for incoming messages.
+  socket.onmessage = function(event) 
+	{ 
+		readFragment(event); 
+	};
+	
+  // Event handler for close events.
+  socket.onclose = function(event) 
+	{ 
+		onclose(event); 
+	};
+};
+</pre>
+ 
+ </li>
+ <li><a name="writeFrame"></a>Review the <code>writeFrame()</code> function.
+ 
+<p>The <code>writeFrame()</code> function writes the frames in the way your protocol expects them. This is protocol-specific and requires that you have studied the protocol carefully. Some protocols have different frame formats for different commands, but in our STOMP example, all the frames (both client and server frames) use the same format, which makes it possible to use a single <code>writeFrame()</code> function to write all the command frames.</p>
+
+<p>To write a frame, you put bytes into a ByteBuffer (called frame in our example). A ByteBuffer is an array of byte-sized numbers. The ByteBuffer exposes information about the following:</p>
+
+<ul>
+<li>The position for the next write. </li>
+<li>The limit, or the location at which you cannot read anymore.</li>
+<li>The capacity, or the maximum number of bytes that can be written to the buffer.</li>
+<li>The order, or how numerical values are read from the ByteBuffer (either using the big-endian or little-endian byte order with big-endian being the default).</li>
+</ul>
+ 
+<p>Just before writing the frame content in the buffer to the socket, the buffer is flipped so that it can be read. During the writing of the frames, the constants that were defined earlier are used for the special bytes. The following example shows how you can add the writeFrame function:</p>
+
+<pre class="auto-links: false; brush: js; toolbar: false;">
+function writeFrame(command, headers, body)
+{
+	// create a new frame buffer
+	var frame = new ByteBuffer();
+ 
+	log(&quot;Sending frame. Command: &quot; + command + &quot; headers: &quot; + headerToString(headers) + &quot; body: &quot; + (body || &quot;&quot;));
+	// build the command line
+	
+	frame.putString(command, Charset.UTF8);
+	frame.put(LINEFEED_BYTE);
+ 
+	// build the headers lines
+	for (var key in headers) 
+	{
+		var value = headers[key];
+		
+		if (typeof(value) == &quot;string&quot;) 
+		{
+			var header = String(value);
+			frame.putString(key, Charset.UTF8);
+			frame.put(COLON_BYTE);
+			frame.put(SPACE_BYTE);
+			frame.putString(header, Charset.UTF8);
+			frame.put(LINEFEED_BYTE);
+		}
+	  }
+	 
+	  // add &quot;content-length&quot; header for binary content
+	  if (body instanceof ByteBuffer) 
+	  {
+			frame.putString(&quot;content-length&quot;, Charset.UTF8);
+			frame.put(COLON_BYTE);
+			frame.put(SPACE_BYTE);
+			frame.putString(String(body.remaining()), Charset.UTF8);
+			frame.put(LINEFEED_BYTE);
+	  }
+	 
+		// empty line at end of headers
+		frame.put(LINEFEED_BYTE);
+	 
+		// add the body (if specified)
+		switch (typeof(body)) 
+		{
+			case &quot;string&quot;:
+				// add as text content
+				frame.putString(body, Charset.UTF8);
+				break;
+			case &quot;object&quot;:
+				// add as binary content
+				frame.putBuffer(body);
+				break;
+		}
+	 
+	  // null terminator byte
+	  frame.put(NULL_BYTE);
+	 
+	  // flip the frame buffer
+	  frame.flip();
+	 
+	  // send the frame buffer
+	  socket.send(frame);
+}
+</pre>
+ 
+ </li>
+ <li><p><a name="readFragment"></a>Review the <code>readFragment()</code> function.</p>
+ 
+<p>The <code>readFragment()</code> function reads data fragments of the ByteBuffer that is sent from the server to the client. <code>readFragment()</code> tries to process a complete frame and retains incomplete frames in a read buffer until enough fragments arrive to form a complete frame. Once again, specific protocol knowledge is required to parse the incoming frames correctly. Since all the frames (both client and server frames) use the same format in STOMP, you can use a single <code>readFragment()</code> function to read all the server frames.</p>
+ 
+<p>The following example shows how you can add the <code>readFragment()</code> function:</p>
+
+<pre class="auto-links: false; brush: js; toolbar: false;">
+function readFragment(event)
+{
+	// initialize read buffer
+	buffer = new ByteBuffer();
+	var limit;
+	 
+	// skip to the end of the buffer
+	buffer.skip(buffer.remaining());
+	 
+	// append new data to the buffer
+	var data = event.data;
+	var size = data.size;
+	// var str = BlobUtils.asBinaryString(function() {}, data);
+	// var str = BlobUtils.asString(data, 0, size);
+	var cb = function(result) 
+	{
+		var buf = new ByteBuffer(result);
+		buffer.putBuffer(buf);
+		// prepare the buffer for reading
+		buffer.flip();
+		 
+		outer: 
+		while (buffer.hasRemaining()) 
+		{
+			// initialize frame we will build from data
+			var frame = { headers : {} };
+			 
+			// Note: skip over empty line at start of frame
+			// scenario can occur due to fragmentation
+			// if Apache ActiveMQ STOMP end-of-frame newline
+			// spills into the start of the next frame
+			if (buffer.getAt(buffer.position) == LINEFEED_BYTE) 
+			{
+				buffer.skip(1); // linefeed
+			}
+	 
+			// mark read progress
+			buffer.mark();
+			 
+			// search for command
+			var endOfCommandAt = buffer.indexOf(LINEFEED_BYTE);
+			
+			if (endOfCommandAt == -1) 
+			{
+				// There is no command, so break out of the outer while.
+				buffer.reset();
+				break;
+			}
+			 
+			// read command
+			// Make sure we won&#x27;t read beyond the command
+			limit = buffer.limit;
+			buffer.limit = endOfCommandAt;
+			frame.command = buffer.getString(Charset.UTF8);
+			buffer.limit = limit;
+			 
+			// skip linefeed byte
+			buffer.skip(1);
+			 
+			while(true) 
+			{
+				var result = processData(buffer, frame);
+				if (!result)
+					break outer;
+				// Else, just continue.
+			} // end inner while(true)
+		} // end while(buffer.hasRemaining())
+	 
+		// compact the buffer
+		buffer.compact();
+    };
+	
+	var arr = BlobUtils.asNumberArray(cb, data);
+}
+</pre>
+ </li>
+ <li><p>Review the <code>processData()</code> function.</p>
+ 
+<p>The <code>processData()</code> function is called by the <code>readFragment()</code> function to process the incoming data frames and their headers and then pass the frame to the corresponding handler such as <code>onmessage()</code>. If <code>processData()</code> detects any incomplete frames and missing headers it returns false to <code>readFragment()</code>. Next, processData() orders the frames and extracts the frame body as a byte buffer. Finally, for each type of STOMP command (<code>CONNECTED</code>, <code>MESSAGE</code>, <code>RECEIPT</code>, <code>ERROR</code>) the frame is passed to the relevant event handler (<code>onopen()</code>, <code>onmessage()</code>, <code>onreceipt()</code>, <code>onerror()</code>) to be logged in the user interface. The following example shows how you can add the <code>processData()</code> function:</p>
+
+<pre class="auto-links: false; brush: js; toolbar: false;">
+function processData(buffer, frame)
+{
+	var endOfHeaderAt = buffer.indexOf(LINEFEED_BYTE);
+
+	// detect incomplete frame
+	if (endOfHeaderAt == -1) 
+	{
+		// There are no headers; we&#x27;re outta here.
+		buffer.reset();
+		return false;
+	}
+
+	// detect header or end-of-headers
+	if (endOfHeaderAt &gt; buffer.position) 
+	{
+		// non-empty line: header
+		// Otherwise, the position would have been equal.
+		limit = buffer.limit;
+		buffer.limit = endOfHeaderAt;
+		var header = buffer.getString(Charset.UTF8);
+		buffer.limit = limit;
+
+		// process header line
+		var endOfName = header.search(&quot;:&quot;);
+		
+		// Javascript: for a Map, a[&quot;b&quot;] = &quot;c&quot; is equivalent to a = { &quot;b&quot; : &quot;c&quot; }
+		// So this sets { header : value } in headers Map
+		frame.headers[header.slice(0, endOfName)] = header.slice(endOfName + 1);
+
+		// skip linefeed byte
+		buffer.skip(1);
+	}
+	else 
+	{
+		// skip linefeed byte
+		buffer.skip(1);
+
+		// empty line: end-of-headers
+		var length = Number(frame.headers[&#x27;content-length&#x27;]);
+		var pattern = /;\scharset=/;
+		var contentType = String(frame.headers[&#x27;content-type&#x27;] || &quot;&quot;);
+		var contentTypeAndCharset = contentType.split(pattern);
+
+		// RabbitMQ always sends content-length header, even for text payloads
+		// but then also includes content-type header with value &quot;text/plain&quot;
+		
+		// ActiveMQ only sends content-length for binary payloads
+		// Payload is binary if content-length header is sent, and content-type
+		// header is not &quot;text/plain&quot; (may be undefined)
+		
+		// Added additional check to look for &quot;text/plain&quot; instead of the exact
+		// match, as the content-type value can be like &quot;text/plain; charset=UTF-8&quot;
+		
+		// RabbitMQ sends content-length but no content-type for ERROR messages
+		// so assume text content for ERROR messages
+		
+		// Therefore, 
+		// if command is not ERROR, and 
+		// length is a Number (i.e. was given), and 
+		// the first part of the content type is NOT &quot;text/plain&quot;
+		if (frame.command != &quot;ERROR&quot; &amp;&amp; !isNaN(length) &amp;&amp; contentTypeAndCharset[0] != &quot;text/plain&quot;) 
+		{
+			// content-length specified, binary content
+
+			// detect incomplete frame
+			if (buffer.remaining() &lt; length + 1) 
+			{
+				// The indicated length is greater than the data we have.
+				// Plus, an additional char for the terminating null(?).
+				buffer.reset();
+				return false;
+			}
+
+			// extract the frame body as byte buffer
+			limit = buffer.limit;
+			// This sets the max we can read up to the end of our content length
+			buffer.limit = buffer.position + length;
+			frame.body = buffer.slice();
+			// Reset this
+			buffer.limit = limit;
+			// Since we have our content, skip over those
+			buffer.skip(length);
+
+			// skip null terminator, unless buffer already consumed
+			if (buffer.hasRemaining()) 
+			{
+				buffer.skip(1);
+			}
+		}
+		else 
+		{
+			// content-length not specified, text content
+
+			// detect incomplete frame
+			var endOfFrameAt = buffer.indexOf(NULL_BYTE);
+			
+			if (endOfFrameAt == -1) 
+			{
+				// We didn&#x27;t get a complete frame.
+				buffer.reset();
+				return false;
+			}
+
+			// verify that UTF-8 charset is appropriate
+			var charset = ((contentTypeAndCharset[1]) || &quot;utf-8&quot;).toLowerCase();
+
+			if (charset != &quot;utf-8&quot; &amp;&amp; charset != &quot;us-ascii&quot;) 
+			{
+				throw new Error(&quot;Unsupported character set: &quot; + charset);
+			}
+
+			// extract the frame body as null-terminated string
+			frame.body = buffer.getString(Charset.UTF8);
+		}
+
+		// invoke the corresponding handler
+		switch (frame.command) 
+		{
+			case &quot;CONNECTED&quot;:
+				onopen(frame);
+				break;
+			case &quot;MESSAGE&quot;:
+				onmessage(frame);
+				break;
+			case &quot;RECEIPT&quot;:
+				onreceipt(frame);
+				break;
+			case &quot;ERROR&quot;:
+				onerror(frame);
+				break;	 
+			default:
+				throw new Error(&quot;Unrecognized STOMP command &#x27;&quot; + frame.command + &quot;&#x27;&quot;);
+		}
+
+		// No longer needed?
+		// break;
+	}
+	
+	return true;
+}
+</pre>
+ </li>
+ <li>Lastly, let’s look at how the frame processed by the <code>processData()</code> function is used by the event handlers. For example, the variable frame is passed from the <code>processData()</code> function to the <code>onmessage</code> event handler:
+ 
+<pre class="auto-links: false; brush: js; toolbar: false;">
+var onmessage = function(frame)
+{
+	logFrame(frame);
+	// Acknowledge it.
+	var msgId = frame.headers[&quot;message-id&quot;];
+	var subscription = frame.headers[&quot;subscription&quot;];
+	ack(msgId, null, subscription, null);
+};
+</pre>
+
+<p><code>onmessage</code> calls the <code>ack()</code> function and passes it the message id and subscription information from the headers of the frame:</p>
+
+<pre class="auto-links: false; brush: js; toolbar: false;">
+function ack(messageId, transactionId, subscription, headers)
+{
+	transactionId = transactionId || "";
+	headers = headers || {};
+	headers["message-id"] = messageId;
+	if (transactionId.length)
+		headers["transaction"] = transactionId;
+	headers["subscription"] = subscription;
+	writeFrame("ACK", headers);
+}
+</pre>
+
+<p>The <code>ack()</code> function calls writeFrame() and passes it the <code>ACK</code> command and headers. As described earlier, the <code>writeFrame()</code> function sends the frame over WebSocket to the STOMP server.</p>
+ 
+ </li>
+</ol>
+
+<h2 id="#testclient">Testing the STOMP Protocol Client</h2>
+
+<p>To test the JavaScript STOMP client, you will need to run Apache ActiveMQ and the Gateway. Next, you will open the stomp.html file in a Web browser and connect to the Gateway running locally.</p>
+
+<ol>
+ <li>Download and run the Gateway and ActiveMQ as described in <a href="../../about/setup-guide/index.html">Setting Up the Gateway and Clients</a>. Next, you will configure the proxy service that the Gateway uses to connect clients to the STOMP back-end server. </li>
+ <li>In a text editor, open the configuration file for the Gateway at <code><em>GATEWAY_HOME</em>/conf/gateway-config.xml</code> and add the following proxy service:
+ 
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;service&gt;
+ &lt;name&gt;Proxy&lt;/name&gt;
+ &lt;description&gt;Proxy Service&lt;/description&gt;
+ &lt;accept&gt;ws://localhost:8001/stompproxy&lt;/accept&gt;
+ &lt;connect&gt;tcp://localhost:61613&lt;/connect&gt;
+
+ &lt;type&gt;proxy&lt;/type&gt;
+
+ &lt;realm-name&gt;demo&lt;/realm-name&gt;
+ &lt;cross-site-constraint&gt;
+  &lt;allow-origin&gt;*&lt;/allow-origin&gt;
+ &lt;/cross-site-constraint&gt;
+&lt;/service&gt;
+</pre>
+ </li>
+<li>Save <code>gateway-config.xml</code>.</li>
+<li>Run the Gateway as described in <a href="../../about/setup-guide/index.html">Setting Up the Gateway and Clients</a>.</li>
+<li>Load the HTML page <strong>stomp.html</strong> in a web browser. You can just drag the page into a web browser.</li>
+<li>In the web browser, note the URL in <strong>Proxy URL</strong>, <code>ws://localhost:8001/stompproxy</code>. This is the same URL in the accept element of the proxy service you added.</li>
+<li>Click <strong>Connect</strong>. In the log, you will see that the STOMP command has been sent and received by Apache ActiveMQ:
+
+<pre>
+Sending frame. Command: CONNECT headers: login : &lt;BLANK&gt;, password : &lt;BLANK&gt; body:
+Connected to ws://localhost:8001/stompproxy with u/p ,
+Received: CONNECTED
+</pre>
+ </li>
+ <li>Click <strong>Subscribe</strong>. In the log, you will see that the SUBSCRIBE command is sent along with a destination:
+ <pre>Sending frame. Command: SUBSCRIBE headers: destination : /queue/stompq, ack : client-individual, id : 0 body:</pre>
+ </li>
+ <li>Click <strong>Send Message</strong>. In the log, you will see that the SEND command is sent along with the message body and headers. Also, you will see the ACK command acknowledging the receipt of the message as a result of the subscription:
+ 
+<pre>
+Sending frame. Command: SEND headers: content-type : text/plain, content-length : 24, destination : /queue/stompq body: Hello from STOMP client.
+Received: MESSAGE
+Headers:
+content-type : text/plain, message-id : ID:MacBook-Pro.local-64135-1455219512031-2:3:-1:1:1, destination : /queue/stompq, timestamp : 1455308737252, expires : 0, subscription : 0, priority : 4
+Body: Hello from STOMP client.
+Sending frame. Command: ACK headers: message-id : ID:MacBook-Pro.local-64135-1455219512031-2:3:-1:1:1, subscription : 0 body:
+</pre>
+ </li>
+</ol>
+
+<p>Congratulations. You have a fully functional JavaScript STOMP client.</p>
+
+<h2>See Also</h2>
+<ul>
+ <li>Kaazing WebSocket Gateway <a href="../../jms_client_docs/apidoc/client/javascript/jms/index.html?JmsConnectionFactory">JavaScript JMS Client API</a>.</li>
+ <li><a href="../../jms_client_docs/dev-js/o_dev_js.html">Build JavaScript JMS Clients</a></li>
+ <li><a href="../../websocket_client_docs/dev-js/o_dev_js.html">Build JavaScript WebSocket Clients</a></li>
+</ul>
+
+                  </section>
+                </article>
+
+            </div> <!-- #main -->
+        </div> <!-- #main-container -->
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>

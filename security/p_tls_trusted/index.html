@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Kaazing.com - Kaazing WebSocket Gateway 5 Docs</title>
+    <link rel="icon" href="../../img/favicon.ico">
+
+  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
+
+  
+
+
+<!-- +++++++++++++++Syntax Highlighter Calls++++++++++++++++ -->
+
+<!-- Include required SyntaxHighlighter JS files -->
+<script type="text/javascript" src="../../resources/xregexp.js"></script>
+<script type="text/javascript" src="../../resources/shCore.js"></script>
+
+
+<!--Include SyntaxHighlighter brushes. To test, using the JS brush -->
+<script type="text/javascript" src="../../resources/shBrushJava.js"></script>
+<script type="text/javascript" src="../../resources/shBrushAS3.js"></script>
+<script type="text/javascript" src="../../resources/shBrushVb.js"></script>
+<script type="text/javascript" src="../../resources/shBrushJScript.js"></script>
+<script type="text/javascript" src="../../resources/shBrushCss.js"></script>
+<script type="text/javascript" src="../../resources/shBrushPython.js"></script>
+<script type="text/javascript" src="../../resources/shBrushXml.js"></script>
+
+<!-- Include SyntaxHighlighter core style and Kaazing theme -->
+<link href="../../resources/shCore.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shThemeKaazing.css" rel="stylesheet" type="text/css" />
+
+<!-- Finally, call SyntaxHighlighter -->
+<script type="text/javascript">
+   SyntaxHighlighter.all()
+</script>
+
+<!-- search code -->
+<!-- at the end of the HEAD -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" />
+</head>
+
+<body>
+
+    <!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</nav>
+
+<div id="diagnostic">
+</div>
+
+
+<div class="container page-content text-left">
+
+
+ <h1 id="secure-the-gateway-using-trusted-certificates">Secure the Gateway Using Trusted Certificates</h1>
+
+<p>You can configure secure networking between Kaazing Gateway and its clients and back-end servers using <strong>trusted certificates issued by a Certificate Authority</strong>. A trusted certificate can be issued from a trusted public Certificate Authority or a Certificate Authority within your company and trusted by both your enterprise clients and servers. Using a trusted certificate also ensures that WebSocket connections are not dropped by intermediaries in the network such as proxy servers and firewalls.</p>
+
+<p>In this procedure, you will do the following:</p>
+
+<ol>
+  <li>Configure the Gateway with a trusted certificate for the Gateway’s host name, and then configure the Gateway with a HTTPS directory service that uses that host name. This will configure the Gateway for TLS/SSL connections from clients.</li>
+  <li>Configure the Gateway with a trusted certificate for the back-end server’s host name, and configure the Gateway with a proxy service that accepts the WebSocket Secure (<code>wss://</code>) connection on the Gateway’s host name and connects over TLS/SSL to the back-end server. This will configure the Gateway for TLS/SSL connections to back-end servers.</li>
+</ol>
+
+<p><strong>Note:</strong> You could choose to configure the proxy service only, as it configures both TLS/SSL client and server connections to the Gateway, but the directory service configuration is included because it is a useful method for learning client to Gateway TLS/SSL connections.</p>
+
+<h2 id="before-you-begin">Before You Begin</h2>
+
+<p>This procedure is part of <a href="../o_tls">Secure Network Traffic with the Gateway</a>:</p>
+
+<ul>
+  <li><strong>Secure the Gateway Using Trusted Certificates</strong></li>
+  <li><a href="../p_tls_selfsigned">Secure the Gateway Using Self-Signed Certificates</a></li>
+  <li><a href="../p_tls_clientapp">Secure Clients and Web Browsers with a Self-Signed Certificate</a></li>
+  <li><a href="../p_tls_mutualauth">Require Clients to Provide Certificates to the Gateway</a></li>
+</ul>
+
+<h2 id="to-secure-gateway-connections-using-trusted-certificates">To Secure Gateway Connections Using Trusted Certificates</h2>
+<h3><a name="client-to-gateway"></a>Secure Client-to-Gateway Connections</h3>
+<ol>
+  <li>
+    <p>Identify the host name of the server running the Gateway. Clients must be able to resolve the host name to the IP address of the server running the Gateway in order to establish a secure session with the Gateway.</p>
+
+    <p>The Gateway supports certificates that are generated for wildcard names. For example, *.example.com represents example.com and all of its subdomains, such as my.example.com and secure-mail.example.com.</p>
+  </li>
+  <li>
+    <p>Create the custom keystore password file for the Gateway to use with the custom keystore. If you are going to use the default keystore and password file, skip this step. The Gateway is configured to use the default keystore and password already.</p>
+
+    <p>To create the password file, create a new text file using a text editor, enter the password, and save the password file in the directory <code>GATEWAY_HOME/conf/</code>.</p>
+
+    <p>To configure the Gateway to use the custom keystore and password file, open the <code>GATEWAY_HOME/conf/gateway-config.xml</code> file in a text editor and update the <code>keystore</code> element (contained in the <code>security</code> element) to use the new keystore and the password file you created, as shown in the following example:</p>
+
+    <pre class="auto-links: false; brush: xml; toolbar: false;">      &lt;keystore&gt;
+        &lt;type&gt;JCEKS&lt;/type&gt;
+        &lt;file&gt;mykeystore.db&lt;/file&gt;
+        &lt;password-file&gt;mykeystore.pw&lt;/password-file&gt;
+      &lt;/keystore&gt;
+</code></pre>
+  </li>
+  <li>Locate the Java <code>keytool</code> utility that is part of your Java installation. It can be found in the Java bin directory. For example, <code>C:\Program Files\Java\jdk1.7.0_21\bin</code> (Windows) or <code>/Library/Java/home/bin</code> (Mac OS X).</li>
+  <li>
+    <p>Create a Certificate Signing Request (CSR).</p>
+
+    <p>A trusted certificate is obtained by creating a CSR and sending that request to a public Certificate Authority, such as Symantec, Thawte, and Entrust, or to a Certificate Authority that is already configured in your corporate network, such as a Windows Domain Controller running as a Certificate Authority. A CSR is a public key generated on the server running the Gateway that validates information about the server and your organization when you request a certificate. To create a CSR, do the following:</p>
+
+    <ol>
+      <li>
+        <p>Create a private key for the host name the Gateway will use in its <code>accept</code> element (the host name clients will use when connecting to the Gateway). Substitute your <em>GATEWAY_HOME</em> and <em>password</em> in the example:</p>
+
+        <pre><code>keytool -genkeypair -alias example.com -keysize 2048 -keyalg RSA-keystore
+"GATEWAY_HOME\conf\keystore.db" -storetype JCEKS-storepass password
+</code></pre>
+
+        <p>You will be prompted to provide information about your organization. This information is used to verify the CSR in the future.</p>
+
+        <p>The password value for <code>-storepass</code> is located in the keystore password file that is located in the <code>GATEWAY_HOME/conf</code> folder (by default, keystore.pw). You can open the file with a text editor to read the default password and enter it in the command.</p>
+      </li>
+      <li>
+        <p>Generate the CSR using the same alias:</p>
+
+        <pre><code>keytool -certreq -alias example.com -file certreq.txt-keystore
+"GATEWAY_HOME\conf\keystore.db" -storetype JCEKS-keyalg RSA -storepass password
+</code></pre>
+
+        <p>A text file containing the CSR is stored in the same folder as keystore.db.</p>
+      </li>
+      <li>
+        <p>Send the CSR text file to the trusted Certificate Authority. The Certificate Authority will return a trusted certificate that you can import into the keystore. In the case of public Certificate Authorities, you will likely need to perform some kind of offline identity verification.</p>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <p>Import the trusted certificate for the host name of the Gateway into the keystore used by the Gateway.</p>
+
+    <p>The following example shows how to import the certificate into the default keystore, called keystore.db, located in <code>GATEWAY_HOME/conf</code>.</p>
+
+    <pre><code>keytool -importcert -keystore GATEWAY_HOME\conf\keystore.db -storetype JCEKS -storepass password
+-alias example.com -file example.cer
+</code></pre>
+
+    <p>The Gateway is now configured with a certificate for its host name, and you can use the host name to accept secure connections from clients over HTTPS or WSS.</p>
+  </li>
+  <li>
+    <p>Configure the Gateway to accept secure communication requests at the same host name used in the certificate by adding a new directory <code>service</code> element.</p>
+
+    <p>For example, create a new directory <code>service</code> element and specify URLs that use TLS/SSL (HTTPS or WSS) in the <code>accept</code> element for the directory service, as shown in the following example:</p>
+
+    <pre class="auto-links: false; brush: xml; toolbar: false;">      &lt;service&gt;
+        &lt;accept&gt;https://www.example.com:9000/&lt;/accept&gt;
+        &lt;type&gt;directory&lt;/type&gt;
+        &lt;properties&gt;
+          &lt;directory&gt;/base&lt;/directory&gt;
+          &lt;welcome-file&gt;index.md&lt;/welcome-file&gt;
+        &lt;/properties&gt;
+      &lt;/service&gt;
+</code></pre>
+  </li>
+  <li>Save <code>gateway-config.xml</code>.</li>
+  <li>
+    <p>Verify that the certificate is valid by starting the Gateway. If the Gateway does not start, it might not be accepting the same host name used in the certificate. Check the directory service in <code>gateway-config.xml</code> and confirm that the domain name in the <code>service</code> element’s <code>accept</code> domain matches the domain name used in the certificate. If they do not match, update the <code>accept</code> domain in <code>gateway-config.xml</code>, save the file, and then start the Gateway.</p>
+
+    <p>To troubleshoot TLS/SSL errors and exceptions, see <a href="../../troubleshooting/p_troubleshoot_security/index.html">Troubleshooting Kaazing Gateway Security</a>.</p>
+
+    <p>If you configured an HTTPS service on the Gateway, enter the URL in a web browser, for example <code>https://www.example.com:9000</code>. The web browser will indicate that the certificate is trusted and proceed to the secure web page.</p>
+
+    <p><img src="../../images/tls-browser-trusted-cert.png" alt="A web browser indicates that the certificate is trusted" /></p>
+
+    <p><strong>Figure: A web browser indicates that the certificate is trusted</strong></p>
+
+    <p>At this point, you have a trusted certificate on the Gateway and have configured secure networking between the Gateway and clients for a directory service.</p>
+
+    <h3><a name="gateway-to-server"></a>Secure Gateway-to-Server Connections</h3>
+    
+    <p>**Note:** For secure connections from the Gateway to a JMS broker, see the <a href="#jms-tls">note below</a>.</p>
+    
+    <p>Now you can configure the Gateway to connect securely with the back-end server by importing a Certificate Authority-issued certificate for the host name of the back-end server into the <strong>truststore</strong> on the Gateway. The truststore contains the CA-issued certificates for use between the Gateway and back-end servers.</p>
+  </li>
+  <li>
+    <p>Import the CA-issued certificate for the host name of the back-end server into the truststore in the Gateway (if you do not have a certificate for the host name of the back-end server, see step 4 for information on how to obtain it).</p>
+
+    <p>The following example shows how to import the certificate to the truststore, called truststore.db, located in <code>GATEWAY_HOME/conf/</code>:</p>
+
+    <pre><code>keytool -importcert -keystore GATEWAY_HOME\conf\truststore.db -storepass changeit
+-trustcacerts -alias example.com -file certificate.cer
+</code></pre>
+
+    <p>The Gateway is configured with a certificate for the host name of the back-end server, and you can use the host name to connect to the back-end server over TLS/SSL. As an example, configure the Gateway to act as a back-end server proxy for the secure networking requests from the client.</p>
+  </li>
+  <li>
+    <p>Open <code>gateway-config.xml</code> again and add a new proxy <code>service</code> element.</p>
+
+    <p>Add a <code>service</code> element using the <code>proxy</code> type to <code>gateway-config.xml</code>, for example:</p>
+
+    <pre class="auto-links: false; brush: xml; toolbar: false;">     &lt;service&gt;
+        &lt;accept&gt;wss://www.example.com:9001/&lt;/accept&gt;
+        &lt;connect&gt;ssl://offline.example.com:61617&lt;/connect&gt;
+        &lt;type&gt;proxy&lt;/type&gt;
+      &lt;/service&gt;
+</code></pre>
+
+    <p>The Gateway uses the new <code>service</code> element to act as a proxy for the back-end server. The <code>service</code> element contains an <code>accept</code> URL for the WSS connection from the client and a <code>connect</code> URL for the connection to the back-end server using the security protocol supported by the back-end server.</p>
+  </li>
+  <li>Restart the Gateway and verify that the certificate is valid by using the WSS URL configured in the Gateway. If you cannot connect to the back-end server through the Gateway over TLS/SSL, verify the certificate has not expired and that it exists in the truststore.</li>
+</ol>
+
+<h2 id="next-steps">Next Steps</h2>
+
+<p>To troubleshoot TLS/SSL errors and exceptions, see <a href="../../troubleshooting/p_troubleshoot_security/index.html">Troubleshooting Kaazing Gateway Security</a>.</p>
+
+<h2 id="notes">Notes</h2>
+
+<ul>
+      <li><a name="jms-tls"></a>
+      <p>Depending on the JMS broker the Gateway is connecting to, you might need to configure a <code>jms</code> service on the Gateway and configure specific TLS/SSL elements in its <code>properties</code>. For example, the following <code>jms</code> service <code>properties</code> are for a secure connection to a TIBCO Enterprise Message Service (EMS) server:</p>
+      
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;properties&gt;
+    &lt;connection.factory.name&gt;mySecureFactory&lt;/connection.factory.name&gt;
+    
+    &lt;context.lookup.topic.format&gt;%s&lt;/context.lookup.topic.format&gt;
+    
+    &lt;context.lookup.queue.format&gt;%s&lt;/context.lookup.queue.format&gt;
+
+    &lt;env.java.naming.factory.initial&gt;com.tibco.tibjms.naming.TibjmsInitialContextFactory&lt;/env.java.naming.factory.initial&gt;
+    
+    &lt;env.java.naming.provider.url&gt;ssl://ems8.example.com:7223&lt;/env.java.naming.provider.url&gt;
+    
+    &lt;env.com.tibco.tibjms.naming.security_protocol&gt;ssl&lt;/env.com.tibco.tibjms.naming.security_protocol&gt;
+    
+    &lt;env.com.tibco.tibjms.naming.ssl_trusted_certs&gt;C:\certs\cert.pem&lt;/env.com.tibco.tibjms.naming.ssl_trusted_certs&gt; 
+    
+    &lt;env.com.tibco.tibjms.naming.ssl_trace&gt;true&lt;/env.com.tibco.tibjms.naming.ssl_trace&gt;
+    
+    &lt;env.com.tibco.tibjms.naming.ssl_enable_verify_hostname&gt;true&lt;/env.com.tibco.tibjms.naming.ssl_enable_verify_hostname&gt;
+    
+    &lt;env.com.tibco.tibjms.naming.ssl_enable_verify_host&gt;true&lt;/env.com.tibco.tibjms.naming.ssl_enable_verify_host&gt;
+    
+    &lt;env.com.tibco.tibjms.naming.ssl_expected_hostname&gt;*.example.com&lt;/env.com.tibco.tibjms.naming.ssl_expected_hostname&gt;
+...
+</pre>
+      <p>This example specifies the location of the trusted certificate file, enables the verification of the host and hostname, and uses a wildcard hostname for the certificate. The <code>ssl_expected_hostname</code> setting is needed in order for the JNDI lookup and SSL connection to succeed because the wildcard hostname is not an exact match for the EMS server.</p>
+      
+      <p>In addition, the <strong>factories.conf</strong> file on the EMS server must have the <code>ssl_verify_hostname</code>, <code>ssl_verify_host</code>, and <code>ssl_expected_hostname</code> configured to match the values configured on the Gateway:</p>
+      
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+[mySecureFactory]
+  type                     = generic
+  url                      = ssl://ems8.example.com:7223
+  ssl_trusted              = /home/ubuntu/keys/cert.pem
+  ssl_verify_hostname      = true
+  ssl_verify_host          = true
+  ssl_expected_hostname    = *.example.com
+</pre>
+    </li>
+  <li>The <code>service</code> element configures a directory service on the Gateway for the secure URL you specified (for example, <code>https://www.example.com:9000/</code>).</li>
+  <li>Adding an <code>accept</code> for HTTPS is useful for testing secure connections because it allows you to navigate to a secure web page on the Gateway from a web browser client and ensure that the trusted certificate is accepted by web browsers.</li>
+  <li>When a web browser loads a web page via HTTP that contains a WSS call the browser does not prompt the user to accept the trusted certificate or notify the user that a trusted certificate is being used. The web browser validates the certificate in the background and if the certificate is valid the connection proceeds without notifying the user. The web browser does provide an indicator that a trusted certificate is used, such as a green lock icon.</li>
+  <li>In some deployments, you might want to import a certificate that is used by a different software program such as a web server into the keystore used by the Gateway, or you might receive the certificate for the host name from a colleague in your organization and wish to import that certificate into the Gateway keystore. In order to import these certificates into the keystore you need to export the certificate along with the private key from the database used by the other software, convert them into a PKCS12 file, and then import that file into the keystore used by the Gateway. You can accomplish the import procedure using the <code>-importkeystore</code> keytool command. For maximum security, you should avoid this practice and simply follow the steps in this document to create a new CSR using the keystore used by the Gateway, obtain a certificate with that CSR, and import the new certificate into the Gateway keystore. Using the same certificate for different services is not a security best practice, regardless of the fact that both services are on the same server.</li>
+  <li>To support DSA certificates, you must add <code>ADH</code> to the <code>ssl.ciphers</code> element as follows: <code>&lt;ssl.ciphers&gt;HIGH,MEDIUM,ADH&lt;/ssl.ciphers&gt;</code>. Do not use <code>ADH</code> with <code>DEFAULT</code>. DSA certificates are not recommended. See <a href="//en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange#Security">Diffie-Hellman key exchange</a> for more information. If you omit the <code>-keyalg</code> switch when you create a certificate using keytool, keytool generates a DSA certificate. You should always include <code>-keyalg RSA</code> when creating a certificate using keytool.</li>
+  <li>If you choose to use a password when generating key pairs (optional), ensure that all of the keys in your keystore are secured with the same password as the keystore. If no password is provided when generating a key pair (via <code>-genkeypair</code>), you are prompted for a password. If you press RETURN at the prompt, the key password is set to the same password as that used for the keystore. <a href="//docs.oracle.com/javase/7/docs/technotes/tools/windows/keytool.html">Keytool</a> allows you to secure keys with individual passwords (via the <code>-keypass</code> option) and add them into a keystore that uses a different password (via the <span class="uri" style="white-space:nowrap;">-storepass</span> option). When the Gateway attempts to access a key in a keystore configured in this manner, the Gateway fails to start and generates a Null Pointer Exception. The command <code>-keypasswd</code> changes the password under which the private key is protected. The command <code>-storepasswd</code> changes the password used to protect the integrity of the keystore contents.</li>
+</ul>
+
+<h2 id="see-also">See Also</h2>
+
+<ul>
+  <li><a href="../c_tls">Transport Layer Security (TLS/SSL) Concepts</a></li>
+  <li><a href="../u_tls_works">How TLS/SSL Works with the Gateway</a></li>
+</ul>
+
+
+</div>
+
+</div>
+
+
+    <footer>
+  <div class="container">
+
+    <div class="row text-center social-media">
+      <a href="https://github.com/kaazing"><i class="fa fa-github" data-toggle="tooltip" data-placement="top" title="Github"></i></a>
+      <a href="https://www.facebook.com/kaazing"><i class="fa fa-facebook" data-toggle="tooltip" data-placement="top" title="Facebook"></i></a>&nbsp;
+      <a href="https://twitter.com/kaazing"><i class="fa fa-twitter" data-toggle="tooltip" data-placement="top" title="Twitter"></i></a>&nbsp;
+      <a href="https://plus.google.com/+KaazingHome"><i class="fa fa-google-plus" data-toggle="tooltip" data-placement="top" title="Google Plus"></i></a>&nbsp;
+      <a href="https://www.youtube.com/user/KaazingTV"><i class="fa fa-youtube" data-toggle="tooltip" data-placement="top" title="Youtube"></i></a>&nbsp;
+      <a href="https://www.linkedin.com/company/kaazing-corporation"><i class="fa fa-linkedin" data-toggle="tooltip" data-placement="top" title="Linkedin"></i></a>&nbsp;
+    </div>
+
+    <div class="row copyright">
+      <div class="col-xs-12 col-sm-5 text-left">
+        &copy; 2007-2016 Kaazing Corporation
+      </div>
+      <div class="col-xs-12 col-sm-7 license">
+        This website is licensed under <a href="//creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons BY-NC-SA</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<!-- start:javascript for this page -->
+
+
+
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1771436-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- end:javascript for this page -->
+
+
+<script src="../../resources/permalink.js"></script>
+
+<!-- search code -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+<script type="text/javascript"> docsearch({
+apiKey: 'd1e3ab8cc2a230ef8270aeef0a05e584',
+indexName: 'kaazing',
+inputSelector: '.searchbox',
+debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+</body>
+</html>
