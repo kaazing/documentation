@@ -90,7 +90,7 @@
 <p>In this procedure, you will learn how to use the signed Kaazing Gateway JMS client libraries for .NET and the supported methods.</p>
 
 
-<p><span class="note"><strong>Note</strong>: For this how-to, you can use any JMS-compliant message broker. We will use the publicly available Kaazing WebSocket Gateway and Apache ActiveMQ broker at the URL <code>wss://sandbox.kaazing.net/jms</code>. If you are using a local Kaazing WebSocket Gateway, the Gateway is configured to connect to the server on <code>tcp://localhost:61616</code>. You can configure the <code>connect</code> URL in the file <span class="code_inline"><em>GATEWAY_HOME</em>/conf/gateway-config.xml</span>. See <a href="../../integration-jms/o_jms_integrate/index.html">About Integrating Kaazing Gateway and JMS-Compliant Message Brokers</a> for more information.</span></p>
+<p><span class="note"><strong>Note</strong>: For this how-to, you can use any JMS-compliant message broker. We will use the publicly available Kaazing WebSocket Gateway and Apache ActiveMQ broker at the URL <code>wss://demos.kaazing.com/jms</code>. If you are using a local Kaazing WebSocket Gateway, the Gateway is configured to connect to the server on <code>tcp://localhost:61616</code>. You can configure the <code>connect</code> URL in the file <span class="code_inline"><em>GATEWAY_HOME</em>/conf/gateway-config.xml</span>. See <a href="../../integration-jms/o_jms_integrate/index.html">About Integrating Kaazing Gateway and JMS-Compliant Message Brokers</a> for more information.</span></p>
 
 <p>The Kaazing Microsoft .NET JMS API supports the following deployment scenarios:</p>
 <ul>
@@ -119,7 +119,7 @@
   <figcaption><strong>Figure: Windows JMS Desktop Tutorial App</strong></figcaption> 
   </figure>
  </li>
- <li>In the app, click <strong>Connect</strong> to connect to the publicly available Kaazing WebSocket Gateway and <code>jms</code> service at URL <code>wss://sandbox.kaazing.net/jms</code>.</li>
+ <li>In the app, click <strong>Connect</strong> to connect to the publicly available Kaazing WebSocket Gateway and <code>jms</code> service at URL <code>wss://demos.kaazing.com/jms</code>.</li>
  <li>Click <strong>Subscribe</strong> to subscribe to a destination and then click <strong>Send</strong> to send a message to the JMS broker via Kaazing WebSocket Gateway and receive the message as part of your subscription.</li>
 </ol>
 
@@ -513,7 +513,7 @@ namespace JmsDemo
 </pre>
     
    </li>
-   <li>Next, add the <code>StompDemoForm()</code> function just below the <code>/// The code for the subsequent steps goes here</code> comment. It will set up the form, and set the default URL for the application to connect to. We will use the publicly available Kaazing WebSocket Gateway at <code>wss://sandbox.kaazing.net/jms</code>:
+   <li>Next, add the <code>StompDemoForm()</code> function just below the <code>/// The code for the subsequent steps goes here</code> comment. It will set up the form, and set the default URL for the application to connect to. We will use the publicly available Kaazing WebSocket Gateway at <code>wss://demos.kaazing.com/jms</code>:
 
 <pre class="auto-links: false; brush: java; toolbar: false;">
 /// &lt;summary&gt;
@@ -523,7 +523,7 @@ public StompDemoForm()
 {
   InitializeComponent();
 
-  String defaultLocation = &quot;wss://sandbox.kaazing.net/jms&quot;;
+  String defaultLocation = &quot;wss://demos.kaazing.com/jms&quot;;
   LocationText.Text = defaultLocation;
 
   ResourceManager resourceManager = new ResourceManager(&quot;JmsDemo.StompDemoForm&quot;, GetType().Assembly);
@@ -897,7 +897,7 @@ private void LocationText_TextChanged(object sender, EventArgs e)
   <ol type="a">
    <li>From the <strong>Build</strong> menu, click <strong>Build</strong>. The Visual Studio output console records the successful build.</li>
    <li>Click <strong>Start</strong>. The JMS .NET desktop application displays.</li>
-   <li>Ensure that the <strong>Location</strong> field contains <code>wss://sandbox.kaazing.net/jms</code>. Click <strong>Connect</strong>. The log console displays <strong>CONNECTED</strong>.</li>
+   <li>Ensure that the <strong>Location</strong> field contains <code>wss://demos.kaazing.com/jms</code>. Click <strong>Connect</strong>. The log console displays <strong>CONNECTED</strong>.</li>
    <li>Click <strong>Subscribe</strong> and then <strong>Send</strong>. The text message is sent to the JMS broker via the <code>jms</code> service on the Gateway returns the message as part of the subscription.</li>
   </ol>
  </li>

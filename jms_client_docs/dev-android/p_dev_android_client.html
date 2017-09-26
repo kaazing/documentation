@@ -93,7 +93,7 @@
 <p>The <a href="../apidoc/client/java/jms/index.html">Android JMS Client API</a> is nearly identical to the Java JMS Client API. You can review an overview of the Java JMS Client API connection, session, message producer, and message consumer code in <a href="../dev-java/p_dev_java_client.html">Use the Kaazing Gateway Java JMS Client Library</a>. For information about using durable subscribers, see <a href="../dev-java/p_dev_java_client.html#durables">Durable Subscribers</a>.</p>
 
 
-<p><span class="note"><strong>Note</strong>: For this how-to, we describe how to use both a local and a publicly available Gateway and JMS broker. The public address is <code>wss://sandbox.kaazing.net/jms</code>. Locally, you can use any JMS-compliant message broker. By default, the Gateway is configured to connect to the broker on <code>tcp://localhost:61613</code>. You can configure the <code>connect</code> URL in the file <span class="code_inline"><em>GATEWAY_HOME</em>/conf/gateway-config.xml</span>. See <a href="../../integration-jms/o_jms_integrate/index.html">About Integrating Kaazing Gateway and JMS-Compliant Message Brokers</a> for more information.</span></p>
+<p><span class="note"><strong>Note</strong>: For this how-to, we describe how to use both a local and a publicly available Gateway and JMS broker. The public address is <code>wss://demos.kaazing.com/jms</code>. Locally, you can use any JMS-compliant message broker. By default, the Gateway is configured to connect to the broker on <code>tcp://localhost:61613</code>. You can configure the <code>connect</code> URL in the file <span class="code_inline"><em>GATEWAY_HOME</em>/conf/gateway-config.xml</span>. See <a href="../../integration-jms/o_jms_integrate/index.html">About Integrating Kaazing Gateway and JMS-Compliant Message Brokers</a> for more information.</span></p>
 
 <h2>Before You Begin</h2>
 <p>This procedure is part of <a href="o_dev_android.html">Checklist: Build Android JMS Clients</a>.</p>
@@ -122,7 +122,7 @@ private JmsConnectionFactory connectionFactory;
 ...
 connectionFactory = JmsConnectionFactory.createConnectionFactory();
 WebSocketFactory webSocketFactory = connectionFactory.getWebSocketFactory();
-onnectionFactory.setGatewayLocation("wss://sandbox.kaazing.net/jms");
+onnectionFactory.setGatewayLocation("wss://demos.kaazing.com/jms");
 connection = connectionFactory.createConnection();
 connection.start();
 </pre>
@@ -1241,7 +1241,7 @@ private void logMessage(final String message) {
 </pre>
   </li>
   
-  <li>If you are using a local Gateway to test your Android JMS client, update the <span class="code_inline">jms</span> service on the Gateway configuration file to accept on your local IP address. If you are using the publicly available Gateway and JMS broker at <code>wss://sandbox.kaazing.net/jms</code>, you can skip this step.
+  <li>If you are using a local Gateway to test your Android JMS client, update the <span class="code_inline">jms</span> service on the Gateway configuration file to accept on your local IP address. If you are using the publicly available Gateway and JMS broker at <code>wss://demos.kaazing.com/jms</code>, you can skip this step.
     <ol type="a">
       <li>Open the Gateway configuration file located at <span class="code_inline"><em>GATEWAY_HOME</em>/conf/gateway-config.xml</span>.</li>
       <li>Modify the <span class="code_inline">jms</span> service to accept connections containing your local IP address (replace <span class="code_inline">local-ip-address</span> with your IP address):
@@ -1291,7 +1291,7 @@ private void logMessage(final String message) {
   
   <li><a name="Test"></a>Test the Android client in the Android Emulator.
     <ol type="a">
-      <li>In the <strong>Location</strong> field, enter either the URI used by the publicly available Gateway and JMS broker provided by Kaazing, <code>wss://sandbox.kaazing.net/jms</code>, or enter the local address <span class="code_inline">ws://<em>local-ip-address</em>:8001/jms</span> using your local IP address. For example, <span class="code_inline">ws://192.168.0.103:8001/jms</span>.</li>
+      <li>In the <strong>Location</strong> field, enter either the URI used by the publicly available Gateway and JMS broker provided by Kaazing, <code>wss://demos.kaazing.com/jms</code>, or enter the local address <span class="code_inline">ws://<em>local-ip-address</em>:8001/jms</span> using your local IP address. For example, <span class="code_inline">ws://192.168.0.103:8001/jms</span>.</li>
       <li>Click <strong>Connect</strong>. The messages <span class="code_inline">CONNECTING</span> and then <span class="code_inline">CONNECTED</span> appear. The WebSocket connection to the Gateway and JMS broker was successful.</li>
       <li>Click <strong>Subscribe</strong>. The message <span class="code_inline">SUBSCRIBE - /topic/destination</span> appears. You have subscribed to the destination.</li>
       <li>Click <strong>Send</strong>. The following messages appear:<br>

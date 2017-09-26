@@ -87,7 +87,7 @@
 <div class="container page-content text-left">
 
 <h1>Use the Kaazing Enterprise JavaScript JMS Client API </h1>
-<p>In this procedure, you will learn how to use the Kaazing Gateway JavaScript JMS Client API and the supported APIs. The steps in this procedure show you how to develop a JavaScript JMS messaging client. For the backend, you'll use the publicly available Kaazing WebSocket Gateway and JMS broker via the URL <code>wss://sandbox.kaazing.net/jms</code>.</p>
+<p>In this procedure, you will learn how to use the Kaazing Gateway JavaScript JMS Client API and the supported APIs. The steps in this procedure show you how to develop a JavaScript JMS messaging client. For the backend, you'll use the publicly available Kaazing WebSocket Gateway and JMS broker via the URL <code>wss://demos.kaazing.com/jms</code>.</p>
  
 <p>Alternatively, you can use a local copy of the Gateway and your own JMS-compliant message broker (see <a href="../../about/setup-guide/index.html">Setting Up the Gateway and Clients</a>). By default, the Gateway is configured to connect to the server on <code>tcp://localhost:61616</code>. You can configure the connect URL in the file <span class="code_inline"><em>GATEWAY_HOME</em>/conf/gateway-config.xml</span>. See <a href="../../integration-jms/o_jms_integrate/index.html">About Integrating Kaazing Gateway and JMS-Compliant Message Brokers</a> for more information.</span></p>
 
@@ -819,7 +819,7 @@ $(document).ready(function () {
  subscriptionsTable = document.getElementById(&quot;subscriptions&quot;);
 
  // construct the WebSocket location
- var locationURI = new URI(&quot;wss://sandbox.kaazing.net/jms&quot;);
+ var locationURI = new URI(&quot;wss://demos.kaazing.com/jms&quot;);
  // default the location
  url.value = locationURI.toString();
 
@@ -844,7 +844,7 @@ $(document).ready(function () {
 </pre>
  </li>
  <li>Save the <strong>jmsClient.html</strong> file.</li>
- <li>Test the JavaScript JMS client. Drag the jmsClient.html file into a web browser. The URL <code>wss://sandbox.kaazing.net/jms</code> is displayed in the <strong>Location</strong> field.</li>
+ <li>Test the JavaScript JMS client. Drag the jmsClient.html file into a web browser. The URL <code>wss://demos.kaazing.com/jms</code> is displayed in the <strong>Location</strong> field.</li>
  <li>Click <strong>Connect</strong>. The Log displays a successful connection to the Gateway. If there is an exception, review your code for possible errors.</li>
  <li>Subscribe to a destination and then send a message to the destination and receive the message response.</li>
 </ol>

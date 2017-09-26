@@ -92,7 +92,7 @@
 <p>For information about deploying your Objective-C (iOS) client on devices with the arm64 architecture, see <a href="#arm64">Convert Your Objective-C (iOS) Client to a 64-Bit Runtime Environment</a>.</p>
 
 
-<p><span class="note"><strong>Note</strong>: For this tutorial, we describe how to use both a local and a publicly available Gateway and JMS broker. The public address is <code>wss://sandbox.kaazing.net/jms</code>. Locally, you can use any JMS-compliant message broker with the Gateway. By default, the Gateway is configured to connect to the broker on <code>tcp://localhost:61613</code>. You can configure the <code>connect</code> URL in the file <span class="code_inline"><em>GATEWAY_HOME</em>/conf/gateway-config.xml</span>. See <a href="../../integration-jms/o_jms_integrate/index.html">About Integrating Kaazing Gateway and JMS-Compliant Message Brokers</a> for more information.</span></p>
+<p><span class="note"><strong>Note</strong>: For this tutorial, we describe how to use both a local and a publicly available Gateway and JMS broker. The public address is <code>wss://demos.kaazing.com/jms</code>. Locally, you can use any JMS-compliant message broker with the Gateway. By default, the Gateway is configured to connect to the broker on <code>tcp://localhost:61613</code>. You can configure the <code>connect</code> URL in the file <span class="code_inline"><em>GATEWAY_HOME</em>/conf/gateway-config.xml</span>. See <a href="../../integration-jms/o_jms_integrate/index.html">About Integrating Kaazing Gateway and JMS-Compliant Message Brokers</a> for more information.</span></p>
 
 
 <p>In this procedure you will do the following:</p>
@@ -229,7 +229,7 @@ In this file, user interface objects and outlet connections (connections between
                 <table class="reference">
                     <tr><th width="100px">Control</th><th width="350px">Purpose</th><th>Value</th></tr>
                     <tr><td>Label</td><td>URI text label</td><td><span class="code_inline">URI:</span></td></tr>
-                    <tr><td>Text Field</td><td>Field where users enter a WebSocket address</td><td><span class="code_inline">wss://sandbox.kaazing.net/jms</span></td></tr>
+                    <tr><td>Text Field</td><td>Field where users enter a WebSocket address</td><td><span class="code_inline">wss://demos.kaazing.com/jms</span></td></tr>
                     <tr><td>Label</td><td>Destination label</td><td><span class="code_inline">Destination:</span></td></tr>
                     <tr><td>Button</td><td>Connect button</td><td><span class="code_inline">Connect</span></td></tr>
                     <tr><td>Button</td><td>Subscribe button</td><td><span class="code_inline">Subscribe</span></td></tr>
@@ -952,7 +952,7 @@ KMMessageConsumer        *consumer = nil;
                 <figcaption><strong>Figure: Your JMS Demo client on the iPhone Simulator</strong></figcaption>
                 </figure>
             </li>
-            <li>In <strong>URI</strong>, enter <strong>wss://sandbox.kaazing.net/jms</strong>.</li>
+            <li>In <strong>URI</strong>, enter <strong>wss://demos.kaazing.com/jms</strong>.</li>
             <li>Click <strong>Connect</strong>. The client connects to the JMS service via a publicly available instance of the Gateway.</li>
             <li>Click <strong>Subscribe</strong>. You are now subscribed to the topic.</li>
             <li>Click <strong>Send</strong>. The message is sent and the received instantly because you are a subscriber.</li>

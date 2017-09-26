@@ -91,7 +91,7 @@
 
 <p>The steps in this topic show you how to create a simple JavaScript client using the WebSocket API as implemented in the Kaazing JavaScript WebSocket library. The Kaazing JavaScript client library is fully-compliant with the WebSocket API standard and includes several enhancements. The JavaScript client you will create in this topic is the same as the JavaScript WebSocket Echo demo available on Github at <a href="https://github.com/kaazing/javascript.client.tutorials/tree/develop/ws">https://github.com/kaazing/javascript.client.tutorials/tree/develop/ws</a>.</p> 
 
-<p>For this example, we will use a publicly availble Kaazing WebSocket Gateway address <code>wss://sandbox.kaazing.net/echo</code>.</p>
+<p>For this example, we will use a publicly availble Kaazing WebSocket Gateway address <code>wss://demos.kaazing.com/echo</code>.</p>
 
 <p>This topic covers the following information:</p>
 <ul class="arrow-2">
@@ -253,7 +253,7 @@ var websocket;
 
     <li>Declare variables for the form elements:
 <pre class="auto-links: false; brush: js; toolbar: false;">
-var locationURI = new URI(&quot;ws://sandbox.kaazing.net/echo&quot;);
+var locationURI = new URI(&quot;ws://demos.kaazing.com/echo&quot;);
 var consoleLog = document.getElementById(&quot;consoleLog&quot;);
 var clear = document.getElementById(&quot;clear&quot;);
 var wsurl = document.getElementById(&quot;wsurl&quot;);
@@ -553,7 +553,7 @@ $(document).ready(function () {
 
   <li>Start the Gateway by following the steps in <a href="../../about/setup-guide/index.html">Setting Up the Gateway and Clients</a>. </li> -->
 
-    <li>Test the JavaScript client. Drag the echo.html page into a web browser. The URL <span class="uri">wss://sandbox.kaazing.net/echo</span> is displayed in the <strong>Location</strong> field.</li>
+    <li>Test the JavaScript client. Drag the echo.html page into a web browser. The URL <span class="uri">wss://demos.kaazing.com/echo</span> is displayed in the <strong>Location</strong> field.</li>
 
     <li>Click <strong>Connect</strong>. The <strong>Log</strong> displays a successful connection to the Gateway. If there is an exception, review your code for possible errors.</li>
 

@@ -120,7 +120,7 @@
   <figcaption><strong>Figure: Windows Desktop Tutorial App</strong></figcaption> 
   </figure>
  </li>
- <li>In the app, click <strong>Connect</strong> to connect to the publicly available Kaazing WebSocket Gateway and Echo service at URL <code>wss://sandbox.kaazing.net/echo</code>.</li>
+ <li>In the app, click <strong>Connect</strong> to connect to the publicly available Kaazing WebSocket Gateway and Echo service at URL <code>wss://demos.kaazing.com/echo</code>.</li>
  <li>Click <strong>Send</strong> to send and receive a message from the Kaazing WebSocket Gateway.</li>
 </ol>
 
@@ -504,7 +504,7 @@ namespace EchoDemo
 }
 </pre>
   </li>
-  <li>Next, add the <code>MainForm()</code> function just below the <code>/// The code for the subsequent steps goes here</code> comment. It will set up the form, and set the default URL for the application to connect to. We will use the publicly available Kaazing WebSocket Gateway at <code>wss://sandbox.kaazing.net/echo</code>:
+  <li>Next, add the <code>MainForm()</code> function just below the <code>/// The code for the subsequent steps goes here</code> comment. It will set up the form, and set the default URL for the application to connect to. We will use the publicly available Kaazing WebSocket Gateway at <code>wss://demos.kaazing.com/echo</code>:
 
 <pre class="auto-links: false; brush: java; toolbar: false;">
 /// &lt;summary&gt;
@@ -514,7 +514,7 @@ public MainForm()
 {
     InitializeComponent();
 
-    string defaultLocation = &quot;wss://sandbox.kaazing.net/echo&quot;;
+    string defaultLocation = &quot;wss://demos.kaazing.com/echo&quot;;
     LocationText.Text = defaultLocation;
 }
 
@@ -695,7 +695,7 @@ private void MainForm_Load(object sender, EventArgs e)
    <ol type="a">
     <li>From the <strong>Build</strong> menu, click <strong>Build</strong>. The Visual Studio output console records the successful build.</li>
     <li>Click <strong>Start</strong>. The WebSocket .NET desktop application displays.</li>
-    <li>Ensure that the <strong>Location</strong> field contains <strong>wss://sandbox.kaazing.net/echo</strong>. Click <strong>Connect</strong>. The log console displays <strong>CONNECTED</strong>.</li>
+    <li>Ensure that the <strong>Location</strong> field contains <strong>wss://demos.kaazing.com/echo</strong>. Click <strong>Connect</strong>. The log console displays <strong>CONNECTED</strong>.</li>
     <li>Click <strong>Send</strong>. The text message is sent and the Echo service on the Gateway returns the message.</li>
    </ol>
   </li>

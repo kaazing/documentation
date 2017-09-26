@@ -106,7 +106,7 @@
   </tr>
   <tr>
     <td width="300px">Kaazing WebSocket Gateway</td>
-    <td>A local Gateway is optional for building the JavaScript AMQP client. You can use the publicly available Kaazing WebSocket Gateway and AMQP broker via the URL <code>wss://sandbox.kaazing.net/amqp091</code>.</td>
+    <td>A local Gateway is optional for building the JavaScript AMQP client. You can use the publicly available Kaazing WebSocket Gateway and AMQP broker via the URL <code>wss://demos.kaazing.com/amqp</code>.</td>
     <td><a href="//kaazing.com/download">kaazing.com/download</a></td>
   </tr>
   <tr>
@@ -167,7 +167,7 @@
 <ul>
   <li>HTML file and CSS for the client interface.</li>
   <li>Kaazing WebSocket and AMQP JavaScript libraries.</li>
-  <li>A local Kaazing WebSocket Gateway, or the publicly available Kaazing WebSocket Gateway and AMQP broker via the URL <code>wss://sandbox.kaazing.net/amqp091</code>.</li>
+  <li>A local Kaazing WebSocket Gateway, or the publicly available Kaazing WebSocket Gateway and AMQP broker via the URL <code>wss://demos.kaazing.com/amqp</code>.</li>
   <li>AMQP broker.</li>
   <li>Web server. Kaazing WebSocket Gateway including a directory service for hosting web clients. The JavaScript AMQP tutorial available on Github at <a href="https://github.com/kaazing/javascript.client.tutorials">https://github.com/kaazing/javascript.client.tutorials</a> includes Node.js&reg;.</li>
 </ul>
@@ -801,7 +801,7 @@ var popupLoginDialog = function(callback) {
 
                   &lt;div id=&quot;login_div&quot; class=&quot;panel&quot;&gt;
                     &lt;span class=&quot;info&quot;&gt;Connection details&lt;/span&gt;&lt;br/&gt;
-                    &lt;label for=&quot;url&quot;&gt;Location&lt;/label&gt;&lt;input id=&quot;url&quot; placeholder=&quot;Example: wss://sandbox.kaazing.net/amqp091&quot;/&gt;&lt;br/&gt;
+                    &lt;label for=&quot;url&quot;&gt;Location&lt;/label&gt;&lt;input id=&quot;url&quot; placeholder=&quot;Example: wss://demos.kaazing.com/amqp&quot;/&gt;&lt;br/&gt;
                     &lt;label for=&quot;username&quot;&gt;AMQP Username&lt;/label&gt;&lt;input id=&quot;username&quot; value=&quot;guest&quot;
                     placeholder=&quot;Username on AMQP broker&quot;/&gt;&lt;br/&gt;
                     &lt;label for=&quot;password&quot;&gt;AMQP Password&lt;/label&gt;&lt;input type=&quot;password&quot; id=&quot;password&quot; value=&quot;guest&quot;
@@ -1088,7 +1088,7 @@ $(document).ready(function() {
     // default the location
     url.val(locationURI.toString());
   } else {
-    url.val(&quot;wss://sandbox.kaazing.net/amqp091&quot;);
+    url.val(&quot;wss://demos.kaazing.com/amqp&quot;);
   }
 
   connectBut.click(handleConnect);
@@ -1815,7 +1815,7 @@ var popupLoginDialog = function(callback) {
         <li>If you are using a local Kaazing WebSocket Gateway, start the Gateway and AMQP broker as described in <a href="../../about/setup-guide/index.html">Setting Up the Gateway and Clients</a>.</li>
         <li>In the Web browser, test the client.
           <ol>
-            <li>In <strong>Location</strong>, enter <code>wss://sandbox.kaazing.net/amqp091</code> for the publicly available Kaazing WebSocket Gateway and AMQP broker, or <span class="uri">ws://localhost:8000/amqp</span> for your local Kaazing WebSocket Gateway.</li>
+            <li>In <strong>Location</strong>, enter <code>wss://demos.kaazing.com/amqp</code> for the publicly available Kaazing WebSocket Gateway and AMQP broker, or <span class="uri">ws://localhost:8000/amqp</span> for your local Kaazing WebSocket Gateway.</li>
             <li>Click <strong>Connect</strong>. You can see the connection opened, the channels opened, the exchange declared, and the queues opened:
               <pre class="auto-links: false; brush: js; toolbar: false;">
                 CONSUME FROM QUEUE: client506938

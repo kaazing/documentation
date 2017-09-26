@@ -115,7 +115,7 @@
   <p>This walkthrough uses the out of the JavaScript JMS tutorial app that is available on Github at <a href="https://github.com/kaazing/javascript.client.tutorials">https://github.com/kaazing/javascript.client.tutorials</a>, but the steps outlined in this walkthrough are the same for other JavaScript JMS client applications built with the Gateway.</p>
 
 
-  <p><span class="note"><strong>Note</strong>: For this walkthrough, you can use any local JMS-compliant message broker or the publicly available Gateway and Apache ActiveMQ message broker available at the URL <code>wss://sandbox.kaazing.net/jms</code>. By default, the local Gateway is configured to connect to the message broker on <code>tcp://localhost:61613</code>. You can configure the connect URL in the file <span class="code_inline"><em>GATEWAY_HOME</em>/conf/gateway-config.xml</span>. See <a href="../../integration-jms/o_jms_integrate/index.html">About Integrating Kaazing WebSocket Gateway and JMS-Compliant Message Brokers</a> for more information.</span></p>
+  <p><span class="note"><strong>Note</strong>: For this walkthrough, you can use any local JMS-compliant message broker or the publicly available Gateway and Apache ActiveMQ message broker available at the URL <code>wss://demos.kaazing.com/jms</code>. By default, the local Gateway is configured to connect to the message broker on <code>tcp://localhost:61613</code>. You can configure the connect URL in the file <span class="code_inline"><em>GATEWAY_HOME</em>/conf/gateway-config.xml</span>. See <a href="../../integration-jms/o_jms_integrate/index.html">About Integrating Kaazing WebSocket Gateway and JMS-Compliant Message Brokers</a> for more information.</span></p>
 
 
   <h2><a name="begin"></a>Before You Begin</h2>
@@ -137,7 +137,7 @@
 
   <ol>
       <li>Download or clone the Kaazing JavaScript JMS Tutorial, available on Github at <a href="https://github.com/kaazing/javascript.client.tutorials">https://github.com/kaazing/javascript.client.tutorials</a>. Build the project using the instructions here <a href="https://github.com/kaazing/javascript.client.tutorials/blob/develop/README.md">https://github.com/kaazing/javascript.client.tutorials/blob/develop/README.md</a>.</li>
-      <li>Install the Gateway as described in <a href="../../about/setup-guide.html">Setting Up Kaazing WebSocket Gateway</a> (optional). There is also a publicly available Kaazing WebSocket Gateway and Apache ActiveMQ message broker available at the URL <code>wss://sandbox.kaazing.net/jms</code>. You can use either option.</li>
+      <li>Install the Gateway as described in <a href="../../about/setup-guide.html">Setting Up Kaazing WebSocket Gateway</a> (optional). There is also a publicly available Kaazing WebSocket Gateway and Apache ActiveMQ message broker available at the URL <code>wss://demos.kaazing.com/jms</code>. You can use either option.</li>
       <li><p>Install Xcode 6.2 from <a href="//developer.apple.com/devcenter/download.action?path=/Developer_Tools/Xcode_6.2/Xcode_6.2.dmg">http://developer.apple.com/devcenter/download.action?path=/Developer_Tools/Xcode_6.2/Xcode_6.2.dmg</a> (requires Apple ID to log in). You can also install Xcode 6.2 from <a href="https://developer.apple.com/downloads/">https://developer.apple.com/downloads/</a> by searching for Xcode 6.2. Once Xcode is installed, install the iOS Simulator.</p>
           <ol type="a">
               <li>In <strong>Xcode</strong>, click <strong>Xcode</strong>, and then click <strong>Preferences</strong>.</li>
@@ -232,7 +232,7 @@
     </span>
 
     </li>
-    <li><p>In the hybrid app in the iOS Simulator, click in the <strong>Location</strong> field. If you are using a local Gateway, enter the <code>jms</code> service URI (<span class="code_inline">ws://localhost:8001/jms</span>), and click <strong>Connect</strong>. If you are using the publicly available Gateway and Apache ActiveMQ broker, enter <code>wss://sandbox.kaazing.net/jms</code> and click <strong>Connect</strong>.</p>
+    <li><p>In the hybrid app in the iOS Simulator, click in the <strong>Location</strong> field. If you are using a local Gateway, enter the <code>jms</code> service URI (<span class="code_inline">ws://localhost:8001/jms</span>), and click <strong>Connect</strong>. If you are using the publicly available Gateway and Apache ActiveMQ broker, enter <code>wss://demos.kaazing.com/jms</code> and click <strong>Connect</strong>.</p>
       <p>The <strong>Log messages</strong> field reports a successful connection. If the app does not connect to your local Gateway or broker, ensure that you have the Gateway and Apache ActiveMQ running.</p>
     </li>
     <li>Play with hybrid app to see the full functionality.</li>

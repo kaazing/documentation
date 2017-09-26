@@ -118,7 +118,7 @@
   <p>Before starting this walkthrough you need the following:</p>
   <ul class="arrow-2">
   <li>Kaazing JavaScript JMS Tutorial App - <a href="https://github.com/kaazing/javascript.client.tutorials">https://github.com/kaazing/javascript.client.tutorials</a>.</li>
-  <li>Kaazing WebSocket Gateway (optional). See <a href="../about/setup-guide.html">Setting Up Kaazing WebSocket Gateway</a>. You can also use the publicly available Kaazing WebSocket Gateway and Apache ActiveMQ broker at the URL <code>wss://sandbox.kaazing.net/jms</code>.</li>
+  <li>Kaazing WebSocket Gateway (optional). See <a href="../about/setup-guide.html">Setting Up Kaazing WebSocket Gateway</a>. You can also use the publicly available Kaazing WebSocket Gateway and Apache ActiveMQ broker at the URL <code>wss://demos.kaazing.com/jms</code>.</li>
   <li><a href="//developer.android.com/sdk/index.html">Android Studio and SDK</a>.</li>
   <li><a href="https://cordova.apache.org/docs/en/latest/guide/cli/index.html#installing-the-cordova-cli">Apache Cordova 6.0 and its Command-Line Interface (CLI)</a>.</li>
   </ul>
@@ -133,7 +133,7 @@
 
   <li>Download or clone the Kaazing JavaScript JMS Tutorial, available on Github at <a href="https://github.com/kaazing/javascript.client.tutorials">https://github.com/kaazing/javascript.client.tutorials</a>. Build the project using the instructions here <a href="https://github.com/kaazing/javascript.client.tutorials/blob/develop/README.md">https://github.com/kaazing/javascript.client.tutorials/blob/develop/README.md</a>.</li>
 
-  <li>Install the Gateway as described in <a href="../about/setup-guide.html">Setting Up Kaazing WebSocket Gateway</a> (optional). There is also a publicly available Kaazing WebSocket Gateway and Apache ActiveMQ message broker available at the URL <code>wss://sandbox.kaazing.net/jms</code>. You can use either option.</li>
+  <li>Install the Gateway as described in <a href="../about/setup-guide.html">Setting Up Kaazing WebSocket Gateway</a> (optional). There is also a publicly available Kaazing WebSocket Gateway and Apache ActiveMQ message broker available at the URL <code>wss://demos.kaazing.com/jms</code>. You can use either option.</li>
 
   <li>Download and install Android Studio from <a href="//developer.android.com/sdk/installing/index.html?pkg=studio">http://developer.android.com/sdk/installing/index.html?pkg=studio</a>.</li>
 
@@ -230,7 +230,7 @@
   <ol>
     <li>In Terminal, ensure that you are in the root of the project directory (for example, <strong>myAndroidApp</strong>), and enter the following to see a list of all available Simulator targets: <code>cordova run android --list</code>. For this walkthrough, we will use <strong>Nexus_5_API_22_x86</strong>.</li>
     <li>To run the app in the Android Simulator, enter the following: <code>cordova run android --target="Nexus_5_API_22_x86"</code>. The Android Simulator opens and displays the hybrid Android app. It might take several minutes for the Android Simulator to launch and display the app. The app icon might appear on the Android Simulator screen for a while before displaying the GUI of the app. You might need to relaunch the app within the Android Simulator.</li>
-    <li><p>In the hybrid app in the Android Simulator, click in the <strong>Location</strong> field. If you are using a local Gateway, enter the <code>jms</code> service URI <code>ws://10.0.2.2:8888/jms</code>. If you are using the publicly available Gateway and Apache ActiveMQ broker, enter <code>wss://sandbox.kaazing.net/jms</code>. Click <strong>Connect</strong>.</p>
+    <li><p>In the hybrid app in the Android Simulator, click in the <strong>Location</strong> field. If you are using a local Gateway, enter the <code>jms</code> service URI <code>ws://10.0.2.2:8888/jms</code>. If you are using the publicly available Gateway and Apache ActiveMQ broker, enter <code>wss://demos.kaazing.com/jms</code>. Click <strong>Connect</strong>.</p>
       <p>The <strong>Log messages</strong> field reports a successful connection. If the app does not connect, ensure that you have the Gateway and Apache ActiveMQ running.</p></li>
     <li>Play with hybrid app to see the full functionality.</li>
     <li>

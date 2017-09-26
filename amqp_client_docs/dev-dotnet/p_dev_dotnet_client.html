@@ -116,7 +116,7 @@
    <figcaption><strong>Figure:</strong></figcaption> 
    </figure>
   </li>
-  <li>In the app, click <strong>Connect</strong> to connect to the publicly available Kaazing WebSocket Gateway and AMQP service at URL <code>wss://sandbox.kaazing.net/amqp091</code>.</li>
+  <li>In the app, click <strong>Connect</strong> to connect to the publicly available Kaazing WebSocket Gateway and AMQP service at URL <code>wss://demos.kaazing.com/amqp</code>.</li>
   <li>Click <strong>Publish</strong> to publish a message to an exchange on the AMQP broker via the Kaazing WebSocket Gateway.</li>
 </ol>
 
@@ -244,7 +244,7 @@ private void ConnectButton_Click(object sender, EventArgs e)
 
     if ((locText == null) || (locText.Length == 0))
     {
-        locText = &quot;wss://sandbox.kaazing.net/amqp091&quot;;
+        locText = &quot;wss://demos.kaazing.com/amqp&quot;;
     }
 
     try
@@ -259,7 +259,7 @@ private void ConnectButton_Click(object sender, EventArgs e)
 }
 </pre>
 
-        <p>In this example, the parameters that are passed in may be: url: <code>wss://sandbox.kaazing.net/amqp091</code>, <code>virtualHost</code>, username: <code>guest</code>, and password: <code>guest</code>.</p>
+        <p>In this example, the parameters that are passed in may be: url: <code>wss://demos.kaazing.com/amqp</code>, <code>virtualHost</code>, username: <code>guest</code>, and password: <code>guest</code>.</p>
         <p class="note"><strong>Note</strong>: The Gateway supports AMQP version 0-9-1.</p>
 </li>
 
