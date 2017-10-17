@@ -125,6 +125,14 @@
   <li>Integrate the <code>LoginModule</code> with the application server.</li>
 </ol>
 
+<span class="note"><b>Notes:</b>
+ <ul>
+   <li>If you are using Kaazing Gateway 4.x SPIs and are upgrading to 5.x, update the SPI package names from <code>com.kaazing.gateway.server.spi.security</code> to <code>org.kaazing.gateway.server.spi.security</code>.</li>
+   <li>In Kaazing Gateway 4.x, custom login modules were stored in <code><em>GATEWAY_HOME</em>/lib</code>. For Kaazing Gateway 5.x, they are stored in <code><em>GATEWAY_HOME</em>/lib/ext</code>.</li>
+ </ul>
+</span>
+
+
 <h2 id="next-steps">Next Steps</h2>
 
 <p><a href="../p_auth_integrate_custom_login_module">Integrate an Existing Custom Login Module into the Gateway</a></p>

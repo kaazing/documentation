@@ -118,7 +118,7 @@
 
     <p>Before you begin, you need the Gateway, your Java custom login module (for demo purposes, you can use the sample custom login module at <a href="https://github.com/kaazing/gateway/tree/develop/samples/security">https://github.com/kaazing/gateway/tree/develop/samples/security</a>), and the fully qualified class name of your custom login module. Note that the <code>GATEWAY_HOME/web/extras</code> directory is read-only. So, to modify the provided <code>CustomLoginModule.java</code> file, you must copy the file to your <code>GATEWAY_HOME/web/base</code> directory.</p>
   </li>
-  <li>Compile your Java custom login module file into a JAR file and place it in <code>GATEWAY_HOME/lib</code>. You can also update the <code>CLASSPATH</code> to point to the desired directory containing the JAR file.</li>
+  <li>Compile your Java custom login module file into a JAR file and place it in <code>GATEWAY_HOME/lib/ext</code>. You can also update the <code>CLASSPATH</code> to point to the desired directory containing the JAR file.</li>
   <li>
     <p>In the Gateway configuration (for example, <code>GATEWAY_HOME/conf/gateway-config.xml</code>), add the custom login module and set the <code>type</code> to point to <code>class:the-fully-qualified-class-name</code>. For example, if you are using the sample custom login module provided with the Gateway, the fully qualified class name is <code>org.kaazing.demo.loginmodules.CustomLoginModule</code>. The following is the <code>login-module</code> entry for this sample:</p>
 
