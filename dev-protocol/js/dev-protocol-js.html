@@ -266,7 +266,7 @@ passcode:<passcode>\n
 
 &lt;div class=&quot;panel&quot;&gt;
 	&lt;label for=&quot;url&quot;&gt;Proxy URL:&lt;/label&gt;
-	&lt;input type=&quot;text&quot; id=&quot;url&quot; placeholder=&quot;ws://localhost:8001/stompproxy&quot;&gt;
+	&lt;input type=&quot;text&quot; id=&quot;url&quot; placeholder=&quot;ws://localhost:8000/stompproxy&quot;&gt;
 	&lt;button id=&quot;connectButton&quot;&gt;Connect&lt;/button&gt;
 	&lt;button id=&quot;disconnectButton&quot;&gt;Disconnect&lt;/button&gt;
 &lt;/div&gt;
@@ -544,7 +544,7 @@ function connect(location, credentials)
 	var username = &quot;&quot;;
 	var password = &quot;&quot;;
 	// create an instance of WebSocket by specifying the end-point.
-	var wsf = new Kaazing.Gateway.WebSocketFactory();
+	var wsf = new WebSocketFactory();
 	// creates a WebSocket to establish a full-duplex connection to the target location.
 	socket = wsf.createWebSocket(location);
 
@@ -1175,7 +1175,7 @@ function send(body, destination, transactionId, receiptId, headers)
  </li>
  <li><p>Review the <code>connect()</code> function.</p>
  
-<p>The <code>connect()</code> function is used to initialize the communication with the back-end server. The <code>connect()</code> function takes two parameters: location, and a credentials object that contains the username and password. The location parameter is a string that contains the URL of the connection to the Gateway (for example, <code>ws://example.com:8001/stompproxy</code>). </p>
+<p>The <code>connect()</code> function is used to initialize the communication with the back-end server. The <code>connect()</code> function takes two parameters: location, and a credentials object that contains the username and password. The location parameter is a string that contains the URL of the connection to the Gateway (for example, <code>ws://example.com:8000/stompproxy</code>). </p>
 
 <p>In the <code>connect()</code> function you can see the following three callback handlers: <code>onopen()</code>, <code>onmessage()</code>, and <code>onclose()</code>. When the socket establishes a connection with the server, it triggers the <code>onopen()</code> callback function. This function starts the connect handshake by sending the CONNECT frame, using the <code>writeFrame()</code> function, which is discussed in more detail in the next step. Any time the server sends data to the client it triggers the <code>onmessage()</code> callback function, which reads the data fragment using the <code>readFragment()</code> function, which is discussed in more detail later. When the socket connection terminates (either gracefully or abruptly) then the socket triggers the <code>onclose()</code> callback function which calls the STOMP client's <code>onclose()</code> callback function. The following example shows how you can add a <code>connect()</code> function:</p>
 
@@ -1566,12 +1566,11 @@ function ack(messageId, transactionId, subscription, headers)
 &lt;service&gt;
  &lt;name&gt;Proxy&lt;/name&gt;
  &lt;description&gt;Proxy Service&lt;/description&gt;
- &lt;accept&gt;ws://localhost:8001/stompproxy&lt;/accept&gt;
+ &lt;accept&gt;ws://localhost:8000/stompproxy&lt;/accept&gt;
  &lt;connect&gt;tcp://localhost:61613&lt;/connect&gt;
 
  &lt;type&gt;proxy&lt;/type&gt;
 
- &lt;realm-name&gt;demo&lt;/realm-name&gt;
  &lt;cross-site-constraint&gt;
   &lt;allow-origin&gt;*&lt;/allow-origin&gt;
  &lt;/cross-site-constraint&gt;
@@ -1581,12 +1580,12 @@ function ack(messageId, transactionId, subscription, headers)
 <li>Save <code>gateway-config.xml</code>.</li>
 <li>Run the Gateway as described in <a href="../../about/setup-guide/index.html">Setting Up the Gateway and Clients</a>.</li>
 <li>Load the HTML page <strong>stomp.html</strong> in a web browser. You can just drag the page into a web browser.</li>
-<li>In the web browser, note the URL in <strong>Proxy URL</strong>, <code>ws://localhost:8001/stompproxy</code>. This is the same URL in the accept element of the proxy service you added.</li>
+<li>In the web browser, note the URL in <strong>Proxy URL</strong>, <code>ws://localhost:8000/stompproxy</code>. This is the same URL in the accept element of the proxy service you added.</li>
 <li>Click <strong>Connect</strong>. In the log, you will see that the STOMP command has been sent and received by Apache ActiveMQ:
 
 <pre>
 Sending frame. Command: CONNECT headers: login : &lt;BLANK&gt;, password : &lt;BLANK&gt; body:
-Connected to ws://localhost:8001/stompproxy with u/p ,
+Connected to ws://localhost:8000/stompproxy with u/p ,
 Received: CONNECTED
 </pre>
  </li>

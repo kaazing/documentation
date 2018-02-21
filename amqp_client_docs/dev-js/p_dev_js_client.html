@@ -686,12 +686,12 @@ var popupLoginDialog = function(callback) {
 &lt;service&gt;
   &lt;name&gt;AMQP Service&lt;/name&gt;
   &lt;description&gt;AMQP Service&lt;/description&gt;
-  &lt;accept&gt;ws://bamboo-win.kaazing.test:${gateway.extras.port}/amqp&lt;/accept&gt;
-  &lt;connect&gt;tcp://bamboo-win.kaazing.test:5672&lt;/connect&gt;
+  &lt;accept&gt;ws://${gateway.hostname}:${gateway.extras.port}/amqp&lt;/accept&gt;
+  &lt;connect&gt;tcp://${gateway.hostname}:5672&lt;/connect&gt;
 
   &lt;type&gt;amqp.proxy&lt;/type&gt;
   &lt;properties&gt;
-          &lt;service.domain&gt;bamboo-win.kaazing.test&lt;/service.domain&gt;
+          &lt;service.domain&gt;${gateway.hostname}&lt;/service.domain&gt;
           &lt;encryption.key.alias&gt;session&lt;/encryption.key.alias&gt;
   &lt;/properties&gt;
 
@@ -704,7 +704,7 @@ var popupLoginDialog = function(callback) {
   --&gt;
 
   &lt;cross-site-constraint&gt;
-  &lt;allow-origin&gt;http://bamboo-win.kaazing.test:${gateway.extras.port}&lt;/allow-origin&gt;
+  &lt;allow-origin&gt;http://${gateway.hostname}:${gateway.extras.port}&lt;/allow-origin&gt;
   &lt;/cross-site-constraint&gt;
 &lt;/service&gt;
 </pre>
@@ -719,13 +719,13 @@ var popupLoginDialog = function(callback) {
 &lt;service&gt;
   &lt;name&gt;AMQP Service&lt;/name&gt;
   &lt;description&gt;AMQP Service&lt;/description&gt;
-  &lt;accept&gt;ws://bamboo-win.kaazing.test:${gateway.extras.port}/amqp&lt;/accept&gt;
-  &lt;accept&gt;ws://bamboo-win.kaazing.test:${gateway.base.port}/amqp&lt;/accept&gt;
-  &lt;connect&gt;tcp://bamboo-win.kaazing.test:5672&lt;/connect&gt;
+  &lt;accept&gt;ws://${gateway.hostname}:${gateway.extras.port}/amqp&lt;/accept&gt;
+  &lt;accept&gt;ws://localhost:8000/amqp&lt;/accept&gt;
+  &lt;connect&gt;tcp://${gateway.hostname}:5672&lt;/connect&gt;
 
   &lt;type&gt;amqp.proxy&lt;/type&gt;
   &lt;properties&gt;
-          &lt;service.domain&gt;bamboo-win.kaazing.test&lt;/service.domain&gt;
+          &lt;service.domain&gt;${gateway.hostname}&lt;/service.domain&gt;
           &lt;encryption.key.alias&gt;session&lt;/encryption.key.alias&gt;
   &lt;/properties&gt;
 
@@ -738,10 +738,10 @@ var popupLoginDialog = function(callback) {
   --&gt;
 
   &lt;cross-site-constraint&gt;
-          &lt;allow-origin&gt;http://bamboo-win.kaazing.test:${gateway.extras.port}&lt;/allow-origin&gt;
+          &lt;allow-origin&gt;http://${gateway.hostname}:${gateway.extras.port}&lt;/allow-origin&gt;
   &lt;/cross-site-constraint&gt;
   &lt;cross-site-constraint&gt;
-          &lt;allow-origin&gt;http://bamboo-win.kaazing.test:${gateway.base.port}&lt;/allow-origin&gt;
+          &lt;allow-origin&gt;http://${gateway.hostname}:${gateway.base.port}&lt;/allow-origin&gt;
   &lt;/cross-site-constraint&gt;
 &lt;/service&gt;
 </pre>

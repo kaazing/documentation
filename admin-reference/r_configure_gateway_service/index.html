@@ -1333,16 +1333,19 @@ Host: corp.example.com
 
 <p><strong>Required?</strong> Optional</p>
 
-<p>The size of data the service buffers for one client connection before slowing <strong>incoming and outgoing</strong> data. The value must be a positive integer with either no specified unit or appended with <em>kB</em> or <em>MB</em> (the unit is case insensitive) to indicate kilobytes or megabytes. If no unit is specified, the default unit is bytes. If you do not specify this property, its default value is <em>64kB</em>. For example:<br />
+<p>The size of data the service buffers for one client connection before slowing <strong>incoming and outgoing</strong> data.</p> 
+
+<p>If you specify <code>maximum.pending.bytes</code> in the gateway-config.xml file, then specify a positive integer. You can append a k, K, m, or M to indicate kilobytes or megabytes (the unit is case insensitive). If a unit is not included, then <code>maximum.pending.bytes</code> defaults to bytes. For example:</p>
+
 <ul>
-<li>A value of <em>2048</em> sets the buffer to <strong>2048 bytes</strong>.<br /></li>
-<li>A value of <em>128kB</em> sets the buffer to <strong>128 kilobytes</strong>.<br /></li>
-<li>No instance of the <em>maximum.pending.bytes</em> property in the <em>gateway-config.xml</em> sets the buffer to <strong>64 kilobytes</strong>.</li>
+ <li>A value of 2048 sets the buffer to 2048 bytes</li>
+ <li>A value of 128K sets the buffer to 128 kilobytes</li>
+ <li>A value of 128M sets the buffer to 128 megabytes</li>
 </ul>
 
 <p>The Gateway uses this buffer when the speed of the data coming into the service is faster than the speed of the data being consumed by the receiving end, which is either the client or the back-end service or message broker. The buffer stores the data up to the limit you specify in this property per client connection, then slows the incoming data, until either the client or the back-end service or message broker (whichever is consuming the data) has consumed more than 50% of the outgoing data flow.</p>
 
-<p>For example, suppose you set this property to <code>128kB</code>. If the back-end service or message broker sends 256kB of data to a client and the client has only consumed 128kB, the remaining 128kB (the limit you set in the property) is buffered. At this time, the Gateway suspends reading the data from the back-end service or message broker; as the client consumes the buffered data, the size of the buffered data decreases. When the buffered data falls below 64kB, the Gateway resumes reading the data from the back-end service or message broker.</p>
+<p>For example, suppose you set this property to <code>128k</code>. If the back-end service or message broker sends 256K of data to a client and the client has only consumed 128K, the remaining 128K (the limit you set in the property) is buffered. At this time, the Gateway suspends reading the data from the back-end service or message broker; as the client consumes the buffered data, the size of the buffered data decreases. When the buffered data falls below 64K, the Gateway resumes reading the data from the back-end service or message broker.</p>
 
 <h4 id="section-1"><a name="maximumrecoveryinterval"></a><code>maximum.recovery.interval</code></h4>
 

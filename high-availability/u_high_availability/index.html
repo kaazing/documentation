@@ -97,7 +97,7 @@
   <li><a href="#gateway-clustering">Gateway Clustering</a></li>
   <li><a href="#load-balancing-services">Load Balancing Services</a></li>
   <li><a href="#clustering-and-load-balancing-migration">Clustering and Load Balancing Migration</a></li>
-  <li><a href="#configure-a-two-member-local-demo-cluster">Configure a Two-Member Local Demo Cluster</a></li>
+  <li><a href="#configure-a-two-member-local-demo-cluster">Configure a Two-Member Local Demo Cluster on Your Local Machine</a></li>
 </ul>
 
 <p>To resolve issues encountered when configuring high availability, see <a href="../../troubleshooting/p_troubleshoot_high_availability/index.html">Troubleshoot Kaazing Gateway Clusters and Load Balancing</a>.</p>
@@ -219,7 +219,7 @@
   </tbody>
 </table>
 
-<h2 id="configure-a-two-member-local-demo-cluster">Configure a Two-Member Local Demo Cluster</h2>
+<h2 id="configure-a-two-member-local-demo-cluster">Configure a Two-Member Local Demo Cluster on Your Local Machine</h2>
 
 <p>The following steps walk you through setting up a two-member cluster with load-balanced services on your local server. The local cluster will help you learn about setting up, monitoring, and managing a cluster without having to use multiple servers.</p>
 
@@ -245,7 +245,7 @@
   <li>
     <p>Set up the local virtual network. Run the following commands to set up the local virtual network.</p>
 
-    <p>The network interface syntax might need to change depending on the active interfaces on your server. For example, if you are on a Mac and have the interface <code>en1</code> active, you can use <code>en1 alias</code> in the commands below. To see the active interfaces, on Linux and Mac, use the command <code>ifconfig -a</code>. On Windows, use <code>netsh interface ipv4 show interfaces</code>.</p>
+    <p>The network interface syntax might need to change depending on the active interfaces on your server. For example, if you are on a Mac and have the interface <code>en1</code> active, you can use <code>en1 </code> alias in the commands below. To see the active interfaces, on Linux and Mac, use the command <code>ifconfig -a</code>. On Windows, use <code>netsh interface ipv4 show interfaces</code>.</p>
 
     <ul>
       <li>Determine which active interface to use for the virtual interface. On Linux and Mac, use the command <code>ifconfig -a</code>. On Windows, use <code>netsh interface ipv4 show interfaces</code>. Active interfaces will have <code>status: active</code> in their description. Choose an active interface, and substitute its name for <code>eth0</code> (Linux), <code>en1</code> (Mac) or <code>Local Area Connection</code> (Windows) in the commands below, if necessary.</li>
@@ -264,10 +264,10 @@
 eth0 Link encap:Ethernet HWaddr 5c:26:0a:14:ef:49<br>
  ...<br>
  eth0:1 Link encap:Ethernet HWaddr 5c:26:0a:14:ef:49<br>
- inet addr:172.19.19.4 Bcast:172.19.255.255 Mask:255.255.0.0<br>
+ inet addr:172.19.19.4 Bcast:172.19.255.255 Mask:255.255.255.0<br>
  ...<br>
  eth0:2 Link encap:Ethernet HWaddr 5c:26:0a:14:ef:49<br>
- inet addr:172.19.19.5 Bcast:172.19.255.255 Mask:255.255.0.0<br>
+ inet addr:172.19.19.5 Bcast:172.19.255.255 Mask:255.255.255.0<br>
  ...
 </code></p>
 
@@ -287,8 +287,8 @@ eth0 Link encap:Ethernet HWaddr 5c:26:0a:14:ef:49<br>
           <li>Click the <strong>TCP/IP</strong> tab.</li>
           <li>In <strong>Configure IPv4</strong>, select <strong>Manually</strong>.</li>
           <li>In <strong>IPv4 Address</strong>, enter 172.19.19.4.</li>
-          <li>In <strong>Subnet Mask</strong>, enter 255.255.0.0.</li>
-          <li>In <strong>Router</strong>, enter your router’s address, such as 198.162.0.1. You can obtain this address from your main Ethernet interface settings.</li>
+          <li>In <strong>Subnet Mask</strong>, enter 255.255.255.0.</li>
+          <li>In <strong>Router</strong>, enter your router’s address, such as 198.162.0.1 or 10.0.0.1. You can obtain this address from your main Ethernet interface settings.</li>
           <li>Click <strong>OK</strong>.</li>
           <li>Click <strong>Apply</strong>.</li>
           <li>Repeat these steps for the second alias, using the <strong>Service Name</strong> <code>Ethernet 1.2</code> and the <strong>IPv4 Address</strong> <code>172.19.19.5</code>.</li>
@@ -309,10 +309,14 @@ en1: flags=8863&lt;up,broadcast,smart,running,simplex,multicast&gt; mtu 1500<br>
       </li>
       <li>
         <p>For Windows, run each of the following commands (this configuration can also be performed using the <strong>Advanced TCP/IP Settings</strong> dialog in Windows):</p>
+        
+        <p><span class="note"><b>Important:</b> Do not use a network interface that is configured using DHCP. Use a network interface that is manually configured network addresses.</span></p>
 
-        <p><code>netsh interface ipv4 set address name="Local Area Connection" source=static addr=172.19.19.4 mask=255.255.255.0 gateway=172.16.120.2</code></p>
+        <p><code>netsh interface ipv4 add address "Local Area Connection" 172.19.19.4 255.255.255.0</code></p>
 
-        <p><code>netsh interface ipv4 set address name="Local Area Connection" source=static addr=172.19.19.5 mask=255.255.255.0 gateway=172.16.120.2</code></p>
+        <p><code>netsh interface ipv4 add address "Local Area Connection" 172.19.19.5 255.255.255.0</code></p>
+        
+        <p><span class="note"><b>Note:</b> You can also perform this configuration using the Windows GUI. For information on using the Windows Network Control Panel, see <a href="https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-xp/bb457118(v=technet.10)">Configuring IP Addressing and Name Resolution</a>.</span></p>
 
         <p>Your <code>ipconfig /all</code> output should now contain entries for each new subinterface:</p>
 
@@ -325,11 +329,11 @@ Ethernet adapter Local Area Connection:<br>
  Autoconfiguration Enabled . . . . : Yes<br>
  Link-local IPv6 Address . . . . . : fe80::a848:ad83:8d6e:a393%11(Preferred)<br>
  IPv4 Address. . . . . . . . . . . : 172.16.120.128(Preferred)<br>
- Subnet Mask . . . . . . . . . . . : 255.255.0.0<br>
+ Subnet Mask . . . . . . . . . . . : 255.255.255.0<br>
  IPv4 Address. . . . . . . . . . . : 172.19.19.4(Preferred)<br>
- Subnet Mask . . . . . . . . . . . : 255.255.0.0<br>
+ Subnet Mask . . . . . . . . . . . : 255.255.255.0<br>
  IPv4 Address. . . . . . . . . . . : 172.19.19.5(Preferred)<br>
- Subnet Mask . . . . . . . . . . . : 255.255.0.0<br>
+ Subnet Mask . . . . . . . . . . . : 255.255.255.0<br>
  Default Gateway . . . . . . . . . : 172.16.120.2<br>
  DHCPv6 IAID . . . . . . . . . . . : 234884137<br>
  DHCPv6 Client DUID. . . . . . . . : 00-01-00-01-17-B1-FC-61-00-0C-29-5F-27-49<br>

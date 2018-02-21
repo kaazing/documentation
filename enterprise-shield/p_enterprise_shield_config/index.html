@@ -137,9 +137,12 @@
 
 <p>The following snippet shows the App1 Service configuration in the <code>gateway-config.xml</code> file.</p>
 
-<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;properties&gt;
-  &lt;name&gt;dmz.backplane.hostname&lt;/name&gt;
-  &lt;value&gt;gateway.example.dmz.net&lt;/value&gt;
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;properties&gt;
+ &lt;property&gt;
+   &lt;name&gt;dmz.backplane.hostname&lt;/name&gt;
+   &lt;value&gt;gateway.example.dmz.net&lt;/value&gt;
+ &lt;/property&gt;
 &lt;/properties&gt;
 
 &lt;service&gt;
@@ -295,9 +298,12 @@
 
 <p>The following snippet shows the App1 service configuration in the gateway-config.xml file for the DMZ Gateway. This configuration is very similar to the App1 service configuration for the internal Gateway.</p>
 
-<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;properties&gt;
-  &lt;name&gt;dmz.backplane.hostname&lt;/name&gt;
-  &lt;value&gt;gateway.example.dmz.net&lt;/value&gt;
+<pre class="auto-links: false; brush: xml; toolbar: false;">
+&lt;properties&gt;
+ &lt;property&gt;
+   &lt;name&gt;dmz.backplane.hostname&lt;/name&gt;
+   &lt;value&gt;gateway.example.dmz.net&lt;/value&gt;
+ &lt;/property&gt;
 &lt;/properties&gt;
 
 &lt;service&gt;
@@ -463,7 +469,7 @@
 
     &lt;truststore&gt;
       &lt;type&gt;JCEKS&lt;/type&gt;
-      &lt;file&gt;dmz.keystore&lt;/file&gt;
+      &lt;file&gt;dmz.truststore&lt;/file&gt;
       &lt;password-file&gt;dmz.truststore.pw&lt;/password-file&gt;
     &lt;/truststore&gt;
 
