@@ -186,7 +186,7 @@
   </tr>
   <tr>
     <td>Backend Service</td>
-    <td>The Backend Service is the notification publishing service. The service must be able to store the user ID and Firebase device token mappings and send notifications to the JMS Broker using those mappings on designated notifications queues. The service must subscribe to a user details queue to receive messages containing the user IDs and Firebase device tokens.</td>
+    <td>The Backend Service is the notification publishing service. The service must be able to store the user ID and Firebase device token mappings and send notifications to the JMS Broker using those mappings on designated notifications queues. The service must subscribe to the registration queue to receive messages containing the user IDs and Firebase device tokens.</td>
   </tr>
   <tr>
     <td>JMS Broker</td>
@@ -257,7 +257,7 @@
   </tr>
   <tr>
     <td>7</td>
-    <td>Launch a Kaazing Mobile Client in order for the client to post a message to the user detail queue via Gateway containing their Firebase device tokens. The Gateway will then add the user ID, and submit the message to the Message Broker. The Backend Service is subscribed to the user details queue and receives the user ID and Firebase token for mapping and storage.</td>
+    <td>Launch a Kaazing Mobile Client in order for the client to post a message to the user detail queue via Gateway containing their Firebase device tokens. The Gateway will then add the user ID, and submit the message to the Message Broker. The Backend Service is subscribed to the registration queue and receives the user ID and Firebase token for mapping and storage.</td>
     <td>&nbsp;</td>
   </tr>
   <tr>
@@ -434,6 +434,7 @@
 
   &lt;properties&gt;
     &lt;notifications&gt;
+      &lt;notification.queues&gt;NOTIFICATIONS_BANKERS NOTIFICATIONS_CUSTOMERS&lt;/notification.queues&gt;
       &lt;firebase&gt;
         &lt;server.key&gt;jUtz-oGeIk3R&lt;/server.key&gt;
         &lt;server.hostname&gt;fcm-xmpp.googleapis.com&lt;/server.hostname&gt;
@@ -441,10 +442,6 @@
         &lt;sender.id&gt;163072308877&lt;/sender.id&gt;
         &lt;device.tokens.property.name&gt;FIREBASE_DEVICE_TOKENS&lt;/device.tokens.property.name&gt;
       &lt;/firebase&gt;
-      &lt;notification.queues&gt;
-        NOTIFICATIONS_BANKERS
-        NOTIFICATIONS_CUSTOMERS
-      &lt;/notification.queues&gt;
       &lt;error.queue&gt;NOTIFICATION_ERROR&lt;/error.queue&gt;
       &lt;badge.number.property.name&gt;BADGE&lt;/badge.number.property.name&gt;
       &lt;color.property.name&gt;COLOR&lt;/color.property.name&gt;&lt;!-- The color is in format #RRGGBB--&gt;
@@ -463,15 +460,12 @@
 <pre class="auto-links: false; brush: xml; toolbar: false;">
 &lt;notifications&gt;
 ...
+  &lt;notification.queues&gt;NOTIFICATIONS_BANKERS NOTIFICATIONS_CUSTOMERS&lt;/notification.queues&gt;
+
   &lt;firebase&gt;
     &lt;sender.id&gt;163072308877&lt;/sender.id&gt;
     &lt;server.key&gt;AIzaSyD_fYqS9jUtz-oGeIk3RGNbQebNvngYu_s&lt;/server.key&gt;
     &lt;device.tokens.property.name&gt;FIREBASE_DEVICE_TOKENS&lt;/device.tokens.property.name&gt;
-    
-    &lt;notification.queues&gt;
-    NOTIFICATIONS_BANKERS
-    NOTIFICATIONS_CUSTOMERS
-    &lt;/notification.queues&gt;
     
     &lt;error.queue&gt;NOTIFICATION_ERROR&lt;/error.queue&gt;
 
@@ -494,6 +488,11 @@
     <td>notifications</td>
     <td>Required</td>
     <td>Parent element of all notifications properties. A child of the properties element.</td>
+  </tr>
+  <tr>
+    <td>notification.queues</td>
+    <td>Required</td>
+    <td>Lists the names of the designated notification queues. These are the same queues to which the backend service is sending messages. The Gateway subscribes to these queues and receives messages sent as notifications using the custom properties on the message. Type is String. If <code>notification.queues</code> is not specified, the Gateway logs a warning because the Gateway cannot subscribe to the designated notification queues and cannot receive any messages to deliver as a notification.</td>
   </tr>
   <tr>
     <td>firebase</td>
@@ -524,11 +523,6 @@
     <td><font color="blue">device.tokens.property.name</font></td>
     <td>Optional</td>
     <td>The name of the message property used to specify the device token or tokens to which a notification is to be sent. Default is <code>FIREBASE_DEVICE_TOKENS</code>.</td>
-  </tr>
-  <tr>
-    <td>notification.queues</td>
-    <td>Required</td>
-    <td>Lists the names of the designated notification queues. These are the same queues to which the backend service is sending messages. The Gateway subscribes to these queues and receives messages sent as notifications using the custom properties on the message. Type is String. If <code>notification.queues</code> is not specified, the Gateway logs a warning because the Gateway cannot subscribe to the designated notification queues and cannot receive any messages to deliver as a notification.</td>
   </tr>
   <tr>
     <td>error.queue</td>
@@ -613,7 +607,7 @@ Public class NotificationsUserResolver implements Function&lt;Subject, String&gt
  
  <h3 id="prevent-client-subscriptions-to-registration-queue">Prevent Client Subscriptions to Registration Queue</h3>
  
- <p>A registration queue used by Kaazing mobile clients to post messages that register their user IDs and Firebase device tokens with the backend service via the Gateway and JMS broker. While the backend service is subscribed to this queue, no clients should subscribe to it.</p>
+ <p>A registration queue is used by Kaazing mobile clients to post messages that register their user IDs and Firebase device tokens with the backend service via the Gateway and JMS broker. While the backend service is subscribed to this queue, no clients should subscribe to it.</p>
  
  <p>To prevent any client subscriptions to the registration queue, the customer can implement a <a href="https://kaazing.com/doc/5.0/apidoc/server/jms/server/spi/com/kaazing/gateway/jms/server/spi/security/JmsAuthorizationFactory.html">JmsAuthorizationFactory</a> such that the <a href="https://kaazing.com/doc/5.0/apidoc/server/jms/server/spi/com/kaazing/gateway/jms/server/spi/security/JmsAuthorization.html#canSubscribeToQueue(com.kaazing.gateway.jms.server.spi.JmsQueue,%20java.lang.String,%20java.lang.String)">JmsAuthorization.canSubscribeToQueue()</a> method returns false if the queue name passed in matches the name of the registration queue.</p>
  

@@ -12,12 +12,14 @@
 
  <link href='//fonts.googleapis.com/css?family=Muli:300,400' rel='stylesheet' type='text/css'>
 
- <link rel="stylesheet" href="../../css/bootstrap.min.css">
- <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
- <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
- <link rel="stylesheet" href="../../css/main.css">
- <link rel="stylesheet" href="../../css/syntax.css">
- <link rel="stylesheet" href="../../css/doc.css">
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../assets/font-awesome-4.1.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../css/pygments.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/syntax.css">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <link rel="stylesheet" href="../../css/mega-menu.css">
 
   
 
@@ -66,15 +68,15 @@
     </button>
     <a class="navbar-brand" href="//kaazing.com"><img id="kaazing-logo-header" src="../../img/Kaazing.png" alt="Kaazing.com"></img></a>
    </div>
-   <div id="navbar" class="navbar-collapse collapse">
-    <ul class="nav navbar-nav navbar-right">
-     <li><a href="//kaazing.com/documentation/">Documentation</a></li>
-     <li><a href="//kaazing.com/download/">Download</a></li>
-     <li><a href="//developer.kaazing.com/product-demos/">Demos</a></li>
-     <li><a href="https://blog.kaazing.com/">Blog</a></li>
-     <li class="hidden-sm"><a href="https://kaazing.com/named-developer-program/">Developer Program</a></li>
-    </ul>
-   </div><!--/.nav-collapse -->
+		<div id="navbar" class="navbar-collapse collapse">
+   <link rel="stylesheet" href="../../css/new-search.css">
+   <input type="text" autocomplete='on' class='searchbox' id='searchbox' placeholder="Search the docs">
+   <ul class="nav navbar-nav navbar-right" id="megamenu">
+   <script>
+   $( "#megamenu" ).load( "../../includes/megamenu.html" );
+   </script>
+   </ul>
+		</div><!--/.nav-collapse -->
   </div>
  </nav>
 
@@ -89,10 +91,11 @@
 
    <p>You can configure a Gateway service to only accept connections from remote hosts based on their IP addresses. The list of allowed IP addresses is called a <a href="https://en.wikipedia.org/wiki/Whitelist">whitelist</a>. Basically, an IP whitelist puts a Gateway service in a default posture of denying remote connections, permitting only a specific list of remote hosts from connecting to the service.</p>
 
-   <p>To use IP filtering, you have two options:</p>
+   <p>To use IP filtering, you have the following options:</p>
    
    <ol>
-    <li><a href="#filter-remote-ip-addresses-using-the-ip-filter-login-module-type">Filter Remote IP Addresses Using the <code>ip-filter</code> Login Module Type</a> - On the Gateway, configure a Gateway <a href="../../admin-reference/r_configure_gateway_service/index.html">service</a> with a login module of type ip-filter, set the login module’s success element’s value to required, and populate the whitelist element with at least one IP address or IP address range.</li>
+    <li><a href="#filter-remote-ip-addresses-using-the-ip-filter-login-module-type">Filter Remote IP Addresses Using the <code>ip-filter</code> Login Module Type</a> - On the Gateway, configure a Gateway <a href="../../admin-reference/r_configure_gateway_service/index.html">service</a> with a login module of type <code>ip-filter</code>, set the login module’s <code>success</code> element’s value to <code>required</code>, and populate the whitelist element with at least one IP address or IP address range.</li>
+    <li><a href="#IP-Filtering-at-the-TCP-level">IP Filtering at the TCP level</a> <a href="../../admin-reference/p_configure_gateway_opts/index.html#enable-early-access-features"><img src="../../images/early-access-feature.png"></a> - On the Gateway, configure a Gateway <a href="../../admin-reference/r_configure_gateway_service/index.html">service</a> with the <code>accept-options</code> element <code>tcp.realm</code>. The <code>tcp.realm</code> element contains the realm name containing a login module of type <code>ip-filter</code>. Set the login module’s <code>success</code> element’s value to <code>required</code>, and populate the whitelist element with at least one IP address or IP address range.</li>
     <li><a href="#filter-remote-ip-addresses-using-a-custom-login-module">Filter Remote IP Addresses Using a Custom Login Module</a> - Create and use your own custom login module (LoginModule) and apply it to a Gateway service. From within the login module, remote IP addresses can be inspected and the login module can determine whether or not the connection should be allowed.</li>
    </ol>
    
@@ -256,6 +259,73 @@
     <li>Save the configuration file and start the Gateway.</li>
     <li>Test the IP filter by connecting to the Gateway service using a remote host with an allowed IP address and a remote host with a forbidden IP address.</li>
    </ol>
+   
+   <h2 id="IP-Filtering-at-the-TCP-level">IP Filtering at the TCP Level <a href="../../admin-reference/p_configure_gateway_opts/index.html#enable-early-access-features"><img src="../../images/early-access-feature.png"></a></h2>
+   
+   <p>To configure IP filtering at the TCP level, you perform the same steps as you did in <a href="#filter-remote-ip-addresses-using-the-ip-filter-login-module-type">Filter Remote IP Addresses Using the ip-filter Login Module Type</a> with the following differences:</p>
+   
+    <ul>
+     <li>Add an <code>accept-options</code> element.</li>
+     <li>In <code>accept-options</code>, add a <code>tcp.realm</code> element containing the name of the realm where you will specify the whitelist, like this: <code>&lt;tcp.realm&gt;whitelist&lt;/tcp.realm&gt;</code>.</li>
+     <li>Remove the <code>file</code> login-module, if present. This module is not needed for TCP-level filtering.</li>
+     <li>Remove the <code>http-challenge-scheme</code>, if present. With a TCP <code>accept</code> there are no HTTP headers and therefore no authentication scheme or challenge.</li>
+     <li>Start the Gateway using the <code>GATEWAY_FEATURES</code> Early Access command <code>tcp.realm</code>, as described in <a href="../../admin-reference/p_configure_gateway_opts/index.html#enable-early-access-features">Enable Early Access Features</a> (for example: <code>GATEWAY_FEATURES=tcp.realm</code>, and then <code>gateway.start</code>).</li>
+    </ul>
+   
+   <p>Here is what a completed <code>service</code> and <code>realm</code> configuration for a TCP whitelist looks like:</p>
+   
+<pre class="auto-links: false; brush: xml; toolbar: false; highlight:[9,10,11,13,25,31,32,35];">
+&lt;service&gt;
+  &lt;name&gt;echo&lt;/name&gt;
+  &lt;description&gt;Simple echo service&lt;/description&gt;
+  &lt;accept&gt;tcp://${gateway.hostname}:8080&lt;/accept&gt;
+  &lt;connect&gt;ws://${gateway.hostname}:${gateway.base.port}/echo&lt;/connect&gt;
+ 
+  &lt;type&gt;proxy&lt;/type&gt;
+  
+  &lt;accept-options&gt;
+   &lt;tcp.realm&gt;whitelist&lt;/tcp.realm&gt;
+  &lt;/accept-options&gt;
+  
+  &lt;realm-name&gt;whitelist&lt;/realm-name&gt;
+ 
+  &lt;authorization-constraint&gt;
+   &lt;require-role&gt;AUTHORIZED&lt;/require-role&gt;
+  &lt;/authorization-constraint&gt;
+ 
+  &lt;cross-site-constraint&gt;
+   &lt;allow-origin&gt;*&lt;/allow-origin&gt;
+  &lt;/cross-site-constraint&gt;
+&lt;/service&gt;
+...
+&lt;realm&gt;
+  &lt;name&gt;whitelist&lt;/name&gt;
+  &lt;description&gt;Whitelist Realm&lt;/description&gt;
+ 
+  &lt;authentication&gt;
+   &lt;login-modules&gt;
+   &lt;login-module&gt;
+   &lt;type&gt;ip-filter&lt;/type&gt;
+   &lt;success&gt;required&lt;/success&gt;
+   &lt;options&gt;
+    ....
+    &lt;whitelist&gt;
+     192.168.10.0/24 
+     192.172.10.0/24
+     2001:db8::/40
+     2001:db9::/40
+     192.168.10.0
+     192.168.10.8
+     192.168.10.16
+     2001:db8:0:1:1:1:1:1
+     2001:db8:0:1:1:1:1:2
+    &lt;/whitelist&gt;
+   &lt;/options&gt;
+  &lt;/login-module&gt;
+&lt;/login-modules&gt;
+&lt;/authentication&gt;
+&lt;/realm&gt;
+</pre>
    
    <h2 id="filter-remote-ip-addresses-using-a-custom-login-module">Filter Remote IP Addresses Using a Custom Login Module</h2>
    

@@ -122,7 +122,7 @@
               <li><a href="#balancer">balancer</a></li>
               <li><a href="#broadcast">broadcast</a>
                 <ul>
-                  <li>accept</li>
+                  <li>connect</li>
                 </ul>
               </li>
               <li><a href="#directory">directory</a>
@@ -292,7 +292,7 @@
 
 <span class="note"><b>Notes:</b>
  <ul>
-   <li>For TCP and UDP URLs in <code>accept</code>, <code>tcp.bind</code>, <code>udp.bind</code>, <code>cluster</code>, and <code>protocol.transport</code> elements, you can use the name of a network interface in place of a hostname or IP address. For example, <code>&lt;accept&gt;tcp://@eth0:8123&lt;/accept&gt;</code> (Linux/Mac) and <code>&lt;tcp.bind&gt;[@Local Area Connection]:8123&lt;/tcp.bind&gt;</code> (Windows). Use square brackets around a subinterface name or when the name contains spaces (<code>&lt;tcp.bind&gt;[@eth0:1]:8123&lt;/tcp.bind&gt;</code>). Binding to an interface binds to all IP addresses defined on that interface (IPv4, IPv6).</li>
+   <li>For TCP and UDP URLs in <code>accept</code>, <code>tcp.bind</code>, <code>udp.bind</code>, <code>cluster</code>, and <code>protocol.transport</code> elements, you can use the <strong>name</strong> of a network interface (Linux/Mac) or the <strong>Description</strong> of a network interface (Windows) in place of a hostname or IP address. For example, <code>&lt;accept&gt;tcp://@eth0:8123&lt;/accept&gt;</code> (Linux/Mac) and <code>&lt;tcp.bind&gt;[@Network Interface #1]:8123&lt;/tcp.bind&gt;</code> (Windows). Use square brackets around a subinterface name or when the name contains spaces (<code>&lt;tcp.bind&gt;[@eth0:1]:8123&lt;/tcp.bind&gt;</code>). Binding to an interface binds to all IP addresses defined on that interface (IPv4, IPv6).</li>
  <li>By using network interface names instead of IP address, the Gateway configuration file, gateway-config.xml, can be copied between Gateway cluster members without the need to update each cluster member’s configuration with its IP address.</li>
  <li>You can use network interface names in <code>connect-options</code> in a service for reverse connectivity in Enterprise Shield&trade;. For more information, see <a href="../../enterprise-shield/o_enterprise_shield_checklist/index.html">Configure Enterprise Shield™ with the Gateway</a>.</li>
  <li>If the network interface name is not recognized by the Gateway during startup, an error is thrown to the Gateway startup output.</li>
@@ -537,54 +537,32 @@
 
 <h3 id="broadcast">broadcast</h3>
 
-<p>Use the <code>broadcast</code> service to relay information from a back-end service or message broker. The <code>broadcast</code> service has the following property:</p>
+<p>Use the <code>broadcast</code> service to relay information downstream from a back-end server or message broker to clients. Messages are sent to clients via the Gateway one-way. No messages from clients are sent upstream to the back-end server or message broker. To proxy messages in both directions, use the <a href="#proxy-amqpproxy-and-jmsproxy">proxy</a> service.</p> 
+ 
+<p>The <code>broadcast</code> service has the following key elements:</p>
 
 <table>
   <thead>
     <tr>
-      <th>Property</th>
+      <th>Elements</th>
       <th>Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td><code>accept</code></td>
-      <td>The URL of the broadcast service to which a back-end service or message broker connects.</td>
+      <td>The URL on which the Gateway accepts client connections.</td>
+    </tr>
+    <tr>
+      <td><code>connect</code></td>
+      <td>The URL the Gateway uses to connect to the back-end broadcast server.</td>
     </tr>
   </tbody>
 </table>
 
 <h4 id="examples">Examples</h4>
 
-<ul>
-  <li>The following example configures the <code>broadcast</code> service with the <code>accept</code> element coded inside the <code>properties</code> element. This configures the Gateway to accept connections initiated by the back-end service or message broker and broadcast messages that are sent along that connection to clients.</li>
-</ul>
-
-<pre class="auto-links: false; brush: xml; toolbar: false;">
-&lt;service&gt;
-  &lt;name&gt;broadcast service&lt;/name&gt;
-  &lt;accept&gt;sse://localhost:8000/sse&lt;/accept&gt;
-  &lt;accept&gt;sse+ssl://localhost:9000/sse&lt;/accept&gt;
-
-  &lt;type&gt;broadcast&lt;/type&gt;
-
-  &lt;properties&gt;
-    &lt;accept&gt;udp://localhost:50505&lt;/accept&gt;
-  &lt;/properties&gt;
-
-  &lt;cross-site-constraint&gt;
-    &lt;allow-origin&gt;http://localhost:8000&lt;/allow-origin&gt;
-  &lt;/cross-site-constraint&gt;
-
-  &lt;cross-site-constraint&gt;
-    &lt;allow-origin&gt;https://localhost:9000&lt;/allow-origin&gt;
-  &lt;/cross-site-constraint&gt;
-&lt;/service&gt;
-</code></pre>
-
-<ul>
-  <li>The following example configures the <code>broadcast</code> service with a <code>connect</code> element that contains the URL of the back-end service or message broker (<code>news.example.com:50505</code>) to which the Gateway connects. If you configure the Gateway in this way, then the Gateway initiates the connection to the back-end service or message broker. When the service receives information, it broadcasts it to all the SSE channels accepted from clients on <code>www.example.com</code>.</li>
-</ul>
+<p>The following example configures the <code>broadcast</code> service with a <code>connect</code> element that contains the <code>TCP</code> URL of the back-end message broker (<code>news.example.com:50505</code>) to which the Gateway connects. The Gateway initiates the connection to the back-end server via TCP, and when the Gateway receives information from the server over the TCP connection, it broadcasts it to all the SSE channels accepted from clients on <code>www.example.com</code>.</p>
 
 <pre class="auto-links: false; brush: xml; toolbar: false;">
 &lt;service&gt;
@@ -592,6 +570,7 @@
   &lt;accept&gt;sse://www.example.com:8000/sse&lt;/accept&gt;
   &lt;accept&gt;sse+ssl://www.example.com:9000/sse&lt;/accept&gt;
   &lt;connect&gt;tcp://news.example.com:50505/&lt;/connect&gt;
+
   &lt;type&gt;broadcast&lt;/type&gt;
 
   &lt;cross-site-constraint&gt;
@@ -602,9 +581,9 @@
   &lt;/cross-site-constraint&gt;
 &lt;/service&gt;
 </code></pre>
-<ul>
-  <li>For an example showing how to configure a <code>broadcast</code> service that uses a multicast address, see <a href="../p_configure_multicast">Configure the Gateway to Use Multicast</a>.</li>
-</ul>
+
+<p>For an example showing how to configure a <code>broadcast</code> service that uses a multicast address, see <a href="../p_configure_multicast">Configure the Gateway to Use Multicast</a>.</p>
+
 
 <h3 id="directory">directory</h3>
 
@@ -1952,9 +1931,9 @@ Host: corp.example.com
   <li><code>udp</code>: Specifies the User Datagram Protocol (UDP).</li>
 </ul>
 
-<span class="note"><b>Note:</b> For TCP and UDP URLs in <code>accept</code>, <code>tcp.bind</code>, <code>udp.bind</code>, and <code>protocol.transport</code> elements, you can use the name of a network interface in place of a hostname or IP address. For example, <code>&lt;accept&gt;tcp://@eth0:8123&lt;/accept&gt;</code> (Linux/Mac) and <code>&lt;tcp.bind&gt;[@Local Area Connection]:8123&lt;/tcp.bind&gt;</code> (Windows). Use square brackets around a subinterface name or when the name contains spaces (<code>&lt;tcp.bind&gt;[@eth0:1]:8123&lt;/tcp.bind&gt;</code>). Binding to an interface binds to all IP addresses defined on that interface (IPv4, IPv6).
+<span class="note"><b>Note:</b> For TCP and UDP URLs in <code>accept</code>, <code>tcp.bind</code>, <code>udp.bind</code>, <code>cluster</code>, and <code>protocol.transport</code> elements, you can use the <strong>name</strong> of a network interface (Linux/Mac) or the <strong>Description</strong> of a network interface (Windows) in place of a hostname or IP address. For example, <code>&lt;accept&gt;tcp://@eth0:8123&lt;/accept&gt;</code> (Linux/Mac) and <code>&lt;tcp.bind&gt;[@Network Interface #1]:8123&lt;/tcp.bind&gt;</code> (Windows). Use square brackets around a subinterface name or when the name contains spaces (<code>&lt;tcp.bind&gt;[@eth0:1]:8123&lt;/tcp.bind&gt;</code>). Binding to an interface binds to all IP addresses defined on that interface (IPv4, IPv6).
 
-<p>By using interface names instead of IP address, the Gateway configuration file, gateway-config.xml, can be copied between Gateway cluster members without the need to update each cluster member’s configuration with its IP address.</p>
+<p>By using interface names instead of IP address, the Gateway configuration file, <code>gateway-config.xml</code>, can be copied between Gateway cluster members without the need to update each cluster member’s configuration with its IP address.</p>
 </span>
 
 <p>See the <a href="../../internal-network/p_protocol_binding/index.html">Configure the Gateway on an Internal Network</a> document for more information about configuring the <code>protocol.bind</code> element.</p>

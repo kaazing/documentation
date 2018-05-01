@@ -89,50 +89,44 @@
 
  <h1 id="configure-the-gateway-to-use-multicast">Configure the Gateway to Use Multicast</h1>
 
-<p>This procedure demonstrates how to configure a service that is running on Kaazing Gateway to use a multicast address (for example, a broadcast service).</p>
+<p>This procedure demonstrates how to configure a service that is running on Kaazing Gateway to use a multicast address.</p>
+
+<p>For the multicast connections, the Gateway uses UDP for the back-end server connection and <a href="https://en.wikipedia.org/wiki/Server-sent_events">Server-Sent Events (SSE)</a> or WebSocket for the front-end client connections. Using this configuration, the Gateway enables the LAN-based UDP protocol to be broadcast over the Web.</p>
 
 <p><a name="configure_multicast"></a>To configure a service to use multicast, you must specify the following elements in the Gateway configuration file (for example, <code>GATEWAY_HOME/conf/gateway-config.xml</code>):</p>
 
 <ul>
-  <li>Specify the multicast URI udp://<em>group-address</em>:<em>port-number</em> in the <code>accept</code> or <code>connect</code> element.</li>
-  <li>Specify the udp interface name in the <code>accept-option</code> or <code>connect-option</code>.</li>
+  <li>Specify a multicast URI in the format <code>udp://<em>group-address</em>:<em>port-number</em></code> in the <code>connect</code> element.</li>
+  <li>Specify the network interface name in <code>udp.interface</code> in <code>connect-options</code> using the @ symbol. For syntax requirements, see <a href="../../admin-reference/r_configure_gateway_service/index.html#supported-url-schemes">Supported URL Schemes</a>.</li>
 </ul>
 
-<p>The following example shows a service using a multicast address. In the example, data packets sent to <code>udp://multicast-group:port</code> with udp-interface <code>eth0</code> will be broadcast to all clients connected to <code>sse://localhost:8000/sse</code>.</p>
+<p>The following example shows a <code>broadcast</code> service using a multicast address. The broadcast service connects to a back-end service, and sends any messages from the back-end service outwards to clients connected over the address in its <code>accept</code>.</p> 
 
-<pre class="auto-links: false; brush: xml; toolbar: false;">&lt;!-- Broadcast multicast messages --&gt;
+<p>In the example, data packets sent using UDP multicast from <code>udp://224.0.0.1:9001</code> to the Gateway will be broadcast to all server-sent events (SSE) clients connected to the Gateway at address <code>sse://example.com:8000/sse</code>. The <code>sse://</code> scheme is used for SSE connections. To learn more about SSE, see <a href="https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events">Using server-sent events</a> from MDN.</p>
+
+<pre class="auto-links: false; brush: xml; toolbar: false;">
 &lt;service&gt;
-  &lt;accept&gt;sse://localhost:8000/sse&lt;/accept&gt;
+  &lt;name&gt;Broadcast multicast messages&lt;/name&gt;
+
+  &lt;accept&gt;sse://example.com:8000/sse&lt;/accept&gt;
+  &lt;connect&gt;udp://224.0.0.1:9001&lt;/connect&gt;
 
   &lt;type&gt;broadcast&lt;/type&gt;
-  &lt;properties&gt;
-    &lt;accept&gt;udp://224.0.0.1:port-number&lt;/accept&gt;
-      &lt;accept-option&gt;
-        &lt;udp-interface&gt;eth0&lt;/udp-interface&gt;
-      &lt;/accept-option&gt;
-  &lt;/properties&gt;
+
+  &lt;connect-options&gt;
+    &lt;udp.interface&gt;@eth0&lt;/udp.interface&gt;
+    &lt;!-- &lt;udp.interface&gt;[@Windows Network Interface Description]&lt;/udp.interface&gt; --&gt;
+  &lt;/connect-options&gt;
 
   &lt;cross-site-constraint&gt;
-    &lt;allow-origin&gt;http://localhost:8000&lt;/allow-origin&gt;
+    &lt;allow-origin&gt;http://example.com:8000&lt;/allow-origin&gt;
   &lt;/cross-site-constraint&gt;
 
   &lt;cross-site-constraint&gt;
-    &lt;allow-origin&gt;https://localhost:9000&lt;/allow-origin&gt;
+    &lt;allow-origin&gt;https://example.com:9000&lt;/allow-origin&gt;
   &lt;/cross-site-constraint&gt;
 &lt;/service&gt;
 </code></pre>
-
-<!-- <p>To verify this configuration, you can start the newsfeed data source that ships with Kaazing Gateway and pass the multicast URI you configured as a startup argument. To do this, perform the following steps:</p>
-
-<ol>
-  <li>Add the above example to <code>GATEWAY_HOME/conf/gateway-config.xml</code> but configure ` udp-interface<code> to </code>lo0<code> (or bind to an interface available for your system). You might need to comment out any other </code>service<code> elements using the same </code>accept<code> or </code>connect`.</li>
-  <li>In a command prompt or shell, navigate to <code>GATEWAY_HOME/bin</code>.</li>
-  <li>Run <code>demo-services.start udp://multicast-group:port-number</code> (for example, <code>gateway.demos.start udp://multicast-group</code>) to start the newsfeed data source.</li>
-  <li>Run <code>gateway.start</code> to start the Gateway.</li>
-  <li>In a browser, navigate to the server-sent events demo page (by default, this is located at <code>http://localhost:8001/demo/core/javascript/?d=sse</code>), enter <code>http://localhost:8000/sse</code> and watch the streaming news feed data.</li>
-</ol>
-
-<p>You can now configure and run a second Kaazing Gateway to serve server-sent event streams from a different host and port for the same newsfeed multicast data packets. Note that services cannot send UDP packets to an MCP acceptor, nor MCP packets to a UDP acceptor.</p> -->
 
 <h2 id="see-also">See Also</h2>
 
